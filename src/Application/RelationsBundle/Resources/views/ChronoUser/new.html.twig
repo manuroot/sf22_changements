@@ -1,0 +1,57 @@
+{% extends "ApplicationRelationsBundle::layout.html.twig" %}
+
+  {% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
+
+ {% endblock %}
+
+
+{% block content_header '' %}
+{% block title %}AJOUTER UTILISATEUR{% endblock %}
+{% block content %}
+
+<form action="{{ path('chronouser_create') }}" method="post" {{ form_enctype(form) }}>
+
+    <table class="table table-bordered">
+            <tbody>
+
+    <tr><td>
+                        <div>
+                            
+    {{ form_row(form.nomUser) }}
+    {{ form_row(form.idgroup) }}
+    {{ form_row(form.infos) }}
+  
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+ {{ form_rest(form) }}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr><td colspan="2">
+                                    <p>
+                                        <button type="submit" class="btn btn-small btn-warning">Ajouter</button>
+                                        </form>
+       
+                                        <a href="{{  path('chronouser') }}" class="btn btn-small btn-success">Retour</a>
+                                    </p>
+                                    
+                                    
+                                </td></tr>
+                       
+                        </tbody>
+                    </table>
+             
+ {#{ form_widget(form) }#}
+
+               
+
+
+
+        
+  
+
+{% endblock %}

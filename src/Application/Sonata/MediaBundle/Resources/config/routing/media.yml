@@ -1,0 +1,30 @@
+usermedia:
+    pattern:  /
+    defaults: { _controller: "ApplicationSonataMediaBundle:Media:index" }
+
+usermedia_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationSonataMediaBundle:Media:show" }
+
+usermedia_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationSonataMediaBundle:Media:new" }
+
+usermedia_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationSonataMediaBundle:Media:create" }
+    requirements: { _method: post }
+
+usermedia_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationSonataMediaBundle:Media:edit" }
+
+usermedia_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationSonataMediaBundle:Media:update" }
+    requirements: { _method: post|put }
+
+usermedia_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationSonataMediaBundle:Media:delete" }
+    requirements: { _method: post|delete }

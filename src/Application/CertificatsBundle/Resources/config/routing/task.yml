@@ -1,0 +1,30 @@
+task:
+    pattern:  /
+    defaults: { _controller: "ApplicationCertificatsBundle:Task:index" }
+
+task_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationCertificatsBundle:Task:show" }
+
+task_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationCertificatsBundle:Task:new" }
+
+task_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationCertificatsBundle:Task:create" }
+    requirements: { _method: post }
+
+task_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationCertificatsBundle:Task:edit" }
+
+task_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationCertificatsBundle:Task:update" }
+    requirements: { _method: post }
+
+task_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationCertificatsBundle:Task:delete" }
+    requirements: { _method: post }

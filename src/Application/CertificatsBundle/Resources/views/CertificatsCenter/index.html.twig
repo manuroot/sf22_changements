@@ -1,0 +1,208 @@
+{% extends "ApplicationCertificatsBundle::layout.html.twig" %}
+
+
+
+{% block javascripts %}
+{{ parent() }}
+   <!--<script type="text/javascript" src="{{ asset('bundles/applicationcertificats/js/selectapplis.js') }}"></script>
+    -->
+<script type="text/javascript">
+          
+$(document).ready(function() {
+//$(function() {
+  $( "#certificats_filter_endTime_left_date" ).datepicker({
+minDate: "-1Y",
+maxDate: "+10Y",
+changeMonth: true,
+changeYear: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});
+    $( "#certificats_filter_endTime_right_date" ).datepicker({
+maxDate: "+10Y",
+minDate: "-1Y",
+changeMonth: true,
+changeYear: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});
+}); //Eof:: ready
+    </script>
+
+{% endblock %}
+
+    
+  {% block stylesheets %}
+{{ parent() }}
+      <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/sliding.css') }}" type="text/css" media="all"/>
+      <style>
+      tr.single {
+         background-color: #f1f1f1;
+        } 
+        </style>
+ {% endblock %}
+
+{% block content_header '' %}
+{% block title %}
+LISTE DES {{ parent() }} 
+{% endblock %}
+{% block content %}
+
+{% for type, flashMessages in app.session.flashbag.all() %}
+    {% for flashMessage in flashMessages %}
+        <div class="alert alert-{{ type }}">
+            {{ flashMessage|trans }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
+   {% if is_granted("ROLE_ADMIN") %}
+<a href="{{ path('certificatscenter_new') }}" class="btn btn-medium btn-primary">Ajouter Certificat</a>
+{% endif %}
+<br> <br>  
+
+
+{#
+{% block javascripts %}
+{{ parent() }}
+   <!--<script type="text/javascript" src="{{ asset('bundles/applicationcertificats/js/selectapplis.js') }}"></script>
+    -->
+<script type="text/javascript">
+          
+$(document).ready(function() {
+//$(function() {
+  $( "#certificats_filter_endTime_left_date" ).datepicker({
+maxDate: "+30M +10D",
+changeMonth: true,
+changeYear: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});
+  
+  $( "#certificats_filter_endTime_right_date" ).datepicker({
+maxDate: "+3M +10D",
+changeMonth: true,
+changeYear: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});
+}); //Eof:: ready
+</script>
+
+{% endblock %}
+
+#}
+
+{% include 'ApplicationCertificatsBundle:CertificatsCenter:indexsearch_form.html.twig' %}
+ 
+ {#
+<form  class="form-horizontal" action="{{ path('certificatscenter') }}" method="post" {{ form_enctype(search_form) }}>
+    {{ form_widget(search_form) }}
+    <p>
+       <button type="submit" class="btn btn-large btn-warning">Edit</button>
+       
+    </p>
+</form>
+#}
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr class="title">
+              <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
+    <th{% if pagination.isSorted('a.fileName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Filename', 'a.fileName') }}</th>
+ 
+ <th{% if pagination.isSorted('b.nomprojet') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Projet', 'b.nomprojet') }}</th>
+ <th{% if pagination.isSorted('c.fileType') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Type', 'c.fileType') }}</th>
+ 
+ <th{% if pagination.isSorted('a.cnName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'CN', 'a.cnName') }}</th>
+      
+ <th{% if pagination.isSorted('a.endTime') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Fin', 'a.endTime') }}</th>
+ 
+ <th{% if pagination.isSorted('a.serverName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Serveur', 'a.serverName') }}</th>
+ 
+ <th{% if pagination.isSorted('a.port') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Port', 'a.port') }}</th>
+ <th{% if pagination.isSorted('a.serviceName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Service', 'a.serviceName') }}</th>
+           {% if is_granted("ROLE_ADMIN") %}
+ <th colspan="3"><center>Actions</center></th>
+{% else %}
+ <th><center>Actions</center></th>
+{% endif %}
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in pagination %}
+  
+             {% if date(entity.endTime) < date('-30days') %}
+              <tr class="warning">
+              {% else %}
+              <tr>
+             {% endif %}   
+            <td> {{entity.id }}</td>
+            <td>{{ entity.fileName }}</td>
+               <td>{{ entity.project.nomprojet }}</td>
+           <td>{{ entity.typeCert.FileType }}</td>
+            
+        
+            <td>{{ entity.cnName }}</td>
+           <!-- <td>{% if entity.startDate %}
+                    {{ entity.startDate|date('Y-m-d') }}{% endif %}</td>-->
+                    
+                    
+            {% if entity.endTime %}
+
+              
+           <td>    {{ entity.endTime|date('Y-m-d') }}</td>
+           
+{% endif %}
+       <!--    <td>{#% if entity.addedDate %}{{ entity.addedDate|date('Y-m-d') }}{% endif %#}</td>-->
+            <td>{{ entity.serverName }}</td>
+            <td>{{ entity.port }}</td>
+            <td>{{ entity.serviceName }}</td>
+           <!-- <td>{{ entity.way }}</td>-->
+           <!-- <td>{{ entity.statusFile }}</td>-->
+                 <td>
+                    <a href="{{ path('certificatscenter_show', { 'id': entity.id }) }}">
+                        <img src="{{ asset('bundles/applicationcertificats/images/detail.png') }}" alt="show" width="15" height="15" />
+                    </a>
+                </td>
+                
+                   {% if is_granted("ROLE_ADMIN") %}
+                <td>
+
+
+                    <a href="{{ path('certificatscenter_edit', { 'id': entity.id }) }}">
+                        <img src="{{ asset('bundles/applicationcertificats/images/edit.png') }}" alt="edit" width="15" height="15" />
+                    </a>
+                </td>
+                <td>
+
+
+                    <a href="{{ path('certificatscenter_delete', { 'id': entity.id }) }}">
+                        <img src="{{ asset('bundles/applicationcertificats/images/delete.png') }}" alt="delete" width="15" height="15" />
+                    </a>
+                </td>
+
+                           {% endif %}  
+                
+                
+          
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<br>
+   {{ knp_pagination_render(pagination, 'ApplicationCertificatsBundle:pagination:twitter_bootstrap_pagination.html.twig') }}
+  {#{ knp_pagination_render(pagination) }#}
+
+{% endblock %}

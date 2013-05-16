@@ -1,0 +1,30 @@
+environnement:
+    pattern:  /
+    defaults: { _controller: "ApplicationRelationsBundle:Environnements:index" }
+
+environnement_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationRelationsBundle:Environnements:show" }
+
+environnement_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationRelationsBundle:Environnements:new" }
+
+environnement_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationRelationsBundle:Environnements:create" }
+    requirements: { _method: post }
+
+environnement_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationRelationsBundle:Environnements:edit" }
+
+environnement_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationRelationsBundle:Environnements:update" }
+    requirements: { _method: post }
+
+environnement_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationRelationsBundle:Environnements:delete" }
+    requirements: { _method: post }

@@ -1,0 +1,81 @@
+{% extends "ApplicationEservicesBundle::layout.html.twig" %}
+
+  {% block stylesheets %}
+{{ parent() }}
+      <link rel="stylesheet" href="{{ asset('bundles/applicationeservices/css/sliding.css') }}" type="text/css" media="all"/>
+     
+ {% endblock %}
+
+{% block content_header '' %}
+{% block title %}
+DETAILS DU GROUPE: {{ entity.nomGroup }}
+{% endblock %}
+{% block content %}
+       
+<a href="{{ path('egroup_groupes') }}" class="btn btn-small btn-success">Retour</a>
+ {% if is_granted("ROLE_ADMIN") %}  
+
+<a href="{{ path('egroup_groupes_edit', { 'id': entity.id }) }}" class="btn btn-small btn-warning">Editer</a> 
+  {% endif %}
+
+  <table class="table table-striped table-bordered table-hover">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Nomgroup</th>
+                <td>{{ entity.nomGroup }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ entity.description }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ entity.email }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% if status_group == true %}
+<a href="{{ path('egroup_quitter') }}" class="btn btn-small btn-danger">Quitter ce groupe</a>
+  {% endif %}  
+   
+    {#
+    <li>
+        <form action="{{ path('egroup_groupes_delete', { 'id': entity.id }) }}" method="post">
+            <input type="hidden" name="_method" value="DELETE" />
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>
+   #} 
+     
+<h3><center>Liste des Utilisateurs de ce groupe</center></h3>
+<table class="table table-striped table-bordered table-hover">
+     
+       <thead>
+        <tr class="title"><th>Nom</th><th>Email</th>
+       <th>Posts</th>
+       {#<th>Commentaires</th>#}
+        </tr>
+  <tbody>
+      </thead>    
+     {# <tr><td>{{ entity.users|length }}</td></tr>#}
+     {% for myuser in entity.users %}
+        <tr>
+            <td>{{ myuser.username }}</td>
+           
+              <td>{{ myuser.email }}</td>
+          
+            {#  
+               <td></td>#}
+                </tr>
+{% endfor %}     
+      
+        </tbody>
+</table>
+{% endblock %}

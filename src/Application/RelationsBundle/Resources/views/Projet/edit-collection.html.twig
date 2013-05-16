@@ -1,0 +1,78 @@
+{% extends "ApplicationRelationsBundle::layout.html.twig" %}
+
+              {% block javascripts %}
+    {{ parent() }}
+<script type="text/javascript">
+$('.btn-add').click(function(event) {
+    var collectionHolder = $('#' + $(this).attr('data-target'));
+    var prototype = collectionHolder.attr('data-prototype');
+    var form = prototype.replace(/__name__/g, collectionHolder.children().length);
+
+    collectionHolder.append(form);
+
+    return false;
+});
+$('.btn-remove').live('click', function(event) {
+    var name = $(this).attr('data-related');
+    $('*[data-content="'+name+'"]').remove();
+
+    return false;
+});
+
+</script>
+
+   {% endblock %}
+
+{% macro widget_prototype(widget, remove_text) %}
+    {% if widget.get('prototype') %}
+        {% set form = widget.get('prototype') %}
+        {% set name = widget.get('prototype').get('nomapplis') %}
+    {% else %}
+        {% set form = widget %}
+        {% set name = widget.get('full_name') %}
+    {% endif %}
+
+    <div data-content="{{ name }}">
+        <a class="btn-remove" data-related="{{ name }}">{{ remove_text }}</a>
+        {{ form_widget(form) }}
+    </div>
+{% endmacro %}
+
+
+  {% block stylesheets %}
+{{ parent() }}
+      <link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
+     
+ {% endblock %}
+
+{% block content_header '' %}
+{% block title %}EDITION PROJET{% endblock %}
+{% block content %}
+    
+<form  class="form-horizontal" action="{{ path('projets_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+
+    {{ form_errors(edit_form) }}
+    <fieldset>
+       
+        {{ form_row(edit_form.nomprojet) }}
+        {{ form_row(edit_form.description) }}
+
+        <div id="post_tags" data-prototype="{{ _self.widget_prototype(edit_form.idapplis, 'Remove tag')|escape }}">
+            {% for widget in edit_form.idapplis.children %}
+                {{ _self.widget_prototype(widget, 'Remove tag') }}
+            {% endfor %}
+        </div>
+
+        <a class="btn-add" data-target="post_tags">Add tag</a>
+    </fieldset>
+
+    {{ form_widget(edit_form._token) }}
+<button type="submit" class="btn btn-large btn-warning">Modifier</button>
+    
+</form>
+
+
+   
+
+
+{% endblock %}

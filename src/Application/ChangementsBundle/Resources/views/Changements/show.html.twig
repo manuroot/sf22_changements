@@ -1,0 +1,173 @@
+{% extends "ApplicationChangementsBundle::layout.html.twig" %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ tinymce_init() }}
+{% endblock %}
+
+  {% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
+  <style>
+         td.single {
+         font-style: italic;    
+         font-weight: bold;
+         background-color: red;
+         color:blue;
+        }
+        </style>
+ {% endblock %}
+
+      {% block content_header '' %}
+{% block title %}DETAILS CHANGEMENT:  {{ entity.nom }} {% endblock %}
+{% block content %}
+
+<br> <br> 
+<a href="{{ path('changements') }}" class="btn btn-medium btn-success">Retour</a>
+
+ {% if is_granted("ROLE_USER") %}
+<a href="{{ path('changements_edit', { 'id': entity.id }) }}" class="btn btn-medium btn-warning">Editer</a>
+{% endif %}
+
+
+<br> <br> 
+
+
+<table class="table table-striped table-bordered table-hover">
+
+
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Nom</th>
+            <td>{{ entity.nom }}</td>
+        </tr>
+        <tr>
+            <th>Demandeur</th>
+            <td>{{ entity.demandeur }}</td>
+        </tr>
+        <tr>
+            <th>Datedebut</th>
+
+            <td>{{ entity.dateDebut|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Datefin</th>
+            <td class="single">{{ entity.dateFin|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Datecomep</th>
+            <td>
+            {% if entity.dateComep is not null %}
+               {{ entity.dateComep|date('Y-m-d H:i:s') }}
+                    {% else %}
+                    Aucune
+            {% endif %}
+            </td>
+            </tr>
+            <tr>
+                 <th>Datevsr</th>
+            <td>
+            {% if entity.dateVsr is not null %}
+               {{ entity.dateVsr|date('Y-m-d H:i:s') }}
+                      {% else %}
+                    Aucune
+            {% endif %}
+            </td>
+               
+             
+            </tr>
+            <tr>
+                <th>Description</th>
+                
+                <td>{{ entity.description|raw }}</td>
+            </tr>
+
+            <tr>
+                <th>Projet</th>
+                <td>{{ entity.idProjet }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ entity.idStatus }}</td>
+            </tr>
+            <tr>
+                <!--<th>Avatar</th>
+                <td>{#{ entity.avatar }#}</td>-->
+            </tr>
+
+            <!--  <tr>
+                  <th>Fichier Principal</th>
+                  <td>{#{ entity.picture.name }#}
+                  
+              
+                  </td>
+              </tr>-->
+
+            <tr><th>Applications</th>
+                <td>
+           {{ entity.idapplis|join(', ') }}   
+             {#% for appli in entity.idapplis %} {{ appli.nomapplis }}
+       {% endfor %#}
+                    </td>
+                </tr>
+
+                <tr><th>Environnements</th>
+                    <td>
+
+           {{ entity.idEnvironnement|join(', ') }}   
+             {#% for envi in entity.idEnvironnement %} {{ envi.nom }}
+       {% endfor %#}
+                    </td>
+                </tr>
+
+
+
+                <tr>
+                    <th>Utilisateurs</th>
+                    <td>
+           {{ entity.idusers|join(', ') }}   
+{#% for user in entity.idusers %} {{ user.nomUser }}
+
+       {% endfor %#}
+                        </td>
+                    </tr>
+                    
+                     <tr>
+                <th>Ticket Externe</th>
+                <td>{{ entity.ticketExt }}</td>
+            </tr>
+             <tr>
+                <th>Ticket Interne</th>
+                <td>{{ entity.ticketInt }}</td>
+            </tr>
+
+
+                </tbody>
+            </table>
+
+
+
+            <h3><center>Fichiers de la demande</center></h3>
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr class="title"><th>id</th><th>Nom</th><th>Date Maj</th><th>Lien</th></tr>
+                </thead>
+               {% for fic in entity.picture %}
+                <tr> 
+                    <td>{{ fic.id }}</td>
+                    <td>{{ fic.name }}</td>
+                    <td>{{ fic.updatedAt|date('Y-m-d H') ~ 'h' }}</td>
+                    <td><a href="{{ path('download_route', { 'filename': fic.path }) }}">{{ fic.path }}</a></td>
+
+                       <!-- <a href="{#{ asset('bundles/my/Resources/public/pdf/dok.pdf') }#}">Download PDF!</a>-->
+
+                </tr>
+       {% endfor %}
+            </tbody>
+        </table>
+
+{% endblock %}

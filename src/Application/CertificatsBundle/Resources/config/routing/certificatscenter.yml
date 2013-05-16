@@ -1,0 +1,48 @@
+certificatscenter:
+    pattern:  /
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsCenter:index" }
+    
+certificatscenter_check:
+    pattern:  /checkcert
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsCenter:checkcert" }
+    
+certificatscenter_validatecert:
+    pattern:  /validatecert
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsCenter:validatecheckcert" }
+    requirements: { _method: post }
+    
+    
+certificatscenter_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsCenter:show" }
+
+certificatscenter_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsCenter:new" }
+
+certificatscenter_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsCenter:create" }
+    requirements: { _method: post }
+
+certificatscenter_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsCenter:edit" }
+
+certificatscenter_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsCenter:update" }
+    requirements: { _method: post }
+
+certificatscenter_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsCenter:delete" }
+    requirements: { _method: post }
+
+certificatscenter_viewapy:
+    pattern:  /certificatsapy
+    defaults: { _controller: ApplicationCertificatsBundle:CertificatsCenter:viewapy }
+    
+certificatscenter_listbyprojet:
+    pattern:  /certificatsprj
+    defaults: { _controller: ApplicationCertificatsBundle:CertificatsCenter:listByProjet }

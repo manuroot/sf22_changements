@@ -1,0 +1,31 @@
+{% extends "ApplicationChangementsBundle::layout.html.twig" %}
+
+  {% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/sliding.css') }}" type="text/css" media="all"/>
+
+ {% endblock %}
+
+{% block content_header '' %}
+{% block title %}EDITION FICHIER{% endblock %}
+{% block content %}
+{% for type, flashMessages in app.session.flashbag.all() %}
+    {% for flashMessage in flashMessages %}
+<div class="alert alert-{{ type }}">
+            {{ flashMessage|trans }}
+    </div>
+    {% endfor %}
+{% endfor %}
+
+<form  class="form-horizontal" action="{{ path('docchangements_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    {{ form_widget(edit_form) }}
+        <p>
+            <button type="submit" class="btn btn-large btn-warning">Modifier</button>
+             </p>
+    </form>
+  <a href="{{ path('docchangements') }}" class="btn btn-large btn-success">Retour</a>
+
+
+  
+
+{% endblock %}

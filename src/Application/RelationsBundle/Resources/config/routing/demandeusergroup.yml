@@ -1,0 +1,50 @@
+groupedemande:
+    pattern:  /
+    defaults: { _controller: "ApplicationRelationsBundle:DemandeUsergroup:index" }
+
+groupedemande_mongroupe:
+    pattern:  /demandemongroupe
+    defaults: { _controller: "ApplicationRelationsBundle:DemandeUsergroup:indexMonGroupe" }
+
+
+groupedemande_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationRelationsBundle:DemandeUsergroup:show" }
+
+groupedemande_accept:
+    pattern:  /{id}/accept
+    defaults: { _controller: "ApplicationRelationsBundle:DemandeUsergroup:accept" }
+    
+groupedemande_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationRelationsBundle:DemandeUsergroup:new" }
+
+groupedemande_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationRelationsBundle:DemandeUsergroup:create" }
+    requirements: { _method: post }
+
+groupedemande_createadmin:
+    pattern:  /createadmin
+    defaults: { _controller: "ApplicationRelationsBundle:DemandeUsergroup:createAdmin" }
+    requirements: { _method: post }
+    
+groupedemande_newdemande:
+    pattern:  /{id}/creerdemande
+    defaults: { _controller: "ApplicationRelationsBundle:DemandeUsergroup:newDemandegroup" }
+
+
+groupedemande_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationRelationsBundle:DemandeUsergroup:edit", id: 0 }
+    requirements: {  id: \d+ }
+          
+groupedemande_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationRelationsBundle:DemandeUsergroup:update" }
+    requirements: { _method: post }
+
+groupedemande_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationRelationsBundle:DemandeUsergroup:delete" }
+    requirements: { _method: post|delete }

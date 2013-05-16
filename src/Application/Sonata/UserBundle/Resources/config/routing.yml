@@ -1,0 +1,4 @@
+application_sonata_user_users:
+    resource: "@ApplicationSonataUserBundle/Resources/config/routing/user.yml"
+    prefix:   /users
+

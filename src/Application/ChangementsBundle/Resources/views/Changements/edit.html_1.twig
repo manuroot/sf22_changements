@@ -1,0 +1,221 @@
+{% extends "ApplicationChangementsBundle::layout.html.twig" %}
+{% macro widget_prototype(widget, remove_text) %}
+    {% if widget.get('prototype') %}
+        {% set form = widget.get('prototype') %}
+        {% set name = widget.get('prototype').get('name') %}
+    {% else %}
+        {% set form = widget %}
+        {% set name = widget.get('name') %}
+    {% endif %}
+
+    <div data-content="{{ name }}">
+        <a class="btn-remove" data-related="{{ name }}">{{ remove_text }}</a>
+        {{ form_widget(form) }}
+    </div>
+{% endmacro %}
+
+
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
+<style>
+.monlabel {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  }
+   .boxlist {
+     border: 1px solid #D4E0EE;
+    background-color: #f1f1f1;
+
+}
+    </style> 
+{% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}
+   <!--<script type="text/javascript" src="{{ asset('bundles/applicationcertificats/js/selectapplis.js') }}"></script>
+    -->
+<script type="text/javascript">
+          
+$(document).ready(function() {
+//$(function() {
+  $( "#changements_dateDebut" ).datepicker({
+maxDate: "+3M +10D",
+changeMonth: true,
+changeYeat: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});
+    $( "#changements_dateFin" ).datepicker({
+maxDate: "+3M +10D",
+changeMonth: true,
+changeYeat: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});
+  $( "#changements_dateComep" ).datepicker({
+maxDate: "+3M +10D",
+changeMonth: true,
+changeYeat: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});
+  $( "#changements_dateVsr" ).datepicker({
+maxDate: "+3M +10D",
+changeMonth: true,
+changeYeat: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});
+}); //Eof:: ready
+
+$('.btn-add').click(function(event) {
+    var collectionHolder = $('#' + $(this).attr('data-target'));
+    var prototype = collectionHolder.attr('data-prototype');
+    var form = prototype.replace(/__name__/g, collectionHolder.children().length);
+
+    collectionHolder.append(form);
+
+    return false;
+});
+$('.btn-remove').live('click', function(event) {
+    var name = $(this).attr('data-related');
+    $('*[data-content="'+name+'"]').remove();
+
+    return false;
+});
+</script>
+{% endblock %}
+
+    
+{% block content_header '' %}
+{% block title %}EDITION CHANGEMENT{% endblock %}
+{% block content %}
+
+
+
+<form action="{{ path('changements_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td>
+                 <div>
+                  {{ form_row(edit_form.nom) }}
+              </div>
+                               <div>
+    {{ form_row(edit_form.description) }}
+               </div>
+   
+           <div>
+          {{ form_row(edit_form.dateDebut) }}
+               </div>
+           <div>
+    {{ form_row(edit_form.dateFin) }}
+               </div>
+           <div>
+    {{ form_row(edit_form.dateComep) }}
+               </div>
+      <div>
+    {{ form_row(edit_form.dateVsr) }}
+              
+     
+              {#{ form_widget(edit_form.picture, { 'attr': { 'multiple': 'multiple' } }) }#}
+                     {#{ form_errors(edit_form.picture) }#}
+    {#{ form_label(edit_form.picture, 'Fichier'|trans) }#}
+    {#{ form_widget(edit_form.picture) }#}
+  
+               </div>
+                            
+            <div id="post_tags" data-prototype="{{ _self.widget_prototype(edit_form.picture, 'Supprimer Fichier')|escape }}">
+            {% for widget in edit_form.picture.children %}
+                {{ _self.widget_prototype(widget, 'Supprimer Fichier') }}
+            {% endfor %}
+   </div>
+
+        <a class="btn-add" data-target="post_tags">Ajouter un Fichier</a>
+              </td>
+                                
+
+<td>                                
+                                
+      <div>
+         {{ form_row(edit_form.idProjet) }}
+              </div>
+    <div class="boxlist">
+                {{ form_row(edit_form.idEnvironnement) }}
+           </div>   
+     <br>     
+     <div class="boxlist">
+               {{ form_row(edit_form.idStatus) }}
+                {#{ form_errors(edit_form.idEnvironnement) }}
+              {{ form_label(edit_form.idEnvironnement, 'Environnement'|trans, { 'label_attr': { 'class': 'monlabel' } }) }}
+    {{ form_widget(edit_form.idEnvironnement) }#}
+ 
+         
+               </div>
+      <br>     
+  
+                              </td>
+                              <td>{{ form_rest(edit_form) }} </td>
+                                 </tr>
+                                     
+<tr><td colspan="3">
+                                   
+                                        <button type="submit" class="btn btn-small btn-warning">Modifier</button>
+                                         <a href="{{ path('changements') }}" class="btn btn-small btn-success">Retour</a>
+                                   </form>       
+                                    
+                                    <form action="{{ path('changements_delete', { 'id': entity.id }) }}" method="post">
+        {{ form_errors(delete_form) }}
+           {{ form_row(delete_form.id) }}
+           {{ form_rest(delete_form) }}
+                                        <div style="text-align:right">
+                                            <button type="submit" class="btn btn-small btn-danger" onclick="if(!confirm('Are you sure?')) { return false; }">Supprimer Projet</button>
+                                        </div>
+                                      </form>       
+                                </td></tr>
+                        </tbody>
+                    </table>
+  
+
+                                         
+                                         
+<h3><center>Liste des Fichiers associés</center></h3>
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="title"><th>id</th><th>Nom</th><th>Path</th></tr>
+                        </thead>
+               {% for fic in entity.picture %}
+                        <tr> 
+                            <td>{{ fic.id }}</td>
+                            <td>{{ fic.name }}</td>
+                            
+                             <td><a href="{{ path('download_route', { 'filename': fic.path }) }}">{{ fic.path }}</a></td>
+     
+                            <!-- <a href="{#{ asset('bundles/my/Resources/public/pdf/dok.pdf') }#}">Download PDF!</a>-->
+                            
+                        </tr>
+       {% endfor %}
+                        </tbody>
+                    </table>
+                                         
+
+
+  
+
+{% endblock %}
+
+

@@ -1,0 +1,30 @@
+chronouser:
+    pattern:  /
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoUser:index" }
+
+chronouser_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoUser:show" }
+
+chronouser_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoUser:new" }
+
+chronouser_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoUser:create" }
+    requirements: { _method: post }
+
+chronouser_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoUser:edit" }
+
+chronouser_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoUser:update" }
+    requirements: { _method: post }
+
+chronouser_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoUser:delete" }
+    requirements: { _method: post }

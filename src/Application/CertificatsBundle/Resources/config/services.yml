@@ -1,0 +1,7 @@
+services:
+   application.twig.certificats_extension:
+        class: Application\CertificatsBundle\Twig\CertificatsExtension
+        tags:
+            - { name: twig.extension }  
+            
+   

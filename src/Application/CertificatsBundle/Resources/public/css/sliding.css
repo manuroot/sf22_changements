@@ -1,0 +1,55 @@
+/* 
+    Document   : certificatscenter
+    Created on : 7 févr. 2013, 19:03:58
+    Author     : manuroot
+    Description:
+        Purpose of the stylesheet follows.
+*/
+.mywarn{ background-color: #fe8a05;}
+  .page,.current,.next,.last{
+    display: inline-block;
+    border: 1px solid blue;
+    color: blue;
+    margin-right: 0.2em;
+    padding: 0.25em 0.35em;
+   }
+    .current {
+    
+      background-color: #d3d3d3;
+   /* color: red;*/
+  
+}
+tr.title {
+    background-color: #e4e4e4;
+}
+/*calendar big*/
+
+div#ptitbutton{
+    /*position:absolute; */
+    /* on positionne le conteneur */
+    /* vertical-align:top;*/
+    float:right;
+    /*    margin-bottom: -20px;*/
+
+    margin-right:15px;
+     position:absolute; 
+     right: 30px;
+     top:50px;
+     
+    /* height:50px;*/
+
+}
+
+div#textptitbutton{
+    position:absolute; 
+     right: 30px;
+    /* on positionne le conteneur */
+    /* vertical-align:top;*/
+    float:right;
+    /*    margin-bottom: -20px;*/
+
+    margin-right:15px;
+    margin-height:50px;
+    /* height:50px;*/
+
+}

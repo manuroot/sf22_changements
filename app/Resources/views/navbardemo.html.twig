@@ -1,0 +1,131 @@
+{% block NAVIGATION_BAR %}
+ {% set foo = app.request.attributes.get('_route') %}
+ {#{{ foo }}#}
+{% set foo = foo|split('_') %}
+{#{{ foo[0] }} #}
+
+<div class="navbar navbar-fixed-top navbar-inverse">
+   {# <div class="navbar r navbar-static-top navbar-inverse">#}
+                    <div class="navbar-inner">
+                        <div class="container-fluid"> 
+                          {#  <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> 
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span> 
+                                <span class="icon-bar"></span> 
+                            </a>
+                        #}
+                                <a class="brand" href="#">
+<i class="icon-white icon-home"></i>
+                                {% block toto %}I-CHANGE(v1.1a){% endblock %}</a>
+ {#                             
+ <ul class="nav">
+
+  <li class=" active ">
+    <a href="{{ path('changements') }}"><i class="icon-camera"></i> {{ 'Changements'|trans }}</a>
+    
+  </li>
+  <li class="">
+   <a href="{{ path('eservice_messervices') }}"><i class="icon-camera"></i> {{ 'Mes Propositions de Services'|trans }}</a>
+  </li>
+</ul>
+   #} 
+
+                                <div class="btn-group pull-right"> 
+                                  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"> <i class="icon-user"></i>
+                                        {% if is_granted("ROLE_USER") or is_granted("ROLE_USER") %}
+                                        {{ app.user.username }} 
+                                     {% else %}
+                                        Username
+                                    {% endif %}
+                                       <span class="caret"></span> 
+                                  </a>
+                                      
+                               
+                               <ul class="dropdown-menu">
+                                  <!--  <li class="divider"></li>-->
+                                    
+                                       {% if is_granted("ROLE_ADMIN") %}
+                                    <li><a href="{{ path('sonata_admin_dashboard') }}">{{ 'Admin Dashboard' }}</a>
+                                
+                                       {% endif %}   
+                                    
+                                    <li><a href="{{ path('sonata_user_profile_edit_authentication') }}">{{ 'Edit Profile' }}</a>
+                                    <li><a href="{{ path('fos_user_registration_register') }}">{{ 'Register'|trans }}</a>
+                                    </li>
+                                 
+                                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                       <li><a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></li>
+                                     <li><a href="{{ path('fos_user_change_password') }}">{{ 'Changer password' }}</a></li>
+                                    {% else %}
+                                      <li>  <a href="{{ path('fos_user_security_login') }}">Connexion</a></li>
+                                    {% endif %}   
+                                </ul>
+                            </div>
+                            <div class="nav-collapse collapse">
+                                <ul class="nav">
+                      {% if foo[0] == 'eservice' %}
+                                    <li class="dropdown active">
+                                    {% else %}  
+                                               <li class="dropdown">
+                                    {% endif %}
+                                    
+                                           <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-white  icon-user"></i>
+                                               Services<b class="caret"></b> </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="{{ path('eservice') }}"><i class="icon-camera"></i> {{ 'Dashboard Services'|trans }}</a></li>
+                                            <li><a href="{{ path('eservice_messervices') }}"><i class="icon-camera"></i> {{ 'Mes Propositions de Services'|trans }}</a></li>
+                                            <li><a href="{{ path('eservice_demandes') }}"><i class="icon-camera"></i> {{ 'Mes Demandes de Services'|trans }}</a></li>
+                                           <li><a href="{{ path('eservice_other') }}"><i class="icon-camera"></i> {{ 'Services Propsés'|trans }}</a></li>
+                                           
+                                         
+                                            </ul>
+                                    </li>
+                                     {% if foo[0] == 'eproduit' %}
+                                    <li class="dropdown active">
+                                    {% else %}  
+                                               <li class="dropdown">
+                                    {% endif %}
+                                    
+                                           <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-white  icon-shopping-cart"></i>
+                                               Produits<b class="caret"></b> </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="{{ path('eproduit') }}"><i class="icon-plus-sign"></i> {{ 'DashBoard Produits'|trans }}</a></li>
+                                             <li><a href="{{ path('eproduit_mesproduits') }}"><i class="icon-plus-sign"></i> {{ 'Gérer Mes Produits'|trans }}</a></li>
+                                             <li><a href="{{ path('eproduit_propositions') }}"><i class="icon-plus-sign"></i> {{ 'Gérer Les Propositions'|trans }}</a></li>
+                                            <li><a href="{{ path('eproduit_indexserch') }}"><i class="icon-camera"></i> {{ 'Recherche Produit'|trans }}</a></li>
+                                            <li><a href="{{ path('eproduit_indexadmin') }}"><i class="icon-camera"></i> {{ 'Tous les Produits'|trans }}</a></li>
+                                     
+                                            </ul>
+                                    </li>
+                                    
+                                 
+                          
+                                 
+                                    
+                                     <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-white icon-wrench"></i>
+                                               Administration<b class="caret"></b> </a>
+                                        <ul class="dropdown-menu">
+                                          <li><a href="{{ path('environnement') }}"><i class="icon-camera"></i> {{ 'Environnements'|trans }}</a></li>
+                             <li><a href="{{ path('eproduit_indexadmin') }}"><i class="icon-camera"></i> {{ 'Produits'|trans }}</a></li>
+                           <li><a href="{{ path('egroup_groupes') }}"><i class="icon-camera"></i> {{ 'Eservice-Groupes'|trans }}</a></li>
+                           
+                             <li><a href="{{ path('users') }}"><i class="icon-camera"></i> {{ 'Eservices-Users(FOSUSER)'|trans }}</a></li>                            
+                          
+                           
+                           
+                                        </ul>
+                                    </li>
+                                    
+                               
+                                 </ul>  
+                                 
+                            </div>
+                            <!--/.nav-collapse -->
+                            {#  <form class="navbar-search pull-left">
+    <input type="text" class="search-query" placeholder="Search">
+    </form>#}
+                        </div>
+                    </div> 
+        
+                </div>
+{% endblock %}    

@@ -1,0 +1,78 @@
+{% extends "ApplicationCertificatsBundle::layout.html.twig" %}
+
+
+{% block javascripts %}
+{{ parent() }}
+   <script type="text/javascript" src="{{ asset('bundles/applicationcertificats/js/selectapplis.js') }}"></script>
+ {% endblock %}
+
+
+{% block content_header '' %}
+{% block title %}
+ {{ parent() }} EDITION
+{% endblock %}
+
+{% block content %}
+
+
+{#{ 'idty='~ idty }#}
+
+    <form action="{{ path('certificatscenter_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+
+
+        <table class="table table-bordered">
+            <tbody>
+                <tr><td>
+                        <div>
+    {{ form_errors(edit_form.fileName) }}
+    {{ form_label(edit_form.fileName, 'Nom du Fichier'|trans) }}
+    {{ form_widget(edit_form.fileName) }}
+                            </div>
+                            <div>
+    {{ form_errors(edit_form.cnName) }}
+    {{ form_label(edit_form.cnName, 'CN du certificat'|trans) }}
+    {{ form_widget(edit_form.cnName) }}
+                                </div>
+    {{ form_errors(edit_form.serviceName) }}
+    {{ form_label(edit_form.serviceName, 'Service'|trans) }}
+    {{ form_widget(edit_form.serviceName) }}
+              {{ form_errors(edit_form.serverName) }}
+    {{ form_label(edit_form.serverName, 'Serveur'|trans) }}
+    {{ form_widget(edit_form.serverName) }}
+
+
+             {{ form_errors(edit_form.port) }}
+    {{ form_label(edit_form.port, 'Port'|trans) }}
+    {{ form_widget(edit_form.port) }}
+
+    {{ form_errors(edit_form.way) }}
+    {{ form_label(edit_form.way, 'Way'|trans) }}
+    {{ form_widget(edit_form.way) }}
+
+  {{ form_errors(edit_form.statusFile) }}
+    {{ form_widget(edit_form.statusFile) }}
+
+
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+ {{ form_rest(edit_form) }}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr><td colspan="2">
+                                    <p>
+                                        <button type="submit" class="btn btn-small btn-warning">Modifier</button>
+                                        <a href="{{ path(btnretour) }}" class="btn btn-small btn-success">Retour</a>
+                                    </p>
+                                </td></tr>
+                        </tbody>
+                    </table>
+ {#{ form_widget(edit_form) }#}
+
+                </form>
+
+
+
+{% endblock %}

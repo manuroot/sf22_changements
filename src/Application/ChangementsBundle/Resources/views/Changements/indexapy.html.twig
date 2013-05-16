@@ -1,0 +1,195 @@
+{% extends "ApplicationChangementsBundle::layout.html.twig" %}
+
+  {% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/datagrid.css') }}" type="text/css" media="all" /> 
+
+{% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+          
+$(document).ready(function() {
+//$(function() {
+  $( "#grid_certificatsgrid__dateDebut__query__from" ).datepicker({
+maxDate: "+3M +10D",
+changeMonth: true,
+changeYeat: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});
+
+$( "#grid_certificatsgrid__dateFin__query__from" ).datepicker({
+maxDate: "+3M +10D",
+changeMonth: true,
+changeYeat: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});
+
+
+$( "#grid_certificatsgrid__dateVsr__query__from" ).datepicker({
+maxDate: "+3M +10D",
+changeMonth: true,
+changeYeat: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});
+
+
+$( "#grid_certificatsgrid__dateComep__query__from" ).datepicker({
+maxDate: "+3M +10D",
+changeMonth: true,
+changeYeat: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});
+});
+</script>
+
+{% endblock %}
+{% block content_header '' %}
+
+{% block title %}
+LISTE DES CHANGEMENTS 
+{% endblock %}
+ 
+{% block content %}
+ 
+
+{% for type, flashMessages in app.session.flashbag.all() %}
+    {% for flashMessage in flashMessages %}
+<div class="alert alert-{{ type }}">
+            {{ flashMessage|trans }}
+    </div>
+    {% endfor %}
+{% endfor %}
+
+ {#{ date('-30days')|date('Y-m-d') }#}
+
+<a href="{{ path('changements_new') }}" class="btn btn-small btn-primary">Ajouter Changement</a>
+<br> <br> 
+
+{{ grid(grid, _self) }}
+
+
+<!--{{ grid_search(grid) }}-->
+{#{ grid(grid, 'ApplicationChangementsBundle::apygrid/blocks.html.twig') }#} 
+
+{% endblock %}
+
+
+{% block footer %}
+{% endblock %}
+        
+
+{% block grid_actions %}
+<div class="mass-actions">
+<span class="grid_massactions_helper">
+        <a href="#" onclick="return {{ grid.hash }}_markVisible(true);">{{ 'Select visible'|trans }}</a> |
+        <a href="#" onclick="return {{ grid.hash }}_markVisible(false);">{{ 'Deselect visible'|trans }}</a> |
+        <a href="#" onclick="return {{ grid.hash }}_markAll(true);">{{ 'Select all'|trans }}</a> |
+        <a href="#" onclick="return {{ grid.hash }}_markAll(false);">{{ 'Deselect all'|trans }}</a>
+        <span class="mass-actions-selected" id="{{ grid.hash }}_mass_action_selected"></span>
+    </span>
+    {% spaceless %}
+    <div style="float:right;" class="grid_massactions">
+        {{ 'Action'|trans }}
+        <input type="hidden" id="{{ grid.hash }}_mass_action_all" name="{{ grid.hash }}[{{ constant('APY\\DataGridBundle\\Grid\\Grid::REQUEST_QUERY_MASS_ACTION_ALL_KEYS_SELECTED') }}]" value="0"/>
+        <select name="{{ grid.hash }}[{{ constant('APY\\DataGridBundle\\Grid\\Grid::REQUEST_QUERY_MASS_ACTION') }}]">
+            <option value="-1"></option>
+            {% for key, massAction in grid.massActions %}
+            <option value="{{ key }}">{{ massAction.title|trans }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit"  class="btn btn-small btn-danger" value="{{ 'Submit Action'|trans }}"/>
+    </div>
+    {% endspaceless %}
+        <br><br>
+</div>
+
+{% endblock grid_actions %}
+            
+                        
+   {% block grid_column_actions_cell %}  
+<center>
+
+
+     {% for action in column.rowActions %}
+ {% set confirm = action.confirm ? " onclick=\"return confirm('" ~ action.confirmMessage ~ "')\"" : '' %}
+      
+  {% if action.title == 'Edit' %}
+   <a href="{{ url(action.route, column.routeParameters(row, action), true) }}" target="{{ action.target }}">
+                         <img src="{{ asset('bundles/applicationchangements/images/edit.png') }}" alt="edit" width="15" height="15" />
+                    </a>
+&nbsp;&nbsp;
+
+     {% else %}   
+{% if is_granted('ROLE_SUPER_ADMIN')  %}
+<a href="{{ url(action.route, column.routeParameters(row, action), false) }}"{{ confirm }} target="{{ action.target }}">
+                  <img src="{{ asset('bundles/applicationchangements/images/delete.png') }}" alt="delete" width="15" height="15" />
+     </a>              
+  {% endif %}
+     {% endif %}
+        
+     
+    {% endfor %}
+
+  
+&nbsp;&nbsp;
+<a href="{{ path('changements_show',{ 'id': row.getPrimaryFieldValue() }) }}" class=" icon-search"></a>
+
+</center>
+{% endblock %}
+
+
+
+{#% block grid_column_endTime_cell %}
+{% set toto=800 %}
+
+  {% if date(value) < date('-30days') %}
+<font color="red">{{ value }}</font>
+{% else %}
+{{ value }}
+{% endif %}
+{% endblock grid_column_endTime_cell %#}
+{#
+{% block grid_column_endTime_cell %}
+{% set {{ row.field('endTime') }} = "1999-01-01" %}
+{% endblock grid_column_endTime_cell %}
+
+{% block grid_column_endTime_cell %}
+{% if row.field('endTime') < date('-30days') %}
+{{ row.field('endTime') }} = "1999-01-01" %}
+
+{% endif %}
+{% endblock grid_column_endTime_cell %}
+#}
+
+{% block grid_column_type_filter %}
+{{ column.id }}
+{% endblock grid_column_type_filter %}
+  
+{# -------------------------------------------- grid_column_filter_type_massaction --------------------------------------- #}
+{% block grid_column_filter_type_massaction %}
+   <!-- <input type="button" class="grid-search-reset" value="R" title="{{ 'Reset'|trans }}" onclick="return {{ grid.hash }}_reset();"/>-->
+     <input type="button" class="btn btn-small btn-primary" value="Reset" title="{{ 'Reset'|trans }}" onclick="return {{ grid.hash }}_reset();"/>
+{% endblock grid_column_filter_type_massaction %}
+{# -------------------------------------------- grid_column_filter_type_massaction_filter --------------------------------------- #}
+{% block grid_column_filter_type_actions %}
+    <a class="btn btn-small btn-primary" href="{{ grid_url('reset', grid) }}">{{ 'Reset Actions'|trans }}</a>
+{% endblock grid_column_filter_type_actions %}

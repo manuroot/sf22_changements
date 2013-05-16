@@ -1,0 +1,107 @@
+{% extends "ApplicationRelationsBundle::layout.html.twig" %}
+
+  {% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
+
+ {% endblock %}
+
+{% block content_header '' %}
+{% block title %}DETAILS PROJET: {{ entity.nomprojet }}{% endblock %}
+
+{% block content %}
+
+<br><br>
+
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr class="title"><th>Id</th><th>Nom</th><th>Description</th></tr>
+  </thead>
+        <tr>
+            <td>{{ entity.id }}</td>
+            <td>{{ entity.nomprojet }}</td>
+            <td>{{ entity.description }}</td>
+    </tr>  
+    <tr>
+<td colspan="3">
+    <!--
+<form action="{{ path('projets_delete', { 'id': entity.id }) }}" method="post"  {{ form_enctype(delete_form) }}>
+        {{ form_errors(delete_form) }}
+           {{ form_row(delete_form.id) }}
+           {{ form_rest(delete_form) }}
+    <button type="submit" class="btn btn-large btn-danger">Supprimer Projet</button>
+</form>
+-->
+  {% if is_granted("ROLE_ADMIN") %}
+
+    <a href="{{ path('projets_edit', { 'id': entity.id }) }}"  class="btn btn-large btn-warning">Edit</a>
+   
+{%endif %}
+ <a href="{{ path('projets') }}" class="btn btn-large btn-success">Retour</a>
+</td>
+</tr>
+        </tbody>
+</table>
+
+<h3><center>Liste des Applications associées</center></h3>
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr class="title"><th>Nom</th><th>Description</th></tr>
+  </thead>
+        {% for appli in applis %}
+        <tr>
+            <td>{{ appli.nomapplis }}</td>
+            <td>{{ appli.description }}</td>
+        </tr>
+
+       {% endfor %}
+        </tbody>
+</table>
+
+
+<h3><center>Liste des Changements</center></h3>
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr class="title"><th>Nom</th><th>Date Début</th></tr>
+  </thead>
+        {% for changement in changements %}
+        <tr> <td>{{ changement.nom }}</td>
+            <td>{{ changement.dateDebut|date('Y-m-d H') ~ 'h' }} </td>
+        </tr>
+
+       {% endfor %}
+        </tbody>
+</table>
+
+
+<h3><center>Liste des Fichiers associés</center></h3>
+                    <table class="table table-striped  table-bordered table-hover">
+                        <thead>
+                            <tr class="title"><th>id</th><th>Nom</th><th>Path</th></tr>
+                        </thead>
+               {% for fic in entity.picture %}
+                        <tr> 
+                            <td>{{ fic.id }}</td>
+                            <td>{{ fic.name }}</td>
+                                 <td>{{ fic.path }}</td>
+                        </tr>
+       {% endfor %}
+                        </tbody>
+                    </table>
+
+<h3><center>Liste des Certificats de ce projet</center></h3>
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr class="title"><th>Nom</th></tr>
+  </thead>
+        {% for certificat in certificats %}
+        <tr> <td>{{ certificat.fileName }}</td>
+        </tr>
+
+       {% endfor %}
+        </tbody>
+</table>
+
+
+
+{% endblock %}

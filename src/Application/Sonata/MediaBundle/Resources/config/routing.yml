@@ -1,0 +1,4 @@
+application_sonata_media_usermedia:
+    resource: "@ApplicationSonataMediaBundle/Resources/config/routing/media.yml"
+    prefix:   /usermedia
+

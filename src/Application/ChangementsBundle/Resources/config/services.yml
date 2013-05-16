@@ -1,0 +1,22 @@
+services:
+  
+   application.form.new.changement:
+        class: Application\ChangementsBundle\Form\ChangementsStepsType
+        tags:
+            - { name: form.type, alias: changements }
+
+   application.form.flow.new.changement:
+      class: Application\ChangementsBundle\Form\ChangementsFlow
+      parent: craue.form.flow
+      scope: request 
+      calls:
+            - [ setFormType, [ @application.form.new.changement ] ]
+        
+   booking_repository:
+        class:           Application\ChangementsBundle\Entity\ChangementsRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method:  getRepository
+        arguments:       ['ApplicationChangementsBundle:Changements']
+        tags:
+            - { name: calendr.event_provider }
+            

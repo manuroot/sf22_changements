@@ -1,0 +1,579 @@
+<?php
+
+
+namespace Application\CertificatsBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
+/**
+ * Changements
+ *
+ * @ORM\Table(name="changements")
+ * @ORM\HasLifecycleCallbacks
+ * @ORM\Entity(repositoryClass="Application\CertificatsBundle\Entity\ChangementsRepository")
+ * @Vich\Uploadable
+ */
+
+class Changements
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=50, nullable=false)
+     /**
+     * @Assert\MinLength(5)
+     * @Assert\MaxLength(25)
+     */
+  
+    private $nom;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_debut", type="datetime", nullable=false)
+     */
+    private $dateDebut;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_fin", type="datetime", nullable=false)
+     */
+    private $dateFin;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_comep", type="datetime", nullable=true)
+     */
+    private $dateComep;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_vsr", type="date", nullable=true)
+     */
+    private $dateVsr;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=false)
+     */
+    private $description;
+
+     
+    /**
+     * @var \CertificatsProjet
+     *
+     * @ORM\ManyToOne(targetEntity="CertificatsProjet")
+     * @ORM\OrderBy({"nomprojet" = "ASC"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_projet", referencedColumnName="id",nullable=false)
+     * })
+    */
+     private $idProjet;
+   
+     
+          /**
+     * @ORM\ManyToMany(targetEntity="Docchangements", inversedBy="idchangement",cascade={"persist"})
+     * @ORM\JoinTable(name="changements_documents")
+     */
+     protected $picture;
+   
+    
+    
+     /**
+     * @ORM\ManyToMany(targetEntity="Environnements", inversedBy="idchangements",cascade={"persist"})
+     * @ORM\OrderBy({"nom" = "ASC"})
+     * @ORM\JoinTable(name="changements_environnements")
+     */
+    private $idEnvironnement;
+    
+     
+     /**
+     *  @ORM\ManyToMany(targetEntity="CertificatsApplis", inversedBy="idprojets",cascade={"persist"})
+     * @ORM\OrderBy({"nomapplis" = "ASC"})
+     * @ORM\JoinTable(name="changements_applis")
+     */
+    private $idapplis;
+ 
+    /**
+     * @ORM\ManyToMany(targetEntity="ChronoUser", inversedBy="idchangement",cascade={"persist"})
+     * @ORM\OrderBy({"nomUser" = "ASC"})
+     * @ORM\JoinTable(name="changements_users")
+     */
+    private $idusers;
+   
+    
+     /**
+     * @var \ChronoUser
+     *
+     * @ORM\ManyToOne(targetEntity="ChronoUser")
+     * @ORM\OrderBy({"nomUser" = "ASC"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="demandeur", referencedColumnName="id")
+     * })
+    */
+    private $demandeur;
+
+    /**
+     * @var \ChangementStatus
+     *
+     * @ORM\ManyToOne(targetEntity="ChangementsStatus")
+     * @ORM\OrderBy({"nom" = "ASC"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_status", referencedColumnName="id",nullable=false)
+     * })
+    */
+    private $idStatus;
+   
+  /*//**
+ //* @Assert\File(
+ *     maxSize="1M",
+ *     mimeTypes={"image/png", "image/jpeg", "image/pjpeg"}
+ * )
+ * @Vich\UploadableField(mapping="user_avatar", fileNameProperty="avatar")
+ * @ORM\Column(type="string", length=255)
+ *
+ * @var File $avatar
+ */
+//protected $avatar;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     * @return Changements
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+    
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string 
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * Set dateDebut
+     *
+     * @param \DateTime $dateDebut
+     * @return Changements
+     */
+    public function setDateDebut($dateDebut)
+    {
+        $this->dateDebut = $dateDebut;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateDebut
+     *
+     * @return \DateTime 
+     */
+    public function getDateDebut()
+    {
+        return $this->dateDebut;
+    }
+
+    /**
+     * Set dateFin
+     *
+     * @param \DateTime $dateFin
+     * @return Changements
+     */
+    public function setDateFin($dateFin)
+    {
+        $this->dateFin = $dateFin;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateFin
+     *
+     * @return \DateTime 
+     */
+    public function getDateFin()
+    {
+        return $this->dateFin;
+    }
+
+    /**
+     * Set dateComep
+     *
+     * @param \DateTime $dateComep
+     * @return Changements
+     */
+    public function setDateComep($dateComep)
+    {
+        $this->dateComep = $dateComep;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateComep
+     *
+     * @return \DateTime 
+     */
+    public function getDateComep()
+    {
+        return $this->dateComep;
+    }
+
+    /**
+     * Set dateVsr
+     *
+     * @param \DateTime $dateVsr
+     * @return Changements
+     */
+    public function setDateVsr($dateVsr)
+    {
+        $this->dateVsr = $dateVsr;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateVsr
+     *
+     * @return \DateTime 
+     */
+    public function getDateVsr()
+    {
+        return $this->dateVsr;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Changements
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+   
+  
+   
+
+  
+     /**
+     * Set demandeur
+     *
+     * @param \Application\CertificatsBundle\Entity\ChronoUser $demandeur
+     * @return Changements
+     */
+    public function setDemandeur(\Application\CertificatsBundle\Entity\ChronoUser $demandeur = null)
+    {
+        $this->demandeur = $demandeur;
+    
+        return $this;
+    }
+
+    /**
+     * Get idProject
+     *
+     * @return \Application\CertificatsBundle\Entity\ChronoUser 
+     */
+    public function getDemandeur()
+    {
+        return $this->demandeur;
+    }
+
+    /**
+     * Set idProject
+     *
+     * @param \Application\CertificatsBundle\Entity\CertificatsProjet $idProjet
+     * @return Changements
+     */
+    public function setIdProjet(\Application\CertificatsBundle\Entity\CertificatsProjet $idProjet = null)
+    {
+        $this->idProjet = $idProjet;
+    
+        return $this;
+    }
+
+    /**
+     * Get idProject
+     *
+     * @return \Application\CertificatsBundle\Entity\CertificatsProjet 
+     */
+    public function getIdProjet()
+    {
+        return $this->idProjet;
+    }
+    
+     /**
+     * Set idProject
+     *
+     * @param \Application\CertificatsBundle\Entity\ChangementsStatut $idStatus
+     * @return Changements
+     */
+    public function setIdStatus(\Application\CertificatsBundle\Entity\ChangementsStatus $idStatus = null)
+    {
+        $this->idStatus = $idStatus;
+    
+        return $this;
+    }
+
+    /**
+     * Get idProject
+     *
+     * @return \Application\CertificatsBundle\Entity\ChangementsStatus 
+     */
+    public function getIdStatus()
+    {
+        return $this->idStatus;
+    }
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        // ????????
+        $this->idusers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->idapplis = new \Doctrine\Common\Collections\ArrayCollection();
+          $this->picture = new \Doctrine\Common\Collections\ArrayCollection();
+      //  $this->idEnvironnement = new \Doctrine\Common\Collections\ArrayCollection();
+     //   $this->idapplis = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add idusers
+     *
+     * @param \Application\CertificatsBundle\Entity\ChronoUser $idusers
+     * @return Changements
+     */
+    public function addIduser(\Application\CertificatsBundle\Entity\ChronoUser $idusers)
+    {
+        $this->idusers[] = $idusers;
+    
+        return $this;
+    }
+
+    /**
+     * Remove idusers
+     *
+     * @param \Application\CertificatsBundle\Entity\ChronoUser $idusers
+     */
+    public function removeIduser(\Application\CertificatsBundle\Entity\ChronoUser $idusers)
+    {
+        $this->idusers->removeElement($idusers);
+    }
+
+    /**
+     * Get idusers
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getIdusers()
+    {
+        return $this->idusers;
+    }
+     public function __toString() {
+        return $this->getNom();    // this will not look good if SonataAdminBundle uses this ;)
+    }
+
+    /**
+     * Add idapplis
+     *
+     * @param \Application\CertificatsBundle\Entity\CertificatsApplis $idapplis
+     * @return Changements
+     */
+    public function addIdappli(\Application\CertificatsBundle\Entity\CertificatsApplis $idapplis)
+    {
+        $this->idapplis[] = $idapplis;
+    
+        return $this;
+    }
+
+    /**
+     * Remove idapplis
+     *
+     * @param \Application\CertificatsBundle\Entity\CertificatsApplis $idapplis
+     */
+    public function removeIdappli(\Application\CertificatsBundle\Entity\CertificatsApplis $idapplis)
+    {
+        $this->idapplis->removeElement($idapplis);
+    }
+
+    /**
+     * Get idapplis
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getIdapplis()
+    {
+        return $this->idapplis;
+    }
+    
+    /**
+     * Set fic
+     *
+     * @param string $fic
+     */
+    public function setFic($fic)
+    {
+        $this->fic = $fic;
+    }
+ 
+    
+
+    /**
+     * Add idEnvironnement
+     *
+     * @param \Application\CertificatsBundle\Entity\Environnements $idEnvironnement
+     * @return Changements
+     */
+    public function addIdEnvironnement(\Application\CertificatsBundle\Entity\Environnements $idEnvironnement)
+    {
+        $this->idEnvironnement[] = $idEnvironnement;
+    
+        return $this;
+    }
+
+    /**
+     * Remove idEnvironnement
+     *
+     * @param \Application\CertificatsBundle\Entity\Environnements $idEnvironnement
+     */
+    public function removeIdEnvironnement(\Application\CertificatsBundle\Entity\Environnements $idEnvironnement)
+    {
+        $this->idEnvironnement->removeElement($idEnvironnement);
+    }
+
+    /**
+     * Get idEnvironnement
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getIdEnvironnement()
+    {
+        return $this->idEnvironnement;
+    }
+
+    
+   
+    
+
+    /**
+     * Set picture
+     *
+     * @param \Application\CertificatsBundle\Entity\Document $picture
+     * @return Changements
+     */
+    public function setPicture(\Application\CertificatsBundle\Entity\Document $picture = null)
+    {
+        $this->picture = $picture;
+    
+        return $this;
+    }
+
+    /**
+     * Get picture
+     *
+     * @return \Application\CertificatsBundle\Entity\Document 
+     */
+    public function getPicture()
+    {
+        return $this->picture;
+    }
+
+   
+    /**
+     * Set avatar
+     *
+     * @param string $avatar
+     * @return Changements
+     */
+   /* public function setAvatar($avatar)
+    {
+        $this->avatar = $avatar;
+    
+        return $this;
+    }*/
+
+    /**
+     * Get avatar
+     *
+     * @return string 
+     */
+   /* public function getAvatar()
+    {
+        return $this->avatar;
+    }*/
+
+    /**
+     * Add picture
+     *
+     * @param \Application\CertificatsBundle\Entity\Document $picture
+     * @return Changements
+     */
+    public function addPicture(\Application\CertificatsBundle\Entity\Document $picture)
+    {
+        $this->picture[] = $picture;
+    
+        return $this;
+    }
+
+    /**
+     * Remove picture
+     *
+     * @param \Application\CertificatsBundle\Entity\Document $picture
+     */
+    public function removePicture(\Application\CertificatsBundle\Entity\Document $picture)
+    {
+        $this->picture->removeElement($picture);
+    }
+
+   
+}

@@ -1,0 +1,7 @@
+{% if admin.hasRoute('show') %}
+    <a href="{{ admin.generateObjectUrl('show', object) }}" class="btn view_link" title="{{ 'action_show'|trans({}, 'SonataAdminBundle') }}">
+                 <img src="{{ asset('bundles/applicationmynotes/images/detail.png') }}" alt="notes_show" width="15" height="15" />
+    </a>
+{% endif %}
+
+     

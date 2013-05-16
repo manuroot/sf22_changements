@@ -1,0 +1,21 @@
+{% extends "ApplicationCertificatsBundle::layout.html.twig" %}
+
+  {% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/whiteoctoberpagerfanta/css/pagerfantaDefault.css') }}" type="text/css" media="all" />
+<link rel="stylesheet" href="{{ asset('bundles/applicationmynotes/css/datagrid.css') }}" type="text/css" media="all" /> 
+<link rel="stylesheet" href="{{ asset('bundles/whiteoctoberpagerfanta/css/pagerfantaDefault.css') }}" type="text/css" media="all" />
+
+{% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+<!--{{ grid_search(grid) }}-->
+{{ grid(grid) }}
+  
+<a href="{{ path('certificatscenter') }}"><i class="icon-camera"></i> {{ 'Liste Certificats'|trans }}</a>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

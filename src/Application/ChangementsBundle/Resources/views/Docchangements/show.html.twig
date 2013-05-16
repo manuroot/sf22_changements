@@ -1,0 +1,49 @@
+{% extends "ApplicationChangementsBundle::layout.html.twig" %}
+
+  {% block stylesheets %}
+{{ parent() }}
+      <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/sliding.css') }}" type="text/css" media="all"/>
+     
+ {% endblock %}
+
+{% block content_header '' %}
+{% block title %}DETAILS FICHIER:  {{ entity.id }} {% endblock %}
+{% block content %}
+      
+     <br><br>
+      
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+  
+        <tr class="title"><th>Id</th><th>Nom</th><th>Path</th><th>Path</th></tr>
+      <tr>
+            <td>{{ entity.id }}</td>
+            <td>{{ entity.name }}</td>
+              <td>{{ entity.path }}</td>
+                 <td>{{ entity.updatedAt|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        
+         
+            <tr>  <td colspan="3"> 
+     
+      
+          <form action="{{ path('docchangements_delete', { 'id': entity.id }) }}" method="post">
+        {{ form_errors(delete_form) }}
+           {{ form_row(delete_form.id) }}
+           {{ form_rest(delete_form) }}
+     <a href="{{ path('docchangements_edit', { 'id': entity.id }) }}"  class="btn btn-large btn-warning">Edit</a>
+           <a href="{{ path('docchangements') }}" class="btn btn-large btn-success">Retour</a>
+      
+           <button type="submit" class="btn btn-small btn-danger">Supprimer Fichier</button>
+   </form> 
+      
+             </td>
+             </tr>
+    </tbody>
+</table>
+    
+
+    
+     
+{% endblock %}
+      

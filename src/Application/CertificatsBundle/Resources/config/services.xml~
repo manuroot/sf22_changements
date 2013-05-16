@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+<services>
+        <!-- other services -->
+        <service id="application.certificats.admin.certificatsprojet" class="Application\CertificatsProjetBundle\Admin\CertificatsProjetAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="CertificatsProjet admin" label="CertificatsProjet" />
+            <argument />
+            <argument>Application\CertificatsBundle\Entity\CertificatsProjet</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+          <!--  <argument>CertificatsBundle::CertificatsProjet::editCRUD</argument>-->
+            <argument type="service" id="service_container" />
+        </service>
+       <service id="vvapplication.certificats.admin.certificatsfiletype" class="Application\CertificatsProjetBundle\Admin\CertificatsFiletypeAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="CertificatsFiletype admin" label="CertificatsFiletype" />
+            <argument />
+            <argument>Application\CertificatsBundle\Entity\CertificatsFiletype</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+             <argument type="service" id="service_container" />
+        </service>
+ 		<service id="grid.column.extended.text.column" class="Application\CertificatsBundle\Grid\Column\ExtendedTextColumn" public="false">
+            <tag name="grid.column.extension" />
+        </service>
+    </services>
+</container>

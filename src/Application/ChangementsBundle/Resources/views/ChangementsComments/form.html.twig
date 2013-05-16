@@ -1,0 +1,29 @@
+{# src/Blogger/BlogBundle/Resources/public/views/Comment/form.html.twig #}
+
+{% if validation == 1 %}
+<form action="{{ path('changement_comment_create', { 'changement_id' : comment.changement.id } ) }}" method="post" {{ form_enctype(form) }} class="blogger">
+        <table class="table table-bordered">
+        <tbody>         <tr><td>
+                    <div>
+                  {#{{ form_row(form.user) }}#}
+                          {{ form_row(form.comment) }}
+{{ form_rest(form) }}
+                        </div> 
+                    </td>
+
+
+                </tr>
+                <tr><td>
+                         <button type="submit" class="btn btn-small btn-warning">Ajouter</button>
+                    </td></tr></tbody>
+        </table>
+
+   
+       
+    </form>          
+</td></tr>
+</tbody>
+{% else %}
+<h3>Vous devez etre connecté pour ajouter des messages</h3>
+{% endif %}
+

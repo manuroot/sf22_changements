@@ -1,0 +1,42 @@
+egroup_groupes:
+    pattern:  /
+    defaults: { _controller: "ApplicationRelationsBundle:EserviceGroup:index" }
+
+egroup_quitter:
+    pattern:  /quittergroupe
+    defaults: { _controller: "ApplicationRelationsBundle:EserviceGroup:quittergroupe" }
+
+
+
+egroup_groupes_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationRelationsBundle:EserviceGroup:show" }
+
+egroup_groupes_showmygroup:
+    pattern:  /showmygroup
+    defaults: { _controller: "ApplicationRelationsBundle:EserviceGroup:showmygroup" }
+
+
+
+egroup_groupes_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationRelationsBundle:EserviceGroup:new" }
+
+egroup_groupes_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationRelationsBundle:EserviceGroup:create" }
+    requirements: { _method: post }
+
+egroup_groupes_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationRelationsBundle:EserviceGroup:edit" }
+
+egroup_groupes_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationRelationsBundle:EserviceGroup:update" }
+    requirements: { _method: post|put }
+
+egroup_groupes_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationRelationsBundle:EserviceGroup:delete" }
+    requirements: { _method: post|delete }

@@ -1,0 +1,235 @@
+{% extends "ApplicationCertificatsBundle::layout.html.twig" %}
+
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+          
+$(document).ready(function() {
+//$(function() {
+  $( "#application_certificatsbundle_certificatscentertype_endTime" ).datepicker({
+maxDate: "+3M +10D",
+changeMonth: true,
+changeYeat: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});
+    $( "#application_certificatsbundle_certificatscentertype_addedDate" ).datepicker({
+maxDate: "+3M +10D",
+changeMonth: true,
+changeYeat: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});
+  $( "#application_certificatsbundle_certificatscentertype_startDate" ).datepicker({
+maxDate: "+3M +10D",
+changeMonth: true,
+changeYeat: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});
+
+$('#form_company').change(function() {
+            var companyId = $(this).val();
+            $.post('jkl' + companyId + '/show', function(data) {
+                // last selected employee
+                var selectedVal = $('option:selected', '#form_employee').attr('value');
+
+                $('#form_employee option').remove();
+                for (i in data) {
+                    // create option with employee
+                    var option = $('<option></option>').
+                        attr('value', data[i][0]).
+                        text(data[i][1]);
+                    // set selected employee
+                    if (data[i][0] == selectedVal) {
+                        option.attr('selected', 'selected');
+                    }
+                    // append to employee to employees select
+                    $('#form_employee').append(option);
+                }
+            }, 'json');
+        })
+
+        // request employees by company
+        $('#form_company').change();
+
+
+
+});
+
+function remplirSelect (dataAjax) {
+   $.ajax({
+        url: '{{ path('certificatscenter_listbyprojet')}}', 
+        type: "POST", 
+        data : dataAjax, 
+        dataType: "json", 
+        success: function(reponse){
+            // Sur Succès de la réponse AJAX
+            var optionData = reponse;
+          //  var selectedVal = [];
+          //  var selectedVal = $('option:selected', '#moncert_idapplis').attr('value');
+            
+       // first get the elements into a list
+var domelts = $('#moncert_idapplis option:selected');
+// next translate that into an array of just the values
+var selectedVal = $.map(domelts, function(elt, i) { return $(elt).val();});
+
+    
+/*
+$('#moncert_idapplis :selected').each(function(i, selected){ 
+
+  selectedVal[i] = $(selected).value(); 
+
+});
+*/
+          /*  $("#moncert_idapplis selected").each(function() {
+    selectedVal.push($(this).value);
+});*/
+/*
+$('div.roleoption').find('select').each(function() {
+    selectValues.push($(this).val());
+}*/
+            console.log("selected=" + selectedVal);
+            
+             for (key in selectedVal) {
+          console.log("selected=" + key);
+                }
+                
+            // Suppression des éléments de mes listes déroulantes
+            $("#moncert_idapplis> option").remove();
+            i = 0;  
+            // console.log("defapp=" + optionData['def_application']);
+            var selected_appli='';
+             for (key in optionData['applis']) {
+                //      console.log("defapp=" + optionData['def_application']);
+                // console.log("key=" + key);
+                if (key==selectedVal){
+                    selected_appli='selected="selected"'; 
+                }
+                
+                //console.log("key=def=" + key);
+                // on remplit les applis en f() de projet
+                $("#moncert_idapplis").append(  '<option label="' 
+                    + optionData['applis'][key]
+                    + '"' + 'value="' + key  + '"' + selected_appli + '>'
+                    + optionData['applis'][key]
+                    + '</option>');
+                i++;
+                selected_appli='';
+            }
+    } //Eof:: success
+});  //Eof:: ajax 
+ 
+} //Eof:: fucntion remplirSelect
+ 
+//Sur fin du chargement du document
+// on charge la bonne liste
+$(document).ready( function() {
+//Vid_cert = $("input#id").val();
+Vid_projet = $("select#moncert_project").val();
+var dataAjax = {
+    id_projet:Vid_projet
+};
+remplirSelect (dataAjax);
+      
+          
+// Sur changement de l'un des 'select'
+// on recharge la bonne liste
+$("select#moncert_project").change(function(){
+    Vid_projet = $("select#moncert_project").val();
+    var dataAjax = {
+        id_projet:Vid_projet
+    };
+            
+    remplirSelect (dataAjax);
+ 
+}); //Eof:: sur changement de l'un des 'select'
+
+ 
+
+}); //Eof:: ready
+    </script>
+
+{% endblock %}
+
+
+
+{% block content_header '' %}
+{% block title %}
+ {{ parent() }} EDITION
+{% endblock %}
+
+{% block content %}
+
+
+{#{ 'idty='~ idty }#}
+
+    <form action="{{ path('certificatscenter_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+
+
+        <table class="table table-bordered">
+            <tbody>
+                <tr><td>
+                        <div>
+    {{ form_errors(edit_form.fileName) }}
+    {{ form_label(edit_form.fileName, 'Nom du Fichier'|trans) }}
+    {{ form_widget(edit_form.fileName) }}
+                            </div>
+                            <div>
+    {{ form_errors(edit_form.cnName) }}
+    {{ form_label(edit_form.cnName, 'CN du certificat'|trans) }}
+    {{ form_widget(edit_form.cnName) }}
+                                </div>
+    {{ form_errors(edit_form.serviceName) }}
+    {{ form_label(edit_form.serviceName, 'Service'|trans) }}
+    {{ form_widget(edit_form.serviceName) }}
+              {{ form_errors(edit_form.serverName) }}
+    {{ form_label(edit_form.serverName, 'Serveur'|trans) }}
+    {{ form_widget(edit_form.serverName) }}
+
+
+             {{ form_errors(edit_form.port) }}
+    {{ form_label(edit_form.port, 'Port'|trans) }}
+    {{ form_widget(edit_form.port) }}
+
+    {{ form_errors(edit_form.way) }}
+    {{ form_label(edit_form.way, 'Way'|trans) }}
+    {{ form_widget(edit_form.way) }}
+
+  {{ form_errors(edit_form.statusFile) }}
+    {{ form_widget(edit_form.statusFile) }}
+
+
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+ {{ form_rest(edit_form) }}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr><td colspan="2">
+                                    <p>
+                                        <button type="submit" class="btn btn-small btn-warning">Modifier</button>
+                                        <a href="{{ path(btnretour) }}" class="btn btn-small btn-success">Retour</a>
+                                    </p>
+                                </td></tr>
+                        </tbody>
+                    </table>
+ {#{ form_widget(edit_form) }#}
+
+                </form>
+
+
+
+{% endblock %}

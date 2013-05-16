@@ -1,0 +1,30 @@
+tag:
+    pattern:  /
+    defaults: { _controller: "ApplicationCertificatsBundle:Tag:index" }
+
+tag_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationCertificatsBundle:Tag:show" }
+
+tag_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationCertificatsBundle:Tag:new" }
+
+tag_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationCertificatsBundle:Tag:create" }
+    requirements: { _method: post }
+
+tag_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationCertificatsBundle:Tag:edit" }
+
+tag_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationCertificatsBundle:Tag:update" }
+    requirements: { _method: post }
+
+tag_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationCertificatsBundle:Tag:delete" }
+    requirements: { _method: post }

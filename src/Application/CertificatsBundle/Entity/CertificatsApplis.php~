@@ -1,0 +1,107 @@
+<?php
+
+namespace Application\CertificatsBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CertificatsProjet
+ *
+ * @ORM\Table(name="certificats_applis")
+ * @ORM\Entity
+ */
+class CertificatsApplis
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nomapplis", type="string", length=40, nullable=false)
+     */
+    private $nomapplis;
+
+    /**
+    * @ORM\ManyToMany(targetEntity="CertificatsProjet", mappedBy="idapplis")
+    */
+    private $idprojets;
+
+public function __construct() {
+    $this->idprojets = new \Doctrine\Common\Collections\ArrayCollection();
+}
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nomProjet
+     *
+     * @param string $nomProjet
+     * @return CertificatsProjet
+     */
+    public function setNomapplis($nomapplis)
+    {
+        $this->nomapplis = $nomapplis;
+    
+        return $this;
+    }
+
+   
+
+    /**
+     * Get nomapplis
+     *
+     * @return string 
+     */
+    public function getNomapplis()
+    {
+        return $this->nomapplis;
+    }
+
+    /**
+     * Add idprojets
+     *
+     * @param \Application\CertificatsBundle\Entity\CertificatsProjet $idprojets
+     * @return CertificatsApplis
+     */
+    public function addIdprojet(\Application\CertificatsBundle\Entity\CertificatsProjet $idprojets)
+    {
+        $this->idprojets[] = $idprojets;
+    
+        return $this;
+    }
+
+    /**
+     * Remove idprojets
+     *
+     * @param \Application\CertificatsBundle\Entity\CertificatsProjet $idprojets
+     */
+    public function removeIdprojet(\Application\CertificatsBundle\Entity\CertificatsProjet $idprojets)
+    {
+        $this->idprojets->removeElement($idprojets);
+    }
+
+    /**
+     * Get idprojets
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getIdprojets()
+    {
+        return $this->idprojets;
+    }
+}

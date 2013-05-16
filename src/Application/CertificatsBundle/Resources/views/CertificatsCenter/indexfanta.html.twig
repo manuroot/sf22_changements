@@ -1,0 +1,93 @@
+{% extends "ApplicationCertificatsBundle::layout.html.twig" %}
+
+  {% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+
+
+<a href="{{ path('certificatscenter_new') }}" class="btn btn-small btn-warning">Ajouter Certificat</a>
+<br> <br>  
+
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th class="custth">Id</th>
+            <th>Filename</th>
+            <th>Project</th>
+            <th>Typecert</th>
+            <th>Cnname</th>
+           <!-- <th>Startdate</th>-->
+            <th>Endtime</th>
+      <!--      <th>Addeddate</th>-->
+            <th>Servername</th>
+            <th>Port</th>
+            <th>Servicename</th>
+         <!--   <th>W</th>-->
+         <!--   <th>St</th>-->
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+     {% for entity in  pagerfanta.currentPageResults %}
+  
+             {% if date(entity.endTime) < date('-30days') %}
+              <tr class="error">
+              {% else %}
+              <tr>
+             {% endif %}   
+            <td> {{entity.id }}</td>
+            <td>{{ entity.fileName }}</td>
+               <td>{{ entity.project.nomprojet }}</td>
+           <td>{{ entity.typeCert.FileType }}</td>
+            
+        
+            <td>{{ entity.cnName }}</td>
+           <!-- <td>{% if entity.startDate %}
+                    {{ entity.startDate|date('Y-m-d') }}{% endif %}</td>-->
+                    
+                    
+            {% if entity.endTime %}
+
+              
+           <td>    {{ entity.endTime|date('Y-m-d') }}</td>
+           
+{% endif %}
+       <!--    <td>{#% if entity.addedDate %}{{ entity.addedDate|date('Y-m-d') }}{% endif %#}</td>-->
+            <td>{{ entity.serverName }}</td>
+            <td>{{ entity.port }}</td>
+            <td>{{ entity.serviceName }}</td>
+           <!-- <td>{{ entity.way }}</td>-->
+           <!-- <td>{{ entity.statusFile }}</td>-->
+                 <td>
+                    <a href="{{ path('certificatscenter_show', { 'id': entity.id }) }}">
+                        <img src="{{ asset('bundles/applicationmynotes/images/detail.png') }}" alt="notes_show" width="15" height="15" />
+                    </a>
+                </td>
+                <td>
+
+
+                    <a href="{{ path('certificatscenter_edit', { 'id': entity.id }) }}">
+                        <img src="{{ asset('bundles/applicationmynotes/images/edit.png') }}" alt="notes_edit" width="15" height="15" />
+                    </a>
+                </td>
+                <td>
+
+
+                    <a href="{{ path('certificatscenter_delete', { 'id': entity.id }) }}">
+                        <img src="{{ asset('bundles/applicationmynotes/images/delete.png') }}" alt="notes_delete" width="15" height="15" />
+                    </a>
+                </td>
+                
+          
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="pagerfanta">{{ pagerfanta(pagerfanta,'default', pagerfanta_opts) }}    </div>
+
+{% endblock %}

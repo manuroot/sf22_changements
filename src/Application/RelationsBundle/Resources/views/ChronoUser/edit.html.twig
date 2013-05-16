@@ -1,0 +1,65 @@
+{% extends "ApplicationRelationsBundle::layout.html.twig" %}
+
+  {% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
+
+ {% endblock %}
+
+{% block content_header '' %}
+{% block title %}EDITION UTILISATEUR{% endblock %}
+{% block content %}
+
+
+<form action="{{ path('chronouser_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+
+    <table class="table table-bordered">
+            <tbody>
+
+    <tr><td>
+                        <div>
+                            
+    {{ form_row(edit_form.nomUser) }}
+    {{ form_row(edit_form.idgroup) }}
+    {{ form_row(edit_form.infos) }}
+  
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+ {{ form_rest(edit_form) }}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr><td colspan="2">
+                                    <p>
+                                        <button type="submit" class="btn btn-small btn-warning">Modifier</button>
+                                        </form>
+       
+                                        <a href="{{  path('chronouser') }}" class="btn btn-small btn-success">Retour</a>
+                                    </p>
+                                    
+                                     <form action="{{ path('chronouser_delete', { 'id': entity.id }) }}" method="post">
+  {{ form_rest(delete_form) }}
+            <div style="text-align:right">
+                <button type="submit"  class="btn btn-small btn-danger" onclick="if(!confirm('Are you sure?')) { return false; }">Supprimer User</button>
+
+            </div>
+                                             </form>
+                                    
+                             
+                                </td></tr>
+                       
+                        </tbody>
+                    </table>
+             
+ {#{ form_widget(edit_form) }#}
+
+               
+
+
+
+        
+  
+
+{% endblock %}

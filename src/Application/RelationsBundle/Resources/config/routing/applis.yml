@@ -1,0 +1,30 @@
+applications:
+    pattern:  /
+    defaults: { _controller: "ApplicationRelationsBundle:Applis:index" }
+
+applications_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationRelationsBundle:Applis:show" }
+
+applications_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationRelationsBundle:Applis:new" }
+
+applications_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationRelationsBundle:Applis:create" }
+    requirements: { _method: post }
+
+#applications_edit:
+#    pattern:  /{id}/edit
+#    defaults: { _controller: "ApplicationRelationsBundle:Applis:edit" }
+
+applications_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationRelationsBundle:Applis:update" }
+ #   requirements: { _method: post }
+
+applications_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationRelationsBundle:Applis:delete" }
+   # requirements: { _method: post }

@@ -1,0 +1,43 @@
+{% extends "ApplicationChangementsBundle::layout.html.twig" %}
+
+  {% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/sliding.css') }}" type="text/css" media="all"/>
+
+ {% endblock %}
+
+
+{% block content_header '' %}
+{% block title %}AJOUTER FICHIER{% endblock %}
+{% block content %}
+
+<form action="{{ path('docchangements_create') }}" method="post" {{ form_enctype(form) }}>
+
+    <table class="table table-bordered">
+            <tbody>
+
+                <tr><td>
+                        
+                       
+                    <h1>Docchangements creation</h1>
+
+<form action="{{ path('docchangements_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+   
+                                </td>
+                            </tr>
+                    
+                    
+                     <tr><td colspan="2">
+                                    <p>
+                                        <button type="submit" class="btn btn-medium btn-warning">Ajouter</button>
+                                        </form>
+       
+                                        <a href="{{  path('docchangements') }}" class="btn btn-medium btn-primary">Retour</a>
+                                    </p>
+                                    
+                                    
+                                </td></tr>
+
+</table>
+ {% endblock %}

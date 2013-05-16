@@ -1,0 +1,51 @@
+changements:
+    pattern:  /
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:index" }
+
+changements_calendar:
+    pattern:  /calendar
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:calendar" }
+
+changements_apy:
+    pattern:  /indexapy
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:indexapy" }
+    
+changements_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:show" }
+
+changements_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:new" }
+
+changements_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:create" }
+    requirements: { _method: post }
+
+changements_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:edit" }
+
+changements_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:update" }
+    requirements: { _method: post }
+
+changements_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:delete" }
+    requirements: { _method: post }
+changements_upload:
+    pattern:  /upload
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:upload" }
+   
+changements_newflow:
+    pattern:  /newflow
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:newflow" }
+    
+download_route:
+    pattern:  /download/{filename}
+    defaults: { _controller: ApplicationChangementsBundle:Changements:download }  
+ 
+    

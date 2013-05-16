@@ -1,0 +1,34 @@
+users:
+    pattern:  /
+    defaults: { _controller: "ApplicationSonataUserBundle:User:index" }
+
+users_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationSonataUserBundle:User:show" }
+
+users_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationSonataUserBundle:User:new" }
+
+users_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationSonataUserBundle:User:create" }
+    requirements: { _method: post }
+
+users_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationSonataUserBundle:User:edit" }
+    
+users_ingroup:
+    pattern:  /{id}/useringroup
+    defaults: { _controller: "ApplicationSonataUserBundle:User:usesringroup" }
+    
+users_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationSonataUserBundle:User:update" }
+    requirements: { _method: post|put }
+
+users_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationSonataUserBundle:User:delete" }
+    requirements: { _method: post|delete }

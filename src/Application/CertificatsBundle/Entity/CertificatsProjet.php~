@@ -1,0 +1,177 @@
+<?php
+
+namespace Application\CertificatsBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+
+/**
+ * CertificatsProjet
+ *
+ * @ORM\Table(name="certificats_projet")
+ * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Application\CertificatsBundle\Entity\CertificatsProjetRepository")
+ */
+class CertificatsProjet {
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nomprojet", type="string", length=40, nullable=false)
+     */
+    private $nomprojet;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=200, nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="CertificatsApplis", inversedBy="idprojets",cascade={"persist"})
+     * @ORM\JoinTable(name="projet_applis")
+     */
+    private $idapplis;
+
+      /**
+     * @ORM\ManyToMany(targetEntity="Documentbb", inversedBy="idprojets",cascade={"persist"},orphanRemoval=true)
+     * @ORM\JoinTable(name="projet_documents")
+     */
+    
+    protected $picture;
+
+    
+    
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId() {
+        return $this->id;
+    }
+
+    /**
+     * Set nomProjet
+     *
+     * @param string $nomProjet
+     * @return CertificatsProjet
+     */
+    public function setNomprojet($nomprojet) {
+        $this->nomprojet = $nomprojet;
+
+        return $this;
+    }
+
+    /**
+     * Get nomprojet
+     *
+     * @return string 
+     */
+    public function getNomprojet() {
+        return $this->nomprojet;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return CertificatsProjet
+     */
+    public function setDescription($description) {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription() {
+        return $this->description;
+    }
+
+    public function __construct() {
+        $this->projets = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->picture = new \Doctrine\Common\Collections\ArrayCollection();
+     
+    }
+
+    /**
+     * Add idapplis
+     *
+     * @param \Application\CertificatsBundle\Entity\CertificatsApplis $idapplis
+     * @return CertificatsProjet
+     */
+    public function addIdapplis(\Application\CertificatsBundle\Entity\CertificatsApplis $idapplis) {
+        $this->idapplis[] = $idapplis;
+
+        return $this;
+    }
+
+    /**
+     * Remove idapplis
+     *
+     * @param \Application\CertificatsBundle\Entity\CertificatsApplis $idapplis
+     */
+    public function removeIdapplis(\Application\CertificatsBundle\Entity\CertificatsApplis $idapplis) {
+        $this->idapplis->removeElement($idapplis);
+    }
+
+    /**
+     * Get idapplis
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getIdapplis() {
+        return $this->idapplis;
+    }
+ public function __toString() {
+        return $this->getNomprojet();    // this will not look good if SonataAdminBundle uses this ;)
+    }
+
+    /**
+     * Add picture
+     *
+     * @param \Application\CertificatsBundle\Entity\Document $picture
+     * @return CertificatsProjet
+     */
+    public function addPicture(\Application\CertificatsBundle\Entity\Documentbb $picture)
+    {
+        $this->picture[] = $picture;
+    
+        return $this;
+    }
+
+    /**
+     * Remove picture
+     *
+     * @param \Application\CertificatsBundle\Entity\Document $picture
+     */
+    public function removePicture(\Application\CertificatsBundle\Entity\Documentbb $picture)
+    {
+        $this->picture->removeElement($picture);
+    }
+
+    /**
+     * Get picture
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPicture()
+    {
+        return $this->picture;
+    }
+}

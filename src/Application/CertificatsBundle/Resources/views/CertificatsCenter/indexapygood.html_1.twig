@@ -1,0 +1,116 @@
+{% extends "ApplicationCertificatsBundle::layout.html.twig" %}
+
+  {% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/applicationmynotes/css/datagrid.css') }}" type="text/css" media="all" /> 
+{% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+          
+$(document).ready(function() {
+//$(function() {
+  $( "#grid_certificatsgrid__endTime__query__from" ).datepicker({
+maxDate: "+3M +10D",
+changeMonth: true,
+changeYeat: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});
+  
+});
+</script>
+
+{% endblock %}
+{% block content_header '' %}
+
+{% block title %}
+ {{ parent() }} LISTE
+{% endblock %}
+ 
+{% block content %}
+ 
+ {#{ date('-30days')|date('Y-m-d') }#}
+
+<a href="{{ path('certificatscenter_new') }}" class="btn btn-small btn-warning">Ajouter Certificat</a>
+<br> <br> 
+
+{{ grid(grid, _self) }}
+
+
+<!--{{ grid_search(grid) }}-->
+{#{ grid(grid, 'ApplicationCertificatsBundle::blocks.html.twig') }#} 
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+
+            
+                        
+   {% block grid_column_actions_cell %}  
+<center>
+
+
+     {% for action in column.rowActions %}
+ {% set confirm = action.confirm ? " onclick=\"return confirm('" ~ action.confirmMessage ~ "')\"" : '' %}
+      
+  {% if action.title == 'Edit' %}
+   <a href="{{ url(action.route, column.routeParameters(row, action), true) }}" target="{{ action.target }}">
+   
+ <!--<a href="{{ url('certificatscenter_delete', {'id': value}) }}">-->
+                        <img src="{{ asset('bundles/applicationmynotes/images/edit.png') }}" alt="notes_edit" width="15" height="15" />
+                    </a>
+&nbsp;&nbsp;
+
+     {% else %}   
+{% if is_granted('ROLE_SUPER_ADMIN')  %}
+<a href="{{ url(action.route, column.routeParameters(row, action), false) }}"{{ confirm }} target="{{ action.target }}">
+                  <img src="{{ asset('bundles/applicationmynotes/images/delete.png') }}" alt="notes_delete" width="15" height="15" />
+     </a>              
+  {% endif %}
+     {% endif %}
+        
+     
+    {% endfor %}
+
+  
+&nbsp;&nbsp;
+<a href="{{ path('certificatscenter_show',{ 'id': row.getPrimaryFieldValue() }) }}" class=" icon-search"></a>
+
+</center>
+{% endblock %}
+
+
+
+{#% block grid_column_endTime_cell %}
+{% set toto=800 %}
+
+  {% if date(value) < date('-30days') %}
+<font color="red">{{ value }}</font>
+{% else %}
+{{ value }}
+{% endif %}
+{% endblock grid_column_endTime_cell %#}
+{#
+{% block grid_column_endTime_cell %}
+{% set {{ row.field('endTime') }} = "1999-01-01" %}
+{% endblock grid_column_endTime_cell %}
+
+{% block grid_column_endTime_cell %}
+{% if row.field('endTime') < date('-30days') %}
+{{ row.field('endTime') }} = "1999-01-01" %}
+
+{% endif %}
+{% endblock grid_column_endTime_cell %}
+#}
+
+{% block grid_column_type_filter %}
+{{ column.id }}
+{% endblock grid_column_type_filter %}

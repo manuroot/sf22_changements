@@ -1,0 +1,29 @@
+application_relations_applis:
+    resource: "@ApplicationRelationsBundle/Resources/config/routing/applis.yml"
+    prefix:   /applis
+    
+application_relations_projets:
+    resource: "@ApplicationRelationsBundle/Resources/config/routing/projet.yml"
+    prefix:   /projets
+
+application_relations_demandegroup:
+    resource: "@ApplicationRelationsBundle/Resources/config/routing/demandeusergroup.yml"
+    prefix:   /groupdemande
+    
+_chronousers:
+    resource: "@ApplicationRelationsBundle/Resources/config/routing/chronouser.yml"
+    prefix:   /chronousers
+    
+_chronousergroup:
+    resource: "@ApplicationRelationsBundle/Resources/config/routing/chronousergroup.yml"
+    prefix:   /chronogroups
+    
+
+_environnements:
+    resource: "@ApplicationRelationsBundle/Resources/config/routing/environnements.yml"
+    prefix:   /environnements
+
+_egroup:
+    resource: "@ApplicationRelationsBundle/Resources/config/routing/eservicegroup.yml"
+    prefix:   /egroupes    
+    

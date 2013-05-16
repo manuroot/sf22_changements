@@ -1,0 +1,30 @@
+docchangements:
+    pattern:  /
+    defaults: { _controller: "ApplicationChangementsBundle:Docchangements:index" }
+
+docchangements_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationChangementsBundle:Docchangements:show" }
+
+docchangements_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationChangementsBundle:Docchangements:new" }
+
+docchangements_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationChangementsBundle:Docchangements:create" }
+    requirements: { _method: post }
+
+docchangements_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationChangementsBundle:Docchangements:edit" }
+
+docchangements_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationChangementsBundle:Docchangements:update" }
+    requirements: { _method: post }
+
+docchangements_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationChangementsBundle:Docchangements:delete" }
+    requirements: { _method: post }

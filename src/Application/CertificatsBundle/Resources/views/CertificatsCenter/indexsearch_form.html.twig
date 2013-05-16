@@ -1,0 +1,46 @@
+  <form  class="form" action="{{ path('certificatscenter') }}" method="GET" {{ form_enctype(search_form) }}>
+          <table class="table table-bordered">
+            <tbody>
+                <tr class="single">
+                    <td>
+    {{ form_errors(search_form.fileName) }}
+    {{ form_label(search_form.fileName, 'Nom'|trans) }}
+    {{ form_widget(search_form.fileName) }}
+                            
+    {{ form_errors(search_form.cnName) }}
+    {{ form_label(search_form.cnName, 'CN'|trans) }}
+    {{ form_widget(search_form.cnName) }}
+   
+    {{ form_errors(search_form.serverName) }}
+    {{ form_label(search_form.serverName, 'Serveur'|trans) }}
+    {{ form_widget(search_form.serverName) }}
+    </td>
+                                <td> 
+  {{ form_errors(search_form.port) }}
+    {{ form_label(search_form.port, 'Port'|trans) }}
+    {{ form_widget(search_form.port) }}
+                                        
+  {{ form_errors(search_form.project) }}
+    {{ form_label(search_form.project, 'Projet'|trans) }}
+    {{ form_widget(search_form.project) }}
+                                        
+     {{ form_errors(search_form.typeCert) }}
+    {{ form_label(search_form.typeCert, 'Type'|trans) }}
+    {{ form_widget(search_form.typeCert) }}
+        
+    {{ form_errors(search_form.endTime) }}
+    {{ form_label(search_form.endTime, 'Date De Fin'|trans) }}
+    {{ form_widget(search_form.endTime) }}
+                                        
+                                        
+{{ form_rest(search_form) }}</td>
+                                </tr>
+                    <tr class="single"><td colspan="2">
+                                    
+                                    <input type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="Filter" />
+                              
+                                   
+                                        </tr></tbody></table>
+ </form>
+
+ 

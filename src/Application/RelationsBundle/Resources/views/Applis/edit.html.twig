@@ -1,0 +1,49 @@
+{% extends "ApplicationRelationsBundle::layout.html.twig" %}
+
+  {% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
+
+ {% endblock %}
+
+{% block content_header '' %}
+{% block title %}EDITION APPLICATION{% endblock %}
+{% block content %}
+
+
+<form  class="form-horizontal" action="{{ path('applications_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    {{ form_widget(edit_form) }}
+        <p>
+            <button type="submit" class="btn btn-large btn-warning">Modifier</button>
+            <a href="{{ path('applications') }}" class="btn btn-large btn-success">Retour</a>
+        </p>
+    </form>
+
+    <form action="{{ path('applications_delete', { 'id': entity.id }) }}" method="post">
+        {{ form_errors(delete_form) }}
+           {{ form_row(delete_form.id) }}
+           {{ form_rest(delete_form) }}
+            <div style="text-align:right">
+                <button type="submit"  class="btn btn-small btn-danger" onclick="if(!confirm('Are you sure?')) { return false; }">Supprimer Application</button>
+
+            </div>
+        </form>
+
+
+            {# form_widget(delete_form) }#}
+
+
+        <h3>Liste des Projets associés</h3>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr class="title"><th>Nom</th><th>Description</th></tr>
+            </thead>
+              {% for projet in projets %}
+            <tr> <td>{{ projet.nomprojet }}</td>
+                <td>{{ projet.description }}</td>
+            </tr>
+       {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

@@ -1,0 +1,340 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+     # Sonata Bundles
+    - { resource: sonata/sonata_admin.yml }
+    - { resource: sonata/sonata_doctrine.yml }
+    - { resource: sonata/sonata_user.yml }
+    - { resource: sonata/sonata_media.yml }
+    - { resource: sonata/sonata_formatter.yml }
+    - { resource: sonata/sonata_news.yml }
+    - { resource: genemu/genemu.yml }
+  #  - { resource: sonata/sonata_page.yml }
+   
+#==================================================
+#  FRAMEWORK
+#==================================================
+
+framework:
+    #esi:             ~
+    translator:      { fallback: %locale% }
+    secret:          %secret%
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: %kernel.debug%
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+        #assets_version: SomeVersionScheme
+    default_locale:  "%locale%"
+    trusted_proxies: ~
+    session:         ~
+    fragments:       ~
+
+   
+#==================================================
+# TWIG Configuration
+#==================================================
+
+twig:
+    debug:            %kernel.debug%
+    strict_variables: %kernel.debug%
+    form:
+        resources:
+            - LexikFormFilterBundle:Form:form_div_layout.html.twig
+#==================================================
+#  ASSETIC
+#==================================================
+
+    
+    #assets:
+    #   bootstrap_css:
+    #        inputs:
+    #            - %kernel.root_dir%/../vendor/twitter/bootstrap/less/bootstrap.less
+    #            - %kernel.root_dir%/../vendor/twitter/bootstrap/less/responsive.less
+assetic:
+    debug:          %kernel.debug%
+    use_controller: false
+    bundles:        [ ]
+    # bundles:        [ ApplicationSonataNewsBundle,SonataNewsBundle ]
+    #java: /usr/bin/java
+    filters:
+        cssrewrite: ~
+       # cssembed:
+        #    jar: %kernel.root_dir%/Resources/java/cssembed-0.4.5.jar
+         #   apply_to: "\.css$|\.less$"
+        yui_css:
+            jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar
+            apply_to: "\.css$"
+        yui_js:
+            jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar
+       # closure:
+      #      jar: %kernel.root_dir%/Resources/java/compiler.jar
+    #    yui_css:
+     #       jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar
+        less:
+            node: /usr/bin/node
+            node_paths: [/opt/less/lib, /usr/lib/node_modules]
+            apply_to: "\.less$"
+#==================================================
+#  DOCTRINE
+#==================================================
+doctrine:
+    dbal:
+        driver:   %database_driver%
+        host:     %database_host%
+        port:     %database_port%
+        dbname:   %database_name%
+        user:     %database_user%
+        password: %database_password%
+        charset:  UTF8
+        # if using pdo_sqlite as your database driver, add the path in parameters.yml
+        # e.g. database_path: %kernel.root_dir%/data/data.db3
+        # path:     %database_path%
+        #mapping_types:
+        #     enum: string
+        types:
+           json: Sonata\Doctrine\Types\JsonType
+    orm:
+      #  entity_managers:
+       #     default:
+       #         mappings:
+       #             SonataMediaBundle: ~
+        auto_generate_proxy_classes: %kernel.debug%
+        auto_mapping: true
+        dql:
+            string_functions:
+                        GroupConcat: DoctrineExtensions\Query\Mysql\GroupConcat
+                        concat_ws: DoctrineExtensions\Query\Mysql\ConcatWs
+                        XGroupConcat: Application\ChangementsBundle\Query\Mysql\XGroupConcat
+                        AtGroupConcat: Application\CertificatsBundle\doctrine\Extensions\AtGroupConcat
+
+
+#==================================================
+#  MAILER
+#==================================================
+
+swiftmailer:
+    transport: %mailer_transport%
+    host:      %mailer_host%
+    username:  %mailer_user%
+    password:  %mailer_password%
+    spool:     { type: memory }
+
+#==================================================
+#  KNP_PAGINATOR ET SORT
+#==================================================
+knp_menu:
+    twig:  # use "twig: false" to disable the Twig extension and the TwigRenderer
+        #template: "ApplicationCertificatsBundle:Menu:knp_menu.html.twig"
+        template: knp_main_menu.html.twig
+        #template: k"BraincraftedBootstrapBundle:Menu:menu.html.twig"np_main_menu.html.twig
+        #template: knp_menu.html.twig
+    templating: true # if true, enables the helper for PHP templates
+    default_renderer: twig # The renderer to use, list is also available by default
+    
+knp_paginator:
+    page_range: 5                      # default page range used in pagination control
+    default_options:
+        page_name: page                # page query parameter name
+        sort_field_name: sort          # sort field query parameter name
+        sort_direction_name: direction # sort direction query parameter name
+        distinct: false                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
+    template:
+      # sliding pagination controls template
+      pagination: ApplicationCertificatsBundle:pagination:twitter_bootstrap_pagination.html.twig
+       # sliding pagination controls template
+      sortable: ApplicationCertificatsBundle:pagination:sortable_link.html.twig 
+      # sort link template
+   
+#==================================================
+#  DATAGRID APY
+#==================================================
+apy_data_grid:
+    limits:
+        # Defaults:
+        20:                  20
+        50:                  50
+        100:                 100
+    persistence:          false
+    no_data_message:      No data
+    no_result_message:    No result
+    actions_columns_size:  200
+    actions_columns_separator:  " "
+    pagerfanta:
+        enable:               true
+        view_class: Pagerfanta\View\TwitterBootstrapView 
+        #default    Pagerfanta\View\DefaultView
+        #options:            #all options of pager fanta view constructor
+        #view_class:           Pagerfanta\View\DefaultView
+#==================================================
+#  FOSUSER
+# pour les commandes fos:user:create
+#==================================================
+#==================================================
+#  FOSUSER
+# pour les commandes fos:user:create
+#==================================================
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: Application\Sonata\UserBundle\Entity\User 
+    group:
+      group_class: Application\Sonata\UserBundle\Entity\Group 
+    profile:  # Authentication Form
+        form:
+            type:               fos_user_profile
+            name:               fos_user_profile_form
+            validation_groups:  [Authentication] # Please note : this is not the default value
+            
+            # On utilise twig_swift pour pouvoir envoyer un email en HTML
+    service:
+        mailer: fos_user.mailer.twig_swift
+    # Permet de renseigner le nouveau formulaire d'inscription
+    registration:
+        form:
+          # default form
+            type: fos_user_registration
+        # Permet la validation automatique du compte par envoi d'un email
+        confirmation:
+            enabled:    true
+            from_email:
+                # Adresse de l'expediteur
+                address:        noreply@monsiteweb.com
+                # Nom de l'expediteur
+                sender_name:    Admin de monsiteweb.com
+        # Permet de définir le template de l'email à envoyer (en html)
+        #email:
+        #    template: MyAppMonBundle:User:registration.email.twig
+ 
+   # registration:
+   #   form:
+   #     type: myapp_user_registration
+
+            
+#frequence_web_calend_r:  []
+
+#services:
+#    my_event_provider:
+#        class: Application\CertificatsBundle\Entity\Changements
+ #       tags:
+  #          - { name: calendr.event_provider }
+  
+
+#==================================================
+#  TINYMCE
+#==================================================
+
+stfalcon_tinymce:
+        include_jquery: false
+        tinymce_jquery: true
+        textarea_class: "tinymce"
+        theme:
+            # Simple theme: same as default theme
+            advanced:
+                theme: "advanced"
+                plugins: "pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template"
+                theme_advanced_buttons1: "save,newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect"
+                theme_advanced_buttons2: "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor"
+                theme_advanced_buttons3: "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,print,|,ltr,rtl,|,fullscreen"
+                theme_advanced_buttons4: "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,pagebreak"
+                theme_advanced_toolbar_location: "top"
+                theme_advanced_toolbar_align: "left"
+                theme_advanced_statusbar_location: "bottom"
+                theme_advanced_resizing: true
+            # Medium number of enabled plugins + spellchecker
+            simple:
+                mode: "textareas"
+                theme: "advanced"
+                theme_advanced_buttons1: "mylistbox,mysplitbutton,bold,italic,underline,separator,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,bullist,numlist,undo,redo,link,unlink"
+                theme_advanced_buttons2: "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor"
+                theme_advanced_buttons3: ""
+                theme_advanced_toolbar_location: "top"
+                theme_advanced_toolbar_align: "left"
+                theme_advanced_statusbar_location: "bottom"
+                plugins: "fullscreen"
+                theme_advanced_buttons1_add: "fullscreen"
+                theme_advanced_resizing:           true,
+            # Advanced theme with almost all enabled plugins
+        
+            medium:
+                mode: "textareas"
+                theme: "advanced"
+                plugins: "table,advhr,advlink,paste,xhtmlxtras,spellchecker"
+                theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,forecolor,backcolor,|,hr,removeformat,|,sub,sup,|,spellchecker"
+                theme_advanced_buttons2: "cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,undo,redo,|,link,unlink,anchor,cleanup,code,|,tablecontrols"
+                theme_advanced_buttons3: ""
+                theme_advanced_toolbar_location: "top"
+                theme_advanced_toolbar_align: "left"
+                theme_advanced_statusbar_location: ""
+                paste_auto_cleanup_on_paste: true
+                plugins: "fullscreen"
+                theme_advanced_buttons1_add: "fullscreen"
+                theme_advanced_resizing:           true,
+          
+                spellchecker_languages: "+English=en,Dutch=nl"
+            # BBCode tag compatible theme (see http://www.bbcode.org/reference.php)
+            bbcode:
+                mode: "none"
+                theme: "advanced"
+                plugins: "bbcode"
+                theme_advanced_buttons1: "bold,italic,underline,undo,redo,link,unlink,image,forecolor,styleselect,removeformat,cleanup,code"
+                theme_advanced_buttons2: ""
+                theme_advanced_buttons3: ""
+                theme_advanced_toolbar_location: "bottom"
+                theme_advanced_toolbar_align: "center"
+                theme_advanced_styles: "Code=codeStyle;Quote=quoteStyle"
+                entity_encoding: "raw"
+                add_unload_trigger: false
+                remove_linebreaks: false
+                inline_styles: false
+                convert_fonts_to_spans: false
+#==================================================
+#  UPLOADER
+#==================================================
+vich_uploader:
+    db_driver: orm # or mongodb
+    storage:              vich_uploader.storage.file_system
+    twig:                 true
+    gaufrette:            false
+    mappings:
+        product_image:
+            uri_prefix: /uploads/eproduits
+            #uri_prefix: /sf2/uploads/eproduits
+            upload_destination:  %kernel.root_dir%/../web/uploads/eproduits
+            #upload_destination:  %kernel.root_dir%/../web/sf2/uploads/eproduits
+            namer: vich_uploader.namer_uniqid
+            directory_namer:      ~
+            delete_on_remove:     true
+            delete_on_update:     false
+            inject_on_load:       true  
+#==================================================
+#  TINYMCE
+#==================================================
+#rizza_calendar: 
+#    db_driver: orm
+
+#    class:
+#        model:
+#            calendar: Rizza\CalendarBundle\Entity\Calendar
+#            event: Rizza\CalendarBundle\Entity\Event
+#            user: Application\Sonata\UserBundle\Entity\User
+#            attendee: Rizza\CalendarBundle\Entity\Attendee
+
+mopa_bootstrap:
+    form:
+        show_legend: false # default is true
+        show_child_legend: false # default is true
+        error_type: block # or inline which is default
+    navbar: ~
+    
+    
+        
+#bc_bootstrap:
+#    assets_dir: %kernel.root_dir%/../vendor/twitter/bootstrap
+#    jquery_path: %kernel.root_dir%/../vendor/jquery/jquery/jquery-1.9.1.js
+
+
+ 

@@ -1,0 +1,90 @@
+{% extends "ApplicationCertificatsBundle::layout.html.twig" %}
+
+  {% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/sliding.css') }}" type="text/css" media="all"/>
+
+ {% endblock %}
+
+{% block content_header '' %}
+
+{% block title %}
+    Liste de Utilisateurs
+{% endblock %}
+    
+    
+{% block content %}
+
+{% for type, flashMessages in app.session.flashbag.all() %}
+    {% for flashMessage in flashMessages %}
+<div class="alert alert-{{ type }}">
+            {{ flashMessage|trans }}
+    </div>
+    {% endfor %}
+{% endfor %}
+
+    <br><br>
+  <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr class="title">
+
+                <tr>
+                <th>Username</th>
+               
+                <th>Email</th>
+             
+                <th>Enabled</th>
+                <th>Last Login</th>
+                <th>Création</th>
+                <th>Update</th>
+                <th>Groupe</th>
+                  {% if is_granted("ROLE_ADMIN") %}
+                <th colspan="3">Actions</th>
+                {% else %}
+                <th>Actions</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            
+  
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('users_show', { 'id': entity.id }) }}">{{ entity.username }}</a></td>
+               
+                <td>{{ entity.email }}</td>
+               <td>{{ entity.epost|length }}</td>
+                <td>{{ entity.enabled }}</td>
+                <td>{% if entity.lastLogin %}{{ entity.lastLogin|date('Y-m-d H:i:s') }}{% endif %}</td>
+             
+                <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+           {% if entity.idgroup is not null %}
+               {# <td>{{ entity.idgroup.nomGroup }}</td>#}
+                 <td><a href="{{ path('egroup_groupes_show', { 'id': entity.idgroup.getId }) }}">{{ entity.idgroup.nomGroup }}</a></td>
+                {% else %}
+                <td>---</td>
+                {% endif %}
+                <td>
+                     
+                <a href="{{ path('users_show', { 'id': entity.id }) }}">
+                    <img src="{{ asset('bundles/applicationcertificats/images/detail.png') }}" alt="show" width="15" height="15" />
+                   </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {# 
+        <ul>
+        <li>
+           <a href="{{ path('users_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+#}
+    {% endblock %}
+
+  

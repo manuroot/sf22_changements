@@ -1,0 +1,32 @@
+<?php
+
+namespace Application\CertificatsBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * ChronoProjet
+ *
+ * @ORM\Table(name="chrono_projet")
+ * @ORM\Entity
+ */
+class ChronoProjet
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom_projet", type="string", length=40, nullable=false)
+     */
+    private $nomProjet;
+
+
+}

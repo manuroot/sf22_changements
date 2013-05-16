@@ -1,0 +1,13 @@
+changements_comment_create:
+    pattern:  /{changement_id}
+    defaults: { _controller: ApplicationChangementsBundle:ChangementsComments:create }
+    requirements:
+        _method:  POST
+        changement_id: \d+
+        
+
+    
+changements_comment_show:
+    pattern:  /{id}/commentshow
+    defaults: { _controller: ApplicationChangementsBundle:ChangementsComments:show }
+  

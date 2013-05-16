@@ -1,0 +1,43 @@
+/* 
+    Document   : certificatscenter
+    Created on : 7 févr. 2013, 19:03:58
+    Author     : manuroot
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+ /*
+ http://colorschemedesigner.com/#3Q11Tw0w0w0w0
+ 
+ */
+ 
+.mywarn{ background-color: #fe8a05;}
+h1 {
+    text-shadow: 4px 4px 4px rgb(0, 0, 0);
+}
+
+
+body {
+    
+background-image:url("/images/ravenna1.png");
+/*background-image:url("images/nasty_fabric.png");*/
+}
+#footer {
+    position: relative;
+    bottom: 5px;
+    height: 30px;
+    width: 70%;
+    /*background: url('images/bg_pied.png') repeat-x;*/
+    margin:auto;
+
+    border: 1px solid #ccc; 
+    clear: both; 
+    text-align: center; 
+    padding: 10px; 
+
+    color: #737373;
+
+    background:#000000;
+    /* background:#eaeaea;*/
+    background-color: #a4a4a5;
+}

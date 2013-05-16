@@ -1,0 +1,124 @@
+{% extends '::base.html.twig' %}
+
+  {% block stylesheets %}
+{{ parent() }}
+      <link rel="stylesheet" href="{{ asset('bundles/applicationeservices/css/sliding.css') }}" type="text/css" media="all"/>
+     
+ {% endblock %}
+
+{% block content_header '' %}
+{% block title %}
+DETAILS MEDIA
+{% endblock %}
+       
+{% block content -%}
+  
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Name</th>
+                <td>{{ entity.name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ entity.description }}</td>
+            </tr>
+            <tr>
+                <th>Enabled</th>
+                <td>{{ entity.enabled }}</td>
+            </tr>
+            <tr>
+                <th>Providername</th>
+                <td>{{ entity.providerName }}</td>
+            </tr>
+            <tr>
+                <th>Providerstatus</th>
+                <td>{{ entity.providerStatus }}</td>
+            </tr>
+            <tr>
+                <th>Providerreference</th>
+                <td>{{ entity.providerReference }}</td>
+            </tr>
+            <tr>
+                <th>Providermetadata</th>
+                <td>{{ entity.providerMetadata }}</td>
+            </tr>
+            <tr>
+                <th>Width</th>
+                <td>{{ entity.width }}</td>
+            </tr>
+            <tr>
+                <th>Height</th>
+                <td>{{ entity.height }}</td>
+            </tr>
+            <tr>
+                <th>Length</th>
+                <td>{{ entity.length }}</td>
+            </tr>
+            <tr>
+                <th>Contenttype</th>
+                <td>{{ entity.contentType }}</td>
+            </tr>
+            <tr>
+                <th>Size</th>
+                <td>{{ entity.size }}</td>
+            </tr>
+            <tr>
+                <th>Copyright</th>
+                <td>{{ entity.copyright }}</td>
+            </tr>
+            <tr>
+                <th>Authorname</th>
+                <td>{{ entity.authorName }}</td>
+            </tr>
+            <tr>
+                <th>Context</th>
+                <td>{{ entity.context }}</td>
+            </tr>
+            <tr>
+                <th>Cdnisflushable</th>
+                <td>{{ entity.cdnIsFlushable }}</td>
+            </tr>
+            <tr>
+                <th>Cdnflushat</th>
+                <td>{{ entity.cdnFlushAt|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Cdnstatus</th>
+                <td>{{ entity.cdnStatus }}</td>
+            </tr>
+            <tr>
+                <th>Updatedat</th>
+                <td>{{ entity.updatedAt|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{{ entity.createdAt|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('usermedia') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('usermedia_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('usermedia_delete', { 'id': entity.id }) }}" method="post">
+            <input type="hidden" name="_method" value="DELETE" />
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

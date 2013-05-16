@@ -1,0 +1,169 @@
+ {% extends "ApplicationCertificatsBundle::layout.html.twig" %}
+
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+          
+$(document).ready(function() {
+//$(function() {
+  $( "#moncert_endTime" ).datepicker({
+maxDate: "+3M +10D",
+changeMonth: true,
+changeYeat: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});
+    $( "#moncert_addedDate" ).datepicker({
+maxDate: "+3M +10D",
+changeMonth: true,
+changeYeat: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});
+  $( "#moncert_startDate" ).datepicker({
+maxDate: "+3M +10D",
+changeMonth: true,
+changeYeat: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});
+
+
+function remplirSelect (dataAjax) {
+   $.ajax({
+        url: '{{ path('certificatscenter_listbyprojet')}}', 
+        type: "POST", 
+        data : dataAjax, 
+        dataType: "json", 
+        success: function(reponse){
+            // Sur Succès de la réponse AJAX
+            var optionData = reponse;
+          
+        var cer_arr=[];
+        for (key in optionData['cert']) {
+            cer_arr.push(optionData['cert'][key]);
+        }    
+        $("#moncert_idapplis> option").remove();
+            i = 0;  
+             var selected_appli='';
+              console.log("arr cert:" + cer_arr);
+             for (key in optionData['applis']) {
+                // on remplit les applis en f() de projet
+                $("#moncert_idapplis").append(  '<option label="' 
+                    + optionData['applis'][key]
+                    + '"' + 'value="' + key  + '"' + selected_appli + '>'
+                    + optionData['applis'][key]
+                    + '</option>');
+                i++;
+                selected_appli='';
+            }
+    } //Eof:: success
+});  //Eof:: ajax 
+ 
+} //Eof:: fucntion remplirSelect
+ 
+//Sur fin du chargement du document
+// on charge la bonne liste
+//Vid_cert = $("input#moncert_id").val();
+Vid_projet = $("select#moncert_project").val();
+var dataAjax = {
+    id_projet:Vid_projet
+  
+};
+remplirSelect (dataAjax);
+      
+          
+// Sur changement de l'un des 'select'
+// on recharge la bonne liste
+$("select#moncert_project").change(function(){
+    Vid_projet = $("select#moncert_project").val();
+     var dataAjax = {
+        id_projet:Vid_projet
+    };
+    remplirSelect (dataAjax);
+ 
+}); //Eof:: sur changement de l'un des 'select'
+
+ 
+
+}); //Eof:: ready
+
+    </script>
+
+{% endblock %}
+
+    
+{% block stylesheets %}
+{{ parent() }}
+<style>
+        
+        tr.single {
+         background-color: #f1f1f1;
+        }
+
+    </style> 
+{% endblock %}
+{% block title %}
+ NOUVEAU CERTIFICAT
+{% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+
+    <form action="{{ path('certificatscenter_create') }}" method="post" {{ form_enctype(form) }}>
+        <table class="table table-bordered">
+            <tbody>
+                <tr class="single"><td>
+                        <div>
+    {{ form_errors(form.fileName) }}
+    {{ form_label(form.fileName, 'Nom du Fichier'|trans) }}
+    {{ form_widget(form.fileName) }}
+                            </div>
+                            <div>
+    {{ form_errors(form.cnName) }}
+    {{ form_label(form.cnName, 'CN du certificat'|trans) }}
+    {{ form_widget(form.cnName) }}
+                                </div>
+    {{ form_errors(form.serviceName) }}
+    {{ form_label(form.serviceName, 'Service'|trans) }}
+    {{ form_widget(form.serviceName) }}
+              {{ form_errors(form.serverName) }}
+    {{ form_label(form.serverName, 'Serveur'|trans) }}
+    {{ form_widget(form.serverName) }}
+
+
+             {{ form_errors(form.port) }}
+    {{ form_label(form.port, 'Port'|trans) }}
+    {{ form_widget(form.port) }}
+
+                             {{ form_errors(form.way) }}
+    {{ form_label(form.way, 'Way'|trans) }}
+    {{ form_widget(form.way) }}
+
+                                </div>
+                            </td>
+                            <td>
+                                <div> {{ form_rest(form) }} </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+ {#{ form_widget(edit_form) }#}
+                <p>
+                     
+                          <button type="submit" class="btn btn-large btn-warning">Ajouter</button>
+                    <a href="{{ path(btnretour) }}" class="btn btn-large btn-success">Retour</a>
+                </p>
+            </form>
+{% endblock %}

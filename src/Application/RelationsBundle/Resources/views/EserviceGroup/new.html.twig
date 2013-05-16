@@ -1,0 +1,52 @@
+{% extends "ApplicationEservicesBundle::layout.html.twig" %}
+
+  {% block stylesheets %}
+{{ parent() }}
+      <link rel="stylesheet" href="{{ asset('bundles/applicationeservices/css/sliding.css') }}" type="text/css" media="all"/>
+   <style>
+        .mytextarea {
+            border: 1px solid #D4E0EE;
+            background-color: #f1f1f1;
+            width:330px; height:200px;
+
+        }
+     
+        tr.single {
+         background-color: #f1f1f1;
+        }
+
+    </style> 
+ {% endblock %}
+    
+{% block content_header '' %}
+{% block title %}
+Creer Un Groupe
+{% endblock %}
+{% block content %}
+  
+    <form action="{{ path('egroup_groupes_create') }}" method="post" {{ form_enctype(form) }}>
+        
+         <table class="table table-bordered">
+    <tbody>         <tr><td>
+                 <div>
+                   {{ form_widget(form) }}
+                {#     {{ form_row(form.services) }}#}
+              </div>
+         
+               </td></tr>
+                                                
+<tr><td colspan="3">
+                                   
+  <button type="submit" class="btn btn-small btn-warning">Modifier</button>
+    </td></tr></tbody></table>   </form>       
+
+                                    
+                                       
+                       
+    
+{% endblock %}
+
+
+
+
+

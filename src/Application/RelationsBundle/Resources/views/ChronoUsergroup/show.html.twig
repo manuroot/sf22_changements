@@ -1,0 +1,63 @@
+{% extends "ApplicationRelationsBundle::layout.html.twig" %}
+
+  {% block stylesheets %}
+{{ parent() }}
+      <link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
+     
+ {% endblock %}
+
+{% block content_header '' %}
+{% block title %}DETAILS DU GROUPE:  {{ entity.nomGroup }} {% endblock %}
+{% block content %}
+      
+     <br><br>
+       <a href="{{ path('chronogroup') }}" class="btn btn-small btn-success">Retour</a>
+  {% if is_granted("ROLE_ADMIN") %}
+       <a href="{{ path('chronogroup_edit', { 'id': entity.id }) }}" class="btn btn-small btn-warning">Editer</a>
+       {% endif %}
+<br> <br> 
+
+     <table class="table table-striped table-bordered table-hover">
+  
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Nomgroup</th>
+            <td>{{ entity.nomGroup }}</td>
+        </tr>
+    </tbody>
+</table>
+{% if is_granted("ROLE_ADMIN") %}
+  <form action="{{ path('chronogroup_delete', { 'id': entity.id }) }}" method="post">
+        {{ form_errors(delete_form) }}
+           {{ form_row(delete_form.id) }}
+           {{ form_rest(delete_form) }}
+             <button type="submit" class="btn btn-small btn-danger">Supprimer Groupe</button>
+        </form>
+ {% endif %} 
+  
+<h3><center>Liste des Utilisateurs de ce groupe</center></h3>
+<table class="table table-striped table-bordered table-hover">
+     
+       <thead>
+        <tr class="title"><th>Nom</th><th>Description</th><th>Email</th></tr>
+  <tbody>
+      </thead>          {% for myuser in entity.users %}
+        <tr>
+            <td>{{ myuser.nomUser }}</td>
+             <td>{{ myuser.infos }}</td>
+              <td>{{ myuser.email }}</td>
+                </tr>
+{% endfor %}     
+      
+        </tbody>
+</table>
+
+
+
+  
+     
+{% endblock %}

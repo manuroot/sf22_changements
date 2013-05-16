@@ -1,0 +1,153 @@
+{% extends "ApplicationChangementsBundle::layout.html.twig" %}
+{% form_theme edit_form 'MopaBootstrapBundle:Form:fields.html.twig' %}
+{% macro widget_prototype(widget, remove_text) %}
+    {% if widget.get('prototype') %}
+        {% set form = widget.get('prototype') %}
+        {% set name = widget.get('prototype').get('name') %}
+    {% else %}
+        {% set form = widget %}
+        {% set name = widget.get('name') %}
+    {% endif %}
+
+<div data-content="{{ name }}">
+    <a class="btn-remove" data-related="{{ name }}">{{ remove_text }}</a>
+        {{ form_widget(form) }}
+</div>
+{% endmacro %}
+
+
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
+<style>
+        .monlabel {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            font-weight: bold;
+        }
+        .boxlist {
+            border: 1px solid #D4E0EE;
+            background-color: #f1f1f1;
+
+        }
+
+        .mytextarea {
+            border: 1px solid #D4E0EE;
+            background-color: #f1f1f1;
+            width:330px; height:100px;
+
+        }
+        .leserreurs {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            font-size:18px;
+            color:red;
+        }
+        tr.single {
+         background-color: #f1f1f1;
+        }
+
+    </style> 
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/datenew.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('select2/select2.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
+{{ tinymce_init() }}
+   {#<script>
+  
+       </script>
+#}
+{% endblock %}
+
+
+{% block content_header '' %}
+{% block title %}EDITION CHANGEMENT{% endblock %}
+{% block content %}
+<!--
+<p>Animations:<br />
+<select id="anim">
+<option value="show">Show (default)</option>
+<option value="slideDown">Slide down</option>
+<option value="fadeIn">Fade in</option>
+<option value="blind">Blind (UI Effect)</option>
+<option value="bounce">Bounce (UI Effect)</option>
+<option value="clip">Clip (UI Effect)</option>
+<option value="drop">Drop (UI Effect)</option>
+<option value="fold">Fold (UI Effect)</option>
+<option value="slide">Slide (UI Effect)</option>
+<option value="">None</option>
+</select>
+</p>
+-->
+    <form action="{{ path('changements_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+        <table class="table table-bordered">
+            <tbody>
+                <tr class="single">
+                    <td>
+                        <div> {{ form_row(edit_form.nom) }}</div>
+                        <div>  {{ form_row(edit_form.dateDebut) }} </div>
+                        <div>{{ form_row(edit_form.dateFin) }}                  </div>
+                        <div>{{ form_row(edit_form.dateComep) }}</div>
+                        <div> {{ form_row(edit_form.dateVsr) }}</div>
+                        <div id="post_tags" data-prototype="{{ _self.widget_prototype(edit_form.picture, 'Supprimer Fichier')|escape }}">
+                            {% for widget in edit_form.picture.children %}
+                            {{ _self.widget_prototype(widget, 'Supprimer Fichier') }}
+                            {% endfor %}
+                            </div>
+                            <a class="btn-add" data-target="post_tags">Ajouter un Fichier</a>
+                        </td>
+                        <td>     
+                            <div>
+                            {{ form_row(edit_form.idProjet) }}</div>
+                                <div class="boxlist">{{ form_row(edit_form.idEnvironnement) }}</div>   
+                                <br> 
+                                <div class="boxlist">{{ form_row(edit_form.idStatus) }}</div>
+                                <br>   
+                                <div>
+                          {#{ form_row(edit_form.description,{ 'attr': {'class': 'mytextarea'} }) }#}
+                            {{ form_row(edit_form.description) }}
+         </div>
+                                </td>
+                                <td>{{ form_rest(edit_form) }} </td>
+                            </tr>
+                            <tr><td colspan="3">                                                                    
+                                    <button type="submit" class="btn btn-small btn-warning">Modifier</button>
+                                    <a href="{{ path('changements') }}" class="btn btn-small btn-success">Retour</a>
+                                    </form>       
+
+
+                                    <form action="{{ path('changements_delete', { 'id': entity.id }) }}" method="post">
+                                     {{ form_errors(delete_form) }}
+                                     {{ form_row(delete_form.id) }}
+                                     {{ form_rest(delete_form) }}
+                                            <div style="text-align:right">
+                                                <button type="submit" class="btn btn-small btn-danger" onclick="if(!confirm('Are you sure?')) { return false; }">Supprimer Projet</button>
+                                            </div>
+                                        </form>       
+                                    </td></tr>
+                            </tbody>
+                        </table>
+
+
+                        <h3><center>Liste des Fichiers associés</center></h3>
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr class="title"><th>id</th><th>Nom</th><th>Path</th></tr>
+                            </thead>
+                            {% for fic in entity.picture %}
+                            <tr> 
+                                <td>{{ fic.id }}</td>
+                                <td>{{ fic.name }}</td>
+                                <td><a href="{{ path('download_route', { 'filename': fic.path }) }}">{{ fic.path }}</a></td>
+                                          <!-- <a href="{#{ asset('bundles/my/Resources/public/pdf/dok.pdf') }#}">Download PDF!</a>-->
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+{% endblock %}
+
+

@@ -1,0 +1,54 @@
+          <div class="navbar navbar-fixed-top">
+                    <div class="navbar-inner">
+                        <div class="container-fluid"> <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> 
+                                <span class="icon-bar"></span> </a>
+                            <a class="brand" href="#">POST-IT</a>
+                              
+                              <div class="btn-group pull-right"> <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"> <i class="icon-user"></i> Username <span class="caret"></span> </a>
+                               <ul class="dropdown-menu">
+                                    <li class="divider"></li>
+                                    
+                                    <li><a href="{{ path('sonata_admin_dashboard') }}">{{ 'Admin Dashboard' }}</a>
+                                    <li><a href="{{ path('sonata_user_profile_edit_authentication') }}">{{ 'Edit Profile' }}</a>
+                                    <li><a href="{{ path('fos_user_registration_register') }}">{{ 'Register'|trans }}</a>
+                                    </li>
+                                  <li>
+                                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                      <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
+                                    {% else %}
+                                        <a href="{{ path('fos_user_security_login') }}">Connexion</a>
+                                    {% endif %}   
+                                        
+             </li>                       
+                                </ul>
+                            </div>
+                            <div class="nav-collapse">
+                                <ul class="nav">
+                                    
+                                       <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-user"></i>Certificats<b class="caret"></b> </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="{{ path('certificatscenter') }}"><i class="icon-camera"></i> {{ 'Liste Certificats'|trans }}</a></li>
+                                             <li><a href="{{ path('certificatscenter_new') }}"><i class="icon-camera"></i> {{ 'Nouveau Certificat'|trans }}</a></li>
+
+                                        </ul>
+                                    </li>
+                                    
+                                      <li class="active"><a href="{{ path('notes') }}">{{ 'accueil'|trans }}</a></li>
+                                   <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-user"></i>Notes<b class="caret"></b> </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="{{ path('notes') }}"><i class="icon-user"></i> {{ 'Voir Notes'|trans }}</a></li>
+                                            <li><a href="{{ path('notesfanta') }}"><i class="icon-camera"></i> {{ 'Voir Fanta'|trans }}</a></li>
+                                                     <li><a href="{{ path('notesapy') }}"><i class="icon-camera"></i> {{ 'Voir APY-DG'|trans }}</a></li>
+
+                                        </ul>
+                                    </li>
+                                 
+                               
+                                 </ul>  
+                                 
+                            </div>
+                            <!--/.nav-collapse -->
+                        </div>
+                    </div>
+                </div>
+    

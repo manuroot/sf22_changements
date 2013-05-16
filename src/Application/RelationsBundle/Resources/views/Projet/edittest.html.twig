@@ -1,0 +1,57 @@
+{% extends "ApplicationRelationsBundle::layout.html.twig" %}
+
+  {% block stylesheets %}
+{{ parent() }}
+      <link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
+     
+ {% endblock %}
+
+{% block content_header '' %}
+{% block title %}EDITION PROJET{% endblock %}
+{% block content %}
+    
+
+<form  class="form-horizontal" action="{{ path('projets_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+      {{ form_row(edit_form.nomprojet) }}
+        
+       <ul class="tags" data-prototype="{{ form_widget(edit_form.idapplis.vars.prototype)|e }}">
+
+        {# itère sur chaque tag existant et affiche son unique champ : name #}
+        {% for appli in edit_form.idapplis %}
+             
+            <li>{{ form_row(appli.nomapplis) }}</li>
+        {% endfor %}
+    </ul>
+
+    {{ form_rest(edit_form) }}
+    <p>
+       <button type="submit" class="btn btn-large btn-warning">Edit</button>
+           <a href="{{ path('projets') }}" class="btn btn-large btn-success">Retour</a>
+    </p>
+</form>
+
+
+   <form action="{{ path('projets_delete', { 'id': entity.id }) }}" method="post">
+        {{ form_errors(delete_form) }}
+           {{ form_row(delete_form.id) }}
+           {{ form_rest(delete_form) }}
+    <button type="submit" class="btn btn-large btn-danger">Supprimer Projet</button>
+</form>
+      {#{ form_widget(delete_form) }#}
+        
+    
+      
+   
+  <table class="record_properties">
+    <tbody>
+        
+              {% for appli in applis %}
+           <tr> <td>{{ appli.nomapplis }}</td>
+        </tr>
+       {% endfor %}
+    </tbody>
+</table>
+
+
+
+{% endblock %}

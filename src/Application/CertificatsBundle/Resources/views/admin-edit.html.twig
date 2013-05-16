@@ -1,0 +1,21 @@
+{% extends 'SonataAdminBundle:CRUD:edit.html.twig' %}
+{# Acme/MyBundle/Ressources/view/my-custom-edit.html.twig #}
+
+{% block title %}
+    {% if admin.id(object) %}
+        {{ "title_edit"|trans({'%name%': admin.toString(object) }, 'SonataAdminBundle') }}
+    {% else %}
+        {{ "title_create"|trans({}, 'SonataAdminBundle') }}
+    {% endif %}
+{% endblock%}
+
+{% block actions %}
+     <div class="sonata-actions">
+         <ul>
+             {% if admin.hasroute('list') and admin.isGranted('LIST')%}
+                 <li class="btn sonata-action-element"><a href="{{ admin.generateUrl('list') }}">{% trans from 'SonataAdminBundle' %}link_action_list{% endtrans %}</a></li>
+             {% endif %}
+         </ul>
+     </div>
+{% endblock %}
+    

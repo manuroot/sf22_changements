@@ -1,0 +1,35 @@
+{% extends "ApplicationEservicesBundle::layout.html.twig" %}
+
+  {% block stylesheets %}
+{{ parent() }}
+      <link rel="stylesheet" href="{{ asset('bundles/applicationeservices/css/sliding.css') }}" type="text/css" media="all"/>
+<style>     
+h2.deny{
+   /* padding-left: 200px;*/
+   color:black;
+   text-shadow:4px 4px 4px #000000;
+
+}
+</style>
+ {% endblock %}
+
+{% block content_header '' %}
+{% block title %}
+
+ACCES INTERDIT
+{% endblock %}
+{% block content %}
+
+{% for type, flashMessages in app.session.flashbag.all() %}
+    {% for flashMessage in flashMessages %}
+        <div class="alert alert-{{ type }}">
+            {{ flashMessage|trans }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
+<br><br>
+<h2 class="deny">{{ mymessage }}</h2>
+<br><br>
+
+{% endblock %}

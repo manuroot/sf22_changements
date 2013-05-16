@@ -1,0 +1,23 @@
+{% extends "ApplicationRelationsBundle::layout.html.twig" %}
+
+  {% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
+
+ {% endblock %}
+
+{% block content_header '' %}
+
+{% block title %}AJOUTER PROJET{% endblock %}
+{% block content %}
+
+
+<form class="form-horizontal" action="{{ path('projets_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+        <p>
+            <button type="submit" class="btn btn-small btn-warning">Ajouter</button>
+            <a href="{{ path('projets') }}" class="btn btn-small btn-success">Retour</a>
+        </p>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "ApplicationCertificatsBundle::layout.html.twig" %}
+
+  {% block stylesheets %}
+{{ parent() }}
+      <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/sliding.css') }}" type="text/css" media="all"/>
+     
+ {% endblock %}
+
+{% block content_header '' %}
+{% block title %}
+VERIFICATION CERTIFICAT
+{% endblock %}
+{% block content %}
+
+{% for type, flashMessages in app.session.flashbag.all() %}
+    {% for flashMessage in flashMessages %}
+        <div class="alert alert-{{ type }}">
+            {{ flashMessage|trans }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
+   {% if is_granted("ROLE_ADMIN") %}
+<a href="{{ path('certificatscenter_new') }}" class="btn btn-medium btn-primary">Ajouter Certificat</a>
+{% endif %}
+<br> <br>  
+{#
+<form  class="form-horizontal" action="{{ path('certificatscenter') }}" method="post" {{ form_enctype(search_form) }}>
+    {{ form_widget(search_form) }}
+    <p>
+       <button type="submit" class="btn btn-large btn-warning">Edit</button>
+       
+    </p>
+</form>
+#}
+
+
+
+{% endblock %}

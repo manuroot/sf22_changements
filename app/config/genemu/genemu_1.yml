@@ -1,0 +1,200 @@
+genemu_form:
+
+    captcha:
+
+        enabled:              true
+
+        driver:               gd
+
+        width:                100
+
+        height:               30
+
+        length:               4
+
+        format:               png
+
+        chars:
+
+
+
+            # Defaults:
+
+            - 0
+
+            - 1
+
+            - 2
+
+            - 3
+
+            - 4
+
+            - 5
+
+            - 6
+
+            - 7
+
+            - 8
+
+            - 9
+
+        font_size:            18
+
+        grayscale:            false
+
+        font_color:
+
+
+
+            # Defaults:
+
+            - 252525
+
+            - 8B8787
+
+            - 550707
+
+            - 3526E6
+
+            - 88531E
+
+        font_dir:             %kernel.root_dir%/../web/bundles/genemuform/fonts
+
+        fonts:
+
+
+
+            # Defaults:
+
+            - akbar.ttf
+
+            - brushcut.ttf
+
+            - molten.ttf
+
+            - planetbe.ttf
+
+            - whoobub.ttf
+
+        background_color:     DDDDDD
+
+        border_color:         000000
+
+        code:                 ~
+
+    recaptcha:
+
+        enabled:              true
+
+        public_key:           hgjhgjhggrtyr # Required
+
+        private_key:          hjkjhjk4545545 # Required
+
+        validation:
+
+            host:                 api-verify.recaptcha.net
+
+            port:                 80
+
+            path:                 /verify
+
+            timeout:              10
+
+            code:                 ~
+
+            proxy:
+
+                host:                 ~ # Required
+
+                port:                 80
+
+        configs:              Array
+
+        code:                 ~
+
+        server_url:           http://api.recaptcha.net
+
+        ssl:
+
+            use:                  true
+
+            server_url:           https://api-secure.recaptcha.net
+
+    tinymce:
+
+        enabled:              true
+
+        theme:                advanced
+
+        script_url:           ~
+
+        configs:              Array
+
+    date:
+
+        enabled:              true
+
+        configs:              Array
+
+    file:
+
+        enabled:              true
+
+        swf:                  ggfgffdgg # Required
+
+        cancel_img:           /bundles/genemuform/images/cancel.png
+
+        folder:               /upload
+
+        configs:              Array
+
+    image:
+
+        enabled:              true
+
+        selected:             large
+
+        filters:
+
+
+
+            # Defaults:
+
+            - rotate
+
+            - bw
+
+            - negative
+
+            - sepia
+
+            - crop
+
+        thumbnails:           Array
+
+    autocompleter:
+
+        doctrine:             true
+
+        mongodb:              false
+
+    tokeninput:
+
+        doctrine:             true
+
+        mongodb:              false
+
+    autocomplete:
+
+        enabled:              false
+
+        doctrine:             true
+
+        mongodb:              false
+
+    select2:
+
+        enabled:              true
+

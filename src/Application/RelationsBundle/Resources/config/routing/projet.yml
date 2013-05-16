@@ -1,0 +1,30 @@
+projets:
+    pattern:  /
+    defaults: { _controller: "ApplicationRelationsBundle:Projet:index" }
+
+projets_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationRelationsBundle:Projet:show" }
+
+projets_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationRelationsBundle:Projet:new" }
+
+projets_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationRelationsBundle:Projet:create" }
+    requirements: { _method: post }
+
+projets_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationRelationsBundle:Projet:edit" }
+
+projets_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationRelationsBundle:Projet:update" }
+    requirements: { _method: post }
+
+projets_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationRelationsBundle:Projet:delete" }
+   # requirements: { _method: post|get }

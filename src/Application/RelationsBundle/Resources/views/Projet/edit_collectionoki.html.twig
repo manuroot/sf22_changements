@@ -1,0 +1,160 @@
+{% extends "ApplicationRelationsBundle::layout.html.twig" %}
+
+  {% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
+
+
+ {% endblock %}
+    {% block javascripts %}
+    {{ parent() }}
+<script type="text/javascript">
+     var collectionHolder = $('ul.docs');
+
+    var $addDocumentLink = $('<a href="#" class="add_documents_link">Ajouter un Fichier</a>');
+    var $newLinkLi = $('<li></li>').append($addDocumentLink);
+
+    jQuery(document).ready(function(){
+    collectionHolder.find('li').each(function(){
+    addDocumentFormDeleteLink($(this));
+    });
+
+    collectionHolder.append($newLinkLi);
+
+    $addDocumentLink.on('click', function(e) {
+    e.preventDefault();
+
+    addDocumentForm(collectionHolder, $newLinkLi);
+    });
+    });
+
+    function addDocumentForm(collectionHolder, $newLinkLi) {
+
+    var prototype = collectionHolder.attr('data-prototype');
+
+    var newForm = prototype.replace(/\$\$name\$\$/g, collectionHolder.children().length);
+
+    var $newFormLi = $('<li></li>').append(newForm);
+
+    $newLinkLi.before($newFormLi);
+    addDocumentFormDeleteLink($newFormLi);
+    }
+
+    function addDocumentFormDeleteLink($docFormLi) {
+    var $removeFormA = $('<a href= "#">Supprimer?</a>');
+    $docFormLi.append($removeFormA);
+
+    $removeFormA.on('click', function(e) {
+    e.preventDefault();
+    $docFormLi.remove();
+    });
+    }
+
+</script>
+
+{% endblock %}
+{% block content_header '' %}
+{% block title %}EDITION PROJET{% endblock %}
+{% block content %}
+
+
+
+
+
+<form   action="{{ path('projets_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    <br><br>
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <td>
+                    {{ form_errors(edit_form.nomprojet) }}
+                    {{ form_label(edit_form.nomprojet) }}
+                    {{ form_widget(edit_form.nomprojet) }}
+                        </div>
+                        <br><br>
+                        <div>
+                    {{ form_errors(edit_form.description) }}
+                    {{ form_label(edit_form.description) }}
+                    {{ form_widget(edit_form.description) }}
+                            </div>
+                </td>
+                <td>
+                    {{ form_errors(edit_form.idapplis) }}
+                    {{ form_label(edit_form.idapplis) }}
+                    {#{  form_widget(form.name, { 'attr' : { 'class' : 'yourClass' } })  }#}
+                    {{ form_widget(edit_form.idapplis,{ 'attr' : { 'class' : 'myselect' } }) }}
+                     </td>
+                     <tr>  <td colspan="2">
+                        <ul class="docs" data-prototype="{{ form_widget(edit_form.picture.vars.prototype)|e }} " >
+    {% for document in edit_form.picture %}
+    <li> 
+
+  {{ form_errors(document.file) }}
+                    {#{ form_label(document.file) }#}
+                    {#{  form_widget(form.name, { 'attr' : { 'class' : 'yourClass' } })  }#}
+                    {{ form_widget(document.file) }}
+        {{ form_errors(document.name) }}
+         {{ form_widget(document.name) }}
+
+{#{ form_row(document.file) }#} </li>
+    {% endfor %}
+    
+    
+                   
+               </td>
+         </tr>
+         <tr>
+               <td colspan="2">
+                    {{ form_rest(edit_form) }}
+                     <button type="submit" class="btn btn-large btn-warning">Modifier</button>
+                      <a href="{{ path('projets') }}" class="btn btn-large btn-success">Retour</a>
+   </form>
+
+
+                                <form action="{{ path('projets_delete', { 'id': entity.id }) }}" method="post">
+        {{ form_errors(delete_form) }}
+           {{ form_row(delete_form.id) }}
+           {{ form_rest(delete_form) }}
+                                        <div style="text-align:right">
+                                            <button type="submit" class="btn btn-small btn-danger" onclick="if(!confirm('Are you sure?')) { return false; }">Supprimer Projet</button>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+      {#{ form_widget(delete_form) }#}
+
+
+                    <h3><center>Liste des Applications associés</center></h3>
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="title"><th>Nom</th><th>Description</th></tr>
+                        </thead>
+               {% for appli in applis %}
+                        <tr> <td>{{ appli.nomapplis }}</td>
+                            <td>{{ appli.description }}</td>
+                        </tr>
+       {% endfor %}
+                        </tbody>
+                    </table>
+
+<h3><center>Liste des Fichiers associés</center></h3>
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="title"><th>id</th><th>Nom</th><th>Path</th></tr>
+                        </thead>
+               {% for fic in entity.picture %}
+                        <tr> 
+                            <td>{{ fic.id }}</td>
+                            <td>{{ fic.name }}</td>
+                             <td>{{ fic.path }}</td>
+                            
+                        </tr>
+       {% endfor %}
+                        </tbody>
+                    </table>
+
+
+
+{% endblock %}

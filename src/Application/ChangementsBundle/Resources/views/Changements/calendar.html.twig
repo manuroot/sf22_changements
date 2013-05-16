@@ -1,0 +1,78 @@
+{% extends "ApplicationChangementsBundle::layout.html.twig" %}
+
+  {% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
+
+ {% endblock %}
+
+{% block content_header '' %}
+
+{% block title %}
+Changements Calendrier
+{% endblock %}
+
+
+{% block content %}
+
+{% for type, flashMessages in app.session.flashbag.all() %}
+    {% for flashMessage in flashMessages %}
+<div class="alert alert-{{ type }}">
+            {{ flashMessage|trans }}
+    </div>
+    {% endfor %}
+{% endfor %}
+
+
+{#% set events = calendr_events(week) %#}
+{# outputs $5,500.00 }
+{{ '5500'|price }}
+
+{{ 'Highlight this sentence'|highlight('i')|raw }}
+{{ 'Highlight this sentence'|highlightme|raw }#}
+    <a href="{{ path('changements_newflow') }}" class="btn btn-medium btn-primary">Ajouter Changement</a>
+      <form action="{{ path('changements_calendar') }}" method="post" {{ form_enctype(form) }}>
+  
+{{ form_widget(form) }}
+    <button type="submit" class="btn btn-small btn-warning">Valider</button>
+                                         
+          </form>
+    <table class="table small table-striped table-condensed table-bordered table-hover">
+
+        <thead>
+            <tr class="title">
+                <th>S</th> 
+                <th> <span class="label label-warning">  Lundi</span></th>
+                <th> <span class="label label-warning">  Mardi</span></th>
+                <th> <span class="label label-warning">  Mercredi</span></th>
+                <th> <span class="label label-warning">  Jeudi</span></th>
+                <th> <span class="label label-warning">  Vendredi</span></th>
+                <th> <span class="label label-warning">  Samedi</span></th>
+                <th> <span class="label label-warning">  Diamche</span></th>
+            </tr>  
+        </thead>
+        <tbody>
+            <tr>
+    {% for week in month %}
+                    <td><p class="text-warning"> S-{{ week }} </p></td>
+            {% for day in week %}
+                    <td>
+                         {#% if month.includes(day) %#}
+                    {% if month.contains(day.begin) %}
+
+                            <span class="label">  {{ day.begin.format('d') }} </span><br>
+         {% for event in evenement.find(day) %}
+                            <a href="{{ path('changements_show', { 'id': event.uid }) }}">
+            {{ event }}</a>
+                                <br>
+        {% endfor %}
+                    {% else %}
+                                &nbsp;
+                    {% endif %}
+                            </td>
+            {% endfor %}
+                        </tr>
+    {% endfor %}
+
+                </table>
+{% endblock %}

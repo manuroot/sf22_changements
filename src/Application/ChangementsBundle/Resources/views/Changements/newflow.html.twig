@@ -1,0 +1,145 @@
+{% extends "ApplicationChangementsBundle::layout.html.twig" %}
+{# in src/MyCompany/MyBundle/Resources/views/User/registerUser.html.twig #}
+
+
+
+{% block stylesheets %}
+{{ parent() }}
+
+<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
+<style>
+        .monlabel {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            font-weight: bold;
+        }
+        
+        .valider {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            color: red;
+            font-weight: bold;
+        }
+           .mytextarea {
+            border: 1px solid #D4E0EE;
+            background-color: #f1f1f1;
+            width:330px; height:150px;
+
+        }
+        
+        .boxlist {
+            border: 1px solid #D4E0EE;
+            background-color: #f1f1f1;
+
+        }
+    </style> 
+{% endblock %}
+
+
+    
+{% block javascripts %}
+{{ parent() }}
+    
+<script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/datenew.js') }}"></script>
+{{ tinymce_init() }}
+{% endblock %}
+
+{% block content_header '' %}
+{% block title %}NOUVEAU CHANGEMENT{% endblock %}
+{% block content %}
+
+
+        <table class="table table-striped table-bordered">
+           <tbody>
+           <tr><td><div>
+            ETAPES:
+    {% include 'CraueFormFlowBundle:FormFlow:stepList.html.twig' %}
+          </div>
+            </td><td>
+                 <form method="post" {{ form_enctype(form) }}>
+    {% include 'CraueFormFlowBundle:FormFlow:stepField.html.twig' %}
+
+    {{ form_errors(form) }}
+
+                                {#% if flow.getCurrentStep() == 4 %}
+                                  {{ form_row(edit_form.description,{ 'attr': {'class': 'mytextarea'} }) }}
+                                {{ form_rest(edit_form) }}
+                                
+ {% endif %#}
+ {% if flow.getCurrentStep() == 6 %}
+                                <div>
+                                   
+                     
+                                    {#{ dump form.vars }#}
+            <p class="valider">Vérifier Les paramètres de la demande et cliquer sur Valider.</p>
+                                  
+       <table class="table table-striped table-bordered table-hover">
+        <tbody>
+           <tr> <th>Nom</th><td>{{ entity.nom }}</td> </tr>
+           <tr> <th>Demandeur</th> <td>{{ entity.demandeur }}</td> </tr>
+           <tr> <th>Datedebut</th> <td>{{ entity.dateDebut|date('Y-m-d H:i:s') }}</td>   </tr>
+           <tr><th>Datefin</th><td>{{ entity.dateFin|date('Y-m-d H:i:s') }}</td></tr>
+           <tr><th>Datecomep</th> <td>
+            {% if entity.dateComep is not null %}
+               {{ entity.dateComep|date('Y-m-d H:i:s') }}
+            {% else %}
+               Aucune
+           {% endif %}
+           </td></tr>
+           <tr><th>Datevsr</th><td>
+            {% if entity.dateVsr is not null %}
+               {{ entity.dateVsr|date('Y-m-d H:i:s') }}
+            {% else %}
+               Aucune
+            {% endif %}
+           </td></tr>
+           <tr><th>Description</th>   <td>{{ entity.description }}</td> </tr>
+           <tr> <th>Projet</th> <td>{{ entity.idProjet }}</td>  </tr>
+           <tr><th>Status</th><td>{{ entity.idStatus }}</td></tr>
+           <tr><th>Applications</th>
+           <td>  {{ entity.idapplis|join(', ') }}      </td>  </tr>     
+           <tr><th>Environnements</th>
+           <td>{{ entity.idEnvironnement|join(', ') }}</td>  </tr>
+           <tr><th>Utilisateurs</th> <td> {{ entity.idusers|join(', ') }}</td>  </tr>
+            </tbody>
+           </table>
+
+
+{#{ form_row(form.termsOfService) }#}
+    </div>
+    {% endif %}
+    {{ form_rest(form) }}
+     </td></tr><tr><td colspan="2">
+                                            <!-- ======================= CRAUE SURCHARGE =================== -->
+
+
+ {% set renderBackButton = flow.getCurrentStep() in (flow.getFirstStep() + 1) .. flow.getLastStep() %}
+        <div class="craue_formflow_buttons craue_formflow_button_count_{% if renderBackButton %}3{% else %}2{% endif %}">
+	{#
+		Default button (the one trigged by pressing the enter/return key) must be defined first.
+		Thus, all buttons are defined in reverse order and will be reversed again via CSS.
+		See http://stackoverflow.com/questions/1963245/multiple-submit-buttons-specifying-default-button
+	#}
+                                                    <button type="submit" class="btn btn-small btn-primary">
+		{%- if flow.getCurrentStep() < flow.getLastStep() -%}
+			{{- 'Suivant' | trans({}, 'CraueFormFlowBundle') -}}
+		{%- else -%}
+			{{- 'Valider' | trans({}, 'CraueFormFlowBundle') -}}
+		{%- endif -%}
+                                                        </button>
+
+	{% if renderBackButton %}
+		{# see http://www.html5rocks.com/en/tutorials/forms/html5forms/ #}
+                     <button type="submit" class="btn btn-small btn-primary" name="{{ flow.getFormTransitionKey() }}" value="back" formnovalidate="formnovalidate">
+			{{- 'Retour' | trans({}, 'CraueFormFlowBundle') -}}
+                   </button>
+	{% endif %}
+
+        <button type="submit" class="btn btn-small btn-danger" name="{{ flow.getFormTransitionKey() }}" value="reset" formnovalidate="formnovalidate">
+	{{- 'RESET' | trans({}, 'CraueFormFlowBundle') -}}
+        </button>
+       </div>
+
+     <!-- ======================= FIN CRAUE SURCHARGE =================== -->        
+    </form>
+    </td></tr></tbody></table>
+{% endblock %}

@@ -1,0 +1,16 @@
+<!--<a{#% for attr, value in options %} {{ attr }}="{{ value }}"{% endfor %}>{{ title }#}</a>-->
+
+    {% spaceless %}
+    <a{% for attr, value in options %} {{ attr }}="{{ value }}"{% endfor %}>
+      {{ title }}
+      {% if sorted %}
+        {% if direction == 'asc' %}
+         <i class="icon-arrow-up"></i> 
+        {% endif %}
+        {% if direction == 'desc' %}
+        <i class="icon-arrow-down"></i> 
+        {% endif %}    
+      {% endif %}
+    </a>
+    {% endspaceless %}
+

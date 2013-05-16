@@ -1,0 +1,15 @@
+genemu_form:
+    autocompleter:
+        doctrine:             true
+        mongodb:              false
+    tinymce: ~
+    autocomplete:
+         enabled:              true
+         doctrine:             true
+         mongodb:              false
+
+  
+    select2:
+
+        enabled:              true
+

@@ -1,0 +1,28 @@
+{% extends "ApplicationRelationsBundle::layout.html.twig" %}
+
+  {% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
+
+ {% endblock %}
+
+
+{% block content_header '' %}
+{% block title %}AJOUTER DEMANDE DE GROUPE{% endblock %}
+{% block content %}
+
+    <form action="{{ path('groupedemande_create') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+        <p>
+            <button type="submit">Create</button>
+        </p>
+    </form>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('groupedemande') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}

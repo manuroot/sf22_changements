@@ -1,0 +1,97 @@
+{% extends "ApplicationRelationsBundle::layout.html.twig" %}
+
+  {% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
+
+ {% endblock %}
+
+{% block content_header '' %}
+
+{% block title %}
+    DEMANDE DE GROUPE
+{% endblock %}
+    
+     
+{% block content %}
+
+{% for type, flashMessages in app.session.flashbag.all() %}
+    {% for flashMessage in flashMessages %}
+<div class="alert alert-{{ type }}">
+            {{ flashMessage|trans }}
+    </div>
+    {% endfor %}
+{% endfor %}
+
+   {# {% if is_granted("ROLE_ADMIN") %}#}
+    <a href="{{ path('groupedemande_new') }}" class="btn btn-medium btn-primary">Ajouter Demande de groupe</a>
+    {#{% endif %}#}
+    
+    <br> <br>  
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr class="title">
+                <th>Id</th>
+                <th>Demande</th>
+                <th>Description</th>
+                 <th>Username</th>
+                 <th>Groupe</th>
+                   
+                <th>Status</th>
+                    <th>Parrain</th>
+                <th>Date de Demande</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('groupedemande_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                   <td>{{ entity.name }}</td>
+                <td>{{ entity.description|raw }}</td>
+                  <td>{{ entity.iduser.username }}</td>
+                       <td>{{ entity.idgroup.nomGroup }}</td>
+                     
+ 
+               <td>
+                {% if entity.isaccepted ==0 %}
+                        En Attente
+                {% else %} Acceptée
+                {% endif %}</td>
+                    <td>
+                {% if entity.iduserParrain is not null %}
+                     {{ entity.iduserParrain }}
+                {% else %} ---
+                {% endif %}</td>
+                   
+                <td>{{ entity.createdAt|created_ago }}</td>
+                   <td>
+                    <a href="{{ path('groupedemande_show', { 'id': entity.id }) }}">
+                        <img src="{{ asset('bundles/applicationrelations/images/detail.png') }}" alt="show" width="15" height="15" />
+                    </a>
+                </td>
+                <td>
+                   
+                    <a href="{{ path('groupedemande_edit', { 'id': entity.id }) }}">
+                       
+                        <img src="{{ asset('bundles/applicationrelations/images/edit.png') }}" alt="edit" width="15" height="15" />
+                    </a>
+                </td>
+                <td>
+                      {% if entity.isaccepted ==0 %}
+             
+                    <a href="{{ path('groupedemande_accept', { 'id': entity.id }) }}">
+                     <img src="{{ asset('bundles/applicationrelations/images/poignee.gif') }}" alt="edit" width="15" height="15" />
+                    </a>
+                        {% else %}
+                        ---
+                        {% endif %}
+                </td>
+              
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        
+    {% endblock %}

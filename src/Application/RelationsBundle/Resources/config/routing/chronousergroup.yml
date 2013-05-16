@@ -1,0 +1,30 @@
+chronogroup:
+    pattern:  /
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoUsergroup:index" }
+
+chronogroup_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoUsergroup:show" }
+
+chronogroup_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoUsergroup:new" }
+
+chronogroup_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoUsergroup:create" }
+    requirements: { _method: post }
+
+chronogroup_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoUsergroup:edit" }
+
+chronogroup_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoUsergroup:update" }
+    requirements: { _method: post }
+
+chronogroup_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoUsergroup:delete" }
+    requirements: { _method: post }
