@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "7d3835a7b6a734207e3f0f01bb9d1fa2",
+    "hash": "3c79635b8244b075d339ec2cd8010516",
     "packages": [
         {
             "name": "apy/datagrid-bundle",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Abhoryo/APYDataGridBundle.git",
-                "reference": "768e162ae8beeb1c8bc51f5c3437d76ed746bd55"
+                "reference": "3bd1a09eec5607b180d45f25a8f8500b39ed98b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Abhoryo/APYDataGridBundle/zipball/768e162ae8beeb1c8bc51f5c3437d76ed746bd55",
-                "reference": "768e162ae8beeb1c8bc51f5c3437d76ed746bd55",
+                "url": "https://api.github.com/repos/Abhoryo/APYDataGridBundle/zipball/3bd1a09eec5607b180d45f25a8f8500b39ed98b2",
+                "reference": "3bd1a09eec5607b180d45f25a8f8500b39ed98b2",
                 "shasum": ""
             },
             "require": {
@@ -62,7 +62,7 @@
                 "datagrid",
                 "symfony"
             ],
-            "time": "2013-05-15 12:17:45"
+            "time": "2013-05-16 14:15:43"
         },
         {
             "name": "beberlei/DoctrineExtensions",
@@ -155,12 +155,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/craue/CraueFormFlowBundle.git",
-                "reference": "d225817bbae89ecd754e10111f2a662991638a29"
+                "reference": "1e02893d5efbfc4c1f244275215f315cc05b5df7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craue/CraueFormFlowBundle/zipball/d225817bbae89ecd754e10111f2a662991638a29",
-                "reference": "d225817bbae89ecd754e10111f2a662991638a29",
+                "url": "https://api.github.com/repos/craue/CraueFormFlowBundle/zipball/1e02893d5efbfc4c1f244275215f315cc05b5df7",
+                "reference": "1e02893d5efbfc4c1f244275215f315cc05b5df7",
                 "shasum": ""
             },
             "require": {
@@ -200,7 +200,7 @@
                 "Symfony2",
                 "form"
             ],
-            "time": "2013-04-27 10:10:16"
+            "time": "2013-05-17 14:30:58"
         },
         {
             "name": "dflydev/markdown",
@@ -845,12 +845,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "2.4.0-BETA2"
+                "reference": "c9d9b68fa9937218aad05dfca4b3f96b409cfc8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/2.4.0-BETA2",
-                "reference": "2.4.0-BETA2",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/c9d9b68fa9937218aad05dfca4b3f96b409cfc8e",
+                "reference": "c9d9b68fa9937218aad05dfca4b3f96b409cfc8e",
                 "shasum": ""
             },
             "require": {
@@ -911,7 +911,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2013-05-10 21:31:27"
+            "time": "2013-05-17 16:34:00"
         },
         {
             "name": "egeloen/ckeditor-bundle",
@@ -2574,21 +2574,21 @@
         },
         {
             "name": "kriswallsmith/assetic",
-            "version": "dev-master",
+            "version": "v1.1.0-alpha4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kriswallsmith/assetic.git",
-                "reference": "80a13792d38652d6f3bcb938c83a67836ad7a48d"
+                "reference": "v1.1.0-alpha4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/80a13792d38652d6f3bcb938c83a67836ad7a48d",
-                "reference": "80a13792d38652d6f3bcb938c83a67836ad7a48d",
+                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/v1.1.0-alpha4",
+                "reference": "v1.1.0-alpha4",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.1",
-                "symfony/process": ">=2.1,<3.0"
+                "symfony/process": ">=2.1.0,<2.3-dev"
             },
             "require-dev": {
                 "cssmin/cssmin": "*",
@@ -2598,9 +2598,9 @@
                 "leafo/scssphp": "*",
                 "leafo/scssphp-compass": "*",
                 "mrclay/minify": "*",
-                "phpunit/phpunit": ">=3.7,<4.0",
+                "phpunit/phpunit": "3.7.*",
                 "ptachoire/cssembed": "*",
-                "twig/twig": ">=1.6,<2.0"
+                "twig/twig": ">=1.6.0,<2.0"
             },
             "suggest": {
                 "leafo/lessphp": "Assetic provides the integration with the lessphp LESS compiler",
@@ -2641,7 +2641,7 @@
                 "compression",
                 "minification"
             ],
-            "time": "2013-05-14 23:15:02"
+            "time": "2013-02-24 17:22:20"
         },
         {
             "name": "kriswallsmith/buzz",
@@ -2924,12 +2924,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/whiteoctober/Pagerfanta.git",
-                "reference": "5777effa6fc09eacc3f2c92b74234f3e24ffc3aa"
+                "reference": "55544f3af5b409d4ee9d618934f4d92ef874672c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/whiteoctober/Pagerfanta/zipball/5777effa6fc09eacc3f2c92b74234f3e24ffc3aa",
-                "reference": "5777effa6fc09eacc3f2c92b74234f3e24ffc3aa",
+                "url": "https://api.github.com/repos/whiteoctober/Pagerfanta/zipball/55544f3af5b409d4ee9d618934f4d92ef874672c",
+                "reference": "55544f3af5b409d4ee9d618934f4d92ef874672c",
                 "shasum": ""
             },
             "require": {
@@ -2978,7 +2978,7 @@
                 "paginator",
                 "paging"
             ],
-            "time": "2013-05-14 11:06:54"
+            "time": "2013-05-16 12:46:53"
         },
         {
             "name": "phpcollection/phpcollection",
@@ -3359,12 +3359,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataAdminBundle.git",
-                "reference": "6bc9128445c51506280c0a6b82d07af446fc77fd"
+                "reference": "1af771a3eec24070c35bfc000c872fd773cfdcb0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/6bc9128445c51506280c0a6b82d07af446fc77fd",
-                "reference": "6bc9128445c51506280c0a6b82d07af446fc77fd",
+                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/1af771a3eec24070c35bfc000c872fd773cfdcb0",
+                "reference": "1af771a3eec24070c35bfc000c872fd773cfdcb0",
                 "shasum": ""
             },
             "require": {
@@ -3425,7 +3425,7 @@
                 "bootstrap",
                 "sonata"
             ],
-            "time": "2013-05-09 20:37:49"
+            "time": "2013-05-17 17:27:43"
         },
         {
             "name": "sonata-project/block-bundle",
@@ -5135,7 +5135,7 @@
         "knplabs/gaufrette": 20,
         "knplabs/knp-gaufrette-bundle": 20,
         "doctrine/data-fixtures": 20,
-        "kriswallsmith/assetic": 20,
+        "kriswallsmith/assetic": 15,
         "mopa/composer-bridge": 20,
         "mopa/bootstrap-bundle": 20,
         "apy/datagrid-bundle": 20,

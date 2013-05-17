@@ -144,9 +144,9 @@ knp_paginator:
         distinct: false                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
     template:
       # sliding pagination controls template
-      pagination: ApplicationCertificatsBundle:pagination:twitter_bootstrap_pagination.html.twig
+      pagination: ApplicationRelationsBundle:pagination:twitter_bootstrap_pagination.html.twig
        # sliding pagination controls template
-      sortable: ApplicationCertificatsBundle:pagination:sortable_link.html.twig 
+      sortable: ApplicationRelationsBundle:pagination:sortable_link.html.twig 
       # sort link template
    
 #==================================================

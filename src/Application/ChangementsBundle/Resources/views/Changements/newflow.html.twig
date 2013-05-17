@@ -38,9 +38,10 @@
     
 {% block javascripts %}
 {{ parent() }}
-    
-<script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/datenew.js') }}"></script>
+                 
 {{ tinymce_init() }}
+<script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/datenew.js') }}"></script>
+
 {% endblock %}
 
 {% block content_header '' %}
@@ -92,7 +93,7 @@
                Aucune
             {% endif %}
            </td></tr>
-           <tr><th>Description</th>   <td>{{ entity.description }}</td> </tr>
+           <tr><th>Description</th>   <td>{{ entity.description|raw }}</td> </tr>
            <tr> <th>Projet</th> <td>{{ entity.idProjet }}</td>  </tr>
            <tr><th>Status</th><td>{{ entity.idStatus }}</td></tr>
            <tr><th>Applications</th>

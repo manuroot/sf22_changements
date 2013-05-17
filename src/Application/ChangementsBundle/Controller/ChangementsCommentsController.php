@@ -43,7 +43,7 @@ class ChangementsCommentsController extends Controller {
             'sortFieldParameterName' => $sortFieldParameterName)
         );
 
-        $pagination->setTemplate('ApplicationEpostBundle:pagination:twitter_bootstrap_pagination.html.twig');
+        $pagination->setTemplate('ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig');
         return $pagination;
     }
 

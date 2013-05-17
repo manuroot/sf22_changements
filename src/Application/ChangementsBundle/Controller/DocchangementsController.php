@@ -38,8 +38,7 @@ class DocchangementsController extends Controller {
         $pagination = $paginator->paginate(
                 $query, $this->get('request')->query->get('page', 1)/* page number */, 10/* limit per page */
         );
-        //$pagination->setTemplate('ApplicationEpostBundle:pagination:twitter_bootstrap_pagination.html.twig');
-         $pagination->setTemplate('ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig');
+          $pagination->setTemplate('ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig');
         return $this->render('ApplicationChangementsBundle:Docchangements:index.html.twig', array(
                     'pagination' => $pagination,
                 ));

@@ -54,7 +54,13 @@ class ChangementsStepsType extends AbstractType {
                             ),
                         ))
                  
-                     ->add('description', 'textarea', array(
+                    ->add('description', 'textarea', array(
+                    'label' => 'Description du Post',
+                    'attr' => array(
+                        'cols' => "280",
+                        'class' => 'tinymce',
+                        )))
+                  /*   ->add('description', 'textarea', array(
         'attr' => array(
             //'placeholder'=>'Description du changement',
             'cols'=>"60",
@@ -63,7 +69,7 @@ class ChangementsStepsType extends AbstractType {
          'data-theme' => 'simple'
            
 // simple, advanced, bbcode
-        )))
+        )))*/
                          
                        /* ->add('description','textarea',array(
                              'label' => 'Description',
