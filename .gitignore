@@ -1,0 +1,11 @@
+# Bootstrap
+app/bootstrap*
+app/config/parameters.yml
+
+# Symfony directories
+vendor/*
+*/logs/*
+*/cache/*
+web/uploads/*
+web/bundles/*
+

@@ -23,7 +23,7 @@
         "knplabs/gaufrette" : "0.2.*@dev",
         "knplabs/knp-gaufrette-bundle" : "dev-master",
         "doctrine/data-fixtures": "dev-master",
-        "kriswallsmith/assetic": "1.1.*@dev",
+        "kriswallsmith/assetic": "v1.1.0-alpha4",
         "mopa/composer-bridge": "dev-master",
       "mopa/bootstrap-bundle": "2.2.*@dev",
         "apy/datagrid-bundle": "dev-master",
