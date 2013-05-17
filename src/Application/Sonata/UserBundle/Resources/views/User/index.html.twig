@@ -53,7 +53,6 @@
                 <td><a href="{{ path('users_show', { 'id': entity.id }) }}">{{ entity.username }}</a></td>
                
                 <td>{{ entity.email }}</td>
-               <td>{{ entity.epost|length }}</td>
                 <td>{{ entity.enabled }}</td>
                 <td>{% if entity.lastLogin %}{{ entity.lastLogin|date('Y-m-d H:i:s') }}{% endif %}</td>
              

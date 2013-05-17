@@ -54,14 +54,11 @@ class AppKernel extends Kernel {
             new Application\Sonata\UserBundle\ApplicationSonataUserBundle(),
             new Application\Sonata\MediaBundle\ApplicationSonataMediaBundle(),
             new Application\Sonata\AdminBundle\ApplicationSonataAdminBundle(),
-            //new Application\Sonata\NewsBundle\ApplicationSonataNewsBundle(),
             new Application\CertificatsBundle\ApplicationCertificatsBundle(),
-            //new Application\MyNotesBundle\ApplicationMyNotesBundle(),
-           // new Application\EservicesBundle\ApplicationEservicesBundle(),
             new Application\ChangementsBundle\ApplicationChangementsBundle(),
             new Application\RelationsBundle\ApplicationRelationsBundle(),
             //new Ivory\GoogleMapBundle\IvoryGoogleMapBundle(),
-            //new Application\EpostBundle\ApplicationEpostBundle(),
+     
             //====================================================
             // FORM FILTER
             //====================================================
