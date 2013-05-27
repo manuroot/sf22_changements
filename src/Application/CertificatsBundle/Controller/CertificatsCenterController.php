@@ -99,6 +99,7 @@ class CertificatsCenterController extends Controller {
                         ->leftJoin('a.typeCert', 'c')
                         ->orderBy('a.id', 'DESC');
                  $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($searchForm, $filterBuilder);
+                //   var_dump($filterBuilder->getDql());exit(1);
         } else {
             $em = $this->getDoctrine()->getManager();
             $query = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->myFindaAll();

@@ -94,8 +94,8 @@ Changements
                              {% if date(entity.dateDebut) > date('-7days')  and date(entity.dateDebut) < date('+15days')%}
               <tr class="warning">
                            {% endif %}   {% else %} <tr>{% endif %}   
-                                <td><a href="{{ path('changements_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                                <td>{{ entity.nom }}</td>
+                                <td>{{ entity.id }}</td>
+                                <td><a href="{{ path('changements_show', { 'id': entity.id }) }}">{{ entity.nom }}</a></td>
                                 <td>{% if entity.dateDebut %}{{ entity.dateDebut|date('Y-m-d H') ~ 'h' }}{% endif %}</td>
                                 <td>{% if entity.dateFin %}{{ entity.dateFin|date('Y-m-d') }}{% endif %}</td>
                                 <!--<td>

@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Dashboard | Modern Admin</title>
+      
+
+{% block stylesheets %}
+  
+                       
+ <link rel="stylesheet" href="{{ asset('css/jquery-ui-1.9.2.custom.css') }}" type="text/css" media="all"/>
+  <link rel="stylesheet" type="text/css" href="{{ asset('profiadmin/css/960.css') }}"/> 
+<link rel="stylesheet" type="text/css" href="{{ asset('profiadmin/css/reset.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('profiadmin/css/text.css') }}"/> 
+        <link rel="stylesheet" type="text/css" href="{{ asset('profiadmin/css/green.css') }}"/>
+          <link rel="stylesheet" type="text/css" href="{{ asset('profiadmin/css/css/smoothness/ui.css') }}"/>
+             <link rel="stylesheet" type="text/css" href="{{ asset('profiadmin/css/css/smoothness/ui.css') }}"/>
+ <link rel="stylesheet" type="text/css" href="{{ asset('profiadmin/css/css/smoothness/ui.css') }}"/>
+
+        {% endblock %}
+     
+ 
+   
+    </head>
+    <body>
+        
+        
+<body>
+<!-- WRAPPER START -->
+<div class="container_16" id="wrapper">	
+<!-- HIDDEN COLOR CHANGER -->      
+      <div style="position:relative;">
+      	<div id="colorchanger">
+        	<a href="dashboard_red.html"><span class="redtheme">Red Theme</span></a>
+            <a href="dashboard.html"><span class="bluetheme">Blue Theme</span></a>
+            <a href="dashboard_green.html"><span class="greentheme">Green Theme</span></a>
+        </div>
+      </div>
+  	<!--LOGO-->
+	<div class="grid_8" id="logo">Admin - Administration</div>
+    <div class="grid_8">
+<!-- USER TOOLS START -->
+      <div id="user_tools"><span><a href="#" class="mail">(1)</a> Bienvenue <a href="#">Admin</a>  |  <a class="dropdown" href="#">Change Theme</a>  |  <a href="#">Logout</a></span></div>
+    </div>
+<!-- USER TOOLS END -->    
+<div class="grid_16" id="header">
+<!-- MENU START -->
+<div id="menu">
+	<ul class="group" id="menu_group_main">
+		<li class="item first" id="one"><a href="#" class="main current"><span class="outer"><span class="inner dashboard">Dashboard</span></span></a></li>
+        <li class="item middle" id="two">
+                <a href="{{ path('changements') }}" class="main"><span class="outer"><span class="inner content">Changements</span></span></a></li>
+        <li class="item middle" id="three"><a href="#"><span class="outer"><span class="inner reports png">Rapports</span></span></a></li>
+        <li class="item middle" id="four"><a href="#" class="main"><span class="outer"><span class="inner users">Utilisateurs</span></span></a></li>
+		<li class="item middle" id="five"><a href="#" class="main"><span class="outer"><span class="inner media_library">Medias</span></span></a></li>        
+		<li class="item middle" id="six"><a href="#" class="main"><span class="outer"><span class="inner event_manager">Evenements</span></span></a></li>        
+		<li class="item middle" id="seven"><a href="#" class="main"><span class="outer"><span class="inner newsletter">News</span></span></a></li>        
+		<li class="item last" id="eight"><a href="#" class="main"><span class="outer"><span class="inner settings">Settings</span></span></a></li>        
+    </ul>
+</div>
+<!-- MENU END -->
+</div>
+<div class="grid_16">
+<!-- TABS START -->
+    <div id="tabs">
+         <div class="container">
+            <ul>
+                      <li><a href="#" class="current"><span>Dashboard elements</span></a></li>
+                      <li><a href="forms.html"><span>Content Editing</span></a></li>
+                      <li><a href="#"><span>Submenu Link 3</span></a></li>
+                      <li><a href="#"><span>Submenu Link 4</span></a></li>
+                      <li><a href="#"><span>Submenu Link 5</span></a></li>
+                      <li><a href="#"><span>Submenu Link 6</span></a></li>
+                      <li><a href="#" class="more"><span>More Submenus</span></a></li>            
+           </ul>
+        </div>
+    </div>
+<!-- TABS END -->    
+</div>
+<!-- HIDDEN SUBMENU START -->
+<div class="grid_16" id="hidden_submenu">
+	  <ul class="more_menu">
+		<li><a href="#">More link 1</a></li>
+		<li><a href="#">More link 2</a></li>  
+	    <li><a href="#">More link 3</a></li>    
+        <li><a href="#">More link 4</a></li>                               
+      </ul>
+	  <ul class="more_menu">
+		<li><a href="#">More link 5</a></li>
+		<li><a href="#">More link 6</a></li>  
+	    <li><a href="#">More link 7</a></li> 
+        <li><a href="#">More link 8</a></li>                                  
+      </ul>
+	  <ul class="more_menu">
+		<li><a href="#">More link 9</a></li>
+		<li><a href="#">More link 10</a></li>  
+	    <li><a href="#">More link 11</a></li>  
+        <li><a href="#">More link 12</a></li>                                 
+      </ul>            
+  </div>
+<!-- HIDDEN SUBMENU END -->  
+
+<!-- CONTENT START -->
+    <div class="grid_16" id="content">
+    <!--  TITLE START  --> 
+    <div class="grid_9">
+    <h1 class="dashboard">Dashboard</h1>
+    </div>
+    <!--RIGHT TEXT/CALENDAR-->
+    <div class="grid_6" id="eventbox"><a href="#" class="inline_calendar">You don't have any events for today! Yay!</a>
+    	<div class="hidden_calendar"></div>
+    </div>
+    <!--RIGHT TEXT/CALENDAR END-->
+    <div class="clear">
+    </div>
+    <!--  TITLE END  -->    
+    <!-- #PORTLETS START -->
+    <div id="portlets">
+    <!-- FIRST SORTABLE COLUMN START -->
+      <div class="column" id="left">
+      <!--THIS IS A PORTLET-->
+		<div class="portlet">
+            <div class="portlet-header">
+                <img src="{{ asset('profiadmin/images/icons/chart_bar.gif') }}"/>Visitors - Last 30 days</div>
+            <div class="portlet-content">
+            <!--THIS IS A PLACEHOLDER FOR FLOT - Report & Graphs -->
+            <div id="placeholder" style="width:auto; height:250px;"></div>
+            </div>
+        </div>      
+      <!--THIS IS A PORTLET-->
+        <div class="portlet">
+		<div class="portlet-header">Anything  (no icon too if you like it better)</div>
+
+		<div class="portlet-content">
+		  <p>This can be any content you want. I placed a basic form here with text editor so you can see the functionality of the forms too.</p>
+		  <h3>This is a form</h3>
+		  <form id="form1" name="form1" method="post" action="">
+		    <label>Some title</label>
+		     <input type="text" name="textfield" id="textfield" class="smallInput" />
+			<label>Large input box</label>
+            <input type="text" name="textfield2" id="textfield2" class="largeInput" />
+            <label>This is a textarea</label>
+		    <textarea name="textarea" cols="45" rows="3" class="smallInput" id="textarea"></textarea>
+            <a class="button"><span>Submit in blue</span></a>
+            <a class="button_grey"><span>Submit this form</span></a>
+		  </form>
+		  <p>&nbsp;</p>
+		</div>
+        </div>
+      </div>
+      <!-- FIRST SORTABLE COLUMN END -->
+      <!-- SECOND SORTABLE COLUMN START -->
+      <div class="column">
+      <!--THIS IS A PORTLET-->        
+      <div class="portlet">
+          
+		<div class="portlet-header">
+                        <img src="{{ asset('profiadmin/css/images/icons/comments.gif') }}" />Latest Comments</div>
+          
+
+		<div class="portlet-content">
+         <p class="info" id="success"><span class="info_inner">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</span></p>
+    <p class="info" id="error"><span class="info_inner">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</span></p>
+    <p class="info" id="warning"><span class="info_inner">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</span></p>
+<p class="info" id="info"><span class="info_inner">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</span></p>
+        Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+       </div>    
+      <!--THIS IS A PORTLET--> 
+      <div class="portlet">
+		<div class="portlet-header">
+                   {#  <img src="{{ asset('profiadmin/css/images/icons/comments.gif') }}" />Latest Comments</div>#}
+                      <img src="{{ asset('profiadmin/css/images/icons/feed.gif') }}" />News</div>
+                   
+		<div class="portlet-content">
+        <ul class="news_items">
+        	<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean  adipiscing massa quis arcu interdum scelerisque. Duis vitae nunc nisi.  Quisque eget leo a nibh gravida vulputate ut sed nulla. <a href="#">Donec quis  lectus turpis, sed mollis nibh</a>. Donec ut mi eu metus ultrices  porttitor. Phasellus nec elit in nisi</li>
+            <li>Nunc convallis, enim quis tincidunt dictum, ante ipsum  interdum massa, consequat sodales arcu magna nec eros.<a href="#"> Vivamus nec  placerat odio.</a> Sed nec mi sed orci mattis feugiat. Etiam est dui,  rutrum nec dictum vel, accumsan id sem. </li>
+            <li>Nunc convallis, enim quis tincidunt dictum, ante ipsum  interdum massa, consequat sodales arcu magna nec eros.<a href="#"> Vivamus nec  placerat odio.</a> Sed nec mi sed orci mattis feugiat. Etiam est dui,  rutrum nec dictum vel, accumsan id sem. </li>
+            <li>Nunc convallis, enim quis tincidunt dictum, ante ipsum  interdum massa, consequat sodales arcu magna nec eros.<a href="#"> Vivamus nec  placerat odio.</a> Sed nec mi sed orci mattis feugiat. Etiam est dui,  rutrum nec dictum vel, accumsan id sem. </li>
+            <li>Nunc convallis, enim quis tincidunt dictum, ante ipsum  interdum massa, consequat sodales arcu magna nec eros.<a href="#"> Vivamus nec  placerat odio.</a> Sed nec mi sed orci mattis feugiat. </li>
+        </ul>
+        <a href="#">&raquo; View all news items</a>
+        </div>
+       </div>                         
+    </div>
+	<!--  SECOND SORTABLE COLUMN END -->
+    <div class="clear"></div>
+    <!--THIS IS A WIDE PORTLET-->
+    <div class="portlet">
+        <div class="portlet-header fixed"><img src="images/icons/user.gif" width="16" height="16" alt="Latest Registered Users" /> Last Registered users Table Example</div>
+		<div class="portlet-content nopadding">
+      	</div>
+      </div>
+<!--  END #PORTLETS -->  
+   </div>
+    <div class="clear"> </div>
+<!-- END CONTENT-->    
+  </div>
+<div class="clear"> </div>
+
+		<!-- This contains the hidden content for modal box calls -->
+		<div class='hidden'>
+			<div id="inline_example1" title="This is a modal box" style='padding:10px; background:#fff;'>
+			<p><strong>This content comes from a hidden element on this page.</strong></p>
+            			
+			<p><strong>Try testing yourself!</strong></p>
+            <p>You can call as many dialogs you want with jQuery UI.</p>
+			</div>
+		</div>
+</div>
+<!-- WRAPPER END -->
+<!-- FOOTER START -->
+<div class="container_16" id="footer">
+Website Administration by <a href="../index.htm">WebGurus</a></div>
+<!-- FOOTER END -->
+
+        
+                <!-- Le javascript ================================================== -->
+                <!-- Placed at the end of the document so the pages load faster -->
+
+       {% block javascripts %}
+     <script src="{{ asset('jquery/jquery-1.9.1.js') }}" type="text/javascript"></script>      
+   <script src="{{ asset('profiadmin/js/blend/jquery.blend.js') }}" type="text/javascript"></script>      
+ <script src="{{ asset('profiadmin/js/ui.core.js') }}" type="text/javascript"></script>      
+  <script src="{{ asset('profiadmin/js/ui.sortable.js') }}" type="text/javascript"></script> 
+   <script src="{{ asset('profiadmin/js/ui.dialog.js') }}" type="text/javascript"></script>      
+   <script src="{{ asset('profiadmin/js/effects.js') }}" type="text/javascript"></script>      
+       <script src="{{ asset('profiadmin/js/ui.datepicker.js') }}" type="text/javascript"></script>    
+       <script src="{{ asset('profiadmin/js/flot/jquery.flot.pack.js') }}" type="text/javascript"></script>      
+    
+    <!--[if IE]>
+    <script language="javascript" type="text/javascript" src="js/flot/excanvas.pack.js"></script>
+    <![endif]-->
+	<!--[if IE 6]>
+	<link rel="stylesheet" type="text/css" href="css/iefix.css" />
+	<script src="js/pngfix.js"></script>
+    <script>
+        DD_belatedPNG.fix('#menu ul li a span span');
+    </script>        
+    <![endif]-->
+          <script src="{{ asset('profiadmin/js/graph.js') }}" type="text/javascript"></script>      
+     
+   
+    
+ {% endblock %}
+    
+           
+        </body>
+
+    </html>
+    
+

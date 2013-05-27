@@ -68,6 +68,13 @@ class ChangementsController extends Controller {
                 ));
     }
 
+    public function indexdashboardAction() {
+
+       
+          return $this->render('ApplicationChangementsBundle:Changements:indexdashboard.html.twig', array(
+                 
+                ));
+    }
     public function calendarAction() {
 
         //     $past = date('Y-m-d', strtotime('-30days'));
