@@ -6,7 +6,8 @@ var my_array = [
 "#application_certificatsbundle_certificatscentertype_startDate"
 ];
 
- $( "#application_certificatsbundle_certificatscentertype_endTime" ).datepicker({
+jQuery.each( x, function( index, value ) {
+ $( value ).datepicker({
 maxDate: "+3M +10D",
 changeMonth: true,
 changeYeat: true,

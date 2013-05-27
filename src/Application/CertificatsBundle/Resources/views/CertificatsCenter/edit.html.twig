@@ -6,10 +6,20 @@
    <!--<script type="text/javascript" src="{{ asset('bundles/applicationcertificats/js/selectapplis.js') }}"></script>
     -->
 <script type="text/javascript">
-          
+  
+  var myarray = [
+"#moncert_addedDate",
+"#moncert_startDate",
+"#moncert_endTime",
+];
+
+
+ 
 $(document).ready(function() {
 //$(function() {
-  $( "#moncert_endTime" ).datepicker({
+jQuery.each( myarray, function( index, value ) {
+$( value ).datepicker({
+  /*$( "#moncert_endTime" ).datepicker({*/
 maxDate: "+3M +10D",
 changeMonth: true,
 changeYear: true,
@@ -19,7 +29,7 @@ onClose: function( selectedDate ) {
 $( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
 }
 });
-    $( "#moncert_addedDate" ).datepicker({
+   /* $( "#moncert_addedDate" ).datepicker({
 maxDate: "+3M +10D",
 changeMonth: true,
 changeYear: true,
@@ -38,9 +48,9 @@ dateFormat: "yy-mm-dd",
 onClose: function( selectedDate ) {
 $( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
 }
+});*/
+
 });
-
-
 function remplirSelect (dataAjax) {
    $.ajax({
         url: '{{ path('certificatscenter_listbyprojet')}}', 
