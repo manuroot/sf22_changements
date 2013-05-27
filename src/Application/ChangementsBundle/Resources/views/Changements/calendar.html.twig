@@ -6,6 +6,31 @@
 
  {% endblock %}
 
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+          
+$(document).ready(function() {
+//$(function() {
+  $( "#grid_certificatsgrid__dateDebut__query__from" ).datepicker({
+maxDate: "+3M +10D",
+changeMonth: true,
+changeYeat: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});
+ 
+$(function() {
+$( "#datepicker" ).datepicker();
+});
+});
+</script>
+
+{% endblock %}
 {% block content_header '' %}
 
 {% block title %}
@@ -23,7 +48,7 @@ Changements Calendrier
     {% endfor %}
 {% endfor %}
 
-
+{#Date: <div id="datepicker"></div>#}
 {#% set events = calendr_events(week) %#}
 {# outputs $5,500.00 }
 {{ '5500'|price }}

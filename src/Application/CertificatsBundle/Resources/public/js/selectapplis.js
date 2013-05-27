@@ -1,6 +1,12 @@
 $(document).ready(function() {
 //$(function() {
-  $( "#application_certificatsbundle_certificatscentertype_endTime" ).datepicker({
+var my_array = [
+"#application_certificatsbundle_certificatscentertype_endTime",
+"#application_certificatsbundle_certificatscentertype_addedDate",
+"#application_certificatsbundle_certificatscentertype_startDate"
+];
+
+ $( "#application_certificatsbundle_certificatscentertype_endTime" ).datepicker({
 maxDate: "+3M +10D",
 changeMonth: true,
 changeYeat: true,
@@ -10,7 +16,18 @@ onClose: function( selectedDate ) {
 $( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
 }
 });
-    $( "#application_certificatsbundle_certificatscentertype_addedDate" ).datepicker({
+/*
+  $( "#application_certificatsbundle_certificatscentertype_endTime" ).datepicker({
+maxDate: "+3M +10D",
+changeMonth: true,
+changeYeat: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});*/
+/*    $( "#application_certificatsbundle_certificatscentertype_addedDate" ).datepicker({
 maxDate: "+3M +10D",
 changeMonth: true,
 changeYeat: true,
@@ -29,7 +46,7 @@ dateFormat: "yy-mm-dd",
 onClose: function( selectedDate ) {
 $( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
 }
-});
+});*/
 
 
 function remplirSelect (dataAjax) {
