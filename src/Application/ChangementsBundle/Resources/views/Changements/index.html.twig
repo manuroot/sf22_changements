@@ -13,9 +13,37 @@
       tr.single {
          background-color: #000000;
         } 
-        </style>
- {% endblock %}
+        .free-day {
+  background: #2e9500;
+}
+ 
+.free-day a {
+  opacity: 0.7;
+}
+        div.ui-datepicker {
+            font-size: 90%;
+        }
+ </style>
+{% endblock %}
 
+ {% block javascripts %}
+{{ parent() }}
+  <script type="text/javascript">
+ $("#datepicker").datepicker({
+          changeMonth: true,
+          changeYear: true,
+          showOtherMonths: true,
+          selectOtherMonths: true,
+          //numberOfMonths: 2,
+          dateFormat: 'yy, d MM, DD',
+          altField: '#date_due',
+          altFormat: 'yy-mm-dd',
+          dateFormat: 'yy-dd-mm',
+           firstDay: 1 // rows starts on Monday
+        });
+       </script>
+
+{% endblock %}      
 {% block content_header '' %}
 
 {% block title %}
@@ -40,7 +68,7 @@ Changements
  
     {% endfor %}
 {% endfor %}
- 
+  <div id="datepicker"></div>
  {% if is_granted("ROLE_USER") %}
 <a href="{{ path('changements_newflow') }}" class="btn btn-medium btn-primary"><i class="icon-plus"></i> Ajouter un Changement</a>
 {% endif %}
