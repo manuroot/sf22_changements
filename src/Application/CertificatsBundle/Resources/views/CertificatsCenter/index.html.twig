@@ -4,8 +4,8 @@
 
 {% block javascripts %}
 {{ parent() }}
-   <!--<script type="text/javascript" src="{{ asset('bundles/applicationcertificats/js/selectapplis.js') }}"></script>
-    -->
+<script type="text/javascript" src="{{ asset('js/jquery.cookie.js') }}"></script>
+   
 <script type="text/javascript">
           
 $(document).ready(function() {
@@ -32,6 +32,111 @@ onClose: function( selectedDate ) {
 $( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
 }
 });
+function runEffect() {
+// get effect type from
+var selectedEffect = 'slide';
+//var selectedEffect = $( "#effectTypes" ).val();
+// most effect types need no options passed by default
+var options = {};
+// run the effect
+$( "#effect" ).toggle( selectedEffect, options, 800 );
+};
+// set effect from select menu value
+$( "#button" ).click(function() {
+runEffect();
+return false;
+});
+$( "#effect" ).hide();
+
+
+ var $ShowHideBox = $('#ShowHideBox').hide(),
+        $ShowHideButton = $('#ShowHideButton');
+    initBox();
+
+    $('#ShowHideButton').click(function() {
+      if (boxVisible())
+        {
+            //the box is visible. lets hide it.
+          //  console.log("hide box");
+            hideBox();
+        }
+        else
+        {
+            //the box is invisible. show it.
+           //console.log("show box");
+            showBox();
+        }
+    });
+
+    function initBox()
+    {
+       /*  console.log("--initbox--");*/
+        //if the cookie says this is visible, and it's not...show it
+        if ( $.cookie('BoxVisible')==1)
+                //&& boxVisible()==false)
+                //&& ! boxVisible() )
+    {
+            /* console.log("box=" + boxVisible() + "cookie dit: visible(1) -- initbox cas1:show");*/
+            showBox();
+        }
+        //if the cookie says this is not visible, and it is...hide it
+        else if ( $.cookie('BoxVisible')==0)
+                //==0 && boxVisible()==true )
+       /*  else if (  $.cookie('BoxVisible')==0 )*/
+        {
+           /*  console.log("cookie dit :pas visible (0) - initbox cas2:hide");*/
+             
+         
+
+            hideBox();
+        }
+    }  
+
+    //check to see if the box is visible or not, currently
+    function boxVisible()
+    {
+       /* console.log("box status=" + $ShowHideBox.hasClass('hidden'));*/
+        return $ShowHideBox.hasClass('hidden')? false : true;
+    }
+
+    //show the box, change the button text, and set the cookie
+    function showBox()
+    {
+                /* console.log("show show box");*/
+   
+        //$ShowHideBox.slideUp(500).removeClass('hidden');
+        $ShowHideBox.show().removeClass('hidden');
+         //$('#ShowHideBox').show().removeClass('hidden');
+        /*$('#ShowHideBox').show( "slide", { direction: "left" }, "slow" ).removeClass('hidden');*/
+        $.cookie('BoxVisible', 1, {expires: 365});
+     //   $('#ShowHideBox').show();
+     /*   $ShowHideButton.html("Click Here to Hide!");*/
+       
+    }
+
+    //hide the box, change the button text, and set the cookie
+    function hideBox()
+    {
+              /*   console.log("hide hide box");*/
+   
+      var options = {};
+            // run the effect
+          
+       /* $ShowHideBox.slideDown(250).addClass('hidden');*/
+       /* $ShowHideButton.html("Click Here to Show!");*/
+      
+        /* $('#ShowHideBox').hide();*/
+       //  $('#ShowHideBox').hide( "drop", { direction: "down" }, "slow" ).addClass('hidden');
+     //   $ShowHideBox.hide( 'slide', options, 800 ).addClass('hidden');
+       //  $('#ShowHideBox').hide( 'slide', options, 800 );
+         //$('#ShowHideBox').addClass('hidden');
+       //  toggle( selectedEffect, options, 800 );
+       $ShowHideBox.hide().addClass('hidden');
+  $.cookie('BoxVisible', 0, {expires: 365});
+    }
+
+
+
 }); //Eof:: ready
     </script>
 
@@ -65,7 +170,6 @@ LISTE DES {{ parent() }}
    {% if is_granted("ROLE_ADMIN") %}
 <a href="{{ path('certificatscenter_new') }}" class="btn btn-medium btn-primary">Ajouter Certificat</a>
 {% endif %}
-<br> <br>  
 
 
 {#
@@ -105,7 +209,31 @@ $( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
 
 #}
 
+
+  <div id="ShowHideContainer">
+    <p><a id="ShowHideButton">
+         <img src="{{ asset('images/eyes.png') }}" alt="SHOWHIDE"  width="20" height="20" />
+        </a></p>
+    <div id="ShowHideBox">
+        {% include 'ApplicationCertificatsBundle:CertificatsCenter:indexsearch_form.html.twig' %}
+        </div>
+</div>
+{#
+<a href="#" id="button" class="ui-state-default ui-corner-all">
+    <img src="{{ asset('images/eyes.png') }}" alt="SHOWHIDE"  width="20" height="20" /></a>
+
+<br> <br>          
+        
+        <div class="toggler">
+<div id="effect" class="ui-widget-content ui-corner-all">
+<h4 class="ui-widget-header ui-corner-all">Formulaire de Recherche</h4>
+<p>
 {% include 'ApplicationCertificatsBundle:CertificatsCenter:indexsearch_form.html.twig' %}
+</p>
+</div>
+</div>
+
+#}
  
  {#
 <form  class="form-horizontal" action="{{ path('certificatscenter') }}" method="post" {{ form_enctype(search_form) }}>
