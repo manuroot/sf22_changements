@@ -20,6 +20,7 @@ use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Column\TextColumn;
 use APY\DataGridBundle\Grid\Column\DateColumn;
 use APY\DataGridBundle\Grid\Export\ExcelExport;
+use Ob\HighchartsBundle\Highcharts\Highchart;
 
 /* use Pagerfanta\Pagerfanta;
   use Pagerfanta\Adapter\DoctrineORMAdapter;
@@ -30,8 +31,7 @@ use APY\DataGridBundle\Grid\Export\ExcelExport;
  *
  */
 class ChangementsController extends Controller {
-
-     /* ====================================================================
+    /* ====================================================================
      * 
      *  CREATION DU PAGINATOR
      * 
@@ -51,6 +51,7 @@ class ChangementsController extends Controller {
         $pagination->setTemplate('ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig');
         return $pagination;
     }
+
     /**
      * Lists all Changements entities.
      *
@@ -62,19 +63,58 @@ class ChangementsController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $query = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
         $pagination = $this->createpaginator($query, 10);
-    
-          return $this->render('ApplicationChangementsBundle:Changements:index.html.twig', array(
+        return $this->render('ApplicationChangementsBundle:Changements:index.html.twig', array(
                     'pagination' => $pagination,
+                ));
+        // Chart
+    }
+
+    public function indexchartsAction() {
+
+        $series = array(
+            array("name" => "Data Serie Name", "data" => array(1, 2, 4, 5, 6, 3, 8))
+        );
+
+        $ob1 = new Highchart();
+        $ob1->chart->renderTo('linechart1');  // The #id of the div where to render the chart
+        $ob1->title->text('Demandes 2013');
+        $ob1->xAxis->title(array('text' => "Demandes"));
+        $ob1->yAxis->title(array('text' => "Mois (2013)"));
+        $ob1->series($series);
+
+
+        $ob2 = new Highchart();
+        $ob2->chart->renderTo('linechart2');
+        $ob2->title->text('Demandes 2013: Projets');
+        $ob2->plotOptions->pie(array(
+            'allowPointSelect' => true,
+            'cursor' => 'pointer',
+            'dataLabels' => array('enabled' => false),
+            'showInLegend' => true
+        ));
+        $data = array(
+            array('CDR', 45.0),
+            array('CAC', 26.8),
+            array('PGEN', 12.8),
+            array('SDF/SDC', 8.5),
+            array('LOME', 6.2),
+            array('Others', 0.7),
+        );
+        $ob2->series(array(array('type' => 'pie', 'name' => 'Browser share', 'data' => $data)));
+
+        return $this->render('ApplicationChangementsBundle:Changements:indexcharts.html.twig', array(
+                    'chart1' => $ob1,
+                    'chart2' => $ob2
                 ));
     }
 
     public function indexdashboardAction() {
 
-       
-          return $this->render('ApplicationChangementsBundle:Changements:indexdashboard.html.twig', array(
-                 
+
+        return $this->render('ApplicationChangementsBundle:Changements:indexdashboard.html.twig', array(
                 ));
     }
+
     public function calendarAction() {
 
         //     $past = date('Y-m-d', strtotime('-30days'));
@@ -85,15 +125,15 @@ class ChangementsController extends Controller {
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
             $dataform = $this->get('request')->get('form');
-            $data=$dataform['publishedAt'];
-           // print_r($data);
+            $data = $dataform['publishedAt'];
+            // print_r($data);
             // print_r($data['publishedAt']);
-           //     exit(1);
+            //     exit(1);
             $current_year = $data['year'];
             $current_month = $data['month'];
             $current_yearmonth = ("$current_year-$current_month");
-                $form = $this->createCalendarForm(array('mois'=>$current_month,'annee'=>$current_year));
-        $form->bindRequest($request);
+            $form = $this->createCalendarForm(array('mois' => $current_month, 'annee' => $current_year));
+            $form->bindRequest($request);
 
             // print_r($data);
             //    exit(1);
@@ -103,10 +143,7 @@ class ChangementsController extends Controller {
             $current_yearmonth = $current_date->format('Y-m');
             $current_year = $current_date->format('Y');
             $current_month = $current_date->format('m');
-                $form = $this->createCalendarForm(array('mois'=>$current_month,'annee'=>$current_year));
-
-
-            
+            $form = $this->createCalendarForm(array('mois' => $current_month, 'annee' => $current_year));
         }
         //   $postData = $request->request->get('contact');
 //$name_value = $postData['name'];
@@ -133,8 +170,8 @@ class ChangementsController extends Controller {
         //  $f=$this->get('booking_repository');
         //  $month = $f->getMonth(2012, 6);
 
-        
-    
+
+
         $session = $this->getRequest()->getSession();
         $session->set('buttonretour', 'changements');
         $em = $this->getDoctrine()->getManager();
@@ -148,7 +185,7 @@ class ChangementsController extends Controller {
         // $nbtags = $query->getPicture()->count();
         $month = $this->get('calendr')->getMonth($current_year, $current_month);
         $events = $this->get('calendr')->getEvents($month);
-      //  $paginator = $this->get('knp_paginator');
+        //  $paginator = $this->get('knp_paginator');
 
         return $this->render('ApplicationChangementsBundle:Changements:calendar.html.twig', array(
                     'month' => $this->get('calendr')->getMonth($current_year, $current_month),
@@ -477,22 +514,22 @@ class ChangementsController extends Controller {
         return $response;
     }
 
-    private function createCalendarForm($values=array()) {
-      $year=isset($values['annee']) ? $values['annee'] : 'annee' ;
-       $month=isset($values['mois']) ? $values['mois'] : 'mois' ;
+    private function createCalendarForm($values = array()) {
+        $year = isset($values['annee']) ? $values['annee'] : 'annee';
+        $month = isset($values['mois']) ? $values['mois'] : 'mois';
         return $this->createFormBuilder()
-          /*    ->add('publishedAt', 'date', array(
-                 'widget' => 'choice',
-    'empty_value' => array('year' => $year, 'month' => $month, 'day' => '1')
-))*/
-                     ->add('publishedAt', 'date', array(
-                        'widget' => 'choice',
-                                        'format' => 'yyyy-MM-dd',
-                                        'pattern' => '{{ year }}-{{ month }}-{{ day }}',
-                                        'years' => range(Date('Y'), 2009),
-                                        'label' => 'Date de Recherche',
-                                        'input' => 'string',
-                                     //   'data'  => date_create()
+                        /*    ->add('publishedAt', 'date', array(
+                          'widget' => 'choice',
+                          'empty_value' => array('year' => $year, 'month' => $month, 'day' => '1')
+                          )) */
+                        ->add('publishedAt', 'date', array(
+                            'widget' => 'choice',
+                            'format' => 'yyyy-MM-dd',
+                            'pattern' => '{{ year }}-{{ month }}-{{ day }}',
+                            'years' => range(Date('Y'), 2009),
+                            'label' => 'Date de Recherche',
+                            'input' => 'string',
+                                //   'data'  => date_create()
                         ))
                         ->getForm()
         ;

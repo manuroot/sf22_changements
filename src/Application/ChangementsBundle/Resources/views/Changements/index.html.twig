@@ -28,7 +28,7 @@
 
  {% block javascripts %}
 {{ parent() }}
-  <script type="text/javascript">
+ {# <script type="text/javascript">
  $("#datepicker").datepicker({
           changeMonth: true,
           changeYear: true,
@@ -41,7 +41,7 @@
           dateFormat: 'yy-dd-mm',
            firstDay: 1 // rows starts on Monday
         });
-       </script>
+       </script>#}
 
 {% endblock %}      
 {% block content_header '' %}
@@ -68,7 +68,7 @@ Changements
  
     {% endfor %}
 {% endfor %}
-  <div id="datepicker"></div>
+{#  <div id="datepicker"></div>#}
  {% if is_granted("ROLE_USER") %}
 <a href="{{ path('changements_newflow') }}" class="btn btn-medium btn-primary"><i class="icon-plus"></i> Ajouter un Changement</a>
 {% endif %}
@@ -209,4 +209,6 @@ Changements
 
    {{ knp_pagination_render(pagination, 'ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig') }}
 
+ 
+ 
 {% endblock %}

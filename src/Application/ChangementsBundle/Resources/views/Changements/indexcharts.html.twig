@@ -1,0 +1,62 @@
+{% extends "ApplicationChangementsBundle::layout.html.twig" %}
+{% macro icon_class( type ) %}
+  {% set type_class_map = {
+    like: 'icon-user'
+  } %}
+  {{ type_class_map[type] }}
+{% endmacro %}
+
+  {% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
+ <style>
+      tr.single {
+         background-color: #000000;
+        } 
+        .free-day {
+  background: #2e9500;
+}
+ 
+.free-day a {
+  opacity: 0.7;
+}
+        div.ui-datepicker {
+            font-size: 90%;
+        }
+ </style>
+{% endblock %}
+
+ {% block javascripts %}
+{{ parent() }}
+ <script src="{{ asset('bundles/obhighcharts/js/highcharts/highcharts.js') }}"></script>
+<script src="{{ asset('bundles/obhighcharts/js/highcharts/modules/exporting.js') }}"></script>
+<script type="text/javascript">
+    {{ chart(chart1) }}
+         {{ chart(chart2) }}
+</script>
+{% endblock %}      
+
+{% block content_header '' %}
+
+{% block title %}
+Changements
+{% endblock %}
+
+
+{% block content %}
+
+{% for type, flashMessages in app.session.flashbag.all() %}
+    {% for flashMessage in flashMessages %}
+<div class="alert alert-{{ type }}">
+          
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+      {{ flashMessage|trans }}
+    </div>
+ 
+    {% endfor %}
+{% endfor %}
+{#  <div id="datepicker"></div>#}
+ 
+ <div id="linechart1" style="min-width: 100px; min-height:100px;width:400px;height: 400px; padding:5px;margin: 10px auto;float:left;"></div>
+ <div id="linechart2" style="min-width: 100px; min-height:100px;width:400px;height: 400px; padding:5px;margin: 10px auto;float:left;"></div>
+{% endblock %}

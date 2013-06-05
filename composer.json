@@ -69,7 +69,8 @@
                  "lexik/form-filter-bundle": "dev-master",
         "savvy/filternator-bundle": "dev-master",
         "jms/serializer-bundle": "0.12.*@dev",
-        "friendsofsymfony/comment-bundle": "2.0.*@dev"
+        "friendsofsymfony/comment-bundle": "2.0.*@dev",
+        "ob/highcharts-bundle": "dev-master"
  
          
         
