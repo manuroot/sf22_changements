@@ -2,6 +2,10 @@ changements:
     pattern:  /
     defaults: { _controller: "ApplicationChangementsBundle:Changements:index" }
 
+changements_charts:
+    pattern:  /charts
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:charts" }
+    
 changements_dashboard:
     pattern:  /dashboard
     defaults: { _controller: "ApplicationChangementsBundle:Changements:indexdashboard" }

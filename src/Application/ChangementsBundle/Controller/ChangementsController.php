@@ -20,7 +20,7 @@ use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Column\TextColumn;
 use APY\DataGridBundle\Grid\Column\DateColumn;
 use APY\DataGridBundle\Grid\Export\ExcelExport;
-
+ use Ob\HighchartsBundle\Highcharts\Highchart;
 /* use Pagerfanta\Pagerfanta;
   use Pagerfanta\Adapter\DoctrineORMAdapter;
   use Pagerfanta\Exception\NotValidCurrentPageException; */
@@ -68,6 +68,54 @@ class ChangementsController extends Controller {
                 ));
     }
 
+     public function chartsAction() {
+
+        $session = $this->getRequest()->getSession();
+        $session->set('buttonretour', 'changements');
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
+        $pagination = $this->createpaginator($query, 10);
+    // Chart
+        
+        $ob = new Highchart();
+$ob->chart->renderTo('linechart');
+$ob->title->text('Browser market shares at a specific website in 2010');
+$ob->plotOptions->pie(array(
+    'allowPointSelect'  => true,
+    'cursor'    => 'pointer',
+    'dataLabels'    => array('enabled' => false),
+    'showInLegend'  => true
+));
+$data = array(
+    array('Firefox', 45.0),
+    array('IE', 26.8),
+    array('Chrome', 12.8),
+    array('Safari', 8.5),
+    array('Opera', 6.2),
+    array('Others', 0.7),
+);
+$ob->series(array(array('type' => 'pie','name' => 'Browser share', 'data' => $data)));
+
+
+   /*     $series = array(
+            array("name" => "Data Serie Name",    "data" => array(1,2,4,5,6,3,8))
+        );
+
+        $ob = new Highchart();
+        $ob->chart->renderTo('linechart');  // The #id of the div where to render the chart
+        $ob->title->text('Chart Title');
+        $ob->xAxis->title(array('text'  => "Horizontal axis title"));
+        $ob->yAxis->title(array('text'  => "Vertical axis title"));
+        $ob->series($series);*/
+
+       /* return $this->render('::your_template.html.twig', array(
+            'chart' => $ob
+        ));*/
+          return $this->render('ApplicationChangementsBundle:Changements:charts.html.twig', array(
+                    'pagination' => $pagination,
+               'chart' => $ob,
+                ));
+    }
     public function indexdashboardAction() {
 
        

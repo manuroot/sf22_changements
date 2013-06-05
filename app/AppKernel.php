@@ -71,6 +71,11 @@ class AppKernel extends Kernel {
                new FOS\RestBundle\FOSRestBundle(),
         //new FOS\CommentBundle\FOSCommentBundle(),
         new JMS\SerializerBundle\JMSSerializerBundle($this),
+            
+               //====================================================
+            // OBCHARTS
+            //====================================================
+              new Ob\HighchartsBundle\ObHighchartsBundle(),
 
         );
 
