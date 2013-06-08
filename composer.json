@@ -41,8 +41,8 @@
         "sonata-project/notification-bundle":  "dev-master",
         "sonata-project/jquery-bundle": "1.8.3",
         "sonata-project/media-bundle" : "dev-master",
-        "sonata-project/formatter-bundle": "dev-master",
-        "sonata-project/news-bundle":  "dev-master",
+	"sonata-project/formatter-bundle": "2.2.*@dev",
+	"sonata-project/news-bundle":  "2.2.x-dev",
         "sonata-project/intl-bundle" :"2.1.x-dev",
         "genemu/form-bundle": "2.1.*@dev",
          "sonata-project/google-authenticator": "1.0.0",
@@ -70,7 +70,8 @@
         "savvy/filternator-bundle": "dev-master",
         "jms/serializer-bundle": "0.12.*@dev",
         "friendsofsymfony/comment-bundle": "2.0.*@dev",
-        "ob/highcharts-bundle": "dev-master"
+        "ob/highcharts-bundle": "dev-master",
+ "knplabs/knp-markdown-bundle": "1.1.1"
  
          
         

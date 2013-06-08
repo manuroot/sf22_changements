@@ -47,6 +47,10 @@ changements_delete:
 changements_upload:
     pattern:  /upload
     defaults: { _controller: "ApplicationChangementsBundle:Changements:upload" }
+ 
+changements_newflowstart:
+    pattern:  /newflowstart
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:newflowstart" }
    
 changements_newflow:
     pattern:  /newflow

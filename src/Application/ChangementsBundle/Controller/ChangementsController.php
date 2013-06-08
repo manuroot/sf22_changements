@@ -10,6 +10,7 @@ use Application\ChangementsBundle\Entity\Changements;
 use Application\RelationsBundle\Entity\Document;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Application\ChangementsBundle\Form\ChangementsType;
+use Application\ChangementsBundle\Form\ChangementsFilterType;
 use Application\ChangementsBundle\Entity\GridExport;
 use APY\DataGridBundle\Grid\Source\Entity;
 use APY\DataGridBundle\Grid\Grid;
@@ -61,11 +62,33 @@ class ChangementsController extends Controller {
         $session = $this->getRequest()->getSession();
         $session->set('buttonretour', 'changements');
         $em = $this->getDoctrine()->getManager();
-        $query = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
+        $searchForm = $this->createForm(new ChangementsFilterType());
+        
+           if ($this->get('request')->query->has('submit-filter')) {
+             // echo "submit filters";exit(1);
+            // bind values from the request
+            $searchForm->bind($this->get('request'));
+            $filterBuilder = $this->get('doctrine.orm.entity_manager')
+                    ->getRepository('ApplicationChangementsBundle:Changements')
+                   // ->createQueryBuilder('e');
+             ->createQueryBuilder('a')
+                        /*->select('a,b,c')
+                        ->leftJoin('a.project', 'b')
+                        ->leftJoin('a.typeCert', 'c')*/
+                        ->orderBy('a.id', 'DESC');
+                 $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($searchForm, $filterBuilder);
+                //   var_dump($filterBuilder->getDql());exit(1);
+        } else {
+            $em = $this->getDoctrine()->getManager();
+              $query = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
+         }
+        
+     
         $pagination = $this->createpaginator($query, 10);
         return $this->render('ApplicationChangementsBundle:Changements:index.html.twig', array(
+            'search_form' => $searchForm->createView(),
                     'pagination' => $pagination,
-                ));
+        ));
         // Chart
     }
 
@@ -105,14 +128,14 @@ class ChangementsController extends Controller {
         return $this->render('ApplicationChangementsBundle:Changements:indexcharts.html.twig', array(
                     'chart1' => $ob1,
                     'chart2' => $ob2
-                ));
+        ));
     }
 
     public function indexdashboardAction() {
 
 
         return $this->render('ApplicationChangementsBundle:Changements:indexdashboard.html.twig', array(
-                ));
+        ));
     }
 
     public function calendarAction() {
@@ -194,7 +217,7 @@ class ChangementsController extends Controller {
                     'evenement' => $events,
                     'form' => $form->createView(),
                         // 'current_month' => $month
-                ));
+        ));
     }
 
 //==============================================
@@ -233,7 +256,7 @@ class ChangementsController extends Controller {
         // Attach the source to the grid
         $grid->setSource($source);
 
-        $grid->setId('certificatsgrid');
+        $grid->setId('changementsgrid');
         //chiant si error
         /*  $grid->addExport(new ExcelExport('Excel Export','changements.xls',array(),'Windows-1252'));
           //$grid->addExport(new ExcelExport($title, $fileName, $params, $charset, $role));
@@ -289,28 +312,40 @@ class ChangementsController extends Controller {
         return $this->render('ApplicationChangementsBundle:Changements:new.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),
-                ));
+        ));
     }
 
+    
+     public function newflowstartAction() {
+        // form data class
+        $entity = new Changements();
+        $flow = $this->get('application.form.flow.new.changement');
+         $flow->reset();
+         return $this->redirect($this->generateUrl('changements_newflow'));
+        
+     }
     /**
      * Displays a form to create a new Changements entity.
      *
      */
     public function newflowAction() {
+        // form data class
         $entity = new Changements();
         $flow = $this->get('application.form.flow.new.changement');
-        //     $flow->reset();
-// must match the flow's service id
+       //  $flow->reset();
+        // must match the flow's service id
         $flow->bind($entity);
 
-        // form of the current step
-        $form = $flow->createForm($entity);
+         // form of the current step
+        $form = $flow->createForm();
+
+        //    $form = $flow->createForm($entity);
         if ($flow->isValid($form)) {
-            $flow->saveCurrentStepData();
+            $flow->saveCurrentStepData($form);
 
             if ($flow->nextStep()) {
                 // form for the next step
-                $form = $flow->createForm($entity);
+                $form = $flow->createForm();
             } else {
                 // flow finished
 
@@ -330,7 +365,7 @@ class ChangementsController extends Controller {
                     'form' => $form->createView(),
                     'flow' => $flow,
                     'entity' => $entity,
-                ));
+        ));
     }
 
     /**
@@ -354,7 +389,7 @@ class ChangementsController extends Controller {
         return $this->render('ApplicationChangementsBundle:Changements:new.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),
-                ));
+        ));
     }
 
     /**
@@ -379,7 +414,7 @@ class ChangementsController extends Controller {
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
-                ));
+        ));
     }
 
     /**
@@ -420,7 +455,7 @@ class ChangementsController extends Controller {
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
-                ));
+        ));
     }
 
     /**
@@ -475,7 +510,7 @@ class ChangementsController extends Controller {
         }
         return $this->render('ApplicationChangementsBundle:Changements:upload.html.twig', array(
                     'form' => $form->createView(),
-                ));
+        ));
     }
 
     public function downloadAction($filename) {

@@ -2,41 +2,25 @@
 
 namespace Application\ChangementsBundle\Form;
 
-/*
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;*/
-use Craue\FormFlowBundle\Form\FormFlow;
-use Craue\FormFlowBundle\Form\FormFlowInterface;
-use Symfony\Component\Form\FormTypeInterface;
-/*
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
+
 use Craue\FormFlowBundle\Form\FormFlow;
 use Craue\FormFlowBundle\Event\PostValidateEvent;
 use Craue\FormFlowBundle\Event\PreBindEvent;
 use Craue\FormFlowBundle\Form\FormFlowEvents;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;*/
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 //class ChangementsFlow extends FormFlow implements EventSubscriberInterface{
 class ChangementsFlow extends FormFlow {
-    
-    
-    /*protected $maxSteps = 6;*/
+    protected $maxSteps = 6;
     protected $allowDynamicStepNavigation = true;
 
 
-/**
-     * @var FormTypeInterface
-     */
-    protected $formType;
 
-    public function setFormType(FormTypeInterface $formType) {
-        $this->formType = $formType;
-    }
-
-    public function getName() {
-         return 'changements';
-    }
 protected function loadStepDescriptions() {
     return array(
         'Données Principales',
@@ -46,46 +30,13 @@ protected function loadStepDescriptions() {
           'Dates COMEP/VSR',
         'Confirmation'
      
-       
+        /*'confirmation',*/
     );
 }
 
- protected function loadStepsConfig() {
-       return array(
-      1 =>  array(
-            'label'=>'Données Principales', 
-            'type' => $this->formType
-               ),
-      2 =>    array( 
-               'label'=>'Demandeur et Utilisateurs', 
-               'type' => $this->formType),
-      3 =>     array(
-               'label'=> 'Projet/Application(s)',
-               'type' => $this->formType
-               ),
-      4 =>     array('label'=>'Environnement/Status', 'type' => $this->formType
-               ),
-      5 =>    array(
-              'label'=>'Dates COMEP/VSR', 
-              'type' => $this->formType
-               ),
-      6 =>  array(
-            'label' => 'confirmation',
-            'type' => $this->formType, 
-          ),
-        /*'confirmation',*/
-    );
-       
-      
+ public function getName() {
+        return 'changements';
     }
-public function getFormOptions($step, array $options = array()) {
-        $options = parent::getFormOptions($step, $options);
-
-        $options['flowStep'] = $step;
-
-        return $options;
-    }
-
 /*
  public function setEventDispatcher(EventDispatcherInterface $dispatcher) {
         parent::setEventDispatcher($dispatcher);

@@ -254,7 +254,7 @@ class ChangementsStepsType extends AbstractType {
 
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
-            'flowStep' => '1',
+            'flowStep' => 1,
             'data_class' => 'Application\ChangementsBundle\Entity\Changements',
             'cascade_validation' => true,
         ));
