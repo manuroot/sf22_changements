@@ -57,50 +57,63 @@ $( "#button" ).click(function() {
 runEffect();
 return false;
 });
-$( "#effect" ).hide();
+//$( "#effect" ).hide();
 
- var $ShowHideBox = $('#ShowHideBox').hide();
- var  $ShowHideButton = $('#ShowHideButton');
-    initBox();
+ var ShowHideBox = $('#ShowHideBox');
+ //var  ShowHideButton = $('#ShowHideButton');
+initBox();
+//ShowHideBox.hide();
+//var ShowHideBox = $('#ShowHideBox').hide();
 
     $('#ShowHideButton').click(function() {
       if (boxVisible())
         {
+             console.log("hidebox? box=1 status status="+boxVisible());
              hideBox();
         }
         else
         {
+             console.log("box=1 status status="+boxVisible());
             showBox();
         }
     });
 
     function initBox()
     {
-        if ( $.cookie('BoxVisible')===1)
+        
+      /*  console.log("initbox: box=1 status status="+boxVisible());*/
+        if ( $.cookie('Boxchangement')==1)
    {
+        if (!boxVisible()){
+      /* console.log("initbox box=1 doit montrer la box");*/
             showBox();
         }
-        else if ( $.cookie('BoxVisible')===0)
+        }
+        else if ( $.cookie('Boxchangement')==0)
          {
+            /*  console.log("initbox box=0 doit pas montrer la box");*/
+             if (boxVisible()){
+             
              hideBox();
+             }
         }
     }  
 
     function boxVisible()
     {
-         return $ShowHideBox.hasClass('hidden')? false : true;
+         return ShowHideBox.hasClass('hidden')? false : true;
     }
   function showBox()
     {
-     $ShowHideBox.show().removeClass('hidden');
-      $.cookie('BoxVisible', 1, {expires: 365});
+     ShowHideBox.show().removeClass('hidden');
+      $.cookie('Boxchangement', 1, {expires: 365});
        
     }
   function hideBox()
     {
       var options = {};
-       $ShowHideBox.hide().addClass('hidden');
-  $.cookie('BoxVisible', 0, {expires: 365});
+       ShowHideBox.hide().addClass('hidden');
+  $.cookie('Boxchangement', 0, {expires: 365});
     }
 
 }); //Eof:: ready
@@ -131,6 +144,9 @@ $( "#effect" ).hide();
 tr.single {
          background-color: #f1f1f1;
         } 
+        
+#ShowHideContainer {
+padding-top:10px;}
         </style>
  {% endblock %}
 
@@ -148,6 +164,7 @@ Changements
 {#
 {{ knp_menu_render('ApplicationChangementsBundle:MenuBuilder:mainMenu', { 'template': 'ApplicationChangementsBundle:Menu:knp_menu.html.twig' }) }}
 #}
+
 {% for type, flashMessages in app.session.flashbag.all() %}
     {% for flashMessage in flashMessages %}
 <div class="alert alert-{{ type }}">
@@ -159,20 +176,21 @@ Changements
     {% endfor %}
 {% endfor %}
 {#  <div id="datepicker"></div>#}
- {% if is_granted("ROLE_USER") %}
+ {#{% if is_granted("ROLE_USER") %}#}
+
+{#<h3>test</h3>#}
 <a href="{{ path('changements_newflowstart') }}" class="btn btn-medium btn-primary"><i class="icon-plus"></i> Ajouter un Changement</a>
-{% endif %}
+{#{% endif %}#}
 
  <div id="ShowHideContainer">
     <p><a id="ShowHideButton">
          <img src="{{ asset('images/eyes.png') }}" alt="SHOWHIDE"  width="20" height="20" />
         </a></p>
-    <div id="ShowHideBox">
+    <div id="ShowHideBox" class="hidden">
         {% include 'ApplicationChangementsBundle:Changements:indexsearch_form.html.twig' %}
         </div>
 </div>
- <br><br> 
-                <table class="table table-striped table-bordered table-hover">
+         <table class="table table-striped table-bordered table-hover">
                     <thead>
                         <tr class="title">
                             <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
@@ -206,8 +224,9 @@ Changements
                          
                                   <th{% if pagination.isSorted('a.ticketInt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'T_Int', 'a.ticketInt') }}
                               <i class="icon-tag"></i></th>
-                         
-                            <th> Env <i class="icon-wrench"></i></th>
+                          <th{% if pagination.isSorted('g.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Env', 'g.nom') }}
+                          
+                            <i class="icon-wrench"></i></th>
                             <!--<th>Avatar</th>-->
                             <th colspan="3">Actions</th>
                         </tr>

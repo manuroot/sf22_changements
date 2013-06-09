@@ -112,8 +112,8 @@
      </td></tr><tr><td colspan="2">
                                             <!-- ======================= CRAUE SURCHARGE =================== -->
 
-
- {% set renderBackButton = flow.getCurrentStep() in (flow.getFirstStep() + 1) .. flow.getLastStep() %}
+ {% set renderBackButton = flow.getCurrentStepNumber() in (flow.getFirstStepNumber() + 1) .. flow.getLastStepNumber() %}
+{# {% set renderBackButton = flow.getCurrentStep() in (flow.getFirstStep() + 1) .. flow.getLastStep() %}#}
         <div class="craue_formflow_buttons craue_formflow_button_count_{% if renderBackButton %}3{% else %}2{% endif %}">
 	{#
 		Default button (the one trigged by pressing the enter/return key) must be defined first.
@@ -121,7 +121,7 @@
 		See http://stackoverflow.com/questions/1963245/multiple-submit-buttons-specifying-default-button
 	#}
                                                     <button type="submit" class="btn btn-small btn-primary">
-		{%- if flow.getCurrentStep() < flow.getLastStep() -%}
+		{%- if flow.getCurrentStep() < flow.getLastStepNumber() -%}
 			{{- 'Suivant' | trans({}, 'CraueFormFlowBundle') -}}
 		{%- else -%}
 			{{- 'Valider' | trans({}, 'CraueFormFlowBundle') -}}

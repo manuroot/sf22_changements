@@ -1,6 +1,7 @@
 changements:
     pattern:  /
     defaults: { _controller: "ApplicationChangementsBundle:Changements:index" }
+    methods: POST|GET
 
 changements_charts:
     pattern:  /charts

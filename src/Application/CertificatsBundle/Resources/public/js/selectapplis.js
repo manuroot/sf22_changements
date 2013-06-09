@@ -17,6 +17,7 @@ onClose: function( selectedDate ) {
 $( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
 }
 });
+});
 /*
   $( "#application_certificatsbundle_certificatscentertype_endTime" ).datepicker({
 maxDate: "+3M +10D",
@@ -81,7 +82,7 @@ $("#moncert_idapplis> option").remove();
              var selected_appli='';
               console.log("arr cert:" + cer_arr);
              for (key in optionData['applis']) {
-             if(jQuery.inArray(+ key,cer_arr) != -1){
+             if(jQuery.inArray(+ key,cer_arr) !== -1){
      // the element is  in the array
      //console.log("key in array: key=" + key);
        selected_appli='selected="selected"'; 

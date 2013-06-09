@@ -53,44 +53,115 @@ class ChangementsController extends Controller {
         return $pagination;
     }
 
+    
     /**
-     * Lists all Changements entities.
-     *
+    * Create filter form and process filter request.
+    *
+    */
+    protected function filter()
+    {
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        $filterForm = $this->createForm(new ChangementsFilterType());
+      
+        $em = $this->getDoctrine()->getManager();
+
+    $filterBuilder = $this->get('doctrine.orm.entity_manager')
+                    ->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
+  
+        // Reset filter
+        if ($request->getMethod() == 'POST' && $request->get('submit-filter') == 'reset') {
+            $session->remove('changementControllerFilter');
+        }
+   
+        // Filter action
+        if ($request->getMethod() == 'POST' && $request->get('submit-filter') == 'filter') {
+            // Bind values from the request
+          //  var_dump($_POST['changements_filter']);
+           $datas=$_POST['changements_filter'];
+             //$data=$this->get('request')->"changements_filter"];
+            $filterForm->bind($datas);
+
+            if ($filterForm->isValid()) {
+                // Build the query from the given form object
+                $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
+                // Save filter to session
+                $filterData = $filterForm->getData();
+              
+               // print_r($filterData);
+              //  exit(1);
+             // marche pas !!!!
+             //   $session->set('changementControllerFilter', $filterData);
+            }
+        }
+        else {
+            // Get filter from session
+            if ($session->has('changementControllerFilter')) {
+                $filterData = $session->get('changementControllerFilter');
+              //  $filterForm = $this->createForm(new ChangementsFilterType(), $filterData);
+                $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
+            }
+        }
+         /* $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($searchForm, $filterBuilder);
+                //   var_dump($filterBuilder->getDql());exit(1);
+        } else {
+            $em = $this->getDoctrine()->getManager();
+              $query = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
+         }*/
+   
+        return array($filterForm, $filterBuilder);
+    }
+
+  
+    /*
+    * POST PARAMETERS
      */
-    public function indexAction() {
+     
+     
+    public function indexpostAction() {
+
+       list($filterForm, $queryBuilder) = $this->filter();
+     $em = $this->getDoctrine()->getManager();
+       $pagination = $this->createpaginator($queryBuilder, 10);
+        return $this->render('ApplicationChangementsBundle:Changements:index.html.twig', array(
+            'search_form' => $filterForm->createView(),
+                    'pagination' => $pagination,
+        ));
+     }
+
+     /*
+      * GET PARAMETERS
+      */
+     public function indexAction() {
 
         $session = $this->getRequest()->getSession();
         $session->set('buttonretour', 'changements');
         $em = $this->getDoctrine()->getManager();
         $searchForm = $this->createForm(new ChangementsFilterType());
-        
+         $filterBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
            if ($this->get('request')->query->has('submit-filter')) {
              // echo "submit filters";exit(1);
             // bind values from the request
+              // $data=$this->get('request')->query["changements_filter"];
+             //  var_dump($data);
             $searchForm->bind($this->get('request'));
-            $filterBuilder = $this->get('doctrine.orm.entity_manager')
-                    ->getRepository('ApplicationChangementsBundle:Changements')
-                   // ->createQueryBuilder('e');
-             ->createQueryBuilder('a')
-                        /*->select('a,b,c')
-                        ->leftJoin('a.project', 'b')
-                        ->leftJoin('a.typeCert', 'c')*/
-                        ->orderBy('a.id', 'DESC');
-                 $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($searchForm, $filterBuilder);
-                //   var_dump($filterBuilder->getDql());exit(1);
+            $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($searchForm, $filterBuilder);
+                // var_dump($filterBuilder->getDql());exit(1);
         } else {
             $em = $this->getDoctrine()->getManager();
-              $query = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
+             $query = $filterBuilder;
+            //  $query = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
          }
         
      
-        $pagination = $this->createpaginator($query, 10);
+        $pagination = $this->createpaginator($query, 5);
         return $this->render('ApplicationChangementsBundle:Changements:index.html.twig', array(
             'search_form' => $searchForm->createView(),
                     'pagination' => $pagination,
         ));
         // Chart
     }
+
 
     public function indexchartsAction() {
 

@@ -16,6 +16,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\Extension\Type\TextFilterType as TextFilterType;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormError;
+use Doctrine\ORM\EntityRepository;
 
 //use Doctrine\ORM\EntityRepository;
 
@@ -32,13 +36,13 @@ class CertificatsCenterFiltresType extends AbstractType {
                         'type' => 'prepend'
                     ),))
                 ->add('cnName', 'filter_text', array(
-                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
+                    'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'
                     ),))
                 ->add('endTime', 'filter_date_range', array(
-                     'label' => 'Date de Fin',
+                    'label' => 'Date de Fin',
                     'left_date' => array(
                         'widget' => 'single_text'
                     /* 'time_widget' => 'single_text' */
@@ -48,17 +52,23 @@ class CertificatsCenterFiltresType extends AbstractType {
                     /* 'time_widget' => 'single_text' */
                     ),
                 ))
-                 ->add('project', 'filter_entity', array(
-                'class' => 'Application\RelationsBundle\Entity\Projet',
-                'property' => 'nomprojet'
-            ))
-        /*
-                 $builder->add('foo', 'filter_text', array(
-            'condition_pattern' => TextFilterType::SELECT_PATTERN,
-        ));
-        $builder->add('enabled', $this->checkbox ? 'filter_checkbox' : 'filter_boolean');
-        $builder->add('createdAt', $this->datetime ? 'filter_datetime' : 'filter_date');;
-   */ 
+                ->add('project', 'filter_entity', array(
+                    'class' => 'Application\RelationsBundle\Entity\Projet',
+                     'query_builder' => function(EntityRepository $em) {
+                return $em->createQueryBuilder('u')
+                                ->orderBy('u.nomprojet', 'ASC');
+            },
+                    'property' => 'nomprojet',
+                    'expanded' => false,
+                    'multiple' => false,
+                ))
+                /*
+                  $builder->add('foo', 'filter_text', array(
+                  'condition_pattern' => TextFilterType::SELECT_PATTERN,
+                  ));
+                  $builder->add('enabled', $this->checkbox ? 'filter_checkbox' : 'filter_boolean');
+                  $builder->add('createdAt', $this->datetime ? 'filter_datetime' : 'filter_date');;
+                 */
                 //TextFilterType::PATTERN_*
                 ->add('port', 'filter_text', array(
                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
@@ -66,25 +76,71 @@ class CertificatsCenterFiltresType extends AbstractType {
                         'icon' => 'pencil',
                         'type' => 'prepend'
                     ),))
-              //   ->add('port', 'filter_text')
+                //   ->add('port', 'filter_text')
                 // ->add('startDate')
                 //  ->add('endTime')
                 // ->add('addedDate')
                 ->add('serverName', 'filter_text', array(
-                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
+                    'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'
                     ),))
-                
-                    ->add('typeCert', 'filter_entity', array(
-                'class' => 'Application\RelationsBundle\Entity\Filetype',
-                'property' => 'fileType'
-            ));
-                 
-  
-     
-     
+                ->add('typeCert', 'filter_entity', array(
+                    'class' => 'Application\RelationsBundle\Entity\Filetype',
+                    'query_builder' => function(EntityRepository $em) {
+                        return $em->createQueryBuilder('u')
+                                ->orderBy('u.fileType', 'ASC');
+            },
+                    'property' => 'fileType',
+                    'expanded' => false,
+                    'multiple' => false,
+        ));
+      /*  $builder->add('typeCert', 'entity', array(
+            'class' => 'Application\RelationsBundle\Entity\Filetype',
+            'query_builder' => function(EntityRepository $em) {
+                return $em->createQueryBuilder('u')
+                                ->orderBy('u.fileType', 'ASC');
+            },
+            'property' => 'FileType',
+            'multiple' => false,
+            'required' => true,
+            'label' => 'Type',
+            'empty_value' => '--- Choisir une option ---'
+        ));*/
+         /*       ->add('company', 'filter_text', array(
+    'apply_filter' => function (QueryBuilder $queryBuilder, Expr $expr, $field, array $values) {
+        if (!empty($values['value'])) {
+            // add the join if you need it and it not already added
+            // $queryBuilder->leftJoin('u.company', 'c');
+
+            $queryBuilder->andWhere('c.name = :name')
+                ->setParameter('name', $values['value']);
+        }
+    },
+));;*/
+
+
+
+        $listener = function(FormEvent $event) {
+                    // Is data empty?
+                    foreach ($event->getData() as $data) {
+                        if (is_array($data)) {
+                            print_r($data);
+                            foreach ($data as $subData) {
+                                if (!empty($subData))
+                                    return;
+                            }
+                        }
+                        else {
+                            if (!empty($data))
+                                return;
+                        }
+                    }
+
+                    $event->getForm()->addError(new FormError('Filter empty'));
+                };
+        $builder->addEventListener(FormEvents::POST_BIND, $listener);
     }
 
     public function getName() {

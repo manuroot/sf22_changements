@@ -49,8 +49,118 @@ class CertificatsCenterController extends Controller {
     public function myMethod(array $ids) {
         // Do whatever you want with these ids
     }
+    
+     /* ====================================================================
+     * 
+     *  CREATION DU PAGINATOR
+     * 
+      =================================================================== */
 
-    public function indexAction() {
+    private function createpaginator($query, $num_perpage = 5) {
+
+        $paginator = $this->get('knp_paginator');
+        $pagename = 'page'; // Set custom page variable name
+        $page = $this->get('request')->query->get($pagename, 1); // Get custom page variable
+
+        $pagination = $paginator->paginate(
+                $query, $page, $num_perpage, array('pageParameterName' => $pagename,
+            "sortDirectionParameterName" => "dir",
+            'sortFieldParameterName' => "sort")
+        );
+        $pagination->setTemplate('ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig');
+        return $pagination;
+    }
+    
+ protected function filter()
+    {
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        $filterForm = $this->createForm(new CertificatsCenterFiltresType());
+      
+        $em = $this->getDoctrine()->getManager();
+        $filterBuilder = $this->get('doctrine.orm.entity_manager')
+                    ->getRepository('ApplicationCertificatsBundle:CertificatsCenter')
+                ->createQueryBuilder('a')
+                        ->select('a,b,c')
+                        ->leftJoin('a.project', 'b')
+                        ->leftJoin('a.typeCert', 'c')
+                        ->orderBy('a.id', 'DESC');
+            
+        // Reset filter
+        
+            /*    if ($request->getMethod() == 'POST') {
+        $postData = $request->request->get('certificats_filter');
+
+var_dump($postData);
+exit(1);
+                }*/
+        if ($request->getMethod() == 'POST' && $request->get('submit-filter') == 'reset') {
+            echo "post cas1 :remove";
+            $session->remove('certificatsControllerFilter');
+        }
+   
+        // Filter action
+        if ($request->getMethod() == 'POST' && $request->get('submit-filter') == 'filter') {
+              echo "post cas2: filter";
+            // Bind values from the request
+            $filterForm->bind($request->get('certificats_filter'));
+//var_dump($filterData);exit(1);
+            
+            if ($filterForm->isValid()) {
+                // Build the query from the given form object
+                $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
+                // Save filter to session
+                $filterData = $filterForm->getData();
+                
+              
+               // print_r($filterData);
+              //  exit(1);
+             // marche pas !!!!
+                $session->set('certificatsControllerFilter', $filterData);
+            }
+        }
+        else {
+                          echo "post cas3: session";
+
+            // Get filter from session
+            if ($session->has('certificatsControllerFilter')) {
+                   $entity = new CertificatsCenter();
+    //    $form = $this->createForm(new CertificatsCenterType(), $entity);
+       
+                
+                $filterData = $session->get('certificatsControllerFilter');
+               // var_dump($filterData);exit(1);
+                // Create form with form data 
+                $filterForm = $this->createForm(new CertificatsCenterFiltresType(), $entity);
+                $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
+            }
+        }
+      // exit(1);
+        return array($filterForm, $filterBuilder);
+    }
+
+    public function indexpostAction() {
+
+        list($searchForm, $query) = $this->filter();
+        $session = $this->getRequest()->getSession();
+        $session->set('buttonretour', 'certificatscenter');
+       $pagination = $this->createpaginator($query, 10);
+      //  $em = $this->getDoctrine()->getManager();
+        //$query = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->myFindaAll();
+        /*$paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $query, $this->get('request')->query->get('page', 1), 10
+        );*/
+        //$pagination->setTemplate('ApplicationMyNotesBundle:pagination:sliding.html.twig');
+        return $this->render('ApplicationCertificatsBundle:CertificatsCenter:index.html.twig', array(
+                    'pagination' => $pagination,
+                    'search_form' => $searchForm->createView(),
+                ));
+//return compact('pagination');
+    }
+ public function indexAction() {
+
+     
         /*
           $message = \Swift_Message::newInstance()
           ->setSubject('Hello Email')
@@ -91,13 +201,13 @@ class CertificatsCenterController extends Controller {
             // bind values from the request
             $searchForm->bind($this->get('request'));
             $filterBuilder = $this->get('doctrine.orm.entity_manager')
-                    ->getRepository('ApplicationCertificatsBundle:CertificatsCenter')
+                    ->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->myFindaAll();
                    // ->createQueryBuilder('e');
-             ->createQueryBuilder('a')
+            /* ->createQueryBuilder('a')
                         ->select('a,b,c')
                         ->leftJoin('a.project', 'b')
                         ->leftJoin('a.typeCert', 'c')
-                        ->orderBy('a.id', 'DESC');
+                        ->orderBy('a.id', 'DESC');*/
                  $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($searchForm, $filterBuilder);
                 //   var_dump($filterBuilder->getDql());exit(1);
         } else {

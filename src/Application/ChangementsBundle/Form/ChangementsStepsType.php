@@ -179,7 +179,10 @@ class ChangementsStepsType extends AbstractType {
                 
                 ->add('idEnvironnement', 'entity', array(
                             'class' => 'ApplicationRelationsBundle:Environnements',
-                            
+                             'query_builder' => function(EntityRepository $em) {
+                                return $em->createQueryBuilder('u')
+                                        ->orderBy('u.nom', 'ASC');
+                            },
                             'property' => 'nom',
                       'expanded' => 'true',
                             'multiple' => true,
