@@ -36,7 +36,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
       $queryBuilder->orderBy('a.title', 'DESC'); */
 
   
-    public function myFindAll() {
+    public function myFindbAll() {
         //$fields = array('d.id', 'd.name', 'o.id');
         //->select($fields)
     //  $fields = array('a', 'b.id','b.nomprojet','c','d','f','h');
@@ -61,7 +61,33 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         //   ->leftJoin('a.demandeur', 'c')
         //  ->getQuery();
     }
+ public function myFindAll() {
+        //$fields = array('d.id', 'd.name', 'o.id');
+        //->select($fields)
+    //  $fields = array('a', 'b.id','b.nomprojet','c','d','f','h');
+//$fields = 'partial d.{id, name}, partial o.{id}';  //if you want to get entity object
 
+        return $this->createQueryBuilder('a')
+               //  ->select($fields)
+                ->select(array('a,b,c,d,f,h'))
+            
+                        ->leftJoin('a.idProjet', 'b') 
+                        ->leftJoin('a.demandeur', 'c')
+                        ->leftJoin('a.idStatus', 'd')
+                       ->leftJoin('a.idusers', 'e')
+                        ->leftJoin('a.picture', 'f')
+                ->leftJoin('a.idEnvironnement','g')
+                /* ->where('g.id = :changement_id')
+                 ->setParameter('changement_id', 3)*/
+                ->leftJoin('a.comments','h')
+              ->groupby('a.nom')
+                
+                        ->add('orderBy', 'a.id DESC');
+             // ->getQuery();
+
+        //   ->leftJoin('a.demandeur', 'c')
+        //  ->getQuery();
+    }
     public function getEventsQueryBuilder(\DateTime $begin, \DateTime $end, array $options = array()) {
         $qb = $this->createQueryBuilder('e');
 
