@@ -112,7 +112,7 @@ class ChangementsFilterType extends AbstractType {
                         return $em->createQueryBuilder('u')
                                 ->orderBy('u.nom', 'ASC');
                     },
-                    'apply_filter' => function (QueryBuilder $queryBuilder, Expr $expr, $field, array $values) {
+                    /*'apply_filter' => function (QueryBuilder $queryBuilder, Expr $expr, $field, array $values) {
                         if (!empty($values['value'])) {
                             // add the join if you need it and it not already added
                             // $queryBuilder->leftJoin('a.idusers', 'm');
@@ -124,7 +124,7 @@ class ChangementsFilterType extends AbstractType {
                             //   ->orderBy('e.nomUser', 'ASC')
                             ->setParameter('name', $user);
                         }
-                    },
+                    },*/
                     /* 'multiple' => true,
                       'required' => false,
                       'empty_value' => '--- Choisir une option ---', */

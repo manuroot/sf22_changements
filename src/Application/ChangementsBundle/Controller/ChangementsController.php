@@ -87,19 +87,26 @@ class ChangementsController extends Controller {
            // print_r($datas);
            //   exit(1);
             /* unset($datas['idEnvironnement']);
-              if (isset($environnement)){
+             */ if (isset($environnement)){
               $filterBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll(array(
               'idEnvironnement' => $environnement,
               ));
 
-              } */
+              }
             $filterForm->bind($datas);
             if ($filterForm->isValid()) {
                 $message .= " - filtre valide";
                 // Build the query from the given form object
+               /* if (isset($environnement)){
+              $filterBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll(array(
+              'idEnvironnement' => $environnement,
+              ));
+
+              }else{*/
                 $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
-                $session->set('changementControllerFilter', $datas);
-                var_dump($query->getDql());
+            //  }
+                    $session->set('changementControllerFilter', $datas);
+              //  var_dump($query->getDql());
 //  print_r($datas);
              //   exit(1);
             } else {
