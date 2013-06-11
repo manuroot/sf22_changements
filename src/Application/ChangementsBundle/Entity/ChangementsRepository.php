@@ -148,7 +148,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
                  //return $this->createQueryBuilder('a')
                //  ->select($fields)
                 ->select(array('a,b,c,d,f,h'))
-             // ->select(array('a,b,c,d,f,g,h'))
+            //  ->select(array('a,b,c,d,e,f,g,h'))
                         ->leftJoin('a.idProjet', 'b') 
                         ->leftJoin('a.demandeur', 'c')
                         ->leftJoin('a.idStatus', 'd')
@@ -171,6 +171,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
                ->add('orderBy', 'a.id DESC');
     
        return $query;
+     //  ->getQuery();
             // ->groupby('a.nom')
                 
                        
@@ -191,6 +192,69 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
     public function getEvents(\DateTime $begin, \DateTime $end, array $options = array()) {
         return $this->getEventsQueryBuilder($begin, $end, $options);
     }
+    
+    public function sum_appli_year($year = null) {
+
+        if (isset($year))
+            $current_year = $year;
+        else
+            $current_year = date('Y');
+        
+         $parameters = array();
+         $query = $this->createQueryBuilder('a')
+                 //return $this->createQueryBuilder('a')
+               //  ->select($fields)
+               //  ???????????
+               // ->select(array('a,b,c,d,f,h'))
+              ->select(array('a,b,c,d,e,f,g,h'))
+                        ->leftJoin('a.idProjet', 'b') 
+                        ->leftJoin('a.demandeur', 'c')
+                        ->leftJoin('a.idStatus', 'd')
+                      ->leftJoin('a.idusers', 'e')
+                        ->leftJoin('a.picture', 'f')
+                ->leftJoin('a.idEnvironnement','g')
+               // ->where('g.id = :changement_id')
+                // ->setParameter('changement_id', 3)
+                ->leftJoin('a.comments','h');
+         
+        $cols = $this->t_cols;
+        $select = $this->select()
+                ->setIntegrityCheck(false)
+                ->from($this->_name, array(
+                    'nb_demande' => new Zend_Db_Expr('COUNT(chrono_center.id)'),
+                        //   'mois' => new Zend_Db_Expr('MONTHNAME(demande)'),
+                ))
+                ->joinLeft($this->_join_name_proj, $this->_join_cols_proj, $this->_join_val_proj)
+                ->where('YEAR(demande) = ?', $current_year)
+                ->group('nom_projet')
+                ->order('nom_projet ASC');
+        return($select);
+    }
+
+    public function sum_appli_monthyear($year = null) {
+
+        if (isset($year))
+            $current_year = $year;
+        else
+            $current_year = date('Y');
+        $cols = $this->t_cols;
+
+        $select = $this->select()
+                ->setIntegrityCheck(false)
+                ->from($this->_name, array(
+                    'nb_demande' => new Zend_Db_Expr('COUNT(chrono_center.id)'),
+                    'mois' => new Zend_Db_Expr('MONTHNAME(demande)'),
+                ))
+                ->joinLeft($this->_join_name_proj, $this->_join_cols_proj, $this->_join_val_proj)
+                ->where('YEAR(demande) = ?', $current_year)
+                ->group(new Zend_Db_Expr('MONTH(demande)'))
+                ->group('nom_projet');
+
+
+
+        return($select);
+    }
+
 
     /* public function createQueryBuilderForGetEvent(array $options)
       {

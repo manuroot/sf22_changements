@@ -75,40 +75,20 @@ class ChangementsController extends Controller {
 
         // datas filter
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
-
             $alldatas = $request->request->all();
             // if ($alldatas['submit-filter'] == 'reset'){
             $datas = $alldatas["changements_filter"];
             $message = "post datas ";
             //   $message= print_r($datas);
-            $environnement = $datas['idEnvironnement'];
+           // $environnement = $datas['idEnvironnement'];
             //     $request->get('idEnvironnement');
-            echo "envi=$environnement<br>";
-           // print_r($datas);
-           //   exit(1);
-            /* unset($datas['idEnvironnement']);
-             */ if (isset($environnement)){
-              $filterBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll(array(
-              'idEnvironnement' => $environnement,
-              ));
-
-              }
-            $filterForm->bind($datas);
+           // echo "envi=$environnement<br>";
+             $filterForm->bind($datas);
             if ($filterForm->isValid()) {
                 $message .= " - filtre valide";
-                // Build the query from the given form object
-               /* if (isset($environnement)){
-              $filterBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll(array(
-              'idEnvironnement' => $environnement,
-              ));
-
-              }else{*/
                 $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
-            //  }
-                    $session->set('changementControllerFilter', $datas);
-              //  var_dump($query->getDql());
-//  print_r($datas);
-             //   exit(1);
+                $session->set('changementControllerFilter', $datas);
+                //var_dump($query->getDql());
             } else {
                 $message .= " - filtre valide";
 
@@ -192,7 +172,7 @@ class ChangementsController extends Controller {
 
         $session->getFlashBag()->add('warning', "$message");
 
-        $pagination = $this->createpaginator($queryBuilder, 5);
+        $pagination = $this->createpaginator($queryBuilder, 10);
         return $this->render('ApplicationChangementsBundle:Changements:indexpost.html.twig', array(
                     'search_form' => $filterForm->createView(),
                     'pagination' => $pagination,
@@ -214,8 +194,6 @@ class ChangementsController extends Controller {
              $searchForm->bind($this->get('request'));
             // $datas=$this->get('request')->query;
             /*  print_r($datas); */
-            //$env=$datas['dEnvironnement'];
-
             $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($searchForm, $filterBuilder);
             // var_dump($filterBuilder->getDql());exit(1);
         } else {

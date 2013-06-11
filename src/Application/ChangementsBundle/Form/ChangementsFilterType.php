@@ -37,6 +37,26 @@ class ChangementsFilterType extends AbstractType {
                     /* 'time_widget' => 'single_text' */
                     ),
                 ))
+                
+                  ->add('ticketExt', 'filter_text', array(
+                    'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
+                    'widget_addon' => array(
+                        'icon' => 'pencil',
+                        'type' => 'prepend'
+                    ),))
+                
+                /* ->add('ticketExt', 'genemu_jqueryautocomplete_entity', array(
+                    'widget_addon' => array(
+                        'icon' => 'pencil',
+                        'type' => 'prepend'
+                    ),
+                    'required' => false,
+                    'class' => 'Application\ChangementsBundle\Entity\Changements',
+                    'property' => 'ticketExt',
+                        'configs' => array(
+                          'minLength' => 2,
+                          ), 
+                ))*/
                 ->add('dateFin', 'filter_date_range', array(
                     'label' => 'Date début',
                     'left_date' => array(
@@ -74,23 +94,29 @@ class ChangementsFilterType extends AbstractType {
                 ->add('idusers', 'filter_entity', array(
                     //->add('idusers', 'filter_entity', array(
                     'class' => 'ApplicationRelationsBundle:ChronoUser',
-                     'query_builder' => function(EntityRepository $em) {
-                      return $em->createQueryBuilder('u')
-                      ->orderBy('u.nomUser', 'ASC');
-                      }, 
+                    'query_builder' => function(EntityRepository $em) {
+                        return $em->createQueryBuilder('u')
+                                ->orderBy('u.nomUser', 'ASC');
+                    },
                     'apply_filter' => function (QueryBuilder $queryBuilder, Expr $expr, $field, array $values) {
                         if (!empty($values['value'])) {
                             // add the join if you need it and it not already added
                             //  $queryBuilder->leftJoin('a.idusers', 'e');
-                             $user=$values['value'];   
-                            $queryBuilder->andWhere("e.id = $user");
+                            $user = $values['value'];
+                            /*  $queryBuilder->andWhere('e.nomUser = :name')
+                              ->setParameter('name', $values['value'] ); */
+                            $queryBuilder->andWhere('e.nomUser LIKE :name')
+                            ->setParameter('name', '%' . $values['value'] . '%');
                             //   ->orderBy('e.nomUser', 'ASC')
-                            //->setParameter('name', $values['value']);
+                            //$user = '%' . $user . '%';
+                            //  ->setParameter('name', 'fa');
+                            //  var_dump($values);
+                            //  echo "value=" . $values['idusers'];
                             //  echo "value=" . $values['value'];
-                          //    exit(1);
+                            //  exit(1);
                         }
                     },
-                 //   'property' => 'nomUser',
+                    //   'property' => 'nomUser',
                     //   'multiple' => true,
                     // 'required' => true,
                     'label' => 'Utilisateurs',
@@ -112,24 +138,24 @@ class ChangementsFilterType extends AbstractType {
                         return $em->createQueryBuilder('u')
                                 ->orderBy('u.nom', 'ASC');
                     },
-                    /*'apply_filter' => function (QueryBuilder $queryBuilder, Expr $expr, $field, array $values) {
+                    'apply_filter' => function (QueryBuilder $queryBuilder, Expr $expr, $field, array $values) {
                         if (!empty($values['value'])) {
                             // add the join if you need it and it not already added
-                            // $queryBuilder->leftJoin('a.idusers', 'm');
-                            // ->leftJoin('a.idEnvironnement','g')
-                            //   print_r($values);
-                            //   exit(1);
-                             $user=$values['value'];
-                            $queryBuilder->andWhere('g.id = :name')
-                            //   ->orderBy('e.nomUser', 'ASC')
-                            ->setParameter('name', $user);
+                            //  $queryBuilder->leftJoin('a.idusers', 'e');
+                            $env = $values['value'];
+                            /*  $queryBuilder->andWhere('e.nomUser = :name')
+                              ->setParameter('name', $values['value'] ); */
+                            //$queryBuilder->andWhere('g.nom LIKE :name')
+                            $queryBuilder->andWhere("g.nom='" . $values['value'] . "'");
+                          //  ->setParameter('name', '%' . $values['value'] . '%');
+                          //  ->setParameter('name', $values['value'] );
                         }
-                    },*/
+                    },
                     /* 'multiple' => true,
                       'required' => false,
                       'empty_value' => '--- Choisir une option ---', */
                     'property' => 'nom'
-        ));
+                ));
 
         /*  $listener = function(FormEvent $event) {
           // Is data empty?
