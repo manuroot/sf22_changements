@@ -11,8 +11,9 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormError;
-use Lexik\Bundle\FormFilterBundle\Filter\ORM\Expr;
 use Doctrine\ORM\QueryBuilder;
+use Lexik\Bundle\FormFilterBundle\Filter\Expr;
+
 
 class ChangementsFilterType extends AbstractType {
 
@@ -71,84 +72,73 @@ class ChangementsFilterType extends AbstractType {
                     'class' => 'Application\ChangementsBundle\Entity\ChangementsStatus',
                     'property' => 'nom'
                 ))
+                            
                 ->add('idusers', 'filter_entity', array(
-                    //->add('idusers', 'filter_entity', array(
-                    'class' => 'ApplicationRelationsBundle:ChronoUser',
-                     'query_builder' => function(EntityRepository $em) {
-                      return $em->createQueryBuilder('u')
-                      ->orderBy('u.nomUser', 'ASC');
-                      }, 
-                    'apply_filter' => function (QueryBuilder $queryBuilder, Expr $expr, $field, array $values) {
-                        if (!empty($values['value'])) {
-                            // add the join if you need it and it not already added
-                            //  $queryBuilder->leftJoin('a.idusers', 'e');
-                             $user=$values['value'];   
-                            $queryBuilder->andWhere("e.id = $user");
-                            //   ->orderBy('e.nomUser', 'ASC')
-                            //->setParameter('name', $values['value']);
-                            //  echo "value=" . $values['value'];
-                          //    exit(1);
-                        }
-                    },
-                 //   'property' => 'nomUser',
-                    //   'multiple' => true,
-                    // 'required' => true,
-                    'label' => 'Utilisateurs',
-                        /*   'apply_filter' => function (QueryBuilder $queryBuilder, Expr $expr, $field, array $values) {
-                          if (!empty($values['value'])) {
-                          // add the join if you need it and it not already added
+                            'class' => 'ApplicationRelationsBundle:ChronoUser',
+                           /* 'query_builder' => function(EntityRepository $em) {
+                                return $em->createQueryBuilder('u')
+                                        ->orderBy('u.nomUser', 'ASC');
+                            },*/
+                                    
+                   'apply_filter' => function (QueryBuilder $queryBuilder, Expr $expr, $field, array $values) {
+        if (!empty($values['value'])) {
+            // add the join if you need it and it not already added
+            // $queryBuilder->leftJoin('u.company', 'c');
 
-                          $queryBuilder->leftJoin('a.idEnvironnement','g');
+            $queryBuilder->andWhere('c.name = :name')
+                ->setParameter('name', $values['value']);
+        }
+    },
+                  
+                            'property' => 'nomUser',
+                           // 'multiple' => true,
+                           // 'required' => true,
+                            'label' => 'Utilisateurs',
+             /*   'apply_filter' => function (QueryBuilder $queryBuilder, Expr $expr, $field, array $values) {
+        if (!empty($values['value'])) {
+            // add the join if you need it and it not already added
+            
+             $queryBuilder->leftJoin('a.idEnvironnement','g');
 
-                          $queryBuilder->andWhere('g.id = :name')
-                          ->setParameter('name', $values['value']);
-                          }
-                          }, */
-                ))
+            $queryBuilder->andWhere('g.id = :name')
+                ->setParameter('name', $values['value']);
+        }
+    },*/
+                        ))
+                            
+                            
                 ->add('idEnvironnement', 'filter_entity', array(
                     'label' => 'Environnement',
                     'class' => 'Application\RelationsBundle\Entity\Environnements',
-                    'query_builder' => function(EntityRepository $em) {
-                        return $em->createQueryBuilder('u')
-                                ->orderBy('u.nom', 'ASC');
-                    },
-                    'apply_filter' => function (QueryBuilder $queryBuilder, Expr $expr, $field, array $values) {
-                        if (!empty($values['value'])) {
-                            // add the join if you need it and it not already added
-                            // $queryBuilder->leftJoin('a.idusers', 'm');
-                            // ->leftJoin('a.idEnvironnement','g')
-                            //   print_r($values);
-                            //   exit(1);
-                             $user=$values['value'];
-                            $queryBuilder->andWhere('g.id = :name')
-                            //   ->orderBy('e.nomUser', 'ASC')
-                            ->setParameter('name', $user);
-                        }
-                    },
-                    /* 'multiple' => true,
-                      'required' => false,
-                      'empty_value' => '--- Choisir une option ---', */
+                      'query_builder' => function(EntityRepository $em) {
+                                return $em->createQueryBuilder('u')
+                                        ->orderBy('u.nom', 'ASC');
+                            },
+                           /*'multiple' => true,
+                            'required' => false,
+                                     'empty_value' => '--- Choisir une option ---',*/
+                        
                     'property' => 'nom'
         ));
 
-        /*  $listener = function(FormEvent $event) {
-          // Is data empty?
-          foreach ($event->getData() as $data) {
-          if (is_array($data)) {
-          foreach ($data as $subData) {
-          if (!empty($subData))
-          return;
-          }
-          }
-          else {
-          if (!empty($data))
-          return;
-          }
-          }
+      /*  $listener = function(FormEvent $event) {
+                    // Is data empty?
+                    foreach ($event->getData() as $data) {
+                        if (is_array($data)) {
+                            foreach ($data as $subData) {
+                                if (!empty($subData))
+                                    return;
+                            }
+                        }
+                        else {
+                            if (!empty($data))
+                                return;
+                        }
+                    }
 
-          $event->getForm()->addError(new FormError('Filter empty'));
-          };
-          $builder->addEventListener(FormEvents::POST_BIND, $listener); */
+                    $event->getForm()->addError(new FormError('Filter empty'));
+                };
+        $builder->addEventListener(FormEvents::POST_BIND, $listener);*/
     }
 
     public function getName() {

@@ -14,7 +14,7 @@ use Application\RelationsBundle\Entity\Environnements;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-//use CalendR\Event\AbstractEvent;
+use CalendR\Event\AbstractEvent;
 
 /**
  * Changements
@@ -29,8 +29,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 // @GRID\Source(columns="id,nom,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUser,idEnvironnement.nom:concat_ws",groupBy={"id"})
 // @GRID\Source(columns="id,nom,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUser,idEnvironnement.nom:GroupConcat",groupBy={"id"})
 
-class Changements 
-//extends AbstractEvent
+class Changements extends AbstractEvent
 //class Changements
 {
     

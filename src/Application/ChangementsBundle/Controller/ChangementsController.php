@@ -53,222 +53,176 @@ class ChangementsController extends Controller {
         return $pagination;
     }
 
-    
     /**
-    * Create filter form and process filter request.
-    *
-    */
-    protected function filter()
-    {
+     * Create filter form and process filter request.
+     *
+     */
+    protected function filter() {
+        $message = "filter datas";
+        $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $session = $request->getSession();
         $filterForm = $this->createForm(new ChangementsFilterType());
-      
-        $em = $this->getDoctrine()->getManager();
+        $filterBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
 
-    $filterBuilder = $this->get('doctrine.orm.entity_manager')
-                    ->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
-  
         // Reset filter
-    
-   /*  $datas=$this->get('request')->request->all();
-       // if($requete->getMethod() == 'POST')
-      if ($this->get('request')->query->has('submit-filter')) {
-             // echo "submit filters";exit(1);
-            // bind values from the request
-              /* $data=$this->get('request')->query;
-               $data1=$data['changements_filter'];
-               var_dump($data1);
-             exit(1);  
-            $searchForm->bind($datas);
-    
-            */
-        /*if ($request->getMethod() == 'POST'){
-            //&& $request->get('submit-filter') == 'reset') {
+        if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
+            $message = "reset filtres";
             $session->remove('changementControllerFilter');
-        }*/
-   
-        // Filter action
-        if ($request->getMethod() == 'POST'){
-            echo "<br>post datas<br>";
-              $datas=$this->get('request')->request->all();
-            //&& $request->get('submit-filter') == 'filter') {
-            // Bind values from the request
-          //  var_dump($_POST['changements_filter']);
-           //$datas=$_POST['changements_filter'];
-             //$data=$this->get('request')->"changements_filter"];
-            $filterForm->bind($datas);
-    exit(1);
-            if ($filterForm->isValid()) {
-                // Build the query from the given form object
-                   $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
-                //$this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
-                // Save filter to session
-                $filterData = $filterForm->getData();
-              
-               // print_r($filterData);
-               
-             // marche pas !!!!
-                $session->set('changementControllerFilter', $filterData);
-            }
+            $query = $filterBuilder;
+            return array($filterForm, $query, $message);
         }
-        else {
-         
+
+        // datas filter
+        if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
+
+            $alldatas = $request->request->all();
+            // if ($alldatas['submit-filter'] == 'reset'){
+            $datas = $alldatas["changements_filter"];
+            $message = "post datas ";
+            //   $message= print_r($datas);
+            $environnement = $datas['idEnvironnement'];
+            //     $request->get('idEnvironnement');
+            echo "envi=$environnement<br>";
+           // print_r($datas);
+           //   exit(1);
+            /* unset($datas['idEnvironnement']);
+              if (isset($environnement)){
+              $filterBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll(array(
+              'idEnvironnement' => $environnement,
+              ));
+
+              } */
+            $filterForm->bind($datas);
+            if ($filterForm->isValid()) {
+                $message .= " - filtre valide";
+                // Build the query from the given form object
+                $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
+                $session->set('changementControllerFilter', $datas);
+                var_dump($query->getDql());
+//  print_r($datas);
+             //   exit(1);
+            } else {
+                $message .= " - filtre valide";
+
+                $query = $filterBuilder;
+            }
+            return array($filterForm, $query, $message);
+        } else {
+            //   echo "<br>pas post datas<br>";
             // Get filter from session
             if ($session->has('changementControllerFilter')) {
-                $filterData = $session->get('changementControllerFilter');
-              //  $filterForm = $this->createForm(new ChangementsFilterType(), $filterData);
-                 $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
+                $message = "session get";
+                $datas = $session->get('changementControllerFilter');
+                $filterForm->bind($datas);
+                $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
             }
+            // ou pas
+            else {
+                $message = "pas de session";
+                $query = $filterBuilder;
+            }
+            // exit(1);
+            return array($filterForm, $query, $message);
         }
-         /* $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($searchForm, $filterBuilder);
-                //   var_dump($filterBuilder->getDql());exit(1);
-        } else {
-            $em = $this->getDoctrine()->getManager();
-              $query = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
-         }*/
-   
-        return array($filterForm, $filterBuilder);
     }
 
-  
     /*
-    * POST PARAMETERS
+     * POST PARAMETERS
      * // obtenir respectivement des variables GET et POST
-$request->query->get('foo');
+      $request->query->get('foo');
 
-$request->request->get('bar', 'valeur par défaut si bar est inexistant');
+      $request->request->get('bar', 'valeur par défaut si bar est inexistant');
 
      */
-     
-     /*http://symfony.com/fr/doc/current/book/http_fundamentals.html
-      * 
-      * 
+
+    /* http://symfony.com/fr/doc/current/book/http_fundamentals.html
+     * 
+     * 
       array(2) {
-  ["changements_filter"]=>
-  array(8) {
-    ["nom"]=>
-    array(2) {
+      ["changements_filter"]=>
+      array(8) {
+      ["nom"]=>
+      array(2) {
       ["condition_pattern"]=>
       string(1) "4"
       ["text"]=>
       string(2) "gg"
-    }
-    ["dateDebut"]=>
-    array(2) {
+      }
+      ["dateDebut"]=>
+      array(2) {
       ["left_date"]=>
       string(0) ""
       ["right_date"]=>
       string(0) ""
-    }
-    ["dateFin"]=>
-    array(2) {
+      }
+      ["dateFin"]=>
+      array(2) {
       ["left_date"]=>
       string(0) ""
       ["right_date"]=>
       string(0) ""
-    }
-    ["idProjet"]=>
-    string(0) ""
-    ["demandeur"]=>
-    string(2) "14"
-    ["idStatus"]=>
-    string(0) ""
-    ["idEnvironnement"]=>
-    string(0) ""
-    ["_token"]=>
-    string(40) "c98b2b23271469a4774b27226d46a3d46e6772b4"
-  }
-  ["submit-filter"]=>
-  string(6) "filter"
-      */
+      }
+      ["idProjet"]=>
+      string(0) ""
+      ["demandeur"]=>
+      string(2) "14"
+      ["idStatus"]=>
+      string(0) ""
+      ["idEnvironnement"]=>
+      string(0) ""
+      ["_token"]=>
+      string(40) "c98b2b23271469a4774b27226d46a3d46e6772b4"
+      }
+      ["submit-filter"]=>
+      string(6) "filter"
+     */
+
     public function indexpostAction(Request $request) {
 
-       list($filterForm, $queryBuilder) = $this->filter();
-     $em = $this->getDoctrine()->getManager();
-    //    $filterBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
-       
-     //$postData = $request;
-     //
-     // retrieve GET and POST variables respectively
-   
-     // GET PARAMS
-     // $request->query->get('foo');
-    // POST PARAMS
-    // $request->request->get('bar', 'default value if bar does not exist');
-    // $datas=$request->request->all();
-    // 
-     //$postData = $request->query->all();
-    /* $datas=$this->get('request')->request->all();
-       // if($requete->getMethod() == 'POST')
-      if ($this->get('request')->query->has('submit-filter')) {
-             // echo "submit filters";exit(1);
-            // bind values from the request
-              //* $data=$this->get('request')->query;
-              // $data1=$data['changements_filter'];
-             //  var_dump($data1);
-          //   exit(1);  
-          //  $searchForm->bind($datas);
-           // $datas=$this->get('request')->query;
-          /*  print_r($datas);*/
-            //$env=$datas['dEnvironnement'];
-             /*$query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($searchForm, $filterBuilder);
-                // var_dump($filterBuilder->getDql());exit(1);
-        } else {
-            $em = $this->getDoctrine()->getManager();
-             $query = $filterBuilder;
-            //  $query = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
-         }*/
-        
+        list($filterForm, $queryBuilder, $message) = $this->filter();
+        $session = $request->getSession();
 
-     //$postData = $request->query->all();
-     //var_dump($datas['changements_filter']);
-     $pagination = $this->createpaginator($queryBuilder, 10);
+        $session->getFlashBag()->add('warning', "$message");
+
+        $pagination = $this->createpaginator($queryBuilder, 5);
         return $this->render('ApplicationChangementsBundle:Changements:indexpost.html.twig', array(
-            'search_form' => $filterForm->createView(),
+                    'search_form' => $filterForm->createView(),
                     'pagination' => $pagination,
         ));
-     }
+    }
 
-     /*
-      * GET PARAMETERS
-      */
-     public function indexAction() {
+    /*
+     * GET PARAMETERS
+     */
+
+    public function indexAction() {
 
         $session = $this->getRequest()->getSession();
         $session->set('buttonretour', 'changements');
         $em = $this->getDoctrine()->getManager();
         $searchForm = $this->createForm(new ChangementsFilterType());
-         $filterBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
-           if ($this->get('request')->query->has('submit-filter')) {
-             // echo "submit filters";exit(1);
-            // bind values from the request
-              /* $data=$this->get('request')->query;
-               $data1=$data['changements_filter'];
-               var_dump($data1);
-             exit(1);  */
-            $searchForm->bind($this->get('request'));
-           // $datas=$this->get('request')->query;
-          /*  print_r($datas);*/
+        $filterBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
+        if ($this->get('request')->query->has('submit-filter')) {
+             $searchForm->bind($this->get('request'));
+            // $datas=$this->get('request')->query;
+            /*  print_r($datas); */
             //$env=$datas['dEnvironnement'];
-            
+
             $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($searchForm, $filterBuilder);
-                // var_dump($filterBuilder->getDql());exit(1);
+            // var_dump($filterBuilder->getDql());exit(1);
         } else {
             $em = $this->getDoctrine()->getManager();
-             $query = $filterBuilder;
-            //  $query = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
-         }
-        
-     
+            $query = $filterBuilder;
+        }
+
         $pagination = $this->createpaginator($query, 5);
         return $this->render('ApplicationChangementsBundle:Changements:index.html.twig', array(
-            'search_form' => $searchForm->createView(),
+                    'search_form' => $searchForm->createView(),
                     'pagination' => $pagination,
         ));
         // Chart
     }
-
 
     public function indexchartsAction() {
 
@@ -493,15 +447,14 @@ $request->request->get('bar', 'valeur par défaut si bar est inexistant');
         ));
     }
 
-    
-     public function newflowstartAction() {
+    public function newflowstartAction() {
         // form data class
         $entity = new Changements();
         $flow = $this->get('application.form.flow.new.changement');
-         $flow->reset();
-         return $this->redirect($this->generateUrl('changements_newflow'));
-        
-     }
+        $flow->reset();
+        return $this->redirect($this->generateUrl('changements_newflow'));
+    }
+
     /**
      * Displays a form to create a new Changements entity.
      *
@@ -510,11 +463,11 @@ $request->request->get('bar', 'valeur par défaut si bar est inexistant');
         // form data class
         $entity = new Changements();
         $flow = $this->get('application.form.flow.new.changement');
-       //  $flow->reset();
+        //  $flow->reset();
         // must match the flow's service id
         $flow->bind($entity);
 
-         // form of the current step
+        // form of the current step
         $form = $flow->createForm();
 
         //    $form = $flow->createForm($entity);

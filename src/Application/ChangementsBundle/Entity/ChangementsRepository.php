@@ -61,28 +61,119 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         //   ->leftJoin('a.demandeur', 'c')
         //  ->getQuery();
     }
- public function myFindAll() {
+    
+    
+    
+    
+    public function getMyPager(array $criteria,$ret='getquery') {
+
+        $parameters = array();
+        $query = $this->createQueryBuilder('a')
+                ->select('a,b,c,d,e,f')
+                ->add('orderBy', 'a.id DESC')
+        
+                ->leftJoin('a.proprietaire', 'b')
+                //  ->leftJoin($join, $alias, $conditionType)
+                ->leftJoin('a.categorie', 'c')
+                ->leftJoin('a.idStatus', 'd')
+                ->leftJoin('a.globalnote', 'e')
+                ->leftJoin('a.imageMedia', 'f')
+     ;
+     if (isset($criteria['author'])) {
+            //  print_r($criteria);exit(1);
+            $query->andwhere('a.proprietaire = :proprietaire');
+            $parameters['proprietaire'] = $criteria['author'];
+        }
+
+
+        if (isset($criteria['non-author'])) {
+            //  print_r($criteria);exit(1);
+            $query->andWhere('a.proprietaire <> :user_id');
+            $parameters['user_id'] = $criteria['non-author'];
+        }
+
+
+        
+        if (isset($criteria['alltags'])) {
+            $query->addSelect('t');
+            $query->leftJoin('a.tags', 't');
+        }
+        if (isset($criteria['year'])) {
+            // echo "year=" . $criteria['year'] . "<br>";exit(1);
+             $query->andWhere('a.createdAt LIKE :year');
+            $parameters['year'] = '%' . $criteria['year'] . '%';
+        }
+        if (isset($criteria['date'])) {
+            // echo "year=" . $criteria['year'] . "<br>";exit(1);
+             $query->andWhere('a.createdAt LIKE :date');
+            $parameters['date'] = '%' . $criteria['date'] . '%';
+        }
+        if (isset($criteria['tag'])) {
+            $query->addSelect('t');
+            $query->leftJoin('a.tags', 't');
+            $query->andWhere('t.id = :tag');
+            //   ->groupby('a.name');
+            $parameters['tag'] = (string) $criteria['tag'];
+            //       $parameters['tag'] = 'tag1';
+        }
+        $query->setParameters($parameters);
+        // ??
+       $query->groupby('a.name');
+        //>getQuery();
+        //  print_r($query->getQuery());
+        //  exit(1);
+       if ($ret =='query')
+           return $query;
+           else
+        return $query->getQuery();
+        //return $query->getQuery()->getResult();
+    }
+    
+    
+    
+    
+    
+ public function myFindAll($criteria=array()) {
         //$fields = array('d.id', 'd.name', 'o.id');
         //->select($fields)
     //  $fields = array('a', 'b.id','b.nomprojet','c','d','f','h');
 //$fields = 'partial d.{id, name}, partial o.{id}';  //if you want to get entity object
-
-        return $this->createQueryBuilder('a')
+/*
+ * 
+ * ->where('det.id IN (:miarray)')
+->setParameter('miarray', array('143','144'))
+ */
+         $parameters = array();
+         $query = $this->createQueryBuilder('a')
+                 //return $this->createQueryBuilder('a')
                //  ->select($fields)
                 ->select(array('a,b,c,d,f,h'))
-            
+             // ->select(array('a,b,c,d,f,g,h'))
                         ->leftJoin('a.idProjet', 'b') 
                         ->leftJoin('a.demandeur', 'c')
                         ->leftJoin('a.idStatus', 'd')
-                       ->leftJoin('a.idusers', 'e')
+                      ->leftJoin('a.idusers', 'e')
                         ->leftJoin('a.picture', 'f')
                 ->leftJoin('a.idEnvironnement','g')
-                /* ->where('g.id = :changement_id')
-                 ->setParameter('changement_id', 3)*/
-                ->leftJoin('a.comments','h')
-              ->groupby('a.nom')
+               // ->where('g.id = :changement_id')
+                // ->setParameter('changement_id', 3)
+                ->leftJoin('a.comments','h');
                 
-                        ->add('orderBy', 'a.id DESC');
+             /*    if (isset($criteria['idEnvironnement'])) {
+            //  print_r($criteria);exit(1);
+            $query->andwhere('g.id = :idEnvironnement');
+            $parameters['idEnvironnement'] = $criteria['idEnvironnement'];
+        }*/
+        
+       //   $query->setParameters($parameters);
+        // ??
+       $query->groupby('a.nom')
+               ->add('orderBy', 'a.id DESC');
+    
+       return $query;
+            // ->groupby('a.nom')
+                
+                       
              // ->getQuery();
 
         //   ->leftJoin('a.demandeur', 'c')
