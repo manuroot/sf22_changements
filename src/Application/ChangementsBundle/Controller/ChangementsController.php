@@ -79,16 +79,12 @@ class ChangementsController extends Controller {
             // if ($alldatas['submit-filter'] == 'reset'){
             $datas = $alldatas["changements_filter"];
             $message = "post datas ";
-            //   $message= print_r($datas);
-           // $environnement = $datas['idEnvironnement'];
-            //     $request->get('idEnvironnement');
-           // echo "envi=$environnement<br>";
-             $filterForm->bind($datas);
+            $filterForm->bind($datas);
             if ($filterForm->isValid()) {
                 $message .= " - filtre valide";
                 $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
                 $session->set('changementControllerFilter', $datas);
-                //var_dump($query->getDql());
+               // var_dump($query->getDql());
             } else {
                 $message .= " - filtre valide";
 
@@ -109,7 +105,13 @@ class ChangementsController extends Controller {
                 $message = "pas de session";
                 $query = $filterBuilder;
             }
-            // exit(1);
+           // var_dump($query);
+          //  var_dump($query->getDql());
+          //   exit(1);
+          //   $query_year = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_year(2013);
+             
+          //  var_dump($query_year->getDql());
+           // exit(1);
             return array($filterForm, $query, $message);
         }
     }
@@ -232,6 +234,13 @@ class ChangementsController extends Controller {
             'dataLabels' => array('enabled' => false),
             'showInLegend' => true
         ));
+        
+       
+        $em = $this->getDoctrine()->getManager();
+      
+        $data = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_year();
+
+        /*
         $data = array(
             array('CDR', 45.0),
             array('CAC', 26.8),
@@ -239,7 +248,7 @@ class ChangementsController extends Controller {
             array('SDF/SDC', 8.5),
             array('LOME', 6.2),
             array('Others', 0.7),
-        );
+        );*/
         $ob2->series(array(array('type' => 'pie', 'name' => 'Browser share', 'data' => $data)));
 
         return $this->render('ApplicationChangementsBundle:Changements:indexcharts.html.twig', array(

@@ -26,8 +26,9 @@ use CalendR\Event\AbstractEvent;
  * @Vich\Uploadable
  */
  
+//* @GRID\Source(columns="id,nom,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUser,idusers.nomUser:GroupConcat,idEnvironnement.nom:GroupConcat",groupBy={"id"})
 // @GRID\Source(columns="id,nom,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUser,idEnvironnement.nom:concat_ws",groupBy={"id"})
-// @GRID\Source(columns="id,nom,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUser,idEnvironnement.nom:GroupConcat",groupBy={"id"})
+// @GRID\Source(columns="id,nom,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUser,idusers.nomUser:GroupConcat,idEnvironnement.nom:GroupConcat",groupBy={"id"})
 
 class Changements extends AbstractEvent
 //class Changements
@@ -134,7 +135,7 @@ class Changements extends AbstractEvent
      * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\Environnements", inversedBy="idchangements",cascade={"persist"})
      * @ORM\OrderBy({"nom" = "ASC"})
      * @ORM\JoinTable(name="changements_environnements")
-     * @GRID\Column(field="idEnvironnement.nom:GroupConcat:nom", title="Env", filter="select", selectMulti="true", selectFrom="values")
+     * @GRID\Column(field="idEnvironnement.nom:GroupConcat", size="20",title="Env", filter="select")
      */
            
     private $idEnvironnement;
@@ -152,9 +153,12 @@ class Changements extends AbstractEvent
      * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\ChronoUser", inversedBy="idchangement",cascade={"persist"})
      * @ORM\OrderBy({"nomUser" = "ASC"})
      * @ORM\JoinTable(name="changements_users")
-      */
+       */
     private $idusers;
-   // @GRID\Column(title="Users", field="idusers.nomUser:GroupConcat", size="20", visible=true, sortable=true, filtrable="true")
+    
+   //  * @GRID\Column(field="idusers.nomUser:GroupConcat", size="20",title="Users", filter="select")
+   
+// @GRID\Column(title="Users", field="idusers.nomUser:GroupConcat", size="20", visible=true, sortable=true, filtrable="true")
     
      /**
      * @var \ChronoUser

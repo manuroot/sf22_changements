@@ -132,7 +132,7 @@ LISTE DES CHANGEMENTS
      {% for action in column.rowActions %}
  {% set confirm = action.confirm ? " onclick=\"return confirm('" ~ action.confirmMessage ~ "')\"" : '' %}
       
-  {% if action.title == 'Edit' %}
+  {% if action.title == 'Edit' and  is_granted('ROLE_SUPER_ADMIN') %}
    <a href="{{ url(action.route, column.routeParameters(row, action), true) }}" target="{{ action.target }}">
                          <img src="{{ asset('bundles/applicationchangements/images/edit.png') }}" alt="edit" width="15" height="15" />
                     </a>
