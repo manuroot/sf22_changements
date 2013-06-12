@@ -155,7 +155,23 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
             return $query->getQuery();
         //return $query->getQuery()->getResult();
     }
-
+public function myFindtstAll($criteria=array()) {
+         $parameters = array();
+         $query = $this->createQueryBuilder('a')
+                ->select(array('a,b,c,d,f,h'))
+                         ->leftJoin('a.idProjet', 'b')
+                        ->leftJoin('a.demandeur', 'c')
+                        ->leftJoin('a.idStatus', 'd')
+                      ->leftJoin('a.idusers', 'e')
+                        ->leftJoin('a.picture', 'f')
+                ->leftJoin('a.idEnvironnement','g')
+                  ->leftJoin('a.comments','h');
+       $query->groupby('a.nom')
+               ->add('orderBy', 'a.id DESC');
+    
+       return $query;
+        
+    }
     public function myFindAll($criteria = array()) {
 
         $parameters = array();
@@ -176,10 +192,11 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
                 ->leftJoin('a.comments', 'h');
         //   $query->setParameters($parameters);
         // ??
-        $query->groupby('a.id')
+        $query->groupby('a.nom')
                 ->add('orderBy', 'a.id DESC');
 
-        return $query->getQuery();
+        return $query;
+        //->getQuery();
     }
 
     /* $em = $this->getEntityManager();

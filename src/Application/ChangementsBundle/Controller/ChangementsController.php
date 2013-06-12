@@ -90,6 +90,10 @@ class ChangementsController extends Controller {
 
                 $query = $filterBuilder;
             }
+           /* print_r($datas);
+               var_dump($query->getDql());
+               exit(1);*/
+       
             return array($filterForm, $query, $message);
         } else {
             //   echo "<br>pas post datas<br>";
@@ -106,8 +110,7 @@ class ChangementsController extends Controller {
                 $query = $filterBuilder;
             }
            // var_dump($query);
-          //  var_dump($query->getDql());
-          //   exit(1);
+            //   exit(1);
           //   $query_year = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_year(2013);
              
           //  var_dump($query_year->getDql());
