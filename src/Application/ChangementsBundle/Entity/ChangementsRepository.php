@@ -190,7 +190,7 @@ public function myFindtstAll($criteria=array()) {
        /* echo "test";*/
        // $query = $query->getResult(Query::HYDRATE_OBJECT);
         /*exit(1);*/
-       /* $parameters = array();
+        $parameters = array();
        $query = $this->createQueryBuilder('a')
                 //return $this->createQueryBuilder('a')
                 //  ->select($fields)
@@ -210,7 +210,7 @@ public function myFindtstAll($criteria=array()) {
         // ??
         $query->groupby('a.nom')
                 ->add('orderBy', 'a.id DESC');
-*/
+
         return $query;
        // ->getQuery();
     }

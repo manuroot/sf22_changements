@@ -90,8 +90,8 @@ class ChangementsController extends Controller {
 
                 $query = $filterBuilder;
             }
-            print_r($datas);
-               var_dump($query->getDql());
+         /*   print_r($datas);
+               var_dump($query->getDql());*/
               // exit(1);
        
             return array($filterForm, $query, $message);
