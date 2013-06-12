@@ -276,7 +276,8 @@ $ob3->series($series);
      //   $ob4->chart->type('bar');
         
          $ob4->plotOptions->bar(array(
-            'allowPointSelect' => true,
+         //    'type'=>'bar',
+          'allowPointSelect' => true,
             'cursor' => 'pointer',
             'dataLabels' => array('enabled' => false),
             'showInLegend' => true,
@@ -286,7 +287,8 @@ $ob3->series($series);
        //  $ob4->plotOptions->series(array('stacking'=> 'normal'));
         $ob4->title->text('Demandes 2013: Pr1ojets');
         $ob4->legend->backgroundColor('#FFFCCE');
-                //'reversed'=> true
+          $ob4->legend->reverse(true);
+          //'reversed'=> true
             
         //));
         $ob4->xAxis->categories(array('Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai'));
@@ -296,16 +298,17 @@ $ob3->series($series);
                  
      $series4=array(
             array("name" => "Data1",
-                "data" => array(1, 2, 4, 5, 6 )),
-          /*array("name" => "Data2",
-                "data" => array(1, 2, 7, 1, 4)),
+                "data" => array(1, 2, 4, 7, 6 )),
+          array("name" => "Data2",
+                "data" => array(2, 4, 7, 1, 4)),
          
             array("name" => "Data",
-                "data" => array(1, 5, 4, 5, 3 )
-                ),*/
+                "data" => array(3, 5, 6, 5, 3 )
+                ),
          
         );
-      $ob4->series(array(array('type' => 'bar', 'name' => 'Browser share', 'data' => $series4)));
+     $ob4->series($series4);
+     // $ob4->series(array(array('type' => 'bar', 'name' => 'Browser share', 'data' => $series4)));
     //   $ob4->series($series4);
         //$ob4->xAxis->title()
         /*$ob4->plotOptions->bar(array(
