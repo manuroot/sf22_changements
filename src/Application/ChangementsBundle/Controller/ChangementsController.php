@@ -90,9 +90,9 @@ class ChangementsController extends Controller {
 
                 $query = $filterBuilder;
             }
-           /* print_r($datas);
+            print_r($datas);
                var_dump($query->getDql());
-               exit(1);*/
+              // exit(1);
        
             return array($filterForm, $query, $message);
         } else {
@@ -242,7 +242,105 @@ class ChangementsController extends Controller {
         $em = $this->getDoctrine()->getManager();
       
         $data = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_year();
+ $data_month = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_monthyear();
+ 
+ // print_r($datas);
+       //     var_dump($data_month->getDql());
+               
+                  $res=$data_month->getResult();
+                  
+                  
+              /*    $categories = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
 
+$ob3 = new Highchart();
+$ob3->chart->renderTo('container'); // The #id of the div where to render the chart
+$ob3->chart->type('column');
+$ob3->title->text('Average Monthly Weather Data for Tokyo');
+$ob3->xAxis->categories($categories);
+$ob3->yAxis($yData);
+$ob3->legend->enabled(false);
+$formatter = new Expr('function () {
+                 var unit = {
+                     "Rainfall": "mm",
+                     "Temperature": "degrees C"
+                 }[this.series.name];
+                 return this.x + ": <b>" + this.y + "</b> " + unit;
+             }');
+$ob3->tooltip->formatter($formatter);
+$ob3->series($series);
+
+*/
+
+                   $ob4 = new Highchart();
+        $ob4->chart->renderTo('linechart4');
+     //   $ob4->chart->type('bar');
+        
+         $ob4->plotOptions->bar(array(
+            'allowPointSelect' => true,
+            'cursor' => 'pointer',
+            'dataLabels' => array('enabled' => false),
+            'showInLegend' => true,
+             'series' => array('stacking'=> 'normal'),
+              
+        ));
+       //  $ob4->plotOptions->series(array('stacking'=> 'normal'));
+        $ob4->title->text('Demandes 2013: Pr1ojets');
+        $ob4->legend->backgroundColor('#FFFCCE');
+                //'reversed'=> true
+            
+        //));
+        $ob4->xAxis->categories(array('Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai'));
+         $ob4->yAxis->min(0);
+         // $ob4->yAxis->max(5);
+         $ob4->yAxis->title(array('text'=>'gdfgdf'));
+                 
+     $series4=array(
+            array("name" => "Data1",
+                "data" => array(1, 2, 4, 5, 6 )),
+          /*array("name" => "Data2",
+                "data" => array(1, 2, 7, 1, 4)),
+         
+            array("name" => "Data",
+                "data" => array(1, 5, 4, 5, 3 )
+                ),*/
+         
+        );
+      $ob4->series(array(array('type' => 'bar', 'name' => 'Browser share', 'data' => $series4)));
+    //   $ob4->series($series4);
+        //$ob4->xAxis->title()
+        /*$ob4->plotOptions->bar(array(
+            series =>
+                    stacking: 'normal'
+            'allowPointSelect' => true,
+            'cursor' => 'pointer',
+            'dataLabels' => array('enabled' => false),
+            'showInLegend' => true
+        ));*/
+        
+
+
+
+
+            /* $res=$data_month->getQuery()->getDql();
+             echo "test<br>";
+             print_r($res);*/
+             
+             // Printing the SQL with real values
+              /*
+$vals = $data_month->getFlattenedParams();
+foreach(explode('?', $data_month->getSqlQuery()) as $i => $part) {
+    $sql = (isset($sql) ? $sql : null) . $part;
+    if (isset($vals[$i])) $sql .= $vals[$i];
+}
+
+echo $sql;*/
+              /* 
+               $query = sprintf("SELECT s FROM BundleName:EntityClass s where s.field1 = %d and s.field2=%d", $field1, $field2);
+$em = $this->getDoctrine()->getEntityManager();*/
+//$queryObj = $em->createQuery($data_month);
+//$xentities = $data_month;
+
+             //  $data_month->execute();
         /*
         $data = array(
             array('CDR', 45.0),
@@ -256,7 +354,8 @@ class ChangementsController extends Controller {
 
         return $this->render('ApplicationChangementsBundle:Changements:indexcharts.html.twig', array(
                     'chart1' => $ob1,
-                    'chart2' => $ob2
+                    'chart2' => $ob2,
+              'chart4' => $ob4
         ));
     }
 

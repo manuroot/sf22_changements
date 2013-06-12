@@ -110,6 +110,8 @@ doctrine:
                         concat_ws: DoctrineExtensions\Query\Mysql\ConcatWs
                         XGroupConcat: Application\ChangementsBundle\Query\Mysql\XGroupConcat
                         AtGroupConcat: Application\CertificatsBundle\doctrine\Extensions\AtGroupConcat
+                        MONTH: DoctrineExtensions\Query\Mysql\Month
+                        YEAR: DoctrineExtensions\Query\Mysql\Year
 
 
 #==================================================

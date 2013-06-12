@@ -29,7 +29,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
     }
 
     /*
-     * 
+     * WORKING::
      * 
      * SELECT DISTINCT c0_.id AS id0, c0_.nom AS nom1, c0_.date_debut AS date_debut2, c0_.date_fin AS date_fin3, c1_.nomprojet AS nomprojet4, c2_.nom_user AS nom_user5, GROUP_CONCAT( DISTINCT c3_.nom_user ) AS sclr6, GROUP_CONCAT( DISTINCT e4_.nom ) AS sclr7
       FROM changements c0_
@@ -176,18 +176,22 @@ public function myFindtstAll($criteria=array()) {
     public function myFindAll($criteria = array()) {
 
         //$em = $this->getDoctrine()->getEntityManager();
-        $em = $this->getEntityManager();
+       /* $em = $this->getEntityManager();
         $query = $em->createQuery('
-            SELECT a,b,c,d,f FROM ApplicationChangementsBundle:Changements a 
-            JOIN a.idProjet b
+            SELECT a,b,c,d,f,MONTH(a.dateDebut) FROM ApplicationChangementsBundle:Changements a 
+            LEFT JOIN a.idProjet b
             JOIN a.demandeur c 
             JOIN a.idStatus d 
             JOIN a.idusers e 
              JOIN a.picture f
             JOIN a.idEnvironnement g 
             ORDER BY a.id ASC');
-        $parameters = array();
-        /*$query = $this->createQueryBuilder('a')
+        */
+       /* echo "test";*/
+       // $query = $query->getResult(Query::HYDRATE_OBJECT);
+        /*exit(1);*/
+       /* $parameters = array();
+       $query = $this->createQueryBuilder('a')
                 //return $this->createQueryBuilder('a')
                 //  ->select($fields)
                 ->select(array('a,b,c,d,f,h'))
@@ -205,8 +209,8 @@ public function myFindtstAll($criteria=array()) {
         //   $query->setParameters($parameters);
         // ??
         $query->groupby('a.nom')
-                ->add('orderBy', 'a.id DESC');*/
-
+                ->add('orderBy', 'a.id DESC');
+*/
         return $query;
        // ->getQuery();
     }
@@ -329,7 +333,7 @@ public function myFindtstAll($criteria=array()) {
         else
             $current_year = date('Y');
 
-        $parameters = array();
+      /*  $parameters = array();
         $query = $this->createQueryBuilder('a')
                 ->select('count(a.id) as nb,b.nomprojet')
                 ->leftJoin('a.idProjet', 'b')
@@ -337,11 +341,17 @@ public function myFindtstAll($criteria=array()) {
                 ->groupby('b.nomprojet');
         $parameters['date'] = '%' . $year . '%';
       //  echo "year=" . $parameters['date'] . "<br>";
+        $query->setParameters($parameters);*/
+        
+         $query = $this->createQueryBuilder('a')
+                ->select('count(a.id) as nb,b.nomprojet,MONTH(a.dateDebut) as mois')
+                ->leftJoin('a.idProjet', 'b')
+                ->andWhere('a.dateDebut LIKE :date')
+                ->groupby('b.nomprojet');
+        $parameters['date'] = '%' . $year . '%';
+      //  echo "year=" . $parameters['date'] . "<br>";
         $query->setParameters($parameters);
-       // var_dump($query->getQuery()->getScalarResult());
-
-
-       // $qa=count($query->getQuery()->getScalarResult());
+        
         $qa = $this->createQueryBuilder('a')->select('COUNT(a.id)')
                 ->where('a.dateDebut LIKE :madate')
                 ->setParameter('madate', '%' . $year . '%')
@@ -352,15 +362,11 @@ public function myFindtstAll($criteria=array()) {
         //exit(1);
         $datas = array();
         foreach ($query->getQuery()->getScalarResult() as $valeur) {
-          /*
-             print_r($valeur);
-              echo $valeur['nb'] / $qa * 100 . "<br>";
-           * 
-           */
+           // echo $valeur['nomprojet'] . "--" . $valeur['mois'] . "<br>";
             array_push($datas, array($valeur['nomprojet'], round(($valeur['nb'] / $qa) * 100)));
         }
+     //   exit(1);
        // print_r($datas);
-
         return $datas;
     }
 
@@ -380,12 +386,42 @@ public function myFindtstAll($criteria=array()) {
 
     public function sum_appli_monthyear($year = null) {
 
-        if (isset($year))
+        
+         $query = $this->createQueryBuilder('a')
+                   ->select('MONTH(a.dateDebut) as mois,b.nomprojet,count(a.id) as nb')
+                //->select('count(a.id) as nb,a.dateDebut,b.nomprojet,MONTH(a.dateDebut) as mois')
+                ->leftJoin('a.idProjet', 'b')
+                ->andWhere('a.dateDebut LIKE :date')
+                  ->groupby('mois');
+                 // ->groupby('b.nomprojet');
+               
+               
+        $parameters['date'] = '%' . $year . '%';
+      //  echo "year=" . $parameters['date'] . "<br>";
+        $query->setParameters($parameters);
+       
+        $query->getQuery();
+       /* $qa = $this->createQueryBuilder('a')->select('COUNT(a.id)')
+                ->where('a.dateDebut LIKE :madate')
+                ->setParameter('madate', '%' . $year . '%')
+                ->getQuery()
+               ->getSingleScalarResult();
+
+       // echo "xnb=$qa<br>";
+        ///* $datas = array();
+        foreach ($query->getScalarResult() as $valeur) {
+            print_r($valeur);
+            //echo $valeur['nomprojet'] . "--" . $valeur['mois'] . "<br>";
+            array_push($datas, array($valeur['nomprojet'], round(($valeur['nb'] / $qa) * 100)));
+        }*/
+        return($query->getQuery());
+      /*  if (isset($year))
             $current_year = $year;
         else
             $current_year = date('Y');
         $cols = $this->t_cols;
 
+        //$query = $em->createQuery('SELECT partial u.{id, username}, partial a.{id, name} FROM CmsUser u JOIN u.articles a');
         $select = $this->select()
                 ->setIntegrityCheck(false)
                 ->from($this->_name, array(
@@ -400,6 +436,42 @@ public function myFindtstAll($criteria=array()) {
 
 
         return($select);
+       * 
+       * 
+       * 
+       * 
+       * 
+       * 
+SELECT 
+  count(c0_.id) AS sclr0, 
+  c1_.nomprojet AS nomprojet1, 
+  MONTH(c0_.date_debut) AS sclr2 
+FROM 
+  changements c0_ 
+  LEFT JOIN certificats_projet c1_ ON c0_.id_projet = c1_.id 
+WHERE 
+  c0_.date_debut LIKE '%2013%'
+GROUP BY 
+  sclr2
+       * 
+       */
+      
+       /* $em = $this->getDoctrine()->getEntityManager();*/
+       /* $em = $this->getEntityManager();
+        $query = $em->createQuery("
+            SELECT COUNT(a.id), FROM ApplicationChangementsBundle:Changements a 
+            WHERE a.dateDebut LIKE ?1 GROUP BY a.name");
+        $query->setParameter(1, '2013');*/
+        //$users = $query->getResult(Query::HYDRATE_OBJECT);
+           
+            
+        
+        
+        
+        
+        
+        
+        
     }
 
     /* public function createQueryBuilderForGetEvent(array $options)
