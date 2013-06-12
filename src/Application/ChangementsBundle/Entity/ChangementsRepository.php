@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityRepository;
 use CalendR\Event\Provider\ProviderInterface;
 use DoctrineExtensions\Query\Mysql\GroupConcat;
 
+use Application\ChangementsBundle\Entity\Changements;
 //use CalendR\Extension\Doctrine2\EventRepository as EventRepositoryTrait;
 /**
  * NotesRepository
@@ -174,8 +175,19 @@ public function myFindtstAll($criteria=array()) {
     }
     public function myFindAll($criteria = array()) {
 
+        //$em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('
+            SELECT a,b,c,d,f FROM ApplicationChangementsBundle:Changements a 
+            JOIN a.idProjet b
+            JOIN a.demandeur c 
+            JOIN a.idStatus d 
+            JOIN a.idusers e 
+             JOIN a.picture f
+            JOIN a.idEnvironnement g 
+            ORDER BY a.id ASC');
         $parameters = array();
-        $query = $this->createQueryBuilder('a')
+        /*$query = $this->createQueryBuilder('a')
                 //return $this->createQueryBuilder('a')
                 //  ->select($fields)
                 ->select(array('a,b,c,d,f,h'))
@@ -193,10 +205,10 @@ public function myFindtstAll($criteria=array()) {
         //   $query->setParameters($parameters);
         // ??
         $query->groupby('a.nom')
-                ->add('orderBy', 'a.id DESC');
+                ->add('orderBy', 'a.id DESC');*/
 
         return $query;
-        //->getQuery();
+       // ->getQuery();
     }
 
     /* $em = $this->getEntityManager();
