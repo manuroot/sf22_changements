@@ -176,25 +176,34 @@ public function myFindtstAll($criteria=array()) {
     public function myFindAll($criteria = array()) {
 
         //$em = $this->getDoctrine()->getEntityManager();
-       /* $em = $this->getEntityManager();
+     /*  $em = $this->getEntityManager();
         $query = $em->createQuery('
-            SELECT a,b,c,d,f,MONTH(a.dateDebut) FROM ApplicationChangementsBundle:Changements a 
+            SELECT a,b,c,d,f,h,e FROM ApplicationChangementsBundle:Changements a 
             LEFT JOIN a.idProjet b
-            JOIN a.demandeur c 
-            JOIN a.idStatus d 
-            JOIN a.idusers e 
-             JOIN a.picture f
-            JOIN a.idEnvironnement g 
+           LEFT JOIN a.demandeur c 
+            LEFT JOIN a.idStatus d 
+            LEFT JOIN a.idusers e 
+             LEFT JOIN a.picture f
+            LEFT JOIN a.idEnvironnement g 
+           LEFT JOIN a.comments h
+           GroupConcat(e.nomUser)
+           GROUP BY a.nom
             ORDER BY a.id ASC');
-        */
+      */
        /* echo "test";*/
        // $query = $query->getResult(Query::HYDRATE_OBJECT);
         /*exit(1);*/
         $parameters = array();
+         $values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
+            
        $query = $this->createQueryBuilder('a')
                 //return $this->createQueryBuilder('a')
                 //  ->select($fields)
-                ->select(array('a,b,c,d,f,h'))
+               //GROUP_CONCAT( DISTINCT e4_.nom )
+               //->select(array('a,b,c,d,f,h'))
+              //  ->select('a,partial b.{id,nomprojet},partial c.{id,nomUser},d,f,partial h.{id},GROUP_CONCAT( DISTINCT e.nomUser )')
+                ->select($values)
+            // ->select('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,description},f,partial h.{id}')
                 //  ->select(array('a,b,c,d,e,f,g,h'))
                 ->leftJoin('a.idProjet', 'b')
                 ->leftJoin('a.demandeur', 'c')
@@ -205,14 +214,16 @@ public function myFindtstAll($criteria=array()) {
                 ->leftJoin('a.idEnvironnement', 'g')
                 // ->where('g.id = :changement_id')
                 // ->setParameter('changement_id', 3)
-                ->leftJoin('a.comments', 'h');
+                ->leftJoin('a.comments', 'h')
+              //  ->addselect('GroupConcat(e.nomUser)');;
         //   $query->setParameters($parameters);
         // ??
-        $query->groupby('a.nom')
-                ->add('orderBy', 'a.id DESC');
-
+               ;
+      // $query->groupby('e.nomUser');
+        $query->groupby('a.id');
+               $query->add('orderBy', 'a.id DESC');
         return $query;
-       // ->getQuery();
+        //->getQuery();
     }
 
     /* $em = $this->getEntityManager();
