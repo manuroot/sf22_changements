@@ -100,7 +100,7 @@ class ChangementsCommentsController extends Controller {
 
         $validation = 1;
         // recup du changement:
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $changement = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
         if (!$changement) {
             throw $this->createNotFoundException('Unable to find Changement.');
@@ -180,7 +180,7 @@ class ChangementsCommentsController extends Controller {
 
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
             return $this->redirect($this->generateUrl('changements_comment_show', array(
@@ -191,7 +191,7 @@ class ChangementsCommentsController extends Controller {
     }
 
     protected function getChangement($changement_id) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $changements = $em->getRepository('ApplicationChangementsBundle:Changements')->find($changement_id);
         if (!$changements) {
             throw $this->createNotFoundException('Unable to find Changement.');

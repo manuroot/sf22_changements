@@ -607,7 +607,7 @@ private $comments;
     /**
      * Get picture
      *
-     * @return Docchangements 
+     * @return \Application\RelationsBundle\Entity\Document 
      */
     public function getPicture()
     {
@@ -644,7 +644,7 @@ private $comments;
      * @param \Application\RelationsBundle\Entity\Document $picture
      * @return Changements
      */
-    public function addPicture(Docchangements $picture)
+    public function addPicture(\Application\RelationsBundle\Entity\Document $picture)
     {
         $this->picture[] = $picture;
     
@@ -656,7 +656,7 @@ private $comments;
      *
      * @param \Application\RelationsBundle\Entity\Document $picture
      */
-    public function removePicture(Docchangements $picture)
+    public function removePicture(\Application\RelationsBundle\Entity\Document $picture)
     {
         $this->picture->removeElement($picture);
     }

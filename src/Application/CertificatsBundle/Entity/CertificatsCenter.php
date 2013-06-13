@@ -4,9 +4,10 @@ namespace Application\CertificatsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use APY\DataGridBundle\Grid\Mapping as GRID;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\MinLength;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -41,6 +42,14 @@ class CertificatsCenter
      * @var string
      *
      * @ORM\Column(name="file_name", type="string", length=50, nullable=false)
+     * @Assert\Length(
+     *      min = "5",
+     *      max = "50",
+     *      minMessage = "Your name must be at least {{ limit }} characters length |
+     *  Au minimum {{ limit }} caracteres",
+     *      maxMessage = "filenamee cannot be longer than than {{ limit }} characters length |
+     *  fichier: au maximum {{ limit }} caracteres"
+     * )
      * @GRID\Column(title="Nom", size="100", type="text")
      */
     private $fileName;
@@ -490,8 +499,8 @@ class CertificatsCenter
     
  public static function loadValidatorMetadata(ClassMetadata $metadata) {
         //nom
-        $metadata->addPropertyConstraint('fileName', new NotBlank());
-        $metadata->addPropertyConstraint('fileName', new MinLength(5));
+      //  $metadata->addPropertyConstraint('fileName', new NotBlank());
+     //   $metadata->addPropertyConstraint('fileName', new MinLength(5));
       //   $metadata->addPropertyConstraint('endTime', new Assert\Date());
        /* $metadata->addConstraint(new UniqueEntity(array(
             "fields" => "fileName", 

@@ -176,11 +176,12 @@ class ChangementsController extends Controller {
      
          public function indexpostAction(Request $request) {
 
-                $message = "filter datas";
+        $message = "filter datas";
         $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
-        $session = $request->getSession();
-     
+          $session = $request->getSession();
+       
+       $session->set('buttonretour', 'changements_post');
         list($filterForm, $queryBuilder, $message) = $this->filter();
      //    $queryBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindsimpleAll();
      
@@ -188,8 +189,8 @@ class ChangementsController extends Controller {
         $session->getFlashBag()->add('warning', "$message");
 
         $pagination = $this->createpaginator($queryBuilder, 10);
-        return $this->render('ApplicationChangementsBundle:Changements:indexsimple.html.twig', array(
-                   // 'search_form' => $filterForm->createView(),
+        return $this->render('ApplicationChangementsBundle:Changements:indexpost.html.twig', array(
+                    'search_form' => $filterForm->createView(),
                     'pagination' => $pagination,
         ));
     }
@@ -364,7 +365,7 @@ foreach(explode('?', $data_month->getSqlQuery()) as $i => $part) {
 echo $sql;*/
               /* 
                $query = sprintf("SELECT s FROM BundleName:EntityClass s where s.field1 = %d and s.field2=%d", $field1, $field2);
-$em = $this->getDoctrine()->getEntityManager();*/
+$em = $this->getDoctrine()->getManager();*/
 //$queryObj = $em->createQuery($data_month);
 //$xentities = $data_month;
 
@@ -604,7 +605,7 @@ $em = $this->getDoctrine()->getEntityManager();*/
             } else {
                 // flow finished
 
-                $em = $this->getDoctrine()->getEntityManager();
+                $em = $this->getDoctrine()->getManager();
                 $em->persist($entity);
                 $em->flush();
                 $flow->reset();

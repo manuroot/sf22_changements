@@ -69,7 +69,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
           GROUP BY c0_.id
           ORDER BY `c1_`.`nomprojet` ASC');
 
-          $em = $this->getDoctrine()->getEntityManager();
+          $em = $this->getDoctrine()->getManager();
           $qb = $em->createQueryBuilder();
           $result = $qb->select('n.user1lname')->from('MySite\MyBundle\Entity\User', 'n')
           ->where($qb->expr()->like('n.user1lname', $qb->expr()->literal($searchTerm.'%')))
@@ -218,7 +218,8 @@ public function myFindtstAll($criteria=array()) {
               ->distinct('GroupConcat(e.nomUser)')
                 ->leftJoin('a.idusers', 'e');
                 $query->add('orderBy', 'a.id DESC');
-        return $query->getQuery();
+        return $query;
+        //->getQuery();
     }
 
      public function myFind11All($criteria = array()) {
@@ -247,8 +248,8 @@ public function myFindtstAll($criteria=array()) {
 
       public function myFindsimpleAll($criteria = array()) {
 
-        //$em = $this->getDoctrine()->getEntityManager();
-      $em = $this->getEntityManager();
+        //$em = $this->getDoctrine()->getManager();
+      $em = $this->getManager();
         //$values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
        $values='a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id},';
        //   $values='a,partial b.{id,nomprojet},partial c.{id,nomUser},partial GroupConcat(e.nomUser),partial d.{id,nom,description},f,partial h.{id}';
@@ -303,7 +304,7 @@ public function myFindtstAll($criteria=array()) {
         //->getQuery();
     }
 
-    /* $em = $this->getEntityManager();
+    /* $em = $this->getManager();
       $query = $em->createQuery('SELECT DISTINCT c0_.id AS id0, c0_.nom AS nom1,
      * c0_.date_debut AS date_debut2, c0_.date_fin AS date_fin3, c1_.nomprojet AS nomprojet4,
      * c2_.nom_user AS nom_user5, GROUP_CONCAT( DISTINCT c3_.nom_user ) AS sclr6, GROUP_CONCAT( DISTINCT e4_.nom ) AS sclr7
@@ -353,7 +354,7 @@ public function myFindtstAll($criteria=array()) {
      */
 
     /*
-      $em = $this->getEntityManager();
+      $em = $this->getManager();
 
       $query = "SELECT DISTINCT
       a.id AS id0,
@@ -544,8 +545,8 @@ GROUP BY
        * 
        */
       
-       /* $em = $this->getDoctrine()->getEntityManager();*/
-       /* $em = $this->getEntityManager();
+       /* $em = $this->getDoctrine()->getManager();*/
+       /* $em = $this->getManager();
         $query = $em->createQuery("
             SELECT COUNT(a.id), FROM ApplicationChangementsBundle:Changements a 
             WHERE a.dateDebut LIKE ?1 GROUP BY a.name");

@@ -182,12 +182,56 @@ class ChangementsType extends AbstractType {
                   )) */
 
                 //  ->add('product_image')
-                ->add('picture', 'collection', array('type' => new DocfichierType(),
+                  ->add('picture', 'collection', array(
+                    'type' => new DocfichierType(),
+                    'allow_add' => true,
+                    'by_reference' => false,
+                    'allow_delete' => true,
+                   /*'attr' => array(
+                'class' => 'span5'
+            )*/
+                   // 'prototype' => true,
+                    //'prototype_name' => '__name__'
+                    ))
+                            
+       /*  ->add('picture','collection', array(
+        'type' => new DocfichierType(),
+        'allow_add' => true,
+        'allow_delete' => true,
+        'prototype' => true,
+        'widget_add_btn' => array('label' => 'add email', 'attr' => array('class' => 'btn btn-primary')),
+        'options' => array( // options for collection fields
+            'widget_remove_btn' => array('label' => 'remove', 'attr' => array('class' => 'btn btn-primary')),
+            'attr' => array('class' => 'span3'),
+            'widget_addon' => array(
+                'type' => 'prepend',
+                'text' => '@',
+            ),
+            'widget_control_group' => false,
+        )
+    ))*/
+                            /*
+   ->add('picture','collection', array(
+        'type' => new DocfichierType(),
+                    'allow_add' => true,
+                    'by_reference' => false,
+                    'allow_delete' => true,
+        'widget_add_btn' => array(
+            'icon' => 'plus-sign',
+            'label' => 'add email'
+         ),
+    ))*/
+    
+                    
+                            /*
+                ->add('picture', 'collection', array(
+                    'type' => new DocfichierType(),
                     'allow_add' => true,
                     'by_reference' => true,
                     'allow_delete' => true,
                     'prototype' => true,
-                    'prototype_name' => '__name__'))
+                    //'prototype_name' => '__name__'
+                    ))*/
 
                 /* ->add('picture', 'collection',  array(
                   'label'  => 'Attachments',

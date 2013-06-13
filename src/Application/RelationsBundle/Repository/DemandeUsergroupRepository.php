@@ -91,7 +91,7 @@ exit(1);*/
 
 
 public function findPoids(){
-   /*  $emConfig = $this->getEntityManager()->getConfiguration();
+   /*  $emConfig = $this->getManager()->getConfiguration();
     $emConfig->addCustomDatetimeFunction('YEAR', 'DoctrineExtensions\Query\Mysql\Year');
     $emConfig->addCustomDatetimeFunction('MONTH', 'DoctrineExtensions\Query\Mysql\Month');
     $emConfig->addCustomDatetimeFunction('DAY', 'DoctrineExtensions\Query\Mysql\Day');

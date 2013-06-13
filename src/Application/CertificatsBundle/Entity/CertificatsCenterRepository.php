@@ -25,8 +25,8 @@ class CertificatsCenterRepository extends EntityRepository {
                
                         ->leftJoin('a.project', 'b')
                         ->leftJoin('a.typeCert', 'c')
-                        ->orderBy('a.id', 'DESC') 
-                        ->getQuery();
+                        ->orderBy('a.id', 'DESC') ;
+                        //->getQuery();
     }
 
 }

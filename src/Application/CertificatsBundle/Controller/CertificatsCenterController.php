@@ -503,7 +503,7 @@ exit(1);
 
 
         $em = $this->getDoctrine()->getManager();
-        $em = $this->container->get('doctrine')->getEntityManager();
+        $em = $this->container->get('doctrine')->getManager();
         $cert = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->find($id);
         //$cert = $em->find('ApplicationCertificatsBundle:CertificatsCenter', $id);
         if (!$cert) {
@@ -650,13 +650,13 @@ exit(1);
         $request = $this->getRequest();
 
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $id = '';
             $applis = array();
             $cert_app = array();
 
             $id = $request->request->get('id_projet');
-            $projet = $em->getRepository('ApplicationCertificatsBundle:Projet')->find($id);
+            $projet = $em->getRepository('ApplicationRelationsBundle:Projet')->find($id);
 
             $id_cert = $request->request->get('id_cert');
             if (isset($id_cert) && $id_cert != "create") {

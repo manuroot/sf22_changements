@@ -1,5 +1,20 @@
 {% extends "ApplicationChangementsBundle::layout.html.twig" %}
 {% form_theme edit_form 'MopaBootstrapBundle:Form:fields.html.twig' %}
+{% macro widget_prototype(form_widget, remove_text) %}
+    {% if form_widget('prototype') %}
+        {% set form = widget.get('prototype') %}
+        {% set name = widget.get('prototype').get('name') %}
+    {% else %}
+        {% set form = widget %}
+        {% set name = widget.get('name') %}
+    {% endif %}
+
+<div data-content="{{ name }}">
+    <a class="btn-remove" data-related="{{ name }}">{{ remove_text }}</a>
+        {{ form_widget(form) }}
+</div>
+{% endmacro %}
+
 
 {% block stylesheets %}
 {{ parent() }}
@@ -41,58 +56,10 @@
         <script type="text/javascript" src="{{ asset('select2/select2.js') }}"></script>
         <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
 {{ tinymce_init() }}
-   <script>
-// Récupère le div qui contient la collection de tags
-var collectionHolder = $('ul.tags');
-
-// ajoute un lien « add a tag »
-var $addTagLink = $('<a href="#" class="add_tag_link">Ajouter Fichier</a>');
-var $newLinkLi = $('<li></li>').append($addTagLink);
-
-jQuery(document).ready(function() {
-    // ajoute l'ancre « ajouter un tag » et li à la balise ul
-    collectionHolder.append($newLinkLi);
-collectionHolder.find('li').each(function() {
-        addTagFormDeleteLink($(this));
-    });
-    
-    $addTagLink.on('click', function(e) {
-        // empêche le lien de créer un « # » dans l'URL
-        e.preventDefault();
-
-        // ajoute un nouveau formulaire tag (voir le prochain bloc de code)
-        addTagForm(collectionHolder, $newLinkLi);
-    });
-});
-function addTagForm(collectionHolder, $newLinkLi) {
-    // Récupère l'élément ayant l'attribut data-prototype comme expliqué plus tôt
-    var prototype = collectionHolder.attr('data-prototype');
-
-    // Remplace '__name__' dans le HTML du prototype par un nombre basé sur
-    // la longueur de la collection courante
-    var newForm = prototype.replace(/__name__/g, collectionHolder.children().length);
-
-    // Affiche le formulaire dans la page dans un li, avant le lien "ajouter un tag"
-    var $newFormLi = $('<li></li>').append(newForm);
-    $newLinkLi.before($newFormLi);
-    // ajoute un lien de suppression au nouveau formulaire
-    addTagFormDeleteLink($newFormLi);
-}
-function addTagFormDeleteLink($tagFormLi) {
-    var $removeFormA = $('<a href="#">Supprimer</a>');
-    $tagFormLi.append($removeFormA);
-
-    $removeFormA.on('click', function(e) {
-        // empêche le lien de créer un « # » dans l'URL
-        e.preventDefault();
-
-        // supprime l'élément li pour le formulaire de tag
-        $tagFormLi.remove();
-    });
-}
+   {#<script>
   
        </script>
-
+#}
 {% endblock %}
 
 
@@ -125,21 +92,12 @@ function addTagFormDeleteLink($tagFormLi) {
                         <div>{{ form_row(edit_form.dateFin) }}                  </div>
                         <div>{{ form_row(edit_form.dateComep) }}</div>
                         <div> {{ form_row(edit_form.dateVsr) }}</div>
-                        
-                    <h3>FICHIERS</h3>
-    <ul class="tags" data-prototype="{{ form_widget(edit_form.picture.vars.prototype)|e }}">
-
-        {# itère sur chaque tag existant et affiche son unique champ : name #}
-        {% for tag in edit_form.picture %}
-            <li>{{ form_widget(tag) }}
-            {#{{ form_row(tag.name) }}#}
-                </li>
-        {% endfor %}
-    </ul>    
-                    {% do edit_form.picture.setRendered() %}
-                        
-                 
-                       {#     <a class="btn-add" data-target="post_tags">Ajouter un Fichier</a>#}
+                        <div id="post_tags" data-prototype="{{ _self.widget_prototype(edit_form.picture, 'Supprimer Fichier')|escape }}">
+                            {% for widget in edit_form.picture.children %}
+                            {{ _self.widget_prototype(widget, 'Supprimer Fichier') }}
+                            {% endfor %}
+                            </div>
+                            <a class="btn-add" data-target="post_tags">Ajouter un Fichier</a>
                         </td>
                         <td>     
                             <div>

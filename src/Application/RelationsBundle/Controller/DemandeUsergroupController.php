@@ -457,7 +457,7 @@ class DemandeUsergroupController extends Controller {
 
     protected function getChangement($changement_id) {
         $em = $this->getDoctrine()
-                ->getEntityManager();
+                ->getManager();
 
         $changements = $em->getRepository('ApplicationChangementsBundle:Changements')->find($changement_id);
 
