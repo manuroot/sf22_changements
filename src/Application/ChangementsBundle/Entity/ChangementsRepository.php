@@ -194,7 +194,10 @@ public function myFindtstAll($criteria=array()) {
        // $query = $query->getResult(Query::HYDRATE_OBJECT);
         /*exit(1);*/
         $parameters = array();
-         $values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
+   //           $values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
+   
+        $values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
+         //$values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id},GroupConcat(i.nomUser)');
             
        $query = $this->createQueryBuilder('a')
                 //return $this->createQueryBuilder('a')
@@ -209,18 +212,28 @@ public function myFindtstAll($criteria=array()) {
                 ->leftJoin('a.demandeur', 'c')
                 ->leftJoin('a.idStatus', 'd')
                 // ->addSelect(GroupConcat(e.nomUser, ' / '))
-                ->leftJoin('a.idusers', 'e')
+               
                 ->leftJoin('a.picture', 'f')
+               
+               
+                ->addSelect('g')
+                ->distinct('GroupConcat(nom)')
                 ->leftJoin('a.idEnvironnement', 'g')
+              
                 // ->where('g.id = :changement_id')
                 // ->setParameter('changement_id', 3)
                 ->leftJoin('a.comments', 'h')
+                ->addSelect('e')
+            //  ->addSelect('partial e.{id,GroupConcat\(nomUser\)}')
+              ->distinct('GroupConcat(nomUser)')
+                ->leftJoin('a.idusers', 'e')
+               
               //  ->addselect('GroupConcat(e.nomUser)');;
         //   $query->setParameters($parameters);
         // ??
                ;
-      // $query->groupby('e.nomUser');
-        $query->groupby('a.id');
+      // $query->addSelect('distinct i.nomUser');
+      //  $query->groupby('a.id');
                $query->add('orderBy', 'a.id DESC');
         return $query;
         //->getQuery();
