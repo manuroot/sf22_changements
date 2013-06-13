@@ -170,9 +170,33 @@ class ChangementsController extends Controller {
       string(6) "filter"
      */
 
-    public function indexpostAction(Request $request) {
+    
+    
+     
+         public function indexpostAction(Request $request) {
+
+                $message = "filter datas";
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->getRequest();
+        $session = $request->getSession();
+     
+     //   list($filterForm, $queryBuilder, $message) = $this->filter();
+           $queryBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindsimpleAll();
+     
+
+        $session->getFlashBag()->add('warning', "$message");
+
+        $pagination = $this->createpaginator($queryBuilder, 5);
+        return $this->render('ApplicationChangementsBundle:Changements:indexsimple.html.twig', array(
+                   // 'search_form' => $filterForm->createView(),
+                    'pagination' => $pagination,
+        ));
+    }
+    public function indexcpostAction(Request $request) {
 
         list($filterForm, $queryBuilder, $message) = $this->filter();
+        
+        
         $session = $request->getSession();
 
         $session->getFlashBag()->add('warning', "$message");

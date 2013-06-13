@@ -173,6 +173,30 @@ public function myFindtstAll($criteria=array()) {
        return $query;
         
     }
+      public function myFindsimpleAll($criteria = array()) {
+
+        //$em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getEntityManager();
+        //$values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
+       $values='a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}';
+       //   $values='a,partial b.{id,nomprojet},partial c.{id,nomUser},partial GroupConcat(e.nomUser),partial d.{id,nom,description},f,partial h.{id}';
+        $query = $em->createQuery("
+            SELECT $values FROM ApplicationChangementsBundle:Changements a 
+            LEFT JOIN a.idProjet b
+           LEFT JOIN a.demandeur c 
+            LEFT JOIN a.idStatus d 
+            LEFT JOIN a.idusers e 
+             LEFT JOIN a.picture f
+            LEFT JOIN a.idEnvironnement g 
+           LEFT JOIN a.comments h
+            GROUP BY a.id
+           "
+            
+                );
+        /* GroupConcat(e.nomUser)*/
+     return $query;
+      }
+      
     public function myFindAll($criteria = array()) {
 
         //$em = $this->getDoctrine()->getEntityManager();
