@@ -22,7 +22,7 @@ use APY\DataGridBundle\Grid\Column\TextColumn;
 use APY\DataGridBundle\Grid\Column\DateColumn;
 use APY\DataGridBundle\Grid\Export\ExcelExport;
 use Ob\HighchartsBundle\Highcharts\Highchart;
-
+use Doctrine\ORM\Tools\Pagination\CountOutputWalker;
 /* use Pagerfanta\Pagerfanta;
   use Pagerfanta\Adapter\DoctrineORMAdapter;
   use Pagerfanta\Exception\NotValidCurrentPageException; */
@@ -41,6 +41,7 @@ class ChangementsController extends Controller {
     private function createpaginator($query, $num_perpage = 5) {
 
         $paginator = $this->get('knp_paginator');
+        //$paginator->setUseOutputWalkers(true);
         $pagename = 'page'; // Set custom page variable name
         $page = $this->get('request')->query->get($pagename, 1); // Get custom page variable
 
@@ -180,13 +181,13 @@ class ChangementsController extends Controller {
         $request = $this->getRequest();
         $session = $request->getSession();
      
-     //   list($filterForm, $queryBuilder, $message) = $this->filter();
-           $queryBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindsimpleAll();
+        list($filterForm, $queryBuilder, $message) = $this->filter();
+     //    $queryBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindsimpleAll();
      
 
         $session->getFlashBag()->add('warning', "$message");
 
-        $pagination = $this->createpaginator($queryBuilder, 5);
+        $pagination = $this->createpaginator($queryBuilder, 10);
         return $this->render('ApplicationChangementsBundle:Changements:indexsimple.html.twig', array(
                    // 'search_form' => $filterForm->createView(),
                     'pagination' => $pagination,

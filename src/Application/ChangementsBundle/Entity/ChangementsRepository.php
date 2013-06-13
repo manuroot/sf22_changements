@@ -173,70 +173,76 @@ public function myFindtstAll($criteria=array()) {
        return $query;
         
     }
-     public function myFindssAll($criteria = array()) {
+    
+     public function myFindnnAll($criteria = array()) {
 
-        //$em = $this->getDoctrine()->getEntityManager();
-     /*  $em = $this->getEntityManager();
-        $query = $em->createQuery('
-            SELECT a,b,c,d,f,h,e FROM ApplicationChangementsBundle:Changements a 
-            LEFT JOIN a.idProjet b
-           LEFT JOIN a.demandeur c 
-            LEFT JOIN a.idStatus d 
-            LEFT JOIN a.idusers e 
-             LEFT JOIN a.picture f
-            LEFT JOIN a.idEnvironnement g 
-           LEFT JOIN a.comments h
-           GroupConcat(e.nomUser)
-           GROUP BY a.nom
-            ORDER BY a.id ASC');
-      */
-       /* echo "test";*/
-       // $query = $query->getResult(Query::HYDRATE_OBJECT);
-        /*exit(1);*/
-        $parameters = array();
-   //           $values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
-   
-        $values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
-         //$values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id},GroupConcat(i.nomUser)');
-            
+       $parameters = array();
+       $values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
        $query = $this->createQueryBuilder('a')
-                //return $this->createQueryBuilder('a')
-                //  ->select($fields)
-               //GROUP_CONCAT( DISTINCT e4_.nom )
-               //->select(array('a,b,c,d,f,h'))
-              //  ->select('a,partial b.{id,nomprojet},partial c.{id,nomUser},d,f,partial h.{id},GROUP_CONCAT( DISTINCT e.nomUser )')
                 ->select($values)
-            // ->select('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,description},f,partial h.{id}')
-                //  ->select(array('a,b,c,d,e,f,g,h'))
                 ->leftJoin('a.idProjet', 'b')
                 ->leftJoin('a.demandeur', 'c')
                 ->leftJoin('a.idStatus', 'd')
-                // ->addSelect(GroupConcat(e.nomUser, ' / '))
-               
-                ->leftJoin('a.picture', 'f')
-               
+                  ->leftJoin('a.picture', 'f')
                
                 ->addSelect('g')
                 ->distinct('GroupConcat(nom)')
                 ->leftJoin('a.idEnvironnement', 'g')
-              
-                // ->where('g.id = :changement_id')
-                // ->setParameter('changement_id', 3)
-                ->leftJoin('a.comments', 'h')
+                 ->leftJoin('a.comments', 'h')
                 ->addSelect('e')
-            //  ->addSelect('partial e.{id,GroupConcat\(nomUser\)}')
+          
               ->distinct('GroupConcat(nomUser)')
-                ->leftJoin('a.idusers', 'e')
-               
-              //  ->addselect('GroupConcat(e.nomUser)');;
-        //   $query->setParameters($parameters);
-        // ??
-               ;
-      // $query->addSelect('distinct i.nomUser');
-      //  $query->groupby('a.id');
-               $query->add('orderBy', 'a.id DESC');
+                ->leftJoin('a.idusers', 'e');
+                  $query->add('orderBy', 'a.id DESC');
         return $query;
         //->getQuery();
+    }
+
+     public function myFindAll($criteria = array()) {
+
+           $parameters = array();
+        $values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
+        $query = $this->createQueryBuilder('a')
+                    ->select($values)
+                 ->leftJoin('a.idProjet', 'b')
+                ->leftJoin('a.demandeur', 'c')
+                ->leftJoin('a.idStatus', 'd')
+                  ->leftJoin('a.picture', 'f')
+                
+                ->addSelect('g')
+                ->distinct('GroupConcat(g.nom)')
+                ->leftJoin('a.idEnvironnement', 'g')
+                 ->leftJoin('a.comments', 'h')
+                ->addSelect('e')
+        
+              ->distinct('GroupConcat(e.nomUser)')
+                ->leftJoin('a.idusers', 'e');
+                $query->add('orderBy', 'a.id DESC');
+        return $query->getQuery();
+    }
+
+     public function myFind11All($criteria = array()) {
+
+            $parameters = array();
+        $values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
+       $query = $this->createQueryBuilder('a')
+                ->select($values)
+                ->leftJoin('a.idProjet', 'b')
+                ->leftJoin('a.demandeur', 'c')
+                ->leftJoin('a.idStatus', 'd')
+                 ->leftJoin('a.picture', 'f')
+                 ->addSelect('g')
+                ->distinct('GroupConcat(nom)')
+                ->leftJoin('a.idEnvironnement', 'g')
+                  ->leftJoin('a.comments', 'h')
+                ->addSelect('e')
+                  ->distinct('GroupConcat(nomUser)')
+                ->leftJoin('a.idusers', 'e')
+       
+               ;
+                  $query->add('orderBy', 'a.id DESC');
+        return $query;
+  
     }
 
       public function myFindsimpleAll($criteria = array()) {
@@ -244,7 +250,7 @@ public function myFindtstAll($criteria=array()) {
         //$em = $this->getDoctrine()->getEntityManager();
       $em = $this->getEntityManager();
         //$values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
-       $values='a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}';
+       $values='a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id},';
        //   $values='a,partial b.{id,nomprojet},partial c.{id,nomUser},partial GroupConcat(e.nomUser),partial d.{id,nom,description},f,partial h.{id}';
         $query = $em->createQuery("
             SELECT $values FROM ApplicationChangementsBundle:Changements a 
@@ -263,58 +269,26 @@ public function myFindtstAll($criteria=array()) {
      return $query;
       }
       
-    public function myFindAll($criteria = array()) {
+    public function myFindoldAll($criteria = array()) {
 
-        //$em = $this->getDoctrine()->getEntityManager();
-     /*  $em = $this->getEntityManager();
-        $query = $em->createQuery('
-            SELECT a,b,c,d,f,h,e FROM ApplicationChangementsBundle:Changements a 
-            LEFT JOIN a.idProjet b
-           LEFT JOIN a.demandeur c 
-            LEFT JOIN a.idStatus d 
-            LEFT JOIN a.idusers e 
-             LEFT JOIN a.picture f
-            LEFT JOIN a.idEnvironnement g 
-           LEFT JOIN a.comments h
-           GroupConcat(e.nomUser)
-           GROUP BY a.nom
-            ORDER BY a.id ASC');
-      */
-       /* echo "test";*/
-       // $query = $query->getResult(Query::HYDRATE_OBJECT);
-        /*exit(1);*/
-        $parameters = array();
+         $parameters = array();
    //           $values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
    
         $values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
          //$values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id},GroupConcat(i.nomUser)');
             
        $query = $this->createQueryBuilder('a')
-                //return $this->createQueryBuilder('a')
-                //  ->select($fields)
-               //GROUP_CONCAT( DISTINCT e4_.nom )
-               //->select(array('a,b,c,d,f,h'))
-              //  ->select('a,partial b.{id,nomprojet},partial c.{id,nomUser},d,f,partial h.{id},GROUP_CONCAT( DISTINCT e.nomUser )')
-                ->select($values)
-            // ->select('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,description},f,partial h.{id}')
-                //  ->select(array('a,b,c,d,e,f,g,h'))
+                   ->select($values)
                 ->leftJoin('a.idProjet', 'b')
                 ->leftJoin('a.demandeur', 'c')
                 ->leftJoin('a.idStatus', 'd')
-                // ->addSelect(GroupConcat(e.nomUser, ' / '))
-               
-                ->leftJoin('a.picture', 'f')
-               
-               
+                 ->leftJoin('a.picture', 'f')
                 ->addSelect('g')
                 ->distinct('GroupConcat(nom)')
                 ->leftJoin('a.idEnvironnement', 'g')
-              
-                // ->where('g.id = :changement_id')
-                // ->setParameter('changement_id', 3)
-                ->leftJoin('a.comments', 'h')
+               ->leftJoin('a.comments', 'h')
                 ->addSelect('e')
-            //  ->addSelect('partial e.{id,GroupConcat\(nomUser\)}')
+     
               ->distinct('GroupConcat(nomUser)')
                 ->leftJoin('a.idusers', 'e')
                

@@ -30,11 +30,7 @@ class ChronoUser
     /**
      * @var string $nomUser
      * @Assert\NotBlank(message="Ce champs ne peut etre vide")
-     * @Assert\MinLength(
-     *      limit=3,
-     *      message="Au moins {{ limit }} caracteres."
-     * )
-      * @Assert\Length(
+     * @Assert\Length(
      *      min = "4",
      *      max = "30",
      *      minMessage = "the name must be at least {{ limit }} characters length |
