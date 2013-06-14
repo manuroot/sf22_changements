@@ -59,7 +59,8 @@ class ChangementsController extends Controller {
      *
      */
     protected function filter() {
-        $message = "filter datas";
+      //  $message = "filter datas";
+         $message = "";
         $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $session = $request->getSession();
@@ -71,7 +72,7 @@ class ChangementsController extends Controller {
 
         // Reset filter
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
-            $message = "reset filtres";
+          //  $message = "reset filtres";
             $session->remove('changementControllerFilter');
             $query = $filterBuilder;
             return array($filterForm, $query, $message);
@@ -82,15 +83,15 @@ class ChangementsController extends Controller {
             $alldatas = $request->request->all();
             // if ($alldatas['submit-filter'] == 'reset'){
             $datas = $alldatas["changements_filter"];
-            $message = "post datas ";
+           // $message = "post datas ";
             $filterForm->bind($datas);
             if ($filterForm->isValid()) {
-                $message .= " - filtre valide";
+               // $message .= " - filtre valide";
                 $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
                 $session->set('changementControllerFilter', $datas);
                // var_dump($query->getDql());
             } else {
-                $message .= " - filtre valide";
+              //  $message .= " - filtre valide";
 
                 $query = $filterBuilder;
             }
@@ -102,14 +103,14 @@ class ChangementsController extends Controller {
             //   echo "<br>pas post datas<br>";
             // Get filter from session
             if ($session->has('changementControllerFilter')) {
-                $message = "session get";
+               // $message = "session get";
                 $datas = $session->get('changementControllerFilter');
                 $filterForm->bind($datas);
                 $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
             }
             // ou pas
             else {
-                $message = "pas de session";
+               // $message = "pas de session";
                 $query = $filterBuilder;
             }
            // var_dump($query);
@@ -180,7 +181,7 @@ class ChangementsController extends Controller {
      
          public function indexpostAction(Request $request) {
 
-        $message = "filter datas";
+        $message = "";
         $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
           $session = $request->getSession();
@@ -189,8 +190,8 @@ class ChangementsController extends Controller {
        list($filterForm, $queryBuilder, $message) = $this->filter();
      //    $queryBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindsimpleAll();
      
-
-        $session->getFlashBag()->add('warning', "$message");
+       if ($message)
+          $session->getFlashBag()->add('warning', "$message");
 
        $pagination = $this->createpaginator($queryBuilder, 10);
         return $this->render('ApplicationChangementsBundle:Changements:indexpost.html.twig', array(

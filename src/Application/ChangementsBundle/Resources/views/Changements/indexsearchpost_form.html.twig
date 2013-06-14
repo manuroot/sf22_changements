@@ -34,9 +34,23 @@
 {{ form_rest(search_form) }}</td>
    </tr>
     <tr class="single"><td colspan="2">
-     <input type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="filter" />
-    <input type="submit" name="submit-filter" class="btn btn-medium btn-danger" value="reset" />
+            
+     <button type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="filter" >
+          <i class="icon-search"></i>  Filtrer</button>
+  {#  <button type="submit" name="submit-filter" class="btn btn-medium btn-danger" value="reset" >
+         <i class="icon-minus-sign"></i>  Reset</button>#}
          </tr></tbody></table>
  </form>
 
- 
+
+
+{#
+<div class="input-append">
+    <input name="search" id="search"/>
+    <button class="btn">button</button>
+</div>#}
+
+{#
+  <input name="search" id="search"/>
+    <button class="btn">button</button>
+#}

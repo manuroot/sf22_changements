@@ -168,7 +168,6 @@ Changements
 {% for type, flashMessages in app.session.flashbag.all() %}
     {% for flashMessage in flashMessages %}
 <div class="alert alert-{{ type }}">
-          
     <button type="button" class="close" data-dismiss="alert">&times;</button>
       {{ flashMessage|trans }}
     </div>
@@ -179,13 +178,28 @@ Changements
  {#{% if is_granted("ROLE_USER") %}#}
 
 {#<h3>test</h3>#}
-<a href="{{ path('changements_newflowstart') }}" class="btn btn-medium btn-primary"><i class="icon-plus"></i> Ajouter un Changement</a>
+
+
+
 {#POST DATAS#}
 
  <div id="ShowHideContainer">
-    <p><a id="ShowHideButton">
-         <img src="{{ asset('images/eyes.png') }}" alt="SHOWHIDE"  width="20" height="20" />
-        </a></p>
+    <p>
+        
+<form action="{{ path('changements_post') }}" method="POST" {{ form_enctype(search_form) }}>
+    <a href="{{ path('changements_newflowstart') }}" class="btn btn-medium btn-primary"><i class="icon-plus"></i> Ajouter un Changement</a>
+ <button type="submit" name="submit-filter" class="btn btn-medium btn-danger" value="reset" >
+         <i class="icon-minus-sign"></i>  Annuler Filtres</button>
+
+        <a id="ShowHideButton">
+            <button type="submit" name="submit-filter" class="btn btn-medium btn-danger" value="reset" >
+         <i class="icon-search"></i>  Afficher Filtres</button>
+         {#
+         <img src="{{ asset('images/eyes.png') }}" alt="SHOWHIDE"  width="20" height="20" />#}
+        </a>
+           
+</form>
+        </p>
     <div id="ShowHideBox" class="hidden">
         {% include 'ApplicationChangementsBundle:Changements:indexsearchpost_form.html.twig' %}
         </div>
@@ -276,11 +290,21 @@ Changements
                                     <td>
                                {% if entity.idStatus.description == 'open' %}
 
-                                            <img src="{{ asset('bundles/applicationcertificats/images/cadenas-souvert.png') }}" alt="show" width="15" height="15" />
-
- {% else %}
-
+                                             <a class="open" data-id="{{entity.id}}" href="#">
+                                            <img src="{{ asset('bundles/applicationcertificats/images/cadenas-souvert.png') }}" alt="show" width="15" height="15"/>
+                                            </a>
+ {% elseif   entity.idStatus.description == 'closed' %}
+                                            <a class="closed" data-id="{{entity.id}}" href="#">
                                             <img src="{{ asset('bundles/applicationcertificats/images/cadenas-sferme.png') }}" alt="show" width="15" height="15" />
+                                            </a>
+                                            {% else %}
+                                            
+                                            
+                                            
+                                                                                     <a class="open" data-id="{{entity.id}}" href="#">
+
+                                            <img src="{{ asset('bundles/applicationcertificats/images/cadenas-sbleu.png') }}" alt="show" width="15" height="15" />
+                                            </a>
         {% endif %}   </td> 
                                      
                                         <td> {{ entity.ticketExt }}   </td>

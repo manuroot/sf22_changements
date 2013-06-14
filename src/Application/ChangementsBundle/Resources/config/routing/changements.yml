@@ -1,11 +1,11 @@
-changements:
+changements_post:
     pattern:  /
-    defaults: { _controller: "ApplicationChangementsBundle:Changements:index" }
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:indexpost" }
     methods: POST|GET
 
-changements_post:
-    pattern:  /post
-    defaults: { _controller: "ApplicationChangementsBundle:Changements:indexpost" }
+changements:
+    pattern:  /old
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:index" }
     methods: POST|GET
 
 
