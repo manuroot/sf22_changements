@@ -146,7 +146,7 @@ class ChangementsCommentsController extends Controller {
         }
     }
 
-    public function createAction($changement_id) {
+    public function createAction(Request $request,$changement_id) {
 
 
 
@@ -173,9 +173,9 @@ class ChangementsCommentsController extends Controller {
         $comment->setChangement($changement);
         //logged user:
         $comment->setUser($current_user);
-        $request = $this->getRequest();
+       // $request = $this->getRequest();
         $form = $this->createForm(new ChangementsCommentsType(), $comment);
-        $form->bindRequest($request);
+        $form->bind($request);
 
 
 
