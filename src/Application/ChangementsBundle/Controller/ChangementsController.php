@@ -65,6 +65,9 @@ class ChangementsController extends Controller {
         $session = $request->getSession();
         $filterForm = $this->createForm(new ChangementsFilterType());
         $filterBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
+        
+        //debug
+         //  return array($filterForm, $filterBuilder, $message);
 
         // Reset filter
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
@@ -91,9 +94,8 @@ class ChangementsController extends Controller {
 
                 $query = $filterBuilder;
             }
-         /*   print_r($datas);
-               var_dump($query->getDql());*/
-              // exit(1);
+           //print_r($datas);
+             //  var_dump($query->getDql());
        
             return array($filterForm, $query, $message);
         } else {
@@ -116,6 +118,8 @@ class ChangementsController extends Controller {
              
           //  var_dump($query_year->getDql());
            // exit(1);
+ 
+ 
             return array($filterForm, $query, $message);
         }
     }
@@ -182,17 +186,21 @@ class ChangementsController extends Controller {
           $session = $request->getSession();
        
        $session->set('buttonretour', 'changements_post');
-        list($filterForm, $queryBuilder, $message) = $this->filter();
+       list($filterForm, $queryBuilder, $message) = $this->filter();
      //    $queryBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindsimpleAll();
      
 
         $session->getFlashBag()->add('warning', "$message");
 
-        $pagination = $this->createpaginator($queryBuilder, 10);
+       $pagination = $this->createpaginator($queryBuilder, 10);
         return $this->render('ApplicationChangementsBundle:Changements:indexpost.html.twig', array(
                     'search_form' => $filterForm->createView(),
                     'pagination' => $pagination,
         ));
+        /*return $this->render('ApplicationChangementsBundle:Changements:indexsimple.html.twig', array(
+                   'search_form' => $filterForm->createView(),
+                   'pagination' => $queryBuilder,
+        ));*/
     }
     public function indexcpostAction(Request $request) {
 

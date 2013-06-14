@@ -210,11 +210,12 @@ public function myFindtstAll($criteria=array()) {
                   ->leftJoin('a.picture', 'f')
                 
                 ->addSelect('g')
+                //->addSelect('g')
                 ->distinct('GroupConcat(g.nom)')
                 ->leftJoin('a.idEnvironnement', 'g')
                  ->leftJoin('a.comments', 'h')
                 ->addSelect('e')
-        
+                //->addSelect('partial e.{id,nomUser}')
               ->distinct('GroupConcat(e.nomUser)')
                 ->leftJoin('a.idusers', 'e');
                 $query->add('orderBy', 'a.id DESC');

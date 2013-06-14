@@ -22,6 +22,16 @@ class ChangementsType extends AbstractType {
                         'type' => 'prepend'
                         )))
 
+                ->add('soccer_player', 'genemu_jqueryautocomplete_text', array(
+                    'mapped'=>false,
+            'suggestions' => array(
+                'Ozil',
+                'Van Persie'
+            ),
+        ))
+                 ->add('sscountry', 'genemu_jqueryselect2_country', array('mapped'=>false))
+                ->add('country', 'genemu_jqueryautocompleter_country',array(
+                    'mapped'=>false))
                 /*           $builder
                   //   ->add('nom')
                   ->add('nom', 'genemu_jqueryautocomplete_entity', array(
@@ -64,13 +74,30 @@ class ChangementsType extends AbstractType {
                           'minLength' => 2,
                           ), 
                 ))*/
-                   ->add('ticketExt',null,array(
+                 /*  ->add('ticketExt',null,array(
                   'label'=>'Ticket Externe',
                   'widget_addon' => array(
                   'icon' => 'tag',
                   'type' => 'prepend'
                   ),
+                  )) */
+                
+                 ->add('ticketExt', 'genemu_jqueryautocomplete_entity', array(
+                  'widget_addon' => array(
+                  'icon' => 'tag',
+                  'type' => 'prepend'
+                  ),
+                  'class' => 'Application\ChangementsBundle\Entity\Changements',
+                  'property' => 'ticketExt',
+                  'configs' => array(
+                  'minLength' => 0,
+                  ),
                   )) 
+               /*  ->add('ticketExt', 'genemu_jqueryautocomplete_entity', array(
+            'class' => 'Application\ChangementsBundle\Entity\Changements',
+         //   'property' => 'ticketExt',
+        ))*/
+                
                 ->add('ticketInt', null, array(
                     'label' => 'Ticket Interne',
                     'widget_addon' => array(

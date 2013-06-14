@@ -143,7 +143,7 @@ knp_paginator:
         page_name: page                # page query parameter name
         sort_field_name: sort          # sort field query parameter name
         sort_direction_name: direction # sort direction query parameter name
-        distinct: false                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
+        distinct: true                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
     template:
       # sliding pagination controls template
       pagination: ApplicationRelationsBundle:pagination:twitter_bootstrap_pagination.html.twig
@@ -330,6 +330,7 @@ mopa_bootstrap:
         show_legend: false # default is true
         show_child_legend: false # default is true
         error_type: block # or inline which is default
+        checkbox_label: 'widget' # default is both (label|widget|both)
     navbar: ~
     
     
