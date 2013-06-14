@@ -22,6 +22,7 @@ class ChangementsType extends AbstractType {
                         'type' => 'prepend'
                         )))
 
+                
                 ->add('soccer_player', 'genemu_jqueryautocomplete_text', array(
                     'mapped'=>false,
             'suggestions' => array(

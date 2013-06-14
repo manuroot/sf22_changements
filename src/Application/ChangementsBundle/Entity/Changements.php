@@ -19,7 +19,7 @@ use CalendR\Event\AbstractEvent;
 /**
  * Changements
  *
- * @ORM\Table(name="changements")
+ * @ORM\Table(name="changements_main")
  * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="Application\ChangementsBundle\Entity\ChangementsRepository")
  * @GRID\Source(columns="id,nom,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUser,idEnvironnement.nom:GroupConcat",groupBy={"id"})
