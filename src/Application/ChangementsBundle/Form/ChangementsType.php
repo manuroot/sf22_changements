@@ -23,16 +23,16 @@ class ChangementsType extends AbstractType {
                         )))
 
                 
-                ->add('soccer_player', 'genemu_jqueryautocomplete_text', array(
+              /*  ->add('soccer_player', 'genemu_jqueryautocomplete_text', array(
                     'mapped'=>false,
             'suggestions' => array(
                 'Ozil',
                 'Van Persie'
             ),
-        ))
-                 ->add('sscountry', 'genemu_jqueryselect2_country', array('mapped'=>false))
+        ))*/
+               /*  ->add('sscountry', 'genemu_jqueryselect2_country', array('mapped'=>false))
                 ->add('country', 'genemu_jqueryautocompleter_country',array(
-                    'mapped'=>false))
+                    'mapped'=>false))*/
                 /*           $builder
                   //   ->add('nom')
                   ->add('nom', 'genemu_jqueryautocomplete_entity', array(
