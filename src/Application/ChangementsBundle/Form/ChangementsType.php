@@ -84,10 +84,12 @@ class ChangementsType extends AbstractType {
                   )) */
                 
                  ->add('ticketExt', 'genemu_jqueryautocomplete_entity', array(
+                   'label' => 'Ticket Externe',  
                   'widget_addon' => array(
                   'icon' => 'tag',
                   'type' => 'prepend'
                   ),
+                  'required'=>false,   
                   'class' => 'Application\ChangementsBundle\Entity\Changements',
                   'property' => 'ticketExt',
                   'configs' => array(

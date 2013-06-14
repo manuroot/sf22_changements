@@ -181,6 +181,7 @@ class ChangementsController extends Controller {
      
          public function indexpostAction(Request $request) {
 
+         $date_warning=array(7,15);    
         $message = "";
         $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
@@ -197,6 +198,7 @@ class ChangementsController extends Controller {
         return $this->render('ApplicationChangementsBundle:Changements:indexpost.html.twig', array(
                     'search_form' => $filterForm->createView(),
                     'pagination' => $pagination,
+                       'date_warning'=>$date_warning,
         ));
         /*return $this->render('ApplicationChangementsBundle:Changements:indexsimple.html.twig', array(
                    'search_form' => $filterForm->createView(),

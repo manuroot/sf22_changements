@@ -14,6 +14,13 @@
 <script type="text/javascript">
           
 $(document).ready(function() {
+/*    
+$('table tr').on('click', function () {
+    $(this).find('td').addClass('highlightBG');
+    // potentially even .toggleClass('highlightBG'); to alternate it
+});
+
+*/
  var mesdates=["#changements_filter_dateDebut","#changements_filter_dateFin"];
  mesdates.forEach(function(entry) {
    /* console.log(entry);*/
@@ -64,29 +71,45 @@ return false;
 initBox();
 //ShowHideBox.hide();
 //var ShowHideBox = $('#ShowHideBox').hide();
+$('#target').submit(function() {
+ /* alert('Handler for .submit() called.');*/
+   if ( $.cookie('Boxfilter')==1){
+           $.cookie('Boxfilter', 0, {expires: 365});
+   }
+    else {
+         $.cookie('Boxfilter', 1, {expires: 365});
+    }
 
-    $('#ShowHideButton').click(function() {
+
+  return true;
+});
+    $('#ShowHideButton').click(function(event) {
+        event.preventDefault();
       if (boxVisible())
         {
              console.log("hidebox? box=1 status status="+boxVisible());
              hideBox();
+             $(this).children().first().html('<i class="icon-search"></i>  Afficher Filtres');
+             
         }
         else
         {
              console.log("box=1 status status="+boxVisible());
             showBox();
+              $(this).children().first().html('<i class="icon-search"></i>  Masquer Filtres');
         }
     });
 
     function initBox()
     {
         
-      /*  console.log("initbox: box=1 status status="+boxVisible());*/
+        console.log("initbox: box=1 status status="+boxVisible());
         if ( $.cookie('Boxchangement')==1)
    {
         if (!boxVisible()){
       /* console.log("initbox box=1 doit montrer la box");*/
             showBox();
+             $('#ShowHideButton').children().first().html('<i class="icon-search"></i>  Masquer Filtres');
         }
         }
         else if ( $.cookie('Boxchangement')==0)
@@ -95,8 +118,19 @@ initBox();
              if (boxVisible()){
              
              hideBox();
+              $('#ShowHideButton').children().first().html('<i class="icon-search"></i>  Afficher Filtres');
              }
         }
+         if ( $.cookie('Boxfilter')==1){
+               console.log("filtre actif 1");
+               
+           
+           $.cookie('Boxfilter', 0, {expires: 365});
+   }
+    else {
+          console.log("filtre inactif 0");
+         $.cookie('Boxfilter', 1, {expires: 365});
+    }
     }  
 
     function boxVisible()
@@ -105,16 +139,26 @@ initBox();
     }
   function showBox()
     {
-     ShowHideBox.show().removeClass('hidden');
+         var effet="slide";
+           var options = { };
+     ShowHideBox.show(effet,options, 800).removeClass('hidden');
       $.cookie('Boxchangement', 1, {expires: 365});
        
     }
   function hideBox()
     {
-      var options = {};
-       ShowHideBox.hide().addClass('hidden');
+        var options = { };
+      /*var options = { percent: 0 };*/
+      var effet="explode";
+       ShowHideBox.hide(effet, options, 800).addClass('hidden');
   $.cookie('Boxchangement', 0, {expires: 365});
     }
+     // callback function to bring a hidden box back
+function callbackboxshow() {
+setTimeout(function() {
+ShowHideBox.removeAttr( "style" ).hide().fadeIn();
+}, 1000 );
+};
 
 }); //Eof:: ready
     </script>
@@ -129,6 +173,11 @@ initBox();
       tr.single {
          background-color: #000000;
         } 
+        tr.warningdate-left {
+         background-color: #2e9500;
+       /*  font-size:14px;*/
+        } 
+       .highlightBG { background:#5279a4; }
         .free-day {
   background: #2e9500;
 }
@@ -147,6 +196,26 @@ tr.single {
         
 #ShowHideContainer {
 padding-top:10px;}
+
+ .ajoutchange { float:right;margin-right:30px;}
+.toggler { width: 500px; height: 200px; }
+#button { padding: .5em 1em; text-decoration: none; }
+#ShowHideBox { width: auto; height: auto; padding: 0.4em; position: relative; }
+#effect h3 { margin: 0; padding: 0.4em; text-align: center; }
+ /*h1 {
+                font-family: Helvetica;
+                font-size: 2.8em;
+                padding: 0.1em 0 0;
+                line-height: 1.4em;
+                width: 620px;
+        }
+                #title h1 a {
+                        color: #cc5042;
+                        text-shadow: 1px 1px 2px #bbb;
+                }
+                #title h1 a:hover {
+                        text-decoration: none;
+                }*/
         </style>
  {% endblock %}
 
@@ -156,15 +225,11 @@ padding-top:10px;}
 Changements
 {% endblock %}
 
-
 {% block content %}
 
-{#{{ knp_menu_render('ApplicationChangementsBundle:MenuBuilder:mainMenu', {'currentClass': 'active'}) }}
-#}
-{#
-{{ knp_menu_render('ApplicationChangementsBundle:MenuBuilder:mainMenu', { 'template': 'ApplicationChangementsBundle:Menu:knp_menu.html.twig' }) }}
-#}
-
+{% set dateright = '30' %}
+{% set date_right_warning= '+' ~  dateright ~ 'days' %}
+{#{% set date_right_warning= '+15days' %}#}
 {% for type, flashMessages in app.session.flashbag.all() %}
     {% for flashMessage in flashMessages %}
 <div class="alert alert-{{ type }}">
@@ -184,27 +249,29 @@ Changements
 {#POST DATAS#}
 
  <div id="ShowHideContainer">
-    <p>
+  
         
-<form action="{{ path('changements_post') }}" method="POST" {{ form_enctype(search_form) }}>
-    <a href="{{ path('changements_newflowstart') }}" class="btn btn-medium btn-primary"><i class="icon-plus"></i> Ajouter un Changement</a>
- <button type="submit" name="submit-filter" class="btn btn-medium btn-danger" value="reset" >
-         <i class="icon-minus-sign"></i>  Annuler Filtres</button>
-
-        <a id="ShowHideButton">
-            <button type="submit" name="submit-filter" class="btn btn-medium btn-danger" value="reset" >
+<form id="target" class="form-horizontal" action="{{ path('changements_post') }}" method="POST" {{ form_enctype(search_form) }}>
+   <a id="ShowHideButton">
+            <button id="show" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
          <i class="icon-search"></i>  Afficher Filtres</button>
-         {#
-         <img src="{{ asset('images/eyes.png') }}" alt="SHOWHIDE"  width="20" height="20" />#}
-        </a>
-           
+   </a>
+ <button type="submit" id="reset" name="submit-filter" class="btn btn-medium btn-warning" value="reset" >
+         <i class="icon-minus-sign"></i> Effacer Filtres</button>
+  
+          <a href="{{ path('changements_newflowstart') }}" class=" ajoutchange btn btn-medium btn-primary">
+        <i class="icon-plus"></i> Ajouter un Changement
+    </a>
 </form>
-        </p>
+
+  
+        
+      
     <div id="ShowHideBox" class="hidden">
         {% include 'ApplicationChangementsBundle:Changements:indexsearchpost_form.html.twig' %}
         </div>
 </div>
-         <table class="table table-striped table-bordered table-hover">
+         <table class="table table-bordered table-striped table-hover">
                     <thead>
                         <tr class="title">
                             <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
@@ -213,13 +280,7 @@ Changements
                             <th{% if pagination.isSorted('a.dateDebut') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date Debut', 'a.dateDebut') }}
                               <i class="icon-time"></i></th>
                             <th{% if pagination.isSorted('a.dateFin') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date Fin', 'a.dateFin') }}
-  <i class="icon-time"></i></th>
-
-                            <!--     <th{#% if pagination.isSorted('a.dateComep') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date COMEP', 'a.dateComep') }}</th>
-                <th{% if pagination.isSorted('a.dateVsr') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date VSR', 'a.dateVsr') }#}</th>
-                            --> 
-
-<!--     <th{#% if pagination.isSorted('a.description') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Description', 'a.description') }#}</th>-->
+                            <i class="icon-time"></i></th>
                             <th{% if pagination.isSorted('b.nomprojet') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Projet', 'b.nomprojet') }}</th>
                             <th{% if pagination.isSorted('c.nomUser') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'D', 'c.nomUser') }}
                              <i class="icon-user"></i></th>
@@ -229,17 +290,12 @@ Changements
                              <i class="icon-user"></i><i class="icon-user"></i></th>
                             <th{% if pagination.isSorted('d.idStatus.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'F', 'd.idStatus.nom') }}
                              <i class="icon-flag"></i></th>
-                      
-                            {#
-      <th>{{ knp_pagination_sortable(pagination, 'kind', 'k.type') }}</th>
-<th class="{{ bootstrap.icon_class(heading) }}">{{ heading }}</th>#}
-                              <th{% if pagination.isSorted('a.ticketExt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'T_Ext', 'a.ticketExt') }}
+                             <th{% if pagination.isSorted('a.ticketExt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'T_Ext', 'a.ticketExt') }}
                               <i class="icon-tag"></i></th>
                          
                                   <th{% if pagination.isSorted('a.ticketInt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'T_Int', 'a.ticketInt') }}
                               <i class="icon-tag"></i></th>
                           <th{% if pagination.isSorted('g.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Env', 'g.nom') }}
-                          
                             <i class="icon-wrench"></i></th>
                             <!--<th>Avatar</th>-->
                             <th colspan="3">Actions</th>
@@ -247,45 +303,33 @@ Changements
                     </thead>
                     <tbody>
     {% for entity in pagination %}
-                            
-                        
-                              
-                             {% if entity.dateDebut %}
-                             {% if date(entity.dateDebut) > date('-7days')  and date(entity.dateDebut) < date('+15days')%}
-              <tr class="warning">
-                           {% endif %}   {% else %} <tr>{% endif %}   
+                     {# si datedebut existe #}   
+             {% if entity.dateDebut %}
+                            {# Pas commencé mais approche #}
+                {% if date(entity.dateDebut) > date() and date(entity.dateDebut) < date(date_right_warning) %}
+                        <tr class="error">
+                            {# operation terminée avec succes #}
+                {% elseif date(entity.dateFin) < date() and entity.idStatus.description == 'closed' %} 
+                        <tr>
+                {% else %}  
+                        <tr  class="success"> 
+                {% endif %}
+             {% else %}
+                       <tr>
+             {% endif %}   
+                                
                                 <td>{{ entity.id }}</td>
                                 <td><a href="{{ path('changements_show', { 'id': entity.id }) }}">{{ entity.nom }}</a></td>
                                 <td>{% if entity.dateDebut %}{{ entity.dateDebut|date('Y-m-d H') ~ 'h' }}{% endif %}</td>
                                 <td>{% if entity.dateFin %}{{ entity.dateFin|date('Y-m-d') }}{% endif %}</td>
-                                <!--<td>
-                    {#% if entity.dateComep is not null %}
-               {{ entity.dateComep|date('Y-m-d') }}
-                    {% else %}
-                            ----
-            {% endif %#}
-                                    </td>
-                                    <td>
-                        {#% if entity.dateVsr is not null %}
-               {{ entity.dateVsr|date('Y-m-d') }}
-                    {% else %}
-                                ----
-            {% endif %#}
-                                        </td>-->
-
-
-
-                            <!--<td>{#{ entity.description|raw }#}</td>-->
-                                <td>{{ entity.idProjet.nomprojet }}</td>
+                                 <td>{{ entity.idProjet.nomprojet }}</td>
                                 <td>{{ entity.demandeur.nomUser }}</td>
                                 <td>{{ entity.picture|length }}</td>
                                 <td>{{ entity.comments|length }}</td>
                                 <td>
-                                    
                  {{ entity.idusers|join(', ') }}   
                {#% for user in entity.idusers %} {{ user.nomUser }}
-
-       {% endfor %#}
+                {% endfor %#}
                                     </td>
                                     <td>
                                {% if entity.idStatus.description == 'open' %}
@@ -298,57 +342,31 @@ Changements
                                             <img src="{{ asset('bundles/applicationcertificats/images/cadenas-sferme.png') }}" alt="show" width="15" height="15" />
                                             </a>
                                             {% else %}
-                                            
-                                            
-                                            
-                                                                                     <a class="open" data-id="{{entity.id}}" href="#">
-
-                                            <img src="{{ asset('bundles/applicationcertificats/images/cadenas-sbleu.png') }}" alt="show" width="15" height="15" />
+                                            <a class="open" data-id="{{entity.id}}" href="#">
+                                             <img src="{{ asset('bundles/applicationcertificats/images/cadenas-sbleu.png') }}" alt="show" width="15" height="15" />
                                             </a>
         {% endif %}   </td> 
-                                     
                                         <td> {{ entity.ticketExt }}   </td>
                                         <td> {{ entity.ticketInt }}   </td>
-                                    <td>
-                                    {{ entity.idEnvironnement|join(', ') }}   
-
-                 {#{ entity.idEnvironnement|join(', ') }}   
-               {% for envi in entity.idEnvironnement %} {{ envi.nom }}
-       {% endfor %#}
-                                            </td>
-
-                                            <!--                                        <td>-->
-
-{#% if entity.avatar %}{{ entity.avatar }}{% endif %#}<!--</td>-->
-
-                                            <td>
-                                                <a href="{{ path('changements_show', { 'id': entity.id }) }}">
-                                                    <img src="{{ asset('bundles/applicationcertificats/images/detail.png') }}" alt="show" width="15" height="15" />
-                                                </a>
-                                            </td>
-                                          
-
-{% if is_granted("ROLE_USER") %}
-                                              <td>
-                                                <a href="{{ path('changements_edit', { 'id': entity.id }) }}">
-                                                    <img src="{{ asset('bundles/applicationcertificats/images/edit.png') }}" alt="edit" width="15" height="15" />
-                                                </a>
-                                            </td>
-                                            {% endif %}
-                                            
-                                            <td>
-
-
-                                                <a href="{{ path('changements_comment_show', { 'id': entity.id }) }}">
-                                                  <i class="icon-pencil"></i>
-                                                </a>
-                                            </td>
-                                             
-
-                                        </tr>
+                                    <td>{{ entity.idEnvironnement|join(', ') }}</td>
+      <td><a href="{{ path('changements_show', { 'id': entity.id }) }}">
+         <img src="{{ asset('bundles/applicationcertificats/images/detail.png') }}" alt="show" width="15" height="15" />
+       </a></td>
+      {% if is_granted("ROLE_USER") %}
+       <td><a href="{{ path('changements_edit', { 'id': entity.id }) }}">
+        <img src="{{ asset('bundles/applicationcertificats/images/edit.png') }}" alt="edit" width="15" height="15" />
+             </a>
+           </td>
+     {% endif %}
+      <td>
+       <a href="{{ path('changements_comment_show', { 'id': entity.id }) }}">
+       <i class="icon-pencil"></i>
+      </a>
+          </td>
+  </tr>
     {% endfor %}
-                                    </tbody>
-                                </table>
+ </tbody>
+ </table>
 
    {{ knp_pagination_render(pagination, 'ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig') }}
 
