@@ -105,8 +105,8 @@ class ChangementsFilterType extends AbstractType {
                             $user = $values['value'];
                             /*  $queryBuilder->andWhere('e.nomUser = :name')
                               ->setParameter('name', $values['value'] ); */
-                            $queryBuilder->select('partial e.{id,nomUser}')
-                                    ->andWhere('e.nomUser LIKE :name')
+                           // $queryBuilder->select('partial e.{id,nomUser}')
+                                 $queryBuilder->andWhere('e.nomUser LIKE :name')
                             ->setParameter('name', '%' . $values['value'] . '%');
                             //   ->orderBy('e.nomUser', 'ASC')
                             //$user = '%' . $user . '%';
