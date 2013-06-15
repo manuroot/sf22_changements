@@ -8,8 +8,15 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript" src="{{ asset('js/jquery.cookie.js') }}"></script>
+    {% javascripts 
+    '@ApplicationChangementsBundle/Resources/public/js/jquery.cookie.js'
+    '@ApplicationChangementsBundle/Resources/public/js/changements.js'
+      output='js/compiled/changements.js' filter='?yui_js' %}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+   {# <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/js/jquery.cookie.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/changements.js') }}"></script>
+#}
 {% endblock %}
 
     
@@ -18,7 +25,7 @@
      {% stylesheets 
                 '@ApplicationChangementsBundle/Resources/public/css/sliding.css' 
                 '@ApplicationChangementsBundle/Resources/public/css/changements.css' 
-                output='css/compiled/changements.css' filter='yui_css' %}
+                output='css/compiled/changements.css' filter='?yui_css' %}
 <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
 {% endstylesheets %}
 {#<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>

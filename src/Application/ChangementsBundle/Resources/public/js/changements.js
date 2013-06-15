@@ -24,7 +24,7 @@ dateFormat: "yy-mm-dd",
 onClose: function( selectedDate ) {
 $( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
 }
-})  
+});  
    
    
 });

@@ -23,8 +23,8 @@ monolog:
 
 assetic:
    # pour le dev:
-    #use_controller: true
-    use_controller: false
+    use_controller: true
+    #use_controller: false
    
 services:
    twig.extension.text:
