@@ -6,219 +6,25 @@
   {{ type_class_map[type] }}
 {% endmacro %}
 
-
 {% block javascripts %}
-{{ parent() }}
-<script type="text/javascript" src="{{ asset('js/jquery.cookie.js') }}"></script>
-   
-<script type="text/javascript">
-          
-$(document).ready(function() {
-/*    
-$('table tr').on('click', function () {
-    $(this).find('td').addClass('highlightBG');
-    // potentially even .toggleClass('highlightBG'); to alternate it
-});
-
-*/
- var mesdates=["#changements_filter_dateDebut","#changements_filter_dateFin"];
- mesdates.forEach(function(entry) {
-   /* console.log(entry);*/
-$( entry + "_left_date").datepicker({
-minDate: "-1Y",
-maxDate: "+10Y",
-changeMonth: true,
-changeYear: true,
-numberOfMonths: 1,
-dateFormat: "yy-mm-dd",
-onClose: function( selectedDate ) {
-$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
-}
-});  
-$( entry + "_right_date").datepicker({
-maxDate: "+10Y",
-minDate: "-1Y",
-changeMonth: true,
-changeYear: true,
-numberOfMonths: 1,
-dateFormat: "yy-mm-dd",
-onClose: function( selectedDate ) {
-$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
-}
-})  
-   
-   
-});
-
-function runEffect() {
-// get effect type from
-var selectedEffect = 'slide';
-//var selectedEffect = $( "#effectTypes" ).val();
-// most effect types need no options passed by default
-var options = {};
-// run the effect
-$( "#effect" ).toggle( selectedEffect, options, 800 );
-};
-// set effect from select menu value
-$( "#button" ).click(function() {
-runEffect();
-return false;
-});
-//$( "#effect" ).hide();
-
- var ShowHideBox = $('#ShowHideBox');
- //var  ShowHideButton = $('#ShowHideButton');
-initBox();
-//ShowHideBox.hide();
-//var ShowHideBox = $('#ShowHideBox').hide();
-$('#target').submit(function() {
- /* alert('Handler for .submit() called.');*/
-   if ( $.cookie('Boxfilter')==1){
-           $.cookie('Boxfilter', 0, {expires: 365});
-   }
-    else {
-         $.cookie('Boxfilter', 1, {expires: 365});
-    }
-
-
-  return true;
-});
-    $('#ShowHideButton').click(function(event) {
-        event.preventDefault();
-      if (boxVisible())
-        {
-             console.log("hidebox? box=1 status status="+boxVisible());
-             hideBox();
-             $(this).children().first().html('<i class="icon-search"></i>  Afficher Filtres');
-             
-        }
-        else
-        {
-             console.log("box=1 status status="+boxVisible());
-            showBox();
-              $(this).children().first().html('<i class="icon-search"></i>  Masquer Filtres');
-        }
-    });
-
-    function initBox()
-    {
-        
-        console.log("initbox: box=1 status status="+boxVisible());
-        if ( $.cookie('Boxchangement')==1)
-   {
-        if (!boxVisible()){
-      /* console.log("initbox box=1 doit montrer la box");*/
-            showBox();
-             $('#ShowHideButton').children().first().html('<i class="icon-search"></i>  Masquer Filtres');
-        }
-        }
-        else if ( $.cookie('Boxchangement')==0)
-         {
-            /*  console.log("initbox box=0 doit pas montrer la box");*/
-             if (boxVisible()){
-             
-             hideBox();
-              $('#ShowHideButton').children().first().html('<i class="icon-search"></i>  Afficher Filtres');
-             }
-        }
-         if ( $.cookie('Boxfilter')==1){
-               console.log("filtre actif 1");
-               
-           
-           $.cookie('Boxfilter', 0, {expires: 365});
-   }
-    else {
-          console.log("filtre inactif 0");
-         $.cookie('Boxfilter', 1, {expires: 365});
-    }
-    }  
-
-    function boxVisible()
-    {
-         return ShowHideBox.hasClass('hidden')? false : true;
-    }
-  function showBox()
-    {
-         var effet="slide";
-           var options = { };
-     ShowHideBox.show(effet,options, 800).removeClass('hidden');
-      $.cookie('Boxchangement', 1, {expires: 365});
-       
-    }
-  function hideBox()
-    {
-        var options = { };
-      /*var options = { percent: 0 };*/
-      var effet="explode";
-       ShowHideBox.hide(effet, options, 800).addClass('hidden');
-  $.cookie('Boxchangement', 0, {expires: 365});
-    }
-     // callback function to bring a hidden box back
-function callbackboxshow() {
-setTimeout(function() {
-ShowHideBox.removeAttr( "style" ).hide().fadeIn();
-}, 1000 );
-};
-
-}); //Eof:: ready
-    </script>
-
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/jquery.cookie.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/changements.js') }}"></script>
 {% endblock %}
 
     
   {% block stylesheets %}
 {{ parent() }}
-<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
- <style>
-      tr.single {
-         background-color: #000000;
-        } 
-        tr.warningdate-left {
-         background-color: #2e9500;
-       /*  font-size:14px;*/
-        } 
-       .highlightBG { background:#5279a4; }
-        .free-day {
-  background: #2e9500;
-}
- 
-.free-day a {
-  opacity: 0.7;
-}
-        div.ui-datepicker {
-            font-size: 90%;
-        }
-
-
-tr.single {
-         background-color: #f1f1f1;
-        } 
-        
-#ShowHideContainer {
-padding-top:10px;
-padding-bottom:50px;}
-
- .ajoutchange { float:right;margin-right:30px;}
-.toggler { width: 500px; height: 200px; }
-#button { padding: .5em 1em; text-decoration: none; }
-#ShowHideBox { width: auto; height: auto; padding: 0.4em; position: relative; }
-#effect h3 { margin: 0; padding: 0.4em; text-align: center; }
- /*h1 {
-                font-family: Helvetica;
-                font-size: 2.8em;
-                padding: 0.1em 0 0;
-                line-height: 1.4em;
-                width: 620px;
-        }
-                #title h1 a {
-                        color: #cc5042;
-                        text-shadow: 1px 1px 2px #bbb;
-                }
-                #title h1 a:hover {
-                        text-decoration: none;
-                }*/
-        </style>
- {% endblock %}
+     {% stylesheets 
+                '@ApplicationChangementsBundle/Resources/public/css/sliding.css' 
+                '@ApplicationChangementsBundle/Resources/public/css/changements.css' 
+                output='css/compiled/changements.css' filter='yui_css' %}
+<link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
+{% endstylesheets %}
+{#<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/changements.css') }}" type="text/css" media="all" /> 
+#}
+{% endblock %}
 
 {% block content_header '' %}
 

@@ -56,9 +56,11 @@ twig:
     #            - %kernel.root_dir%/../vendor/twitter/bootstrap/less/responsive.less
 assetic:
     debug:          %kernel.debug%
+    #pour le dev
     use_controller: false
-    bundles:        [ ]
-    # bundles:        [ ApplicationSonataNewsBundle,SonataNewsBundle ]
+    #bundles:        [ ]
+    bundles:        [ ApplicationChangementsBundle ]
+    #bundles:        [ ApplicationChangementsBundle,SonataNewsBundle ]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
