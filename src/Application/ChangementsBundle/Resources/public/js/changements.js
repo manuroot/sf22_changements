@@ -74,7 +74,7 @@ $('#target').submit(function() {
         else
         {
              console.log("box=1 status status="+boxVisible());
-            showBox();
+            showBoxEffect();
               $(this).children().first().html('<i class="icon-search"></i>  Masquer Filtres');
         }
     });
@@ -116,11 +116,21 @@ $('#target').submit(function() {
     {
          return ShowHideBox.hasClass('hidden')? false : true;
     }
+    
+    function showBoxEffect()
+    {
+         var effet="slide";
+         var options = { };
+     ShowHideBox.show(effet,options, 800).removeClass('hidden');
+      $.cookie('Boxchangement', 1, {expires: 365});
+       
+    }
+    
   function showBox()
     {
          var effet="slide";
            var options = { };
-     ShowHideBox.show(effet,options, 800).removeClass('hidden');
+     ShowHideBox.show().removeClass('hidden');
       $.cookie('Boxchangement', 1, {expires: 365});
        
     }
