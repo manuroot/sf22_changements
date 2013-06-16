@@ -775,13 +775,14 @@ class ChangementsController extends Controller {
 
     public function downloadAction($filename) {
         $request = $this->get('request');
+        $session = $request->getSession();
+          
         $path = $this->get('kernel')->getRootDir() . "/../web/uploads/documents/";
 
         // Flush in "safe" mode to enforce an Exception if keys are not unique
         try {
             $content = file_get_contents($path . $filename);
         } catch (\ErrorException $e) {
-            $session = $this->getRequest()->getSession();
             $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas");
             return $this->redirect($this->generateUrl('docchangements'));
         }
@@ -792,6 +793,8 @@ class ChangementsController extends Controller {
 
 
         /*  if (!$data = file_get_contents(file_get_contents($path.$filename))) {
+                $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas: contacter l'administrateur");
+            return $this->redirect($this->generateUrl('docchangements'));
           //  $content = file_get_contents($path.$filename);
           //if (!isset($content)){
 
@@ -802,7 +805,7 @@ class ChangementsController extends Controller {
         //set headers
         $response->headers->set('Content-Type', 'mime/type');
         $response->headers->set('Content-Disposition', 'attachment;filename="' . $filename);
-        $session = $this->getRequest()->getSession();
+        //$session = $this->getRequest()->getSession();
         $session->getFlashBag()->add('notice', "Le fichier $filename a ete téléchargé");
 
         $response->setContent($content);

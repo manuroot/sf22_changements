@@ -21,7 +21,7 @@ class DocchangementsRepository extends EntityRepository {
  public function myFindAll() {
         return $this->createQueryBuilder('a')
                         ->leftJoin('a.idchangement', 'b')
-                     
+                ->orderBy('a.id', 'DESC')
                         //   ->leftJoin('a.demandeur', 'c')
                         ->getQuery();
     }
