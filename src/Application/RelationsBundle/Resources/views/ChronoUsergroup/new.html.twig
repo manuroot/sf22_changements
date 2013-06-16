@@ -14,18 +14,16 @@
 
 <form action="{{ path('chronogroup_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
-    <p>
-        <button type="submit">Create</button>
-    </p>
+   <br>
+      <p>
+            <button type="submit" class="btn btn-small btn-warning">Ajouter</button>
+                <a href="{{  path('chronogroup') }}" class="btn btn-small btn-success">Retour</a>
+             </p>
 </form>
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('chronogroup') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
 
+        
+       
+                                       
       
 {% endblock %}

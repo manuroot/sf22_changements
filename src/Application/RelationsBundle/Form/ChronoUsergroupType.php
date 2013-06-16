@@ -11,10 +11,31 @@ class ChronoUsergroupType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nomGroup')
-                ->add('description')
-                  ->add('email')
-        ;
+          
+               ->add('nomGroup', null, array(
+                    'attr' => array(
+                        'placeholder' => "nom d'utlisateur",
+                    ),
+                    'label' => 'Nom du groupe',
+                    'widget_addon' => array(
+                        'icon' => 'user',
+                        'type' => 'prepend'
+            )))
+                ->add('description', null, array(
+                    'label' => 'Description',
+                    'widget_addon' => array(
+                        'icon' => 'pencil',
+                        'type' => 'prepend'
+            )))
+                ->add('email', null, array(
+                    'label' => 'Email',
+                    'attr' => array(
+                        'placeholder' => "username@domaine",
+                    ),
+                    'widget_addon' => array(
+                        'icon' => 'envelope',
+                        'type' => 'prepend'
+            )));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

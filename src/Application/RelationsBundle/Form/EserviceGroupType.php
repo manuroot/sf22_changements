@@ -6,48 +6,51 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class EserviceGroupType extends AbstractType
-{
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-         $builder->add('nomGroup', 'text', array(
+class EserviceGroupType extends AbstractType {
+
+    public function buildForm(FormBuilderInterface $builder, array $options) {
+        $builder
+                ->add('nomGroup', null, array(
+                    'attr' => array(
+                        'placeholder' => "nom d'utlisateur",
+                    ),
+                    'label' => 'Nom du groupe',
                     'widget_addon' => array(
-                        'label'=> 'Nom du groupe',
                         'icon' => 'user',
                         'type' => 'prepend'
-                    ),
-                ))
-                ->add('description', 'text', array(
+            )))
+                ->add('description', null, array(
+                    'label' => 'Description',
                     'widget_addon' => array(
-                        'label'=> 'Description',
                         'icon' => 'pencil',
                         'type' => 'prepend'
+            )))
+                ->add('email', null, array(
+                    'label' => 'Email',
+                    'attr' => array(
+                        'placeholder' => "username@domaine",
                     ),
-                ))
-                  ->add('email', 'text', array(
                     'widget_addon' => array(
-                        'label'=> 'envelope',
-                        'icon' => 'pencil',
+                        'icon' => 'envelope',
                         'type' => 'prepend'
-                    ),
-                ));
-       
-       /* $builder
-         //  ->add('nomGroup',null,array('label'=> 'Nom du groupe'))
-            ->add('description',null,array('label'=> 'Description'))
-            ->add('email')
-        ;*/
+            )))
+        ;
+
+        /* $builder
+          //  ->add('nomGroup',null,array('label'=> 'Nom du groupe'))
+          ->add('description',null,array('label'=> 'Description'))
+          ->add('email')
+          ; */
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
+    public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'Application\RelationsBundle\Entity\EserviceGroup'
         ));
     }
 
-    public function getName()
-    {
+    public function getName() {
         return 'application_eservicesbundle_eservicegrouptype';
     }
+
 }
