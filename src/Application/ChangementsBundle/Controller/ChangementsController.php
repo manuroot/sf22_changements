@@ -780,10 +780,16 @@ class ChangementsController extends Controller {
         $path = $this->get('kernel')->getRootDir() . "/../web/uploads/documents/";
 
         // Flush in "safe" mode to enforce an Exception if keys are not unique
+        
+        if(!file_exists($path . $filename)) {
+             $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas (code 1)");
+            return $this->redirect($this->generateUrl('docchangements'));
+        }
+            
         try {
             $content = file_get_contents($path . $filename);
         } catch (\ErrorException $e) {
-            $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas");
+            $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas (code 2)");
             return $this->redirect($this->generateUrl('docchangements'));
         }
 
