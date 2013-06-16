@@ -154,7 +154,7 @@ class ChangementsFilterType extends AbstractType {
                     },
                     /* 'multiple' => true,
                       'required' => false,*/
-                     // 'empty_value' => '--- Choisir une option ---', 
+                     'empty_value' => '--- Choisir une option ---', 
                     'property' => 'nom'
                 ));
 

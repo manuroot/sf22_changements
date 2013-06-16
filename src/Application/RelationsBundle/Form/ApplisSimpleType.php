@@ -12,8 +12,27 @@ class ApplisSimpleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nomapplis','text',array('label' => 'Application'))
-            ->add('description','text',array('label' => 'Description'));
+                ->add('nomapplis', null, array(
+                    'label'=>'Nom',
+                    'widget_addon' => array(
+                        'icon' => 'pencil',
+                        'type' => 'prepend'
+                        )))
+                
+                 ->add('description', null, array(
+                    'label'=>'Description',
+                    'widget_addon' => array(
+                        'icon' => 'pencil',
+                        'type' => 'prepend'
+                        )))
+                ;
+          //  ->add('nomapplis','text',array('label' => 'Application'))
+           // ->add('','text',array('label' => 'Description'))
+               /* ->add('save', 'submit', array(
+                    'label'=>'Nom',
+                    ))*/
+       //  ->add('save', 'submit')
+    //->add('save_and_add', 'submit');
        
     }
   

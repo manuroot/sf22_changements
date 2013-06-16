@@ -23,7 +23,7 @@ class CertificatsCenterType extends AbstractType {
                         ))*/
                 ->add('cnName','text',array(
                     'widget_addon' => array(
-                        'icon' => 'pencil',
+                        'icon' => 'lock',
                         'type' => 'prepend'
                     ),))
                 // ->add('startDate')
@@ -35,18 +35,25 @@ class CertificatsCenterType extends AbstractType {
                         'type' => 'prepend'
                     ),))
                 ->add('port','text',array(
+                     'attr' => array(
+                    'placeholder' => "ex: 80",
+                ),
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'
                     ),))
                 ->add('serviceName','text',array(
                     'widget_addon' => array(
-                        'icon' => 'pencil',
+                        'icon' => 'glass',
                         'type' => 'prepend'
                     ),))
                 ->add('way','text',array(
+                       'attr' => array(
+                    'placeholder' => "ex: IN ou OUT",
+                ),
+                 
                     'widget_addon' => array(
-                        'icon' => 'pencil',
+                        'icon' => 'arrow-right',
                         'type' => 'prepend'
                     ),))
                 ->add('statusFile', 'checkbox', array('label' => 'Verification'))

@@ -4,123 +4,15 @@
 
 {% block javascripts %}
 {{ parent() }}
-<script type="text/javascript" src="{{ asset('js/jquery.cookie.js') }}"></script>
-   
-<script type="text/javascript">
-          
-$(document).ready(function() {
-//$(function() {
-  $( "#certificats_filter_endTime_left_date" ).datepicker({
-minDate: "-1Y",
-maxDate: "+10Y",
-changeMonth: true,
-changeYear: true,
-numberOfMonths: 1,
-dateFormat: "yy-mm-dd",
-onClose: function( selectedDate ) {
-$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
-}
-});
-    $( "#certificats_filter_endTime_right_date" ).datepicker({
-maxDate: "+10Y",
-minDate: "-1Y",
-changeMonth: true,
-changeYear: true,
-numberOfMonths: 1,
-dateFormat: "yy-mm-dd",
-onClose: function( selectedDate ) {
-$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
-}
-});
-
-
-function runEffect() {
-// get effect type from
-var selectedEffect = 'slide';
-//var selectedEffect = $( "#effectTypes" ).val();
-// most effect types need no options passed by default
-var options = {};
-// run the effect
-$( "#effect" ).toggle( selectedEffect, options, 800 );
-};
-// set effect from select menu value
-$( "#button" ).click(function() {
-runEffect();
-return false;
-});
-//$( "#effect" ).hide();
-
- var ShowHideBox = $('#ShowHideBox');
- //var  ShowHideButton = $('#ShowHideButton');
-initBox();
-//ShowHideBox.hide();
-//var ShowHideBox = $('#ShowHideBox').hide();
-
-    $('#ShowHideButton').click(function() {
-      if (boxVisible())
-        {
-             console.log("hidebox? box=1 status status="+boxVisible());
-             hideBox();
-        }
-        else
-        {
-             console.log("box=1 status status="+boxVisible());
-            showBox();
-        }
-    });
-
-    function initBox()
-    {
-        
-      /*  console.log("initbox: box=1 status status="+boxVisible());*/
-        if ( $.cookie('Boxcerts')==1)
-   {
-        if (!boxVisible()){
-      /* console.log("initbox box=1 doit montrer la box");*/
-            showBox();
-        }
-        }
-        else if ( $.cookie('Boxcerts')==0)
-         {
-            /*  console.log("initbox box=0 doit pas montrer la box");*/
-             if (boxVisible()){
-             
-             hideBox();
-             }
-        }
-    }  
-
-    function boxVisible()
-    {
-         return ShowHideBox.hasClass('hidden')? false : true;
-    }
-  function showBox()
-    {
-     ShowHideBox.show().removeClass('hidden');
-      $.cookie('Boxcerts', 1, {expires: 365});
-       
-    }
-  function hideBox()
-    {
-      var options = {};
-       ShowHideBox.hide().addClass('hidden');
-  $.cookie('Boxcerts', 0, {expires: 365});
-    }
-
-}); //Eof:: ready
-    </script>
-
+<script type="text/javascript" src="{{ asset('bundles/applicationcertificats/js/certificats.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/applicationcertificats/js/jquery.cookie.js') }}"></script>
 {% endblock %}
 
     
   {% block stylesheets %}
 {{ parent() }}
       <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/sliding.css') }}" type="text/css" media="all"/>
-      <style>
-      tr.single {
-         background-color: #f1f1f1;
-        } 
-        </style>
+     <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/certifcatsserach.css') }}" type="text/css" media="all"/>
  {% endblock %}
 
 {% block content_header '' %}
@@ -138,16 +30,25 @@ LISTE DES {{ parent() }}
 {% endfor %}
 
    {% if is_granted("ROLE_ADMIN") %}
-<a href="{{ path('certificatscenter_new') }}" class="btn btn-medium btn-primary">Ajouter Certificat</a>
+
 {% endif %}
 
+ <div id="ShowHideContainer">
+  
+<form id="target" class="form-horizontal" action="{{ path('certificatscenter') }}" method="POST" {{ form_enctype(search_form) }}>
+    <a id="ShowHideButton">
+        <button id="show" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
+            <i class="icon-search"></i>  Afficher Filtres</button>
+    </a>
+    <button type="submit" id="reset" name="submit-filter" class="btn btn-medium btn-warning" value="reset" >
+        <i class="icon-minus-sign"></i> Effacer Filtres</button>
+        <a href="{{ path('certificatscenter_new') }}" class="ajoutchange btn btn-medium btn-primary">
+                <i class="icon-plus"></i> Ajouter Certificat
+            </a>
+</form>
 
-  <div id="ShowHideContainer">
-    <p><a id="ShowHideButton">
-         <img src="{{ asset('images/eyes.png') }}" alt="SHOWHIDE"  width="20" height="20" />
-        </a></p>
-         <div id="ShowHideBox" class="hidden">
-       {% include 'ApplicationCertificatsBundle:CertificatsCenter:indexsearch_form.html.twig' %}
+<div id="ShowHideBox" class="hidden">
+        {% include 'ApplicationCertificatsBundle:CertificatsCenter:indexsearch_form.html.twig' %}
         </div>
 </div>
 

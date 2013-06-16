@@ -6,6 +6,7 @@
   {{ type_class_map[type] }}
 {% endmacro %}
 
+{#'cssrewrite,?yui_css' debug=false#}
 {% block javascripts %}
     {{ parent() }}
     {% javascripts 
@@ -25,7 +26,7 @@
      {% stylesheets 
                 '@ApplicationChangementsBundle/Resources/public/css/sliding.css' 
                 '@ApplicationChangementsBundle/Resources/public/css/changements.css' 
-                output='css/compiled/changements.css' filter='?yui_css' %}
+                output='css/compiled/changements.css' filter='cssrewrite,?yui_css' debug=false %}
 <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
 {% endstylesheets %}
 {#<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>

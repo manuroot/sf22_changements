@@ -133,7 +133,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
                 
                 ->addSelect('g')
                 //->addSelect('g')
-                ->distinct('GroupConcat(g.nom)')
+                ->distinct('GroupConcat(g.nom) AS kak')
                 ->leftJoin('a.idEnvironnement', 'g')
                 
                  ->leftJoin('a.comments', 'h')

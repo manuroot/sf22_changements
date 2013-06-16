@@ -12,9 +12,23 @@ class ProjetType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nomprojet', 'text',array('label' => 'Nom du Projet'))
-            ->add('description', 'text',array('label' => 'Description'));
-       
+                
+                 ->add('nomprojet', null, array(
+                    'label'=>'Nom',
+                    'widget_addon' => array(
+                        'icon' => 'pencil',
+                        'type' => 'prepend'
+                        )))
+                
+                 ->add('description', null, array(
+                    'label'=>'Description',
+                    'widget_addon' => array(
+                        'icon' => 'pencil',
+                        'type' => 'prepend'
+                        )));
+                
+                
+          
      /*   $builder->add('idapplis', 'collection', array(
              'type' => new ApplisType(),
               'allow_add' => true,

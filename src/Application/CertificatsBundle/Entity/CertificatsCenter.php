@@ -22,9 +22,11 @@ use Application\RelationsBundle\Entity\FileType;
  * @ORM\Entity(repositoryClass="Application\CertificatsBundle\Entity\CertificatsCenterRepository")
  * @ORM\HasLifecycleCallbacks()
  * @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,typeCert.fileType,idapplis.nomapplis:GroupConcat",groupBy={"id"}) 
+ */
 
-*/
-//* @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,typeCert.fileType,idapplis.nomapplis:GroupConcat",groupBy={"id"}) 
+
+// * @GRID\Source(groupBy={"id"}) 
+// //* @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,typeCert.fileType,idapplis.nomapplis:GroupConcat",groupBy={"id"}) 
 //* @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,typeCert.fileType,idapplis.nomapplis:GroupConcat",groupBy={"id"}) 
 class CertificatsCenter
 {
@@ -50,7 +52,7 @@ class CertificatsCenter
      *      maxMessage = "filenamee cannot be longer than than {{ limit }} characters length |
      *  fichier: au maximum {{ limit }} caracteres"
      * )
-     * @GRID\Column(title="Nom", size="100", type="text")
+     * @GRID\Column(title="Nom", size="50", type="text")
      */
     private $fileName;
 
@@ -165,16 +167,26 @@ class CertificatsCenter
     private $typeCert;
 
      /**
-      * @var string
+     * @var Doctrine\Common\Collections\ArrayCollection
      * @ORM\ManyToMany(targetEntity="\Application\RelationsBundle\Entity\Applis", inversedBy="idprojets",cascade={"persist"})
      * @ORM\OrderBy({"nomapplis" = "ASC"})
      * @ORM\JoinTable(name="certificats_xapplis")
-     *  @Grid\Column(type="text",field="idapplis.nomapplis:GroupConcat", title="Applis",filter="select")
-     */
+     *
+   *  @Grid\Column(type="text",title="Applis2",size="30",field="idapplis.nomapplis:GroupConcat",operators={"like"}, operatorsVisible=false, filterable=false,operatorsVisible=true,selectFrom="query")
+  
+      */
     private $idapplis;
-    // @Grid\Column(type="extended_text",field="idapplis.nomapplis:GroupConcat", title="Applis",filter="select", selectMulti="false", selectFrom="values")
+    // agarder
+    //    @Grid\Column(type="text",title="Applis1",size="30",field="idapplis.nomapplis:GroupConcat",  selectExpanded=true , operatorsVisible=true,selectFrom="query")
+    //    *  @Grid\Column(type="text",title="Applis2",size="30",field="idapplis.nomapplis:GroupConcat",joinType="inner",operators={"eq","neq","nlike","lt","like"}, operatorsVisible=true,selectFrom="query",groupBy={"id"})
+  //  @Grid\Column(type="text",title="Applis1",size="30",field="idapplis.nomapplis",joinType="inner",selectFrom="values",groupBy={"id"})
+    // @Grid\Column(type="extended_text",field="idapplis.nomapplis:GroupConcat", title="Applis",filter="select", selectMulti="false", )
 //@Grid\Column(field="tags.name:count:distinct", title="Tags") 
-    
+    // * @GRID\Column(field="category.name", title="Category Name", joinType="inner")
+    // @GRID\Column(field="category.name", title="Category Name")
+     // @GRID\Column(field="category.firstChild.name", title="Category first child")
+     // @GRID\Column(field="category.tags", type="array", title="Category tags")
+     
    public function __construct()
   {
     $this->addedDate = new \DateTime('now');
@@ -591,4 +603,25 @@ class CertificatsCenter
 
           } */
     }
+    /*
+     * SELECT 
+  c0_.id AS id0, 
+  c0_.nom AS nom1, 
+  c0_.date_debut AS date_debut2, 
+  c0_.date_fin AS date_fin3, 
+  c1_.nomprojet AS nomprojet4, 
+  c2_.nom_user AS nom_user5, 
+  GROUP_CONCAT(distinct e3_.nom) AS sclr6 
+FROM 
+  changements_main c0_ 
+  LEFT JOIN certificats_projet c1_ ON c0_.id_projet = c1_.id 
+  LEFT JOIN chrono_user c2_ ON c0_.demandeur = c2_.id 
+  LEFT JOIN changements_environnements c4_ ON c0_.id = c4_.changements_id 
+  LEFT JOIN environnement e3_ ON e3_.id = c4_.environnements_id 
+GROUP BY 
+  c0_.id 
+HAVING sclr6 LIKE '%prod%'
+ORDER BY 
+  c0_.id DESC 
+     */
 }

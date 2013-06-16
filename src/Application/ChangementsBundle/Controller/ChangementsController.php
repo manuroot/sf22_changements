@@ -23,6 +23,7 @@ use APY\DataGridBundle\Grid\Column\DateColumn;
 use APY\DataGridBundle\Grid\Export\ExcelExport;
 use Ob\HighchartsBundle\Highcharts\Highchart;
 use Doctrine\ORM\Tools\Pagination\CountOutputWalker;
+
 /* use Pagerfanta\Pagerfanta;
   use Pagerfanta\Adapter\DoctrineORMAdapter;
   use Pagerfanta\Exception\NotValidCurrentPageException; */
@@ -59,20 +60,21 @@ class ChangementsController extends Controller {
      *
      */
     protected function filter() {
-      //  $message = "filter datas";
-         $message = "";
+        //  $message = "filter datas";
+        $message = "";
         $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $session = $request->getSession();
         $filterForm = $this->createForm(new ChangementsFilterType());
         $filterBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
-        
-        //debug
-         //  return array($filterForm, $filterBuilder, $message);
 
+        //  var_dump($filterBuilder->getDql());
+        // exit(1);
+        //debug
+        //  return array($filterForm, $filterBuilder, $message);
         // Reset filter
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
-          //  $message = "reset filtres";
+            //  $message = "reset filtres";
             $session->remove('changementControllerFilter');
             $query = $filterBuilder;
             return array($filterForm, $query, $message);
@@ -81,46 +83,48 @@ class ChangementsController extends Controller {
         // datas filter
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
             $alldatas = $request->request->all();
+
+
             // if ($alldatas['submit-filter'] == 'reset'){
             $datas = $alldatas["changements_filter"];
-           // $message = "post datas ";
+            //   var_dump($datas['idEnvironnement']);exit(1);
+            // $message = "post datas ";
             $filterForm->bind($datas);
             if ($filterForm->isValid()) {
-               // $message .= " - filtre valide";
+                // $message .= " - filtre valide";
                 $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
                 $session->set('changementControllerFilter', $datas);
-               // var_dump($query->getDql());
+                // var_dump($query->getDql());
             } else {
-              //  $message .= " - filtre valide";
+                //  $message .= " - filtre valide";
 
                 $query = $filterBuilder;
             }
-           //print_r($datas);
-             //  var_dump($query->getDql());
-       
+            //print_r($datas);
+            //  var_dump($query->getDql());
+
             return array($filterForm, $query, $message);
         } else {
             //   echo "<br>pas post datas<br>";
             // Get filter from session
             if ($session->has('changementControllerFilter')) {
-               // $message = "session get";
+                // $message = "session get";
                 $datas = $session->get('changementControllerFilter');
                 $filterForm->bind($datas);
                 $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
             }
             // ou pas
             else {
-               // $message = "pas de session";
+                // $message = "pas de session";
                 $query = $filterBuilder;
             }
-           // var_dump($query);
+            // var_dump($query);
             //   exit(1);
-          //   $query_year = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_year(2013);
-             
-          //  var_dump($query_year->getDql());
-           // exit(1);
- 
- 
+            //   $query_year = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_year(2013);
+            //  var_dump($query_year->getDql());
+            // exit(1);
+
+
             return array($filterForm, $query, $message);
         }
     }
@@ -176,40 +180,34 @@ class ChangementsController extends Controller {
       string(6) "filter"
      */
 
-    
-    
-     
-         public function indexpostAction(Request $request) {
+    public function indexpostAction(Request $request) {
 
-         $date_warning=array(7,15);    
+        $date_warning = array(7, 15);
         $message = "";
-        $em = $this->getDoctrine()->getManager();
+        //$em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
-          $session = $request->getSession();
-       
-       $session->set('buttonretour', 'changements_post');
-       list($filterForm, $queryBuilder, $message) = $this->filter();
-     //    $queryBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindsimpleAll();
-     
-       if ($message)
-          $session->getFlashBag()->add('warning', "$message");
+        $session = $request->getSession();
 
-       $pagination = $this->createpaginator($queryBuilder, 10);
+        $session->set('buttonretour', 'changements_post');
+        list($filterForm, $queryBuilder, $message) = $this->filter();
+        //    $queryBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindsimpleAll();
+
+        if ($message)
+            $session->getFlashBag()->add('warning', "$message");
+
+        $pagination = $this->createpaginator($queryBuilder, 10);
         return $this->render('ApplicationChangementsBundle:Changements:indexpost.html.twig', array(
                     'search_form' => $filterForm->createView(),
                     'pagination' => $pagination,
-                       'date_warning'=>$date_warning,
+                    'date_warning' => $date_warning,
         ));
-        /*return $this->render('ApplicationChangementsBundle:Changements:indexsimple.html.twig', array(
-                   'search_form' => $filterForm->createView(),
-                   'pagination' => $queryBuilder,
-        ));*/
     }
+
     public function indexcpostAction(Request $request) {
 
         list($filterForm, $queryBuilder, $message) = $this->filter();
-        
-        
+
+
         $session = $request->getSession();
 
         $session->getFlashBag()->add('warning', "$message");
@@ -233,7 +231,7 @@ class ChangementsController extends Controller {
         $searchForm = $this->createForm(new ChangementsFilterType());
         $filterBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
         if ($this->get('request')->query->has('submit-filter')) {
-             $searchForm->bind($this->get('request'));
+            $searchForm->bind($this->get('request'));
             // $datas=$this->get('request')->query;
             /*  print_r($datas); */
             $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($searchForm, $filterBuilder);
@@ -274,128 +272,123 @@ class ChangementsController extends Controller {
             'dataLabels' => array('enabled' => false),
             'showInLegend' => true
         ));
-        
-       
+
+
         $em = $this->getDoctrine()->getManager();
-      
+
         $data = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_year();
- $data_month = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_monthyear();
- 
- // print_r($datas);
-       //     var_dump($data_month->getDql());
-               
-                  $res=$data_month->getResult();
-                  
-                  
-              /*    $categories = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
+        $data_month = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_monthyear();
 
-$ob3 = new Highchart();
-$ob3->chart->renderTo('container'); // The #id of the div where to render the chart
-$ob3->chart->type('column');
-$ob3->title->text('Average Monthly Weather Data for Tokyo');
-$ob3->xAxis->categories($categories);
-$ob3->yAxis($yData);
-$ob3->legend->enabled(false);
-$formatter = new Expr('function () {
-                 var unit = {
-                     "Rainfall": "mm",
-                     "Temperature": "degrees C"
-                 }[this.series.name];
-                 return this.x + ": <b>" + this.y + "</b> " + unit;
-             }');
-$ob3->tooltip->formatter($formatter);
-$ob3->series($series);
+        // print_r($datas);
+        //     var_dump($data_month->getDql());
 
-*/
+        $res = $data_month->getResult();
 
-                   $ob4 = new Highchart();
+
+        /*    $categories = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
+
+          $ob3 = new Highchart();
+          $ob3->chart->renderTo('container'); // The #id of the div where to render the chart
+          $ob3->chart->type('column');
+          $ob3->title->text('Average Monthly Weather Data for Tokyo');
+          $ob3->xAxis->categories($categories);
+          $ob3->yAxis($yData);
+          $ob3->legend->enabled(false);
+          $formatter = new Expr('function () {
+          var unit = {
+          "Rainfall": "mm",
+          "Temperature": "degrees C"
+          }[this.series.name];
+          return this.x + ": <b>" + this.y + "</b> " + unit;
+          }');
+          $ob3->tooltip->formatter($formatter);
+          $ob3->series($series);
+
+         */
+
+        $ob4 = new Highchart();
         $ob4->chart->renderTo('linechart4');
-     //   $ob4->chart->type('bar');
-        
-         $ob4->plotOptions->bar(array(
-         //    'type'=>'bar',
-          'allowPointSelect' => true,
-            'cursor' => 'pointer',
-            'dataLabels' => array('enabled' => false),
-            'showInLegend' => true,
-             'series' => array('stacking'=> 'normal'),
-              
-        ));
-       //  $ob4->plotOptions->series(array('stacking'=> 'normal'));
-        $ob4->title->text('Demandes 2013: Pr1ojets');
-        $ob4->legend->backgroundColor('#FFFCCE');
-          $ob4->legend->reverse(true);
-          //'reversed'=> true
-            
-        //));
-        $ob4->xAxis->categories(array('Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai'));
-         $ob4->yAxis->min(0);
-         // $ob4->yAxis->max(5);
-         $ob4->yAxis->title(array('text'=>'gdfgdf'));
-                 
-     $series4=array(
-            array("name" => "Data1",
-                "data" => array(1, 2, 4, 7, 6 )),
-          array("name" => "Data2",
-                "data" => array(2, 4, 7, 1, 4)),
-         
-            array("name" => "Data",
-                "data" => array(3, 5, 6, 5, 3 )
-                ),
-         
-        );
-     $ob4->series($series4);
-     // $ob4->series(array(array('type' => 'bar', 'name' => 'Browser share', 'data' => $series4)));
-    //   $ob4->series($series4);
-        //$ob4->xAxis->title()
-        /*$ob4->plotOptions->bar(array(
-            series =>
-                    stacking: 'normal'
+        //   $ob4->chart->type('bar');
+
+        $ob4->plotOptions->bar(array(
+            //    'type'=>'bar',
             'allowPointSelect' => true,
             'cursor' => 'pointer',
             'dataLabels' => array('enabled' => false),
-            'showInLegend' => true
-        ));*/
-        
+            'showInLegend' => true,
+            'series' => array('stacking' => 'normal'),
+        ));
+        //  $ob4->plotOptions->series(array('stacking'=> 'normal'));
+        $ob4->title->text('Demandes 2013: Pr1ojets');
+        $ob4->legend->backgroundColor('#FFFCCE');
+        $ob4->legend->reverse(true);
+        //'reversed'=> true
+        //));
+        $ob4->xAxis->categories(array('Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai'));
+        $ob4->yAxis->min(0);
+        // $ob4->yAxis->max(5);
+        $ob4->yAxis->title(array('text' => 'gdfgdf'));
+
+        $series4 = array(
+            array("name" => "Data1",
+                "data" => array(1, 2, 4, 7, 6)),
+            array("name" => "Data2",
+                "data" => array(2, 4, 7, 1, 4)),
+            array("name" => "Data",
+                "data" => array(3, 5, 6, 5, 3)
+            ),
+        );
+        $ob4->series($series4);
+        // $ob4->series(array(array('type' => 'bar', 'name' => 'Browser share', 'data' => $series4)));
+        //   $ob4->series($series4);
+        //$ob4->xAxis->title()
+        /* $ob4->plotOptions->bar(array(
+          series =>
+          stacking: 'normal'
+          'allowPointSelect' => true,
+          'cursor' => 'pointer',
+          'dataLabels' => array('enabled' => false),
+          'showInLegend' => true
+          )); */
 
 
 
 
-            /* $res=$data_month->getQuery()->getDql();
-             echo "test<br>";
-             print_r($res);*/
-             
-             // Printing the SQL with real values
-              /*
-$vals = $data_month->getFlattenedParams();
-foreach(explode('?', $data_month->getSqlQuery()) as $i => $part) {
-    $sql = (isset($sql) ? $sql : null) . $part;
-    if (isset($vals[$i])) $sql .= $vals[$i];
-}
 
-echo $sql;*/
-              /* 
-               $query = sprintf("SELECT s FROM BundleName:EntityClass s where s.field1 = %d and s.field2=%d", $field1, $field2);
-$em = $this->getDoctrine()->getManager();*/
+        /* $res=$data_month->getQuery()->getDql();
+          echo "test<br>";
+          print_r($res); */
+
+        // Printing the SQL with real values
+        /*
+          $vals = $data_month->getFlattenedParams();
+          foreach(explode('?', $data_month->getSqlQuery()) as $i => $part) {
+          $sql = (isset($sql) ? $sql : null) . $part;
+          if (isset($vals[$i])) $sql .= $vals[$i];
+          }
+
+          echo $sql; */
+        /*
+          $query = sprintf("SELECT s FROM BundleName:EntityClass s where s.field1 = %d and s.field2=%d", $field1, $field2);
+          $em = $this->getDoctrine()->getManager(); */
 //$queryObj = $em->createQuery($data_month);
 //$xentities = $data_month;
-
-             //  $data_month->execute();
+        //  $data_month->execute();
         /*
-        $data = array(
-            array('CDR', 45.0),
-            array('CAC', 26.8),
-            array('PGEN', 12.8),
-            array('SDF/SDC', 8.5),
-            array('LOME', 6.2),
-            array('Others', 0.7),
-        );*/
+          $data = array(
+          array('CDR', 45.0),
+          array('CAC', 26.8),
+          array('PGEN', 12.8),
+          array('SDF/SDC', 8.5),
+          array('LOME', 6.2),
+          array('Others', 0.7),
+          ); */
         $ob2->series(array(array('type' => 'pie', 'name' => 'Browser share', 'data' => $data)));
 
         return $this->render('ApplicationChangementsBundle:Changements:indexcharts.html.twig', array(
                     'chart1' => $ob1,
                     'chart2' => $ob2,
-              'chart4' => $ob4
+                    'chart4' => $ob4
         ));
     }
 

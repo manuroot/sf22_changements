@@ -135,7 +135,7 @@ class Changements extends AbstractEvent
      * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\Environnements", inversedBy="idchangements",cascade={"persist"})
      * @ORM\OrderBy({"nom" = "ASC"})
      * @ORM\JoinTable(name="changements_environnements")
-     * @GRID\Column(field="idEnvironnement.nom:GroupConcat", size="20",title="Env", filter="select")
+     * @GRID\Column(field="idEnvironnement.nom:GroupConcat", filterable=false,size="20",title="Env", filter="select")
      */
            
     private $idEnvironnement;

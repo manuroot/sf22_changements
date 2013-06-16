@@ -10,53 +10,28 @@
 {% block javascripts %}
 {{ parent() }}
 <script type="text/javascript">
-          
+
 $(document).ready(function() {
-//$(function() {
-  $( "#grid_certificatsgrid__dateDebut__query__from" ).datepicker({
-maxDate: "+3M +10D",
-changeMonth: true,
-changeYeat: true,
-numberOfMonths: 1,
-dateFormat: "yy-mm-dd",
-onClose: function( selectedDate ) {
-$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
-}
-});
 
-$( "#grid_certificatsgrid__dateFin__query__from" ).datepicker({
-maxDate: "+3M +10D",
-changeMonth: true,
-changeYeat: true,
-numberOfMonths: 1,
-dateFormat: "yy-mm-dd",
-onClose: function( selectedDate ) {
-$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
-}
-});
+var mesdates=[
+    "#grid_changementsgrid__dateDebut__query__from",
+    "#grid_changementsgrid__dateDebut__query__to",
+    "#grid_changementsgrid__dateFin__query__from",
+    "#grid_changementsgrid__dateFin__query__to"
+];
 
+ mesdates.forEach(function(entry) {    
 
-$( "#grid_certificatsgrid__dateVsr__query__from" ).datepicker({
-maxDate: "+3M +10D",
-changeMonth: true,
-changeYeat: true,
-numberOfMonths: 1,
-dateFormat: "yy-mm-dd",
-onClose: function( selectedDate ) {
-$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
-}
-});
-
-
-$( "#grid_certificatsgrid__dateComep__query__from" ).datepicker({
-maxDate: "+3M +10D",
-changeMonth: true,
-changeYeat: true,
-numberOfMonths: 1,
-dateFormat: "yy-mm-dd",
-onClose: function( selectedDate ) {
-$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
-}
+      $( entry ).datepicker({
+    yearRange: '2010:2030',
+    changeMonth: true,
+    changeYear: true,
+    numberOfMonths: 1,
+    dateFormat: "yy-mm-dd",
+    onClose: function( selectedDate ) {
+    $( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+    }
+    });
 });
 });
 </script>
@@ -65,7 +40,7 @@ $( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
 {% block content_header '' %}
 
 {% block title %}
-LISTE DES CHANGEMENTS 
+LISTE DES OPERATIONS 
 {% endblock %}
  
 {% block content %}
@@ -81,13 +56,15 @@ LISTE DES CHANGEMENTS
 
  {#{ date('-30days')|date('Y-m-d') }#}
 
-<a href="{{ path('changements_new') }}" class="btn btn-small btn-primary">Ajouter Changement</a>
+ <a href="{{ path('changements_newflowstart') }}" class=" ajoutchange btn btn-medium btn-primary">
+                <i class="icon-plus"></i> Ajouter un Changement
+            </a>
 <br> <br> 
 
 {{ grid(grid, _self) }}
 
 
-<!--{{ grid_search(grid) }}-->
+{#{{ grid_search(grid) }}#}
 {#{ grid(grid, 'ApplicationChangementsBundle::apygrid/blocks.html.twig') }#} 
 
 {% endblock %}
@@ -116,7 +93,8 @@ LISTE DES CHANGEMENTS
             <option value="{{ key }}">{{ massAction.title|trans }}</option>
             {% endfor %}
         </select>
-        <input type="submit"  class="btn btn-small btn-danger" value="{{ 'Submit Action'|trans }}"/>
+        <button type="submit"  class="btn btn-small btn-danger" value="{{ 'Submit Action'|trans }}">
+            <i class="icon-plus"></i> Executer Action(s) </button>
     </div>
     {% endspaceless %}
         <br><br>
@@ -187,9 +165,17 @@ LISTE DES CHANGEMENTS
 {# -------------------------------------------- grid_column_filter_type_massaction --------------------------------------- #}
 {% block grid_column_filter_type_massaction %}
    <!-- <input type="button" class="grid-search-reset" value="R" title="{{ 'Reset'|trans }}" onclick="return {{ grid.hash }}_reset();"/>-->
-     <input type="button" class="btn btn-small btn-primary" value="Reset" title="{{ 'Reset'|trans }}" onclick="return {{ grid.hash }}_reset();"/>
+     <button type="button" class="btn btn-small btn-primary" value="Reset" title="{{ 'Reset'|trans }}" onclick="return {{ grid.hash }}_reset();">
+     <i class="icon-minus-sign"></i> Reset</button>
+         
 {% endblock grid_column_filter_type_massaction %}
 {# -------------------------------------------- grid_column_filter_type_massaction_filter --------------------------------------- #}
 {% block grid_column_filter_type_actions %}
+ <a href="{{ grid_url('reset', grid) }}">
+        <button type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
+            <i class="icon-minus-sign"></i> Reset Actions</button>
+    </a>
+     {#
     <a class="btn btn-small btn-primary" href="{{ grid_url('reset', grid) }}">{{ 'Reset Actions'|trans }}</a>
+#}
 {% endblock grid_column_filter_type_actions %}

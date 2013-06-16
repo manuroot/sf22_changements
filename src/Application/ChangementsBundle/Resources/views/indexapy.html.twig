@@ -1,12 +1,8 @@
-{% extends "ApplicationCertificatsBundle::layout.html.twig" %}
+{% extends "ApplicationChangementsBundle::layout.html.twig" %}
 
   {% block stylesheets %}
 {{ parent() }}
-{#<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/datagrid.css') }}" type="text/css" media="all" /> 
-#}
-<link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/datagrid.css') }}" type="text/css" media="all" /> 
-}
-<source>
+<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/datagrid.css') }}" type="text/css" media="all" /> 
 
 {% endblock %}
 
@@ -16,21 +12,52 @@
 <script type="text/javascript">
           
 $(document).ready(function() {
-var mesdates=["#grid_certificatsgrid__endTime__query__from","#grid_certificatsgrid__endTime__query__to"];
- mesdates.forEach(function(entry) {    
 //$(function() {
-   $( entry ).datepicker({
-  /*  maxDate: "+3M +10D",*/
-    yearRange: '2010:2030',
-    changeMouunth: true,
-    changeYear: true,
-    numberOfMonths: 1,
-    dateFormat: "yy-mm-dd",
-    onClose: function( selectedDate ) {
-    $( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
-    }
-    });
- });
+  $( "#grid_certificatsgrid__dateDebut__query__from" ).datepicker({
+maxDate: "+3M +10D",
+changeMonth: true,
+changeYeat: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});
+
+$( "#grid_certificatsgrid__dateFin__query__from" ).datepicker({
+maxDate: "+3M +10D",
+changeMonth: true,
+changeYeat: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});
+
+
+$( "#grid_certificatsgrid__dateVsr__query__from" ).datepicker({
+maxDate: "+3M +10D",
+changeMonth: true,
+changeYeat: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});
+
+
+$( "#grid_certificatsgrid__dateComep__query__from" ).datepicker({
+maxDate: "+3M +10D",
+changeMonth: true,
+changeYeat: true,
+numberOfMonths: 1,
+dateFormat: "yy-mm-dd",
+onClose: function( selectedDate ) {
+$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
+}
+});
 });
 </script>
 
@@ -38,10 +65,11 @@ var mesdates=["#grid_certificatsgrid__endTime__query__from","#grid_certificatsgr
 {% block content_header '' %}
 
 {% block title %}
-LISTE DES {{ parent() }} 
+LISTE DES CHANGEMENTS 
 {% endblock %}
  
 {% block content %}
+ 
 
 {% for type, flashMessages in app.session.flashbag.all() %}
     {% for flashMessage in flashMessages %}
@@ -50,31 +78,24 @@ LISTE DES {{ parent() }}
     </div>
     {% endfor %}
 {% endfor %}
- 
+
  {#{ date('-30days')|date('Y-m-d') }#}
 
-
-{% if is_granted("ROLE_ADMIN") %}   
-<a href="{{ path('certificatscenter_new') }}" class="btn btn-small btn-primary">Ajouter Certificat</a>
-{% endif %}
-
-
+<a href="{{ path('changements_new') }}" class="btn btn-small btn-primary">Ajouter Changement</a>
 <br> <br> 
-
-{#
-{{ grid_search(grid) }}
-#}
 
 {{ grid(grid, _self) }}
 
 
-
-{#{ grid(grid, 'ApplicationCertificatsBundle::apygrid/blocks.html.twig') }#} 
+<!--{{ grid_search(grid) }}-->
+{#{ grid(grid, 'ApplicationChangementsBundle::apygrid/blocks.html.twig') }#} 
 
 {% endblock %}
+
 
 {% block footer %}
 {% endblock %}
+        
 
 {% block grid_actions %}
 <div class="mass-actions">
@@ -95,9 +116,7 @@ LISTE DES {{ parent() }}
             <option value="{{ key }}">{{ massAction.title|trans }}</option>
             {% endfor %}
         </select>
-         <button type="submit"  class="btn btn-small btn-danger" value="{{ 'Submit Action'|trans }}">
-            <i class="icon-plus"></i> Executer Action(s) </button>
-     
+        <input type="submit"  class="btn btn-small btn-danger" value="{{ 'Submit Action'|trans }}"/>
     </div>
     {% endspaceless %}
         <br><br>
@@ -113,16 +132,16 @@ LISTE DES {{ parent() }}
      {% for action in column.rowActions %}
  {% set confirm = action.confirm ? " onclick=\"return confirm('" ~ action.confirmMessage ~ "')\"" : '' %}
       
-  {% if action.title == 'Edit' %}
+  {% if action.title == 'Edit' and  is_granted('ROLE_SUPER_ADMIN') %}
    <a href="{{ url(action.route, column.routeParameters(row, action), true) }}" target="{{ action.target }}">
-                         <img src="{{ asset('bundles/applicationcertificats/images/edit.png') }}" alt="notes_edit" width="15" height="15" />
+                         <img src="{{ asset('bundles/applicationchangements/images/edit.png') }}" alt="edit" width="15" height="15" />
                     </a>
 &nbsp;&nbsp;
 
      {% else %}   
 {% if is_granted('ROLE_SUPER_ADMIN')  %}
 <a href="{{ url(action.route, column.routeParameters(row, action), false) }}"{{ confirm }} target="{{ action.target }}">
-                  <img src="{{ asset('bundles/applicationcertificats/images/delete.png') }}" alt="notes_delete" width="15" height="15" />
+                  <img src="{{ asset('bundles/applicationchangements/images/delete.png') }}" alt="delete" width="15" height="15" />
      </a>              
   {% endif %}
      {% endif %}
@@ -132,7 +151,7 @@ LISTE DES {{ parent() }}
 
   
 &nbsp;&nbsp;
-<a href="{{ path('certificatscenter_show',{ 'id': row.getPrimaryFieldValue() }) }}" class=" icon-search"></a>
+<a href="{{ path('changements_show',{ 'id': row.getPrimaryFieldValue() }) }}" class=" icon-search"></a>
 
 </center>
 {% endblock %}
@@ -164,25 +183,13 @@ LISTE DES {{ parent() }}
 {% block grid_column_type_filter %}
 {{ column.id }}
 {% endblock grid_column_type_filter %}
-
-
-
-
-
+  
 {# -------------------------------------------- grid_column_filter_type_massaction --------------------------------------- #}
 {% block grid_column_filter_type_massaction %}
    <!-- <input type="button" class="grid-search-reset" value="R" title="{{ 'Reset'|trans }}" onclick="return {{ grid.hash }}_reset();"/>-->
-   
-  <button type="button" class="btn btn-small btn-primary" value="Reset" title="{{ 'Reset'|trans }}" onclick="return {{ grid.hash }}_reset();">
-     <i class="icon-minus-sign"></i> CLEAR</button>
-{#
-<input type="button" class="btn btn-small btn-warning" value="Reset" title="{{ 'Reset'|trans }}" onclick="return {{ grid.hash }}_reset();"/>
-#}
+     <input type="button" class="btn btn-small btn-primary" value="Reset" title="{{ 'Reset'|trans }}" onclick="return {{ grid.hash }}_reset();"/>
 {% endblock grid_column_filter_type_massaction %}
 {# -------------------------------------------- grid_column_filter_type_massaction_filter --------------------------------------- #}
 {% block grid_column_filter_type_actions %}
-    <a href="{{ grid_url('reset', grid) }}">
-        <button type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
-            <i class="icon-minus-sign"></i> CLEAR </button>
-    </a>
+    <a class="btn btn-small btn-primary" href="{{ grid_url('reset', grid) }}">{{ 'Reset Actions'|trans }}</a>
 {% endblock grid_column_filter_type_actions %}

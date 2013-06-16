@@ -11,8 +11,19 @@ class EnvironnementsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nom')
-            ->add('description')
+              ->add('nom', null, array(
+                    'label'=>'Nom',
+                    'widget_addon' => array(
+                        'icon' => 'pencil',
+                        'type' => 'prepend'
+                        )))
+                
+                 ->add('description', null, array(
+                    'label'=>'Description',
+                    'widget_addon' => array(
+                        'icon' => 'pencil',
+                        'type' => 'prepend'
+                        ))) 
         ;
     }
 

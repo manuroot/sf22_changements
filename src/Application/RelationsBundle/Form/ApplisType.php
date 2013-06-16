@@ -12,6 +12,8 @@ class ApplisType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+                
+                
             ->add('nomapplis','text',array('label' => 'Application'))
                 ->add('description','text',array('label' => 'Description'));
               //  ApplisSimpleType

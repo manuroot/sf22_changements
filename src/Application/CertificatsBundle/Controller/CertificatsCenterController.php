@@ -29,7 +29,9 @@ use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-//use APY\DataGridBundle\Grid\Export\CSVExport;
+use APY\DataGridBundle\Grid\Export\CSVExport;
+use APY\DataGridBundle\Grid\Export\ExcelExport;
+//use APY\DataGridBundle\Grid\Export\PHPExcelPDFExport;
 //use APY\DataGridBundle\Grid\Export\ExcelExport;
 
 /**
@@ -189,34 +191,19 @@ exit(1);
         $session = $this->getRequest()->getSession();
         $session->set('buttonretour', 'certificatscenter');
           $searchForm = $this->createForm(new CertificatsCenterFiltresType());
-//$foo = $session->get('foo');
-        //  $session = new Session();
-//$session->start();
-        //$searchForm = $this->createSearchForm();
-           //$form = $this->get('form.factory')->create(new PostFilterType());
-           // A revoir pour combiner les 2 queries
-          
           if ($this->get('request')->query->has('submit-filter')) {
              // echo "submit filters";exit(1);
             // bind values from the request
             $searchForm->bind($this->get('request'));
             $filterBuilder = $this->get('doctrine.orm.entity_manager')
                     ->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->myFindaAll();
-                   // ->createQueryBuilder('e');
-            /* ->createQueryBuilder('a')
-                        ->select('a,b,c')
-                        ->leftJoin('a.project', 'b')
-                        ->leftJoin('a.typeCert', 'c')
-                        ->orderBy('a.id', 'DESC');*/
-                 $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($searchForm, $filterBuilder);
+                    $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($searchForm, $filterBuilder);
                 //   var_dump($filterBuilder->getDql());exit(1);
         } else {
             $em = $this->getDoctrine()->getManager();
             $query = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->myFindaAll();
         }
-      //  $em = $this->getDoctrine()->getManager();
-        //$query = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->myFindaAll();
-        $paginator = $this->get('knp_paginator');
+          $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
                 $query, $this->get('request')->query->get('page', 1)/* page number */, 10/* limit per page */
         );
@@ -627,16 +614,19 @@ exit(1);
         $grid->setSource($source);
 
         $grid->setId('certificatsgrid');
+        $grid->addExport(new CSVExport('CSV Export'));
+        $grid->addExport(new ExcelExport('Excel Export'));
+       // $grid->addExport(new PHPExcelPDFExport('Simple PDF Export'));
         //chiant si error
-        $grid->setPersistence(false);
+        $grid->setPersistence(true);
         $grid->setDefaultOrder('id', 'desc');
         // Set the selector of the number of items per page
-        $grid->setLimits(array(10));
+        $grid->setLimits(array(15));
 
         // Set the default page
         $grid->setPage($page);
         $grid->addMassAction(new DeleteMassAction());
-        $grid->setActionsColumnSize(70);
+        $grid->setActionsColumnSize(100);
         $myRowActiona = new RowAction('Edit', 'certificatscenter_edit', false, '_self', array('class' => "btn btn-mini btn-warning"));
         $grid->addRowAction($myRowActiona);
         $myRowAction = new RowAction('Delete', 'certificatscenter_delete', true, '_self', array('class' => "btn btn-mini btn-danger"));
