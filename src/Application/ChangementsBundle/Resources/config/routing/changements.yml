@@ -3,6 +3,11 @@ changements_post:
     defaults: { _controller: "ApplicationChangementsBundle:Changements:indexpost" }
     methods: POST|GET
 
+changements_genemutest:
+    pattern:  /genemu
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:indexgenemu" }
+   
+    
 changements:
     pattern:  /old
     defaults: { _controller: "ApplicationChangementsBundle:Changements:index" }

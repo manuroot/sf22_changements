@@ -14,7 +14,21 @@ class ApplisType extends AbstractType
         $builder
                 
                 
-            ->add('nomapplis','text',array('label' => 'Application'))
+        //    ->add('nomapplis','text',array('label' => 'Application'))
+              /*  $formMapper->add('city', 'genemu_jqueryautocomplete_text', array(
+                    'route_name' => 'ajax_form_request_cities',
+                    'configs' => array('minLength' => 3),
+                    'data_class' => 'MyApp\MyBundle\Entity\City',
+                    'mapped' => false,
+                    'data' => $this->getSubject()->getCity()
+                ))*/
+                   ->add('nomapplis', 'genemu_jqueryautocomplete_text', array(
+                    'mapped'=>false,
+            'suggestions' => array(
+                'Ozil',
+                'Van Persie'
+            ),
+        ))
                 ->add('description','text',array('label' => 'Description'));
               //  ApplisSimpleType
              //   $builder->add('tags', 'collection', array('type' => new TagType()));

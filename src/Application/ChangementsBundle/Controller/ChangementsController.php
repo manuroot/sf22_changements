@@ -818,6 +818,50 @@ class ChangementsController extends Controller {
         return $response;
     }
 
+    // @Route("/ajax_city", name="ajax_city")
+    
+    public function ajaxCityAction(Request $request)
+    {
+        $value = $request->get('term');
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $cities = $em->getRepository('GenemuEntityBundle:City')->findAjaxValue($value);
+
+        $json = array();
+        foreach ($cities as $city) {
+            $json[] = array(
+                'label' => $member->getName(),
+                'value' => $member->getId()
+            );
+        }
+
+        $response = new Response();
+        $response->setContent(json_encode($json));
+
+        return $response;
+    }
+
+    public function ajaxVilleAction(Request $request)
+   {
+       $value = $request->get('term');
+ 
+       $em = $this->getDoctrine()->getEntityManager();
+       $villes = $em->getRepository('RgbVilleBundle:Ville')->searchByNom($value);
+ 
+       $json = array();
+       foreach ($villes as $ville) {
+           $json[] = array(
+               'label' => $ville->getNom(),
+               'value' => $ville->getId()
+           );
+       }
+ 
+       $response = new Response();
+       $response->setContent(json_encode($json));
+ 
+       return $response;
+   }
+   
     private function createCalendarForm($values = array()) {
         $year = isset($values['annee']) ? $values['annee'] : 'annee';
         $month = isset($values['mois']) ? $values['mois'] : 'mois';

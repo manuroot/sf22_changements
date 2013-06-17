@@ -14,14 +14,45 @@ class ChangementsType extends AbstractType {
         $builder->setAttribute('show_legend', false); // no legend for main form
         // $child = $builder->create('user', new SomeSubFormType(), array('show_child_legend' => true)); // but legend for this subform
         //  $builder->add($child);
-        $builder
-                //   ->add('nom')
-                ->add('nom', null, array(
+                 //   ->add('nom')
+               /* ->add('nom', null, array(
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'
-                        )))
-
+                        )))*/
+$builder
+     /*   ->add('member', 'genemu_jqueryautocompleter_entity', array(
+            'route_name' => 'ajax_member',
+            'class' => 'Genemu\Bundle\EntityBundle\Entity\Member',
+        ))*/
+        
+          ->add('choices', 'genemu_jqueryautocompleter_choice', array(
+            'choices' => array(
+                'foo' => 'Foo',
+                'bar' => 'Bar',
+                'xar' => 'xar'),
+              'mapped'=> false,
+            'multiple' => true,
+              'required'=>false,
+        ))
+        /* ->add('nom', 'genemu_jqueryautocomplete_entity', array(
+            'class' => 'Application\ChangementsBundle\Entity\Changements',
+            'property' => 'name',
+              'property' => 'nom',
+        ))*/
+                ->add('nom', 'genemu_jqueryautocomplete_entity', array(
+                  /*   'class' => 'MyBundle\Entity\MyEntity',*/
+            'property' => 'name',
+                  'widget_addon' => array(
+                  'icon' => 'pencil',
+                  'type' => 'prepend'
+                  ),
+                  'class' => 'Application\ChangementsBundle\Entity\Changements',
+                  'property' => 'nom',
+                  'configs' => array(
+                  'minLength' => 1,
+                  ),
+                  )) 
                 
               /*  ->add('soccer_player', 'genemu_jqueryautocomplete_text', array(
                     'mapped'=>false,
@@ -83,7 +114,20 @@ class ChangementsType extends AbstractType {
                   ),
                   )) */
                 
-                 ->add('ticketExt', 'genemu_jqueryautocomplete_entity', array(
+          ->add('ticketExt', 'genemu_jqueryautocomplete_entity', array(
+            'property' => 'ticketExt',
+                  'widget_addon' => array(
+                  'icon' => 'pencil',
+                  'type' => 'prepend'
+                  ),
+                  'class' => 'Application\ChangementsBundle\Entity\Changements',
+                   'configs' => array(
+                  'minLength' => 1,
+                  ),
+                  'required'=>false,
+                  )) 
+        
+                 /*->add('ticketExt', 'genemu_jqueryautocomplete_entity', array(
                    'label' => 'Ticket Externe',  
                   'widget_addon' => array(
                   'icon' => 'tag',
@@ -92,21 +136,32 @@ class ChangementsType extends AbstractType {
                   'required'=>false,   
                   'class' => 'Application\ChangementsBundle\Entity\Changements',
                   'property' => 'ticketExt',
-                  'configs' => array(
-                  'minLength' => 0,
+                 
+                  )) */
+          ->add('ticketInt', 'genemu_jqueryautocomplete_entity', array(
+                   'label' => 'Ticket Externe',  
+                  'widget_addon' => array(
+                  'icon' => 'tag',
+                  'type' => 'prepend'
                   ),
+                  'required'=>false,   
+                  'class' => 'Application\ChangementsBundle\Entity\Changements',
+                  'property' => 'ticketInt',
+                  /*'configs' => array(
+                  'minLength' => 0,
+                  ),*/
                   )) 
                /*  ->add('ticketExt', 'genemu_jqueryautocomplete_entity', array(
             'class' => 'Application\ChangementsBundle\Entity\Changements',
          //   'property' => 'ticketExt',
         ))*/
                 
-                ->add('ticketInt', null, array(
+               /* ->add('ticketInt', null, array(
                     'label' => 'Ticket Interne',
                     'widget_addon' => array(
                         'icon' => 'tag',
                         'type' => 'prepend'
-                    ),))
+                    ),))*/
                 /*    ->add('ticketExt',null,array('label'=>'Ticket Externe'))
                   ->add('ticketInt',array('label'=>'Ticket Interne')) */
                 ->add('dateDebut', 'datetime', array(
@@ -147,6 +202,13 @@ class ChangementsType extends AbstractType {
                     ),
                     'required' => false,
                 ))
+          ->add('choice', 'genemu_jqueryselect2_choice', array(
+              'mapped'=>false,
+            'choices' => array(
+                'foo' => 'Foo',
+                'bar' => 'Bar',
+            )
+        ))
                 ->add('description', 'textarea', array(
                     'attr' => array(
                         'cols' => "60",
