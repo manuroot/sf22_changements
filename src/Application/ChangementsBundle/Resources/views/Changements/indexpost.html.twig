@@ -6,7 +6,6 @@
   {{ type_class_map[type] }}
 {% endmacro %}
 
-{#'cssrewrite,?yui_css' debug=false#}
 {% block javascripts %}
     {{ parent() }}
     {% javascripts 
@@ -33,7 +32,8 @@
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/changements.css') }}" type="text/css" media="all" /> 
 #}
 
-<style>td {
+<style>
+        td {
     font-size: 12px;
     /*border-collapse: separate;*/
     font-family: 'Times New Roman',Times,serif;
@@ -61,14 +61,7 @@ PLANNING DES OPERATIONS
  
     {% endfor %}
 {% endfor %}
-{#  <div id="datepicker"></div>#}
- {#{% if is_granted("ROLE_USER") %}#}
 
-{#<h3>test</h3>#}
-
-
-
-{#POST DATAS#}
 
  <div id="ShowHideContainer">
   

@@ -68,6 +68,19 @@ class ChangementsFilterType extends AbstractType {
                     /* 'time_widget' => 'single_text' */
                     ),
                 ))
+                
+               ->add('idProjet', 'filter_entity', array(
+                    'label' => 'Projet',
+                   'class' => 'Application\ChangementsBundle\Entity\Changements',
+                    'query_builder' => function(EntityRepository $em) {
+                        return $em->createQueryBuilder('a')
+                                ->groupBy('a.idProjet')
+                                ->orderBy('a.idProjet', 'ASC');
+                    },
+                    'property' => 'idProjet'
+                ))
+                            
+               /*
                 ->add('idProjet', 'filter_entity', array(
                     'label' => 'Projet',
                     'class' => 'Application\RelationsBundle\Entity\Projet',
@@ -76,15 +89,16 @@ class ChangementsFilterType extends AbstractType {
                                 ->orderBy('u.nomprojet', 'ASC');
                     },
                     'property' => 'nomprojet'
-                ))
+                ))*/
                 ->add('demandeur', 'filter_entity', array(
                     'label' => 'Demandeur',
-                    'class' => 'Application\RelationsBundle\Entity\ChronoUser',
+                    'class' => 'Application\ChangementsBundle\Entity\Changements',
                     'query_builder' => function(EntityRepository $em) {
-                        return $em->createQueryBuilder('u')
-                                ->orderBy('u.nomUser', 'ASC');
+                        return $em->createQueryBuilder('a')
+                                ->groupBy('a.demandeur')
+                                ->orderBy('a.demandeur', 'ASC');
                     },
-                    'property' => 'nomUser'
+                    'property' => 'demandeur'
                 ))
                 ->add('idStatus', 'filter_entity', array(
                     'label' => 'Status',
@@ -118,9 +132,8 @@ class ChangementsFilterType extends AbstractType {
                         }
                     },
                     //   'property' => 'nomUser',
-                     // 'multiple' => true,
-                     /*'required' => false,
-                            'mapped'=>false,*/
+                    //   'multiple' => true,
+                    // 'required' => true,
                     'label' => 'Utilisateurs',
                         /*   'apply_filter' => function (QueryBuilder $queryBuilder, Expr $expr, $field, array $values) {
                           if (!empty($values['value'])) {

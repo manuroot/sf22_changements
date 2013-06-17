@@ -37,5 +37,44 @@ class ChangementsSearch
     {
         return $this->nom;
     }
+ public function setDateDebut($dateDebut)
+    {
+        $this->dateDebut = $dateDebut;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateDebut
+     *
+     * @return \DateTime 
+     */
+    public function getDateDebut()
+    {
+        return $this->dateDebut;
+    }
+
+    /**
+     * Set dateFin
+     *
+     * @param \DateTime $dateFin
+     * @return Changements
+     */
+    public function setDateFin($dateFin)
+    {
+        $this->dateFin = $dateFin;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateFin
+     *
+     * @return \DateTime 
+     */
+    public function getDateFin()
+    {
+        return $this->dateFin;
+    }
 
 }

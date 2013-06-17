@@ -28,7 +28,7 @@ tr.single {
 
 .ajoutchange { float:right;margin-right:30px;}
 .toggler { width: 500px; height: 200px; }
-#button { padding: .5em 1em; text-decoration: none; }
+#button { padding: .25em 1em; text-decoration: none; }
 #ShowHideBox { width: auto; height: auto; padding: 0.4em; position: relative; }
 #effect h3 { margin: 0; padding: 0.4em; text-align: center; }
 

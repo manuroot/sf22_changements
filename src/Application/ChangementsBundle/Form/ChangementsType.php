@@ -12,109 +12,16 @@ class ChangementsType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
         $builder->setAttribute('show_legend', false); // no legend for main form
-        // $child = $builder->create('user', new SomeSubFormType(), array('show_child_legend' => true)); // but legend for this subform
-        //  $builder->add($child);
-                 //   ->add('nom')
-               /* ->add('nom', null, array(
-                    'widget_addon' => array(
-                        'icon' => 'pencil',
-                        'type' => 'prepend'
-                        )))*/
+       
 $builder
-     /*   ->add('member', 'genemu_jqueryautocompleter_entity', array(
-            'route_name' => 'ajax_member',
-            'class' => 'Genemu\Bundle\EntityBundle\Entity\Member',
-        ))*/
-        
-          ->add('choices', 'genemu_jqueryautocompleter_choice', array(
-            'choices' => array(
-                'foo' => 'Foo',
-                'bar' => 'Bar',
-                'xar' => 'xar'),
-              'mapped'=> false,
-            'multiple' => true,
-              'required'=>false,
-        ))
-        /* ->add('nom', 'genemu_jqueryautocomplete_entity', array(
-            'class' => 'Application\ChangementsBundle\Entity\Changements',
-            'property' => 'name',
-              'property' => 'nom',
-        ))*/
-                ->add('nom', 'genemu_jqueryautocomplete_entity', array(
-                  /*   'class' => 'MyBundle\Entity\MyEntity',*/
-            'property' => 'name',
-                  'widget_addon' => array(
-                  'icon' => 'pencil',
-                  'type' => 'prepend'
-                  ),
-                  'class' => 'Application\ChangementsBundle\Entity\Changements',
-                  'property' => 'nom',
-                  'configs' => array(
-                  'minLength' => 1,
-                  ),
-                  )) 
-                
-              /*  ->add('soccer_player', 'genemu_jqueryautocomplete_text', array(
-                    'mapped'=>false,
-            'suggestions' => array(
-                'Ozil',
-                'Van Persie'
-            ),
-        ))*/
-               /*  ->add('sscountry', 'genemu_jqueryselect2_country', array('mapped'=>false))
-                ->add('country', 'genemu_jqueryautocompleter_country',array(
-                    'mapped'=>false))*/
-                /*           $builder
-                  //   ->add('nom')
-                  ->add('nom', 'genemu_jqueryautocomplete_entity', array(
-                  'widget_addon' => array(
-                  'icon' => 'pencil',
-                  'type' => 'prepend'
-                  ),
-                  'class' => 'Application\ChangementsBundle\Entity\Changements',
-                  'property' => 'nom',
-                  'configs' => array(
-                  'minLength' => 0,
-                  ),
-                  )) */
-                /*   ->add('nom', 'text',  array(
-                  "help_inline"=>"Please specify some understandable title", */
-                /*  'widget_addon' => array(
-                  'icon' => 'pencil',
-                  'type' => 'prepend'
-                  ),
-
-                  )) */
-                // Suggestions with doctrine orm
-                /*  ->add('nom', 'genemu_jqueryautocomplete_entity', array(
-                  'class' => 'ApplicationChangementsBundle\Entity\Changements',
-                  'property' => 'nom',
-                  ))
-
-                 */
-                //  $builder
-                //   ->add('nom')
-             /*   ->add('ticketExt', 'genemu_jqueryautocompleter_entity', array(
+  
+          ->add('nom', null, array(
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'
-                    ),
-                    'required' => false,
-                    'class' => 'Application\ChangementsBundle\Entity\Changements',
-                    'property' => 'ticketExt',
-                        'configs' => array(
-                          'minLength' => 2,
-                          ), 
-                ))*/
-                 /*  ->add('ticketExt',null,array(
-                  'label'=>'Ticket Externe',
-                  'widget_addon' => array(
-                  'icon' => 'tag',
-                  'type' => 'prepend'
-                  ),
-                  )) */
-                
-          ->add('ticketExt', 'genemu_jqueryautocomplete_entity', array(
+                        )))
+           
+        /*  ->add('ticketExt', 'genemu_jqueryautocomplete_entity', array(
             'property' => 'ticketExt',
                   'widget_addon' => array(
                   'icon' => 'pencil',
@@ -125,20 +32,17 @@ $builder
                   'minLength' => 1,
                   ),
                   'required'=>false,
-                  )) 
-        
-                 /*->add('ticketExt', 'genemu_jqueryautocomplete_entity', array(
-                   'label' => 'Ticket Externe',  
-                  'widget_addon' => array(
-                  'icon' => 'tag',
-                  'type' => 'prepend'
-                  ),
-                  'required'=>false,   
-                  'class' => 'Application\ChangementsBundle\Entity\Changements',
-                  'property' => 'ticketExt',
-                 
                   )) */
-          ->add('ticketInt', 'genemu_jqueryautocomplete_entity', array(
+        
+         /*  ->add('ticketInt', 'genemu_jqueryautocomplete_text', array(
+                  //  'route_name' => 'ajax_form_request_ticketint',
+                    'configs' => array('minLength' => 3),
+                    'data_class' => 'Application\ChangementsBundle\Entity\Changements',
+                    'mapped' => false,
+              //      'data' => $this->getData()-> getTicketInt()
+                ))*/
+        /*
+          ->add('ticketInt', 'genemu_jqueryautocompleter_entity', array(
                    'label' => 'Ticket Externe',  
                   'widget_addon' => array(
                   'icon' => 'tag',
@@ -146,23 +50,29 @@ $builder
                   ),
                   'required'=>false,   
                   'class' => 'Application\ChangementsBundle\Entity\Changements',
+                    'query_builder' => function($repository) {
+                return $repository->createQueryBuilder('c')
+                    ->where('c.ticketInt IS NOT NULL');
+                    
+            },  
                   'property' => 'ticketInt',
-                  /*'configs' => array(
-                  'minLength' => 0,
-                  ),*/
-                  )) 
-               /*  ->add('ticketExt', 'genemu_jqueryautocomplete_entity', array(
-            'class' => 'Application\ChangementsBundle\Entity\Changements',
-         //   'property' => 'ticketExt',
-        ))*/
                 
-               /* ->add('ticketInt', null, array(
+                  )) */
+            
+              ->add('ticketExt', null, array(
+                    'label' => 'Ticket Externe',
+                    'widget_addon' => array(
+                        'icon' => 'tag',
+                        'type' => 'prepend'
+                    ),))
+        
+                ->add('ticketInt', null, array(
                     'label' => 'Ticket Interne',
                     'widget_addon' => array(
                         'icon' => 'tag',
                         'type' => 'prepend'
-                    ),))*/
-                /*    ->add('ticketExt',null,array('label'=>'Ticket Externe'))
+                    ),))
+                  /* ->add('ticketExt',null,array('label'=>'Ticket Externe'))
                   ->add('ticketInt',array('label'=>'Ticket Interne')) */
                 ->add('dateDebut', 'datetime', array(
                     'label' => 'Date début',
@@ -202,13 +112,7 @@ $builder
                     ),
                     'required' => false,
                 ))
-          ->add('choice', 'genemu_jqueryselect2_choice', array(
-              'mapped'=>false,
-            'choices' => array(
-                'foo' => 'Foo',
-                'bar' => 'Bar',
-            )
-        ))
+         
                 ->add('description', 'textarea', array(
                     'attr' => array(
                         'cols' => "60",
@@ -373,7 +277,7 @@ $builder
 
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
-            'data_class' => 'Application\ChangementsBundle\Entity\Changements',
+       'data_class' => 'Application\ChangementsBundle\Entity\Changements',
             'cascade_validation' => true,
         ));
     }

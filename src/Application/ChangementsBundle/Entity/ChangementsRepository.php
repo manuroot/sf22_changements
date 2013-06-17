@@ -22,10 +22,45 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
     //use EventRepositoryTrait;
     public function myFindaAll() {
         return $this->createQueryBuilder('a')
+                    ->leftJoin('a.idProjet', 'b')
+                ->leftJoin('a.demandeur', 'c')
+                ->leftJoin('a.idStatus', 'd')
+                  ->leftJoin('a.picture', 'f')
+                
                         ->orderBy('id')
                         ->getQuery();
 
         //->getResult();
+    }
+ public function myFindaIdAll($id) {
+          $parameters = array();
+        $values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f');
+     
+       $query=$this->createQueryBuilder('a')
+                        ->select($values)
+               
+                    ->leftJoin('a.idProjet', 'b')
+                ->leftJoin('a.demandeur', 'c')
+                ->leftJoin('a.idStatus', 'd')
+                  ->leftJoin('a.picture', 'f')
+                
+                ->addSelect('g')
+                //->addSelect('g')
+                ->distinct('GroupConcat(g.nom) AS kak')
+                ->leftJoin('a.idEnvironnement', 'g')
+                
+                 ->leftJoin('a.comments', 'h')
+                //->addSelect('e')
+                ->addSelect('partial e.{id,nomUser}')
+              ->distinct('GroupConcat(e.nomUser)')
+                ->leftJoin('a.idusers', 'e');
+                $query->add('orderBy', 'a.id DESC')
+               ->andwhere('a.id = :myid');
+                       $query->setParameter('myid', $id);
+
+   
+       return $query->getQuery()->getSingleResult();
+       
     }
 
     /*
@@ -145,7 +180,35 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         return $query;
         //->getQuery();
     }
+  public function myFindIdAll($id,$criteria = array()) {
 
+           $parameters = array();
+        $values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
+        $query = $this->createQueryBuilder('a')
+                    ->select($values)
+                /* ->leftJoin('a.idProjet', 'b')
+                ->leftJoin('a.demandeur', 'c')
+                ->leftJoin('a.idStatus', 'd')
+                  ->leftJoin('a.picture', 'f')
+                
+                ->addSelect('g')
+                //->addSelect('g')
+                ->distinct('GroupConcat(g.nom) AS kak')
+                ->leftJoin('a.idEnvironnement', 'g')
+                
+                 ->leftJoin('a.comments', 'h')
+                //->addSelect('e')
+                ->addSelect('partial e.{id,nomUser}')
+              ->distinct('GroupConcat(e.nomUser)')
+                ->leftJoin('a.idusers', 'e');
+                $query->add('orderBy', 'a.id DESC');*/
+                
+                  ->andWhere('a.id = :myid');
+            $parameters['myid'] = $id;
+              $query->setParameters($parameters);
+        return $query->getQuery();
+    }
+    
    
       public function myFindsimpleAll($criteria = array()) {
 

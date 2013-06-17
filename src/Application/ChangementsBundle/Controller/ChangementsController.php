@@ -87,7 +87,15 @@ class ChangementsController extends Controller {
 
             // if ($alldatas['submit-filter'] == 'reset'){
             $datas = $alldatas["changements_filter"];
-            //   var_dump($datas['idEnvironnement']);exit(1);
+            if (is_array($datas['idusers'])){
+          //     var_dump($datas['idusers']);exit(1);
+                 $datas['idusers']=$datas['idusers'][0];
+            }
+           // $data['idusers']=$data['idusers'][0];
+          /*     var_dump($datas);
+             var_dump($datas['idusers']);
+             echo $datas['idusers'];
+                     var_dump($data['idusers']);exit(1);*/
             // $message = "post datas ";
             $filterForm->bind($datas);
             if ($filterForm->isValid()) {
@@ -659,8 +667,9 @@ class ChangementsController extends Controller {
     public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
-
+    // $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
+     $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindaIdAll($id);
+       //myFindIdAll($id,$criteria = array()) 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Changements entity.');
         }
@@ -669,7 +678,7 @@ class ChangementsController extends Controller {
         $deleteForm = $this->createDeleteForm($id);
 
 
-
+     //   return $this->render('ApplicationChangementsBundle:Changements:simple.html.twig', array());
         return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
@@ -818,7 +827,29 @@ class ChangementsController extends Controller {
         return $response;
     }
 
-    // @Route("/ajax_city", name="ajax_city")
+    public function TicketAjaxAction(Request $request){
+        $term = $request->get('term');
+
+        $repository = $this->getDoctrine()->getRepository('MyAppMyBundle:City');
+  $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
+
+        $cities = $repository->searchCityByName($term);
+
+        $json = array();
+
+        foreach ($cities as $city) {
+            $json[] = array(
+                'label' => $city->getName() . ' ('. $city->getDepartement()->getNumber().')',
+                'value' => $city->getName()
+            );
+        }
+
+        $response = new Response();
+        $response->setContent(json_encode($json));
+
+        return $response;
+    }
+    
     
     public function ajaxCityAction(Request $request)
     {
@@ -862,6 +893,62 @@ class ChangementsController extends Controller {
        return $response;
    }
    
+    public function listByProjetAction() {
+        $request = $this->getRequest();
+
+        if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
+            $em = $this->getDoctrine()->getManager();
+            $id = '';
+            $applis = array();
+            $cert_app = array();
+
+            $id = $request->request->get('id_projet');
+            $projet = $em->getRepository('ApplicationRelationsBundle:Projet')->find($id);
+
+            $id_cert = $request->request->get('id_cert');
+            if (isset($id_cert) && $id_cert != "create") {
+                //    var_dump($id_cert);
+                $cert = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->find($id_cert);
+                foreach ($cert->getIdapplis() as $appli) {
+                    array_push($cert_app, $appli->getId());
+                }
+                $applis['cert'] = $cert_app;
+            }
+            foreach ($projet->getIdapplis() as $appli) {
+                //$applis[] = array($appli);
+                $applis['applis'][$appli->getId()] = $appli->getNomapplis();
+                //      $applis[] = array($appli->getId(), $appli->getNomapplis());
+            }
+
+            //    $appli=array(3,4);
+            $response = new Response(json_encode($applis));
+            $response->headers->set('Content-Type', 'application/json');
+
+            return $response;
+        }
+        // return new Response();
+    }
+    
+    
+   public function ajaxprojetsAction()
+	{
+		$request = $this -> get('request');
+ 
+		if($request->isXmlHttpRequest())
+		{
+			$term = $request->request->get('motcle');
+ 
+			$array= $this->getDoctrine()
+				->getEntityManager()
+				->getRepository('menCommandesBundle:commande')
+				->listeNature($term);
+ 
+			$response = new Response(json_encode($array));
+ 
+			$response -> headers -> set('Content-Type', 'application/json');
+			return $response;
+		}
+	}
     private function createCalendarForm($values = array()) {
         $year = isset($values['annee']) ? $values['annee'] : 'annee';
         $month = isset($values['mois']) ? $values['mois'] : 'mois';

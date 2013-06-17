@@ -20,4 +20,12 @@ services:
         tags:
             - { name: calendr.event_provider }
             
-   
+   lexik_form_filter.type.filter_entity_name:
+      class: Application\ChangementsBundle\Filter\EntityNameFilterType
+      tags:
+      - { name: form.type, alias: filter_entity_name }
+   lexik_form_filter.transformer.entity_name:
+      class: Application\ChangementsBundle\Filter\FilterEntityNameTransformer
+      tags:
+      - { name: lexik_form_filter.transformer, alias: filter_transformer_entity_name }
+
