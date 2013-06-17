@@ -5,7 +5,7 @@
 
 {% block stylesheets %}
 {{ parent() }}
-
+{{ form_stylesheet(form) }}
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
 <style>
         .monlabel {
@@ -38,7 +38,7 @@
     
 {% block javascripts %}
 {{ parent() }}
-                 
+      {{ form_javascript(form) }}           
 {{ tinymce_init() }}
 <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/datenew.js') }}"></script>
 

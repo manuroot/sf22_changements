@@ -17,12 +17,27 @@ class ChangementsStepsType extends AbstractType {
             //====================================================
             case 1:
                 $builder
-                        ->add('nom', 'text', array(
+                
+                   ->add('nom', 'genemu_jqueryautocomplete_entity', array(
+                  /*   'class' => 'MyBundle\Entity\MyEntity',*/
+            'property' => 'name',
+                  'widget_addon' => array(
+                  'icon' => 'pencil',
+                  'type' => 'prepend'
+                  ),
+                  'class' => 'Application\ChangementsBundle\Entity\Changements',
+                  'property' => 'nom',
+                  'configs' => array(
+                  'minLength' => 1,
+                  ),
+                  )) 
+                    
+                       /* ->add('nom', 'text', array(
                              'widget_addon' => array(
                                 'icon' => 'pencil',
                                 'type' => 'prepend'
                             ),
-                        ))
+                        ))*/
                        ->add('ticketExt',null,array(
                            'label'=>'Ticket Externe',
                              'widget_addon' => array(
