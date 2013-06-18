@@ -1,0 +1,61 @@
+ 
+{#
+<form  class="form" action="{{ path('changements_posttest') }}" method="POST" {{ form_enctype(search_form) }}>
+          
+                                           
+{{ form_rest(search_form) }}
+  <button type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="filter" >
+          <i class="icon-search"></i>  Filtrer</button>
+ </form>
+#}
+   <form  class="form" action="{{ path('changements_posttest') }}" method="POST" {{ form_enctype(search_form) }}>
+          <table class="table table-bordered">
+            <tbody>
+                <tr class="single">
+                    <td>
+                             
+    {{ form_errors(search_form.nom) }}
+    {{ form_label(search_form.nom, 'Nom'|trans) }}
+    {{ form_widget(search_form.nom) }}
+                        
+                        
+   
+  
+     {{ form_errors(search_form.idusers) }}
+    {{ form_label(search_form.idusers) }}
+    {{ form_widget(search_form.idusers) }}
+  
+                        
+    </td>
+    <td>
+        
+                        
+    {{ form_errors(search_form.dateDebut) }}
+    {{ form_label(search_form.dateDebut, 'Date De Début'|trans) }}
+    {{ form_widget(search_form.dateDebut) }}
+                        
+    {{ form_errors(search_form.dateFin) }}
+    {{ form_label(search_form.dateFin, 'Date De Fin'|trans) }}
+    {{ form_widget(search_form.dateFin) }}
+        
+    {{ form_errors(search_form.ticketExt) }}
+    {{ form_label(search_form.ticketExt, 'Ticket Externe'|trans) }}
+    {{ form_widget(search_form.ticketExt) }}
+                        
+    {{ form_errors(search_form.ticketInt) }}
+    {{ form_label(search_form.ticketInt, 'Ticket Interne'|trans) }}
+    {{ form_widget(search_form.ticketInt) }} 
+    </td>
+  <td>
+    
+                                        
+{{ form_rest(search_form) }}</td>
+   </tr>
+    <tr class="single"><td colspan="2">
+            
+     <button type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="filter" >
+          <i class="icon-search"></i>  Filtrer</button>
+  {#  <button type="submit" name="submit-filter" class="btn btn-medium btn-danger" value="reset" >
+         <i class="icon-minus-sign"></i>  Reset</button>#}
+         </tr></tbody></table>
+ </form>

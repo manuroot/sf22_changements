@@ -19,10 +19,76 @@ class ChangementsFilterAmoiType extends AbstractType {
 
 
         $builder
-                ->add('nom','dateDebut','dateFin');
-         
-              
+                ->add('nom','text',array( 
+                    'widget_addon' => array(
+                        'icon' => 'pencil',
+                        'type' => 'prepend'
+                        ),
+                    'mapped'=>false,'required'=>false))
+                
+                
+                
+                
+                
+                 ->add('dateDebut','text',array( 
+                     'widget_addon' => array(
+                        'icon' => 'time',
+                        'type' => 'prepend'
+                        ),
+                     'mapped'=>false,'required'=>false
+                     ))
+                
+                
+                 ->add('dateFin','text',array( 
+                     'widget_addon' => array(
+                        'icon' => 'time',
+                        'type' => 'prepend'
+                        ),
+                     'mapped'=>false,'required'=>false))
+           ->add('ticketExt','text',array('widget_addon' => array(
+                        'icon' => 'tag',
+                        'type' => 'prepend'
+                    ),
+               'mapped'=>false,'required'=>false))
+        ->add('ticketInt','text',array('widget_addon' => array(
+                        'icon' => 'tag',
+                        'type' => 'prepend'
+                    ),
+            'mapped'=>false,'required'=>false))
+             ->add('idEnvironnement', 'entity', array(
+                    'class' => 'ApplicationRelationsBundle:Environnements',
+                    'property' => 'nom',
+                    'expanded' => false,
+                    'multiple' => true,
+                    'required' => false,
+                    'label' => 'Environnements'
+                ))
+                  ->add('demandeur', 'entity', array(
+                    'class' => 'ApplicationRelationsBundle:ChronoUser',
+                    'query_builder' => function(EntityRepository $em) {
+                        return $em->createQueryBuilder('u')
+                                ->orderBy('u.nomUser', 'ASC');
+                    },
+                    'property' => 'nomUser',
+                    'multiple' => false,
+                    'required' => false,
+                    'label' => 'Demandeur',
+                    'empty_value' => '--- Choisir une option ---'
+                ))
+                ->add('idusers', 'entity', array(
+                    'class' => 'ApplicationRelationsBundle:ChronoUser',
+                    'query_builder' => function(EntityRepository $em) {
+                        return $em->createQueryBuilder('u')
+                                ->orderBy('u.nomUser', 'ASC');
+                    },
+                    'property' => 'nomUser',
+                    'multiple' => true,
+                    'required' => false,
+                    'label' => 'Utilisateurs'
+                ));
+                    
     }
+    
 
     public function getName() {
         return 'changements_searchfilter';

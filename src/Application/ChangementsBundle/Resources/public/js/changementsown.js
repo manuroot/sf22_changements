@@ -1,9 +1,10 @@
 $(document).ready(function() {
 
-var mesdates=["#changements_filter_dateDebut","#changements_filter_dateFin"];
-mesdates.forEach(function(entry) {
+
+var mydates=["#changements_searchfilter_dateDebut","#changements_searchfilter_dateFin"];
+mydates.forEach(function(entry) {
    /* console.log(entry);*/
-$( entry + "_left_date").datepicker({
+$( entry ).datepicker({
 minDate: "-1Y",
 maxDate: "+10Y",
 changeMonth: true,
@@ -14,21 +15,8 @@ onClose: function( selectedDate ) {
 $( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
 }
 });  
-$( entry + "_right_date").datepicker({
-maxDate: "+10Y",
-minDate: "-1Y",
-changeMonth: true,
-changeYear: true,
-numberOfMonths: 1,
-dateFormat: "yy-mm-dd",
-onClose: function( selectedDate ) {
-$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
-}
-});  
-   
    
 });
-
 
 function runEffect() {
 // get effect type from
@@ -46,18 +34,18 @@ return false;
 });
 //$( "#effect" ).hide();
 
- var ShowHideBox = $('#ShowHideBox');
+ var ShowHideBox = $('#ShowHideBoxown');
  //var  ShowHideButton = $('#ShowHideButton');
 initBox();
-//ShowHideBox.hide();
-//var ShowHideBox = $('#ShowHideBox').hide();
+//ShowHideBoxown.hide();
+//var ShowHideBoxown = $('#ShowHideBoxown').hide();
 $('#target').submit(function() {
  /* alert('Handler for .submit() called.');*/
-   if ( $.cookie('Boxfilter')==1){
-           $.cookie('Boxfilter', 0, {expires: 365});
+   if ( $.cookie('Boxfilterown')==1){
+           $.cookie('Boxfilterown', 0, {expires: 365});
    }
     else {
-         $.cookie('Boxfilter', 1, {expires: 365});
+         $.cookie('Boxfilterown', 1, {expires: 365});
     }
 
 
@@ -84,7 +72,7 @@ $('#target').submit(function() {
     {
         
         console.log("initbox: box=1 status status="+boxVisible());
-        if ( $.cookie('Boxchangement')==1)
+        if ( $.cookie('Boxchangementown')==1)
    {
         if (!boxVisible()){
       /* console.log("initbox box=1 doit montrer la box");*/
@@ -92,7 +80,7 @@ $('#target').submit(function() {
              $('#ShowHideButton').children().first().html('<i class="icon-search"></i>  Masquer Filtres');
         }
         }
-        else if ( $.cookie('Boxchangement')==0)
+        else if ( $.cookie('Boxchangementown')==0)
          {
             /*  console.log("initbox box=0 doit pas montrer la box");*/
              if (boxVisible()){
@@ -101,15 +89,15 @@ $('#target').submit(function() {
               $('#ShowHideButton').children().first().html('<i class="icon-search"></i>  Afficher Filtres');
              }
         }
-         if ( $.cookie('Boxfilter')==1){
+         if ( $.cookie('Boxfilterown')==1){
                console.log("filtre actif 1");
                
            
-           $.cookie('Boxfilter', 0, {expires: 365});
+           $.cookie('Boxfilterown', 0, {expires: 365});
    }
     else {
           console.log("filtre inactif 0");
-         $.cookie('Boxfilter', 1, {expires: 365});
+         $.cookie('Boxfilterown', 1, {expires: 365});
     }
     }  
 
@@ -123,7 +111,7 @@ $('#target').submit(function() {
          var effet="slide";
          var options = { };
      ShowHideBox.show(effet,options, 800).removeClass('hidden');
-      $.cookie('Boxchangement', 1, {expires: 365});
+      $.cookie('Boxchangementown', 1, {expires: 365});
        
     }
     
@@ -132,7 +120,7 @@ $('#target').submit(function() {
          var effet="slide";
            var options = { };
      ShowHideBox.show().removeClass('hidden');
-      $.cookie('Boxchangement', 1, {expires: 365});
+      $.cookie('Boxchangementown', 1, {expires: 365});
        
     }
   function hideBox()
@@ -141,7 +129,7 @@ $('#target').submit(function() {
       /*var options = { percent: 0 };*/
       var effet="explode";
        ShowHideBox.hide(effet, options, 800).addClass('hidden');
-  $.cookie('Boxchangement', 0, {expires: 365});
+  $.cookie('Boxchangementown', 0, {expires: 365});
     }
      // callback function to bring a hidden box back
 function callbackboxshow() {

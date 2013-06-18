@@ -11,6 +11,7 @@ use Application\RelationsBundle\Entity\Document;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Application\ChangementsBundle\Form\ChangementsType;
 use Application\ChangementsBundle\Form\ChangementsFilterType;
+use Application\ChangementsBundle\Form\ChangementsFilterAmoiType;
 use Application\ChangementsBundle\Entity\GridExport;
 use APY\DataGridBundle\Grid\Source\Entity;
 use APY\DataGridBundle\Grid\Grid;
@@ -87,15 +88,15 @@ class ChangementsController extends Controller {
 
             // if ($alldatas['submit-filter'] == 'reset'){
             $datas = $alldatas["changements_filter"];
-            if (is_array($datas['idusers'])){
-          //     var_dump($datas['idusers']);exit(1);
-                 $datas['idusers']=$datas['idusers'][0];
+            if (is_array($datas['idusers'])) {
+                //     var_dump($datas['idusers']);exit(1);
+                $datas['idusers'] = $datas['idusers'][0];
             }
-           // $data['idusers']=$data['idusers'][0];
-          /*     var_dump($datas);
-             var_dump($datas['idusers']);
-             echo $datas['idusers'];
-                     var_dump($data['idusers']);exit(1);*/
+            // $data['idusers']=$data['idusers'][0];
+            /*     var_dump($datas);
+              var_dump($datas['idusers']);
+              echo $datas['idusers'];
+              var_dump($data['idusers']);exit(1); */
             // $message = "post datas ";
             $filterForm->bind($datas);
             if ($filterForm->isValid()) {
@@ -135,6 +136,95 @@ class ChangementsController extends Controller {
 
             return array($filterForm, $query, $message);
         }
+    }
+
+    public function indexpostAction(Request $request) {
+
+        $date_warning = array(7, 15);
+        $message = "";
+        //$em = $this->getDoctrine()->getManager();
+        $request = $this->getRequest();
+        $session = $request->getSession();
+
+        $session->set('buttonretour', 'changements_post');
+        list($filterForm, $queryBuilder, $message) = $this->filter();
+        //    $queryBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindsimpleAll();
+
+        if ($message)
+            $session->getFlashBag()->add('warning', "$message");
+
+        $pagination = $this->createpaginator($queryBuilder, 10);
+        return $this->render('ApplicationChangementsBundle:Changements:indexpost.html.twig', array(
+                    'search_form' => $filterForm->createView(),
+                    'pagination' => $pagination,
+                    'date_warning' => $date_warning,
+        ));
+    }
+
+    public function indexposttestAction(Request $request) {
+
+        //  $entity = new Changements();
+        $parameters = array();
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        $searchForm = $this->createForm(new ChangementsFilterAmoiType());
+
+        if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
+            //  $message = "reset filtres";
+            $session->remove('changementControllerFilter');
+
+            $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy(array());
+        } 
+        elseif ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
+            $alldatas = $request->request->all();
+            $datas = $alldatas["changements_searchfilter"];
+          //  var_dump($datas);exit(1);
+            //foreach ($datas){}
+            /* foreach ($datas as $field => $value) {
+              // A revoir
+              //if ($this->getClassMetadata($entity)->hasField($field)) {
+              // Make sure we only use existing fields (avoid any injection)
+              $parameters[$field]=$value;
+              // }
+              } */
+            $parameters = $datas;
+            $session->set('changementControllerFilter', $datas);
+            $searchForm->bind($datas);
+
+            $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy($parameters);
+        } else {
+            //   echo "<br>pas post datas<br>";
+            // Get filter from session
+            if ($session->has('changementControllerFilter')) {
+                // $message = "session get";
+                $datas = $session->get('changementControllerFilter');
+                $parameters=$datas;
+                $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy($parameters);
+                $searchForm->bind($datas);
+            }
+            // ou pas
+            else {
+                // $message = "pas de session";
+                $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy(array());
+            }
+
+            // 1 requete !!!!
+            // $query->getQuery()->execute();
+
+            /* return $this->render('ApplicationChangementsBundle:Changements:simple.html.twig', array(
+              'search_form' => $searchForm->createView(),
+              )); */
+
+
+           
+       
+        }
+         $pagination = $this->createpaginator($query, 10);
+            return $this->render('ApplicationChangementsBundle:Changements:simple.html.twig', array(
+                        'search_form' => $searchForm->createView(),
+                        'pagination' => $pagination,
+                     ));
     }
 
     /*
@@ -187,45 +277,6 @@ class ChangementsController extends Controller {
       ["submit-filter"]=>
       string(6) "filter"
      */
-
-    public function indexpostAction(Request $request) {
-
-        $date_warning = array(7, 15);
-        $message = "";
-        //$em = $this->getDoctrine()->getManager();
-        $request = $this->getRequest();
-        $session = $request->getSession();
-
-        $session->set('buttonretour', 'changements_post');
-        list($filterForm, $queryBuilder, $message) = $this->filter();
-        //    $queryBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindsimpleAll();
-
-        if ($message)
-            $session->getFlashBag()->add('warning', "$message");
-
-        $pagination = $this->createpaginator($queryBuilder, 10);
-        return $this->render('ApplicationChangementsBundle:Changements:indexpost.html.twig', array(
-                    'search_form' => $filterForm->createView(),
-                    'pagination' => $pagination,
-                    'date_warning' => $date_warning,
-        ));
-    }
-
-    public function indexcpostAction(Request $request) {
-
-        list($filterForm, $queryBuilder, $message) = $this->filter();
-
-
-        $session = $request->getSession();
-
-        $session->getFlashBag()->add('warning', "$message");
-
-        $pagination = $this->createpaginator($queryBuilder, 10);
-        return $this->render('ApplicationChangementsBundle:Changements:indexpost.html.twig', array(
-                    'search_form' => $filterForm->createView(),
-                    'pagination' => $pagination,
-        ));
-    }
 
     /*
      * GET PARAMETERS
@@ -667,9 +718,9 @@ class ChangementsController extends Controller {
     public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
 
-    // $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
-     $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindaIdAll($id);
-       //myFindIdAll($id,$criteria = array()) 
+        // $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
+        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindaIdAll($id);
+        //myFindIdAll($id,$criteria = array()) 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Changements entity.');
         }
@@ -678,7 +729,7 @@ class ChangementsController extends Controller {
         $deleteForm = $this->createDeleteForm($id);
 
 
-     //   return $this->render('ApplicationChangementsBundle:Changements:simple.html.twig', array());
+        //   return $this->render('ApplicationChangementsBundle:Changements:simple.html.twig', array());
         return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
@@ -785,16 +836,16 @@ class ChangementsController extends Controller {
     public function downloadAction($filename) {
         $request = $this->get('request');
         $session = $request->getSession();
-          
+
         $path = $this->get('kernel')->getRootDir() . "/../web/uploads/documents/";
 
         // Flush in "safe" mode to enforce an Exception if keys are not unique
-        
-        if(!file_exists($path . $filename)) {
-             $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas (code 1)");
+
+        if (!file_exists($path . $filename)) {
+            $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas (code 1)");
             return $this->redirect($this->generateUrl('docchangements'));
         }
-            
+
         try {
             $content = file_get_contents($path . $filename);
         } catch (\ErrorException $e) {
@@ -808,8 +859,8 @@ class ChangementsController extends Controller {
 
 
         /*  if (!$data = file_get_contents(file_get_contents($path.$filename))) {
-                $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas: contacter l'administrateur");
-            return $this->redirect($this->generateUrl('docchangements'));
+          $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas: contacter l'administrateur");
+          return $this->redirect($this->generateUrl('docchangements'));
           //  $content = file_get_contents($path.$filename);
           //if (!isset($content)){
 
@@ -827,11 +878,11 @@ class ChangementsController extends Controller {
         return $response;
     }
 
-    public function TicketAjaxAction(Request $request){
+    public function TicketAjaxAction(Request $request) {
         $term = $request->get('term');
 
         $repository = $this->getDoctrine()->getRepository('MyAppMyBundle:City');
-  $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
+        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
 
         $cities = $repository->searchCityByName($term);
 
@@ -839,7 +890,7 @@ class ChangementsController extends Controller {
 
         foreach ($cities as $city) {
             $json[] = array(
-                'label' => $city->getName() . ' ('. $city->getDepartement()->getNumber().')',
+                'label' => $city->getName() . ' (' . $city->getDepartement()->getNumber() . ')',
                 'value' => $city->getName()
             );
         }
@@ -849,10 +900,8 @@ class ChangementsController extends Controller {
 
         return $response;
     }
-    
-    
-    public function ajaxCityAction(Request $request)
-    {
+
+    public function ajaxCityAction(Request $request) {
         $value = $request->get('term');
 
         $em = $this->getDoctrine()->getEntityManager();
@@ -872,27 +921,26 @@ class ChangementsController extends Controller {
         return $response;
     }
 
-    public function ajaxVilleAction(Request $request)
-   {
-       $value = $request->get('term');
- 
-       $em = $this->getDoctrine()->getEntityManager();
-       $villes = $em->getRepository('RgbVilleBundle:Ville')->searchByNom($value);
- 
-       $json = array();
-       foreach ($villes as $ville) {
-           $json[] = array(
-               'label' => $ville->getNom(),
-               'value' => $ville->getId()
-           );
-       }
- 
-       $response = new Response();
-       $response->setContent(json_encode($json));
- 
-       return $response;
-   }
-   
+    public function ajaxVilleAction(Request $request) {
+        $value = $request->get('term');
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $villes = $em->getRepository('RgbVilleBundle:Ville')->searchByNom($value);
+
+        $json = array();
+        foreach ($villes as $ville) {
+            $json[] = array(
+                'label' => $ville->getNom(),
+                'value' => $ville->getId()
+            );
+        }
+
+        $response = new Response();
+        $response->setContent(json_encode($json));
+
+        return $response;
+    }
+
     public function listByProjetAction() {
         $request = $this->getRequest();
 
@@ -928,28 +976,33 @@ class ChangementsController extends Controller {
         }
         // return new Response();
     }
-    
-    
-   public function ajaxprojetsAction()
-	{
-		$request = $this -> get('request');
- 
-		if($request->isXmlHttpRequest())
-		{
-			$term = $request->request->get('motcle');
- 
-			$array= $this->getDoctrine()
-				->getEntityManager()
-				->getRepository('menCommandesBundle:commande')
-				->listeNature($term);
- 
-			$response = new Response(json_encode($array));
- 
-			$response -> headers -> set('Content-Type', 'application/json');
-			return $response;
-		}
-	}
+
+    public function ajaxprojetsAction() {
+        $request = $this->get('request');
+
+        if ($request->isXmlHttpRequest()) {
+            $term = $request->request->get('motcle');
+
+            $array = $this->getDoctrine()
+                    ->getEntityManager()
+                    ->getRepository('menCommandesBundle:commande')
+                    ->listeNature($term);
+
+            $response = new Response(json_encode($array));
+
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+    }
+
     private function createCalendarForm($values = array()) {
+
+        $myears = range(Date('Y') + 5, Date('Y') - 5);
+        $mmonth = range(1, 12);
+        // mmonth = array_map( sprintf("%02d",'floatval', $nonFloats);.
+        //     sprintf("%02d",
+        //    $myears = array("2012", "2013");
+        // $mmonth = array("Janvier", "Fevrier");
         $year = isset($values['annee']) ? $values['annee'] : 'annee';
         $month = isset($values['mois']) ? $values['mois'] : 'mois';
         return $this->createFormBuilder()
@@ -957,6 +1010,8 @@ class ChangementsController extends Controller {
                           'widget' => 'choice',
                           'empty_value' => array('year' => $year, 'month' => $month, 'day' => '1')
                           )) */
+                        ->add('publishedAtmm', 'choice', array('label' => 'Mois', 'choices' => $mmonth,))
+                        ->add('publishedAtyy', 'choice', array('label' => 'Année', 'choices' => $myears,))
                         ->add('publishedAt', 'date', array(
                             'widget' => 'choice',
                             'format' => 'yyyy-MM-dd',

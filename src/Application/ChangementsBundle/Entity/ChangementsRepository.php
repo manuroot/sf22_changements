@@ -7,8 +7,8 @@ use CalendR\Extension\Doctrine2\QueryHelper;
 use Doctrine\ORM\EntityRepository;
 use CalendR\Event\Provider\ProviderInterface;
 use DoctrineExtensions\Query\Mysql\GroupConcat;
-
 use Application\ChangementsBundle\Entity\Changements;
+
 //use CalendR\Extension\Doctrine2\EventRepository as EventRepositoryTrait;
 /**
  * NotesRepository
@@ -22,45 +22,41 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
     //use EventRepositoryTrait;
     public function myFindaAll() {
         return $this->createQueryBuilder('a')
-                    ->leftJoin('a.idProjet', 'b')
-                ->leftJoin('a.demandeur', 'c')
-                ->leftJoin('a.idStatus', 'd')
-                  ->leftJoin('a.picture', 'f')
-                
+                        ->leftJoin('a.idProjet', 'b')
+                        ->leftJoin('a.demandeur', 'c')
+                        ->leftJoin('a.idStatus', 'd')
+                        ->leftJoin('a.picture', 'f')
                         ->orderBy('id')
                         ->getQuery();
 
         //->getResult();
     }
- public function myFindaIdAll($id) {
-          $parameters = array();
-        $values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f');
-     
-       $query=$this->createQueryBuilder('a')
-                        ->select($values)
-               
-                    ->leftJoin('a.idProjet', 'b')
+
+    public function myFindaIdAll($id) {
+        $parameters = array();
+        $values = array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f');
+
+        $query = $this->createQueryBuilder('a')
+                ->select($values)
+                ->leftJoin('a.idProjet', 'b')
                 ->leftJoin('a.demandeur', 'c')
                 ->leftJoin('a.idStatus', 'd')
-                  ->leftJoin('a.picture', 'f')
-                
+                ->leftJoin('a.picture', 'f')
                 ->addSelect('g')
                 //->addSelect('g')
                 ->distinct('GroupConcat(g.nom) AS kak')
                 ->leftJoin('a.idEnvironnement', 'g')
-                
-                 ->leftJoin('a.comments', 'h')
+                ->leftJoin('a.comments', 'h')
                 //->addSelect('e')
                 ->addSelect('partial e.{id,nomUser}')
-              ->distinct('GroupConcat(e.nomUser)')
+                ->distinct('GroupConcat(e.nomUser)')
                 ->leftJoin('a.idusers', 'e');
-                $query->add('orderBy', 'a.id DESC')
-               ->andwhere('a.id = :myid');
-                       $query->setParameter('myid', $id);
+        $query->add('orderBy', 'a.id DESC')
+                ->andwhere('a.id = :myid');
+        $query->setParameter('myid', $id);
 
-   
-       return $query->getQuery()->getSingleResult();
-       
+
+        return $query->getQuery()->getSingleResult();
     }
 
     /*
@@ -87,8 +83,6 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
 
       $queryBuilder->groupBy('a.title');
       $queryBuilder->orderBy('a.title', 'DESC'); */
-
-   
 
     public function getMyPager(array $criteria, $ret = 'getquery') {
 
@@ -153,70 +147,160 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         //return $query->getQuery()->getResult();
     }
 
-    
-    
-     public function myFindAll($criteria = array()) {
+    public function myFindAll($criteria = array()) {
 
-           $parameters = array();
-        $values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
+        $parameters = array();
+        $values = array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
         $query = $this->createQueryBuilder('a')
-                    ->select($values)
-                 ->leftJoin('a.idProjet', 'b')
+                ->select($values)
+                ->leftJoin('a.idProjet', 'b')
                 ->leftJoin('a.demandeur', 'c')
                 ->leftJoin('a.idStatus', 'd')
-                  ->leftJoin('a.picture', 'f')
-                
+                ->leftJoin('a.picture', 'f')
                 ->addSelect('g')
                 //->addSelect('g')
                 ->distinct('GroupConcat(g.nom) AS kak')
                 ->leftJoin('a.idEnvironnement', 'g')
-                
-                 ->leftJoin('a.comments', 'h')
+                ->leftJoin('a.comments', 'h')
                 //->addSelect('e')
                 ->addSelect('partial e.{id,nomUser}')
-              ->distinct('GroupConcat(e.nomUser)')
+                ->distinct('GroupConcat(e.nomUser)')
                 ->leftJoin('a.idusers', 'e');
-                $query->add('orderBy', 'a.id DESC');
+        $query->add('orderBy', 'a.id DESC');
         return $query;
         //->getQuery();
     }
-  public function myFindIdAll($id,$criteria = array()) {
 
-           $parameters = array();
-        $values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
+    public function myFindNewAll($criteria = array()) {
+
+        //$qb->add('where', $qb->expr()->in('r.winner', $ids));
+        //$ids=array('1','2');
+        $ids = 'Prod';
+        $parameters = array();
+        $values = array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
         $query = $this->createQueryBuilder('a')
-                    ->select($values)
-                /* ->leftJoin('a.idProjet', 'b')
+                ->select($values)
+                ->leftJoin('a.idProjet', 'b')
                 ->leftJoin('a.demandeur', 'c')
                 ->leftJoin('a.idStatus', 'd')
-                  ->leftJoin('a.picture', 'f')
-                
+                ->leftJoin('a.picture', 'f')
                 ->addSelect('g')
                 //->addSelect('g')
-                ->distinct('GroupConcat(g.nom) AS kak')
                 ->leftJoin('a.idEnvironnement', 'g')
-                
-                 ->leftJoin('a.comments', 'h')
+                ->leftJoin('a.comments', 'h')
                 //->addSelect('e')
                 ->addSelect('partial e.{id,nomUser}')
-              ->distinct('GroupConcat(e.nomUser)')
+                //->distinct('GroupConcat(e.nomUser)')
                 ->leftJoin('a.idusers', 'e');
-                $query->add('orderBy', 'a.id DESC');*/
-                
-                  ->andWhere('a.id = :myid');
-            $parameters['myid'] = $id;
-              $query->setParameters($parameters);
+        //  $parameters['idEnv'] = (string) $ids;
+        // $query->setParameters($parameters);
+        //     $query->setParameter('ids', $ids);
+        $query->add('orderBy', 'a.id DESC');
+        return $query;
+        //->getQuery();
+    }
+
+    public function getListBy($criteria) {
+
+        $query = $this->myFindNewAll();
+        $parameters = array();
+
+        if (isset($criteria['idEnvironnement']) && $criteria['idEnvironnement'] != "") {
+            //       var_dump($criteria['idEnvironnement']);exit(1);
+            $query->andWhere('g.id IN (:idEnv)');
+            $query->distinct('GroupConcat(g.nom) AS kak');
+            $parameters['idEnv'] = $criteria['idEnvironnement'];
+        }
+        if (isset($criteria['demandeur']) && $criteria['demandeur'] != "") {
+            //       var_dump($criteria['idEnvironnement']);exit(1);
+            $query->andWhere('c.id = (:idUser)');
+            $parameters['idUser'] = $criteria['demandeur'];
+        }
+        if (isset($criteria['idusers']) && $criteria['idusers'] != "") {
+            //       var_dump($criteria['idEnvironnement']);exit(1);
+            $query->andWhere('e.id IN (:idUsers)');
+            $query->distinct('GroupConcat(e.nomUser)');
+            $parameters['idUsers'] = $criteria['idusers'];
+        }
+
+
+        // Supprimer champs qui ne sont pas dans la classe
+        foreach ($criteria as $field => $value) {
+            if (!$this->getClassMetadata()->hasField($field)) {
+                // Make sure we only use existing fields (avoid any injection)
+                unset($criteria[$field]);
+                //  continue;
+            }
+        }
+
+        //les like
+        $like_arrays = array('nom', 'ticketExt', 'ticketIxt');
+        foreach ($like_arrays as $val) {
+            //  echo "val=$val<br>";
+            if (isset($criteria[$val]) && $criteria[$val] != "") {
+                //      echo "critere=" . $criteria["$val"] . "<br>";
+                $query->andWhere("a.$val LIKE :$val");
+
+                $parameters[$val] = '%' . $criteria[$val] . '%';
+            }
+        }
+        //  print_r($parameters);exit(1);
+        //  $ids=array(1,2);
+        /*             $query->andWhere("g.nom = IN 'Prod'"); */
+
+        /* if (isset($criteria['idEnvironnement'])) {
+
+
+          $query->andWhere('g.id IN (:idEnv)');
+          $query->distinct('GroupConcat(g.nom) AS kak');
+          $parameters['idEnv']=$criteria['idEnvironnement'];
+          } */
+        /*
+          $query->andWhere('g.nom IN (:idEnv)');
+          $query->distinct('GroupConcat(g.nom) AS kak');
+          $parameters['idEnv']=array('Prod','Intégration');
+         */
+        $query->setParameters($parameters);
+
+
+        return $query;
+    }
+
+    public function myFindIdAll($id, $criteria = array()) {
+
+        $parameters = array();
+        $values = array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
+        $query = $this->createQueryBuilder('a')
+                ->select($values)
+                /* ->leftJoin('a.idProjet', 'b')
+                  ->leftJoin('a.demandeur', 'c')
+                  ->leftJoin('a.idStatus', 'd')
+                  ->leftJoin('a.picture', 'f')
+
+                  ->addSelect('g')
+                  //->addSelect('g')
+                  ->distinct('GroupConcat(g.nom) AS kak')
+                  ->leftJoin('a.idEnvironnement', 'g')
+
+                  ->leftJoin('a.comments', 'h')
+                  //->addSelect('e')
+                  ->addSelect('partial e.{id,nomUser}')
+                  ->distinct('GroupConcat(e.nomUser)')
+                  ->leftJoin('a.idusers', 'e');
+                  $query->add('orderBy', 'a.id DESC'); */
+                ->andWhere('a.id = :myid');
+        $parameters['myid'] = $id;
+        $query->setParameters($parameters);
         return $query->getQuery();
     }
-    
-   
-      public function myFindsimpleAll($criteria = array()) {
+
+    public function myFindsimpleAll($criteria = array()) {
 
         //$em = $this->getDoctrine()->getManager();
-      $em = $this->getManager();
+        $em = $this->getManager();
         //$values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
-       $values='a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id},';
-       //   $values='a,partial b.{id,nomprojet},partial c.{id,nomUser},partial GroupConcat(e.nomUser),partial d.{id,nom,description},f,partial h.{id}';
+        $values = 'a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id},';
+        //   $values='a,partial b.{id,nomprojet},partial c.{id,nomUser},partial GroupConcat(e.nomUser),partial d.{id,nom,description},f,partial h.{id}';
         $query = $em->createQuery("
             SELECT $values FROM ApplicationChangementsBundle:Changements a 
             LEFT JOIN a.idProjet b
@@ -228,13 +312,11 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
            LEFT JOIN a.comments h
             GROUP BY a.id
            "
-            
-                );
-        /* GroupConcat(e.nomUser)*/
-     return $query;
-      }
-      
-   
+        );
+        /* GroupConcat(e.nomUser) */
+        return $query;
+    }
+
     public function getEventsQueryBuilder(\DateTime $begin, \DateTime $end, array $options = array()) {
         $qb = $this->createQueryBuilder('e');
 
@@ -255,40 +337,40 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         else
             $current_year = date('Y');
 
-      /*  $parameters = array();
+        /*  $parameters = array();
+          $query = $this->createQueryBuilder('a')
+          ->select('count(a.id) as nb,b.nomprojet')
+          ->leftJoin('a.idProjet', 'b')
+          ->andWhere('a.dateDebut LIKE :date')
+          ->groupby('b.nomprojet');
+          $parameters['date'] = '%' . $year . '%';
+          //  echo "year=" . $parameters['date'] . "<br>";
+          $query->setParameters($parameters); */
+
         $query = $this->createQueryBuilder('a')
-                ->select('count(a.id) as nb,b.nomprojet')
-                ->leftJoin('a.idProjet', 'b')
-                ->andWhere('a.dateDebut LIKE :date')
-                ->groupby('b.nomprojet');
-        $parameters['date'] = '%' . $year . '%';
-      //  echo "year=" . $parameters['date'] . "<br>";
-        $query->setParameters($parameters);*/
-        
-         $query = $this->createQueryBuilder('a')
                 ->select('count(a.id) as nb,b.nomprojet,MONTH(a.dateDebut) as mois')
                 ->leftJoin('a.idProjet', 'b')
                 ->andWhere('a.dateDebut LIKE :date')
                 ->groupby('b.nomprojet');
         $parameters['date'] = '%' . $year . '%';
-      //  echo "year=" . $parameters['date'] . "<br>";
+        //  echo "year=" . $parameters['date'] . "<br>";
         $query->setParameters($parameters);
-        
+
         $qa = $this->createQueryBuilder('a')->select('COUNT(a.id)')
                 ->where('a.dateDebut LIKE :madate')
                 ->setParameter('madate', '%' . $year . '%')
                 ->getQuery()
                 ->getSingleScalarResult();
 
-       // echo "xnb=$qa<br>";
+        // echo "xnb=$qa<br>";
         //exit(1);
         $datas = array();
         foreach ($query->getQuery()->getScalarResult() as $valeur) {
-           // echo $valeur['nomprojet'] . "--" . $valeur['mois'] . "<br>";
+            // echo $valeur['nomprojet'] . "--" . $valeur['mois'] . "<br>";
             array_push($datas, array($valeur['nomprojet'], round(($valeur['nb'] / $qa) * 100)));
         }
-     //   exit(1);
-       // print_r($datas);
+        //   exit(1);
+        // print_r($datas);
         return $datas;
     }
 
@@ -308,92 +390,83 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
 
     public function sum_appli_monthyear($year = null) {
 
-        
-         $query = $this->createQueryBuilder('a')
-                   ->select('MONTH(a.dateDebut) as mois,b.nomprojet,count(a.id) as nb')
+
+        $query = $this->createQueryBuilder('a')
+                ->select('MONTH(a.dateDebut) as mois,b.nomprojet,count(a.id) as nb')
                 //->select('count(a.id) as nb,a.dateDebut,b.nomprojet,MONTH(a.dateDebut) as mois')
                 ->leftJoin('a.idProjet', 'b')
                 ->andWhere('a.dateDebut LIKE :date')
-                  ->groupby('mois');
-                 // ->groupby('b.nomprojet');
-               
-               
+                ->groupby('mois');
+        // ->groupby('b.nomprojet');
+
+
         $parameters['date'] = '%' . $year . '%';
-      //  echo "year=" . $parameters['date'] . "<br>";
+        //  echo "year=" . $parameters['date'] . "<br>";
         $query->setParameters($parameters);
-       
+
         $query->getQuery();
-       /* $qa = $this->createQueryBuilder('a')->select('COUNT(a.id)')
-                ->where('a.dateDebut LIKE :madate')
-                ->setParameter('madate', '%' . $year . '%')
-                ->getQuery()
-               ->getSingleScalarResult();
+        /* $qa = $this->createQueryBuilder('a')->select('COUNT(a.id)')
+          ->where('a.dateDebut LIKE :madate')
+          ->setParameter('madate', '%' . $year . '%')
+          ->getQuery()
+          ->getSingleScalarResult();
 
-       // echo "xnb=$qa<br>";
-        ///* $datas = array();
-        foreach ($query->getScalarResult() as $valeur) {
-            print_r($valeur);
-            //echo $valeur['nomprojet'] . "--" . $valeur['mois'] . "<br>";
-            array_push($datas, array($valeur['nomprojet'], round(($valeur['nb'] / $qa) * 100)));
-        }*/
+          // echo "xnb=$qa<br>";
+          ///* $datas = array();
+          foreach ($query->getScalarResult() as $valeur) {
+          print_r($valeur);
+          //echo $valeur['nomprojet'] . "--" . $valeur['mois'] . "<br>";
+          array_push($datas, array($valeur['nomprojet'], round(($valeur['nb'] / $qa) * 100)));
+          } */
         return($query->getQuery());
-      /*  if (isset($year))
-            $current_year = $year;
-        else
-            $current_year = date('Y');
-        $cols = $this->t_cols;
+        /*  if (isset($year))
+          $current_year = $year;
+          else
+          $current_year = date('Y');
+          $cols = $this->t_cols;
 
-        //$query = $em->createQuery('SELECT partial u.{id, username}, partial a.{id, name} FROM CmsUser u JOIN u.articles a');
-        $select = $this->select()
-                ->setIntegrityCheck(false)
-                ->from($this->_name, array(
-                    'nb_demande' => new Zend_Db_Expr('COUNT(chrono_center.id)'),
-                    'mois' => new Zend_Db_Expr('MONTHNAME(demande)'),
-                ))
-                ->joinLeft($this->_join_name_proj, $this->_join_cols_proj, $this->_join_val_proj)
-                ->where('YEAR(demande) = ?', $current_year)
-                ->group(new Zend_Db_Expr('MONTH(demande)'))
-                ->group('nom_projet');
+          //$query = $em->createQuery('SELECT partial u.{id, username}, partial a.{id, name} FROM CmsUser u JOIN u.articles a');
+          $select = $this->select()
+          ->setIntegrityCheck(false)
+          ->from($this->_name, array(
+          'nb_demande' => new Zend_Db_Expr('COUNT(chrono_center.id)'),
+          'mois' => new Zend_Db_Expr('MONTHNAME(demande)'),
+          ))
+          ->joinLeft($this->_join_name_proj, $this->_join_cols_proj, $this->_join_val_proj)
+          ->where('YEAR(demande) = ?', $current_year)
+          ->group(new Zend_Db_Expr('MONTH(demande)'))
+          ->group('nom_projet');
 
 
 
-        return($select);
-       * 
-       * 
-       * 
-       * 
-       * 
-       * 
-SELECT 
-  count(c0_.id) AS sclr0, 
-  c1_.nomprojet AS nomprojet1, 
-  MONTH(c0_.date_debut) AS sclr2 
-FROM 
-  changements c0_ 
-  LEFT JOIN certificats_projet c1_ ON c0_.id_projet = c1_.id 
-WHERE 
-  c0_.date_debut LIKE '%2013%'
-GROUP BY 
-  sclr2
-       * 
-       */
-      
-       /* $em = $this->getDoctrine()->getManager();*/
-       /* $em = $this->getManager();
-        $query = $em->createQuery("
-            SELECT COUNT(a.id), FROM ApplicationChangementsBundle:Changements a 
-            WHERE a.dateDebut LIKE ?1 GROUP BY a.name");
-        $query->setParameter(1, '2013');*/
+          return($select);
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+          SELECT
+          count(c0_.id) AS sclr0,
+          c1_.nomprojet AS nomprojet1,
+          MONTH(c0_.date_debut) AS sclr2
+          FROM
+          changements c0_
+          LEFT JOIN certificats_projet c1_ ON c0_.id_projet = c1_.id
+          WHERE
+          c0_.date_debut LIKE '%2013%'
+          GROUP BY
+          sclr2
+         * 
+         */
+
+        /* $em = $this->getDoctrine()->getManager(); */
+        /* $em = $this->getManager();
+          $query = $em->createQuery("
+          SELECT COUNT(a.id), FROM ApplicationChangementsBundle:Changements a
+          WHERE a.dateDebut LIKE ?1 GROUP BY a.name");
+          $query->setParameter(1, '2013'); */
         //$users = $query->getResult(Query::HYDRATE_OBJECT);
-           
-            
-        
-        
-        
-        
-        
-        
-        
     }
 
     /* public function createQueryBuilderForGetEvent(array $options)
