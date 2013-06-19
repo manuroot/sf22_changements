@@ -88,10 +88,11 @@ class ChangementsController extends Controller {
 
             // if ($alldatas['submit-filter'] == 'reset'){
             $datas = $alldatas["changements_filter"];
-            if (is_array($datas['idusers'])) {
+                 //var_dump($datas);exit(1);
+         /* if (is_array($datas['idusers'])) {
                 //     var_dump($datas['idusers']);exit(1);
                 $datas['idusers'] = $datas['idusers'][0];
-            }
+            }*/
             // $data['idusers']=$data['idusers'][0];
             /*     var_dump($datas);
               var_dump($datas['idusers']);
@@ -102,6 +103,8 @@ class ChangementsController extends Controller {
             if ($filterForm->isValid()) {
                 // $message .= " - filtre valide";
                 $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
+                
+                  //   var_dump($query->getDql());exit(1);
                 $session->set('changementControllerFilter', $datas);
                 // var_dump($query->getDql());
             } else {
@@ -148,6 +151,7 @@ class ChangementsController extends Controller {
 
         $session->set('buttonretour', 'changements_post');
         list($filterForm, $queryBuilder, $message) = $this->filter();
+      
         //    $queryBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindsimpleAll();
 
         if ($message)
@@ -172,7 +176,7 @@ class ChangementsController extends Controller {
 
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
             //  $message = "reset filtres";
-            $session->remove('changementControllerFilter');
+            $session->remove('changementControllerFilternew');
 
             $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy(array());
         } 
@@ -189,16 +193,16 @@ class ChangementsController extends Controller {
               // }
               } */
             $parameters = $datas;
-            $session->set('changementControllerFilter', $datas);
+            $session->set('changementControllerFilternew', $datas);
             $searchForm->bind($datas);
 
             $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy($parameters);
         } else {
             //   echo "<br>pas post datas<br>";
             // Get filter from session
-            if ($session->has('changementControllerFilter')) {
+            if ($session->has('changementControllerFilternew')) {
                 // $message = "session get";
-                $datas = $session->get('changementControllerFilter');
+                $datas = $session->get('changementControllerFilternew');
                 $parameters=$datas;
                 $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy($parameters);
                 $searchForm->bind($datas);

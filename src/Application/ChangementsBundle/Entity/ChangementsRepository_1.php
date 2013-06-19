@@ -32,58 +32,6 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         //->getResult();
     }
 
-    public function myFindaIdAll($id) {
-        $parameters = array();
-        $values = array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f');
-
-        $query = $this->createQueryBuilder('a')
-                ->select($values)
-                ->leftJoin('a.idProjet', 'b')
-                ->leftJoin('a.demandeur', 'c')
-                ->leftJoin('a.idStatus', 'd')
-                ->leftJoin('a.picture', 'f')
-                ->addSelect('g')
-                //->addSelect('g')
-                ->distinct('GroupConcat(g.nom) AS kak')
-                ->leftJoin('a.idEnvironnement', 'g')
-                ->leftJoin('a.comments', 'h')
-                //->addSelect('e')
-                ->addSelect('partial e.{id,nomUser}')
-                ->distinct('GroupConcat(e.nomUser)')
-                ->leftJoin('a.idusers', 'e');
-        $query->add('orderBy', 'a.id DESC')
-                ->andwhere('a.id = :myid');
-        $query->setParameter('myid', $id);
-
-
-        return $query->getQuery()->getSingleResult();
-    }
-
-    /*
-     * WORKING::
-     * 
-     * SELECT DISTINCT c0_.id AS id0, c0_.nom AS nom1, c0_.date_debut AS date_debut2, c0_.date_fin AS date_fin3, c1_.nomprojet AS nomprojet4, c2_.nom_user AS nom_user5, GROUP_CONCAT( DISTINCT c3_.nom_user ) AS sclr6, GROUP_CONCAT( DISTINCT e4_.nom ) AS sclr7
-      FROM changements c0_
-      LEFT JOIN certificats_projet c1_ ON c0_.id_projet = c1_.id
-      LEFT JOIN chrono_user c2_ ON c0_.demandeur = c2_.id
-      INNER JOIN changements_users c5_ ON c0_.id = c5_.changements_id
-      LEFT JOIN chrono_user c3_ ON c3_.id = c5_.chronouser_id
-      LEFT JOIN changements_environnements c6_ ON c0_.id = c6_.changements_id
-      LEFT JOIN environnement e4_ ON e4_.id = c6_.environnements_id
-      GROUP BY c0_.id
-      ORDER BY sclr6 ASC
-      LIMIT 0 , 30
-     */
-    /* $queryBuilder = $this->createQueryBuilder('a')
-      ->andWhere('a.enabled = TRUE');
-      ->leftJoin('LbPlaneteBassBundle:Track', 't', Expr\Join::WITH, 't.categorie = :categorieTrack AND t.enabled = TRUE');
-      ->leftJoin('LbPlaneteBassBundle:TrackAlbumReference', 't_ref', Expr\Join::WITH, 't_ref.track = t AND t_ref.album = a');
-      ->where('t_ref.id IS NOT NULL');
-      ->setParameter('categorieTrack', $categorieTrack);
-
-      $queryBuilder->groupBy('a.title');
-      $queryBuilder->orderBy('a.title', 'DESC'); */
-
     public function getMyPager(array $criteria, $ret = 'getquery') {
 
         $parameters = array();
@@ -173,10 +121,6 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
 
     public function myFindNewAll($criteria = array()) {
 
-        //$qb->add('where', $qb->expr()->in('r.winner', $ids));
-        //$ids=array('1','2');
-        $ids = 'Prod';
-        $parameters = array();
         $values = array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
         $query = $this->createQueryBuilder('a')
                 ->select($values)
@@ -192,11 +136,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
                 ->addSelect('partial e.{id,nomUser}')
                 //->distinct('GroupConcat(e.nomUser)')
                 ->leftJoin('a.idusers', 'e');
-        //  $parameters['idEnv'] = (string) $ids;
-        // $query->setParameters($parameters);
-        //     $query->setParameter('ids', $ids);
-        $query->add('orderBy', 'a.id DESC');
-        return $query;
+         return $query;
         //->getQuery();
     }
 
@@ -235,53 +175,25 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         }
 
         //les like
-        $like_arrays = array('nom', 'ticketExt', 'ticketInt');
+        $like_arrays = array('nom', 'ticketExt', 'ticketIxt');
         foreach ($like_arrays as $val) {
             //  echo "val=$val<br>";
-               if (isset($criteria[$val]) && ! preg_match('/^\s*$/',$criteria[$val])) {
-         
-         //   if (isset($criteria[$val]) && ! preg_match('/[\s]+/',$criteria[$val])) {
-                //      echo "critere=" . $criteria["$val"] . "<br>";
+            if (isset($criteria[$val]) && ! preg_match('/[\s]+/',$criteria[$val])) {
+                //  echo "critere=" . $criteria[$val] . "<br>";
                 $query->andWhere("a.$val LIKE :$val");
 
                 $parameters[$val] = '%' . $criteria[$val] . '%';
             }
         }
-     
+    /* var_dump($criteria);
+        exit(1);*/
         $query->setParameters($parameters);
 
-
+   $query->add('orderBy', 'a.id DESC');
         return $query;
     }
 
-    public function myFindIdAll($id, $criteria = array()) {
-
-        $parameters = array();
-        $values = array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
-        $query = $this->createQueryBuilder('a')
-                ->select($values)
-                /* ->leftJoin('a.idProjet', 'b')
-                  ->leftJoin('a.demandeur', 'c')
-                  ->leftJoin('a.idStatus', 'd')
-                  ->leftJoin('a.picture', 'f')
-
-                  ->addSelect('g')
-                  //->addSelect('g')
-                  ->distinct('GroupConcat(g.nom) AS kak')
-                  ->leftJoin('a.idEnvironnement', 'g')
-
-                  ->leftJoin('a.comments', 'h')
-                  //->addSelect('e')
-                  ->addSelect('partial e.{id,nomUser}')
-                  ->distinct('GroupConcat(e.nomUser)')
-                  ->leftJoin('a.idusers', 'e');
-                  $query->add('orderBy', 'a.id DESC'); */
-                ->andWhere('a.id = :myid');
-        $parameters['myid'] = $id;
-        $query->setParameters($parameters);
-        return $query->getQuery();
-    }
-
+  
     public function myFindsimpleAll($criteria = array()) {
 
         //$em = $this->getDoctrine()->getManager();

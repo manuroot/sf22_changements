@@ -31,8 +31,6 @@ class ChangementsFilterAmoiType extends AbstractType {
                 
                 
                  ->add('dateDebut','text',array( 
-                      'attr' => array(
-            'placeholder'=>'> date debut'),
                      'widget_addon' => array(
                         'icon' => 'time',
                         'type' => 'prepend'
@@ -42,8 +40,6 @@ class ChangementsFilterAmoiType extends AbstractType {
                 
                 
                  ->add('dateFin','text',array( 
-                      'attr' => array(
-            'placeholder'=>'> date Fin'),
                      'widget_addon' => array(
                         'icon' => 'time',
                         'type' => 'prepend'
@@ -85,7 +81,6 @@ class ChangementsFilterAmoiType extends AbstractType {
                         return $em->createQueryBuilder('u')
                                 ->orderBy('u.nomUser', 'ASC');
                     },
-                             'empty_value' => '--- Choisir une option ---',
                     'property' => 'nomUser',
                     'multiple' => true,
                     'required' => false,

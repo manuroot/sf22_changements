@@ -21,6 +21,7 @@ class ChangementsFilterType extends AbstractType {
 
         $builder
                 ->add('nom', 'filter_text', array(
+                    
                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
                     'widget_addon' => array(
                         'icon' => 'pencil',
@@ -29,10 +30,12 @@ class ChangementsFilterType extends AbstractType {
                 ->add('dateDebut', 'filter_date_range', array(
                     'label' => 'Date début',
                     'left_date' => array(
+                             'attr' => array('placeholder' => '> date Debut'),
                         'widget' => 'single_text'
                     /* 'time_widget' => 'single_text' */
                     ),
                     'right_date' => array(
+                            'attr' => array('placeholder' => '< date Debut'),
                         'widget' => 'single_text'
                     /* 'time_widget' => 'single_text' */
                     ),
@@ -40,10 +43,27 @@ class ChangementsFilterType extends AbstractType {
                 
                   ->add('ticketExt', 'filter_text', array(
                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
+                 //     'widget_controls' => false,
+                  /*    'label'=> array('widget_addon' => array(
+                        'icon' => 'pencil',
+                        'type' => 'append'
+                    )),*/
+                   /* 'widget_addon' => array(
+                        'icon' => 'pencil',
+                        'type' => 'prepend'
+                    ),*/
+                      ))
+                
+            
+                
+                
+                   ->add('ticketInt', 'filter_text', array(
+                    'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'
                     ),))
+                
                 
                 /* ->add('ticketExt', 'genemu_jqueryautocomplete_entity', array(
                     'widget_addon' => array(
@@ -60,10 +80,12 @@ class ChangementsFilterType extends AbstractType {
                 ->add('dateFin', 'filter_date_range', array(
                     'label' => 'Date début',
                     'left_date' => array(
+                        'attr' => array('placeholder' => '> date Fin'),
                         'widget' => 'single_text'
                     /* 'time_widget' => 'single_text' */
                     ),
                     'right_date' => array(
+                           'attr' => array('placeholder' => '< date Fin'),
                         'widget' => 'single_text'
                     /* 'time_widget' => 'single_text' */
                     ),
@@ -75,7 +97,9 @@ class ChangementsFilterType extends AbstractType {
                         return $em->createQueryBuilder('u')
                                 ->orderBy('u.nomprojet', 'ASC');
                     },
-                    'property' => 'nomprojet'
+                    'property' => 'nomprojet',
+                                'required' => false,
+                     'empty_value' => '--- Choisir une option ---', 
                 ))
                 ->add('demandeur', 'filter_entity', array(
                     'label' => 'Demandeur',
@@ -84,7 +108,9 @@ class ChangementsFilterType extends AbstractType {
                         return $em->createQueryBuilder('u')
                                 ->orderBy('u.nomUser', 'ASC');
                     },
-                    'property' => 'nomUser'
+                    'property' => 'nomUser',
+                                'required' => false,
+                     'empty_value' => '--- Choisir une option ---', 
                 ))
                 ->add('idStatus', 'filter_entity', array(
                     'label' => 'Status',
@@ -121,6 +147,8 @@ class ChangementsFilterType extends AbstractType {
                      // 'multiple' => true,
                      /*'required' => false,
                             'mapped'=>false,*/
+                                'required' => false,
+                     'empty_value' => '--- Choisir une option ---', 
                     'label' => 'Utilisateurs',
                         /*   'apply_filter' => function (QueryBuilder $queryBuilder, Expr $expr, $field, array $values) {
                           if (!empty($values['value'])) {
@@ -144,17 +172,15 @@ class ChangementsFilterType extends AbstractType {
                         if (!empty($values['value'])) {
                             // add the join if you need it and it not already added
                             //  $queryBuilder->leftJoin('a.idusers', 'e');
-                            $env = $values['value'];
-                            /*  $queryBuilder->andWhere('e.nomUser = :name')
-                              ->setParameter('name', $values['value'] ); */
-                            //$queryBuilder->andWhere('g.nom LIKE :name')
-                            $queryBuilder->andWhere("g.nom='" . $values['value'] . "'");
+                           // $env = $values['value'];
+                            
+                           $queryBuilder->andWhere("g.nom='" . $values['value'] . "'");
                           //  ->setParameter('name', '%' . $values['value'] . '%');
                           //  ->setParameter('name', $values['value'] );
                         }
                     },
-                    /* 'multiple' => true,
-                      'required' => false,*/
+                    /* 'multiple' => true,*/
+                      'required' => false,
                      'empty_value' => '--- Choisir une option ---', 
                     'property' => 'nom'
                 ));
