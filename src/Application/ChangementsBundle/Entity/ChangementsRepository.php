@@ -200,6 +200,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         //->getQuery();
     }
 
+    // TODO REGEX
     public function getListBy($criteria) {
 
         $query = $this->myFindNewAll();
@@ -244,22 +245,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
                 $parameters[$val] = '%' . $criteria[$val] . '%';
             }
         }
-        //  print_r($parameters);exit(1);
-        //  $ids=array(1,2);
-        /*             $query->andWhere("g.nom = IN 'Prod'"); */
-
-        /* if (isset($criteria['idEnvironnement'])) {
-
-
-          $query->andWhere('g.id IN (:idEnv)');
-          $query->distinct('GroupConcat(g.nom) AS kak');
-          $parameters['idEnv']=$criteria['idEnvironnement'];
-          } */
-        /*
-          $query->andWhere('g.nom IN (:idEnv)');
-          $query->distinct('GroupConcat(g.nom) AS kak');
-          $parameters['idEnv']=array('Prod','Intégration');
-         */
+     
         $query->setParameters($parameters);
 
 

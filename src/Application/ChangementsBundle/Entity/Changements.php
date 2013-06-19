@@ -22,7 +22,7 @@ use CalendR\Event\AbstractEvent;
  * @ORM\Table(name="changements_main")
  * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="Application\ChangementsBundle\Entity\ChangementsRepository")
- * @GRID\Source(columns="id,nom,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUser,idEnvironnement.nom:GroupConcat",groupBy={"id"})
+ * @GRID\Source(columns="id,nom,idStatus.nom,ticketExt,ticketInt,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUser,idEnvironnement.nom:GroupConcat",groupBy={"id"})
  * @Vich\Uploadable
  */
  
@@ -180,7 +180,7 @@ class Changements extends AbstractEvent
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_status", referencedColumnName="id",nullable=false)
      *  })
-     * @GRID\Column(field="idStatus.nom", title="Projet",size="20",filter="select",selectFrom="query")
+     * @GRID\Column(field="idStatus.nom", title="Projet",size="10",filter="select",selectFrom="query")
     */
     private $idStatus;
    
@@ -193,7 +193,7 @@ private $comments;
 
   /**
      * @ORM\Column(type="integer", length=5, name="ticket_ext", nullable=true)
-     *
+     * @GRID\Column(type="text",field="ticketExt", title="TExt",size="10")
      * @var integer $ticket_ext
      */
     private $ticketExt;
@@ -201,7 +201,7 @@ private $comments;
     
      /**
      * @ORM\Column(type="integer", length=5, name="ticket_int", nullable=true)
-     *
+     * @GRID\Column(type="text",field="ticketInt", title="TExt",size="10")
      * @var integer $ticket_int
      */
     private $ticketInt;
