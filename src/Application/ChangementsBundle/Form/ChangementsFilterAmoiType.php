@@ -25,10 +25,7 @@ class ChangementsFilterAmoiType extends AbstractType {
                         'type' => 'prepend'
                         ),
                     'mapped'=>false,'required'=>false))
-                
-                
-                
-                
+                    
                 
                  ->add('dateDebut','text',array( 
                       'attr' => array(
