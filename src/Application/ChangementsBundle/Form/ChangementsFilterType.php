@@ -20,24 +20,50 @@ class ChangementsFilterType extends AbstractType {
 
 
         $builder
+         
+            ->add(
+                'nom',
+                'filter_text',
+             
+                array(
+                        'compound'=>true,
+                    'text_options'=>array( 'attr' => array('icon' => 'icon-user')),
+                  /* 'widget_controls' => true,
+                    'widget_control_group' => false,
+                    'attr' => array('placeholder' => 'Name'),*/
+                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
+                )
+            )
+          /*  ->add(
+                'nghjom',
+                'filter_text', 
+              
+                array(
+                    'text_options'=>array( 'attr' => array('placeholder' => 'Name')),
+                      'mapped'=>false,
+                    'widget_controls' => true,
+                    'widget_control_group' => false,
+                    'attr' => array('placeholder' => 'Name'),
+                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
+                )
+            )*/
+                /*
                 ->add('nom', 'filter_text', array(
+                    'widget_addon' => array(
+                        'icon' => 'pencil',
+                        'type' => 'prepend'
+                    ),
+                    'block_name'=>'tree',
                     
+                    'attr' => array('icon'=>'icon-userp','placeholder' => '> date Debut'),
                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
-                    'widget_addon' => array(
-                        'icon' => 'pencil',
-                        'type' => 'prepend'
-                    ),))
-             /*   ->add('nollm', null, array(
-            'mapped'=>false,
-                    'widget_addon' => array(
-                        'icon' => 'pencil',
-                        'type' => 'prepend'
-                        )))*/
-           
+                                            'label'=>"test"))
+     */
+         
                 ->add('dateDebut', 'filter_date_range', array(
                     'label' => 'Date début',
                     'left_date' => array(
-                             'attr' => array('placeholder' => '> date Debut'),
+                             'attr' => array('icon'=>'icon-user','placeholder' => '> date Debut'),
                         'widget' => 'single_text'
                     /* 'time_widget' => 'single_text' */
                     ),
@@ -49,6 +75,7 @@ class ChangementsFilterType extends AbstractType {
                 ))
                 
                   ->add('ticketExt', 'filter_text', array(
+                           'text_options'=>array( 'attr' => array('icon' => 'icon-tags')),
                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
                  //     'widget_controls' => false,
                   /*    'label'=> array('widget_addon' => array(
@@ -65,6 +92,7 @@ class ChangementsFilterType extends AbstractType {
                 
                 
                    ->add('ticketInt', 'filter_text', array(
+                                'text_options'=>array( 'attr' => array('icon' => 'icon-tags')),
                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
                     'widget_addon' => array(
                         'icon' => 'pencil',

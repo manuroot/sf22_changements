@@ -43,7 +43,8 @@ twig:
     strict_variables: %kernel.debug%
     form:
         resources:
-            - LexikFormFilterBundle:Form:form_div_layout.html.twig
+            #- LexikFormFilterBundle:Form:form_div_layout.html.twig
+            - ApplicationChangementsBundle:Form:form_div_layout.html.twig
 #==================================================
 #  ASSETIC
 #==================================================

@@ -1,0 +1,61 @@
+
+{% block filter_text_widget %}
+{#
+  {{ dump(form.text.vars.attr) }}#}
+{#{% if form.text.vars.full_name['nom'] is defined %}yes
+{% endif %}
+{#{% for key in form.text.vars.attr %}
+   k= {{key}} 
+{% endfor %}#}
+
+    {% if compound %}
+         <div class="filter-pattern-selector">
+            {{ form_widget(form.condition_pattern, {'attr': {'class': 'pattern-selector'} }) }}
+       
+        <div class="input-prepend">
+            {% if form.text.vars.attr['icon'] is defined %}
+                     <span class="add-on"><i class={{ form.text.vars.attr['icon'] }}></i></span>{{ form_widget(form.text) }}
+                     {% else %}
+                     <span class="add-on"></span>{{ form_widget(form.text) }}
+                {% endif %}
+               
+            </div>
+        </div>
+    {% else %}
+      {{ block('form_widget_simple') }}
+    {% endif %}
+{% endblock filter_text_widget %}
+
+
+{% block filter_number_widget %}
+    {% if compound %}
+        <div class="filter-operator-selector">
+            {{ form_widget(form.condition_operator, {'attr': {'class': 'operator-selector'} }) }}
+            {{ form_widget(form.text, {'attr': attr}) }}
+        </div>
+    {% else %}
+        {{ block('form_widget_simple') }}
+    {% endif %}
+{% endblock filter_number_widget %}
+
+{% block filter_number_range_widget %}
+    <div class="filter-number-range">
+        {{ form_widget(form.left_number, {'attr': attr}) }}
+        {{ form_widget(form.right_number, {'attr': attr}) }}
+    </div>
+{% endblock filter_number_range_widget %}
+
+{% block filter_date_range_widget %}
+    <div class="filter-date-range">
+       {# {{ dump(form.left_date.vars.attr) }}#}
+          {#  {% for key in form.left_date.vars.attr %}
+   k= --{{key}}--
+{% endfor %}#}
+      {#  <i class="icon-pencil"></i> #}
+          <div class="input-prepend">
+                <span class="add-on"><i class="icon-time"></i></span> {{ form_widget(form.left_date, {'attr': attr}) }}
+            </div>
+     {#   {{ form_widget(form.left_date, {'attr': attr}) }}#}
+        {{ form_widget(form.right_date, {'attr': attr}) }}
+    </div>
+{% endblock filter_date_range_widget %}
