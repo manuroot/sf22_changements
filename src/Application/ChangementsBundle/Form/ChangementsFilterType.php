@@ -27,12 +27,12 @@ class ChangementsFilterType extends AbstractType {
                         'icon' => 'pencil',
                         'type' => 'prepend'
                     ),))
-                ->add('nollm', null, array(
+             /*   ->add('nollm', null, array(
             'mapped'=>false,
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'
-                        )))
+                        )))*/
            
                 ->add('dateDebut', 'filter_date_range', array(
                     'label' => 'Date début',
