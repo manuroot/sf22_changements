@@ -217,6 +217,11 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
             $query->andWhere('c.id = (:idUser)');
             $parameters['idUser'] = $criteria['demandeur'];
         }
+        if (isset($criteria['idStatus']) && $criteria['idStatus'] != "") {
+            //       var_dump($criteria['idEnvironnement']);exit(1);
+            $query->andWhere('d.id = (:idStatus)');
+            $parameters['idStatus'] = $criteria['idStatus'];
+        }
         if (isset($criteria['idusers']) && $criteria['idusers'] != "") {
             //       var_dump($criteria['idEnvironnement']);exit(1);
             $query->andWhere('e.id IN (:idUsers)');

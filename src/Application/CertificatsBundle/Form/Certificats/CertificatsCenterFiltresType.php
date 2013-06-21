@@ -29,21 +29,25 @@ class CertificatsCenterFiltresType extends AbstractType {
 
 
         $builder
+             
+                
                 ->add('fileName', 'filter_text', array(
+                        'text_options'=>array( 'attr' => array('icon' => 'icon-user')),
                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
-                    'widget_addon' => array(
-                        'icon' => 'pencil',
-                        'type' => 'prepend'
-                    ),))
+                    ))
                 ->add('cnName', 'filter_text', array(
+                           'text_options'=>array( 'attr' => array('icon' => 'icon-wrench')),
+               
                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'
                     ),))
                 ->add('endTime', 'filter_date_range', array(
+                    //   'text_options'=>array( 'attr' => array('icon' => 'icon-date')),
                     'label' => 'Date de Fin',
                     'left_date' => array(
+                        'attr' => array('icon' => 'icon-date'),
                         'widget' => 'single_text'
                     /* 'time_widget' => 'single_text' */
                     ),
@@ -71,6 +75,8 @@ class CertificatsCenterFiltresType extends AbstractType {
                  */
                 //TextFilterType::PATTERN_*
                 ->add('port', 'filter_text', array(
+                           'text_options'=>array( 'attr' => array('icon' => 'icon-tint')),
+               
                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
                     'widget_addon' => array(
                         'icon' => 'pencil',
@@ -81,7 +87,9 @@ class CertificatsCenterFiltresType extends AbstractType {
                 //  ->add('endTime')
                 // ->add('addedDate')
                 ->add('serverName', 'filter_text', array(
-                    'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
+                            'text_options'=>array( 'attr' => array('icon' => 'icon-briefcase')),
+               
+                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'

@@ -64,6 +64,13 @@ class ChangementsFilterAmoiType extends AbstractType {
                     'required' => false,
                     'label' => 'Environnements'
                 ))
+                   ->add('idStatus', 'filter_entity', array(
+                    'label' => 'Status',
+                    'class' => 'Application\ChangementsBundle\Entity\ChangementsStatus',
+                    'property' => 'nom',
+                        'empty_value' => '--- Choisir une option ---',
+                ))
+                
                   ->add('demandeur', 'entity', array(
                     'class' => 'ApplicationRelationsBundle:ChronoUser',
                     'query_builder' => function(EntityRepository $em) {

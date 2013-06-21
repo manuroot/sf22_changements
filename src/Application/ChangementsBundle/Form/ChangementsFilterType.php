@@ -28,10 +28,7 @@ class ChangementsFilterType extends AbstractType {
                 array(
                         'compound'=>true,
                     'text_options'=>array( 'attr' => array('icon' => 'icon-user')),
-                  /* 'widget_controls' => true,
-                    'widget_control_group' => false,
-                    'attr' => array('placeholder' => 'Name'),*/
-                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
+                        'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
                 )
             )
           /*  ->add(
@@ -148,6 +145,7 @@ class ChangementsFilterType extends AbstractType {
                      'empty_value' => '--- Choisir une option ---', 
                 ))
                 ->add('idStatus', 'filter_entity', array(
+                              'empty_value' => '--- Choisir une option ---', 
                     'label' => 'Status',
                     'class' => 'Application\ChangementsBundle\Entity\ChangementsStatus',
                     'property' => 'nom'

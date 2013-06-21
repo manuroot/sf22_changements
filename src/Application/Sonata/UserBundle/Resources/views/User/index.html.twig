@@ -9,7 +9,7 @@
 {% block content_header '' %}
 
 {% block title %}
-    Liste de Utilisateurs
+    Liste des Utilisateurs
 {% endblock %}
     
     
@@ -25,6 +25,23 @@
 
     <br><br>
   <table class="table table-striped table-bordered table-hover">
+      {#   <thead>
+            <tr class="title">
+      <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
+     <th{% if pagination.isSorted('a.nomUser') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom', 'a.nomUser') }}</th>
+     <th{% if pagination.isSorted('b.nomGroup') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Groupe', 'b.nomGroup') }}</th>
+     <th{% if pagination.isSorted('a.infos') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Infos', 'a.infos') }}</th>
+     <th{% if pagination.isSorted('a.telephone') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Telephone', 'a.telephone') }}</th>
+      <th{% if pagination.isSorted('a.bureau') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Bureau', 'a.bureau') }}</th>
+      <th{% if pagination.isSorted('a.email') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Email', 'a.email') }}</th>
+         {% if is_granted("ROLE_ADMIN") %}
+      <th colspan="2">Actions</th>      
+      {% else %}
+      <th>Actions</th>  
+      {% endif %}
+            </tr>
+        </thead>
+        #}
         <thead>
             <tr class="title">
 

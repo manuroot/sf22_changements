@@ -26,17 +26,18 @@
     {{ form_label(search_form.dateFin, 'Date De Fin'|trans) }}
     {{ form_widget(search_form.dateFin) }}
   
-   {{ form_errors(search_form.idStatus) }}
-    {{ form_label(search_form.idStatus) }}
-    {{ form_widget(search_form.idStatus) }}
     
     
                         
     </td>
   <td>
     
-                                        
-{{ form_rest(search_form) }}</td>
+   {{ form_errors(search_form.idStatus) }}
+    {{ form_label(search_form.idStatus) }}
+    {{ form_widget(search_form.idStatus) }}                                        
+{{ form_rest(search_form) }}
+
+  </td>
    </tr>
     <tr class="single"><td colspan="2">
             
