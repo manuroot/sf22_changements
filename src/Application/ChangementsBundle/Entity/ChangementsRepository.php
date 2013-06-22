@@ -243,16 +243,16 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         $like_arrays = array('nom', 'ticketExt', 'ticketInt');
         foreach ($like_arrays as $val) {
             //  echo "val=$val<br>";
-               if (isset($criteria[$val]) && ! preg_match('/^\s*$/',$criteria[$val])) {
-         
-         //   if (isset($criteria[$val]) && ! preg_match('/[\s]+/',$criteria[$val])) {
+            if (isset($criteria[$val]) && !preg_match('/^\s*$/', $criteria[$val])) {
+
+                //   if (isset($criteria[$val]) && ! preg_match('/[\s]+/',$criteria[$val])) {
                 //      echo "critere=" . $criteria["$val"] . "<br>";
                 $query->andWhere("a.$val LIKE :$val");
 
                 $parameters[$val] = '%' . $criteria[$val] . '%';
             }
         }
-     
+
         $query->setParameters($parameters);
 
 
@@ -381,23 +381,61 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         }
     }
 
-    public function sum_appli_monthyear($year = null) {
+    /*
 
+      SELECT
+      MONTH(c0_.date_debut) AS sclr0,
+      c1_.nomprojet AS nomprojet1,
+      count(c0_.id) AS sclr2
+      FROM
+      changements_main c0_
+      LEFT JOIN certificats_projet c1_ ON c0_.id_projet = c1_.id
+      WHERE
+      c0_.date_debut LIKE '%2013%'
+      GROUP BY
+      sclr0,
+      nomprojet1
+
+      SELECT MONTH( c0_.date_debut ) AS mois, c1_.nomprojet AS nomprojet1, c0_.id_projet AS idprojet, count( c0_.id ) AS sclr2
+      FROM changements_main c0_
+      LEFT JOIN certificats_projet c1_ ON c0_.id_projet = c1_.id
+      GROUP BY nomprojet1,mois
+      ORDER BY mois
+     */
+
+    public function sum_allappli_bymonthyear($year = null) {
 
         $query = $this->createQueryBuilder('a')
-                ->select('MONTH(a.dateDebut) as mois,b.nomprojet,count(a.id) as nb')
+                //->select('MONTH(a.dateDebut) as mois,sum(b.nomprojet) as projet,count(a.id) as nb')
+                ->select('MONTH(a.dateDebut) as mois,count(a.id) as nb')
                 //->select('count(a.id) as nb,a.dateDebut,b.nomprojet,MONTH(a.dateDebut) as mois')
                 ->leftJoin('a.idProjet', 'b')
                 ->andWhere('a.dateDebut LIKE :date')
                 ->groupby('mois');
-        // ->groupby('b.nomprojet');
+        $parameters['date'] = '%' . $year . '%';
+        $query->setParameters($parameters);
+        //return $query->getQuery();
+         return $query->getQuery();
+    }
+
+    public function sum_appli_monthyear($year = null) {
+
+
+        $query = $this->createQueryBuilder('a')
+                ->select('MONTH(a.dateDebut) as mois,b.nomprojet as projet,count(a.id) as nb')
+                //->select('count(a.id) as nb,a.dateDebut,b.nomprojet,MONTH(a.dateDebut) as mois')
+                ->leftJoin('a.idProjet', 'b')
+                ->andWhere('a.dateDebut LIKE :date')
+                ->groupby('mois,projet');
+
 
 
         $parameters['date'] = '%' . $year . '%';
         //  echo "year=" . $parameters['date'] . "<br>";
         $query->setParameters($parameters);
 
-        $query->getQuery();
+        return $query->getQuery();
+        //   ->getArrayResult();
         /* $qa = $this->createQueryBuilder('a')->select('COUNT(a.id)')
           ->where('a.dateDebut LIKE :madate')
           ->setParameter('madate', '%' . $year . '%')
@@ -411,7 +449,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
           //echo $valeur['nomprojet'] . "--" . $valeur['mois'] . "<br>";
           array_push($datas, array($valeur['nomprojet'], round(($valeur['nb'] / $qa) * 100)));
           } */
-        return($query->getQuery());
+        //   return($query->getQuery());
         /*  if (isset($year))
           $current_year = $year;
           else

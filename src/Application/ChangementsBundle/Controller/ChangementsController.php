@@ -88,11 +88,11 @@ class ChangementsController extends Controller {
 
             // if ($alldatas['submit-filter'] == 'reset'){
             $datas = $alldatas["changements_filter"];
-                 //var_dump($datas);exit(1);
-         /* if (is_array($datas['idusers'])) {
-                //     var_dump($datas['idusers']);exit(1);
-                $datas['idusers'] = $datas['idusers'][0];
-            }*/
+            //var_dump($datas);exit(1);
+            /* if (is_array($datas['idusers'])) {
+              //     var_dump($datas['idusers']);exit(1);
+              $datas['idusers'] = $datas['idusers'][0];
+              } */
             // $data['idusers']=$data['idusers'][0];
             /*     var_dump($datas);
               var_dump($datas['idusers']);
@@ -103,8 +103,8 @@ class ChangementsController extends Controller {
             if ($filterForm->isValid()) {
                 // $message .= " - filtre valide";
                 $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
-                
-                  //   var_dump($query->getDql());exit(1);
+
+                //   var_dump($query->getDql());exit(1);
                 $session->set('changementControllerFilter', $datas);
                 // var_dump($query->getDql());
             } else {
@@ -151,7 +151,7 @@ class ChangementsController extends Controller {
 
         $session->set('buttonretour', 'changements_post');
         list($filterForm, $queryBuilder, $message) = $this->filter();
-      
+
         //    $queryBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindsimpleAll();
 
         if ($message)
@@ -179,11 +179,10 @@ class ChangementsController extends Controller {
             $session->remove('changementControllerFilternew');
 
             $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy(array());
-        } 
-        elseif ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
+        } elseif ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
             $alldatas = $request->request->all();
             $datas = $alldatas["changements_searchfilter"];
-          //  var_dump($datas);exit(1);
+            //  var_dump($datas);exit(1);
             //foreach ($datas){}
             /* foreach ($datas as $field => $value) {
               // A revoir
@@ -203,7 +202,7 @@ class ChangementsController extends Controller {
             if ($session->has('changementControllerFilternew')) {
                 // $message = "session get";
                 $datas = $session->get('changementControllerFilternew');
-                $parameters=$datas;
+                $parameters = $datas;
                 $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy($parameters);
                 $searchForm->bind($datas);
             }
@@ -219,16 +218,12 @@ class ChangementsController extends Controller {
             /* return $this->render('ApplicationChangementsBundle:Changements:simple.html.twig', array(
               'search_form' => $searchForm->createView(),
               )); */
-
-
-           
-       
         }
-         $pagination = $this->createpaginator($query, 10);
-            return $this->render('ApplicationChangementsBundle:Changements:simple.html.twig', array(
-                        'search_form' => $searchForm->createView(),
-                        'pagination' => $pagination,
-                     ));
+        $pagination = $this->createpaginator($query, 10);
+        return $this->render('ApplicationChangementsBundle:Changements:simple.html.twig', array(
+                    'search_form' => $searchForm->createView(),
+                    'pagination' => $pagination,
+        ));
     }
 
     /*
@@ -314,40 +309,120 @@ class ChangementsController extends Controller {
 
     public function indexchartsAction() {
 
+        $em = $this->getDoctrine()->getManager();
+
+        $data = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_year();
+        $data_month = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_monthyear();
+        $data_sumbymonth = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_allappli_bymonthyear();
+        $res = $data_month->getResult();
+        $res2 = $data_sumbymonth->getScalarResult();
+
+        //   var_dump($data_sumbymonth->getDql());exit(1);
+        $temp = array();
+        $series_bymois = array();
+        foreach ($res2 as $k => $v) {
+            //    array_push($series_bymois,(integer)$v['nb']);
+            if ((int) $v['mois'] > 0)
+                $series_bymois[$v['mois'] - 1] = (int) $v['nb'];
+            //  echo "mois=" . $v['mois'] . "nb=" . $v['nb'] . "<br>";
+            // array_push($temp, $v)
+            // $ymarray[$v["projet"]]=
+        }
+
+        //  print_r($series_bymois);exit(1);
         $series = array(
-            array("name" => "Data Serie Name", "data" => array(1, 2, 4, 5, 6, 3, 8))
+            //        array("name" => "Data Serie Name", "data" =>     array(1, 2, 4, 7, 6,9))
+            array("name" => "operations", "data" => $series_bymois)
         );
 
         $ob1 = new Highchart();
         $ob1->chart->renderTo('linechart1');  // The #id of the div where to render the chart
+        $ob1->chart->type('column');
         $ob1->title->text('Demandes 2013');
-        $ob1->xAxis->title(array('text' => "Demandes"));
-        $ob1->yAxis->title(array('text' => "Mois (2013)"));
+
+        $categories = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
+        $ob1->xAxis->categories($categories);
+        $ob1->xAxis->title(array('text' => "Mois (2013)"));
+        /*
+          $ob1->tooltip(array(
+          'pointFormat'=>'<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+          'shared'=> true
+          )); */
+
+        $ob1->plotOptions->column(array(
+            'stacking' => 'normal',
+             'dataLabels' => array(
+                'enabled' => true,
+                'style' => array(
+                    'fontWeight' => 'bold',
+                    'color' => '(Highcharts.theme && Highcharts.theme.textColor) || "gray"',
+                )
+            ),
+            'pointPadding' => 0.1,
+            'borderWidth' => 1));
+        $ob1->yAxis(array(
+              'borderWidth'=> 1,
+          
+            'title' => array('text' => "Opérations"),
+            'stackLabels' => array(
+                'enabled' => false,
+                'style' => array(
+                    'fontWeight' => 'bold',
+                    'color' => '(Highcharts.theme && Highcharts.theme.textColor) || "gray"',
+                ))
+        ));
+        //  $ob1->yAxis->title(array('text' => "Opérations"));
         $ob1->series($series);
+
 
 
         $ob2 = new Highchart();
         $ob2->chart->renderTo('linechart2');
         $ob2->title->text('Demandes 2013: Projets');
-        $ob2->plotOptions->pie(array(
-            'allowPointSelect' => true,
-            'cursor' => 'pointer',
-            'dataLabels' => array('enabled' => false),
-            'showInLegend' => true
-        ));
 
 
-        $em = $this->getDoctrine()->getManager();
+        /*  $ob2->plotOptions->pie(array(
+          'allowPointSelect' => true,
+          'cursor' => 'pointer',
+          'dataLabels' => array('enabled' => false),
+          'showInLegend' => true
+          )); */
+        /*
+          SELECT p, SUBSTRING(p.date, 6, 2) as month
+          FROM Entity p
+          GROUP BY month
+         */
 
-        $data = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_year();
-        $data_month = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_monthyear();
 
-        // print_r($datas);
-        //     var_dump($data_month->getDql());
+        /*
+          print_r($res2);exit(1);
+          var_dump($data_sumbymonth->getDql());exit(1);
+          $temp=array();
 
-        $res = $data_month->getResult();
-
-
+          foreach ($res as $k=>$v){
+          array_push($temp,array($v['mois'],$v['nb']));
+          echo "nb=" . $v['nb'] . "<br>";
+          // array_push($temp, $v)
+          // $ymarray[$v["projet"]]=
+          } */
+        // for i=1a12
+        // 0 >=jan 
+        //1 => fev==2 =>>val $res[c
+        //   $temp[mois]=$ta
+        /*
+          var_dump($res);
+          echo "<br>==============<br>";
+          var_dump($temp);
+          exit(1); */
+        /*
+         *  array("name" => "Data1",
+          "data" => array(1, 2, 4, 7, 6,9)),
+          array("name" => "Data2",
+          "data" => array(2, 4, 7, 1, 4,2)),
+          array("name" => "Data",
+          "data" => array(3, 5, 6, 5, 3,5)
+          ),
+         */
         /*    $categories = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
 
           $ob3 = new Highchart();
@@ -368,39 +443,68 @@ class ChangementsController extends Controller {
           $ob3->series($series);
 
          */
+        //$ob5 = new Highchart();
+        //$ob4->plotOptions->bar(array(
+
 
         $ob4 = new Highchart();
         $ob4->chart->renderTo('linechart4');
-        //   $ob4->chart->type('bar');
+        $ob4->chart->type('column');
+
 
         $ob4->plotOptions->bar(array(
-            //    'type'=>'bar',
-            'allowPointSelect' => true,
-            'cursor' => 'pointer',
-            'dataLabels' => array('enabled' => false),
-            'showInLegend' => true,
-            'series' => array('stacking' => 'normal'),
-        ));
+            //   'type'=>'bar',
+            'column' => array(
+                'stacking' => 'normal',
+                'dataLabels' => array(
+                    'enabled' => true,
+                )
+            ),
+            'pointPadding' => 0.4,
+            'borderWidth' => 1));
+        /* 'allowPointSelect' => true,
+          'cursor' => 'pointer',
+          'dataLabels' => array('enabled' => false),
+          'showInLegend' => true,
+          'series' => array('stacking' => 'normal'), */
+
         //  $ob4->plotOptions->series(array('stacking'=> 'normal'));
-        $ob4->title->text('Demandes 2013: Pr1ojets');
+        $ob4->title->text('Demandes 2013: Projets');
         $ob4->legend->backgroundColor('#FFFCCE');
         $ob4->legend->reverse(true);
         //'reversed'=> true
         //));
-        $ob4->xAxis->categories(array('Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai'));
+        $ob4->xAxis->categories(array(
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec'
+        ));
         $ob4->yAxis->min(0);
         // $ob4->yAxis->max(5);
-        $ob4->yAxis->title(array('text' => 'gdfgdf'));
-
-        $series4 = array(
-            array("name" => "Data1",
-                "data" => array(1, 2, 4, 7, 6)),
-            array("name" => "Data2",
-                "data" => array(2, 4, 7, 1, 4)),
-            array("name" => "Data",
-                "data" => array(3, 5, 6, 5, 3)
-            ),
-        );
+        $ob4->yAxis->title(array('text' => 'Total Applications'));
+        $ob4->yAxis->stackLabels(array('enabled' => true,
+            'style' => array('fontWeight' => 'bold',
+                'color' => 'Highcharts.theme && Highcharts.theme.textColor) || "gray"')
+        ));
+        $series4 = $res;
+        /* $series4 = array(
+          array("name" => "Data1",
+          "data" => array(1, 2, 4, 7, 6,9)),
+          array("name" => "Data2",
+          "data" => array(2, 4, 7, 1, 4,2)),
+          array("name" => "Data",
+          "data" => array(3, 5, 6, 5, 3,5)
+          ),
+          ); */
         $ob4->series($series4);
         // $ob4->series(array(array('type' => 'bar', 'name' => 'Browser share', 'data' => $series4)));
         //   $ob4->series($series4);
@@ -462,25 +566,29 @@ class ChangementsController extends Controller {
         ));
     }
 
-    public function calendarAction() {
+    public function calendarAction(Request $request) {
 
         //     $past = date('Y-m-d', strtotime('-30days'));
         //     $current_date=date('Y-m-d');
         //   $value = $date->toString('yyyy-MM');
         //      $currenta = ($row->getField('endTime')->format('Y-m-d'));
         //$current = date('Y-m-d', strtotime('+30days'));
-        $request = $this->get('request');
+    //    $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $dataform = $this->get('request')->get('form');
+            $dataform = $request->get('form');
+            
             $data = $dataform['publishedAt'];
-            // print_r($data);
-            // print_r($data['publishedAt']);
-            //     exit(1);
+       //    print_r($dataform);
+           // echo "val:"; print_r($request->get('request')->get('year'));
+         //      exit(1);
+              /*$current_year = $dataform['year'];
+            $current_month = $dataform['month'];*/
+            
             $current_year = $data['year'];
             $current_month = $data['month'];
             $current_yearmonth = ("$current_year-$current_month");
             $form = $this->createCalendarForm(array('mois' => $current_month, 'annee' => $current_year));
-            $form->bindRequest($request);
+            $form->bind($request);
 
             // print_r($data);
             //    exit(1);
@@ -502,7 +610,7 @@ class ChangementsController extends Controller {
         //    echo "current=$current_year month=$current_month<br>";
         //   exit(1);
         $current = new \DateTime($current_yearmonth);
-        $past = new \DateTime("2013-05");
+        $past = new \DateTime("2013-04");
         //$current = new \DateTime($row->getField('endTime')->format('Y-m-d'));
 
         /* $em = $this->getDoctrine()->getManager();
@@ -518,27 +626,82 @@ class ChangementsController extends Controller {
         //  $month = $f->getMonth(2012, 6);
 
 
+/*
+        
+    {% for week in month %}
+                    <td><p class="text-warning"> S-{{ week }} </p></td>
+            {% for day in week %}
+                    <td>
+                         {#% if month.includes(day) %#}
+                    {% if month.contains(day.begin) %}
+      <span class="label"> {{ day.begin.format('d') }} </span><br>
+         {% for event in evenement.find(day) %}
+                            <a href="{{ path('changements_show', { 'id': event.uid }) }}">
+            {{ event }}</a>
+                                <br>
+        {% endfor %}
+                    {% else %}
+                                &nbsp;
+                    {% endif %}
+                            </td>
+            {% endfor %}
+                        </tr>
+    {% endfor %}
 
+*/
         $session = $this->getRequest()->getSession();
         $session->set('buttonretour', 'changements');
         $em = $this->getDoctrine()->getManager();
 
-        $query_events = $em->getRepository('ApplicationChangementsBundle:Changements')
-                ->getEventsQueryBuilder($past, $current);
+     /*   $query_events = $em->getRepository('ApplicationChangementsBundle:Changements')
+                ->getEventsQueryBuilder($past, $current);*/
         /* $nb_events=$em->getRepository('ApplicationChangementsBundle:Changements')
           ->findcount($past, $current); */
-        //    print_r($query_events);
-        // exit(1);
+       //     print_r($query_events);
+       //  exit(1);
         // $nbtags = $query->getPicture()->count();
         $month = $this->get('calendr')->getMonth($current_year, $current_month);
-        $events = $this->get('calendr')->getEvents($month);
+        
+       // $evenements= $this->get('calendr')->getEvents($month);
+       // $colors=array();
+          $eventCollection = $this->get('calendr')->getEvents($month);
+        /*  echo "sur 1 mois:  <br>";
+          foreach ($eventCollection->find($month)  as $event){
+              
+          echo "evenement: $event uuid: " . $event->getUid() ."<br>";
+          }
+          
+           foreach ($month as $week){
+              echo "<h2> $month - $week </h2>";
+              foreach ($eventCollection->find($week) as $event){
+           
+                  echo "evenement: $event uuid: " . $event->getUid() ."<br>";
+                  
+              }
+           }*/
+                  /*  <td><p class="text-warning"> S-{{ week }} </p></td>
+            {% for day in week %}
+      
+        foreach ($eventCollection as $event){
+            
+            echo "event=" .$event . "<br>";
+        }*/
+    //    echo "end";
+      //  exit(1);
+        
+       // $year = $factory->getYear(2012);
+//$eventCollection = $factory->getEvents($year);
+        
+        
+    /*   foreach ($events->get as $event)*/
+     //   var_dump($events);exit(1);
         //  $paginator = $this->get('knp_paginator');
 
         return $this->render('ApplicationChangementsBundle:Changements:calendar.html.twig', array(
-                    'month' => $this->get('calendr')->getMonth($current_year, $current_month),
+                    'month' => $month,
                     // 'myweek' =>  $this->get('calendr')->getWeek(2012, 14),
-                    'events' => $query_events,
-                    'evenement' => $events,
+                  //  'events' => $query_events,
+                    'evenement' => $eventCollection,
                     'form' => $form->createView(),
                         // 'current_month' => $month
         ));
@@ -1001,8 +1164,9 @@ class ChangementsController extends Controller {
 
     private function createCalendarForm($values = array()) {
 
-        $myears = range(Date('Y') + 5, Date('Y') - 5);
-        $mmonth = range(1, 12);
+        $myears = range(Date('Y') - 5, Date('Y') + 5);
+        //$mmonth = range(1, 12);
+        $mmonth=array(1=>'jan',2=>'fev');
         // mmonth = array_map( sprintf("%02d",'floatval', $nonFloats);.
         //     sprintf("%02d",
         //    $myears = array("2012", "2013");
@@ -1014,14 +1178,14 @@ class ChangementsController extends Controller {
                           'widget' => 'choice',
                           'empty_value' => array('year' => $year, 'month' => $month, 'day' => '1')
                           )) */
-                        ->add('publishedAtmm', 'choice', array('label' => 'Mois', 'choices' => $mmonth,))
-                        ->add('publishedAtyy', 'choice', array('label' => 'Année', 'choices' => $myears,))
+                     //   ->add('month', 'choice', array('label' => 'Mois', 'choices' => $mmonth,'data'=>$month))
+                     //   ->add('year', 'choice', array('label' => 'Année', 'choices' => $myears, 'data' => $year))
                         ->add('publishedAt', 'date', array(
                             'widget' => 'choice',
                             'format' => 'yyyy-MM-dd',
                             'pattern' => '{{ year }}-{{ month }}-{{ day }}',
                             'years' => range(Date('Y'), 2009),
-                            'label' => 'Date de Recherche',
+                            'label' => false,
                             'input' => 'string',
                                 //   'data'  => date_create()
                         ))
