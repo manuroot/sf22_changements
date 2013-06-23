@@ -10,6 +10,7 @@ use Application\ChangementsBundle\Entity\Changements;
 use Application\RelationsBundle\Entity\Document;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Application\ChangementsBundle\Form\ChangementsType;
+use Application\ChangementsBundle\Form\CalendarType;
 use Application\ChangementsBundle\Form\ChangementsFilterType;
 use Application\ChangementsBundle\Form\ChangementsFilterAmoiType;
 use Application\ChangementsBundle\Entity\GridExport;
@@ -568,6 +569,13 @@ class ChangementsController extends Controller {
 
     public function calendarAction(Request $request) {
 
+            $session = $this->getRequest()->getSession();
+        $session->set('buttonretour', 'changements');
+           $data=$session->get('calendar_dates');
+                  $form = $this->createForm(new CalendarType());
+
+   
+        //$session['calendar_dates'] = isset($session['calendar_dates']) ? $session['calendar_dates'] : null ;
         //     $past = date('Y-m-d', strtotime('-30days'));
         //     $current_date=date('Y-m-d');
         //   $value = $date->toString('yyyy-MM');
@@ -575,30 +583,51 @@ class ChangementsController extends Controller {
         //$current = date('Y-m-d', strtotime('+30days'));
     //    $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $dataform = $request->get('form');
-            
+            $dataform = $request->get('changements_calendar_form');
             $data = $dataform['publishedAt'];
-       //    print_r($dataform);
+            
+            
+        $session->set('calendar_dates', $data);
+   
+        //   print_r($dataform);exit(1);
            // echo "val:"; print_r($request->get('request')->get('year'));
          //      exit(1);
               /*$current_year = $dataform['year'];
             $current_month = $dataform['month'];*/
-            
             $current_year = $data['year'];
             $current_month = $data['month'];
+            
             $current_yearmonth = ("$current_year-$current_month");
-            $form = $this->createCalendarForm(array('mois' => $current_month, 'annee' => $current_year));
-            $form->bind($request);
+          //  $form=new Calendar();
+            // $past = new \DateTime("2013-04");
+        //$current = new \DateTime($row->getField('endTime')->format('Y-m-d'));
+
+       //     $form->setData($modelData)
+          //  $form = $this->createCalendarForm(array('mois' => $current_month, 'annee' => $current_year));
+              $form->bind($request);
 
             // print_r($data);
             //    exit(1);
-        } else {
+        } 
+        //$session['calendar_dates'] = isset($session['calendar_dates']) ? $session['calendar_dates'] : null ;
+        elseif ( isset($data)) {
+         //   echo "data set<br>";
+        //    exit(1);
+        //   $data=$session->get('calendar_dates');
+            $current_year = $data['year'];
+            $current_month = $data['month'];
+          //  print_r($data);exit(1);
+        //    $form = $this->createCalendarForm(array('mois' => $current_month, 'annee' => $current_year));
+            $form->bind($data);
+         
+        }
+            else {
             $current_date = new \DateTime();
             //   $next=
             $current_yearmonth = $current_date->format('Y-m');
             $current_year = $current_date->format('Y');
             $current_month = $current_date->format('m');
-            $form = $this->createCalendarForm(array('mois' => $current_month, 'annee' => $current_year));
+           // $form = $this->createCalendarForm(array('mois' => $current_month, 'annee' => $current_year));
         }
         //   $postData = $request->request->get('contact');
 //$name_value = $postData['name'];
@@ -649,9 +678,7 @@ class ChangementsController extends Controller {
     {% endfor %}
 
 */
-        $session = $this->getRequest()->getSession();
-        $session->set('buttonretour', 'changements');
-        $em = $this->getDoctrine()->getManager();
+         $em = $this->getDoctrine()->getManager();
 
      /*   $query_events = $em->getRepository('ApplicationChangementsBundle:Changements')
                 ->getEventsQueryBuilder($past, $current);*/
@@ -1181,14 +1208,16 @@ class ChangementsController extends Controller {
                           )) */
                      //   ->add('month', 'choice', array('label' => 'Mois', 'choices' => $mmonth,'data'=>$month))
                      //   ->add('year', 'choice', array('label' => 'Année', 'choices' => $myears, 'data' => $year))
-                        ->add('publishedAt', 'date', array(
+                        ->add('publishedAt', 'birthday', array(
                             'widget' => 'choice',
                             'format' => 'yyyy-MM-dd',
                             'pattern' => '{{ year }}-{{ month }}-{{ day }}',
-                            'years' => range(Date('Y'), 2009),
+                            'years' => range(Date('Y'), 2008),
                             'label' => false,
                             'input' => 'string',
-                                //   'data'  => date_create()
+                        //    'data'=>'2013-05-01',
+                         //   'data' => new \DateTime('2009-02-20')
+                                   //'data'  => date_create()
                         ))
                         ->getForm()
         ;

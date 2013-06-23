@@ -72,9 +72,9 @@ class AppKernel extends Kernel {
         //new FOS\CommentBundle\FOSCommentBundle(),
         new JMS\SerializerBundle\JMSSerializerBundle($this),
              //====================================================
-            // HIGHCHARTS
+            // HIGHCHARTS ET CALENDARS
             //====================================================
-            
+              new ADesigns\CalendarBundle\ADesignsCalendarBundle(),
             new Ob\HighchartsBundle\ObHighchartsBundle(),
 
         );

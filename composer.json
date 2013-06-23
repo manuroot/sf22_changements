@@ -72,7 +72,8 @@
         "jms/serializer-bundle": "0.12.*@dev",
         "friendsofsymfony/comment-bundle": "2.0.*@dev",
         "ob/highcharts-bundle": "dev-master",
-        "knplabs/knp-markdown-bundle": "1.2.*@dev"
+        "knplabs/knp-markdown-bundle": "1.2.*@dev",
+          "adesigns/calendar-bundle": "dev-master"
         
 
 

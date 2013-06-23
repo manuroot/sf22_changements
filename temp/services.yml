@@ -20,7 +20,12 @@ services:
         tags:
             - { name: calendr.event_provider }
             
-
+   application.changementsbundle.calendar_listener:
+       class: Application\ChangementsBundle\EventListener\CalendarEventListener
+       arguments:       ['doctrine.orm.entity_manager']
+     
+       tags:
+            - { name: kernel.event_listener }
 
            
    
