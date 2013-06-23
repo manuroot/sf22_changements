@@ -609,8 +609,8 @@ class ChangementsController extends Controller {
         //echo "current=$current annee=$annee<br>";
         //    echo "current=$current_year month=$current_month<br>";
         //   exit(1);
-        $current = new \DateTime($current_yearmonth);
-        $past = new \DateTime("2013-04");
+      //  $current = new \DateTime($current_yearmonth);
+       // $past = new \DateTime("2013-04");
         //$current = new \DateTime($row->getField('endTime')->format('Y-m-d'));
 
         /* $em = $this->getDoctrine()->getManager();
@@ -692,7 +692,7 @@ class ChangementsController extends Controller {
        // $year = $factory->getYear(2012);
 //$eventCollection = $factory->getEvents($year);
         
-        
+   //     echo "year=$current_year";
     /*   foreach ($events->get as $event)*/
      //   var_dump($events);exit(1);
         //  $paginator = $this->get('knp_paginator');
@@ -703,6 +703,7 @@ class ChangementsController extends Controller {
                   //  'events' => $query_events,
                     'evenement' => $eventCollection,
                     'form' => $form->createView(),
+            'year'=> $current_year,
                         // 'current_month' => $month
         ));
     }

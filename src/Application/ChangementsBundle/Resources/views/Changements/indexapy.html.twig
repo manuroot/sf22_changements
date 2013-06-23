@@ -3,7 +3,14 @@
   {% block stylesheets %}
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/datagrid.css') }}" type="text/css" media="all" /> 
-
+<style>
+table {
+    max-width: 98%;
+    background-color: transparent;
+    border-collapse: collapse;
+    border-spacing: 0px;
+}
+</style>
 {% endblock %}
 
 

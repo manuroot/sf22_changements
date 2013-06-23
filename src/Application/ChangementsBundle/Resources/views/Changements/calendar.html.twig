@@ -5,13 +5,21 @@
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
 <style>
         a.calendar {
-        color:whitesmoke;}
-    tr.title {
+            color:#373737
+        }
+    tr.titlea {
         background-color: #757575;
         font-size: 14px;
     }
+     tr.title , td.title{
+    height: 35px;
+    background: none repeat scroll 0% 0% rgb(87, 96, 108);
+    text-align: center;
+    color: rgb(254, 254, 254);
+}
+
      td {
-        background-color: red;
+         background-color: #bcbcbc;
         font-size: 12px;
     }
     td.calendar{
@@ -21,19 +29,86 @@
         font-size: 12px;
         text-align:center;
     }
-    .table-bordered {
-        border-style: solid;
-    border-width: 1px 1px 1px 1px;
+    td.datas:hover {
+    text-decoration: underline;
+    background-color: rgb(255, 209, 0);
+}
+ .table td {
+
+    line-height: 20px;
+    text-align: left;
+    vertical-align: top;
+    border-top: 1px solid rgb(221, 221, 221);
+}
+
+  /*  table{
+    border-style: solid;
+    border-width: 1px;
     border-color: black;
   
     border-collapse: collapse;
 width:98%;
    
-    }
+    }*/
+    .table-mybordered {
+        width:98%;
+    border-width: 1px 1px 1px 1px;
+    border-style: solid solid solid solid;
+   border-spacing: 1px;
+    border-color: black -moz-use-text-color;
+    -moz-border-top-colors: black;
+    -moz-border-right-colors: black;
+    -moz-border-bottom-colors: black;
+    -moz-border-left-colors: black;
+    border-image: none;
+    border-collapse: separate;
+    border-radius: 6px 6px 6px 6px;
+}
+
+   /* .table-bordered {
+        border-style: solid;
+    border-width: 1px;
+    border-color: black;
+  
+    border-collapse: collapse;
+width:98%;
+   
+    }*/
   .table-condensed td {
     padding: 0px 0px;
   
 }
+div.event {
+    width:100%;
+    padding-left:4px;
+    margin-bottom:2px;
+   /* border-bottom:1px solid;
+    border-top:1px solid;*/
+            
+}
+div.noevent {
+    width:100%;
+    padding-left:4px;
+    margin-bottom:4px;
+    margin-top:1px
+        }
+        th:first-child {
+    -moz-border-radius: 6px 0 0 0;
+    -webkit-border-radius: 6px 0 0 0;
+    border-radius: 6px 0 0 0;
+}
+/*
+th:last-child {
+    -moz-border-radius: 0 6px 0 0;
+    -webkit-border-radius: 0 6px 0 0;
+    border-radius: 0 6px 0 0;
+}
+
+th:only-child{
+    -moz-border-radius: 6px 6px 0 0;
+    -webkit-border-radius: 6px 6px 0 0;
+    border-radius: 6px 6px 0 0;
+}*/
 
      /*color1 { */
     </style>
@@ -109,8 +184,9 @@ Changements Calendrier
 {{ 'Highlight this sentence'|highlightme|raw }#}
   {#  <a href="{{ path('changements_newflow') }}" class="btn btn-medium btn-primary">Ajouter Changement</a>
      #}
-    {#<table class="table small table-striped table-condensed table-hover">#}
-<table class="table small table-striped table-condensed table-bordered table-hover">
+    {#<table class="table small table-striped table-condensed table-hover">
+<table class="table small table-striped table-condensed table-bordered table-hover">#}
+<table class="table table-mybordered ">
         <thead>
            <tr><td class="calendar" colspan="8">
                  <form action="{{ path('changements_calendar') }}" method="post" {{ form_enctype(form) }}>
@@ -127,21 +203,29 @@ Changements Calendrier
             <tr class="title">
               
                 <th width="150px">Semaine <i class="icon-white icon-arrow-down"></i> /Jour <i class="icon-white  icon-arrow-right"></i></th> 
-                <th> <span class="label label-warning">  Lundi</span></th>
+                <th> Lundi</th>
+                <th> Mardi</span></th>
+                <th> Mercredi</span></th>
+                <th> Jeudi</span></th>
+                <th> Vendredi</span></th>
+                <th> Samedi</span></th>
+                <th> Dimanche</span></th>
+           {#    <th> <span class="label label-warning">  Lundi</span></th>
                 <th> <span class="label label-warning">  Mardi</span></th>
                 <th> <span class="label label-warning">  Mercredi</span></th>
                 <th> <span class="label label-warning">  Jeudi</span></th>
                 <th> <span class="label label-warning">  Vendredi</span></th>
                 <th> <span class="label label-warning">  Samedi</span></th>
                 <th> <span class="label label-warning">  Diamche</span></th>
+            #}
             </tr>  
         </thead>
         <tbody>
             <tr class="single">
     {% for week in month %}
-                    <td><p class="text-warning"> S-{{ week }} </p></td>
+                    <td class="title"> Semaine-{{ week }}</td>
             {% for day in week %}
-                    <td>
+                    <td class="datas">
                          {#% if month.includes(day) %#}
                     {% if month.contains(day.begin) %}
       <span class="label label-warning"> {{ day.begin.format('d') }} </span><br>
@@ -150,25 +234,25 @@ Changements Calendrier
       {% if day.containsEvent(event) %}
      
       {% set mycolor=foo[loop.index0] %}
-       <div style="width:100%;padding-left:4px;margin-bottom:2px;border-bottom:1px solid;border-top:1px solid;background-color: {{ mycolor }};">
-      
- {#<div style="width:100%;border:1px solid;margin-bottom:2px;padding-top:1px;padding-bottom:1px;margin:0px;background-color: {{ mycolor }};">
-   #}  
-       
-                            <a class="calendar" href="{{ path('changements_show', { 'id': event.uid }) }}">
-            {{ event }}</a>
+       <div class="event" style="background-color: {{ mycolor }};">
+                        <a class="calendar" href="{{ path('changements_show', { 'id': event.uid }) }}">
+                            {# tests a ajouter  {{ event.begin|date('Y-m-d') }}</a>autoescape#}
+                            {#    {% set cur_date=year-month|date('m')-day.begin|date('d') %}
+{% if event.begin|date('Y-m-d') == cur_date %}
+
+               {% else %}
+                      {{  event.begin|date('Y-m-d')  }}-- currentdate={{ cur_date }}--
+{#    {{ event }} date: {{ year }} {{ month|date('m') }} {{ day.begin|date('d') }}</a>#}
+{{ event }}</a>
+         {#  {% endif %}#}
             </div>
                   
      
       {% elseif week.containsEvent(event) %}
       
-          <div style="width:100%;padding-left:4px;margin-bottom:4px;margin-top:1px">&nbsp;
-    </div>
+          <div class="noevent">&nbsp;   </div>
                                 {% else %}
-          {#<div style="width:100%;padding-left:4px;margin-bottom:2px;border-bottom:1px hidden;border-top:1px hidden;"> &nbsp;
-    </div>#}
-                  
-                                {% endif %}
+                               {% endif %}
         {% endfor %}
                     {% else %}
                                 &nbsp;
@@ -179,6 +263,7 @@ Changements Calendrier
     {% endfor %}
 
                 </table>
+ 
 {% endblock %}
     
     

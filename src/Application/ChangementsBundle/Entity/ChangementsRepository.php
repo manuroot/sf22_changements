@@ -320,6 +320,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
     }
 
     public function getEvents(\DateTime $begin, \DateTime $end, array $options = array()) {
+    //    echo "getEvents query";exit(1);
         return $this->getEventsQueryBuilder($begin, $end, $options);
     }
 
