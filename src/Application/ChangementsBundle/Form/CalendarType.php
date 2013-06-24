@@ -21,9 +21,11 @@ class CalendarType extends AbstractType {
 $builder
    ->add('publishedAt', 'date', array(
                             'widget' => 'choice',
-                            'format' => 'yyyy-MM-dd',
+                            'format' => 'yyyy-MMMM-dd',
                             'pattern' => '{{ year }}-{{ month }}-{{ day }}',
                             'years' => range($min_year,$max_year),
+      //  'days' => array(1),
+      //   'empty_value' => array('year' => 'Year', 'month' => 'Month', 'day' => false),
                             'label' => false,
                             'input' => 'string',
      //  'data'=>'2013-10-02',

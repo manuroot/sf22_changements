@@ -562,6 +562,7 @@ class ChangementsController extends Controller {
         $session = $this->getRequest()->getSession();
         $session->set('buttonretour', 'changements');
         $datas_session = $session->get('calendar_dates');
+        $surround_months=array();
         $form = $this->createForm(new CalendarType());
         if ($request->getMethod() == 'POST') {
             $dataform = $request->get('changements_calendar_form');
@@ -569,8 +570,10 @@ class ChangementsController extends Controller {
             $session->set('calendar_dates', $dataform);
             $current_year = $dataform['publishedAt']['year'];
             $current_month = $dataform['publishedAt']['month'];
-
-
+            //$surround_months['next']month=date('MMMM');
+          //  $date=$current_year . '-' $current_month . '-01'; 
+            //$surround_months['previous']= $currenta = $date->format('Y-m-d'));
+            //$surround_months['previous']=;$next_month=date('MMMM');
             $form->bind($dataform);
         } elseif (isset($datas_session)) {
             //   echo "data set<br>";
