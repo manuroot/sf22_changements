@@ -97,6 +97,8 @@ div.noevent {
     -webkit-border-radius: 6px 0 0 0;
     border-radius: 6px 0 0 0;
 }
+div.controls {
+width:auto; margin-right:20px;float:left;}
 /*
 th:last-child {
     -moz-border-radius: 0 6px 0 0;
@@ -194,6 +196,7 @@ Changements Calendrier
                  {#   {{ form_widget(form.month) }}
                          {{ form_widget(form.year) }}#}
                      {{ form_row(form.publishedAt) }}
+                     {{ form_rest(form) }}
                         {#
 {{ form_widget(form) }}#}
     <button type="submit" class="btn btn-small btn-warning">Valider</button>

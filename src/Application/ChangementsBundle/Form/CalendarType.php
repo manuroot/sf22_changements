@@ -17,24 +17,39 @@ class CalendarType extends AbstractType {
     }
         */
 $builder
-   ->add('publishedAt', 'birthday', array(
+   ->add('publishedAt', 'date', array(
                             'widget' => 'choice',
                             'format' => 'yyyy-MM-dd',
                             'pattern' => '{{ year }}-{{ month }}-{{ day }}',
                             'years' => range(Date('Y'), 2008),
                             'label' => false,
                             'input' => 'string',
-       'data'=>'2012-10-02',
+     //  'data'=>'2013-10-02',
        'mapped'=>false
                   
-                        ));
+                        ))
+        /*
+->add('montext', 'text', array(
+    'label'=>'montext',
+                      
+       'data'=>'mon text',
+       'mapped'=>false
+                  
+                        ))
+        ->add('date', 'date', array(
+                    'widget' => 'single_text',
+                    'format' => 'dd/MM/yyyy',
+                    'attr' => array('class' => 'datepicker'),
+                    'data' => new \DateTime()
+                ))*/
+            ;
          
     }
 
    /* public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
-       'data_class' => 'Application\ChangementsBundle\Entity\Changements',
-            'cascade_validation' => true,
+    //   'data_class' => 'Application\ChangementsBundle\Entity\Changements',
+     //       'cascade_validation' => true,
         ));
     }*/
 

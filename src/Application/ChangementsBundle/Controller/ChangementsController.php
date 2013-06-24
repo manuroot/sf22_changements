@@ -321,33 +321,33 @@ class ChangementsController extends Controller {
         //   var_dump($data_sumbymonth->getDql());exit(1);
         $temp = array();
         $series_bymois = array();
-        for ($i=0;$i<12;$i++){
-          //  echo "i=$i<br>";
-           // if (array_key_exists($res2[$i]['mois'])){
-            if (isset($res2[$i]['mois'])){
-       //         echo "mois=" . $res2[$i]['mois'] . "-nb=" .  $res2[$i]['nb'] . "<br>";
-            //     if ((int) $v['mois'] > 0)
+        for ($i = 0; $i < 12; $i++) {
+            //  echo "i=$i<br>";
+            // if (array_key_exists($res2[$i]['mois'])){
+            if (isset($res2[$i]['mois'])) {
+                //         echo "mois=" . $res2[$i]['mois'] . "-nb=" .  $res2[$i]['nb'] . "<br>";
+                //     if ((int) $v['mois'] > 0)
                 $series_bymois[$i] = (int) $res2[$i]['nb'];
+            } else {
+                $series_bymois[$i] = null;
             }
-            else {$series_bymois[$i]=null;}
-       
         }
- /*foreach ($res2 as $k => $v) {
-            //    array_push($series_bymois,(integer)$v['nb']);
-           
-              echo "k=$k mois=" . $v['mois'] . "nb=" . $v['nb'] . "<br>";
-              $series_bymois[$k]=(integer)$v['nb'];
-            // array_push($temp, $v)
-            // $ymarray[$v["projet"]]=
- 
- }*/
-       //  print_r($series_bymois);exit(1);
+        /* foreach ($res2 as $k => $v) {
+          //    array_push($series_bymois,(integer)$v['nb']);
+
+          echo "k=$k mois=" . $v['mois'] . "nb=" . $v['nb'] . "<br>";
+          $series_bymois[$k]=(integer)$v['nb'];
+          // array_push($temp, $v)
+          // $ymarray[$v["projet"]]=
+
+          } */
+        //  print_r($series_bymois);exit(1);
         $series = array(
             //        array("name" => "Data Serie Name", "data" =>     array(1, 2, 4, 7, 6,9))
             array("name" => "operations", "data" => $series_bymois)
         );
 
-       $ob1 = new Highchart();
+        $ob1 = new Highchart();
         $ob1->chart->renderTo('linechart1');  // The #id of the div where to render the chart
         $ob1->chart->type('column');
         $ob1->title->text('Demandes 2013');
@@ -361,9 +361,9 @@ class ChangementsController extends Controller {
           'shared'=> true
           )); */
 
-       $ob1->plotOptions->column(array(
+        $ob1->plotOptions->column(array(
             'stacking' => 'normal',
-             'dataLabels' => array(
+            'dataLabels' => array(
                 'enabled' => true,
                 'style' => array(
                     'fontWeight' => 'bold',
@@ -373,8 +373,7 @@ class ChangementsController extends Controller {
             'pointPadding' => 0.1,
             'borderWidth' => 1));
         $ob1->yAxis(array(
-              'borderWidth'=> 1,
-          
+            'borderWidth' => 1,
             'title' => array('text' => "Opérations"),
             'stackLabels' => array(
                 'enabled' => false,
@@ -385,15 +384,15 @@ class ChangementsController extends Controller {
         ));
         //  $ob1->yAxis->title(array('text' => "Opérations"));
         $ob1->series($series);
-/*   
-        $ob1 = new Highchart();
-        $ob1->chart->renderTo('linechart1'); // The #id of the div where to render the chart
-        $ob1->title->text('Demandes 2013');
-        $ob1->xAxis->title(array('text' => "Demandes"));
-        $ob1->yAxis->title(array('text' => "Mois (2013)"));
-        $ob1->series($series);
-        
-        */
+        /*
+          $ob1 = new Highchart();
+          $ob1->chart->renderTo('linechart1'); // The #id of the div where to render the chart
+          $ob1->title->text('Demandes 2013');
+          $ob1->xAxis->title(array('text' => "Demandes"));
+          $ob1->yAxis->title(array('text' => "Mois (2013)"));
+          $ob1->series($series);
+
+         */
         $ob2 = new Highchart();
         $ob2->chart->renderTo('linechart2');
         $ob2->title->text('Demandes 2013: Projets');
@@ -464,51 +463,51 @@ class ChangementsController extends Controller {
         //$ob5 = new Highchart();
         //$ob4->plotOptions->bar(array(
 
-/*
-        $ob4 = new Highchart();
-        $ob4->chart->renderTo('linechart4');
-        $ob4->chart->type('column');
-        $ob4->plotOptions->bar(array(
-            //   'type'=>'bar',
-            'column' => array(
-                'stacking' => 'normal',
-                'dataLabels' => array(
-                    'enabled' => true,
-                )
-            ),
-            'pointPadding' => 0.4,
-            'borderWidth' => 1));
-     
-        //  $ob4->plotOptions->series(array('stacking'=> 'normal'));
-        $ob4->title->text('Demandes 2013: Projets');
-        $ob4->legend->backgroundColor('#FFFCCE');
-        $ob4->legend->reverse(true);
-        //'reversed'=> true
-        //));
-        $ob4->xAxis->categories(array(
-            'Jan',
-            'Feb',
-            'Mar',
-            'Apr',
-            'May',
-            'Jun',
-            'Jul',
-            'Aug',
-            'Sep',
-            'Oct',
-            'Nov',
-            'Dec'
-        ));
-        $ob4->yAxis->min(0);
-        // $ob4->yAxis->max(5);
-        $ob4->yAxis->title(array('text' => 'Total Applications'));
-        $ob4->yAxis->stackLabels(array('enabled' => true,
-            'style' => array('fontWeight' => 'bold',
-                'color' => 'Highcharts.theme && Highcharts.theme.textColor) || "gray"')
-        ));
-        $series4 = $res;
+        /*
+          $ob4 = new Highchart();
+          $ob4->chart->renderTo('linechart4');
+          $ob4->chart->type('column');
+          $ob4->plotOptions->bar(array(
+          //   'type'=>'bar',
+          'column' => array(
+          'stacking' => 'normal',
+          'dataLabels' => array(
+          'enabled' => true,
+          )
+          ),
+          'pointPadding' => 0.4,
+          'borderWidth' => 1));
+
+          //  $ob4->plotOptions->series(array('stacking'=> 'normal'));
+          $ob4->title->text('Demandes 2013: Projets');
+          $ob4->legend->backgroundColor('#FFFCCE');
+          $ob4->legend->reverse(true);
+          //'reversed'=> true
+          //));
+          $ob4->xAxis->categories(array(
+          'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'May',
+          'Jun',
+          'Jul',
+          'Aug',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Dec'
+          ));
+          $ob4->yAxis->min(0);
+          // $ob4->yAxis->max(5);
+          $ob4->yAxis->title(array('text' => 'Total Applications'));
+          $ob4->yAxis->stackLabels(array('enabled' => true,
+          'style' => array('fontWeight' => 'bold',
+          'color' => 'Highcharts.theme && Highcharts.theme.textColor) || "gray"')
+          ));
+          $series4 = $res;
           $ob4->series($series4);
-    */
+         */
 
 
 
@@ -547,7 +546,7 @@ class ChangementsController extends Controller {
         return $this->render('ApplicationChangementsBundle:Changements:indexcharts.html.twig', array(
                     'chart1' => $ob1,
                     'chart2' => $ob2,
-                  //  'chart4' => $ob4
+                        //  'chart4' => $ob4
         ));
     }
 
@@ -560,168 +559,57 @@ class ChangementsController extends Controller {
 
     public function calendarAction(Request $request) {
 
-            $session = $this->getRequest()->getSession();
+        $session = $this->getRequest()->getSession();
         $session->set('buttonretour', 'changements');
-           $data=$session->get('calendar_dates');
-                  $form = $this->createForm(new CalendarType());
-
-   
-        //$session['calendar_dates'] = isset($session['calendar_dates']) ? $session['calendar_dates'] : null ;
-        //     $past = date('Y-m-d', strtotime('-30days'));
-        //     $current_date=date('Y-m-d');
-        //   $value = $date->toString('yyyy-MM');
-        //      $currenta = ($row->getField('endTime')->format('Y-m-d'));
-        //$current = date('Y-m-d', strtotime('+30days'));
-    //    $request = $this->get('request');
+        $datas_session = $session->get('calendar_dates');
+        $form = $this->createForm(new CalendarType());
         if ($request->getMethod() == 'POST') {
             $dataform = $request->get('changements_calendar_form');
-            $data = $dataform['publishedAt'];
-            
-            
-        $session->set('calendar_dates', $data);
-   
-        //   print_r($dataform);exit(1);
-           // echo "val:"; print_r($request->get('request')->get('year'));
-         //      exit(1);
-              /*$current_year = $dataform['year'];
-            $current_month = $dataform['month'];*/
-            $current_year = $data['year'];
-            $current_month = $data['month'];
-            
-            $current_yearmonth = ("$current_year-$current_month");
-          //  $form=new Calendar();
-            // $past = new \DateTime("2013-04");
-        //$current = new \DateTime($row->getField('endTime')->format('Y-m-d'));
+            //     print_r($dataform);exit(1);
+            $session->set('calendar_dates', $dataform);
+            $current_year = $dataform['publishedAt']['year'];
+            $current_month = $dataform['publishedAt']['month'];
 
-       //     $form->setData($modelData)
-          //  $form = $this->createCalendarForm(array('mois' => $current_month, 'annee' => $current_year));
-              $form->bind($request);
 
-            // print_r($data);
+            $form->bind($dataform);
+        } elseif (isset($datas_session)) {
+            //   echo "data set<br>";
             //    exit(1);
-        } 
-        //$session['calendar_dates'] = isset($session['calendar_dates']) ? $session['calendar_dates'] : null ;
-        elseif ( isset($data)) {
-         //   echo "data set<br>";
-        //    exit(1);
-        //   $data=$session->get('calendar_dates');
-            $current_year = $data['year'];
-            $current_month = $data['month'];
-          //  print_r($data);exit(1);
-        //    $form = $this->createCalendarForm(array('mois' => $current_month, 'annee' => $current_year));
-            $form->bind($data);
-         
+            $datas = $session->get('calendar_dates');
+            $current_year = $datas['publishedAt']['year'];
+            $current_month = $datas['publishedAt']['month'];
+            $form->bind($datas);
         }
-            else {
+        // pas de sesion
+        else {
+            echo "pas de session<br>";
+            //print_r($datas_session);
+            //    exit(1);
             $current_date = new \DateTime();
-            //   $next=
+            // $next=
             $current_yearmonth = $current_date->format('Y-m');
             $current_year = $current_date->format('Y');
             $current_month = $current_date->format('m');
-           // $form = $this->createCalendarForm(array('mois' => $current_month, 'annee' => $current_year));
+            echo "y=$current_year m=$current_month<br>";
+            // exit(1);
+            //   $next=
+            //$current_year ='2013';
+            // $current_month = '06';
+            // $current_yearmonth = $current_date->format('Y-m-d');
+            $datas = array();
+            $datas['publishedAt'] = array(
+                'year' => (int) $current_year, 'month' => (int) $current_month, 'day' => 1,
+            );
+            $form->bind($datas);
         }
-        //   $postData = $request->request->get('contact');
-//$name_value = $postData['name'];
-        // }
-        //$current=$current_date->format('Y-m-d H:i:s');
-        //$current=$current_date->format('Y-m-d');
-        //$annee=$current->toString('m');
-        //echo "current=$current annee=$annee<br>";
-        //    echo "current=$current_year month=$current_month<br>";
-        //   exit(1);
-      //  $current = new \DateTime($current_yearmonth);
-       // $past = new \DateTime("2013-04");
-        //$current = new \DateTime($row->getField('endTime')->format('Y-m-d'));
 
-        /* $em = $this->getDoctrine()->getManager();
-
-          $entities = $em->getRepository('ApplicationChangementsBundle:Changements')->findAll();
-
-          return $this->render('ApplicationChangementsBundle:Changements:index.html.twig', array(
-          'entities' => $entities,
-          )); */
-//$factory = new CalendR\Calendar;
-//$factory->getEventManager()->addProvider('myawesomeprovider', 'new MyAwesomeProvider');
-        //  $f=$this->get('booking_repository');
-        //  $month = $f->getMonth(2012, 6);
-
-
-/*
-        
-    {% for week in month %}
-                    <td><p class="text-warning"> S-{{ week }} </p></td>
-            {% for day in week %}
-                    <td>
-                         {#% if month.includes(day) %#}
-                    {% if month.contains(day.begin) %}
-      <span class="label"> {{ day.begin.format('d') }} </span><br>
-         {% for event in evenement.find(day) %}
-                            <a href="{{ path('changements_show', { 'id': event.uid }) }}">
-            {{ event }}</a>
-                                <br>
-        {% endfor %}
-                    {% else %}
-                                &nbsp;
-                    {% endif %}
-                            </td>
-            {% endfor %}
-                        </tr>
-    {% endfor %}
-
-*/
-  //       $em = $this->getDoctrine()->getManager();
-
-     /*   $query_events = $em->getRepository('ApplicationChangementsBundle:Changements')
-                ->getEventsQueryBuilder($past, $current);*/
-        /* $nb_events=$em->getRepository('ApplicationChangementsBundle:Changements')
-          ->findcount($past, $current); */
-       //     print_r($query_events);
-       //  exit(1);
-        // $nbtags = $query->getPicture()->count();
         $month = $this->get('calendr')->getMonth($current_year, $current_month);
-        
-       // $evenements= $this->get('calendr')->getEvents($month);
-       // $colors=array();
-          $eventCollection = $this->get('calendr')->getEvents($month);
-        /*  echo "sur 1 mois:  <br>";
-          foreach ($eventCollection->find($month)  as $event){
-              
-          echo "evenement: $event uuid: " . $event->getUid() ."<br>";
-          }
-          
-           foreach ($month as $week){
-              echo "<h2> $month - $week </h2>";
-              foreach ($eventCollection->find($week) as $event){
-           
-                  echo "evenement: $event uuid: " . $event->getUid() ."<br>";
-                  
-              }
-           }*/
-                  /*  <td><p class="text-warning"> S-{{ week }} </p></td>
-            {% for day in week %}
-      
-        foreach ($eventCollection as $event){
-            
-            echo "event=" .$event . "<br>";
-        }*/
-    //    echo "end";
-      //  exit(1);
-        
-       // $year = $factory->getYear(2012);
-//$eventCollection = $factory->getEvents($year);
-        
-   //     echo "year=$current_year";
-    /*   foreach ($events->get as $event)*/
-     //   var_dump($events);exit(1);
-        //  $paginator = $this->get('knp_paginator');
-
+        $eventCollection = $this->get('calendr')->getEvents($month);
         return $this->render('ApplicationChangementsBundle:Changements:calendar.html.twig', array(
                     'month' => $month,
-                    // 'myweek' =>  $this->get('calendr')->getWeek(2012, 14),
-                  //  'events' => $query_events,
                     'evenement' => $eventCollection,
                     'form' => $form->createView(),
-            'year'=> $current_year,
+                    'year' => $current_year,
                         // 'current_month' => $month
         ));
     }
@@ -1185,7 +1073,7 @@ class ChangementsController extends Controller {
 
         $myears = range(Date('Y') - 5, Date('Y') + 5);
         //$mmonth = range(1, 12);
-        $mmonth=array(1=>'jan',2=>'fev');
+        $mmonth = array(1 => 'jan', 2 => 'fev');
         // mmonth = array_map( sprintf("%02d",'floatval', $nonFloats);.
         //     sprintf("%02d",
         //    $myears = array("2012", "2013");
@@ -1197,8 +1085,8 @@ class ChangementsController extends Controller {
                           'widget' => 'choice',
                           'empty_value' => array('year' => $year, 'month' => $month, 'day' => '1')
                           )) */
-                     //   ->add('month', 'choice', array('label' => 'Mois', 'choices' => $mmonth,'data'=>$month))
-                     //   ->add('year', 'choice', array('label' => 'Année', 'choices' => $myears, 'data' => $year))
+                        //   ->add('month', 'choice', array('label' => 'Mois', 'choices' => $mmonth,'data'=>$month))
+                        //   ->add('year', 'choice', array('label' => 'Année', 'choices' => $myears, 'data' => $year))
                         ->add('publishedAt', 'birthday', array(
                             'widget' => 'choice',
                             'format' => 'yyyy-MM-dd',
@@ -1206,9 +1094,9 @@ class ChangementsController extends Controller {
                             'years' => range(Date('Y'), 2008),
                             'label' => false,
                             'input' => 'string',
-                        //    'data'=>'2013-05-01',
-                         //   'data' => new \DateTime('2009-02-20')
-                                   //'data'  => date_create()
+                                //    'data'=>'2013-05-01',
+                                //   'data' => new \DateTime('2009-02-20')
+                                //'data'  => date_create()
                         ))
                         ->getForm()
         ;
