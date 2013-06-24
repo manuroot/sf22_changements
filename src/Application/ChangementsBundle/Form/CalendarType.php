@@ -24,6 +24,7 @@ $builder
                             'years' => range(Date('Y'), 2008),
                             'label' => false,
                             'input' => 'string',
+       'data'=>'2012-10-02',
        'mapped'=>false
                   
                         ));

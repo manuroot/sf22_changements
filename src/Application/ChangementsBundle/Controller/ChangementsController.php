@@ -547,7 +547,7 @@ class ChangementsController extends Controller {
         return $this->render('ApplicationChangementsBundle:Changements:indexcharts.html.twig', array(
                     'chart1' => $ob1,
                     'chart2' => $ob2,
-                    'chart4' => $ob4
+                  //  'chart4' => $ob4
         ));
     }
 
