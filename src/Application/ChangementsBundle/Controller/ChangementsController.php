@@ -321,26 +321,37 @@ class ChangementsController extends Controller {
         //   var_dump($data_sumbymonth->getDql());exit(1);
         $temp = array();
         $series_bymois = array();
-        foreach ($res2 as $k => $v) {
+        for ($i=0;$i<12;$i++){
+          //  echo "i=$i<br>";
+           // if (array_key_exists($res2[$i]['mois'])){
+            if (isset($res2[$i]['mois'])){
+       //         echo "mois=" . $res2[$i]['mois'] . "-nb=" .  $res2[$i]['nb'] . "<br>";
+            //     if ((int) $v['mois'] > 0)
+                $series_bymois[$i] = (int) $res2[$i]['nb'];
+            }
+            else {$series_bymois[$i]=null;}
+       
+        }
+ /*foreach ($res2 as $k => $v) {
             //    array_push($series_bymois,(integer)$v['nb']);
-            if ((int) $v['mois'] > 0)
-                $series_bymois[$v['mois'] - 1] = (int) $v['nb'];
-            //  echo "mois=" . $v['mois'] . "nb=" . $v['nb'] . "<br>";
+           
+              echo "k=$k mois=" . $v['mois'] . "nb=" . $v['nb'] . "<br>";
+              $series_bymois[$k]=(integer)$v['nb'];
             // array_push($temp, $v)
             // $ymarray[$v["projet"]]=
-        }
-
-        //  print_r($series_bymois);exit(1);
+ 
+ }*/
+       //  print_r($series_bymois);exit(1);
         $series = array(
             //        array("name" => "Data Serie Name", "data" =>     array(1, 2, 4, 7, 6,9))
             array("name" => "operations", "data" => $series_bymois)
         );
 
-        $ob1 = new Highchart();
+       $ob1 = new Highchart();
         $ob1->chart->renderTo('linechart1');  // The #id of the div where to render the chart
         $ob1->chart->type('column');
         $ob1->title->text('Demandes 2013');
-
+//$categories = array('Jan', 'Feb', 'Mar', 'Apr', 'May');
         $categories = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
         $ob1->xAxis->categories($categories);
         $ob1->xAxis->title(array('text' => "Mois (2013)"));
@@ -350,7 +361,7 @@ class ChangementsController extends Controller {
           'shared'=> true
           )); */
 
-        $ob1->plotOptions->column(array(
+       $ob1->plotOptions->column(array(
             'stacking' => 'normal',
              'dataLabels' => array(
                 'enabled' => true,
@@ -374,9 +385,15 @@ class ChangementsController extends Controller {
         ));
         //  $ob1->yAxis->title(array('text' => "Opérations"));
         $ob1->series($series);
-
-
-
+/*   
+        $ob1 = new Highchart();
+        $ob1->chart->renderTo('linechart1'); // The #id of the div where to render the chart
+        $ob1->title->text('Demandes 2013');
+        $ob1->xAxis->title(array('text' => "Demandes"));
+        $ob1->yAxis->title(array('text' => "Mois (2013)"));
+        $ob1->series($series);
+        
+        */
         $ob2 = new Highchart();
         $ob2->chart->renderTo('linechart2');
         $ob2->title->text('Demandes 2013: Projets');
@@ -447,12 +464,10 @@ class ChangementsController extends Controller {
         //$ob5 = new Highchart();
         //$ob4->plotOptions->bar(array(
 
-
+/*
         $ob4 = new Highchart();
         $ob4->chart->renderTo('linechart4');
         $ob4->chart->type('column');
-
-
         $ob4->plotOptions->bar(array(
             //   'type'=>'bar',
             'column' => array(
@@ -463,12 +478,7 @@ class ChangementsController extends Controller {
             ),
             'pointPadding' => 0.4,
             'borderWidth' => 1));
-        /* 'allowPointSelect' => true,
-          'cursor' => 'pointer',
-          'dataLabels' => array('enabled' => false),
-          'showInLegend' => true,
-          'series' => array('stacking' => 'normal'), */
-
+     
         //  $ob4->plotOptions->series(array('stacking'=> 'normal'));
         $ob4->title->text('Demandes 2013: Projets');
         $ob4->legend->backgroundColor('#FFFCCE');
@@ -497,27 +507,8 @@ class ChangementsController extends Controller {
                 'color' => 'Highcharts.theme && Highcharts.theme.textColor) || "gray"')
         ));
         $series4 = $res;
-        /* $series4 = array(
-          array("name" => "Data1",
-          "data" => array(1, 2, 4, 7, 6,9)),
-          array("name" => "Data2",
-          "data" => array(2, 4, 7, 1, 4,2)),
-          array("name" => "Data",
-          "data" => array(3, 5, 6, 5, 3,5)
-          ),
-          ); */
-        $ob4->series($series4);
-        // $ob4->series(array(array('type' => 'bar', 'name' => 'Browser share', 'data' => $series4)));
-        //   $ob4->series($series4);
-        //$ob4->xAxis->title()
-        /* $ob4->plotOptions->bar(array(
-          series =>
-          stacking: 'normal'
-          'allowPointSelect' => true,
-          'cursor' => 'pointer',
-          'dataLabels' => array('enabled' => false),
-          'showInLegend' => true
-          )); */
+          $ob4->series($series4);
+    */
 
 
 
@@ -678,7 +669,7 @@ class ChangementsController extends Controller {
     {% endfor %}
 
 */
-         $em = $this->getDoctrine()->getManager();
+  //       $em = $this->getDoctrine()->getManager();
 
      /*   $query_events = $em->getRepository('ApplicationChangementsBundle:Changements')
                 ->getEventsQueryBuilder($past, $current);*/

@@ -92,6 +92,7 @@ class ChangementsFilterAmoiType extends AbstractType {
                              'empty_value' => '--- Choisir une option ---',
                     'property' => 'nomUser',
                     'multiple' => true,
+                   //  'expanded'=>true,
                     'required' => false,
                     'label' => 'Utilisateurs'
                 ));
