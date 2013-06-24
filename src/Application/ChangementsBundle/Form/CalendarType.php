@@ -16,12 +16,14 @@ class CalendarType extends AbstractType {
      
     }
         */
+        $min_year=Date('Y')-3;
+        $max_year=Date('Y')+3;
 $builder
    ->add('publishedAt', 'date', array(
                             'widget' => 'choice',
                             'format' => 'yyyy-MM-dd',
                             'pattern' => '{{ year }}-{{ month }}-{{ day }}',
-                            'years' => range(Date('Y'), 2008),
+                            'years' => range($min_year,$max_year),
                             'label' => false,
                             'input' => 'string',
      //  'data'=>'2013-10-02',
