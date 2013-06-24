@@ -30,20 +30,6 @@ $builder
        'mapped'=>false
                   
                         ))
-        /*
-->add('montext', 'text', array(
-    'label'=>'montext',
-                      
-       'data'=>'mon text',
-       'mapped'=>false
-                  
-                        ))
-        ->add('date', 'date', array(
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
-                    'attr' => array('class' => 'datepicker'),
-                    'data' => new \DateTime()
-                ))*/
             ;
          
     }

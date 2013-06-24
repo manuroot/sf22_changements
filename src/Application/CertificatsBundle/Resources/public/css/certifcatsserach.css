@@ -14,7 +14,7 @@ tr.warningdate-left {
     opacity: 0.7;
 }
 div.ui-datepicker {
-    font-size: 90%;
+    font-size: 95%;
 }
 
 
@@ -24,7 +24,7 @@ tr.single {
 
 #ShowHideContainer {
     padding-top:10px;
-    padding-bottom:50px;}
+    padding-bottom:20px;}
 
 .ajoutchange { float:right;margin-right:30px;}
 .toggler { width: 500px; height: 200px; }

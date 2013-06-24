@@ -11,9 +11,36 @@
     
   {% block stylesheets %}
 {{ parent() }}
+     {% stylesheets 
+                '@ApplicationCertificatsBundle/Resources/public/css/sliding.css' 
+                '@ApplicationCertificatsBundle/Resources/public/css/certifcatsserach.css' 
+                output='css/compiled/certificats.css' filter='cssrewrite,?yui_css' debug=false %}
+<link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
+{% endstylesheets %}
+{#
+{{ parent() }}
       <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/sliding.css') }}" type="text/css" media="all"/>
      <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/certifcatsserach.css') }}" type="text/css" media="all"/>
- {% endblock %}
+ #}
+<style>
+        td {
+    font-size: 12px;
+    /*border-collapse: separate;*/
+   /* font-family: 'Times New Roman',Times,serif;*/
+}
+      .input-append, .input-prepend {
+  
+    font-size: 0px;
+    white-space: nowrap;
+  padding-left:3px;
+    float:left;
+}
+
+
+
+    </style>
+
+{% endblock %}
 
 {% block content_header '' %}
 {% block title %}

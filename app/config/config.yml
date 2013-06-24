@@ -60,7 +60,7 @@ assetic:
     #pour le dev
     use_controller: false
     #bundles:        [ ]
-    bundles:        [ ApplicationChangementsBundle ]
+    bundles:        [ ApplicationChangementsBundle,ApplicationCertificatsBundle ]
     #bundles:        [ ApplicationChangementsBundle,SonataNewsBundle ]
     #java: /usr/bin/java
     filters:
