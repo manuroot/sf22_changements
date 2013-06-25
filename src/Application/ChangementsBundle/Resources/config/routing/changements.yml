@@ -40,6 +40,10 @@ changements_show:
     pattern:  /{id}/show
     defaults: { _controller: "ApplicationChangementsBundle:Changements:show" }
 
+changements_showXhtml:
+    pattern:  /{id}/showxhtml
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:showXhtml" }
+    
 changements_new:
     pattern:  /new
     defaults: { _controller: "ApplicationChangementsBundle:Changements:new" }

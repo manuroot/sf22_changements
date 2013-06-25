@@ -11,12 +11,45 @@
     {% javascripts 
     '@ApplicationChangementsBundle/Resources/public/js/jquery.cookie.js'
     '@ApplicationChangementsBundle/Resources/public/js/changements.js'
-      output='js/compiled/changements.js' filter='?yui_js' %}
+     output='js/compiled/changements.js' filter='?yui_js' %}
 <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
-   {# <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/js/jquery.cookie.js') }}"></script>
+
+
+   <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
+  
+{#{{ tinymce_init() }}
+   <script>
+#}
+   
+      
+            {# <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/js/jquery.cookie.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/changements.js') }}"></script>
 #}
+<script>
+    $(document).ready(function(){
+        //Examples of how to assign the ColorBox event to elements
+        //  href:"/uzf04new/chrono/example",
+        $("a.editme").colorbox({
+            iframe:true,
+            transition:	"elastic",
+            //   photo:true,
+            ajax:true,
+            //     html:true,
+            width:"60%",
+            height:"70%",
+           /*  width:"600px",
+            height:"400px",*/
+            //       href:"/uzf04new/chrono/example",
+            fastIframe:false,
+            opacity:0.3
+        
+        });
+                            
+                            
+		
+    });
+</script>
 {% endblock %}
 
     
@@ -28,9 +61,8 @@
                 output='css/compiled/changements.css' filter='cssrewrite,?yui_css' debug=false %}
 <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
 {% endstylesheets %}
-{#<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
-<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/changements.css') }}" type="text/css" media="all" /> 
-#}
+
+<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>
 
 <style>
         td {
@@ -76,7 +108,9 @@ PLANNING DES OPERATIONS
 
 {% set dateright = '30' %}
 {% set date_right_warning= '+' ~  dateright ~ 'days' %}
-{#{% set date_right_warning= '+15days' %}#}
+{#{% set date_right_warning= '+15days' %}
+#}
+
 {% for type, flashMessages in app.session.flashbag.all() %}
     {% for flashMessage in flashMessages %}
 <div class="alert alert-{{ type }}">
@@ -191,7 +225,7 @@ PLANNING DES OPERATIONS
                             <td> {{ entity.ticketInt }}   </td>
                             <td>{{ entity.idEnvironnement|join(', ') }}</td>
                             <td>
-                                <a href="{{ path('changements_show', { 'id': entity.id }) }}">
+                                <a class="editme" title="rere" href="{{ path('changements_showXhtml', { 'id': entity.id }) }}">
                                     <img src="{{ asset('bundles/applicationcertificats/images/detail.png') }}" alt="show" width="15" height="15" />
                                 </a>
                             </td>

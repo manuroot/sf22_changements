@@ -657,11 +657,27 @@ class ChangementsController extends Controller {
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('ApplicationChangementsBundle:Changements:show.html.twig', array(
+         return $this->render('ApplicationChangementsBundle:Changements:show.html.twig', array(
                     'entity' => $entity,
                     'delete_form' => $deleteForm->createView(),));
+      
     }
+   public function showXhtmlAction($id) {
+        $em = $this->getDoctrine()->getManager();
 
+        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Changements entity.');
+        }
+
+        $deleteForm = $this->createDeleteForm($id);
+
+         return $this->render('ApplicationChangementsBundle:Changements:showxhtml.html.twig', array(
+                    'entity' => $entity,
+                    'delete_form' => $deleteForm->createView(),));
+      
+    }
     /**
      * Displays a form to create a new Changements entity.
      *
