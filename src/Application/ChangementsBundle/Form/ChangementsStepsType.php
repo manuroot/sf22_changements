@@ -208,7 +208,7 @@ class ChangementsStepsType extends AbstractType {
                             'class' => 'ApplicationChangementsBundle:ChangementsStatus',
                             'property' => 'nom',
                             'multiple' => false,
-                            'expanded' => true,
+                            'expanded' => false,
                             'required' => true,
                             'label' => 'Status',
                             'empty_value' => '--- Choisir une option ---'

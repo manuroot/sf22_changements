@@ -2228,15 +2228,12 @@ table th[class*="span"],
   width: 924px;
   margin-left: 0;
 }
+
 /*
 .table tbody tr.success td {
-  background-color: #ff9933;
-}*/
-
-.table tbody tr.success td {
     background-color:#cccccc;
-}
-
+}*/
+/*
 .table tbody tr.error td {
   background-color: #f2dede;
 }
@@ -2249,8 +2246,8 @@ table th[class*="span"],
   background-color: #d9edf7;
 }
 
-.table-hover tbody tr.success:hover td {
-  background-color: #d0e9c6;
+.table-hover tbody tr.success:hover td,tr.success:hover td {
+  background-color: #d4d4d4;
 }
 
 .table-hover tbody tr.error:hover td {
@@ -2262,6 +2259,97 @@ table th[class*="span"],
 }
 
 .table-hover tbody tr.info:hover td {
+  background-color: #c4e3f3;
+}
+
+*/
+
+
+/*
+.table tbody tr.normal > td {
+  background-color: whitesmoke;
+}
+.table-hover tbody tr.normal:hover > td {
+  background-color: lightgrey;
+}
+
+.table tbody tr.error > td {
+  background-color: #f2dede;
+}
+
+.table tbody tr.warning > td {
+  background-color: #fcf8e3;
+}
+
+.table tbody tr.info > td {
+  background-color: #d9edf7;
+}
+
+.table-hover tbody tr.success:hover > td {
+  background-color: #d0e9c6;
+}
+
+.table-hover tbody tr.error:hover > td {
+  background-color: #ebcccc;
+}
+
+.table-hover tbody tr.warning:hover > td {
+  background-color: #faf2cc;
+}
+
+.table-hover tbody tr.info:hover > td {
+  background-color: #c4e3f3;
+}
+*/
+
+
+
+
+.table tbody tr.success td {
+  background-color: whitesmoke;
+}
+.table tbody tr.closed td {
+  background-color: white;
+}
+
+.table-hover tbody tr.closed:hover > td {
+  background-color: orange;
+}
+
+
+.table tbody tr.normal > td {
+  background-color: whitesmoke;
+}
+.table-hover tbody tr.normal:hover > td {
+  background-color: lightgrey;
+}
+
+.table tbody tr.error > td {
+  background-color: whitesmoke;
+  opacity: 0.9;
+}
+
+.table tbody tr.warning > td {
+  background-color: #fcf8e3;
+}
+
+.table tbody tr.info > td {
+  background-color: #d9edf7;
+}
+
+.table-hover tbody tr.success:hover > td {
+  background-color: #d0e9c6;
+}
+
+.table-hover tbody tr.error:hover > td {
+  background-color: silver;
+}
+
+.table-hover tbody tr.warning:hover > td {
+  background-color: #faf2cc;
+}
+
+.table-hover tbody tr.info:hover > td {
   background-color: #c4e3f3;
 }
 

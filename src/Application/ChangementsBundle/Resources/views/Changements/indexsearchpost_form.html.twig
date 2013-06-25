@@ -1,7 +1,7 @@
   <form  class="form" action="{{ path('changements_post') }}" method="POST" {{ form_enctype(search_form) }}>
           <table class="table table-bordered">
             <tbody>
-                <tr class="single">
+                <tr class="success">
                     <td>
                              
     {{ form_errors(search_form.nom) }}
@@ -39,7 +39,7 @@
 
   </td>
    </tr>
-    <tr class="single"><td colspan="2">
+    <tr class="success"><td colspan="2">
             
      <button type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="filter" >
           <i class="icon-search"></i>  Filtrer</button>

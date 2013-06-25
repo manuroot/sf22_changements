@@ -45,6 +45,7 @@
   padding-left:3px;
     float:left;
 }
+/*
 .table-bordered {
     border-width: 1px 2px 2px 1px;
     border-style:solid solid solid solid;
@@ -56,10 +57,11 @@
     border-image: none;
     border-collapse: separate;
     border-radius: 4px 4px 4px 4px;
-}
+}*/
+/*
 tr.success {
 background-color: #999999}
-
+*/
 
     </style>
 {% endblock %}
@@ -104,7 +106,7 @@ PLANNING DES OPERATIONS
         {% include 'ApplicationChangementsBundle:Changements:indexsearchpost_form.html.twig' %}
         </div>
 </div>
-        <table class="table table-bordered table-striped table-hover">
+        <table class="table table-bordered table-hover">
                     <thead>
                         <tr class="title">
                             <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
@@ -135,19 +137,27 @@ PLANNING DES OPERATIONS
                     <tbody>
     {% for entity in pagination %}
                      {# si datedebut existe #}   
-             {% if entity.dateDebut %}
+          {#   {% if entity.dateDebut %}#}
+                            
+                            {% if entity.idStatus.description == 'closed' %} 
+                             <tr class="closed">
+                                 {# sinon: open prepare ou wait #}
+                            {% else %}
+                                   {% if entity.idStatus.description == 'prepare' or  entity.idStatus.description == 'wait'%} 
+                                     <tr class="warning">
+                                         {# encours==open#}
+                                       {% else %}
+                                             <tr class="success">
+                                     {% endif %}
+                              {% endif %}
+                                                     
                             {# Pas commencé mais approche #}
-                {% if date(entity.dateDebut) > date() and date(entity.dateDebut) < date(date_right_warning) %}
-                        <tr class="error">
+             {#   {% if date(entity.dateDebut) > date() and date(entity.dateDebut) < date(date_right_warning) %}
+                        <tr class="error">#}
                             {# operation terminée avec succes #}
-                {% elseif date(entity.dateFin) < date() and entity.idStatus.description == 'closed' %} 
-                        <tr>
-                {% else %}  
-                        <tr  class="success"> 
-                {% endif %}
-             {% else %}
-                       <tr>
-             {% endif %}   
+                {#{% elseif date(entity.dateFin) < date() and entity.idStatus.description == 'closed' %} #}
+                   
+         {#    {% endif %}   #}
                                 
                             <td>{{ entity.id }}</td>
                             <td><a href="{{ path('changements_show', { 'id': entity.id }) }}">{{ entity.nom }}</a></td>

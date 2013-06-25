@@ -7,8 +7,14 @@
 
   {% block stylesheets %}
 {{ parent() }}
-<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
-  <style>
+     {% stylesheets 
+                '@ApplicationChangementsBundle/Resources/public/css/sliding.css' 
+                '@ApplicationChangementsBundle/Resources/public/css/changements.css' 
+                output='css/compiled/changements.css' filter='cssrewrite,?yui_css' debug=false %}
+<link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
+{% endstylesheets %}
+
+<style>
          td.single {
          font-style: italic;    
          font-weight: bold;

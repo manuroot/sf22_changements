@@ -4,7 +4,7 @@ changements_post:
     methods: POST|GET
 
 changements_posttest:
-    pattern:  /test
+    pattern:  /operations
     defaults: { _controller: "ApplicationChangementsBundle:Changements:indexposttest" }
     methods: POST|GET
 

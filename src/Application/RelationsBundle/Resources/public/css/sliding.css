@@ -19,8 +19,13 @@
    /* color: red;*/
   
 }
+/*
 tr.title {
     background-color: #333333;
+}*/
+
+tr.title {
+    background-color: #bbbbbb;
 }
 /*calendar big*/
 

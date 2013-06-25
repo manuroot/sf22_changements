@@ -1,6 +1,13 @@
-tr.single {
+/*tr.single {
     background-color: #000000;
+#f1f1f1;
+} */
+tr.single {
+    background-color: #bbbbbb;
 } 
+tr.title {
+    background-color: #bbbbbb;
+}
 tr.warningdate-left {
     background-color: #2e9500;
     /*  font-size:14px;*/
@@ -18,9 +25,7 @@ div.ui-datepicker {
 }
 
 
-tr.single {
-    background-color: #f1f1f1;
-} 
+
 
 #ShowHideContainer {
     padding-top:10px;

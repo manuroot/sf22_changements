@@ -51,11 +51,11 @@
 width:98%;
    
     }*/
-    .table-mybordered {
+   .table-mybordered {
         width:98%;
     border-width: 1px 1px 1px 1px;
     border-style: solid solid solid solid;
-   border-spacing: 1px;
+ border-spacing: 1px;
     border-color: black -moz-use-text-color;
     -moz-border-top-colors: black;
     -moz-border-right-colors: black;
@@ -64,6 +64,7 @@ width:98%;
     border-image: none;
     border-collapse: separate;
     border-radius: 6px 6px 6px 6px;
+    margin-bottom:50px;
 }
 
    /* .table-bordered {
@@ -146,7 +147,7 @@ $( "#datepicker" ).datepicker();
 {% endblock %}
 
 {% block title %}
-Changements Calendrier
+Opérations: Calendrier
 {% endblock %}
 
 
@@ -190,7 +191,9 @@ Changements Calendrier
      #}
     {#<table class="table small table-striped table-condensed table-hover">
 <table class="table small table-striped table-condensed table-bordered table-hover">#}
-<table class="table small table-condensed table-mybordered ">
+{#<table class="table small table-condensed table-mybordered ">#}
+    <table class="table-mybordered">
+
         <thead>
            <tr><td class="calendar" colspan="8">
                  <form action="{{ path('changements_calendar') }}" method="post" {{ form_enctype(form) }}>

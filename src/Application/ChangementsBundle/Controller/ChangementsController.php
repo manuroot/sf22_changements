@@ -236,48 +236,7 @@ class ChangementsController extends Controller {
 
      */
 
-    /* http://symfony.com/fr/doc/current/book/http_fundamentals.html
-     * 
-     * 
-      array(2) {
-      ["changements_filter"]=>
-      array(8) {
-      ["nom"]=>
-      array(2) {
-      ["condition_pattern"]=>
-      string(1) "4"
-      ["text"]=>
-      string(2) "gg"
-      }
-      ["dateDebut"]=>
-      array(2) {
-      ["left_date"]=>
-      string(0) ""
-      ["right_date"]=>
-      string(0) ""
-      }
-      ["dateFin"]=>
-      array(2) {
-      ["left_date"]=>
-      string(0) ""
-      ["right_date"]=>
-      string(0) ""
-      }
-      ["idProjet"]=>
-      string(0) ""
-      ["demandeur"]=>
-      string(2) "14"
-      ["idStatus"]=>
-      string(0) ""
-      ["idEnvironnement"]=>
-      string(0) ""
-      ["_token"]=>
-      string(40) "c98b2b23271469a4774b27226d46a3d46e6772b4"
-      }
-      ["submit-filter"]=>
-      string(6) "filter"
-     */
-
+  
     /*
      * GET PARAMETERS
      */
@@ -759,7 +718,7 @@ class ChangementsController extends Controller {
                 $session = $this->getRequest()->getSession();
                 $session->getFlashBag()->add('warning', "Enregistrement $id ajouté avec succès");
 
-                return $this->redirect($this->generateUrl('changements')); // redirect when done
+                return $this->redirect($this->generateUrl('changements_post')); // redirect when done
             }
         }
 

@@ -143,10 +143,10 @@ $builder
                     'class' => 'ApplicationChangementsBundle:ChangementsStatus',
                     'property' => 'nom',
                     'multiple' => false,
-                    'expanded' => true,
+                    'expanded' => false,
                     'required' => true,
                     'label' => 'Status',
-                    'empty_value' => '--- Choisir une option ---'
+                 //   'empty_value' => '--- Choisir une option ---'
                 ))
                 ->add('idProjet', 'entity', array(
                     'class' => 'ApplicationRelationsBundle:Projet',
@@ -168,6 +168,7 @@ $builder
                     },
                     'property' => 'nomapplis',
                     'multiple' => true,
+                     
                     'required' => true,
                     'label' => 'Applications'
                 ))
