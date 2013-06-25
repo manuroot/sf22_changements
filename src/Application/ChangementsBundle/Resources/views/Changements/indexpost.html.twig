@@ -225,7 +225,7 @@ PLANNING DES OPERATIONS
                             <td> {{ entity.ticketInt }}   </td>
                             <td>{{ entity.idEnvironnement|join(', ') }}</td>
                             <td>
-                                <a class="editme" title="rere" href="{{ path('changements_showXhtml', { 'id': entity.id }) }}">
+                                <a class="editme" title="Opération: {{ entity.nom }}" href="{{ path('changements_showXhtml', { 'id': entity.id }) }}">
                                     <img src="{{ asset('bundles/applicationcertificats/images/detail.png') }}" alt="show" width="15" height="15" />
                                 </a>
                             </td>
