@@ -570,6 +570,12 @@ class ChangementsController extends Controller {
             $session->set('calendar_dates', $dataform);
             $current_year = $dataform['publishedAt']['year'];
             $current_month = $dataform['publishedAt']['month'];
+              /*  $next = date('Y-m-d', strtotime('+5days'));
+                    $currenta = ($row->getField('dateDebut')->format('Y-m-d'));
+                    $current = date('Y-m-d', strtotime($currenta));*/
+                    //$current = new \DateTime($row->getField('endTime')->format('Y-m-d'));
+                    //$current = date('Y-m-d', strtotime($row->getField('endTime')));
+             
             //$surround_months['next']month=date('MMMM');
           //  $date=$current_year . '-' $current_month . '-01'; 
             //$surround_months['previous']= $currenta = $date->format('Y-m-d'));
