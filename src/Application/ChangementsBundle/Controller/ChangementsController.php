@@ -591,7 +591,7 @@ class ChangementsController extends Controller {
         }
         // pas de sesion
         else {
-            echo "pas de session<br>";
+          //  echo "pas de session<br>";
             //print_r($datas_session);
             //    exit(1);
             $current_date = new \DateTime();
@@ -599,7 +599,7 @@ class ChangementsController extends Controller {
             $current_yearmonth = $current_date->format('Y-m');
             $current_year = $current_date->format('Y');
             $current_month = $current_date->format('m');
-            echo "y=$current_year m=$current_month<br>";
+           // echo "y=$current_year m=$current_month<br>";
             // exit(1);
             //   $next=
             //$current_year ='2013';
