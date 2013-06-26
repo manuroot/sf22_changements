@@ -19,6 +19,9 @@ class ChangementsStepsType extends AbstractType {
                 $builder
                 
                    ->add('nom', 'genemu_jqueryautocomplete_entity', array(
+                       'attr' => array(
+                           'placeholder' => '5 a 30 car.'
+                                    ),
                   /*   'class' => 'MyBundle\Entity\MyEntity',*/
             'property' => 'name',
                   'widget_addon' => array(
@@ -39,6 +42,9 @@ class ChangementsStepsType extends AbstractType {
                             ),
                         ))*/
                        ->add('ticketExt',null,array(
+                           'attr' => array(
+                           'placeholder' => 'ex: [1-XXXXXX | XXXXX]'
+                                    ),
                            'label'=>'Ticket Externe',
                              'widget_addon' => array(
                                 'icon' => 'tag',
@@ -46,6 +52,10 @@ class ChangementsStepsType extends AbstractType {
                             ),
                            ))
                ->add('ticketInt',null,array(
+                      'attr' => array(
+                           'placeholder' => 'ex: 12345 (5 a 10 car.)'
+                                    ),
+                 
                    'label'=>'Ticket Interne',
                              'widget_addon' => array(
                                 'icon' => 'tag',

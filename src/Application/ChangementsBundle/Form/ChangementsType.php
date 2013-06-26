@@ -16,6 +16,9 @@ class ChangementsType extends AbstractType {
 $builder
   
           ->add('nom', null, array(
+              'attr' => array(
+                           'placeholder' => '5 a 30 car.'
+                                    ),
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'
@@ -61,12 +64,20 @@ $builder
             
               ->add('ticketExt', null, array(
                     'label' => 'Ticket Externe',
+                  
+                  'attr' => array(
+                           'placeholder' => 'ex: [1-XXXXXX | XXXXX]'
+                                    ),
                     'widget_addon' => array(
                         'icon' => 'tag',
                         'type' => 'prepend'
                     ),))
         
                 ->add('ticketInt', null, array(
+                    'attr' => array(
+                           'placeholder' => 'ex: 12345 (5 a 10 car.)'
+                                    ),
+                     
                     'label' => 'Ticket Interne',
                     'widget_addon' => array(
                         'icon' => 'tag',

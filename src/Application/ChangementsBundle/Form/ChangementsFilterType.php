@@ -72,7 +72,11 @@ class ChangementsFilterType extends AbstractType {
                 ))
                 
                   ->add('ticketExt', 'filter_text', array(
-                           'text_options'=>array( 'attr' => array('icon' => 'icon-tags')),
+                           'text_options'=>array( 
+                               'attr' => array('icon' => 'icon-tags',
+                                   'placeholder' => '[1-XXXXXX | XXXXX]'
+                                   ),
+                             ),
                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
                  //     'widget_controls' => false,
                   /*    'label'=> array('widget_addon' => array(
@@ -89,7 +93,10 @@ class ChangementsFilterType extends AbstractType {
                 
                 
                    ->add('ticketInt', 'filter_text', array(
-                                'text_options'=>array( 'attr' => array('icon' => 'icon-tags')),
+                                'text_options'=>array( 'attr' => array(
+                                    'icon' => 'icon-tags',
+                                        'placeholder' => 'ex: 12345 (5 a 10 car.)'
+                                    )),
                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
                     'widget_addon' => array(
                         'icon' => 'pencil',

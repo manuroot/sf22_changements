@@ -52,7 +52,7 @@ class Changements extends AbstractEvent
      *
      * @ORM\Column(name="nom", type="string", length=50, nullable=false)
      * @Assert\Length(
-     *      min = "2",
+     *      min = "5",
      *      max = "30",
      *      minMessage = "Your name must be at least {{ limit }} characters length |
      *  Au minimum {{ limit }} caracteres",
@@ -192,16 +192,27 @@ private $comments;
 
 
   /**
-     * @ORM\Column(type="integer", length=5, name="ticket_ext", nullable=true)
-     * @GRID\Column(type="text",field="ticketExt", title="TExt",size="10")
-     * @var integer $ticket_ext
+     * @ORM\Column(type="string", length=12, name="ticket_ext", nullable=true)
+     * @GRID\Column(type="text",field="ticketExt", title="TExt",size="12")
+     *
+     * @Assert\Regex(
+     *     pattern="/([1-9]\-[0-9]{5,10}|[0-9]{5,10})/",
+     *     match=true,
+     *     message="patterns autorisées ex: 1-12345678 ou 1234567"
+     * )
+     * @var string $ticket_ext
      */
     private $ticketExt;
-
+// pattern="/(^[1-9]-[0-9]+$|[0-9]{5,10})/",
     
      /**
      * @ORM\Column(type="integer", length=5, name="ticket_int", nullable=true)
      * @GRID\Column(type="text",field="ticketInt", title="TExt",size="10")
+      *  * @Assert\Regex(
+    * pattern="/^[0-9]{5,10}/",
+     *     match=true,
+     *     message="patterns autorisées ex: 12345 (5 a 10 car.)"
+     * )
      * @var integer $ticket_int
      */
     private $ticketInt;
