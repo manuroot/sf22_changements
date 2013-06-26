@@ -97,13 +97,13 @@ var_dump($postData);
 exit(1);
                 }*/
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == 'reset') {
-            echo "post cas1 :remove";
+         //   echo "post cas1 :remove";
             $session->remove('certificatsControllerFilter');
         }
    
         // Filter action
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == 'filter') {
-              echo "post cas2: filter";
+             // echo "post cas2: filter";
             // Bind values from the request
             $filterForm->bind($request->get('certificats_filter'));
 //var_dump($filterData);exit(1);
@@ -122,7 +122,7 @@ exit(1);
             }
         }
         else {
-                          echo "post cas3: session";
+                       //   echo "post cas3: session";
 
             // Get filter from session
             if ($session->has('certificatsControllerFilter')) {
