@@ -45,22 +45,46 @@ body {
 background-image:url("/images/ravenna.png");
 /*background-image:url("images/nasty_fabric.png");*/
 }
+/*
 #footer {
     position: relative;
+    bottom: 5px;
+    height: 30px;
+    width: 70%;
+    margin:auto;
+
+    border: whitesmoke; 
+    clear: both; 
+    text-align: center; 
+    padding: 10px; 
+
+   
+}*/
+#footer {
+    border-style: solid solid solid solid;
+    border-color: rgb(221, 221, 221) rgb(221, 221, 221) rgb(221, 221, 221) rgb(221, 221, 221)  -moz-use-text-color;
+    -moz-border-top-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    border-image: none;
+    border-collapse: separate;
+    border-radius: 4px 4px 4px 4px;
+     color: whitesmoke;
+
+   /* background:#000000;*/
+    /* background:#eaeaea;*/
+    background-color: #737373;
+    
+    
+     position: relative;
     bottom: 5px;
     height: 30px;
     width: 70%;
     /*background: url('images/bg_pied.png') repeat-x;*/
     margin:auto;
 
-    border: 1px solid #ccc; 
     clear: both; 
     text-align: center; 
     padding: 10px; 
-
-    color: #737373;
-
-    background:#000000;
-    /* background:#eaeaea;*/
-    background-color: #a4a4a5;
 }
