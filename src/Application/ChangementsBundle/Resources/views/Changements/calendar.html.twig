@@ -3,6 +3,8 @@
   {% block stylesheets %}
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>
+
 <style>
         a.calendar {
             color:#373737
@@ -123,6 +125,8 @@ th:only-child{
 
 {% block javascripts %}
 {{ parent() }}
+       <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
+
 <script type="text/javascript">
           
 $(document).ready(function() {
@@ -141,6 +145,22 @@ $( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
 $(function() {
 $( "#datepicker" ).datepicker();
 });
+ $("a.editme").colorbox({
+            iframe:true,
+            transition:	"elastic",
+            //   photo:true,
+        /*    ajax:true,*/
+            //     html:true,
+            width:"60%",
+            height:"70%",
+           /*  width:"600px",
+            height:"400px",*/
+            //       href:"/uzf04new/chrono/example",
+            fastIframe:false,
+            opacity:0.3
+        
+        });
+  
 });
 </script>
 
@@ -246,7 +266,7 @@ Opérations: Calendrier
      
       {% set mycolor=foo[loop.index0] %}
        <div class="event" style="background-color: {{ mycolor }};">
-                        <a class="calendar" href="{{ path('changements_show', { 'id': event.uid }) }}">
+               <a class="calendar editme" title="Opération: {{ event }}" href="{{ path('changements_showXhtml', { 'id': event.uid }) }}">
                             {# tests a ajouter  {{ event.begin|date('Y-m-d') }}</a>autoescape#}
                             {#    {% set cur_date=year-month|date('m')-day.begin|date('d') %}
 {% if event.begin|date('Y-m-d') == cur_date %}
