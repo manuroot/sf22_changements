@@ -238,7 +238,7 @@ source: data
                                 <tr class="title"><th>id</th><th>Nom</th><th>Path</th></tr>
                             </thead>
                             {% for fic in entity.picture %}
-                            <tr>
+                            <tr class="closed">
                                 <td>{{ fic.id }}</td>
                                 <td>{{ fic.name }}</td>
                                 <td><a href="{{ path('download_route', { 'filename': fic.path }) }}">{{ fic.path }}</a></td>
