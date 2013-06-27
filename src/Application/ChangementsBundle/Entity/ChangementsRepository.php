@@ -258,7 +258,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         }
 
         //les like
-        $like_arrays = array('nom', 'ticketExt', 'ticketInt');
+        $like_arrays = array('nom', 'description','ticketExt', 'ticketInt');
         foreach ($like_arrays as $val) {
             //  echo "val=$val<br>";
             if (isset($criteria[$val]) && !preg_match('/^\s*$/', $criteria[$val])) {

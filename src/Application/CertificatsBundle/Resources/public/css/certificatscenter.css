@@ -88,3 +88,11 @@ background-image:url("/images/ravenna.png");
     text-align: center; 
     padding: 10px; 
 }
+tr.title {
+    background-color: #737373;
+}
+tr.title th {
+   
+    line-height: 30px;
+  
+}

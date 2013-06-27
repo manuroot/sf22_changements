@@ -44,28 +44,28 @@
 
     <tbody>
         <tr>
-            <th>Id</th>
+            <td class="title">Id</td>
             <td>{{ entity.id }}</td>
         </tr>
         <tr>
-            <th>Nom</th>
+            <td class="title" class="title">Nom</td>
             <td>{{ entity.nom }}</td>
         </tr>
         <tr>
-            <th>Demandeur</th>
+            <td class="title">Demandeur</td>
             <td>{{ entity.demandeur }}</td>
         </tr>
         <tr>
-            <th>Datedebut</th>
+            <td class="title">Datedebut</td>
 
             <td>{{ entity.dateDebut|date('Y-m-d H:i:s') }}</td>
         </tr>
         <tr>
-            <th>Datefin</th>
+            <td class="title">Datefin</td>
             <td class="single">{{ entity.dateFin|date('Y-m-d H:i:s') }}</td>
         </tr>
         <tr>
-            <th>Datecomep</th>
+            <td class="title">Datecomep</td>
             <td>
             {% if entity.dateComep is not null %}
                {{ entity.dateComep|date('Y-m-d H:i:s') }}
@@ -75,7 +75,7 @@
             </td>
             </tr>
             <tr>
-                 <th>Datevsr</th>
+                 <td class="title">Datevsr</td>
             <td>
             {% if entity.dateVsr is not null %}
                {{ entity.dateVsr|date('Y-m-d H:i:s') }}
@@ -87,33 +87,33 @@
              
             </tr>
             <tr>
-                <th>Description</th>
+                <td class="title">Description</td>
                 
                 <td>{{ entity.description|raw }}</td>
             </tr>
 
             <tr>
-                <th>Projet</th>
+                <td class="title">Projet</td>
                 <td>{{ entity.idProjet }}</td>
             </tr>
             <tr>
-                <th>Status</th>
+                <td class="title">Status</td>
                 <td>{{ entity.idStatus }}</td>
             </tr>
             <tr>
-                <!--<th>Avatar</th>
+                <!--<td class="title">Avatar</td>
                 <td>{#{ entity.avatar }#}</td>-->
             </tr>
 
             <!--  <tr>
-                  <th>Fichier Principal</th>
+                  <td class="title">Fichier Principal</td>
                   <td>{#{ entity.picture.name }#}
                   
               
                   </td>
               </tr>-->
 
-            <tr><th>Applications</th>
+            <tr><td class="title">Applications</td>
                 <td>
            {{ entity.idapplis|join(', ') }}   
              {#% for appli in entity.idapplis %} {{ appli.nomapplis }}
@@ -121,7 +121,7 @@
                     </td>
                 </tr>
 
-                <tr><th>Environnements</th>
+                <tr><td class="title">Environnements</td>
                     <td>
 
            {{ entity.idEnvironnement|join(', ') }}   
@@ -133,7 +133,7 @@
 
 
                 <tr>
-                    <th>Utilisateurs</th>
+                    <td class="title">Utilisateurs</td>
                     <td>
            {{ entity.idusers|join(', ') }}   
 {#% for user in entity.idusers %} {{ user.nomUser }}
@@ -143,11 +143,11 @@
                     </tr>
                     
                      <tr>
-                <th>Ticket Externe</th>
+                <td class="title">Ticket Externe</td>
                 <td>{{ entity.ticketExt }}</td>
             </tr>
              <tr>
-                <th>Ticket Interne</th>
+                <td class="title">Ticket Interne</td>
                 <td>{{ entity.ticketInt }}</td>
             </tr>
 
@@ -159,8 +159,7 @@
 
             <h3><center>Fichiers de la demande</center></h3>
             <table class="table table-bordered table-hover table-striped">
-                <thead>
-                    <tr class="title"><th>id</th><th>Nom</th><th>Date Maj</th><th>Lien</th></tr>
+                     <tr class="title"><th class="title">id</th><th class="title">Nom</th><th class="title">Date Maj</th><th class="title">Lien</th></tr>
                 </thead>
                {% for fic in entity.picture %}
                 <tr> 

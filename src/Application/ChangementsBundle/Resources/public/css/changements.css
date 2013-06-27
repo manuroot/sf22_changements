@@ -6,9 +6,11 @@ tr.single {
     background-color: #bbbbbb;
 } 
 tr.title {
-    background-color: #bbbbbb;
+    background-color: #AAAAAA;;
+    /*#bbbbbb;*/
     font-size: 12px;
 }
+
 tr.warningdate-left {
     background-color: #2e9500;
     /*  font-size:14px;*/

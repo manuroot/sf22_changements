@@ -26,7 +26,12 @@ class ChangementsFilterAmoiType extends AbstractType {
                         ),
                     'mapped'=>false,'required'=>false))
                     
-                
+                  ->add('description','text',array( 
+                    'widget_addon' => array(
+                        'icon' => 'pencil',
+                        'type' => 'prepend'
+                        ),
+                    'mapped'=>false,'required'=>false))
                  ->add('dateDebut','text',array( 
                       'attr' => array(
             'placeholder'=>'> date debut'),
@@ -36,15 +41,17 @@ class ChangementsFilterAmoiType extends AbstractType {
                         ),
                      'mapped'=>false,'required'=>false
                      ))
+                
                      ->add('dateDebut_max','text',array( 
                       'attr' => array(
-            'placeholder'=>'> date debut'),
+            'placeholder'=>'< date debut'),
                      'widget_addon' => array(
                         'icon' => 'time',
                         'type' => 'prepend'
                         ),
                      'mapped'=>false,'required'=>false
                      ))
+                
                   ->add('dateFin','text',array( 
                       'attr' => array(
             'placeholder'=>'> date Fin'),
@@ -61,7 +68,7 @@ class ChangementsFilterAmoiType extends AbstractType {
                 
                  ->add('dateFin_max','text',array( 
                       'attr' => array(
-            'placeholder'=>'> date Fin'),
+            'placeholder'=>'< date Fin'),
                      'widget_addon' => array(
                         'icon' => 'time',
                         'type' => 'prepend'

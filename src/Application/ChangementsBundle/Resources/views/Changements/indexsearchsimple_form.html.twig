@@ -20,6 +20,9 @@
                         
                         
    
+    {{ form_errors(search_form.description) }}
+    {{ form_label(search_form.description, 'Description'|trans) }}
+    {{ form_widget(search_form.description) }}
   
      {{ form_errors(search_form.idusers) }}
     {{ form_label(search_form.idusers) }}

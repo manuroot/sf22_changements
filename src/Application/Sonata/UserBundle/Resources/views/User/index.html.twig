@@ -3,7 +3,11 @@
   {% block stylesheets %}
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/sliding.css') }}" type="text/css" media="all"/>
-
+<style>
+tr.title {
+    background-color: #bbbbbb;
+}
+</style>
  {% endblock %}
 
 {% block content_header '' %}
@@ -45,7 +49,7 @@
         <thead>
             <tr class="title">
 
-                <tr>
+                
                 <th>Username</th>
                
                 <th>Email</th>
