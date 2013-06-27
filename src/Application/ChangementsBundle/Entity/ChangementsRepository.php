@@ -230,6 +230,24 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         }
 
 
+        if (isset($criteria['dateDebut']) && $criteria['dateDebut'] != "") {
+            $query->andWhere('a.dateDebut > (:datedebut)');
+            $parameters['datedebut'] = $criteria['dateDebut'];
+        }
+           if (isset($criteria['dateDebut_max']) && $criteria['dateDebut_max'] != "") {
+            $query->andWhere('a.dateDebut < (:datedebut_max)');
+            $parameters['datedebut_max'] = $criteria['dateDebut_max'];
+        }
+        
+         if (isset($criteria['dateFin']) && $criteria['dateFin'] != "") {
+            $query->andWhere('a.dateFin > (:dateFin)');
+            $parameters['dateFin'] = $criteria['dateFin'];
+        }
+           if (isset($criteria['dateFin_max']) && $criteria['dateFin_max'] != "") {
+            $query->andWhere('a.dateFin < (:dateFin_max)');
+            $parameters['dateFin_max'] = $criteria['dateFin_max'];
+        }
+        
         // Supprimer champs qui ne sont pas dans la classe
         foreach ($criteria as $field => $value) {
             if (!$this->getClassMetadata()->hasField($field)) {

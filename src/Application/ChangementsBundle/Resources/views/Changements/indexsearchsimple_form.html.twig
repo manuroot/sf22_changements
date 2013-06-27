@@ -9,9 +9,9 @@
  </form>
 #}
    <form  class="form" action="{{ path('changements_posttest') }}" method="POST" {{ form_enctype(search_form) }}>
-          <table class="table table-bordered">
+            <table class="table tablesearch">
             <tbody>
-                 <tr class="success">
+                <tr class="success_search">
                     <td>
                              
     {{ form_errors(search_form.nom) }}
@@ -60,7 +60,7 @@
                                         
 {{ form_rest(search_form) }}</td>
    </tr>
-    <tr class="success"><td colspan="3">
+     <tr class="success_search"><td colspan="3">
             
      <button type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="filter" >
           <i class="icon-search"></i>  Filtrer</button>

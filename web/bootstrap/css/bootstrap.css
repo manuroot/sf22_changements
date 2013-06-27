@@ -2330,23 +2330,22 @@ table.tablesearch {
 }
 
 }*/
-.tablesearch tr.success,.table tbody tr.success td {
-  background-color: whitesmoke;
+
+
+.table tbody tr.success td {
+  
+   background-color: #c7fec5;
+}
+.tablesearch tbody tr.success_search{
+    background-color: whitesmoke;
 }
 .table tbody tr.closed td {
   background-color: white;
 }
 
-.table-hover tbody tr.closed:hover > td {
-  background-color: orange;
-}
-
 
 .table tbody tr.normal > td {
   background-color: whitesmoke;
-}
-.table-hover tbody tr.normal:hover > td {
-  background-color: lightgrey;
 }
 
 .table tbody tr.error > td {
@@ -2355,11 +2354,22 @@ table.tablesearch {
 }
 
 .table tbody tr.warning > td {
-  background-color: #fcf8e3;
+ 
+   background-color: #cbd1fc;
 }
 
 .table tbody tr.info > td {
   background-color: #d9edf7;
+}
+/*
+
+
+.table-hover tbody tr.closed:hover > td {
+  background-color: orange;
+}
+
+.table-hover tbody tr.normal:hover > td {
+  background-color: lightgrey;
 }
 
 .table-hover tbody tr.success:hover > td {
@@ -2376,6 +2386,10 @@ table.tablesearch {
 
 .table-hover tbody tr.info:hover > td {
   background-color: #c4e3f3;
+}
+*/
+.table-hover tbody tr:hover > td {
+  background-color: darkgrey;
 }
 
 [class^="icon-"],

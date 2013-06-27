@@ -54,6 +54,7 @@ class ChangementsController extends Controller {
             'sortFieldParameterName' => "sort")
         );
         $pagination->setTemplate('ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig');
+        $pagination->setSortableTemplate('ApplicationChangementsBundle:pagination:sortable_link.html.twig');
         return $pagination;
     }
 
@@ -158,7 +159,7 @@ class ChangementsController extends Controller {
         if ($message)
             $session->getFlashBag()->add('warning', "$message");
 
-        $pagination = $this->createpaginator($queryBuilder, 10);
+        $pagination = $this->createpaginator($queryBuilder, 15);
         return $this->render('ApplicationChangementsBundle:Changements:indexpost.html.twig', array(
                     'search_form' => $filterForm->createView(),
                     'pagination' => $pagination,

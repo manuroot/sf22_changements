@@ -113,6 +113,10 @@ background-color: #999999}
  
 }
 
+/*a.sortable{
+color:red;
+}*/
+
     </style>
 {% endblock %}
 
@@ -145,12 +149,12 @@ PLANNING DES OPERATIONS
 <form id="target" class="form-horizontal" action="{{ path('changements_post') }}" method="POST" {{ form_enctype(search_form) }}>
     <a id="ShowHideButton">
         <button id="show" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
-            <i class="icon-search"></i>  Afficher Filtres</button>
+            <i class=" icon-search"></i>  Afficher Filtres</button>
     </a>
     <button type="submit" id="reset" name="submit-filter" class="btn btn-medium btn-warning" value="reset" >
-        <i class="icon-minus-sign"></i> Effacer Filtres</button>
+        <i class=" icon-minus-sign"></i> Effacer Filtres</button>
             <a href="{{ path('changements_newflowstart') }}" class=" ajoutchange btn btn-medium btn-primary">
-                <i class="icon-plus"></i> Ajouter un Changement
+                <i class=" icon-plus"></i> Ajouter un Changement
             </a>
 </form>
 
@@ -163,26 +167,26 @@ PLANNING DES OPERATIONS
                         <tr class="title">
                             <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
                             <th{% if pagination.isSorted('a.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom', 'a.nom') }}
-                              <i class="icon-pencil"></i></th>
+                              <i class=" icon-pencil"></i></th>
                             <th{% if pagination.isSorted('a.dateDebut') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date Debut', 'a.dateDebut') }}
-                                <i class="icon-time"></i></th>
+                                <i class=" icon-time"></i></th>
                             <th{% if pagination.isSorted('a.dateFin') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date Fin', 'a.dateFin') }}
-                                <i class="icon-time"></i></th>
+                                <i class=" icon-time"></i></th>
                             <th{% if pagination.isSorted('b.nomprojet') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Projet', 'b.nomprojet') }}</th>
                             <th{% if pagination.isSorted('c.nomUser') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'D', 'c.nomUser') }}
-                                <i class="icon-user"></i></th>
-                            <th><i class="icon-book"></i></th>
-                            <th><i class="icon-pencil"></i></th>
+                                <i class=" icon-user"></i></th>
+                            <th><i class=" icon-book"></i></th>
+                            <th><i class=" icon-pencil"></i></th>
                             <th{% if pagination.isSorted('e.nomUser') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Users', 'e.nomUser') }}
-                                <i class="icon-user"></i><i class="icon-user"></i></th>
+                                <i class=" icon-user"></i><i class=" icon-user"></i></th>
                             <th{% if pagination.isSorted('d.idStatus.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'F', 'd.idStatus.nom') }}
-                                <i class="icon-flag"></i></th>
+                                <i class=" icon-flag"></i></th>
                              <th{% if pagination.isSorted('a.ticketExt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'T_Ext', 'a.ticketExt') }}
-                                <i class="icon-tag"></i></th>
+                                <i class=" icon-tag"></i></th>
                              <th{% if pagination.isSorted('a.ticketInt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'T_Int', 'a.ticketInt') }}
-                                 <i class="icon-tag"></i></th>
+                                 <i class=" icon-tag"></i></th>
                             <th{% if pagination.isSorted('g.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Env', 'g.nom') }}
-                                <i class="icon-wrench"></i></th>
+                                <i class=" icon-wrench"></i></th>
                             <th colspan="3">Actions</th>
                         </tr>
                     </thead>

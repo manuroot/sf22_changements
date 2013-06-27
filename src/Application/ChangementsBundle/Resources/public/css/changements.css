@@ -7,6 +7,7 @@ tr.single {
 } 
 tr.title {
     background-color: #bbbbbb;
+    font-size: 12px;
 }
 tr.warningdate-left {
     background-color: #2e9500;

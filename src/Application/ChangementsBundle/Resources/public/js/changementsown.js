@@ -1,7 +1,12 @@
 $(document).ready(function() {
 
-
-var mydates=["#changements_searchfilter_dateDebut","#changements_searchfilter_dateFin"];
+var mydates=[
+    "#changements_searchfilter_dateDebut",
+    "#changements_searchfilter_dateFin",
+    "#changements_searchfilter_dateDebut_max",
+    "#changements_searchfilter_dateFin_max"
+];
+/*var mydates=["#changements_searchfilter_dateDebut","#changements_searchfilter_dateFin"];*/
 mydates.forEach(function(entry) {
    /* console.log(entry);*/
 $( entry ).datepicker({
