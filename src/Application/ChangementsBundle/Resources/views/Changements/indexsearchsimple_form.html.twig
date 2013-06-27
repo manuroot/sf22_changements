@@ -31,12 +31,21 @@
         
                         
     {{ form_errors(search_form.dateDebut) }}
-    {{ form_label(search_form.dateDebut, 'Date De Début'|trans) }}
+    {{ form_label(search_form.dateDebut, 'Date Début Min'|trans) }}
     {{ form_widget(search_form.dateDebut) }}
                         
+    {{ form_errors(search_form.dateDebut_max) }}
+    {{ form_label(search_form.dateDebut_max, 'Date Début Max'|trans) }}
+    {{ form_widget(search_form.dateDebut_max) }}
+                        
     {{ form_errors(search_form.dateFin) }}
-    {{ form_label(search_form.dateFin, 'Date De Fin'|trans) }}
+    {{ form_label(search_form.dateFin, 'Date Fin Min'|trans) }}
     {{ form_widget(search_form.dateFin) }}
+        
+                         
+    {{ form_errors(search_form.dateFin_max) }}
+    {{ form_label(search_form.dateFin_max, 'Date Fin Max'|trans) }}
+    {{ form_widget(search_form.dateFin_max) }}
         
     {{ form_errors(search_form.ticketExt) }}
     {{ form_label(search_form.ticketExt, 'Ticket Externe'|trans) }}

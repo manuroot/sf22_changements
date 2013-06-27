@@ -55,7 +55,12 @@
           <div class="input-prepend">
                 <span class="add-on"><i class="icon-time"></i></span> {{ form_widget(form.left_date, {'attr': attr}) }}
             </div>
-     {#   {{ form_widget(form.left_date, {'attr': attr}) }}#}
-        {{ form_widget(form.right_date, {'attr': attr}) }}
+           
+            <div class="input-prepend">
+                <span class="add-on"><i class="icon-time"></i></span> {{ form_widget(form.right_date, {'attr': attr}) }}
+            </div>
+     {#   {{ form_widget(form.left_date, {'attr': attr}) }}
+        {{ form_widget(form.right_date, {'attr': attr}) }}#}
     </div>
+ <br><br>
 {% endblock filter_date_range_widget %}

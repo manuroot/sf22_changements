@@ -36,9 +36,30 @@ class ChangementsFilterAmoiType extends AbstractType {
                         ),
                      'mapped'=>false,'required'=>false
                      ))
+                     ->add('dateDebut_max','text',array( 
+                      'attr' => array(
+            'placeholder'=>'> date debut'),
+                     'widget_addon' => array(
+                        'icon' => 'time',
+                        'type' => 'prepend'
+                        ),
+                     'mapped'=>false,'required'=>false
+                     ))
+                  ->add('dateFin','text',array( 
+                      'attr' => array(
+            'placeholder'=>'> date Fin'),
+                     'widget_addon' => array(
+                        'icon' => 'time',
+                        'type' => 'prepend'
+                        ),
+                     'mapped'=>false,'required'=>false))
+           ->add('ticketExt','text',array('widget_addon' => array(
+                        'icon' => 'tag',
+                        'type' => 'prepend'
+                    ),
+               'mapped'=>false,'required'=>false))
                 
-                
-                 ->add('dateFin','text',array( 
+                 ->add('dateFin_max','text',array( 
                       'attr' => array(
             'placeholder'=>'> date Fin'),
                      'widget_addon' => array(

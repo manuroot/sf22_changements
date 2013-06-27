@@ -31,41 +31,29 @@ class ChangementsFilterType extends AbstractType {
                         'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
                 )
             )
-          /*  ->add(
-                'nghjom',
-                'filter_text', 
-              
-                array(
-                    'text_options'=>array( 'attr' => array('placeholder' => 'Name')),
-                      'mapped'=>false,
-                    'widget_controls' => true,
-                    'widget_control_group' => false,
-                    'attr' => array('placeholder' => 'Name'),
-                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
-                )
-            )*/
-                /*
-                ->add('nom', 'filter_text', array(
-                    'widget_addon' => array(
-                        'icon' => 'pencil',
-                        'type' => 'prepend'
-                    ),
-                    'block_name'=>'tree',
-                    
-                    'attr' => array('icon'=>'icon-userp','placeholder' => '> date Debut'),
-                    'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
-                                            'label'=>"test"))
-     */
-         
-                ->add('dateDebut', 'filter_date_range', array(
+        
+           ->add('dateFin', 'filter_date_range', array(
                     'label' => 'Date début',
                     'left_date' => array(
-                             'attr' => array('icon'=>'icon-user','placeholder' => '> date Debut'),
+                                        'attr' => array('placeholder' => '> date Fin','style'=>'width:150px'),
                         'widget' => 'single_text'
                     /* 'time_widget' => 'single_text' */
                     ),
                     'right_date' => array(
-                            'attr' => array('placeholder' => '< date Debut'),
+                                 'attr' => array('placeholder' => '< date Fin','style'=>'width:150px'),
+                        'widget' => 'single_text'
+                    /* 'time_widget' => 'single_text' */
+                    ),
+                ))
+                ->add('dateDebut', 'filter_date_range', array(
+                    'label' => 'Date début',
+                    'left_date' => array(
+                             'attr' => array('placeholder' => '> date Début','style'=>'width:150px'),
+                        'widget' => 'single_text'
+                    /* 'time_widget' => 'single_text' */
+                    ),
+                    'right_date' => array(
+                            'attr' => array('placeholder' => '< date Début','style'=>'width:150px'),
                         'widget' => 'single_text'
                     /* 'time_widget' => 'single_text' */
                     ),
@@ -116,19 +104,7 @@ class ChangementsFilterType extends AbstractType {
                           'minLength' => 2,
                           ), 
                 ))*/
-                ->add('dateFin', 'filter_date_range', array(
-                    'label' => 'Date début',
-                    'left_date' => array(
-                        'attr' => array('placeholder' => '> date Fin'),
-                        'widget' => 'single_text'
-                    /* 'time_widget' => 'single_text' */
-                    ),
-                    'right_date' => array(
-                           'attr' => array('placeholder' => '< date Fin'),
-                        'widget' => 'single_text'
-                    /* 'time_widget' => 'single_text' */
-                    ),
-                ))
+              
                 ->add('idProjet', 'filter_entity', array(
                     'label' => 'Projet',
                     'class' => 'Application\RelationsBundle\Entity\Projet',
