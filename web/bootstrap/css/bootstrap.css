@@ -2250,6 +2250,8 @@ tr.success_search{
   background-color: #c4e3f3;
 }
 
+
+
 .tablesearch tbody tr td, .tablesearch tbody tr.success_search {
     background-color: whitesmoke;
 }
