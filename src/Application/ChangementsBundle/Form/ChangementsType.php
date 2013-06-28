@@ -126,9 +126,11 @@ $builder
          
                 ->add('description', 'textarea', array(
                     'attr' => array(
-                        'style' => 'width:500px; height:350px',
+                       
+                       /* 'style' => 'width:300px; height:300px',*/
                          /*'height' => "400px",*/
                         'class' => 'tinymce',
+                         'width'=>'300px',
                     // 'data-theme' => 'simple'
 // simple, advanced, bbcode
                         )))

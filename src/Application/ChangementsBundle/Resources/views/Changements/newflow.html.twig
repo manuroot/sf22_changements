@@ -19,6 +19,13 @@
             color: red;
             font-weight: bold;
         }
+             .tinymce {
+                     border: 1px solid #D4E0EE;
+            background-color: #f1f1f1;
+            width:350px; height:150px;
+                 /*min-width:400px;*/
+             min-height: 200px;
+             }
            .mytextarea {
             border: 1px solid #D4E0EE;
             background-color: #f1f1f1;
@@ -66,12 +73,11 @@
     {% include 'CraueFormFlowBundle:FormFlow:stepField.html.twig' %}
 
     {{ form_errors(form) }}
-
-                                {#% if flow.getCurrentStep() == 4 %}
-                                  {{ form_row(edit_form.description,{ 'attr': {'class': 'mytextarea'} }) }}
-                                {{ form_rest(edit_form) }}
+ {% if flow.getCurrentStep() == 1 %}
+                             </td><td>     {{ form_row(form.description,{ 'attr': {'class': 'tinymce'} }) }}</td>
+                           <td>     {{ form_rest(form) }}
                                 
- {% endif %#}
+ {% endif %}
  {% if flow.getCurrentStepNumber() == 6 %}
                                 <div>
                                    
@@ -115,7 +121,7 @@
     </div>
     {% endif %}
     {{ form_rest(form) }}
-     </td></tr><tr><td colspan="2">
+     </td></tr><tr><td colspan="4">
                                             <!-- ======================= CRAUE SURCHARGE =================== -->
 
  {% set renderBackButton = flow.getCurrentStepNumber() in (flow.getFirstStepNumber() + 1) .. flow.getLastStepNumber() %}

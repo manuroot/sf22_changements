@@ -593,7 +593,34 @@ class ChangementsController extends Controller {
         $session->set('buttonretour', 'changements_apy');
         $source = new Entity('ApplicationChangementsBundle:Changements');
 
+$source->manipulateRow(
+                function ($row) {
+                    // Don't show the row if the price is greater than $maxPrice
+                    //  $past = date('Y-m-d');
+                  //  $next = date('Y-m-d', strtotime('+5days'));
+                    $currenta = $row->getField('idStatus.nom');
+                    if ($currenta == 'en cours'){
+                         $row->setColor('#dff0d8;');
+                    }
+                    elseif ($currenta == 'en preparation') {
+                           $row->setColor('#fcf8e3');
+                    }
+                    
+                     //$current = new \DateTime($row->getField('endTime')->format('Y-m-d'));
+                    //$current = date('Y-m-d', strtotime($row->getField('endTime')));
+                    /* if ($current < $past) {
+                      $row->setColor('#fddddd');
+                      } */
+                    //elseif ($current < $next) {
+                  /*  if ($current < $next) {
+                        $row->setColor('#fcf8e3');
+                    }*/
 
+                //    echo "current=$currenta<br>";
+                    return $row;
+                }
+        );
+        /*
         $source->manipulateRow(
                 function ($row) {
                     // Don't show the row if the price is greater than $maxPrice
@@ -603,9 +630,9 @@ class ChangementsController extends Controller {
                     $current = date('Y-m-d', strtotime($currenta));
                     //$current = new \DateTime($row->getField('endTime')->format('Y-m-d'));
                     //$current = date('Y-m-d', strtotime($row->getField('endTime')));
-                    /* if ($current < $past) {
+                     if ($current < $past) {
                       $row->setColor('#fddddd');
-                      } */
+                      } 
                     //elseif ($current < $next) {
                     if ($current < $next) {
                         $row->setColor('#fcf8e3');
@@ -613,7 +640,7 @@ class ChangementsController extends Controller {
 
                     return $row;
                 }
-        );
+        );*/
 
         $grid = $this->container->get('grid');
         // Attach the source to the grid

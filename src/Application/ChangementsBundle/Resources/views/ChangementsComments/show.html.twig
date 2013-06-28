@@ -8,7 +8,13 @@
   {% block stylesheets %}
 {{ parent() }}
       <link rel="stylesheet" href="{{ asset('bundles/applicationeservices/css/sliding.css') }}" type="text/css" media="all"/>
-     
+     <style>
+             td.myth {
+             font-weight: bold;}
+             .tinymce { width:90%;
+             min-height: 300px;
+             }
+             </style>
  {% endblock %}
 
 {% block content_header '' %}
@@ -28,28 +34,28 @@ CHANGEMENT: {{ entity.nom }}
 
     <tbody>
         <tr>
-            <th>Id</th>
+            <td class="myth">Id</td>
             <td>{{ entity.id }}</td>
         </tr>
         <tr>
-            <th>Nom</th>
+            <td class="myth">Nom</td>
             <td>{{ entity.nom }}</td>
         </tr>
         <tr>
-            <th>Demandeur</th>
+            <td class="myth">Demandeur</td>
             <td>{{ entity.demandeur }}</td>
         </tr>
         <tr>
-            <th>Datedebut</th>
+            <td class="myth">Datedebut</td>
 
             <td>{{ entity.dateDebut|date('Y-m-d H:i:s') }}</td>
         </tr>
         <tr>
-            <th>Datefin</th>
+            <td class="myth">Datefin</td>
             <td class="single">{{ entity.dateFin|date('Y-m-d H:i:s') }}</td>
         </tr>
         <tr>
-            <th>Datecomep</th>
+            <td class="myth">Datecomep</td>
             <td>
             {% if entity.dateComep is not null %}
                {{ entity.dateComep|date('Y-m-d H:i:s') }}
@@ -59,7 +65,7 @@ CHANGEMENT: {{ entity.nom }}
             </td>
             </tr>
             <tr>
-                 <th>Datevsr</th>
+                 <td class="myth">Datevsr</td>
             <td>
             {% if entity.dateVsr is not null %}
                {{ entity.dateVsr|date('Y-m-d H:i:s') }}
@@ -71,33 +77,33 @@ CHANGEMENT: {{ entity.nom }}
              
             </tr>
             <tr>
-                <th>Description</th>
+                <td class="myth">Description</td>
                 
                 <td>{{ entity.description|raw }}</td>
             </tr>
 
             <tr>
-                <th>Projet</th>
+                <td class="myth">Projet</td>
                 <td>{{ entity.idProjet }}</td>
             </tr>
             <tr>
-                <th>Status</th>
+                <td class="myth">Status</td>
                 <td>{{ entity.idStatus }}</td>
             </tr>
             <tr>
-                <!--<th>Avatar</th>
+                <!--<td class="myth">Avatar</td>
                 <td>{#{ entity.avatar }#}</td>-->
             </tr>
 
             <!--  <tr>
-                  <th>Fichier Principal</th>
+                  <td class="myth">Fichier Principal</td>
                   <td>{#{ entity.picture.name }#}
                   
               
                   </td>
               </tr>-->
 
-            <tr><th>Applications</th>
+            <tr><td class="myth">Applications</td>
                 <td>
            {{ entity.idapplis|join(', ') }}   
              {#% for appli in entity.idapplis %} {{ appli.nomapplis }}
@@ -105,7 +111,7 @@ CHANGEMENT: {{ entity.nom }}
                     </td>
                 </tr>
 
-                <tr><th>Environnements</th>
+                <tr><td class="myth">Environnements</td>
                     <td>
 
            {{ entity.idEnvironnement|join(', ') }}   
@@ -117,7 +123,7 @@ CHANGEMENT: {{ entity.nom }}
 
 
                 <tr>
-                    <th>Utilisateurs</th>
+                    <td class="myth">Utilisateurs</td>
                     <td>
            {{ entity.idusers|join(', ') }}   
 {#% for user in entity.idusers %} {{ user.nomUser }}
@@ -145,12 +151,12 @@ CHANGEMENT: {{ entity.nom }}
         <tbody>
 {% for comment in paginationa %}
     <thead>
-        <tr class="title"><th>
+        <tr class="title"><td class="myth">
 
                 <i class="icon-user"></i> {{ comment.user }}
    <i class="icon-time"></i> {{ comment.created|date('l, F j, Y') }}
                                              
-</th></tr> 
+</td></tr> 
                 
     </thead>
     
@@ -184,7 +190,7 @@ CHANGEMENT: {{ entity.nom }}
 <br><br>
 
 <form action="{{ path('changements_comment_create', { 'changement_id' : entity.id } ) }}" method="post" {{ form_enctype(form) }} class="blogger">
-        <table class="table table-bordered">
+        <table style="width:80%;">
         <tbody>         <tr><td>
                     <div>
                   {#{{ form_row(form.user) }}#}

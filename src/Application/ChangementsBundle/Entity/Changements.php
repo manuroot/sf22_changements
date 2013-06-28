@@ -43,7 +43,7 @@ class Changements extends AbstractEvent
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @GRID\Column(title="id", size="20", type="text",filter="false")
+     * @GRID\Column(title="id", size="10", type="text",filter="false")
      */
     private $id;
 
@@ -180,7 +180,7 @@ class Changements extends AbstractEvent
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_status", referencedColumnName="id",nullable=false)
      *  })
-     * @GRID\Column(field="idStatus.nom", title="Projet",size="10",filter="select",selectFrom="query")
+     * @GRID\Column(field="idStatus.nom", title="Status",size="10",filter="select",selectFrom="query")
     */
     private $idStatus;
    
@@ -207,7 +207,7 @@ private $comments;
     
      /**
      * @ORM\Column(type="integer", length=5, name="ticket_int", nullable=true)
-     * @GRID\Column(type="text",field="ticketInt", title="TExt",size="10")
+     * @GRID\Column(type="text",field="ticketInt", title="TInt",size="10")
       *  * @Assert\Regex(
     * pattern="/^[0-9]{5,10}/",
      *     match=true,

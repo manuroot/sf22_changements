@@ -6,11 +6,40 @@
 <style>
 table {
     max-width: 98%;
+    background-color: red;
+    border-color: black;
+border-style: solid;
+border-width: 1px;
+/* border-collapse:separate;*/
+ 
+}/*
+table tr {
+    max-width: 98%;
     background-color: transparent;
     border-collapse: collapse;
     border-spacing: 0px;
+}*/
+.executer {
+padding:5px;
+margin:5px;
 }
-</style>
+.mass-actions {
+background-color: whitesmoke;
+margin-bottom:15px;
+padding:10px;
+/*
+border-color: black;
+border-style: solid;
+border-width: 1px;*/
+
+}
+tr:hover td {
+    
+    background-color:#a6a6a6;
+  color:whitesmoke;
+}
+
+    </style>
 {% endblock %}
 
 
@@ -81,7 +110,11 @@ LISTE DES OPERATIONS
 {% endblock %}
         
 
+  
+        {#============ADMIN ONLY======================#}
+       
 {% block grid_actions %}
+ {% if is_granted('ROLE_SUPER_ADMIN')  %}
 <div class="mass-actions">
 <span class="grid_massactions_helper">
         <a href="#" onclick="return {{ grid.hash }}_markVisible(true);">{{ 'Select visible'|trans }}</a> |
@@ -91,6 +124,7 @@ LISTE DES OPERATIONS
         <span class="mass-actions-selected" id="{{ grid.hash }}_mass_action_selected"></span>
     </span>
     {% spaceless %}
+      
     <div style="float:right;" class="grid_massactions">
         {{ 'Action'|trans }}
         <input type="hidden" id="{{ grid.hash }}_mass_action_all" name="{{ grid.hash }}[{{ constant('APY\\DataGridBundle\\Grid\\Grid::REQUEST_QUERY_MASS_ACTION_ALL_KEYS_SELECTED') }}]" value="0"/>
@@ -100,13 +134,14 @@ LISTE DES OPERATIONS
             <option value="{{ key }}">{{ massAction.title|trans }}</option>
             {% endfor %}
         </select>
-        <button type="submit"  class="btn btn-small btn-danger" value="{{ 'Submit Action'|trans }}">
+        <button type="submit"  class="btn btn-small btn-danger executer" value="{{ 'Submit Action'|trans }}">
             <i class="icon-plus"></i> Executer Action(s) </button>
     </div>
+      
     {% endspaceless %}
         <br><br>
 </div>
-
+  {% endif %}
 {% endblock grid_actions %}
             
                         
@@ -156,10 +191,11 @@ LISTE DES OPERATIONS
 {% block grid_column_endTime_cell %}
 {% set {{ row.field('endTime') }} = "1999-01-01" %}
 {% endblock grid_column_endTime_cell %}
-
+#}
+{#
 {% block grid_column_endTime_cell %}
-{% if row.field('endTime') < date('-30days') %}
-{{ row.field('endTime') }} = "1999-01-01" %}
+{% if row.field('dateDebut') < date('-5days') %}
+{{ row.field('endTime') }} = "1999-01-01" 
 
 {% endif %}
 {% endblock grid_column_endTime_cell %}

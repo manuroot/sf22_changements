@@ -9,10 +9,11 @@
  </form>
 #}
    <form  class="form" action="{{ path('changements_posttest') }}" method="POST" {{ form_enctype(search_form) }}>
-            <table class="table tablesearch">
-            <tbody>
-                <tr class="success_search">
-                    <td>
+            <table class="table-mybordered">
+
+            <tr><td class="calendar">
+                
+                    
                              
     {{ form_errors(search_form.nom) }}
     {{ form_label(search_form.nom, 'Nom'|trans) }}
@@ -30,7 +31,7 @@
   
                         
     </td>
-    <td>
+    <td class="calendar"> 
         
                         
     {{ form_errors(search_form.dateDebut) }}
@@ -58,12 +59,12 @@
     {{ form_label(search_form.ticketInt, 'Ticket Interne'|trans) }}
     {{ form_widget(search_form.ticketInt) }} 
     </td>
-  <td>
+  <td class="calendar">
     
                                         
 {{ form_rest(search_form) }}</td>
    </tr>
-     <tr class="success_search"><td colspan="3">
+     <tr><td class="calendar" colspan="3">
             
      <button type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="filter" >
           <i class="icon-search"></i>  Filtrer</button>

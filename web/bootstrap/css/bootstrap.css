@@ -8,6 +8,8 @@
  * Designed and built with all the love in the world @twitter by @mdo and @fat.
  */
 
+
+
 article,
 aside,
 details,
@@ -2249,10 +2251,21 @@ tr.success_search{
 .table-hover tbody tr.info:hover td {
   background-color: #c4e3f3;
 }
-
+/*
+.tableasearch {
+    -moz-border-radius: 10px;
+-webkit-border-radius: 10px;
+border-radius: 10px; 
+}*/
+.tablesearch{
+    border:5px;
+    border-color: red;
+}
 
 .tablesearch tbody tr td, .tablesearch tbody tr.success_search {
-    background-color: whitesmoke;
+    background-color: #dcdcdc;
+    
+       /*background-color: whitesmoke;*/
 }
 
 
@@ -6068,3 +6081,11 @@ a.badge:hover {
 .table tbody tr.normal > td {
   background-color: whitesmoke;
 }*/
+
+.tablesearch {
+   
+    width:1200px;
+    font-size: 10px;
+    }
+
+  

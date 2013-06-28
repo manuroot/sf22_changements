@@ -17,7 +17,7 @@ class ChangementsCommentsType extends AbstractType {
                         ->add('comment', 'textarea', array(
                        'label'=>'Activité',
                     'attr' => array(
-                        'cols' => "20",
+                        /*'width' => "400px",*/
                          'class' => 'tinymce',
                        
 // simple, advanced, bbcode
