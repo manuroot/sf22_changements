@@ -136,9 +136,14 @@ th div {
 
 /* Column filter */
 .grid .grid-filter-operator select{
-    width: 100px;
+    width: 80px;
 
 }
+/*
+.grid .grid-filter-operator select{
+    width: 100px;
+
+}*/
 .grid .grid-filter-select-query select{
     width: 80px;height:22px;
 }
