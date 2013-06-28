@@ -15,11 +15,11 @@
             width:90%    
         }
 
-        .mytextarea {
+        .tinyMCE {
             border: 1px solid #D4E0EE;
-            background-color: #f1f1f1;
-            width:330px; 
-            height:100px;
+            /*background-color: #f1f1f1;*/
+            width:500px; 
+            height:300px;
 
         }
         .leserreurs {
@@ -36,6 +36,12 @@ background-color: blue;
 height: 3px; }
 a.add_tag_link { color:whitesmoke;
 }
+/*
+textarea, #changements_description {
+width:250px;
+height:400px;
+background-color:red;}*/
+
 .ui-autocomplete-category {
 font-weight: bold;
 padding: .2em .4em;
@@ -49,7 +55,6 @@ line-height: 1.5;
 
 {% block javascripts %}
 {{ parent() }}
-   <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/datenew.js') }}"></script>#}
    <script type="text/javascript" src="{{ asset('select2/select2.js') }}"></script>
    <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
 
@@ -113,6 +118,8 @@ function addTagFormDeleteLink($tagFormLi) {
 }
   
        </script>
+        <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/datenew.js') }}"></script>#}
+  
        {{ form_javascript(edit_form) }}
    {#     
 <script>
@@ -207,8 +214,8 @@ source: data
                                 <div class="boxlist">{{ form_row(edit_form.idStatus) }}</div>
                                 <br>
                                 <div>
-                          {#{ form_row(edit_form.description,{ 'attr': {'class': 'mytextarea'} }) }#}
-                            {{ form_row(edit_form.description) }}
+                          {{ form_row(edit_form.description,{ 'attr': {'class': ' tinymce mytextarea'} }) }}
+                          {#  {{ form_row(edit_form.description) }}#}
          </div>
                                 </td>
                                 <td>{{ form_rest(edit_form) }} </td>

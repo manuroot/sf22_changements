@@ -62,27 +62,56 @@ class ChangementsStepsType extends AbstractType {
                                 'type' => 'prepend'
                             ),))
         
-                        ->add('dateDebut', 'date', array(
+                      ->add('dateDebut', 'datetime', array(
+                    'label' => 'Date début',
+                    'widget' => 'single_text',
+                    'input' => 'datetime',
+                    'format' => 'yyyy-MM-dd HH:mm',
+                    'widget_addon' => array(
+                        'icon' => 'time',
+                        'type' => 'prepend'
+                    ),
+                ))
+                     ->add('dateFin', 'datetime', array(
+                    'label' => 'Date Fin',
+                    'widget' => 'single_text',
+                    'input' => 'datetime',
+                    'format' => 'yyyy-MM-dd HH:mm',
+                    'widget_addon' => array(
+                        'icon' => 'time',
+                        'type' => 'prepend'
+                    ),
+                ))
+                    
+                     /*   ->add('dateDebut', 'date', array(
                             'label' => 'Date début',
                             'widget' => 'single_text',
                             'widget_addon' => array(
                                 'icon' => 'time',
                                 'type' => 'prepend'
                             ),
-                        ))
-                        ->add('dateFin', 'date', array(
+                        ))*/
+                   /*     ->add('dateFin', 'date', array(
                             'label' => 'Date Fin',
                             'widget' => 'single_text',
                             'widget_addon' => array(
                                 'icon' => 'time',
                                 'type' => 'prepend'
                             ),
-                        ))
+                        ))*/
                  
-                    ->add('description', 'textarea', array(
+                   /*  ->add('description', 'textarea', array(
                     'label' => 'Description du Post',
                     'attr' => array(
-                        'cols' => "280",
+                        'cols' => "35",
+                       'rows' => "15",
+                        'class' => 'tinymce',
+                        )));*/
+                    ->add('description', 'textarea', array(
+                    'label' => 'Description de l\'opération',
+                    'attr' => array(
+                        'cols' => "25",
+                         'rows' => "15",
                         'class' => 'tinymce',
                         )))
                   /*   ->add('description', 'textarea', array(

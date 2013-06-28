@@ -126,8 +126,8 @@ $builder
          
                 ->add('description', 'textarea', array(
                     'attr' => array(
-                        'cols' => "60",
-                        //  'rows'=>"10",
+                        'style' => 'width:500px; height:350px',
+                         /*'height' => "400px",*/
                         'class' => 'tinymce',
                     // 'data-theme' => 'simple'
 // simple, advanced, bbcode
