@@ -7,8 +7,8 @@
 <services>
         <!-- other services -->
        
- 		<service id="grid.column.extended.text.column" class="Application\CertificatsBundle\Grid\Column\ExtendedTextColumn" public="false">
-            <tag name="grid.column.extension" />
+ 		<service id="grid.column.extended.text.columna" class="Application\CertificatsBundle\Grid\Column\AExtendedTextColumn" public="false">
+            <tag name="agrid.column.extension" />
         </service>
     </services>
 </container>

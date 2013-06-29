@@ -1,0 +1,336 @@
+{% extends "ApplicationChangementsBundle::layout.html.twig" %}
+{% form_theme edit_form 'MopaBootstrapBundle:Form:fields.html.twig' %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
+<style>
+        .monlabel {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            font-weight: bold;
+        }
+        .boxlist {
+            border: 1px solid #D4E0EE;
+              background-color: #f1f1f1;
+              padding-left:15px;
+              padding-right:5px;
+              position:relative;
+            width:90%;
+
+        }
+
+         #boxleft {
+            border: 1px solid #D4E0EE;
+              margin-top:30px;
+            margin-left:30px;
+            margin-bottom:30px;
+            width:30%;
+               position:relative;
+            float:left;
+
+        }
+        #boxright {
+            border: 1px solid #D4E0EE;
+            margin-top:30px;
+            margin-left:30px;
+              margin-bottom:30px;
+            background-color: #f1f1f1;
+           float:left;
+            
+            width:60%;
+
+        }
+
+        .mytextarea {
+            border: 1px solid #D4E0EE;
+            background-color: #f1f1f1;
+            width:330px; height:100px;
+
+        }
+        .leserreurs {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            font-size:18px;
+            color:red;
+        }
+        tr.single {
+         background-color: #f1f1f1;
+        }
+
+    </style> 
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/datenew.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('select2/select2.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
+{{ tinymce_init() }}
+   <script>
+  
+$(document).ready(function() {
+
+    $( "#tabs" ).tabs();
+
+    $("#e1").select2();
+});
+// Récupère le div qui contient la collection de tags
+var collectionHolder = $('ul.tags');
+
+// ajoute un lien « add a tag »
+var $addTagLink = $('<a href="#" class="add_tag_link">Ajouter Fichier</a>');
+var $newLinkLi = $('<li></li>').append($addTagLink);
+
+jQuery(document).ready(function() {
+    // ajoute l'ancre « ajouter un tag » et li à la balise ul
+    collectionHolder.append($newLinkLi);
+collectionHolder.find('li').each(function() {
+        addTagFormDeleteLink($(this));
+    });
+    
+    $addTagLink.on('click', function(e) {
+        // empêche le lien de créer un « # » dans l'URL
+        e.preventDefault();
+
+        // ajoute un nouveau formulaire tag (voir le prochain bloc de code)
+        addTagForm(collectionHolder, $newLinkLi);
+    });
+});
+function addTagForm(collectionHolder, $newLinkLi) {
+    // Récupère l'élément ayant l'attribut data-prototype comme expliqué plus tôt
+    var prototype = collectionHolder.attr('data-prototype');
+
+    // Remplace '__name__' dans le HTML du prototype par un nombre basé sur
+    // la longueur de la collection courante
+    var newForm = prototype.replace(/__name__/g, collectionHolder.children().length);
+
+    // Affiche le formulaire dans la page dans un li, avant le lien "ajouter un tag"
+    var $newFormLi = $('<li></li>').append(newForm);
+    $newLinkLi.before($newFormLi);
+    // ajoute un lien de suppression au nouveau formulaire
+    addTagFormDeleteLink($newFormLi);
+}
+function addTagFormDeleteLink($tagFormLi) {
+    var $removeFormA = $('<a href="#">Supprimer</a>');
+    $tagFormLi.append($removeFormA);
+
+    $removeFormA.on('click', function(e) {
+        // empêche le lien de créer un « # » dans l'URL
+        e.preventDefault();
+
+        // supprime l'élément li pour le formulaire de tag
+        $tagFormLi.remove();
+    });
+}
+  
+       </script>
+        <style>
+.ui-autocomplete-category {
+font-weight: bold;
+padding: .2em .4em;
+margin: .8em 0 .2em;
+line-height: 1.5;
+}
+</style>
+<script>
+$.widget( "custom.catcomplete", $.ui.autocomplete, {
+_renderMenu: function( ul, items ) {
+var that = this,
+currentCategory = "";
+$.each( items, function( index, item ) {
+if ( item.category != currentCategory ) {
+ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+currentCategory = item.category;
+}
+that._renderItemData( ul, item );
+});
+}
+});
+</script>
+<script>
+    $('#tabs a').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+    })
+    
+    $('#myTab a').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+    })
+$(function() {
+var data = [
+{ label: "anders", category: "" },
+{ label: "andreas", category: "" },
+{ label: "antal", category: "" },
+{ label: "annhhx10", category: "Products" },
+{ label: "annk K12", category: "Products" },
+{ label: "annttop C13", category: "Products" },
+{ label: "anders andersson", category: "People" },
+{ label: "andreas andersson", category: "People" },
+{ label: "andreas johnson", category: "People" }
+];
+$( "#search" ).catcomplete({
+delay: 0,
+source: data
+});
+});
+</script>
+{% endblock %}
+       
+ 
+
+{% block content_header '' %}
+{% block title %}EDITION CHANGEMENT{% endblock %}
+{% block content %}
+<!--
+<p>Animations:<br />
+<select id="anim">
+<option value="show">Show (default)</option>
+<option value="slideDown">Slide down</option>
+<option value="fadeIn">Fade in</option>
+<option value="blind">Blind (UI Effect)</option>
+<option value="bounce">Bounce (UI Effect)</option>
+<option value="clip">Clip (UI Effect)</option>
+<option value="drop">Drop (UI Effect)</option>
+<option value="fold">Fold (UI Effect)</option>
+<option value="slide">Slide (UI Effect)</option>
+<option value="">None</option>
+</select>
+</p>
+-->
+<ul class="nav nav-tabs" id="myTab">
+<li class="active"><a href="#home">Home</a></li>
+<li><a href="#profile">Profile</a></li>
+<li><a href="#messages">Liste Fichiers</a></li>
+<li><a href="#settings">Settings</a></li>
+</ul>
+ 
+  <form action="{{ path('changements_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+  
+<div class="tab-content">
+<div class="tab-pane active" id="home">   
+<table class="table-mybordered">
+
+            <tr><td class="calendar">
+                        <div> {{ form_row(edit_form.nom) }}</div>
+                        <div> {{ form_row(edit_form.dateDebut) }} </div>
+                        <div>{{ form_row(edit_form.dateFin) }} </div>
+                        <div>{{ form_row(edit_form.dateComep) }}</div>
+                        <div> {{ form_row(edit_form.dateVsr) }}</div>
+                        
+             
+                 
+                       {# <a class="btn-add" data-target="post_tags">Ajouter un Fichier</a>#}
+                        </td>
+            </tr></table>
+</div>
+   
+<div class="tab-pane" id="profile">
+                      <h3>FICHIERS</h3>
+    <ul class="tags" data-prototype="{{ form_widget(edit_form.picture.vars.prototype)|e }}">
+
+        {# itère sur chaque tag existant et affiche son unique champ : name #}
+        {% for tag in edit_form.picture %}
+        
+            <li>{{ form_widget(tag) }}
+            {#{{ form_row(tag.name) }}#}
+                </li>
+        {% endfor %}
+    </ul>
+                    {% do edit_form.picture.setRendered() %}
+              
+                       
+
+
+</div>
+<div class="tab-pane" id="messages"> <h3><center>Liste des Fichiers associés</center></h3>
+  <table><tbody><tr>     
+      <td class="calendar">
+                            <div>
+                            {{ form_row(edit_form.idProjet) }}</div>
+                                <div class="boxlist">{{ form_row(edit_form.idEnvironnement) }}</div>
+                                <br>
+                                <div class="boxlist">{{ form_row(edit_form.idStatus) }}</div>
+                                <br>
+                                <div>
+                         
+                                    {{ form_row(edit_form.description,{ 'attr': {'class': 'tinymce'} }) }}
+                               
+                         
+         </div>
+                                </td>
+                              <td class="calendar">{{ form_rest(edit_form) }} </td>
+                            </tr>
+                            <tr>  <tr><td class="calendar" colspan="3">
+                                    <button type="submit" class="btn btn-small btn-warning">Modifier</button>
+                                    <a href="{{ path('changements_post') }}" class="btn btn-small btn-success">Retour</a>
+                                    </form>
+
+
+                                    <form action="{{ path('changements_delete', { 'id': entity.id }) }}" method="post">
+                                     {{ form_errors(delete_form) }}
+                                     {{ form_row(delete_form.id) }}
+                                     {{ form_rest(delete_form) }}
+                                            <div style="text-align:right">
+                                                <button type="submit" class="btn btn-small btn-danger" onclick="if(!confirm('Are you sure?')) { return false; }">Supprimer Projet</button>
+                                            </div>
+                                        </form>
+                                    </td></tr>
+                            </tbody>
+                        </table>
+</div>
+<div class="tab-pane" id="settings">...</div>
+</div>
+   </form>
+
+
+<div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">1) Données Principales</a></li>
+    <li><a href="#tabs-2">1) Fichiers</a></li>
+    <li><a href="#tabs-3">Aenean lacinia</a></li>
+    <li><a href="#tabs-4">Aeklmlnean lacinia</a></li>
+  </ul>
+  <div id="tabs-1">
+     
+</div>
+    
+  <div id="tabs-2">
+
+    </p>
+  </div>
+  <div id="tabs-3">
+       
+             
+
+  </div>
+                                    
+ </form>  
+<div id="tabs-4">
+
+                            
+ </div>
+</div>
+   {#<form action="{{ path('changements_delete', { 'id': entity.id }) }}" method="post">
+                                     {{ form_errors(delete_form) }}
+                                     {{ form_row(delete_form.id) }}
+                                     {{ form_rest(delete_form) }}
+                                            <div style="text-align:right">
+                                                <button type="submit" class="btn btn-small btn-danger" onclick="if(!confirm('Are you sure?')) { return false; }">Supprimer Projet</button>
+                                            </div>
+                                        </form>       
+                                   
+#}
+
+                       
+                        
+                                {#
+<label for="search">Search: </label>
+<input id="search" />
+ <p>
+               <select id="e1" class="populate" style="width:300px"></select>
+           </p>#}
+{% endblock %}
+
+

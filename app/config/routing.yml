@@ -2,7 +2,6 @@ application_relations:
     resource: "@ApplicationRelationsBundle/Resources/config/routing.yml"
     prefix:   /
 
-
 application_changements:
     resource: "@ApplicationChangementsBundle/Resources/config/routing.yml"
     prefix:   /
@@ -69,4 +68,3 @@ usermedia:
     resource: '@ApplicationSonataMediaBundle/Resources/config/routing.yml'
     prefix: /
     
-

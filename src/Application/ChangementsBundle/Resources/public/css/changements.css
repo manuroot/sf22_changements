@@ -44,8 +44,8 @@ div.ui-datepicker {
   td.calendar{
         margin-top:5px;
          padding-top:5px;
-         
-        background-color:gainsboro;
+          /*  background-color: #ABC6DD;*/
+       background-color:gainsboro;
         font-size: 12px;
         text-align:center;
     }
@@ -88,6 +88,12 @@ width:98%;
     border-collapse: separate;
     border-radius: 6px 6px 6px 6px;
     margin-bottom:50px;
+   /*  background-color: #ABC6DD;*/
+    /*      background-image:linear-gradient(red, blue); 
+    background-image:-moz-linear-gradient(red, blue); 
+    background-image:-webkit-gradient(linear, red, blue);
+    background-image:-o-linear-gradient(red, blue); 
+    background-image:-ms-linear-gradient(red, blue); */
 }
 .table-mybordered   tr > td.calendar{
       padding-left:20px;

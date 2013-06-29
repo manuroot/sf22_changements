@@ -41,3 +41,7 @@ background-image:url("/images/ravenna1.png");
     /* background:#eaeaea;*/
     background-color: #a4a4a5;
 }
+  ul#myTab.nav.nav-tabs{
+           background-color: #ABC6DD;
+           
+           }

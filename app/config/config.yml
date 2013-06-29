@@ -112,7 +112,9 @@ doctrine:
                         GroupConcat: DoctrineExtensions\Query\Mysql\GroupConcat
                         concat_ws: DoctrineExtensions\Query\Mysql\ConcatWs
                         XGroupConcat: Application\ChangementsBundle\Query\Mysql\XGroupConcat
-                        AtGroupConcat: Application\CertificatsBundle\doctrine\Extensions\AtGroupConcat
+                        #AtGroupConcat: Application\Fixme\Bundle\APYDataGridBundle\Doctrine\Extensions\AtGroupConcat
+                        AtGroupConcat: Application\ChangementsBundle\Query\Mysql\AtGroupConcat
+                        #AtGroupConcat: Application\CertificatsBundle\doctrine\Extensions\AtGroupConcat
                         MONTH: DoctrineExtensions\Query\Mysql\Month
                         YEAR: DoctrineExtensions\Query\Mysql\Year
 

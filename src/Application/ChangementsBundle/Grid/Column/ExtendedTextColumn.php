@@ -1,5 +1,5 @@
 <?php
-namespace Application\CertificatsBundle\Grid\Column;
+namespace Application\ChangementsBundle\Grid\Column;
 
 use APY\DataGridBundle\Grid\Column\Column;
 use APY\DataGridBundle\Grid\Filter;
@@ -10,7 +10,7 @@ use APY\DataGridBundle\Grid\Filter;
 * * result values matches "@@val1@@...@@valN@@" pattern
 * * filter values are sorted (automaticaly done by setValues)
 */
-class AExtendedTextColumn extends Column
+class ExtendedTextColumn extends Column
 {
 /**
 * Allow strict comparison for nlike, eq and new operators

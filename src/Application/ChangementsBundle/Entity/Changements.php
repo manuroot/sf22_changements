@@ -132,13 +132,17 @@ class Changements extends AbstractEvent
      /**
      * @var string
       * 
-     * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\Environnements", inversedBy="idchangements",cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\Environnements",inversedBy="idchangements",cascade={"persist"})
      * @ORM\OrderBy({"nom" = "ASC"})
      * @ORM\JoinTable(name="changements_environnements")
-     * @GRID\Column(field="idEnvironnement.nom:GroupConcat", filterable=false,size="20",title="Env", filter="select")
+     * @GRID\Column(field="idEnvironnement.nom:GroupConcat", filterable=false,size="20",title="Env", filter="select",selectFrom="query")
      */
-           
+
     private $idEnvironnement;
+          //* @GRID\Column(type="extended_text", field="idEnvironnement.nom:AtGroupConcat", title="Categories", filter="select", selectMulti="true", selectFrom="values")
+          //  * @GRID\Column(type="extended_text", field="idEnvironnement.nom:AtGroupConcat", filterable=true,size="20",title="Env", filter="select",selectMulti="false",selectFrom="values")
+ //title="Categories", filter="select", selectMulti="true", selectFrom="values")
+    //last:* @GRID\Column(field="idEnvironnement.nom:GroupConcat", filterable=true,size="20",title="Env", filter="select",selectFrom="query")
     // @GRID\Column(title="Env", field="idEnvironnement", size="30", visible=true, sortable=true, filtrable="true")
    // GRID\Column(title="Environnements", field="idEnvironnement.nom:concat_ws",  visible=true, sortable=true, filter="select",selectFrom="query")
      

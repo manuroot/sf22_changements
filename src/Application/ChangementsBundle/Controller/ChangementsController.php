@@ -593,6 +593,8 @@ class ChangementsController extends Controller {
         $session->set('buttonretour', 'changements_apy');
         $source = new Entity('ApplicationChangementsBundle:Changements');
 
+    
+   
 $source->manipulateRow(
                 function ($row) {
                     // Don't show the row if the price is greater than $maxPrice
@@ -647,6 +649,8 @@ $source->manipulateRow(
         $grid->setSource($source);
 
         $grid->setId('changementsgrid');
+        
+        
         //chiant si error
         /*  $grid->addExport(new ExcelExport('Excel Export','changements.xls',array(),'Windows-1252'));
           //$grid->addExport(new ExcelExport($title, $fileName, $params, $charset, $role));
@@ -657,10 +661,30 @@ $source->manipulateRow(
         // Set the selector of the number of items per page
         $grid->setLimits(array(10));
 
+     /*   $categoriesColumn = $grid->getColumn('idEnvironnement.nom:AtGroupConcat');
+      $categoryValues = array(
+                   'production' => 'production',
+                   'integration' => 'integration',
+        );
+        $categoriesColumn->setValues(
+            $categoryValues
+        );
+        $categoriesColumn->setOperators(
+            array("like","nlike","eq","neq")
+        );
+        
+      
+        */
+
+       /* $categoriesColumn->setOperators(
+            array("like")
+        );*/
+        
         // Set the default page
         $grid->setPage($page);
         $grid->addMassAction(new DeleteMassAction());
         $grid->setActionsColumnSize(70);
+     //   $grid->setDefaultFilters(array('idEnvironnement.nom:AtGroupConcat' => array('operator' => 'like')));
         $myRowActiona = new RowAction('Edit', 'changements_edit', false, '_self', array('class' => "btn btn-mini btn-warning"));
         $grid->addRowAction($myRowActiona);
         $myRowAction = new RowAction('Delete', 'changements_delete', true, '_self', array('class' => "btn btn-mini btn-danger"));
