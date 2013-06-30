@@ -274,6 +274,25 @@ class ChangementsController extends Controller {
         $all_months = $em->getRepository('ApplicationChangementsBundle:Changements')->get_all_months();
         $data_sumbymonth = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_allappli_bymonthyear();
         $data_month = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_monthyear();
+        
+        $current_date = new \DateTime();
+            // $next=
+            //$current_yearmonth = $current_date->format('Y-m');
+        $current_year = $current_date->format('Y');
+         $titre="Demandes " . $current_year;
+            
+        $pie_options=array(
+               'allowPointSelect'=> true,
+                'cursor'=> 'pointer',
+                'dataLabels' => array(
+                     'enabled'=> true,
+                    'color'=> '#000000',
+                    'connectorColor'=> '#000000',
+                     'format'=> '{point.name}'
+                    /*'format'=> '<b>{point.name}</b>: {point.percentage:.1f} %'*/
+                        )
+                
+            );
         $res2 = $data_sumbymonth->getScalarResult();
         $hbar_parmois = $data_month->getScalarResult();
         //   var_dump($res2);exit(1);
@@ -287,7 +306,9 @@ class ChangementsController extends Controller {
         }
 
         ksort($series_bymois);
-        //  print_r($series_bymois);exit(1);
+        
+        
+        
         $series = array(
             //        array("name" => "Data Serie Name", "data" =>     array(1, 2, 4, 7, 6,9))
             array("name" => "operations", "data" => $series_bymois)
@@ -319,11 +340,11 @@ class ChangementsController extends Controller {
         $ob1 = new Highchart();
         $ob1->chart->renderTo('linechart1');  // The #id of the div where to render the chart
         $ob1->chart->type('column');
-        $ob1->title->text('Demandes 2013');
+        $ob1->title->text('Demandes ' . $current_year);
 //$categories = array('Jan', 'Feb', 'Mar', 'Apr', 'May');
         $categories = $all_months;
         $ob1->xAxis->categories($categories);
-        $ob1->xAxis->title(array('text' => "Mois (2013)"));
+        $ob1->xAxis->title(array('text' => "Année:" . $current_year . " Répartition mensuelle"));
         $ob1->plotOptions->column(array(
             'stacking' => 'normal',
             'dataLabels' => array(
@@ -352,18 +373,31 @@ class ChangementsController extends Controller {
         // Par Projet
         //=====================================================
         $data = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_year();
+       // print_r($data);exit(1);
         $ob2 = new Highchart();
+        $ob2->chart->type('column');
+     
+        $ob2->chart->plotBackgroundColor(null);
+        $ob2->chart->plotBorderWidth(false);
+        $ob2->chart->plotShadow(false);
         $ob2->chart->renderTo('linechart2');
-        $ob2->title->text('Demandes 2013: Projets');
-        $ob2->series(array(array('type' => 'pie', 'name' => 'Browser share', 'data' => $data)));
-
+        $ob2->title->text($titre . ': Projets');
+       // $ob2->tooltip(array( 'pointFormat'=> '{series.name}: <b>{point.percentage:.1f}%</b>'));
+        $ob2->tooltip->pointFormat('{series.name}: <b>{point.percentage:.1f}%</b>');
+    	 
+        $ob2->plotOptions->pie($pie_options);
+        
+        $ob2->series(array(array('type' => 'pie', 'name' => 'Demandes', 'data' => $data)));
+     
         //=====================================================
         // Par demandeur
         //=====================================================
         $data_demandeur = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_demandeur_year();
         $ob5 = new Highchart();
         $ob5->chart->renderTo('linechart5');
-        $ob5->title->text('Demandes 2013: Demandeurs');
+        $ob5->title->text($titre . ': Demandeurs');
+        $ob5->tooltip->pointFormat('{series.name}: <b>{point.percentage:.1f}%</b>');
+        $ob5->plotOptions->pie($pie_options);
         $ob5->series(array(array('type' => 'pie', 'name' => 'Browser share', 'data' => $data_demandeur)));
 
         //=====================================================
@@ -374,13 +408,14 @@ class ChangementsController extends Controller {
         $ob4->chart->type('column');
         $ob4->plotOptions->column(array(
             'stacking' => 'stacked',
+             /* 'stacking' => 'percent',*/
             'dataLabels' => array(
                 'enabled' => true,
             ),
         ));
 
         //  $ob4->plotOptions->series(array('stacking'=> 'normal'));
-        $ob4->title->text('Demandes 2013: Projets par mois');
+        $ob4->title->text($titre . ': Projets par mois');
         $ob4->legend->backgroundColor('#FFFCCE');
         $ob4->legend->reverse(true);
         //'reversed'=> true
@@ -451,15 +486,9 @@ class ChangementsController extends Controller {
             //    exit(1);
             $current_date = new \DateTime();
             // $next=
-            $current_yearmonth = $current_date->format('Y-m');
+            //$current_yearmonth = $current_date->format('Y-m');
             $current_year = $current_date->format('Y');
             $current_month = $current_date->format('m');
-            // echo "y=$current_year m=$current_month<br>";
-            // exit(1);
-            //   $next=
-            //$current_year ='2013';
-            // $current_month = '06';
-            // $current_yearmonth = $current_date->format('Y-m-d');
             $datas = array();
             $datas['publishedAt'] = array(
                 'year' => (int) $current_year, 'month' => (int) $current_month, 'day' => 1,
