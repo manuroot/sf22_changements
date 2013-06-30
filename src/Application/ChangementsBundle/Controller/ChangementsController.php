@@ -271,16 +271,12 @@ class ChangementsController extends Controller {
     public function indexchartsAction() {
 
         $em = $this->getDoctrine()->getManager();
-        $data = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_year();
-
+        $all_months = $em->getRepository('ApplicationChangementsBundle:Changements')->get_all_months();
         $data_sumbymonth = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_allappli_bymonthyear();
-        //  $res = $data_month->getResult();
         $data_month = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_monthyear();
         $res2 = $data_sumbymonth->getScalarResult();
-          $hbar_parmois = $data_month->getScalarResult();
+        $hbar_parmois = $data_month->getScalarResult();
         //   var_dump($res2);exit(1);
-        
-        $temp = array();
         $series_bymois = array();
         foreach ($res2 as $k => $v) {
             $series_bymois[(integer) ($v['mois']) - 1] = (integer) $v['nb'];
@@ -290,8 +286,6 @@ class ChangementsController extends Controller {
                 $series_bymois[$i] = null;
         }
 
-        
-
         ksort($series_bymois);
         //  print_r($series_bymois);exit(1);
         $series = array(
@@ -299,82 +293,37 @@ class ChangementsController extends Controller {
             array("name" => "operations", "data" => $series_bymois)
         );
 
-        $applis=array();
-         foreach ($hbar_parmois as $k => $v) {
-            $applis[$v["projet"]][(integer)$v['mois']-1]=(integer)$v['nb'];
+        $applis = array();
+        foreach ($hbar_parmois as $k => $v) {
+            $applis[$v["projet"]][(integer) $v['mois'] - 1] = (integer) $v['nb'];
         }
-          for ($i = 0; $i < 12; $i++) {
-              foreach ($applis as $k => $v){
-                    if (!isset($v[$i]))
-                            $applis[$k][$i]=null;
-               
+        for ($i = 0; $i < 12; $i++) {
+            foreach ($applis as $k => $v) {
+                if (!isset($v[$i]))
+                    $applis[$k][$i] = null;
+            }
         }
-          }
-            foreach ($hbar_parmois as $k => $v) {
-           ksort($applis[$v["projet"]]);
-          }
-               
-              
-                /* foreach ($applis as $k => $v) {
-                   echo "k=$k applis=" . var_dump($v) . "<br>";
-                 }*/
-             //       var_dump($applis);
-      //  exit(1);
-       $series4=array();
-                  foreach ($applis as $k => $v) {
-          array_push($series4,array(
-               "name" => $k,
-               "data"=>$v
-               
-           ));
-          }
-          
-          
-              /*$series4=array(array("name" => "Data1",
-          "data" => array(1, 2, 4, 7, 6,9,12)),
-          array("name" => "Data2",
-          "data" => array(2, 4, 7, 1, 4,2,8)),
-          array("name" => "Data",
-          "data" => array(3, 5, 6, 5, 3,5,17)
-          ));*/
-              
-      //  var_dump($applis);
-      //  exit(1);
-         /*   foreach ($hbar_parmois as $k => $v) {
-           ksort($applis[$v["projet"]]);
-          }
-          array_push($data3, $series)*/
-         /*  array("name" => "Data1",
-          "data" => array(1, 2, 4, 7, 6,9)),
-          array("name" => "Data2",
-          "data" => array(2, 4, 7, 1, 4,2)),
-          array("name" => "Data",
-          "data" => array(3, 5, 6, 5, 3,5)
-          ),
-         */
-        /*
-         *  *  array("name" => "Data1",
-          "data" => array(1, 2, 4, 7, 6,9)),
-          array("name" => "Data2",
-          "data" => array(2, 4, 7, 1, 4,2)),
-          array("name" => "Data",
-          "data" => array(3, 5, 6, 5, 3,5)
-          ),
-         */
+        foreach ($hbar_parmois as $k => $v) {
+            ksort($applis[$v["projet"]]);
+        }
+        $series4 = array();
+        foreach ($applis as $k => $v) {
+            array_push($series4, array(
+                "name" => $k,
+                "data" => $v
+            ));
+        }
+        //  var_dump($applis);
+        //  exit(1);
+
         $ob1 = new Highchart();
         $ob1->chart->renderTo('linechart1');  // The #id of the div where to render the chart
         $ob1->chart->type('column');
         $ob1->title->text('Demandes 2013');
 //$categories = array('Jan', 'Feb', 'Mar', 'Apr', 'May');
-        $categories = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
+        $categories = $all_months;
         $ob1->xAxis->categories($categories);
         $ob1->xAxis->title(array('text' => "Mois (2013)"));
-        /*
-          $ob1->tooltip(array(
-          'pointFormat'=>'<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
-          'shared'=> true
-          )); */
-
         $ob1->plotOptions->column(array(
             'stacking' => 'normal',
             'dataLabels' => array(
@@ -396,182 +345,64 @@ class ChangementsController extends Controller {
                     'color' => '(Highcharts.theme && Highcharts.theme.textColor) || "gray"',
                 ))
         ));
-        //  $ob1->yAxis->title(array('text' => "Opérations"));
-        $ob1->series($series);
-        /*
-          $ob1 = new Highchart();
-          $ob1->chart->renderTo('linechart1'); // The #id of the div where to render the chart
-          $ob1->title->text('Demandes 2013');
-          $ob1->xAxis->title(array('text' => "Demandes"));
-          $ob1->yAxis->title(array('text' => "Mois (2013)"));
-          $ob1->series($series);
 
-         */
+        $ob1->series($series);
+
+        //=====================================================
+        // Par Projet
+        //=====================================================
+        $data = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_year();
         $ob2 = new Highchart();
         $ob2->chart->renderTo('linechart2');
         $ob2->title->text('Demandes 2013: Projets');
-
-
-        /*  $ob2->plotOptions->pie(array(
-          'allowPointSelect' => true,
-          'cursor' => 'pointer',
-          'dataLabels' => array('enabled' => false),
-          'showInLegend' => true
-          )); */
-        /*
-          SELECT p, SUBSTRING(p.date, 6, 2) as month
-          FROM Entity p
-          GROUP BY month
-         */
-
-
-        /*
-          print_r($res2);exit(1);
-          var_dump($data_sumbymonth->getDql());exit(1);
-          $temp=array();
-
-          foreach ($res as $k=>$v){
-          array_push($temp,array($v['mois'],$v['nb']));
-          echo "nb=" . $v['nb'] . "<br>";
-          // array_push($temp, $v)
-          // $ymarray[$v["projet"]]=
-          } */
-        // for i=1a12
-        // 0 >=jan 
-        //1 => fev==2 =>>val $res[c
-        //   $temp[mois]=$ta
-        /*
-          var_dump($res);
-          echo "<br>==============<br>";
-          var_dump($temp);
-          exit(1); */
-        /*
-         *  array("name" => "Data1",
-          "data" => array(1, 2, 4, 7, 6,9)),
-          array("name" => "Data2",
-          "data" => array(2, 4, 7, 1, 4,2)),
-          array("name" => "Data",
-          "data" => array(3, 5, 6, 5, 3,5)
-          ),
-         */
-        /*    $categories = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
-
-          $ob3 = new Highchart();
-          $ob3->chart->renderTo('container'); // The #id of the div where to render the chart
-          $ob3->chart->type('column');
-          $ob3->title->text('Average Monthly Weather Data for Tokyo');
-          $ob3->xAxis->categories($categories);
-          $ob3->yAxis($yData);
-          $ob3->legend->enabled(false);
-          $formatter = new Expr('function () {
-          var unit = {
-          "Rainfall": "mm",
-          "Temperature": "degrees C"
-          }[this.series.name];
-          return this.x + ": <b>" + this.y + "</b> " + unit;
-          }');
-          $ob3->tooltip->formatter($formatter);
-          $ob3->series($series);
-
-         */
-        
-        
-        //$ob5 = new Highchart();
-        //$ob4->plotOptions->bar(array(
-
-        /* $series4=array(array("name" => "Data1",
-          "data" => array(1, 2, 4, 7, 6,9,12)),
-          array("name" => "Data2",
-          "data" => array(2, 4, 7, 1, 4,2,8)),
-          array("name" => "Data",
-          "data" => array(3, 5, 6, 5, 3,5,17)
-          ));
-         */
-        
-          $ob4 = new Highchart();
-          $ob4->chart->renderTo('linechart4');
-          $ob4->chart->type('column');
-          $ob4->plotOptions->column(array(
-          //   'type'=>'bar',
-         /* 'column' => array(*/
-          'stacking' => 'stacked',
-          'dataLabels' => array(
-          'enabled' => true,
-         /* )*/
-          ),
-         /* 'pointPadding' => 0.8,
-          'borderWidth' => 1*/
-              ));
-
-          //  $ob4->plotOptions->series(array('stacking'=> 'normal'));
-          $ob4->title->text('Demandes 2013: Projets');
-          $ob4->legend->backgroundColor('#FFFCCE');
-          $ob4->legend->reverse(true);
-          //'reversed'=> true
-          //));
-          $ob4->xAxis->categories(array(
-          'Jan',
-          'Feb',
-          'Mar',
-          'Apr',
-          'May',
-          'Jun',
-          'Jul',
-          'Aug',
-          'Sep',
-          'Oct',
-          'Nov',
-          'Dec'
-          ));
-          $ob4->yAxis->min(0);
-          // $ob4->yAxis->max(5);
-          $ob4->yAxis->title(array('text' => 'Total Applications'));
-          $ob4->yAxis->stackLabels(array('enabled' => true,
-          'style' => array('fontWeight' => 'bold',
-          'color' => 'Highcharts.theme && Highcharts.theme.textColor) || "gray"')
-          ));
-          //$series4 = $res;
-          $ob4->series($series4);
-       
-
-
-
-
-
-        /* $res=$data_month->getQuery()->getDql();
-          echo "test<br>";
-          print_r($res); */
-
-        // Printing the SQL with real values
-        /*
-          $vals = $data_month->getFlattenedParams();
-          foreach(explode('?', $data_month->getSqlQuery()) as $i => $part) {
-          $sql = (isset($sql) ? $sql : null) . $part;
-          if (isset($vals[$i])) $sql .= $vals[$i];
-          }
-
-          echo $sql; */
-        /*
-          $query = sprintf("SELECT s FROM BundleName:EntityClass s where s.field1 = %d and s.field2=%d", $field1, $field2);
-          $em = $this->getDoctrine()->getManager(); */
-//$queryObj = $em->createQuery($data_month);
-//$xentities = $data_month;
-        //  $data_month->execute();
-        /*
-          $data = array(
-          array('CDR', 45.0),
-          array('CAC', 26.8),
-          array('PGEN', 12.8),
-          array('SDF/SDC', 8.5),
-          array('LOME', 6.2),
-          array('Others', 0.7),
-          ); */
         $ob2->series(array(array('type' => 'pie', 'name' => 'Browser share', 'data' => $data)));
+
+        //=====================================================
+        // Par demandeur
+        //=====================================================
+        $data_demandeur = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_demandeur_year();
+        $ob5 = new Highchart();
+        $ob5->chart->renderTo('linechart5');
+        $ob5->title->text('Demandes 2013: Demandeurs');
+        $ob5->series(array(array('type' => 'pie', 'name' => 'Browser share', 'data' => $data_demandeur)));
+
+        //=====================================================
+        // Par Projet et par mois sur une année
+        //=====================================================
+        $ob4 = new Highchart();
+        $ob4->chart->renderTo('linechart4');
+        $ob4->chart->type('column');
+        $ob4->plotOptions->column(array(
+            'stacking' => 'stacked',
+            'dataLabels' => array(
+                'enabled' => true,
+            ),
+        ));
+
+        //  $ob4->plotOptions->series(array('stacking'=> 'normal'));
+        $ob4->title->text('Demandes 2013: Projets par mois');
+        $ob4->legend->backgroundColor('#FFFCCE');
+        $ob4->legend->reverse(true);
+        //'reversed'=> true
+        //));
+
+        $ob4->xAxis->categories($all_months);
+        $ob4->yAxis->min(0);
+        // $ob4->yAxis->max(5);
+        $ob4->yAxis->title(array('text' => 'Total Applications'));
+        $ob4->yAxis->stackLabels(array('enabled' => true,
+            'style' => array('fontWeight' => 'bold',
+                'color' => 'Highcharts.theme && Highcharts.theme.textColor) || "gray"')
+        ));
+        //$series4 = $res;
+        $ob4->series($series4);
+
 
         return $this->render('ApplicationChangementsBundle:Changements:indexcharts.html.twig', array(
                     'chart1' => $ob1,
                     'chart2' => $ob2,
-                     'chart4' => $ob4
+                    'chart5' => $ob5,
+                    'chart4' => $ob4
         ));
     }
 

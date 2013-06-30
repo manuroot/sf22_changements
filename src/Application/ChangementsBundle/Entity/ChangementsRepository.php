@@ -18,6 +18,15 @@ use Application\ChangementsBundle\Entity\Changements;
  */
 class ChangementsRepository extends EntityRepository implements ProviderInterface {
 
+    
+    public function get_all_months() {
+    return array(
+          'Jan','Feb', 'Mar','Apr',
+          'May','Jun','Jul','Aug',
+          'Sep','Oct','Nov','Dec'
+          );
+}
+            
 //class ChangementsRepository extends EntityRepository{
     //use EventRepositoryTrait;
     public function myFindaAll() {
@@ -348,23 +357,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
           if (! isset($year)){
             $year= $current_date->format('Y');
         }
-        /*
-        if (isset($year))
-            $current_year = $year;
-        else
-            $current_year = date('Y');*/
-
-        /*  $parameters = array();
-          $query = $this->createQueryBuilder('a')
-          ->select('count(a.id) as nb,b.nomprojet')
-          ->leftJoin('a.idProjet', 'b')
-          ->andWhere('a.dateDebut LIKE :date')
-          ->groupby('b.nomprojet');
-          $parameters['date'] = '%' . $year . '%';
-          //  echo "year=" . $parameters['date'] . "<br>";
-          $query->setParameters($parameters); */
-
-        $query = $this->createQueryBuilder('a')
+       $query = $this->createQueryBuilder('a')
                 ->select('count(a.id) as nb,b.nomprojet,MONTH(a.dateDebut) as mois')
                 ->leftJoin('a.idProjet', 'b')
                 ->andWhere('a.dateDebut LIKE :date')
@@ -378,10 +371,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
                 ->setParameter('madate', '%' . $year . '-%')
                 ->getQuery()
                 ->getSingleScalarResult();
-
-        // echo "xnb=$qa<br>";
-        //exit(1);
-        $datas = array();
+    $datas = array();
         foreach ($query->getQuery()->getScalarResult() as $valeur) {
             // echo $valeur['nomprojet'] . "--" . $valeur['mois'] . "<br>";
             array_push($datas, array($valeur['nomprojet'], round(($valeur['nb'] / $qa) * 100)));
@@ -391,6 +381,35 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         return $datas;
     }
 
+    public function sum_demandeur_year($year = null) {
+
+            $current_date = new \DateTime();
+          if (! isset($year)){
+            $year= $current_date->format('Y');
+        }
+       $query = $this->createQueryBuilder('a')
+                ->select('count(a.id) as nb,b.nomUser,MONTH(a.dateDebut) as mois')
+                ->leftJoin('a.demandeur', 'b')
+                ->andWhere('a.dateDebut LIKE :date')
+               ->groupby('b.nomUser');
+        $parameters['date'] = '%' . $year . '-%';
+        //  echo "year=" . $parameters['date'] . "<br>";
+        $query->setParameters($parameters);
+
+        $qa = $this->createQueryBuilder('a')->select('COUNT(a.id)')
+                ->where('a.dateDebut LIKE :madate')
+                ->setParameter('madate', '%' . $year . '-%')
+                ->getQuery()
+                ->getSingleScalarResult();
+    $datas = array();
+        foreach ($query->getQuery()->getScalarResult() as $valeur) {
+            // echo $valeur['nomprojet'] . "--" . $valeur['mois'] . "<br>";
+            array_push($datas, array($valeur['nomUser'], round(($valeur['nb'] / $qa) * 100)));
+        }
+        //   exit(1);
+        // print_r($datas);
+        return $datas;
+    }
     public function getNbTopicParForums() {
         $qb = $this->createQueryBuilder('f')
                 ->join('f.topics', 't')
