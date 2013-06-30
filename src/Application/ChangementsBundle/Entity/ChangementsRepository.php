@@ -344,10 +344,15 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
 
     public function sum_appli_year($year = null) {
 
+            $current_date = new \DateTime();
+          if (! isset($year)){
+            $year= $current_date->format('Y');
+        }
+        /*
         if (isset($year))
             $current_year = $year;
         else
-            $current_year = date('Y');
+            $current_year = date('Y');*/
 
         /*  $parameters = array();
           $query = $this->createQueryBuilder('a')
@@ -364,13 +369,13 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
                 ->leftJoin('a.idProjet', 'b')
                 ->andWhere('a.dateDebut LIKE :date')
                 ->groupby('b.nomprojet');
-        $parameters['date'] = '%' . $year . '%';
+        $parameters['date'] = '%' . $year . '-%';
         //  echo "year=" . $parameters['date'] . "<br>";
         $query->setParameters($parameters);
 
         $qa = $this->createQueryBuilder('a')->select('COUNT(a.id)')
                 ->where('a.dateDebut LIKE :madate')
-                ->setParameter('madate', '%' . $year . '%')
+                ->setParameter('madate', '%' . $year . '-%')
                 ->getQuery()
                 ->getSingleScalarResult();
 
@@ -423,7 +428,10 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
      */
 
     public function sum_allappli_bymonthyear($year = null) {
-
+         $current_date = new \DateTime();
+         if (! isset($year)){
+            $year= $current_date->format('Y');
+        }
         $query = $this->createQueryBuilder('a')
                 //->select('MONTH(a.dateDebut) as mois,sum(b.nomprojet) as projet,count(a.id) as nb')
                 ->select('MONTH(a.dateDebut) as mois,count(a.id) as nb')
@@ -431,7 +439,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
                 ->leftJoin('a.idProjet', 'b')
                 ->andWhere('a.dateDebut LIKE :date')
                 ->groupby('mois');
-        $parameters['date'] = '%' . $year . '%';
+        $parameters['date'] = '%' . $year . '-%';
         $query->setParameters($parameters);
         //return $query->getQuery();
          return $query->getQuery();
@@ -439,6 +447,10 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
 
     public function sum_appli_monthyear($year = null) {
 
+          $current_date = new \DateTime();
+          if (! isset($year)){
+            $year= $current_date->format('Y');
+        }
 
         $query = $this->createQueryBuilder('a')
                 ->select('MONTH(a.dateDebut) as mois,b.nomprojet as projet,count(a.id) as nb')
@@ -449,7 +461,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
 
 
 
-        $parameters['date'] = '%' . $year . '%';
+        $parameters['date'] = '%' . $year . '-%';
         //  echo "year=" . $parameters['date'] . "<br>";
         $query->setParameters($parameters);
 

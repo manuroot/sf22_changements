@@ -4,6 +4,7 @@
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/changements.css') }}" type="text/css" media="all"/>
 
 <style>
         a.calendar {
@@ -44,15 +45,6 @@
     border-top: 1px solid rgb(221, 221, 221);
 }
 
-  /*  table{
-    border-style: solid;
-    border-width: 1px;
-    border-color: black;
-  
-    border-collapse: collapse;
-width:98%;
-   
-    }*/
    .table-mybordered {
         width:98%;
     border-width: 1px 1px 1px 1px;
@@ -69,15 +61,6 @@ width:98%;
     margin-bottom:50px;
 }
 
-   /* .table-bordered {
-        border-style: solid;
-    border-width: 1px;
-    border-color: black;
-  
-    border-collapse: collapse;
-width:98%;
-   
-    }*/
   .table-condensed td {
     padding: 0px 0px;
   
@@ -105,20 +88,7 @@ div.controls {
     padding-top:20px;
    
 margin:auto;width:300px; }
-/*
-th:last-child {
-    -moz-border-radius: 0 6px 0 0;
-    -webkit-border-radius: 0 6px 0 0;
-    border-radius: 0 6px 0 0;
-}
 
-th:only-child{
-    -moz-border-radius: 6px 6px 0 0;
-    -webkit-border-radius: 6px 6px 0 0;
-    border-radius: 6px 6px 0 0;
-}*/
-
-     /*color1 { */
     </style>
  {% endblock %}
 
@@ -126,7 +96,7 @@ th:only-child{
 {% block javascripts %}
 {{ parent() }}
        <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
-
+<script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/editme.js') }}"></script>
 <script type="text/javascript">
           
 $(document).ready(function() {
@@ -145,21 +115,6 @@ $( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
 $(function() {
 $( "#datepicker" ).datepicker();
 });
- $("a.editme").colorbox({
-            iframe:true,
-            transition:	"elastic",
-            //   photo:true,
-        /*    ajax:true,*/
-            //     html:true,
-            width:"60%",
-            height:"70%",
-           /*  width:"600px",
-            height:"400px",*/
-            //       href:"/uzf04new/chrono/example",
-            fastIframe:false,
-            opacity:0.3
-        
-        });
   
 });
 </script>
@@ -200,18 +155,6 @@ Opérations: Calendrier
     {% endfor %}
 {% endfor %}
 
-{#Date: <div id="datepicker"></div>#}
-{#% set events = calendr_events(week) %#}
-{# outputs $5,500.00 }
-{{ '5500'|price }}
-
-{{ 'Highlight this sentence'|highlight('i')|raw }}
-{{ 'Highlight this sentence'|highlightme|raw }#}
-  {#  <a href="{{ path('changements_newflow') }}" class="btn btn-medium btn-primary">Ajouter Changement</a>
-     #}
-    {#<table class="table small table-striped table-condensed table-hover">
-<table class="table small table-striped table-condensed table-bordered table-hover">#}
-{#<table class="table small table-condensed table-mybordered ">#}
     <table class="table-mybordered">
 
         <thead>
@@ -241,14 +184,6 @@ Opérations: Calendrier
                 <th> Vendredi</span></th>
                 <th> Samedi</span></th>
                 <th> Dimanche</span></th>
-           {#    <th> <span class="label label-warning">  Lundi</span></th>
-                <th> <span class="label label-warning">  Mardi</span></th>
-                <th> <span class="label label-warning">  Mercredi</span></th>
-                <th> <span class="label label-warning">  Jeudi</span></th>
-                <th> <span class="label label-warning">  Vendredi</span></th>
-                <th> <span class="label label-warning">  Samedi</span></th>
-                <th> <span class="label label-warning">  Diamche</span></th>
-            #}
             </tr>  
         </thead>
         <tbody>
@@ -265,17 +200,10 @@ Opérations: Calendrier
       {% if day.containsEvent(event) %}
      
       {% set mycolor=foo[loop.index0] %}
-       <div class="event" style="background-color: {{ mycolor }};">
+       <div class="event" style="background-color: {{ mycolor }}">
                <a class="calendar editme" title="Opération: {{ event }}" href="{{ path('changements_showXhtml', { 'id': event.uid }) }}">
-                            {# tests a ajouter  {{ event.begin|date('Y-m-d') }}</a>autoescape#}
-                            {#    {% set cur_date=year-month|date('m')-day.begin|date('d') %}
-{% if event.begin|date('Y-m-d') == cur_date %}
-
-               {% else %}
-                      {{  event.begin|date('Y-m-d')  }}-- currentdate={{ cur_date }}--
-{#    {{ event }} date: {{ year }} {{ month|date('m') }} {{ day.begin|date('d') }}</a>#}
-{{ event }}</a>
-         {#  {% endif %}#}
+ {{ event }}</a>
+       
             </div>
                   
      

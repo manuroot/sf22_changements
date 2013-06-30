@@ -237,7 +237,7 @@ class ChangementsController extends Controller {
 
      */
 
-  
+
     /*
      * GET PARAMETERS
      */
@@ -271,42 +271,96 @@ class ChangementsController extends Controller {
     public function indexchartsAction() {
 
         $em = $this->getDoctrine()->getManager();
-
         $data = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_year();
-        $data_month = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_monthyear();
-        $data_sumbymonth = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_allappli_bymonthyear();
-        $res = $data_month->getResult();
-        $res2 = $data_sumbymonth->getScalarResult();
 
-        //   var_dump($data_sumbymonth->getDql());exit(1);
+        $data_sumbymonth = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_allappli_bymonthyear();
+        //  $res = $data_month->getResult();
+        $data_month = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_monthyear();
+        $res2 = $data_sumbymonth->getScalarResult();
+          $hbar_parmois = $data_month->getScalarResult();
+        //   var_dump($res2);exit(1);
+        
         $temp = array();
         $series_bymois = array();
-        for ($i = 0; $i < 12; $i++) {
-            //  echo "i=$i<br>";
-            // if (array_key_exists($res2[$i]['mois'])){
-            if (isset($res2[$i]['mois'])) {
-                //         echo "mois=" . $res2[$i]['mois'] . "-nb=" .  $res2[$i]['nb'] . "<br>";
-                //     if ((int) $v['mois'] > 0)
-                $series_bymois[$i] = (int) $res2[$i]['nb'];
-            } else {
-                $series_bymois[$i] = null;
-            }
+        foreach ($res2 as $k => $v) {
+            $series_bymois[(integer) ($v['mois']) - 1] = (integer) $v['nb'];
         }
-        /* foreach ($res2 as $k => $v) {
-          //    array_push($series_bymois,(integer)$v['nb']);
+        for ($i = 0; $i < 12; $i++) {
+            if (!isset($series_bymois[$i]))
+                $series_bymois[$i] = null;
+        }
 
-          echo "k=$k mois=" . $v['mois'] . "nb=" . $v['nb'] . "<br>";
-          $series_bymois[$k]=(integer)$v['nb'];
-          // array_push($temp, $v)
-          // $ymarray[$v["projet"]]=
+        
 
-          } */
+        ksort($series_bymois);
         //  print_r($series_bymois);exit(1);
         $series = array(
             //        array("name" => "Data Serie Name", "data" =>     array(1, 2, 4, 7, 6,9))
             array("name" => "operations", "data" => $series_bymois)
         );
 
+        $applis=array();
+         foreach ($hbar_parmois as $k => $v) {
+            $applis[$v["projet"]][(integer)$v['mois']-1]=(integer)$v['nb'];
+        }
+          for ($i = 0; $i < 12; $i++) {
+              foreach ($applis as $k => $v){
+                    if (!isset($v[$i]))
+                            $applis[$k][$i]=null;
+               
+        }
+          }
+            foreach ($hbar_parmois as $k => $v) {
+           ksort($applis[$v["projet"]]);
+          }
+               
+              
+                /* foreach ($applis as $k => $v) {
+                   echo "k=$k applis=" . var_dump($v) . "<br>";
+                 }*/
+             //       var_dump($applis);
+      //  exit(1);
+       $series4=array();
+                  foreach ($applis as $k => $v) {
+          array_push($series4,array(
+               "name" => $k,
+               "data"=>$v
+               
+           ));
+          }
+          
+          
+              /*$series4=array(array("name" => "Data1",
+          "data" => array(1, 2, 4, 7, 6,9,12)),
+          array("name" => "Data2",
+          "data" => array(2, 4, 7, 1, 4,2,8)),
+          array("name" => "Data",
+          "data" => array(3, 5, 6, 5, 3,5,17)
+          ));*/
+              
+      //  var_dump($applis);
+      //  exit(1);
+         /*   foreach ($hbar_parmois as $k => $v) {
+           ksort($applis[$v["projet"]]);
+          }
+          array_push($data3, $series)*/
+         /*  array("name" => "Data1",
+          "data" => array(1, 2, 4, 7, 6,9)),
+          array("name" => "Data2",
+          "data" => array(2, 4, 7, 1, 4,2)),
+          array("name" => "Data",
+          "data" => array(3, 5, 6, 5, 3,5)
+          ),
+         */
+        /*
+         *  *  array("name" => "Data1",
+          "data" => array(1, 2, 4, 7, 6,9)),
+          array("name" => "Data2",
+          "data" => array(2, 4, 7, 1, 4,2)),
+          array("name" => "Data",
+          "data" => array(3, 5, 6, 5, 3,5)
+          ),
+         */
         $ob1 = new Highchart();
         $ob1->chart->renderTo('linechart1');  // The #id of the div where to render the chart
         $ob1->chart->type('column');
@@ -420,23 +474,34 @@ class ChangementsController extends Controller {
           $ob3->series($series);
 
          */
+        
+        
         //$ob5 = new Highchart();
         //$ob4->plotOptions->bar(array(
 
-        /*
+        /* $series4=array(array("name" => "Data1",
+          "data" => array(1, 2, 4, 7, 6,9,12)),
+          array("name" => "Data2",
+          "data" => array(2, 4, 7, 1, 4,2,8)),
+          array("name" => "Data",
+          "data" => array(3, 5, 6, 5, 3,5,17)
+          ));
+         */
+        
           $ob4 = new Highchart();
           $ob4->chart->renderTo('linechart4');
           $ob4->chart->type('column');
-          $ob4->plotOptions->bar(array(
+          $ob4->plotOptions->column(array(
           //   'type'=>'bar',
-          'column' => array(
-          'stacking' => 'normal',
+         /* 'column' => array(*/
+          'stacking' => 'stacked',
           'dataLabels' => array(
           'enabled' => true,
-          )
+         /* )*/
           ),
-          'pointPadding' => 0.4,
-          'borderWidth' => 1));
+         /* 'pointPadding' => 0.8,
+          'borderWidth' => 1*/
+              ));
 
           //  $ob4->plotOptions->series(array('stacking'=> 'normal'));
           $ob4->title->text('Demandes 2013: Projets');
@@ -465,9 +530,9 @@ class ChangementsController extends Controller {
           'style' => array('fontWeight' => 'bold',
           'color' => 'Highcharts.theme && Highcharts.theme.textColor) || "gray"')
           ));
-          $series4 = $res;
+          //$series4 = $res;
           $ob4->series($series4);
-         */
+       
 
 
 
@@ -506,7 +571,7 @@ class ChangementsController extends Controller {
         return $this->render('ApplicationChangementsBundle:Changements:indexcharts.html.twig', array(
                     'chart1' => $ob1,
                     'chart2' => $ob2,
-                        //  'chart4' => $ob4
+                     'chart4' => $ob4
         ));
     }
 
@@ -522,7 +587,7 @@ class ChangementsController extends Controller {
         $session = $this->getRequest()->getSession();
         $session->set('buttonretour', 'changements');
         $datas_session = $session->get('calendar_dates');
-        $surround_months=array();
+        $surround_months = array();
         $form = $this->createForm(new CalendarType());
         if ($request->getMethod() == 'POST') {
             $dataform = $request->get('changements_calendar_form');
@@ -530,14 +595,13 @@ class ChangementsController extends Controller {
             $session->set('calendar_dates', $dataform);
             $current_year = $dataform['publishedAt']['year'];
             $current_month = $dataform['publishedAt']['month'];
-              /*  $next = date('Y-m-d', strtotime('+5days'));
-                    $currenta = ($row->getField('dateDebut')->format('Y-m-d'));
-                    $current = date('Y-m-d', strtotime($currenta));*/
-                    //$current = new \DateTime($row->getField('endTime')->format('Y-m-d'));
-                    //$current = date('Y-m-d', strtotime($row->getField('endTime')));
-             
+            /*  $next = date('Y-m-d', strtotime('+5days'));
+              $currenta = ($row->getField('dateDebut')->format('Y-m-d'));
+              $current = date('Y-m-d', strtotime($currenta)); */
+            //$current = new \DateTime($row->getField('endTime')->format('Y-m-d'));
+            //$current = date('Y-m-d', strtotime($row->getField('endTime')));
             //$surround_months['next']month=date('MMMM');
-          //  $date=$current_year . '-' $current_month . '-01'; 
+            //  $date=$current_year . '-' $current_month . '-01'; 
             //$surround_months['previous']= $currenta = $date->format('Y-m-d'));
             //$surround_months['previous']=;$next_month=date('MMMM');
             $form->bind($dataform);
@@ -551,7 +615,7 @@ class ChangementsController extends Controller {
         }
         // pas de sesion
         else {
-          //  echo "pas de session<br>";
+            //  echo "pas de session<br>";
             //print_r($datas_session);
             //    exit(1);
             $current_date = new \DateTime();
@@ -559,7 +623,7 @@ class ChangementsController extends Controller {
             $current_yearmonth = $current_date->format('Y-m');
             $current_year = $current_date->format('Y');
             $current_month = $current_date->format('m');
-           // echo "y=$current_year m=$current_month<br>";
+            // echo "y=$current_year m=$current_month<br>";
             // exit(1);
             //   $next=
             //$current_year ='2013';
@@ -593,64 +657,63 @@ class ChangementsController extends Controller {
         $session->set('buttonretour', 'changements_apy');
         $source = new Entity('ApplicationChangementsBundle:Changements');
 
-    
-   
-$source->manipulateRow(
+
+
+        $source->manipulateRow(
                 function ($row) {
                     // Don't show the row if the price is greater than $maxPrice
                     //  $past = date('Y-m-d');
-                  //  $next = date('Y-m-d', strtotime('+5days'));
+                    //  $next = date('Y-m-d', strtotime('+5days'));
                     $currenta = $row->getField('idStatus.nom');
-                    if ($currenta == 'en cours'){
-                         $row->setColor('#dff0d8;');
+                    if ($currenta == 'en cours') {
+                        $row->setColor('#dff0d8;');
+                    } elseif ($currenta == 'en preparation') {
+                        $row->setColor('#fcf8e3');
                     }
-                    elseif ($currenta == 'en preparation') {
-                           $row->setColor('#fcf8e3');
-                    }
-                    
-                     //$current = new \DateTime($row->getField('endTime')->format('Y-m-d'));
+
+                    //$current = new \DateTime($row->getField('endTime')->format('Y-m-d'));
                     //$current = date('Y-m-d', strtotime($row->getField('endTime')));
                     /* if ($current < $past) {
                       $row->setColor('#fddddd');
                       } */
                     //elseif ($current < $next) {
-                  /*  if ($current < $next) {
-                        $row->setColor('#fcf8e3');
-                    }*/
+                    /*  if ($current < $next) {
+                      $row->setColor('#fcf8e3');
+                      } */
 
-                //    echo "current=$currenta<br>";
+                    //    echo "current=$currenta<br>";
                     return $row;
                 }
         );
         /*
-        $source->manipulateRow(
-                function ($row) {
-                    // Don't show the row if the price is greater than $maxPrice
-                    //  $past = date('Y-m-d');
-                    $next = date('Y-m-d', strtotime('+5days'));
-                    $currenta = ($row->getField('dateDebut')->format('Y-m-d'));
-                    $current = date('Y-m-d', strtotime($currenta));
-                    //$current = new \DateTime($row->getField('endTime')->format('Y-m-d'));
-                    //$current = date('Y-m-d', strtotime($row->getField('endTime')));
-                     if ($current < $past) {
-                      $row->setColor('#fddddd');
-                      } 
-                    //elseif ($current < $next) {
-                    if ($current < $next) {
-                        $row->setColor('#fcf8e3');
-                    }
+          $source->manipulateRow(
+          function ($row) {
+          // Don't show the row if the price is greater than $maxPrice
+          //  $past = date('Y-m-d');
+          $next = date('Y-m-d', strtotime('+5days'));
+          $currenta = ($row->getField('dateDebut')->format('Y-m-d'));
+          $current = date('Y-m-d', strtotime($currenta));
+          //$current = new \DateTime($row->getField('endTime')->format('Y-m-d'));
+          //$current = date('Y-m-d', strtotime($row->getField('endTime')));
+          if ($current < $past) {
+          $row->setColor('#fddddd');
+          }
+          //elseif ($current < $next) {
+          if ($current < $next) {
+          $row->setColor('#fcf8e3');
+          }
 
-                    return $row;
-                }
-        );*/
+          return $row;
+          }
+          ); */
 
         $grid = $this->container->get('grid');
         // Attach the source to the grid
         $grid->setSource($source);
 
         $grid->setId('changementsgrid');
-        
-        
+
+
         //chiant si error
         /*  $grid->addExport(new ExcelExport('Excel Export','changements.xls',array(),'Windows-1252'));
           //$grid->addExport(new ExcelExport($title, $fileName, $params, $charset, $role));
@@ -661,30 +724,30 @@ $source->manipulateRow(
         // Set the selector of the number of items per page
         $grid->setLimits(array(10));
 
-     /*   $categoriesColumn = $grid->getColumn('idEnvironnement.nom:AtGroupConcat');
-      $categoryValues = array(
-                   'production' => 'production',
-                   'integration' => 'integration',
-        );
-        $categoriesColumn->setValues(
-            $categoryValues
-        );
-        $categoriesColumn->setOperators(
-            array("like","nlike","eq","neq")
-        );
-        
-      
-        */
+        /*   $categoriesColumn = $grid->getColumn('idEnvironnement.nom:AtGroupConcat');
+          $categoryValues = array(
+          'production' => 'production',
+          'integration' => 'integration',
+          );
+          $categoriesColumn->setValues(
+          $categoryValues
+          );
+          $categoriesColumn->setOperators(
+          array("like","nlike","eq","neq")
+          );
 
-       /* $categoriesColumn->setOperators(
-            array("like")
-        );*/
-        
+
+         */
+
+        /* $categoriesColumn->setOperators(
+          array("like")
+          ); */
+
         // Set the default page
         $grid->setPage($page);
         $grid->addMassAction(new DeleteMassAction());
         $grid->setActionsColumnSize(70);
-     //   $grid->setDefaultFilters(array('idEnvironnement.nom:AtGroupConcat' => array('operator' => 'like')));
+        //   $grid->setDefaultFilters(array('idEnvironnement.nom:AtGroupConcat' => array('operator' => 'like')));
         $myRowActiona = new RowAction('Edit', 'changements_edit', false, '_self', array('class' => "btn btn-mini btn-warning"));
         $grid->addRowAction($myRowActiona);
         $myRowAction = new RowAction('Delete', 'changements_delete', true, '_self', array('class' => "btn btn-mini btn-danger"));
@@ -709,12 +772,12 @@ $source->manipulateRow(
 
         $deleteForm = $this->createDeleteForm($id);
 
-         return $this->render('ApplicationChangementsBundle:Changements:show.html.twig', array(
+        return $this->render('ApplicationChangementsBundle:Changements:show.html.twig', array(
                     'entity' => $entity,
                     'delete_form' => $deleteForm->createView(),));
-      
     }
-   public function showXhtmlAction($id) {
+
+    public function showXhtmlAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
@@ -725,11 +788,11 @@ $source->manipulateRow(
 
         $deleteForm = $this->createDeleteForm($id);
 
-         return $this->render('ApplicationChangementsBundle:Changements:showxhtml.html.twig', array(
+        return $this->render('ApplicationChangementsBundle:Changements:showxhtml.html.twig', array(
                     'entity' => $entity,
                     'delete_form' => $deleteForm->createView(),));
-      
     }
+
     /**
      * Displays a form to create a new Changements entity.
      *

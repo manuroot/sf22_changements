@@ -14,34 +14,8 @@
       output='js/compiled/changementsown.js' filter='?yui_js' %}
 <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
-   {# <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/js/jquery.cookie.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/changements.js') }}"></script>
-#}
-  <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
-<script>
-    $(document).ready(function(){
-        //Examples of how to assign the ColorBox event to elements
-        //  href:"/uzf04new/chrono/example",
-        $("a.editme").colorbox({
-            iframe:true,
-            transition:	"elastic",
-            //   photo:true,
-        /*    ajax:true,*/
-            //     html:true,
-            width:"60%",
-            height:"70%",
-           /*  width:"600px",
-            height:"400px",*/
-            //       href:"/uzf04new/chrono/example",
-            fastIframe:false,
-            opacity:0.3
-        
-        });
-                            
-                            
-		
-    });
-    </script>
+<script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/editme.js') }}"></script>
 {% endblock %}
 
     
@@ -97,9 +71,12 @@ PLANNING DES OPERATIONS
     </a>
     <button type="submit" id="reset" name="submit-filter" class="btn btn-medium btn-warning" value="reset" >
         <i class="icon-minus-sign"></i> Effacer Filtres</button>
+          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
             <a href="{{ path('changements_newflowstart') }}" class=" ajoutchange btn btn-medium btn-primary">
-                <i class="icon-plus"></i> Ajouter un Changement
+                <i class=" icon-plus"></i> Ajouter un Changement
             </a>
+        {% endif %}
+            
 </form>
 
 <div id="ShowHideBoxown" class="hidden">
@@ -155,24 +132,7 @@ PLANNING DES OPERATIONS
                                      {% endif %}
                               {% endif %}
                                                  
-                                                     
-                                                     
-                     {# si datedebut existe #}   
-          {#  {% if entity.dateDebut %}
-                       
-                {% if date(entity.dateDebut) > date() and date(entity.dateDebut) < date(date_right_warning) %}
-                        <tr class="error">
-                        
-                {% elseif date(entity.dateFin) < date() and entity.idStatus.description == 'closed' %} 
-                        <tr>
-                {% else %}  
-                        <tr  class="success"> 
-                {% endif %}
-             {% else %}
-                       <tr>
-             {% endif %}   #}
-                                
-                            <td>{{ entity.id }}</td>
+                             <td>{{ entity.id }}</td>
                             <td><a href="{{ path('changements_show', { 'id': entity.id }) }}">{{ entity.nom }}</a></td>
                             {#<td>{% if entity.dateDebut %}{{ entity.dateDebut|date('Y-m-d H') ~ 'h' }}{% endif %}</td>#}
                                   <td>{% if entity.dateDebut %}{{ entity.dateDebut|date('Y-m-d') }}{% endif %}</td>

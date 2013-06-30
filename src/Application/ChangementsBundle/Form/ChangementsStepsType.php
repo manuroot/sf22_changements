@@ -23,7 +23,7 @@ class ChangementsStepsType extends AbstractType {
                            'placeholder' => '5 a 30 car.'
                                     ),
                   /*   'class' => 'MyBundle\Entity\MyEntity',*/
-            'property' => 'name',
+       /*     'property' => 'name',*/
                   'widget_addon' => array(
                   'icon' => 'pencil',
                   'type' => 'prepend'

@@ -2240,7 +2240,9 @@ tr.success_search{
 .table-hover tbody tr.success:hover td {
   background-color: #d0e9c6;
 }
-
+.table-hover tbody tr.closed:hover td {
+  background-color: #fe7070;
+}
 .table-hover tbody tr.error:hover td {
   background-color: #ebcccc;
 }
