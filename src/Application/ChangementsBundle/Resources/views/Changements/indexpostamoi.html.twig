@@ -10,15 +10,12 @@
     {{ parent() }}
     {% javascripts 
     '@ApplicationChangementsBundle/Resources/public/js/jquery.cookie.js'
-    '@ApplicationChangementsBundle/Resources/public/js/changements.js'
-     output='js/compiled/changements.js' filter='?yui_js' %}
+    '@ApplicationChangementsBundle/Resources/public/js/changementsown.js'
+      output='js/compiled/changementsown.js' filter='?yui_js' %}
 <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
-
-
-   <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
-  <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/editme.js') }}"></script>
-{#{{ tinymce_init() }}#}
+<script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/editme.js') }}"></script>
 {% endblock %}
 
     
@@ -27,40 +24,20 @@
      {% stylesheets 
                 '@ApplicationChangementsBundle/Resources/public/css/sliding.css' 
                 '@ApplicationChangementsBundle/Resources/public/css/changements.css' 
-              
-
                 output='css/compiled/changements.css' filter='cssrewrite,?yui_css' debug=false %}
 <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
 {% endstylesheets %}
-
+{#<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/changements.css') }}" type="text/css" media="all" /> 
+#}
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>
-
 <style>
-        td {
-    font-size: 12px;
-    /*border-collapse: separate;*/
-   /* font-family: 'Times New Roman',Times,serif;*/
-}
-      .input-append, .input-prepend {
   
-    font-size: 0px;
-    white-space: nowrap;
-  padding-left:3px;
-    float:left;
-}
-
 .table {
     font-size: 11px;
-    border-collapse: separate;
+   /* border-collapse: separate;*/
   /*  font-family: 'Times New Roman',Times,serif;*/
 }
-
-tr.title th {
-   
-    line-height: 30px;
-  
-}
-
     </style>
 {% endblock %}
 
@@ -71,13 +48,10 @@ PLANNING DES OPERATIONS
 {% endblock %}
 
 {% block content %}
-{#
+
 {% set dateright = '30' %}
 {% set date_right_warning= '+' ~  dateright ~ 'days' %}
-#}
-{#{% set date_right_warning= '+15days' %}
-#}
-
+{#{% set date_right_warning= '+15days' %}#}
 {% for type, flashMessages in app.session.flashbag.all() %}
     {% for flashMessage in flashMessages %}
 <div class="alert alert-{{ type }}">
@@ -88,33 +62,33 @@ PLANNING DES OPERATIONS
     {% endfor %}
 {% endfor %}
 
-  
  <div id="ShowHideContainer">
   
-<form id="target" class="form-horizontal" action="{{ path('changements_post') }}" method="POST" {{ form_enctype(search_form) }}>
+<form id="target" class="form-horizontal" action="{{ path('changements_posttest') }}" method="POST" {{ form_enctype(search_form) }}>
     <a id="ShowHideButton">
         <button id="show" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
-            <i class=" icon-search"></i>  Afficher Filtres</button>
+            <i class="icon-search"></i>  Afficher Filtres</button>
     </a>
     <button type="submit" id="reset" name="submit-filter" class="btn btn-medium btn-warning" value="reset" >
-        <i class=" icon-minus-sign"></i> Effacer Filtres</button>
-         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <i class="icon-minus-sign"></i> Effacer Filtres</button>
+          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
             <a href="{{ path('changements_newflowstart') }}" class=" ajoutchange btn btn-medium btn-primary">
                 <i class=" icon-plus"></i> Ajouter un Changement
             </a>
         {% endif %}
+            
 </form>
 
-<div id="ShowHideBox" class="hidden">
-        {% include 'ApplicationChangementsBundle:Changements:indexsearchpost_form.html.twig' %}
+<div id="ShowHideBoxown" class="hidden">
+        {% include 'ApplicationChangementsBundle:Changements:indexsearchsimple_form.html.twig' %}
         </div>
 </div>
-      
-              {% include 'ApplicationChangementsBundle:Changements:tp_table.html.twig' %}
-                   
-              
+    <table class="table table-bordered table-striped table-hover">
+               {% include 'ApplicationChangementsBundle:Changements:tp_table.html.twig' %}
+       
+           
+         
    {{ knp_pagination_render(pagination, 'ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig') }}
 
- 
  
 {% endblock %}

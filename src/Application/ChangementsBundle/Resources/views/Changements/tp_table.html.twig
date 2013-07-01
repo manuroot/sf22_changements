@@ -1,94 +1,8 @@
-{% extends "ApplicationChangementsBundle::layout.html.twig" %}
-{% macro icon_class( type ) %}
-  {% set type_class_map = {
-    like: 'icon-user'
-  } %}
-  {{ type_class_map[type] }}
-{% endmacro %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {% javascripts 
-    '@ApplicationChangementsBundle/Resources/public/js/jquery.cookie.js'
-    '@ApplicationChangementsBundle/Resources/public/js/changementsown.js'
-      output='js/compiled/changementsown.js' filter='?yui_js' %}
-<script src="{{ asset_url }}"></script>
-{% endjavascripts %}
-<script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
-<script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/editme.js') }}"></script>
-{% endblock %}
-
-    
-  {% block stylesheets %}
-{{ parent() }}
-     {% stylesheets 
-                '@ApplicationChangementsBundle/Resources/public/css/sliding.css' 
-                '@ApplicationChangementsBundle/Resources/public/css/changements.css' 
-                output='css/compiled/changements.css' filter='cssrewrite,?yui_css' debug=false %}
-<link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
-{% endstylesheets %}
-{#<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
-<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/changements.css') }}" type="text/css" media="all" /> 
-#}
-<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>
-<style>
-  
-.table {
-    font-size: 11px;
-   /* border-collapse: separate;*/
-  /*  font-family: 'Times New Roman',Times,serif;*/
-}
-    </style>
-{% endblock %}
-
-{% block content_header '' %}
-
-{% block title %}
-PLANNING DES OPERATIONS
-{% endblock %}
-
-{% block content %}
-
-{% set dateright = '30' %}
-{% set date_right_warning= '+' ~  dateright ~ 'days' %}
-{#{% set date_right_warning= '+15days' %}#}
-{% for type, flashMessages in app.session.flashbag.all() %}
-    {% for flashMessage in flashMessages %}
-<div class="alert alert-{{ type }}">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-      {{ flashMessage|trans }}
-    </div>
- 
-    {% endfor %}
-{% endfor %}
-
- <div id="ShowHideContainer">
-  
-<form id="target" class="form-horizontal" action="{{ path('changements_posttest') }}" method="POST" {{ form_enctype(search_form) }}>
-    <a id="ShowHideButton">
-        <button id="show" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
-            <i class="icon-search"></i>  Afficher Filtres</button>
-    </a>
-    <button type="submit" id="reset" name="submit-filter" class="btn btn-medium btn-warning" value="reset" >
-        <i class="icon-minus-sign"></i> Effacer Filtres</button>
-          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-            <a href="{{ path('changements_newflowstart') }}" class=" ajoutchange btn btn-medium btn-primary">
-                <i class=" icon-plus"></i> Ajouter un Changement
-            </a>
-        {% endif %}
-            
-</form>
-
-<div id="ShowHideBoxown" class="hidden">
-        {% include 'ApplicationChangementsBundle:Changements:indexsearchsimple_form.html.twig' %}
-        </div>
-</div>
-    <table class="table table-bordered table-striped table-hover">
-                    <thead>
-                    <thead>
+ <table class="table table-bordered table-hover">
+   <thead>
                         <tr class="title">
                             <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
-                            <th style="min-width:180px" {% if pagination.isSorted('a.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom', 'a.nom') }}
+                            <th style="min-width:150px" {% if pagination.isSorted('a.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom', 'a.nom') }}
                               <i class=" icon-pencil"></i></th>
                             <th{% if pagination.isSorted('a.dateDebut') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Debut', 'a.dateDebut') }}
                                 <i class=" icon-time"></i></th>
@@ -114,8 +28,10 @@ PLANNING DES OPERATIONS
                     </thead>
                     <tbody>
     {% for entity in pagination %}
+                     {# si datedebut existe #}   
+          {#   {% if entity.dateDebut %}#}
                             
-                             {% if entity.idStatus.description == 'closed' %} 
+                            {% if entity.idStatus.description == 'closed' %} 
                              <tr class="closed">
                                  {# sinon: open prepare ou wait #}
                             {% else %}
@@ -126,11 +42,10 @@ PLANNING DES OPERATIONS
                                              <tr class="success">
                                      {% endif %}
                               {% endif %}
-                                                 
-                             <td>{{ entity.id }}</td>
+                           <td>{{ entity.id }}</td>
                             <td><a href="{{ path('changements_show', { 'id': entity.id }) }}">{{ entity.nom }}</a></td>
-                            {#<td>{% if entity.dateDebut %}{{ entity.dateDebut|date('Y-m-d H') ~ 'h' }}{% endif %}</td>#}
-                                  <td>{% if entity.dateDebut %}{{ entity.dateDebut|date('Y-m-d') }}{% endif %}</td>
+                              {#<td>{% if entity.dateDebut %}{{ entity.dateDebut|date('Y-m-d H') ~ 'h' }}{% endif %}</td>#}
+                              <td>{% if entity.dateDebut %}{{ entity.dateDebut|date('Y-m-d') }}{% endif %}</td>
                             <td>{% if entity.dateFin %}{{ entity.dateFin|date('Y-m-d') }}{% endif %}</td>
                             <td>{{ entity.idProjet.nomprojet }}</td>
                             <td>{{ entity.demandeur.nomUser }}</td>
@@ -160,8 +75,7 @@ PLANNING DES OPERATIONS
                             <td> {{ entity.ticketInt }}   </td>
                             <td>{{ entity.idEnvironnement|join(', ') }}</td>
                             <td>
-                              {#  <a href="{{ path('changements_show', { 'id': entity.id }) }}">#}
-                                       <a class="editme" title="Opération: {{ entity.nom }}" href="{{ path('changements_showXhtml', { 'id': entity.id }) }}">
+                                <a class="editme" title="Opération: {{ entity.nom }}" href="{{ path('changements_showXhtml', { 'id': entity.id }) }}">
                                     <img src="{{ asset('bundles/applicationcertificats/images/detail.png') }}" alt="show" width="15" height="15" />
                                 </a>
                             </td>
@@ -182,8 +96,3 @@ PLANNING DES OPERATIONS
     {% endfor %}
  </tbody>
  </table>
-
-   {{ knp_pagination_render(pagination, 'ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig') }}
-
- 
-{% endblock %}

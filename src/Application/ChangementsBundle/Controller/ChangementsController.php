@@ -222,7 +222,7 @@ class ChangementsController extends Controller {
               )); */
         }
         $pagination = $this->createpaginator($query, 10);
-        return $this->render('ApplicationChangementsBundle:Changements:simple.html.twig', array(
+        return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi.html.twig', array(
                     'search_form' => $searchForm->createView(),
                     'pagination' => $pagination,
         ));

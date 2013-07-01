@@ -46,6 +46,16 @@ return false;
 });
 //$( "#effect" ).hide();
 
+
+$("#reset").click(function() {
+  /*  console.log('reset bouton');*/
+       $.cookie('actiffilterb', 0, {expires: 365});
+});   
+
+
+$('#filter').click(function() {
+       $.cookie('actiffilterb', 1, {expires: 365});
+});   
  var ShowHideBox = $('#ShowHideBox');
  //var  ShowHideButton = $('#ShowHideButton');
 initBox();
@@ -67,14 +77,14 @@ $('#target').submit(function() {
         event.preventDefault();
       if (boxVisible())
         {
-             console.log("hidebox? box=1 status status="+boxVisible());
+           /*  console.log("hidebox? box=1 status status="+boxVisible());*/
              hideBox();
              $(this).children().first().html('<i class="icon-search"></i>  Afficher Filtres');
              
         }
         else
         {
-             console.log("box=1 status status="+boxVisible());
+          /*   console.log("box=1 status status="+boxVisible());*/
             showBoxEffect();
               $(this).children().first().html('<i class="icon-search"></i>  Masquer Filtres');
         }
@@ -82,8 +92,14 @@ $('#target').submit(function() {
 
     function initBox()
     {
+             if ( $.cookie('actiffilterb')==1){
+               // si filtres actifs : bouton en rouge
+                    $('#reset').removeClass("btn-warning").addClass("btn-danger");
+                    //btn btn-medium btn-warning
+                }
         
-        console.log("initbox: box=1 status status="+boxVisible());
+        
+      /*  console.log("initbox: box=1 status status="+boxVisible());*/
         if ( $.cookie('Boxchangement')==1)
    {
         if (!boxVisible()){
@@ -102,13 +118,13 @@ $('#target').submit(function() {
              }
         }
          if ( $.cookie('Boxfilter')==1){
-               console.log("filtre actif 1");
+          /*    console.log("filtre actif 1");*/
                
            
            $.cookie('Boxfilter', 0, {expires: 365});
    }
     else {
-          console.log("filtre inactif 0");
+        /*  console.log("filtre inactif 0");*/
          $.cookie('Boxfilter', 1, {expires: 365});
     }
     }  
