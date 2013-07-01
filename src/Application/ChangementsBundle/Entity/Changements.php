@@ -213,7 +213,7 @@ private $comments;
      * @ORM\Column(type="integer", length=5, name="ticket_int", nullable=true)
      * @GRID\Column(type="text",field="ticketInt", title="TInt",size="10")
       *  * @Assert\Regex(
-    * pattern="/^[0-9]{5,10}/",
+    * pattern="/^[0-9]{5,6}/",
      *     match=true,
      *     message="patterns autorisées ex: 12345 (5 a 10 car.)"
      * )
