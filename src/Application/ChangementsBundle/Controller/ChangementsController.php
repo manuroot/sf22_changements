@@ -159,7 +159,7 @@ class ChangementsController extends Controller {
         if ($message)
             $session->getFlashBag()->add('warning', "$message");
 
-        $pagination = $this->createpaginator($queryBuilder, 15);
+        $pagination = $this->createpaginator($queryBuilder, 10);
         return $this->render('ApplicationChangementsBundle:Changements:indexpost.html.twig', array(
                     'search_form' => $filterForm->createView(),
                     'pagination' => $pagination,
