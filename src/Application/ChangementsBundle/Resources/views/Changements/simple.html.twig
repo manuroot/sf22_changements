@@ -83,28 +83,23 @@ PLANNING DES OPERATIONS
         {% include 'ApplicationChangementsBundle:Changements:indexsearchsimple_form.html.twig' %}
         </div>
 </div>
-
-
-
-
-
-
     <table class="table table-bordered table-striped table-hover">
+                    <thead>
                     <thead>
                         <tr class="title">
                             <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
-                            <th style="min-width:150px" {% if pagination.isSorted('a.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom', 'a.nom') }}
-                              <i class="icon-pencil"></i></th>
+                            <th style="min-width:180px" {% if pagination.isSorted('a.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom', 'a.nom') }}
+                              <i class=" icon-pencil"></i></th>
                             <th{% if pagination.isSorted('a.dateDebut') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Debut', 'a.dateDebut') }}
-                                <i class="icon-time"></i></th>
+                                <i class=" icon-time"></i></th>
                             <th{% if pagination.isSorted('a.dateFin') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Fin', 'a.dateFin') }}
-                                <i class="icon-time"></i></th>
+                                <i class=" icon-time"></i></th>
                             <th{% if pagination.isSorted('b.nomprojet') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Projet', 'b.nomprojet') }}</th>
                             <th{% if pagination.isSorted('c.nomUser') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'D', 'c.nomUser') }}
-                                <i class="icon-user"></i></th>
-                            <th><i class="icon-book"></i></th>
-                            <th><i class="icon-pencil"></i></th>
-                              <th style="min-width:100px" {% if pagination.isSorted('e.nomUser') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Users', 'e.nomUser') }}
+                                <i class=" icon-user"></i></th>
+                            <th><i class=" icon-book"></i></th>
+                            <th><i class=" icon-pencil"></i></th>
+                            <th style="min-width:100px" {% if pagination.isSorted('e.nomUser') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Users', 'e.nomUser') }}
                                 <i class=" icon-user"></i><i class=" icon-user"></i></th>
                             <th style="min-width:30px" {% if pagination.isSorted('d.idStatus.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'F', 'd.idStatus.nom') }}
                                 <i class=" icon-flag"></i></th>
@@ -112,8 +107,8 @@ PLANNING DES OPERATIONS
                                 <i class=" icon-tag"></i></th>
                              <th style="min-width:50px" {% if pagination.isSorted('a.ticketInt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'T_Int', 'a.ticketInt') }}
                                  <i class=" icon-tag"></i></th>
-                            <th{% if pagination.isSorted('g.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Env', 'g.nom') }}
-                                <i class="icon-wrench"></i></th>
+                            <th {% if pagination.isSorted('g.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Env', 'g.nom') }}
+                                <i class=" icon-wrench"></i></th>
                             <th colspan="3">Actions</th>
                         </tr>
                     </thead>
