@@ -582,7 +582,7 @@ class ChangementsController extends Controller {
         $grid->setPersistence(false);
         $grid->setDefaultOrder('id', 'desc');
         // Set the selector of the number of items per page
-        $grid->setLimits(array(10));
+        $grid->setLimits(array(15));
 
         /*   $categoriesColumn = $grid->getColumn('idEnvironnement.nom:AtGroupConcat');
           $categoryValues = array(

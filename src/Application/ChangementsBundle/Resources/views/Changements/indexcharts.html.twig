@@ -26,17 +26,6 @@
  </style>
 {% endblock %}
 
- {% block javascripts %}
-{{ parent() }}
- <script src="{{ asset('bundles/obhighcharts/js/highcharts/highcharts.js') }}"></script>
-<script src="{{ asset('bundles/obhighcharts/js/highcharts/modules/exporting.js') }}"></script>
-<script type="text/javascript">
-    {{ chart(chart1) }}
-    {{ chart(chart2) }}
-    {{ chart(chart5) }}
-    {{ chart(chart4) }}
-</script>
-{% endblock %}      
 
 {% block content_header '' %}
 
@@ -65,3 +54,16 @@ Opérations 2013
  <div id="linechart4" style="min-width: 600px;width:60px;height: 600px; padding:5px;margin: 10px auto;float:left"></div>
  
 {% endblock %}
+
+ 
+ {% block javascripts %}
+{{ parent() }}
+ <script src="{{ asset('bundles/obhighcharts/js/highcharts/highcharts.js') }}"></script>
+<script src="{{ asset('bundles/obhighcharts/js/highcharts/modules/exporting.js') }}"></script>
+<script type="text/javascript">
+    {{ chart(chart1) }}
+    {{ chart(chart2) }}
+    {{ chart(chart5) }}
+    {{ chart(chart4) }}
+</script>
+{% endblock %}      
