@@ -31,9 +31,9 @@ Fichiers sur les Changements
         <thead>
             <tr class="title">
                 <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
-                <th{% if pagination.isSorted('a.name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom', 'a.name') }}</th>
-                <th{% if pagination.isSorted('a.path') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Path', 'a.path') }}</th>
-                <th{% if pagination.isSorted('a.OriginalFilename') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'OriginalFilename', 'a.OriginalFilename') }}</th>
+                <th{% if pagination.isSorted('a.name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Description', 'a.name') }}</th>
+                <th{% if pagination.isSorted('a.path') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom Physique', 'a.path') }}</th>
+                <th{% if pagination.isSorted('a.OriginalFilename') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom Origine', 'a.OriginalFilename') }}</th>
                 <th{% if pagination.isSorted('a.updatedAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date Update', 'a.updatedAt') }}</th>
      
                    <th{% if pagination.isSorted('b.idchangement.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Changements', 'b.idchangement.nom') }}</th>

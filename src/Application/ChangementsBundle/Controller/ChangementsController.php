@@ -870,6 +870,8 @@ class ChangementsController extends Controller {
         ));
     }
 
+    // A ameliorer: recup par l'entity !!!
+    
     public function downloadAction($filename) {
         $request = $this->get('request');
         $session = $request->getSession();
