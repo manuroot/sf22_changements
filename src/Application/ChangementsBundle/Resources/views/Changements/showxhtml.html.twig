@@ -30,9 +30,13 @@
     color: red;
     
 }
- 
+ td.viewlabel, .calview td.viewlabel {
+    font-size: 12px;
+    
+     background-color: rgb(87, 87, 87);
+}
   td  {
-      color:blue;
+     
       font-size:12px;
   }
   </style>
@@ -56,16 +60,23 @@
       
   <div id="tabs-1">
    
-<table class="table table-striped table-bordered table-hover">
+<table class="table table-bordered table-hover">
 
-
+ <thead>
+                        <tr class="title">
+                            <th>klmk</th>
+                            <th>klm</th>
+                        </tr>
+                    </thead>
     <tbody>
+        
+       
         <tr>
-            <td class="title">Id</td>
+            <td class="viewlabel">Id</td>
             <td>{{ entity.id }}</td>
         </tr>
         <tr>
-            <td class="title" class="title">Nom</td>
+            <td class="viewlabel">Nom</td>
             <td>{{ entity.nom }}</td>
         </tr>
         <tr>

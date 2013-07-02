@@ -92,8 +92,13 @@ class Document
     {
         if (null !== $this->file) {
             // faites ce que vous voulez pour générer un nom unique
+          //   $this->path = sha1(uniqid(mt_rand(), true)).'.'.$this->file->getExtension();
             $this->path = sha1(uniqid(mt_rand(), true)).'.'.$this->file->guessExtension();
         }
+      /*  if($this->file !== null)
+        {
+            $this->url = $this->file->getClientOriginalName() . "_" . $this->id . "." . $this->file->guessExtension();
+        }*/
     }
 
     /**
