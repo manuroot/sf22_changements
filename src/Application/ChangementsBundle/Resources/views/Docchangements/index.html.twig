@@ -33,6 +33,7 @@ Fichiers sur les Changements
                 <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
                 <th{% if pagination.isSorted('a.name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom', 'a.name') }}</th>
                 <th{% if pagination.isSorted('a.path') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Path', 'a.path') }}</th>
+                <th{% if pagination.isSorted('a.OriginalFilename') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'OriginalFilename', 'a.OriginalFilename') }}</th>
                 <th{% if pagination.isSorted('a.updatedAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date Update', 'a.updatedAt') }}</th>
      
                    <th{% if pagination.isSorted('b.idchangement.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Changements', 'b.idchangement.nom') }}</th>
@@ -49,7 +50,7 @@ Fichiers sur les Changements
             <td><a href="{{ path('docchangements_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.name }}</td>
                  <td><a href="{{ path('download_route', { 'filename': entity.path }) }}">{{ entity.path }}</a></td>
-          
+           <td>{{ entity.OriginalFilename }}</td>
            
              <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
              <td>{{ entity.idchangement|join(', ') }}</td>

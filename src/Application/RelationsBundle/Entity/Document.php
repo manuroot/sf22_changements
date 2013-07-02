@@ -82,7 +82,24 @@ class Document
         return 'uploads/documents';
     }
  
+ /**
+   * Generates a non-random-filename
+   *
+   * @return string A non-random name to represent the current file
+   */
+  public function generateFilename()
+  {
+    $filename = $this->getOriginalName();
 
+    $ext = $this->getExtension($this->getOriginalExtension());
+    $name = substr($this->getOriginalName(), 0, - strlen($ext));
+    $i = 1;
+    while(file_exists($this->getPath() . '/' .  $filename)) {
+      $filename = $name . '-' . $i . $ext;
+      $i++;
+    }
+    return $filename;
+  }
 
 /**
      * @ORM\PrePersist()
@@ -96,7 +113,7 @@ class Document
             // faites ce que vous voulez pour générer un nom unique
           //   $this->path = sha1(uniqid(mt_rand(), true)).'.'.$this->file->getExtension();
             $this->path= $this->getOriginalName();
-            $this->path = sha1(uniqid(mt_rand(), true)).'.'.$this->file->guessExtension();
+          //  $this->path = sha1(uniqid(mt_rand(), true)).'.'.$this->file->guessExtension();
         }
       /*  if($this->file !== null)
         {
@@ -105,18 +122,15 @@ class Document
     }
     
     
-     public function keeppreUpload()
+    /* public function keeppreUpload()
     {
         if (null !== $this->file) {
             // faites ce que vous voulez pour générer un nom unique
           //   $this->path = sha1(uniqid(mt_rand(), true)).'.'.$this->file->getExtension();
             $this->path = sha1(uniqid(mt_rand(), true)).'.'.$this->file->guessExtension();
         }
-      /*  if($this->file !== null)
-        {
-            $this->url = $this->file->getClientOriginalName() . "_" . $this->id . "." . $this->file->guessExtension();
-        }*/
-    }
+    
+    }*/
 
     /**
      * @ORM\PostPersist()

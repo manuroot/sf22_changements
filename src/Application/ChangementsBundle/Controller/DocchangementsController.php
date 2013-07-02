@@ -99,6 +99,9 @@ class DocchangementsController extends Controller {
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+             // list($fic,$ext)=$entity->getFilename();
+            //    echo "ext=$ext $fic<br>";exit(1);
+            
             $em->persist($entity);
             $em->flush();
 

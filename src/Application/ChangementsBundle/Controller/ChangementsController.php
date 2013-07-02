@@ -855,7 +855,11 @@ class ChangementsController extends Controller {
         if ($this->getRequest()->isMethod('POST')) {
             $form->bind($this->getRequest());
             if ($form->isValid()) {
+                
+                
                 $em = $this->getDoctrine()->getManager();
+                $fic=$document->generateFilename();
+                echo "$fic<br>";exit(1);
                 //  $document->upload();    
                 $em->persist($document);
                 $em->flush();

@@ -262,7 +262,9 @@ a.mytab {
  <thead>
                         <tr class="title">
                         
-                <tr class="title"><th>id</th><th>Nom</th><th>Date Maj</th><th>Lien</th></tr>
+                <tr class="title"><th>id</th><th>Nom</th>
+                    <th>Nom Original</th>
+                    <th>Date Maj</th><th>Lien</th></tr>
                 </thead>
                 
                <tbody>
@@ -271,6 +273,7 @@ a.mytab {
                 <tr> 
                     <td>{{ fic.id }}</td>
                     <td>{{ fic.name }}</td>
+                    <td>{{ fic.OriginalFilename }}</td>
                     <td>{{ fic.updatedAt|date('Y-m-d H') ~ 'h' }}</td>
                     <td><a class="fichier" href="{{ path('download_route', { 'filename': fic.path }) }}">{{ fic.path }}</a></td>
 
