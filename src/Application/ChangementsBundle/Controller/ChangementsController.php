@@ -159,7 +159,7 @@ class ChangementsController extends Controller {
         if ($message)
             $session->getFlashBag()->add('warning', "$message");
 
-        $pagination = $this->createpaginator($queryBuilder, 10);
+        $pagination = $this->createpaginator($queryBuilder, 15);
         return $this->render('ApplicationChangementsBundle:Changements:indexpost.html.twig', array(
                     'search_form' => $filterForm->createView(),
                     'pagination' => $pagination,
@@ -221,7 +221,7 @@ class ChangementsController extends Controller {
               'search_form' => $searchForm->createView(),
               )); */
         }
-        $pagination = $this->createpaginator($query, 10);
+        $pagination = $this->createpaginator($query, 15);
         return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi.html.twig', array(
                     'search_form' => $searchForm->createView(),
                     'pagination' => $pagination,

@@ -1987,7 +1987,8 @@ table {
 
 .table th,
 .table td {
-  padding: 8px;
+  padding: 4px;
+ /* padding: 8px;*/
   line-height: 20px;
   text-align: left;
   vertical-align: top;
@@ -2214,6 +2215,15 @@ table th[class*="span"],
   margin-left: 0;
 }
 
+
+
+.table-striped tbody > tr:nth-child(odd) > td,
+.table-striped tbody > tr:nth-child(odd) > th {
+/*  background-color: #f9f9f9;*/
+background-color: #f6f6f6;
+
+
+}
 tr.success_search{
     background-color: whitesmoke;
 }

@@ -91,6 +91,23 @@ class Document
     public function preUpload()
     {
         if (null !== $this->file) {
+            echo "fichier=" . $this->file . "<br>";
+            exit(1);
+            // faites ce que vous voulez pour générer un nom unique
+          //   $this->path = sha1(uniqid(mt_rand(), true)).'.'.$this->file->getExtension();
+            $this->path= $this->getOriginalName();
+            $this->path = sha1(uniqid(mt_rand(), true)).'.'.$this->file->guessExtension();
+        }
+      /*  if($this->file !== null)
+        {
+            $this->url = $this->file->getClientOriginalName() . "_" . $this->id . "." . $this->file->guessExtension();
+        }*/
+    }
+    
+    
+     public function keeppreUpload()
+    {
+        if (null !== $this->file) {
             // faites ce que vous voulez pour générer un nom unique
           //   $this->path = sha1(uniqid(mt_rand(), true)).'.'.$this->file->getExtension();
             $this->path = sha1(uniqid(mt_rand(), true)).'.'.$this->file->guessExtension();
@@ -111,6 +128,8 @@ class Document
             return;
         }
 
+          echo "fichier=" . $this->file . "<br>";
+            exit(1);
         // s'il y a une erreur lors du déplacement du fichier, une exception
         // va automatiquement être lancée par la méthode move(). Cela va empêcher
         // proprement l'entité d'être persistée dans la base de données si

@@ -19,17 +19,85 @@
    
 .main-col { width: 70%; display: inline-block; float: left; border-right: 1px solid #ccc; padding: 20px; margin-bottom: 20px; }
 .sidebar {  padding: 10px; display: inline-block; }
-  th {
+
+body {background-color:#fff3bc;}
+h2 {
+    font-family: Georgia,"Times New Roman",Times,serif;
+    letter-spacing: 0px;
+    text-transform: none;
+    font-weight: normal;
+    font-variant: normal;
+    font-style: normal;
+    font-size: 2em;
+    text-shadow: 2px 2px 4px rgb(187, 187, 187);
+}
+
+th{
+    background: none repeat scroll 0% 0% rgb(0, 0, 0);
+    font-size: 12px;
+    padding: 5px;
+    color: rgb(255, 255, 255);
+}
+
+  /*th {
   background-color:blue;
-  }
+  }*/
+  
+.ui-tabs .ui-tabs-panel {
+    display: block;
+    border-width: 0px;
+    padding: 1em 1.4em;
+    background: #fff3bc;
+}
+     
+
+  table.view {
+    font-size: 12px;
+    color: rgb(1, 1, 1);
+    border-spacing: 0px;
+   /*  padding:15px;*/
+     min-width:400px;
+}
+ table.view {
+    font-size: 11px;
+   
+    border-collapse: separate;
+   
+    font-family: 'Times New Roman',Times,serif;
+}
+
   .ui-widget-content a {
     color: blue;
-      font-size:11px;
+      font-size:12px;
 }
- .ui-widget-content a:hover {
+a.mytab {
+}
+ .ui-widget-content a.fichier:hover {
     color: red;
     
 }
+.view td {
+    font-size: 14px;
+    border-color: rgb(255, 255, 255);
+    border-right: 1px solid rgb(255, 255, 255);
+    border-left: 1px solid rgb(255, 255, 255);
+    border-style: solid;
+    border-width: 1px;
+    padding:5px;
+    background-color: #d6d6d6;
+}
+
+.view td:hover {
+    background-color: rgb(204, 204, 204);
+}
+
+.view td.viewlabel  {
+    font-size: 14px;
+    color: rgb(254, 254, 254);
+    background-color: rgb(87, 87, 87);
+    border-color: rgb(255, 255, 255);
+}
+/*
  td.viewlabel, .calview td.viewlabel {
     font-size: 12px;
     
@@ -38,7 +106,7 @@
   td  {
      
       font-size:12px;
-  }
+  }*/
   </style>
 
         {% endblock %}
@@ -47,25 +115,25 @@
       
     {% block content %}
         
-         <center><h1>DETAILS OPERATION: <br> {{ entity.nom }} </h1></center>
+         <center><h2>OPERATION: {{ entity.nom }} </h2></center>
 
 <div id="tabs">
     
 
   
   <ul>
-    <li><a href="#tabs-1"> <i class="icon-pencil"></i>  Données Principales</a></li>
-    <li><a href="#tabs-2"><i class="icon-book"></i>  Fichiers</a></li>
+    <li><a href="#tabs-1" class="mytab"> <i class="icon-pencil"></i>  Données Principales</a></li>
+    <li><a href="#tabs-2" class="mytab" ><i class="icon-book"></i>  Fichiers</a></li>
   </ul>
       
   <div id="tabs-1">
    
-<table class="table table-bordered table-hover">
+<table class="view table-bordered">
 
  <thead>
                         <tr class="title">
-                            <th>klmk</th>
-                            <th>klm</th>
+                            <th>Paramètres</th>
+                            <th>Valeurs</th>
                         </tr>
                     </thead>
     <tbody>
@@ -80,20 +148,20 @@
             <td>{{ entity.nom }}</td>
         </tr>
         <tr>
-            <td class="title">Demandeur</td>
+            <td class="viewlabel">Demandeur</td>
             <td>{{ entity.demandeur }}</td>
         </tr>
         <tr>
-            <td class="title">Datedebut</td>
+            <td class="viewlabel">Datedebut</td>
 
             <td>{{ entity.dateDebut|date('Y-m-d H:i:s') }}</td>
         </tr>
         <tr>
-            <td class="title">Datefin</td>
+            <td class="viewlabel">Datefin</td>
             <td class="single">{{ entity.dateFin|date('Y-m-d H:i:s') }}</td>
         </tr>
         <tr>
-            <td class="title">Datecomep</td>
+            <td class="viewlabel">Datecomep</td>
             <td>
             {% if entity.dateComep is not null %}
                {{ entity.dateComep|date('Y-m-d H:i:s') }}
@@ -103,7 +171,7 @@
             </td>
             </tr>
             <tr>
-                 <td class="title">Datevsr</td>
+                 <td class="viewlabel">Datevsr</td>
             <td>
             {% if entity.dateVsr is not null %}
                {{ entity.dateVsr|date('Y-m-d H:i:s') }}
@@ -115,33 +183,33 @@
              
             </tr>
             <tr>
-                <td class="title">Description</td>
+                <td class="viewlabel">Description</td>
                 
                 <td>{{ entity.description|raw }}</td>
             </tr>
 
             <tr>
-                <td class="title">Projet</td>
+                <td class="viewlabel">Projet</td>
                 <td>{{ entity.idProjet }}</td>
             </tr>
             <tr>
-                <td class="title">Status</td>
+                <td class="viewlabel">Status</td>
                 <td>{{ entity.idStatus }}</td>
             </tr>
             <tr>
-                <!--<td class="title">Avatar</td>
+                <!--<td class="viewlabel">Avatar</td>
                 <td>{#{ entity.avatar }#}</td>-->
             </tr>
 
             <!--  <tr>
-                  <td class="title">Fichier Principal</td>
+                  <td class="viewlabel">Fichier Principal</td>
                   <td>{#{ entity.picture.name }#}
                   
               
                   </td>
               </tr>-->
 
-            <tr><td class="title">Applications</td>
+            <tr><td class="viewlabel">Applications</td>
                 <td>
            {{ entity.idapplis|join(', ') }}   
              {#% for appli in entity.idapplis %} {{ appli.nomapplis }}
@@ -149,7 +217,7 @@
                     </td>
                 </tr>
 
-                <tr><td class="title">Environnements</td>
+                <tr><td class="viewlabel">Environnements</td>
                     <td>
 
            {{ entity.idEnvironnement|join(', ') }}   
@@ -161,7 +229,7 @@
 
 
                 <tr>
-                    <td class="title">Utilisateurs</td>
+                    <td class="viewlabel">Utilisateurs</td>
                     <td>
            {{ entity.idusers|join(', ') }}   
 {#% for user in entity.idusers %} {{ user.nomUser }}
@@ -171,11 +239,11 @@
                     </tr>
                     
                      <tr>
-                <td class="title">Ticket Externe</td>
+                <td class="viewlabel">Ticket Externe</td>
                 <td>{{ entity.ticketExt }}</td>
             </tr>
              <tr>
-                <td class="title">Ticket Interne</td>
+                <td class="viewlabel">Ticket Interne</td>
                 <td>{{ entity.ticketInt }}</td>
             </tr>
 
@@ -189,15 +257,22 @@
 
 
             <h3><center>Fichiers de la demande</center></h3>
-            <table class="table table-bordered table-hover table-striped">
-                     <tr class="title"><th class="title">id</th><th class="title">Nom</th><th class="title">Date Maj</th><th class="title">Lien</th></tr>
+        <table class="view table-bordered">
+
+ <thead>
+                        <tr class="title">
+                        
+                <tr class="title"><th>id</th><th>Nom</th><th>Date Maj</th><th>Lien</th></tr>
                 </thead>
+                
+               <tbody>
+          
                {% for fic in entity.picture %}
                 <tr> 
                     <td>{{ fic.id }}</td>
                     <td>{{ fic.name }}</td>
                     <td>{{ fic.updatedAt|date('Y-m-d H') ~ 'h' }}</td>
-                    <td><a href="{{ path('download_route', { 'filename': fic.path }) }}">{{ fic.path }}</a></td>
+                    <td><a class="fichier" href="{{ path('download_route', { 'filename': fic.path }) }}">{{ fic.path }}</a></td>
 
                        <!-- <a href="{#{ asset('bundles/my/Resources/public/pdf/dok.pdf') }#}">Download PDF!</a>-->
 
