@@ -7,7 +7,7 @@
             //   photo:true,
         /*    ajax:true,*/
             //     html:true,
-            width:"60%",
+            width:"70%",
             height:"70%",
            /*  width:"600px",
             height:"400px",*/

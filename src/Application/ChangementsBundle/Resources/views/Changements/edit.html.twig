@@ -46,10 +46,13 @@ padding: .2em .4em;
 margin: .8em 0 .2em;
 line-height: 1.5;
 }
-table { width:300px;}
+/*
+table { width:300px;}*/
 
+.mytiny {width:380px;}
     </style>
-      {{ form_stylesheet(edit_form) }}
+    {#  {{ form_stylesheet(edit_form) }}#}
+    
 {% endblock %}
 
 {% block javascripts %}
@@ -155,7 +158,7 @@ function addTagFormDeleteLink($tagFormLi) {
                  
                        {# <a class="btn-add" data-target="post_tags">Ajouter un Fichier</a>#}
                         </td>
-                         <td class="calendar">
+                         <td class="calendar mytiny">
                             <div>
                             {{ form_row(edit_form.idProjet) }}</div>
                                 <div class="boxlist">{{ form_row(edit_form.idEnvironnement) }}</div>
