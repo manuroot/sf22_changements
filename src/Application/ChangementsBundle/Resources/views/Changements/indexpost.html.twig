@@ -14,12 +14,15 @@
      output='js/compiled/changements.js' filter='?yui_js' %}
 <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
-
-<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
    <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
   <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/editme.js') }}"></script>
+     {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/changementsicons.js') }}"></script>
+{% endif %}
+
+
 {#{{ tinymce_init() }}#}
 {% endblock %}
 

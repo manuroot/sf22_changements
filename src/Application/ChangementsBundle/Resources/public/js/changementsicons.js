@@ -2,7 +2,7 @@ $(document).ready(function() {
  var img_path='bundles/applicationcertificats/images/';
  $("td > a").click(function(event) {
     
-     console.log("open test button");
+   /*  console.log("open test button");*/
             var id=$(this).attr("data-id");
                console.log("id=" + id);
              var dataAjax = {id:id};
@@ -25,7 +25,7 @@ $(document).ready(function() {
  } 
  //cas closed: closed ==> prepare
  else if ($(this).hasClass("closed")){
-      console.log("closed test button");
+   /*   console.log("closed test button");*/
      /* var id=$(this).attr("data-id");
              var dataAjax = {id:id};*/
 
