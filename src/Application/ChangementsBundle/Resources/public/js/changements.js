@@ -52,7 +52,8 @@ $("#reset").click(function() {
        $.cookie('actiffilterb', 0, {expires: 365});
 });   
 
-
+                     
+                          
 $('#filter').click(function() {
        $.cookie('actiffilterb', 1, {expires: 365});
 });   

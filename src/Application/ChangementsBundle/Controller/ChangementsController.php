@@ -25,6 +25,7 @@ use APY\DataGridBundle\Grid\Column\DateColumn;
 use APY\DataGridBundle\Grid\Export\ExcelExport;
 use Ob\HighchartsBundle\Highcharts\Highchart;
 use Doctrine\ORM\Tools\Pagination\CountOutputWalker;
+use Application\ChangementsBundle\Entity\ChangementsStatus;
 
 /* use Pagerfanta\Pagerfanta;
   use Pagerfanta\Adapter\DoctrineORMAdapter;
@@ -164,7 +165,7 @@ class ChangementsController extends Controller {
                     'search_form' => $filterForm->createView(),
                     'pagination' => $pagination,
                     'date_warning' => $date_warning,
-        ));
+                ));
     }
 
     public function indexposttestAction(Request $request) {
@@ -225,7 +226,7 @@ class ChangementsController extends Controller {
         return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi.html.twig', array(
                     'search_form' => $searchForm->createView(),
                     'pagination' => $pagination,
-        ));
+                ));
     }
 
     /*
@@ -264,7 +265,7 @@ class ChangementsController extends Controller {
         return $this->render('ApplicationChangementsBundle:Changements:index.html.twig', array(
                     'search_form' => $searchForm->createView(),
                     'pagination' => $pagination,
-        ));
+                ));
         // Chart
     }
 
@@ -274,25 +275,24 @@ class ChangementsController extends Controller {
         $all_months = $em->getRepository('ApplicationChangementsBundle:Changements')->get_all_months();
         $data_sumbymonth = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_allappli_bymonthyear();
         $data_month = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_monthyear();
-        
+
         $current_date = new \DateTime();
-            // $next=
-            //$current_yearmonth = $current_date->format('Y-m');
+        // $next=
+        //$current_yearmonth = $current_date->format('Y-m');
         $current_year = $current_date->format('Y');
-         $titre="Demandes " . $current_year;
-            
-        $pie_options=array(
-               'allowPointSelect'=> true,
-                'cursor'=> 'pointer',
-                'dataLabels' => array(
-                     'enabled'=> true,
-                    'color'=> '#000000',
-                    'connectorColor'=> '#000000',
-                     'format'=> '{point.name}'
-                    /*'format'=> '<b>{point.name}</b>: {point.percentage:.1f} %'*/
-                        )
-                
-            );
+        $titre = "Demandes " . $current_year;
+
+        $pie_options = array(
+            'allowPointSelect' => true,
+            'cursor' => 'pointer',
+            'dataLabels' => array(
+                'enabled' => true,
+                'color' => '#000000',
+                'connectorColor' => '#000000',
+                'format' => '{point.name}'
+            /* 'format'=> '<b>{point.name}</b>: {point.percentage:.1f} %' */
+            )
+        );
         $res2 = $data_sumbymonth->getScalarResult();
         $hbar_parmois = $data_month->getScalarResult();
         //   var_dump($res2);exit(1);
@@ -306,9 +306,9 @@ class ChangementsController extends Controller {
         }
 
         ksort($series_bymois);
-        
-        
-        
+
+
+
         $series = array(
             //        array("name" => "Data Serie Name", "data" =>     array(1, 2, 4, 7, 6,9))
             array("name" => "operations", "data" => $series_bymois)
@@ -364,7 +364,7 @@ class ChangementsController extends Controller {
                 'style' => array(
                     'fontWeight' => 'bold',
                     'color' => '(Highcharts.theme && Highcharts.theme.textColor) || "gray"',
-                ))
+            ))
         ));
 
         $ob1->series($series);
@@ -373,22 +373,22 @@ class ChangementsController extends Controller {
         // Par Projet
         //=====================================================
         $data = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_year();
-       // print_r($data);exit(1);
+        // print_r($data);exit(1);
         $ob2 = new Highchart();
         $ob2->chart->type('column');
-     
+
         $ob2->chart->plotBackgroundColor(null);
         $ob2->chart->plotBorderWidth(false);
         $ob2->chart->plotShadow(false);
         $ob2->chart->renderTo('linechart2');
         $ob2->title->text($titre . ': Projets');
-       // $ob2->tooltip(array( 'pointFormat'=> '{series.name}: <b>{point.percentage:.1f}%</b>'));
+        // $ob2->tooltip(array( 'pointFormat'=> '{series.name}: <b>{point.percentage:.1f}%</b>'));
         $ob2->tooltip->pointFormat('{series.name}: <b>{point.percentage:.1f}%</b>');
-    	 
+
         $ob2->plotOptions->pie($pie_options);
-        
+
         $ob2->series(array(array('type' => 'pie', 'name' => 'Demandes', 'data' => $data)));
-     
+
         //=====================================================
         // Par demandeur
         //=====================================================
@@ -408,7 +408,7 @@ class ChangementsController extends Controller {
         $ob4->chart->type('column');
         $ob4->plotOptions->column(array(
             'stacking' => 'stacked',
-             /* 'stacking' => 'percent',*/
+            /* 'stacking' => 'percent', */
             'dataLabels' => array(
                 'enabled' => true,
             ),
@@ -438,14 +438,14 @@ class ChangementsController extends Controller {
                     'chart2' => $ob2,
                     'chart5' => $ob5,
                     'chart4' => $ob4
-        ));
+                ));
     }
 
     public function indexdashboardAction() {
 
 
         return $this->render('ApplicationChangementsBundle:Changements:indexdashboard.html.twig', array(
-        ));
+                ));
     }
 
     public function calendarAction(Request $request) {
@@ -504,7 +504,7 @@ class ChangementsController extends Controller {
                     'form' => $form->createView(),
                     'year' => $current_year,
                         // 'current_month' => $month
-        ));
+                ));
     }
 
 //==============================================
@@ -665,7 +665,7 @@ class ChangementsController extends Controller {
         return $this->render('ApplicationChangementsBundle:Changements:new.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),
-        ));
+                ));
     }
 
     public function newflowstartAction() {
@@ -717,7 +717,7 @@ class ChangementsController extends Controller {
                     'form' => $form->createView(),
                     'flow' => $flow,
                     'entity' => $entity,
-        ));
+                ));
     }
 
     /**
@@ -741,7 +741,7 @@ class ChangementsController extends Controller {
         return $this->render('ApplicationChangementsBundle:Changements:new.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),
-        ));
+                ));
     }
 
     /**
@@ -767,7 +767,7 @@ class ChangementsController extends Controller {
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
-        ));
+                ));
     }
 
     /**
@@ -808,7 +808,7 @@ class ChangementsController extends Controller {
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
-        ));
+                ));
     }
 
     /**
@@ -855,11 +855,12 @@ class ChangementsController extends Controller {
         if ($this->getRequest()->isMethod('POST')) {
             $form->bind($this->getRequest());
             if ($form->isValid()) {
-                
-                
+
+
                 $em = $this->getDoctrine()->getManager();
-                $fic=$document->generateFilename();
-                echo "$fic<br>";exit(1);
+                $fic = $document->generateFilename();
+                echo "$fic<br>";
+                exit(1);
                 //  $document->upload();    
                 $em->persist($document);
                 $em->flush();
@@ -867,11 +868,11 @@ class ChangementsController extends Controller {
         }
         return $this->render('ApplicationChangementsBundle:Changements:upload.html.twig', array(
                     'form' => $form->createView(),
-        ));
+                ));
     }
 
     // A ameliorer: recup par l'entity !!!
-    
+
     public function downloadAction($filename) {
         $request = $this->get('request');
         $session = $request->getSession();
@@ -1065,6 +1066,30 @@ class ChangementsController extends Controller {
                         ))
                         ->getForm()
         ;
+    }
+
+    public function update_changement_statusAction() {
+        $request = $this->get('request');
+ 
+        if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
+       
+            $id = $request->request->get('id');
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Changements entity.');
+            }
+           // ChangementsStatus;
+           /* $status=new ChangementsStatus;
+            $status=$entity->getIdStatus();*/
+            /*echo "description=$description";*/
+            
+            $array=array('status'=>'ok','description'=>$description);
+          $response = new Response(json_encode($array));
+
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
     }
 
 }

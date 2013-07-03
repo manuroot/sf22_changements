@@ -16,36 +16,78 @@
 {% endjavascripts %}
 <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/editme.js') }}"></script>
+<script>
+  $(document).ready(function() {
+ $("td > a").click(function(event) {
+    
+       if ($(this).hasClass("open")){
+           console.log("open test button");
+            var id=$(this).attr("data-id");
+             var dataAjax = {id:id};
+
+            console.log("id=" + id);
+            $(this).children().attr("src", "{{ asset('bundles/applicationcertificats/images/cadenas-sferme.png') }}");
+            $(this).removeClass("open").addClass("closed");
+            $(this).closest("tr").removeClass("success");
+ } else if ($(this).hasClass("closed")){
+      console.log("closed test button");
+      var id=$(this).attr("data-id");
+             var dataAjax = {id:id};
+
+      $(this).children().attr("src", "{{ asset('bundles/applicationcertificats/images/cadenas-souvert.png') }}");
+      $(this).removeClass("closed").addClass("open");
+      $(this).closest("tr").addClass("success");
+ };
+ remplirSelect(dataAjax);
+ 
+    });
+ function remplirSelect (dataAjax) {
+   $.ajax({
+         url: "{{ path('changements_updatexhtml_changement') }}", 
+        type: "POST", 
+        data : dataAjax, 
+        dataType: "json", 
+        success: function(reponse){
+            // Sur Succès de la réponse AJAX
+         
+
+    } //Eof:: success
+});  //Eof:: ajax 
+ 
+} //Eof:: fucntion remplirSelect
+
+}); //Eof:: ready
+    </script>
 {% endblock %}
 
-    
+
   {% block stylesheets %}
 {{ parent() }}
      {% stylesheets 
                 '@ApplicationChangementsBundle/Resources/public/css/sliding.css' 
                 '@ApplicationChangementsBundle/Resources/public/css/changements.css' 
                 output='css/compiled/changements.css' filter='cssrewrite,?yui_css' debug=false %}
-<link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
 {% endstylesheets %}
 {#<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/changements.css') }}" type="text/css" media="all" /> 
 #}
-<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>
-<style>
-  
-.table {
-    font-size: 11px;
-   /* border-collapse: separate;*/
-  /*  font-family: 'Times New Roman',Times,serif;*/
-}
+    <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>
+    <style>
 
-    </style>
+            .table {
+                font-size: 11px;
+                /* border-collapse: separate;*/
+                /*  font-family: 'Times New Roman',Times,serif;*/
+            }
+
+        </style>
 {% endblock %}
 
 {% block content_header '' %}
 
 {% block title %}
-PLANNING DES OPERATIONS
+        PLANNING DES OPERATIONS
 {% endblock %}
 
 {% block content %}
@@ -55,41 +97,41 @@ PLANNING DES OPERATIONS
 {#{% set date_right_warning= '+15days' %}#}
 {% for type, flashMessages in app.session.flashbag.all() %}
     {% for flashMessage in flashMessages %}
-<div class="alert alert-{{ type }}">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <div class="alert alert-{{ type }}">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
       {{ flashMessage|trans }}
-    </div>
- 
+        </div>
+
     {% endfor %}
 {% endfor %}
 
- <div id="ShowHideContainer">
-  
-<form id="target" class="form-horizontal" action="{{ path('changements_posttest') }}" method="POST" {{ form_enctype(search_form) }}>
-    <a id="ShowHideButton">
-        <button id="show" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
-            <i class="icon-search"></i>  Afficher Filtres</button>
-    </a>
-    <button type="submit" id="reset" name="submit-filter" class="btn btn-medium btn-warning" value="reset" >
-        <i class="icon-minus-sign"></i> Effacer Filtres</button>
-          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-            <a href="{{ path('changements_newflowstart') }}" class=" ajoutchange btn btn-medium btn-primary">
-                <i class=" icon-plus"></i> Ajouter un Changement
-            </a>
-        {% endif %}
-            
-</form>
+        <div id="ShowHideContainer">
 
-<div id="ShowHideBoxown" class="hidden">
+            <form id="target" class="form-horizontal" action="{{ path('changements_posttest') }}" method="POST" {{ form_enctype(search_form) }}>
+                <a id="ShowHideButton">
+                    <button id="show" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
+                        <i class="icon-search"></i>  Afficher Filtres</button>
+                </a>
+                <button type="submit" id="reset" name="submit-filter" class="btn btn-medium btn-warning" value="reset" >
+                    <i class="icon-minus-sign"></i> Effacer Filtres</button>
+          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <a href="{{ path('changements_newflowstart') }}" class=" ajoutchange btn btn-medium btn-primary">
+                    <i class=" icon-plus"></i> Ajouter un Changement
+                </a>
+        {% endif %}
+
+            </form>
+
+            <div id="ShowHideBoxown" class="hidden">
         {% include 'ApplicationChangementsBundle:Changements:indexsearchsimple_form.html.twig' %}
-        </div>
-</div>
+                </div>
+            </div>
     {#<table class="table table-bordered table-striped table-hover">#}
                {% include 'ApplicationChangementsBundle:Changements:tp_table.html.twig' %}
-       
-           
-         
+
+
+
    {{ knp_pagination_render(pagination, 'ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig') }}
 
- 
+
 {% endblock %}
