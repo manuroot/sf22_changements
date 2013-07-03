@@ -251,7 +251,7 @@ public function postLoad()
          if (!isset($name)) {
             $this->name = "file";
         }
-         $this->OriginalFilename=$this->getFile()->getClientOriginalName();
+    //     $this->OriginalFilename=$this->getFile()->getClientOriginalName();
          $this->name=$name;
        
         //$this->file;}
