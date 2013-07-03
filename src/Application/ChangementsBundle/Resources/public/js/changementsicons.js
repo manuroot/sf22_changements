@@ -3,10 +3,12 @@ $(document).ready(function() {
  $("td > a").click(function(event) {
     
    /*  console.log("open test button");*/
-            var id=$(this).attr("data-id");
+  // ne pas prendre edit/update a. 
+  if ($(this).hasClass("open") || $(this).hasClass("closed")){
+        var id=$(this).attr("data-id");
                console.log("id=" + id);
              var dataAjax = {id:id};
- 
+             
        if ($(this).hasClass("open")){
            //cas open: open ==> closed
        if( $(this).closest("tr").hasClass("success")){
@@ -34,6 +36,7 @@ $(document).ready(function() {
       $(this).closest("tr").addClass("warning");
  };
  remplirSelect(dataAjax);
+  }
  
     });
  function remplirSelect (dataAjax) {
