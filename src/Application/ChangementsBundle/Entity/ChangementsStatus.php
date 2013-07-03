@@ -8,8 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
  * Environnement
  *
  * @ORM\Table(name="changements_status")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Application\ChangementsBundle\Entity\ChangementsStatusRepository")
  */
+
 class ChangementsStatus
 {
     /**

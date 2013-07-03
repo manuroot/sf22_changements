@@ -23,7 +23,6 @@
  {% endblock %}
     {% block javascripts %}
     {{ parent() }}
-{#
 <script type="text/javascript">
   $('.btn-add').click(function(event) {
     var collectionHolder = $('#' + $(this).attr('data-target'));
@@ -43,7 +42,7 @@ $('.btn-remove').live('click', function(event) {
 
 
 </script>
-#}
+
 {% endblock %}
 {% block content_header '' %}
 {% block title %}EDITION PROJET{% endblock %}
@@ -82,9 +81,9 @@ $('.btn-remove').live('click', function(event) {
                     {#{  form_widget(form.name, { 'attr' : { 'class' : 'yourClass' } })  }#}
                     {{ form_widget(edit_form.idapplis,{ 'attr' : { 'class' : 'myselect' } }) }}
                      </td>
-                 {#     <tr>  <td colspan="2">
+                     <tr>  <td colspan="2">
                         
-            <div id="post_tags" data-prototype="{{ _self.widget_prototype(edit_form.picture, 'Supprimer Fichier')|escape }}">
+                              <div id="post_tags" data-prototype="{{ _self.widget_prototype(edit_form.picture, 'Supprimer Fichier')|escape }}">
             {% for widget in edit_form.picture.children %}
                 {{ _self.widget_prototype(widget, 'Supprimer Fichier') }}
             {% endfor %}
@@ -93,12 +92,12 @@ $('.btn-remove').live('click', function(event) {
         <a class="btn-add" data-target="post_tags">Ajouter un Fichier</a>
         
         
-     
+        
         
                          
                    
                </td>
-         </tr>   #}
+         </tr>
          <tr>
                <td colspan="2">
                     {{ form_rest(edit_form) }}

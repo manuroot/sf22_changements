@@ -47,6 +47,8 @@ changements_showXhtml:
 changements_updatexhtml_changement:
     pattern:  /updatexhtml
     defaults: { _controller: "ApplicationChangementsBundle:Changements:update_changement_status" }
+    options:
+        expose: true
     
 changements_new:
     pattern:  /new

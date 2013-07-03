@@ -140,7 +140,7 @@ class ApplisController extends Controller {
 
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createForm(new ApplisType(), $entity);
-
+        // A verifier => not owning side !!!
         $request = $this->getRequest();
         if ($request->getMethod() === 'POST') {
             $editForm->bind($request);

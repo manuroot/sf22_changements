@@ -1079,12 +1079,42 @@ class ChangementsController extends Controller {
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Changements entity.');
             }
+            $id_status=$entity->getIdStatus();
+            
+            if ($id_status == "en cours"){
+                 $entity_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->findOneByDescription("closed");
+             //    var_dump($id_status);
+                 $entity->setIdStatus($entity_status);
+             $em->persist($entity);
+                $em->flush();
+            
+            }
+            if ($id_status == "en preparation" || $id_status == "en attente"){
+                 $entity_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->findOneByDescription("open");
+             //    var_dump($id_status);
+                 $entity->setIdStatus($entity_status);
+             $em->persist($entity);
+                $em->flush();
+            
+            }
+            elseif   ($id_status == "fermé") {
+                 $entity_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->findOneByDescription("prepare");
+                $entity->setIdStatus($entity_status);
+           $em->persist($entity);
+                $em->flush();
+            
+            }
+             
+        //   $entity_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->find($id_status);
+          
+         //  echo "id_status=$id_status<br>";exit(1);
+          // $status=new ChangementsStatus;
            // ChangementsStatus;
            /* $status=new ChangementsStatus;
             $status=$entity->getIdStatus();*/
             /*echo "description=$description";*/
-            
-            $array=array('status'=>'ok','description'=>$description);
+            $array=array('mystatus'=>"$id_status");
+            $array=array($array);
           $response = new Response(json_encode($array));
 
             $response->headers->set('Content-Type', 'application/json');

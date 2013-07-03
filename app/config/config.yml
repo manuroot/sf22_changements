@@ -230,6 +230,9 @@ fos_user:
   #          - { name: calendr.event_provider }
   
 
+fos_js_routing:
+     routes_to_expose: [ changements_updatexhtml_changement ]  
+    
 #==================================================
 #  TINYMCE
 #==================================================
