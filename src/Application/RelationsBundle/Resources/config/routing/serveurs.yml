@@ -1,0 +1,30 @@
+serveurs:
+    pattern:  /
+    defaults: { _controller: "ApplicationRelationsBundle:Serveurs:index" }
+
+serveurs_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationRelationsBundle:Serveurs:show" }
+
+serveurs_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationRelationsBundle:Serveurs:new" }
+
+serveurs_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationRelationsBundle:Serveurs:create" }
+    requirements: { _method: post }
+
+serveurs_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationRelationsBundle:Serveurs:edit" }
+
+serveurs_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationRelationsBundle:Serveurs:update" }
+    requirements: { _method: post|put }
+
+serveurs_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationRelationsBundle:Serveurs:delete" }
+    requirements: { _method: post|delete }

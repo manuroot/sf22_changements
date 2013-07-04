@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * CertificatsProjet
  *
- * @ORM\Table(name="seerveurs")
+ * @ORM\Table(name="serveurs")
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="Application\RelationsBundle\Entity\ServeursRepository")
  */
@@ -37,8 +37,27 @@ class Serveurs {
      */
     private $description;
 
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="ip_in", type="string", length=20, nullable=true)
+     */
+    private $ip_in;
     
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ip_out", type="string", length=20, nullable=true)
+     */
+    private $ip_out;
 
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="zone", type="string", length=50, nullable=true)
+     */
+    private $zone;
+    
     /**
      * Get id
      *
@@ -93,5 +112,74 @@ class Serveurs {
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set ip_in
+     *
+     * @param string $ipIn
+     * @return Serveurs
+     */
+    public function setIpIn($ipIn)
+    {
+        $this->ip_in = $ipIn;
+    
+        return $this;
+    }
+
+    /**
+     * Get ip_in
+     *
+     * @return string 
+     */
+    public function getIpIn()
+    {
+        return $this->ip_in;
+    }
+
+    /**
+     * Set ip_out
+     *
+     * @param string $ipOut
+     * @return Serveurs
+     */
+    public function setIpOut($ipOut)
+    {
+        $this->ip_out = $ipOut;
+    
+        return $this;
+    }
+
+    /**
+     * Get ip_out
+     *
+     * @return string 
+     */
+    public function getIpOut()
+    {
+        return $this->ip_out;
+    }
+
+    /**
+     * Set zone
+     *
+     * @param string $zone
+     * @return Serveurs
+     */
+    public function setZone($zone)
+    {
+        $this->zone = $zone;
+    
+        return $this;
+    }
+
+    /**
+     * Get zone
+     *
+     * @return string 
+     */
+    public function getZone()
+    {
+        return $this->zone;
     }
 }

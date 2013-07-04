@@ -1,0 +1,66 @@
+{% extends "ApplicationRelationsBundle::layout.html.twig" %}
+
+  {% block stylesheets %}
+{{ parent() }}
+      <link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
+     
+ {% endblock %}
+
+{% block content_header '' %}
+{% block title %}DETAILS SERVEUR:  {{ entity.nom }} {% endblock %}
+{% block content %}
+      
+     <br><br>
+      
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr class="title">
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Description</th>
+            <th>IP_In</th>
+            <th>IP_Out</th>
+            <th>Zone</th>
+        </tr>
+        </thead>
+      <tr>
+            <td>{{ entity.id }}</td>
+            <td>{{ entity.nom }}</td>
+              <td>{{ entity.description }}</td>
+                <td>{{ entity.ipIn }}</td>
+            <td>{{ entity.ipOut }}</td>
+              <td>{{ entity.zone }}</td>
+        
+        </tr>
+        
+        <tr>  <td colspan="6"> 
+               
+       {% if is_granted("ROLE_ADMIN") %}   
+          <form action="{{ path('serveurs_delete', { 'id': entity.id }) }}" method="post">
+        {{ form_errors(delete_form) }}
+           {{ form_row(delete_form.id) }}
+           {{ form_rest(delete_form) }}
+                   </form> 
+                  <button type="submit" class="btn btn-small btn-danger">Supprimer Application</button>
+                  
+     <a href="{{ path('serveurs_update', { 'id': entity.id }) }}"  class="btn btn-large btn-warning">Edit</a>
+     {% endif %}   
+     <a href="{{ path('serveurs') }}" class="btn btn-large btn-success">Retour</a>
+      
+         
+   
+      
+             </td>
+             </tr>
+    </tbody>
+</table>
+    
+         
+  
+   
+     
+  
+    
+     
+{% endblock %}
+

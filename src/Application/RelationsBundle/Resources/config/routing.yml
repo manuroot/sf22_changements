@@ -27,3 +27,6 @@ _egroup:
     resource: "@ApplicationRelationsBundle/Resources/config/routing/eservicegroup.yml"
     prefix:   /egroupes    
     
+_serveurs:
+    resource: "@ApplicationRelationsBundle/Resources/config/routing/serveurs.yml"
+    prefix:   /serveurs
