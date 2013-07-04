@@ -34,6 +34,28 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 class ServeursController extends Controller
 {
 
+     /*==================================================================
+      * 
+     *  CREATION DU PAGINATOR
+     * 
+      =================================================================== */
+
+    private function createpaginator($query, $num_perpage = 5) {
+
+        $paginator = $this->get('knp_paginator');
+        //$paginator->setUseOutputWalkers(true);
+        $pagename = 'page'; // Set custom page variable name
+        $page = $this->get('request')->query->get($pagename, 1); // Get custom page variable
+
+        $pagination = $paginator->paginate(
+                $query, $page, $num_perpage, array('pageParameterName' => $pagename,
+            "sortDirectionParameterName" => "dir",
+            'sortFieldParameterName' => "sort")
+        );
+        $pagination->setTemplate('ApplicationRelationsBundle:pagination:twitter_bootstrap_pagination.html.twig');
+        $pagination->setSortableTemplate('ApplicationRelationsBundle:pagination:sortable_link.html.twig');
+        return $pagination;
+    }
     /**
      * Lists all Serveurs entities.
      *
@@ -42,12 +64,8 @@ class ServeursController extends Controller
       public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('ApplicationRelationsBundle:Serveurs')->findAll();
-         $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
-                $entities, $this->get('request')->query->get('page', 1)/* page number */, 10/* limit per page */
-        );
-        $pagination->setTemplate('ApplicationRelationsBundle:pagination:sliding.html.twig');
+        $querie = $em->getRepository('ApplicationRelationsBundle:Serveurs')->myfindAll();
+       $pagination = $this->createpaginator($querie, 10);
         return $this->render('ApplicationRelationsBundle:Serveurs:index.html.twig', array(
             'pagination' => $pagination,
         ));

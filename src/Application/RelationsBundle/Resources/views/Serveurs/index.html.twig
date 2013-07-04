@@ -38,10 +38,10 @@
                               <i class="icon-pencil"></i></th>
                                     <th{% if pagination.isSorted('a.description') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Description', 'a.description') }}
                                           <i class="icon-pencil"></i></th>
-                            <th{% if pagination.isSorted('a.ipIn') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'IP_In', 'a.ipIn') }}
+                            <th{% if pagination.isSorted('a.ip_in') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'IP_In', 'a.ip_in') }}
                             <i class="icon-user"></i></th>
                           
-                                  <th{% if pagination.isSorted('a.ipOut') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'IP_Out', 'a.ipOut') }}
+                                  <th{% if pagination.isSorted('a.ip_out') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'IP_Out', 'a.ip_out') }}
                                            <i class="icon-user"></i></th>
                        
                                    <th{% if pagination.isSorted('a.zone') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Zone', 'a.zone') }}
