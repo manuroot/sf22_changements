@@ -58,6 +58,8 @@ class CertificatsCenterType extends AbstractType {
                     ),))
                 ->add('statusFile', 'checkbox', array('label' => 'Verification'))
                 
+                  ->add('warningFile', 'checkbox', array('label' => 'Warning'))
+                
                // ->add('picture', array(), array('edit' => 'list', 'link_parameters' => array('context' => 'symbols')))
                 /*
 ->add('picture', 'sonata_type_model_list', array('required' => false),

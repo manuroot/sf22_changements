@@ -46,3 +46,9 @@ certificatscenter_viewapy:
 certificatscenter_listbyprojet:
     pattern:  /certificatsprj
     defaults: { _controller: ApplicationCertificatsBundle:CertificatsCenter:listByProjet }
+    
+certificatscenter_updatexhtml_certificats:
+    pattern:  /updatexhtml
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsCenter:update_certificats_status" }
+    options:
+        expose: true

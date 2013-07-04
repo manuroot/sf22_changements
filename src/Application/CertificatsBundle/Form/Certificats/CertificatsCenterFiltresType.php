@@ -43,19 +43,25 @@ class CertificatsCenterFiltresType extends AbstractType {
                         'icon' => 'pencil',
                         'type' => 'prepend'
                     ),))
+                
+                
+                
                 ->add('endTime', 'filter_date_range', array(
-                    //   'text_options'=>array( 'attr' => array('icon' => 'icon-date')),
-                    'label' => 'Date de Fin',
+                    'label' => 'Date début',
                     'left_date' => array(
-                        'attr' => array('icon' => 'icon-date'),
+                             'attr' => array('placeholder' => '> date Fin',
+                                 'style'=>'width:150px'),
                         'widget' => 'single_text'
                     /* 'time_widget' => 'single_text' */
                     ),
                     'right_date' => array(
+                            'attr' => array('placeholder' => '< date Fin','style'=>'width:150px'),
                         'widget' => 'single_text'
                     /* 'time_widget' => 'single_text' */
                     ),
                 ))
+                
+               
                 ->add('project', 'filter_entity', array(
                     'class' => 'Application\RelationsBundle\Entity\Projet',
                      'query_builder' => function(EntityRepository $em) {
@@ -74,14 +80,23 @@ class CertificatsCenterFiltresType extends AbstractType {
                   $builder->add('createdAt', $this->datetime ? 'filter_datetime' : 'filter_date');;
                  */
                 //TextFilterType::PATTERN_*
-                ->add('port', 'filter_text', array(
-                           'text_options'=>array( 'attr' => array('icon' => 'icon-tint')),
-               
-                    'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
+                /*     'attr' => array('placeholder' => '> date Fin','style'=>'width:150px'),
+                        'widget' => 'single_text'
+                */    
+                    ->add('port', 'filter_text', array(
+                            'text_options'=>array( 
+                                'attr' => array(
+                                    'style'=>'width:120px',
+                                'icon' => 'icon-briefcase')),
+            /*   'attr' => array( 'style'=>'width:120px'),*/
+                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'
                     ),))
+                    
+               
+                   
                 //   ->add('port', 'filter_text')
                 // ->add('startDate')
                 //  ->add('endTime')
@@ -130,7 +145,7 @@ class CertificatsCenterFiltresType extends AbstractType {
 
 
 
-        $listener = function(FormEvent $event) {
+       /* $listener = function(FormEvent $event) {
                     // Is data empty?
                     foreach ($event->getData() as $data) {
                         if (is_array($data)) {
@@ -148,7 +163,7 @@ class CertificatsCenterFiltresType extends AbstractType {
 
                     $event->getForm()->addError(new FormError('Filter empty'));
                 };
-        $builder->addEventListener(FormEvents::POST_BIND, $listener);
+        $builder->addEventListener(FormEvents::POST_BIND, $listener);*/
     }
 
     public function getName() {

@@ -1,0 +1,114 @@
+
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr class="title">
+              <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
+    <th{% if pagination.isSorted('a.fileName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Filename', 'a.fileName') }}</th>
+ 
+ <th{% if pagination.isSorted('b.nomprojet') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Projet', 'b.nomprojet') }}</th>
+ <th{% if pagination.isSorted('c.fileType') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Type', 'c.fileType') }}</th>
+ 
+ <th{% if pagination.isSorted('a.cnName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'CN', 'a.cnName') }}</th>
+      
+ <th{% if pagination.isSorted('a.endTime') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Fin', 'a.endTime') }}</th>
+ <th{% if pagination.isSorted('a.warningFile') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Warning', 'a.warningFile') }}</th>
+ <th{% if pagination.isSorted('a.serverName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Serveur', 'a.serverName') }}</th>
+ 
+ <th{% if pagination.isSorted('a.port') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Port', 'a.port') }}</th>
+ <th{% if pagination.isSorted('a.serviceName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Service', 'a.serviceName') }}</th>
+           {% if is_granted("ROLE_ADMIN") %}
+ <th colspan="3"><center>Actions</center></th>
+{% else %}
+ <th><center>Actions</center></th>
+{% endif %}
+        </tr>
+    </thead>
+    <tbody>
+         {% for entity in pagination %}
+  {% if date(entity.endTime) < date('-30days') %}
+              <tr class="warning">
+              {% else %}
+              <tr>
+             {% endif %}   
+
+
+   
+       {% if entity.warningFile == 1 %} 
+                <tr class="error">
+      {% endif %}
+                        
+                        
+             <td> {{entity.id }}</td>
+            <td>{{ entity.fileName }}</td>
+               <td>{{ entity.project.nomprojet }}</td>
+           <td>{{ entity.typeCert.FileType }}</td>
+            
+        
+            <td>{{ entity.cnName }}</td>
+           <!-- <td>{% if entity.startDate %}
+                    {{ entity.startDate|date('Y-m-d') }}{% endif %}</td>-->
+                    
+                    
+            {% if entity.endTime %}
+
+              
+           <td>    {{ entity.endTime|date('Y-m-d') }}</td>
+           
+{% endif %}
+           {% if is_granted("ROLE_ADMIN") %}
+              
+                    <td>
+                                {% if entity.warningFile == 0 %}
+                                    <a class="open" data-id="{{entity.id}}" href="#">
+                                        <img src="{{ asset('bundles/applicationcertificats/images/cadenas-souvert.png') }}" alt="show" width="15" height="15"/>
+                                    </a>
+                                      {% else %}
+                                    <a class="closed" data-id="{{entity.id}}" href="#">
+                                        <img src="{{ asset('bundles/applicationcertificats/images/cadenas-sferme.png') }}" alt="show" width="15" height="15" />
+                                    </a>
+                               {% endif %}
+                            </td> 
+         {%endif %}
+                            
+                            
+       <!--    <td>{#% if entity.addedDate %}{{ entity.addedDate|date('Y-m-d') }}{% endif %#}</td>-->
+            <td>{{ entity.serverName }}</td>
+            <td>{{ entity.port }}</td>
+            <td>{{ entity.serviceName }}</td>
+           <!-- <td>{{ entity.way }}</td>-->
+           <!-- <td>{{ entity.statusFile }}</td>-->
+                 <td>
+                    <a href="{{ path('certificatscenter_show', { 'id': entity.id }) }}">
+                        <img src="{{ asset('bundles/applicationcertificats/images/detail.png') }}" alt="show" width="15" height="15" />
+                    </a>
+                </td>
+                
+                   {% if is_granted("ROLE_ADMIN") %}
+                            
+                            
+                            
+                        <td>   
+                            
+
+                    <a href="{{ path('certificatscenter_edit', { 'id': entity.id }) }}">
+                        <img src="{{ asset('bundles/applicationcertificats/images/edit.png') }}" alt="edit" width="15" height="15" />
+                    </a>
+                </td>
+                <td>
+
+
+                    <a href="{{ path('certificatscenter_delete', { 'id': entity.id }) }}">
+                        <img src="{{ asset('bundles/applicationcertificats/images/delete.png') }}" alt="delete" width="15" height="15" />
+                    </a>
+                </td>
+
+                           {% endif %}  
+                
+                
+          
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+

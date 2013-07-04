@@ -1,4 +1,5 @@
 {% extends "ApplicationChangementsBundle::layout.html.twig" %}
+{#
 {% macro icon_class( type ) %}
   {% set type_class_map = {
     like: 'icon-user'
@@ -6,6 +7,7 @@
   {{ type_class_map[type] }}
 {% endmacro %}
 
+#}
 {% block javascripts %}
     {{ parent() }}
     {% javascripts 
@@ -14,6 +16,7 @@
      output='js/compiled/changements.js' filter='?yui_js' %}
 <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
+
    <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
   <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/editme.js') }}"></script>
      {% if is_granted("IS_AUTHENTICATED_FULLY") %}
@@ -65,7 +68,11 @@ tr.title th {
     line-height: 30px;
   
 }
-
+select {
+width:180px;}
+select.pattern-selector {
+width:150px;
+}
     </style>
 {% endblock %}
 

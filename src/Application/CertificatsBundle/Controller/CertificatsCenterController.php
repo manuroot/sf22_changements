@@ -72,7 +72,52 @@ class CertificatsCenterController extends Controller {
         $pagination->setTemplate('ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig');
         return $pagination;
     }
-    
+   
+      protected function filter() {
+        //  $message = "filter datas";
+        $message = "";
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        $filterForm = $this->createForm(new CertificatsCenterFiltresType());
+        $filterBuilder = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->myFindaAll();
+       if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
+            //  $message = "reset filtres";
+            $session->remove('certificatsControllerFilter');
+            $query = $filterBuilder;
+            return array($filterForm, $query, $message);
+        }
+
+        // datas filter
+        if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
+            $alldatas = $request->request->all();
+        $datas = $alldatas["certificats_filter"];
+                    $filterForm->bind($datas);
+            if ($filterForm->isValid()) {
+                // $message .= " - filtre valide";
+                $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
+            $session->set('certificatsControllerFilter', $datas);
+              } else {
+                 $query = $filterBuilder;
+            }
+                return array($filterForm, $query, $message);
+        } else {
+             if ($session->has('certificatsControllerFilter')) {
+     
+                $datas = $session->get('certificatsControllerFilter');
+                $filterForm->bind($datas);
+                $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
+            }
+            // ou pas
+            else {
+                // $message = "pas de session";
+                $query = $filterBuilder;
+            }
+                  return array($filterForm, $query, $message);
+        }
+    }
+
+    /*
  protected function filter()
     {
         $request = $this->getRequest();
@@ -87,15 +132,7 @@ class CertificatsCenterController extends Controller {
                         ->leftJoin('a.project', 'b')
                         ->leftJoin('a.typeCert', 'c')
                         ->orderBy('a.id', 'DESC');
-            
-        // Reset filter
-        
-            /*    if ($request->getMethod() == 'POST') {
-        $postData = $request->request->get('certificats_filter');
-
-var_dump($postData);
-exit(1);
-                }*/
+     
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == 'reset') {
          //   echo "post cas1 :remove";
             $session->remove('certificatsControllerFilter');
@@ -140,27 +177,38 @@ exit(1);
       // exit(1);
         return array($filterForm, $filterBuilder);
     }
+*/
+    public function indexAction(Request $request) {
 
-    public function indexpostAction() {
+        $date_warning = array(7, 15);
+        $message = "";
+        //$em = $this->getDoctrine()->getManager();
+        $request = $this->getRequest();
+        $session = $request->getSession();
+    $session->set('buttonretour', 'certificatscenter');
+        
+        list($filterForm, $queryBuilder, $message) = $this->filter();
 
-        list($searchForm, $query) = $this->filter();
-        $session = $this->getRequest()->getSession();
-        $session->set('buttonretour', 'certificatscenter');
-       $pagination = $this->createpaginator($query, 10);
-      //  $em = $this->getDoctrine()->getManager();
-        //$query = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->myFindaAll();
-        /*$paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
-                $query, $this->get('request')->query->get('page', 1), 10
-        );*/
-        //$pagination->setTemplate('ApplicationMyNotesBundle:pagination:sliding.html.twig');
+        //    $queryBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindsimpleAll();
+
+        if ($message)
+            $session->getFlashBag()->add('warning', "$message");
+
+        $pagination = $this->createpaginator($queryBuilder, 15);
         return $this->render('ApplicationCertificatsBundle:CertificatsCenter:index.html.twig', array(
+                    'search_form' => $filterForm->createView(),
+                    'pagination' => $pagination,
+                    'date_warning' => $date_warning,
+                ));
+    }
+    /*
+            return $this->render('ApplicationCertificatsBundle:CertificatsCenter:index.html.twig', array(
                     'pagination' => $pagination,
                     'search_form' => $searchForm->createView(),
-                ));
+                ));*/
 //return compact('pagination');
-    }
- public function indexAction() {
+    
+ public function indexoldAction() {
 
      
         /*
@@ -672,4 +720,40 @@ exit(1);
         // return new Response();
     }
 
+     public function update_certificats_statusAction() {
+        $request = $this->get('request');
+ 
+        if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
+       
+            $id = $request->request->get('id');
+            $em = $this->getDoctrine()->getManager();
+         //           $entity_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->findOneByDescription("closed");
+         
+            $entity = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->findOneById($id);
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Cert entity.');
+            }
+            
+            $id_warning=$entity->getWarningFile();
+            
+            if ($id_warning ){
+              $entity->setWarningFile(false);
+             $em->persist($entity);
+                $em->flush();
+            
+            }
+            else {
+                  $entity->setWarningFile(true);
+             $em->persist($entity);
+                $em->flush();
+            }
+          
+                  $array=array('mystatus'=>$id_warning);
+         //   $array=array($array);
+          $response = new Response(json_encode($array));
+
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+    }
 }

@@ -1,9 +1,9 @@
-  <form  class="form" action="{{ path('certificatscenter') }}" method="GET" {{ form_enctype(search_form) }}>
-         <table class="table tablesearch table-bordered">
-            <tbody>
-                <tr class="single">
-                    <td>
-    {{ form_errors(search_form.fileName) }}
+  <form  class="form" action="{{ path('certificatscenter') }}" method="POST" {{ form_enctype(search_form) }}>
+       <table class="table-mybordered">
+
+            <tr><td class="calendar">
+                
+           {{ form_errors(search_form.fileName) }}
     {{ form_label(search_form.fileName, 'Nom'|trans) }}
     {{ form_widget(search_form.fileName) }}
                             
@@ -14,9 +14,13 @@
     {{ form_errors(search_form.serverName) }}
     {{ form_label(search_form.serverName, 'Serveur'|trans) }}
     {{ form_widget(search_form.serverName) }}
+         
+                        
     </td>
-                                <td> 
-  {{ form_errors(search_form.port) }}
+ <td class="calendar">
+  
+         
+      {{ form_errors(search_form.port) }}
     {{ form_label(search_form.port, 'Port'|trans) }}
     {{ form_widget(search_form.port) }}
                                         
@@ -35,19 +39,24 @@
  
                                         
                                         
-{{ form_rest(search_form) }}</td>
- </tr>
- <tr class="single"><td colspan="2">
-      <button type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="filter" >
+{{ form_rest(search_form) }}
+    
+
+  </td>
+   </tr>
+   <tr><td class="calendar" colspan="2">
+            
+     <button id="filter" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="filter" >
           <i class="icon-search"></i>  Filtrer</button>
-                 
-       {#   
- <button type="submit" name="submit-filter" class="btn btn-medium btn-danger" value="reset" >
-         <i class="icon-minus-sign"></i>  Annuler Filtres</button>
-   
-      #}
-  </tr></tbody></table>
+  {#  <button type="submit" name="submit-filter" class="btn btn-medium btn-danger" value="reset" >
+         <i class="icon-minus-sign"></i>  Reset</button>#}
+         </td></tr></tbody></table>
  </form>
+
+
+
+
+
                              
 
   

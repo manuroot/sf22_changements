@@ -9,14 +9,14 @@
 {% endfor %}#}
 
     {% if compound %}
-         <div class="filter-pattern-selector">
-            {{ form_widget(form.condition_pattern, {'attr': {'class': 'pattern-selector'} }) }}
+       <div class="filter-pattern-selector">
+           {{ form_widget(form.condition_pattern, {'attr': {'class': 'pattern-selector'} }) }}
        
         <div class="input-prepend">
             {% if form.text.vars.attr['icon'] is defined %}
                      <span class="add-on"><i class={{ form.text.vars.attr['icon'] }}></i></span>{{ form_widget(form.text) }}
                      {% else %}
-                     <span class="add-on"></span>{{ form_widget(form.text) }}
+                  ghj   <span class="add-on"></span>{{ form_widget(form.text) }}
                 {% endif %}
                
             </div>

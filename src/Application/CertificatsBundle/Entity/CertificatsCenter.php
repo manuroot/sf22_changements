@@ -135,6 +135,15 @@ class CertificatsCenter
      */
     private $statusFile;
 
+    
+      /**
+     * @var boolean
+     *
+     * @ORM\Column(name="warning_file", type="boolean", nullable=true)
+     */
+    private $warningFile;
+    
+    
   /**
      * @var \Projet
      *
@@ -192,6 +201,7 @@ class CertificatsCenter
     $this->addedDate = new \DateTime('now');
     $this->updatedDate = new \DateTime('now');
     $this->statusFile = true;
+    $this->warningFile = false;
     
   }
     /**
@@ -460,7 +470,30 @@ class CertificatsCenter
     {
         return $this->statusFile;
     }
+    
+    
+   /**
+    *  Set statusFile
+     *
+     * @param boolean $statusFile
+     * @return CertificatsCenter
+     */
+    public function setWarningFile($warningFile)
+    {
+        $this->warningFile = $warningFile;
+    
+        return $this;
+    }
 
+    /**
+     * Get warningFile
+     *
+     * @return boolean 
+     */
+    public function getWarningFile()
+    {
+        return $this->warningFile;
+    }
     /**
      * Set typeCert
      *
