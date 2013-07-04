@@ -15,7 +15,8 @@ class ServeursType extends AbstractType
             ->add('description')
                   ->add('ip_in')
             ->add('ip_out')
-            
+                 ->add('nom_site')
+              ->add('nom_dns')
             ->add('zone')
         ;
     }

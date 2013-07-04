@@ -29,7 +29,22 @@ class Serveurs {
      * @ORM\Column(name="nom", type="string", length=40, nullable=false)
      */
     private $nom;
+  /**
+     * @var string
+     *
+     * @ORM\Column(name="nom_dns", type="string", length=80, nullable=false)
+     */
+    private $nom_dns;
 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom_site", type="string", length=100, nullable=false)
+     */
+    private $nom_site;
+
+    
     /**
      * @var string
      *
@@ -91,6 +106,48 @@ class Serveurs {
         return $this->nom;
     }
 
+      /**
+     * Set nom
+     *
+     * @param string $nom
+     * @return Serveurs
+     */
+    public function setNomDns($nom_dns)
+    {
+        $this->nom_dns = $nom_dns;
+    
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string 
+     */
+    public function getNomDns()
+    {
+        return $this->nom_dns;
+    }
+    
+    
+      public function setNomSite($nom_site)
+    {
+        $this->nom_site = $nom_site;
+    
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string 
+     */
+    public function getNomSite()
+    {
+        return $this->nom_site;
+    }
+    
+    
     /**
      * Set description
      *

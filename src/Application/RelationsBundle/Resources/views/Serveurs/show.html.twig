@@ -17,6 +17,8 @@
         <tr class="title">
             <th>Id</th>
             <th>Nom</th>
+            <th>Nom Site</th>
+            <th>Nom DNS</th>
             <th>Description</th>
             <th>IP_In</th>
             <th>IP_Out</th>
@@ -26,6 +28,8 @@
       <tr>
             <td>{{ entity.id }}</td>
             <td>{{ entity.nom }}</td>
+                  <td>{{ entity.nomSite }}</td>
+                  <td>{{ entity.nomDns }}</td>
               <td>{{ entity.description }}</td>
                 <td>{{ entity.ipIn }}</td>
             <td>{{ entity.ipOut }}</td>
@@ -33,7 +37,7 @@
         
         </tr>
         
-        <tr>  <td colspan="6"> 
+        <tr>  <td colspan="8"> 
                
        {% if is_granted("ROLE_ADMIN") %}   
           <form action="{{ path('serveurs_delete', { 'id': entity.id }) }}" method="post">
