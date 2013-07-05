@@ -14,10 +14,11 @@
             </style>
             {% stylesheets 
                 '@ApplicationCertificatsBundle/Resources/public/css/certificatscenter.css' 
-                output='css/compiled/main.css' filter='yui_css' %}
+                output='css/compiled/main.css' filter='?yui_css' %}
 <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
 {% endstylesheets %}
 
+{# filter='?yui_css' en dev #}
         {% endblock %}
 
     </head>
