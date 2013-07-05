@@ -1,0 +1,30 @@
+serveurs_zones:
+    pattern:  /
+    defaults: { _controller: "ApplicationRelationsBundle:ServeursZones:index" }
+
+serveurs_zones_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationRelationsBundle:ServeursZones:show" }
+
+serveurs_zones_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationRelationsBundle:ServeursZones:new" }
+
+serveurs_zones_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationRelationsBundle:ServeursZones:create" }
+    requirements: { _method: post }
+
+serveurs_zones_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationRelationsBundle:ServeursZones:edit" }
+
+serveurs_zones_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationRelationsBundle:ServeursZones:update" }
+    requirements: { _method: post|put }
+
+serveurs_zones_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationRelationsBundle:ServeursZones:delete" }
+    requirements: { _method: post|delete }

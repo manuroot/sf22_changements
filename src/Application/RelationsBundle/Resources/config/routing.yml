@@ -30,3 +30,11 @@ _egroup:
 _serveurs:
     resource: "@ApplicationRelationsBundle/Resources/config/routing/serveurs.yml"
     prefix:   /serveurs
+    
+_serveurs_sites:
+    resource: "@ApplicationRelationsBundle/Resources/config/routing/serveurssites.yml"
+    prefix:   /serveurs_sites
+    
+_serveurs_zones:
+    resource: "@ApplicationRelationsBundle/Resources/config/routing/serveurszones.yml"
+    prefix:   /serveurs_zones

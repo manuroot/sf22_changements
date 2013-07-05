@@ -23,6 +23,7 @@
             <th>IP_In</th>
             <th>IP_Out</th>
             <th>Zone</th>
+                <th>Site</th>
         </tr>
         </thead>
       <tr>
@@ -33,11 +34,12 @@
               <td>{{ entity.description }}</td>
                 <td>{{ entity.ipIn }}</td>
             <td>{{ entity.ipOut }}</td>
-              <td>{{ entity.zone }}</td>
+              <td>{{ entity.idzone }}</td>
+                 <td>{{ entity.idsite }}</td>
         
         </tr>
         
-        <tr>  <td colspan="8"> 
+        <tr>  <td colspan="10"> 
                
        {% if is_granted("ROLE_ADMIN") %}   
           <form action="{{ path('serveurs_delete', { 'id': entity.id }) }}" method="post">
@@ -49,6 +51,8 @@
                   
      <a href="{{ path('serveurs_update', { 'id': entity.id }) }}"  class="btn btn-large btn-warning">Edit</a>
      {% endif %}   
+     
+     
      <a href="{{ path('serveurs') }}" class="btn btn-large btn-success">Retour</a>
       
          

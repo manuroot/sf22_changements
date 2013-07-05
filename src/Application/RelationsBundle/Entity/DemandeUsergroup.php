@@ -33,8 +33,7 @@ class DemandeUsergroup
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_group", referencedColumnName="id",nullable=false)
      * })
-     * @ORM\OrderBy({"nom_group" = "ASC"})
-    */
+     */
     private $idgroup;
 
   /**

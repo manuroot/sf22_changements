@@ -1,0 +1,24 @@
+                    <td>
+                    <a href="{{ path(show, { 'id': entity.id }) }}">
+                        <img src="{{ asset('bundles/applicationrelations/images/detail.png') }}" alt="show" width="15" height="15" />
+                    </a>
+               
+                </td>
+                {% if is_granted("ROLE_ADMIN") %}
+                         
+      
+                <td>
+                    <a href="{{ path(edit, { 'id': entity.id }) }}">
+                        <img src="{{ asset('bundles/applicationrelations/images/edit.png') }}" alt="edit" width="15" height="15" />
+                    </a>
+                </td>
+                 <td>
+                    <a href="{{ path(delete, { 'id': entity.id }) }}">
+                        <img src="{{ asset('bundles/applicationrelations/images/delete.png') }}" alt="delete" width="15" height="15" />
+                    </a>
+                             </td>
+        
+                         {% endif %}
+                 
+          
+     

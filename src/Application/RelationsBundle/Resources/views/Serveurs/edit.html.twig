@@ -1,5 +1,10 @@
-{% extends "ApplicationRelationsBundle::layout.html.twig" %}
+ {% include 'ApplicationRelationsBundle:Template:tpl_edit.html.twig' 
+       with {'h1Nom':'SERVEUR',
+            'tpl_update':'serveurs_update',
+   'tpl_delete':'serveurs_delete',
+'tpl_retour':'serveurs'}  %}   
 
+{#
   {% block stylesheets %}
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
@@ -19,21 +24,18 @@
         </p>
     </form>
 
-    <form action="{{ path('applications_delete', { 'id': entity.id }) }}" method="post">
+    <form action="{{ path('serveurs_delete', { 'id': entity.id }) }}" method="post">
         {{ form_errors(delete_form) }}
-           {{ form_row(delete_form.id) }}
-           {{ form_rest(delete_form) }}
+          {{ form_rest(delete_form) }}
             <div style="text-align:right">
-                <button type="submit"  class="btn btn-small btn-danger" onclick="if(!confirm('Are you sure?')) { return false; }">Supprimer Application</button>
+                <button type="submit"  class="btn btn-small btn-danger" onclick="if(!confirm('Are you sure?')) { return false; }">Supprimer Serveur</button>
 
             </div>
         </form>
-
-
-            {# form_widget(delete_form) }#}
 
 
       
 
 {% endblock %}
 
+#}

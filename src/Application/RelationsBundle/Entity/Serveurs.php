@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="serveurs")
  * @ORM\Entity
- * @ORM\Entity(repositoryClass="Application\RelationsBundle\Entity\ServeursRepository")
+ * @ORM\Entity(repositoryClass="Application\RelationsBundle\Repository\ServeursRepository")
  */
 class Serveurs {
 
@@ -66,13 +66,36 @@ class Serveurs {
      */
     private $ip_out;
 
-     /**
-     * @var string
-     *
-     * @ORM\Column(name="zone", type="string", length=50, nullable=true)
-     */
-    private $zone;
     
+    
+      /**
+     * @var \ServeursSites
+     *
+     * @ORM\ManyToOne(targetEntity="ServeursSites",inversedBy="serveurs", cascade={"persist", "merge"}))
+     * @ORM\OrderBy({"nom" = "ASC"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_site", referencedColumnName="id",nullable=true)
+     * })
+     */
+    private $idsite;
+    
+        /**
+     * @var \ServeursZones
+     *
+     * @ORM\ManyToOne(targetEntity="ServeursZones",inversedBy="serveurs", cascade={"persist", "merge"}))
+     * @ORM\OrderBy({"nom" = "ASC"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_zone", referencedColumnName="id",nullable=true)
+     * })
+     */
+    private $idzone;
+    
+    
+      
+    
+    public function __toString() {
+        return $this->getNom();    // this will not look good if SonataAdminBundle uses this ;)
+    }
     /**
      * Get id
      *
@@ -217,26 +240,51 @@ class Serveurs {
         return $this->ip_out;
     }
 
+  
+
     /**
-     * Set zone
+     * Set idsite
      *
-     * @param string $zone
+     * @param \Application\RelationsBundle\Entity\ServeursSites $idsite
      * @return Serveurs
      */
-    public function setZone($zone)
+    public function setIdsite(\Application\RelationsBundle\Entity\ServeursSites $idsite = null)
     {
-        $this->zone = $zone;
+        $this->idsite = $idsite;
     
         return $this;
     }
 
     /**
-     * Get zone
+     * Get idsite
      *
-     * @return string 
+     * @return \Application\RelationsBundle\Entity\ServeursSites 
      */
-    public function getZone()
+    public function getIdsite()
     {
-        return $this->zone;
+        return $this->idsite;
+    }
+
+    /**
+     * Set idzone
+     *
+     * @param \Application\RelationsBundle\Entity\ServeursZones $idzone
+     * @return Serveurs
+     */
+    public function setIdzone(\Application\RelationsBundle\Entity\ServeursZones $idzone = null)
+    {
+        $this->idzone = $idzone;
+    
+        return $this;
+    }
+
+    /**
+     * Get idzone
+     *
+     * @return \Application\RelationsBundle\Entity\ServeursZones 
+     */
+    public function getIdzone()
+    {
+        return $this->idzone;
     }
 }

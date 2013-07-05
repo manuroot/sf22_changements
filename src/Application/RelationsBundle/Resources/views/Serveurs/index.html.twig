@@ -7,7 +7,7 @@
  {% endblock %}
 
 {% block content_header '' %}
-{% block title %}SERVEURS{% endblock %}
+{% block title %}SERVEURS ( {{ total }}){% endblock %}
 
     
 {% block content %}
@@ -19,7 +19,7 @@
         </div>
     {% endfor %}
 {% endfor %}
- 
+
    {% if is_granted("ROLE_ADMIN") %}
 <a href="{{ path('serveurs_new') }}" class="btn btn-medium btn-primary">Ajouter Serveur</a>
 {% endif %}
@@ -29,10 +29,7 @@
     <thead>
         <tr class="title">
 
-            
-            
-             <thead>
-                        <tr class="title">
+         
                             <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
                             <th{% if pagination.isSorted('a.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom', 'a.nom') }}
                               <i class="icon-pencil"></i></th>
@@ -49,9 +46,11 @@
                                   <th{% if pagination.isSorted('a.ip_out') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'IP_Out', 'a.ip_out') }}
                                            <i class="icon-user"></i></th>
                        
-                                   <th{% if pagination.isSorted('a.zone') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Zone', 'a.zone') }}
+                                   <th{% if pagination.isSorted('b.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Zone', 'b.nom') }}
                                            <i class="icon-user"></i></th>
                        
+                        <th{% if pagination.isSorted('c.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Site', 'c.nom') }}
+                                           <i class="icon-user"></i></th>
                           
                   
                 {% if is_granted("ROLE_ADMIN") %}
@@ -71,40 +70,16 @@
               <td>{{ entity.description }}</td>
            <td>{{ entity.ipIn }}</td>
               <td>{{ entity.ipOut }}</td>
-               <td>{{ entity.zone }}</td>
-               <td>
-                    <a href="{{ path('serveurs_show', { 'id': entity.id }) }}">
-                        <img src="{{ asset('bundles/applicationrelations/images/detail.png') }}" alt="show" width="15" height="15" />
-                    </a>
-                </td>
-               
-                
-  {% if is_granted("ROLE_ADMIN") %}
-                         
-                          <td>
-
-
-                    <a href="{{ path('serveurs_edit', { 'id': entity.id }) }}">
-                        <img src="{{ asset('bundles/applicationrelations/images/edit.png') }}" alt="edit" width="15" height="15" />
-                    </a>
-                </td>
-                 <td>
-                    <a href="{{ path('serveurs_delete', { 'id': entity.id }) }}">
-                        <img src="{{ asset('bundles/applicationrelations/images/delete.png') }}" alt="delete" width="15" height="15" />
-                    </a>
-                             </td>
-        
-                         {% endif %}
-            
-              
-
-        </tr>
-        
-    {% endfor %}
-       
-        
-                   
-        
+                   <td>{{ entity.idsite }}</td>
+               <td>{{ entity.idzone }}</td>
+              {% include 'ApplicationRelationsBundle:Template:index-actions.html.twig' 
+                   with {
+                        'edit':'serveurs_edit',
+                        'delete':'serveurs_delete',
+                        'show':'serveurs_show'}
+              %}   
+        {% endfor %} 
+    </tr>
     </tbody>
 </table>
     {{ knp_pagination_render(pagination, 'ApplicationRelationsBundle:pagination:twitter_bootstrap_pagination.html.twig') }}

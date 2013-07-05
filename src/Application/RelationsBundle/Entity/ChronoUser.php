@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ChronoUser
  *
  * @ORM\Table(name="chrono_user")
- * @ORM\Entity(repositoryClass="Application\RelationsBundle\Entity\ChronoUserRepository")
+ * @ORM\Entity(repositoryClass="Application\RelationsBundle\Repository\ChronoUserRepository")
  * @UniqueEntity(fields="nomUser", message="Ce nom existe déjà...")
  */
 

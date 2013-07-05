@@ -1,0 +1,68 @@
+{% extends "ApplicationRelationsBundle::layout.html.twig" %}
+{#
+ {% include 'ApplicationRelationstBundle:Template:new.html.twig' 
+       with {'h1Name':'SERVEURS-SITES',
+            'refnew':'serveurs_sites_new',
+
+}  %}
+
+#}
+  {% block stylesheets %}
+{{ parent() }}
+      <link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
+     
+ {% endblock %}
+
+{% block content_header '' %}
+{% block title %}SERVEURS-SITES ( {{ total }}){% endblock %}
+    
+{% block content %}
+
+{% for type, flashMessages in app.session.flashbag.all() %}
+    {% for flashMessage in flashMessages %}
+        <div class="alert alert-{{ type }}">
+            {{ flashMessage|trans }}
+        </div>
+    {% endfor %}
+{% endfor %}
+ 
+   {% if is_granted("ROLE_ADMIN") %}
+<a href="{{ path('serveurs_sites_new') }}" class="btn btn-medium btn-primary">Ajouter Site</a>
+{% endif %}
+<br> <br>  
+
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+       
+        <tr class="title">
+                <th>Id</th>
+                <th>Nom</th>
+                 <th>Description</th>
+            
+                {% if is_granted("ROLE_ADMIN") %}
+                <th colspan="3">Actions</th>
+                {% else %}
+                <th>Actions</th>
+                {% endif %}
+             </tr>
+    </thead>
+            </tr>
+        </thead>
+        <tbody>
+         {% for entity in pagination %}
+ 
+            <tr>
+                <td>{{ entity.id }}</td>
+                <td>{{ entity.nom }}</td>
+                 <td>{{ entity.description }}</td>
+        {% include 'ApplicationRelationsBundle:Template:index-actions.html.twig' 
+       with {'edit':'serveurs_sites_edit',
+            'delete':'serveurs_sites_delete',
+   'show':'serveurs_sites_show'}  %}   
+                  </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+  {{ knp_pagination_render(pagination, 'ApplicationRelationsBundle:pagination:twitter_bootstrap_pagination.html.twig') }}
+       
+    {% endblock %}

@@ -6,30 +6,29 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ServeursType extends AbstractType
-{
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+class ServeursType extends AbstractType {
+
+    public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-            ->add('nom')
-            ->add('description')
-                  ->add('ip_in')
-            ->add('ip_out')
-                 ->add('nom_site')
-              ->add('nom_dns')
-            ->add('zone')
+                ->add('nom')
+                ->add('description')
+                ->add('ip_in')
+                ->add('ip_out')
+                ->add('nom_site')
+                ->add('nom_dns')
+                ->add('idzone', null, array('label' => 'Zone'))
+                ->add('idsite', null, array('label' => 'Site'))
         ;
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
+    public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'Application\RelationsBundle\Entity\Serveurs'
         ));
     }
 
-    public function getName()
-    {
+    public function getName() {
         return 'application_relationsbundle_serveurstype';
     }
+
 }

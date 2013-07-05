@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\RelationsBundle\Entity;
+namespace Application\RelationsBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
@@ -14,10 +14,10 @@ class ServeursRepository extends EntityRepository
 {
       public function myFindAll() {
         return $this->createQueryBuilder('a')
-                ->select()
-                       /* ->leftJoin('a.idProjet', 'b')
-                        ->leftJoin('a.demandeur', 'c')
-                        ->leftJoin('a.idStatus', 'd')
+                  ->select('a,b,c')
+                        ->leftJoin('a.idzone', 'b')
+                        ->leftJoin('a.idsite', 'c')
+                      /*  ->leftJoin('a.idStatus', 'd')
                         ->leftJoin('a.picture', 'f')*/
                         ->orderBy('a.id')
                         ->getQuery();
