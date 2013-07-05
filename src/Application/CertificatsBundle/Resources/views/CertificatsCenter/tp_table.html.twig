@@ -55,8 +55,8 @@
            <td>    {{ entity.endTime|date('Y-m-d') }}</td>
            
 {% endif %}
-           {% if is_granted("ROLE_ADMIN") %}
-              
+        {#   {% if is_granted("ROLE_ADMIN") %}
+              #}
                     <td>
                                 {% if entity.warningFile == 0 %}
                                     <a class="open" data-id="{{entity.id}}" href="#">
@@ -68,8 +68,9 @@
                                     </a>
                                {% endif %}
                             </td> 
+              {#              
          {%endif %}
-                            
+          #}                  
                             
        <!--    <td>{#% if entity.addedDate %}{{ entity.addedDate|date('Y-m-d') }}{% endif %#}</td>-->
             <td>{{ entity.serverName }}</td>

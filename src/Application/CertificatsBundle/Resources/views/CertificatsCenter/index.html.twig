@@ -1,29 +1,32 @@
 {% extends "ApplicationCertificatsBundle::layout.html.twig" %}
+{#
 {% use "ApplicationCertificatsBundle:Form:form_div_layout.html.twig" %}
-
+#}
 {% block javascripts %}
     {{ parent() }}
     {% javascripts 
     '@ApplicationCertificatsBundle/Resources/public/js/jquery.cookie.js'
     '@ApplicationCertificatsBundle/Resources/public/js/certificats.js'
-     output='js/compiled/changements.js' filter='?yui_js' %}
+     output='js/compiled/ccertifictas.js' filter='?yui_js' %}
 <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
 {#
 <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
   <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/editme.js') }}"></script>
 #}
- {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+{#=========================
+Uniquement les administrateursandbox
+============================#}
+
+  {% if is_granted("ROLE_ADMIN") %}
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/applicationcertificats/js/certificatsicons.js') }}"></script>
 {% endif %}
 {% endblock %}
 
-    
-  {% block stylesheets %}
+{% block stylesheets %}
 {{ parent() }}
-
 {% stylesheets 
                 '@ApplicationCertificatsBundle/Resources/public/css/sliding.css' 
                 '@ApplicationCertificatsBundle/Resources/public/css/certifcatssearch.css' 
@@ -82,9 +85,7 @@ LISTE DES {{ parent() }}
     {% endfor %}
 {% endfor %}
 
-   {% if is_granted("ROLE_ADMIN") %}
-
-{% endif %}
+  
 
  <div id="ShowHideContainer">
   
@@ -95,10 +96,12 @@ LISTE DES {{ parent() }}
     </a>
     <button type="submit" id="reset" name="submit-filter" class="btn btn-medium btn-warning" value="reset" >
         <i class="icon-minus-sign"></i> Effacer Filtres</button>
+        {% if is_granted("ROLE_ADMIN") %}
         <a href="{{ path('certificatscenter_new') }}" class="ajoutchange btn btn-medium btn-primary">
                 <i class="icon-plus"></i> Ajouter Certificat
             </a>
-</form>
+{% endif %}
+    </form>
 
 <div id="ShowHideBox" class="hidden">
           {% include 'ApplicationCertificatsBundle:CertificatsCenter:indexsearch_form.html.twig' %}

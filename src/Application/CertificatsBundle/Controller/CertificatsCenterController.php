@@ -13,7 +13,6 @@ use Application\CertificatsBundle\Entity\CertificatsCenter;
 use Application\CertificatsBundle\Form\Certificats\CertificatsCenterType;
 use Application\CertificatsBundle\Form\Certificats\CertificatsCenterCheckType;
 use Application\CertificatsBundle\Form\Certificats\CertificatsCenterFiltresType;
-
 use APY\DataGridBundle\Grid\Source\Entity;
 use APY\DataGridBundle\Grid\Grid;
 use APY\DataGridBundle\Grid\Column\ActionsColumn;
@@ -28,9 +27,9 @@ use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
 use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
 use APY\DataGridBundle\Grid\Export\CSVExport;
 use APY\DataGridBundle\Grid\Export\ExcelExport;
+
 //use APY\DataGridBundle\Grid\Export\PHPExcelPDFExport;
 //use APY\DataGridBundle\Grid\Export\ExcelExport;
 
@@ -51,8 +50,8 @@ class CertificatsCenterController extends Controller {
     public function myMethod(array $ids) {
         // Do whatever you want with these ids
     }
-    
-     /* ====================================================================
+
+    /* ====================================================================
      * 
      *  CREATION DU PAGINATOR
      * 
@@ -72,8 +71,8 @@ class CertificatsCenterController extends Controller {
         $pagination->setTemplate('ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig');
         return $pagination;
     }
-   
-      protected function filter() {
+
+    protected function filter() {
         //  $message = "filter datas";
         $message = "";
         $em = $this->getDoctrine()->getManager();
@@ -81,7 +80,7 @@ class CertificatsCenterController extends Controller {
         $session = $request->getSession();
         $filterForm = $this->createForm(new CertificatsCenterFiltresType());
         $filterBuilder = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->myFindaAll();
-       if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
+        if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
             //  $message = "reset filtres";
             $session->remove('certificatsControllerFilter');
             $query = $filterBuilder;
@@ -91,19 +90,19 @@ class CertificatsCenterController extends Controller {
         // datas filter
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
             $alldatas = $request->request->all();
-        $datas = $alldatas["certificats_filter"];
-                    $filterForm->bind($datas);
+            $datas = $alldatas["certificats_filter"];
+            $filterForm->bind($datas);
             if ($filterForm->isValid()) {
                 // $message .= " - filtre valide";
                 $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
-            $session->set('certificatsControllerFilter', $datas);
-              } else {
-                 $query = $filterBuilder;
+                $session->set('certificatsControllerFilter', $datas);
+            } else {
+                $query = $filterBuilder;
             }
-                return array($filterForm, $query, $message);
+            return array($filterForm, $query, $message);
         } else {
-             if ($session->has('certificatsControllerFilter')) {
-     
+            if ($session->has('certificatsControllerFilter')) {
+
                 $datas = $session->get('certificatsControllerFilter');
                 $filterForm->bind($datas);
                 $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
@@ -113,71 +112,10 @@ class CertificatsCenterController extends Controller {
                 // $message = "pas de session";
                 $query = $filterBuilder;
             }
-                  return array($filterForm, $query, $message);
+            return array($filterForm, $query, $message);
         }
     }
 
-    /*
- protected function filter()
-    {
-        $request = $this->getRequest();
-        $session = $request->getSession();
-        $filterForm = $this->createForm(new CertificatsCenterFiltresType());
-      
-        $em = $this->getDoctrine()->getManager();
-        $filterBuilder = $this->get('doctrine.orm.entity_manager')
-                    ->getRepository('ApplicationCertificatsBundle:CertificatsCenter')
-                ->createQueryBuilder('a')
-                        ->select('a,b,c')
-                        ->leftJoin('a.project', 'b')
-                        ->leftJoin('a.typeCert', 'c')
-                        ->orderBy('a.id', 'DESC');
-     
-        if ($request->getMethod() == 'POST' && $request->get('submit-filter') == 'reset') {
-         //   echo "post cas1 :remove";
-            $session->remove('certificatsControllerFilter');
-        }
-   
-        // Filter action
-        if ($request->getMethod() == 'POST' && $request->get('submit-filter') == 'filter') {
-             // echo "post cas2: filter";
-            // Bind values from the request
-            $filterForm->bind($request->get('certificats_filter'));
-//var_dump($filterData);exit(1);
-            
-            if ($filterForm->isValid()) {
-                // Build the query from the given form object
-                $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
-                // Save filter to session
-                $filterData = $filterForm->getData();
-                
-              
-               // print_r($filterData);
-              //  exit(1);
-             // marche pas !!!!
-                $session->set('certificatsControllerFilter', $filterData);
-            }
-        }
-        else {
-                       //   echo "post cas3: session";
-
-            // Get filter from session
-            if ($session->has('certificatsControllerFilter')) {
-                   $entity = new CertificatsCenter();
-    //    $form = $this->createForm(new CertificatsCenterType(), $entity);
-       
-                
-                $filterData = $session->get('certificatsControllerFilter');
-               // var_dump($filterData);exit(1);
-                // Create form with form data 
-                $filterForm = $this->createForm(new CertificatsCenterFiltresType(), $entity);
-                $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
-            }
-        }
-      // exit(1);
-        return array($filterForm, $filterBuilder);
-    }
-*/
     public function indexAction(Request $request) {
 
         $date_warning = array(7, 15);
@@ -185,12 +123,9 @@ class CertificatsCenterController extends Controller {
         //$em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $session = $request->getSession();
-    $session->set('buttonretour', 'certificatscenter');
-        
+        $session->set('buttonretour', 'certificatscenter');
+
         list($filterForm, $queryBuilder, $message) = $this->filter();
-
-        //    $queryBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindsimpleAll();
-
         if ($message)
             $session->getFlashBag()->add('warning', "$message");
 
@@ -199,18 +134,20 @@ class CertificatsCenterController extends Controller {
                     'search_form' => $filterForm->createView(),
                     'pagination' => $pagination,
                     'date_warning' => $date_warning,
-                ));
+        ));
     }
-    /*
-            return $this->render('ApplicationCertificatsBundle:CertificatsCenter:index.html.twig', array(
-                    'pagination' => $pagination,
-                    'search_form' => $searchForm->createView(),
-                ));*/
-//return compact('pagination');
-    
- public function indexoldAction() {
 
-     
+    /*
+      return $this->render('ApplicationCertificatsBundle:CertificatsCenter:index.html.twig', array(
+      'pagination' => $pagination,
+      'search_form' => $searchForm->createView(),
+      )); */
+
+//return compact('pagination');
+
+    public function indexoldAction() {
+
+
         /*
           $message = \Swift_Message::newInstance()
           ->setSubject('Hello Email')
@@ -238,20 +175,20 @@ class CertificatsCenterController extends Controller {
           $session->getFlashBag()->add('error', 'Another error'); */
         $session = $this->getRequest()->getSession();
         $session->set('buttonretour', 'certificatscenter');
-          $searchForm = $this->createForm(new CertificatsCenterFiltresType());
-          if ($this->get('request')->query->has('submit-filter')) {
-             // echo "submit filters";exit(1);
+        $searchForm = $this->createForm(new CertificatsCenterFiltresType());
+        if ($this->get('request')->query->has('submit-filter')) {
+            // echo "submit filters";exit(1);
             // bind values from the request
             $searchForm->bind($this->get('request'));
             $filterBuilder = $this->get('doctrine.orm.entity_manager')
-                    ->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->myFindaAll();
-                    $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($searchForm, $filterBuilder);
-                //   var_dump($filterBuilder->getDql());exit(1);
+                            ->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->myFindaAll();
+            $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($searchForm, $filterBuilder);
+            //   var_dump($filterBuilder->getDql());exit(1);
         } else {
             $em = $this->getDoctrine()->getManager();
             $query = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->myFindaAll();
         }
-          $paginator = $this->get('knp_paginator');
+        $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
                 $query, $this->get('request')->query->get('page', 1)/* page number */, 10/* limit per page */
         );
@@ -260,7 +197,7 @@ class CertificatsCenterController extends Controller {
         return $this->render('ApplicationCertificatsBundle:CertificatsCenter:index.html.twig', array(
                     'pagination' => $pagination,
                     'search_form' => $searchForm->createView(),
-                ));
+        ));
 //return compact('pagination');
     }
 
@@ -269,47 +206,24 @@ class CertificatsCenterController extends Controller {
         $form = $this->createForm(new CertificatsCenterCheckType());
         return $this->render('ApplicationCertificatsBundle:CertificatsCenter:checkcert.html.twig', array(
                     'form' => $form->createView(),
-                ));
+        ));
     }
 
     //public function editAction(Request $request, $id) {
     public function validatecheckcertAction(Request $request) {
-        
+
         $vForm = $this->createForm(new CertificatsCenterCheckType());
-      //  print_r($request->getMethod());
-      // exit(1);
         if ($request->getMethod() == 'POST') {
-             
-            
             $postData = $request->request->get('checkcert');
-            //Array ( [opecert] => 0 [typecert] => 0 [contenu] => ghjgjhgjhgjhgyuiyuiyi
-          //  print_r($postData);
-          //  exit(1);
-            // $editForm->bind($request);
-           // if ($vForm->isValid()) {
-                $vForm->bind($postData);
-                return $this->render('ApplicationCertificatsBundle:CertificatsCenter:checkcert.html.twig', array(
-                            'datas' => $postData,
-                     'form' => $vForm->createView(),
-                        ));
-           // }
+            $vForm->bind($postData);
+            return $this->render('ApplicationCertificatsBundle:CertificatsCenter:checkcert.html.twig', array(
+                        'datas' => $postData,
+                        'form' => $vForm->createView(),
+            ));
+            // }
         }
-
-        //   var_dump($request->request->all());
-        /* var_dump($postData);
-          exit(1); */
-//   unset($postData['id']);
-        //      var_dump($postData);
-
-
-
         return $this->render('ApplicationCertificatsBundle:CertificatsCenter:validatecert.html.twig', array(
-                ));
-
-
-        /*  return $this->render('ApplicationCertificatsBundle:CertificatsCenter:checkcert.html.twig', array(
-          'form' => $form->createView(),
-          )); */
+        ));
     }
 
     /**
@@ -317,28 +231,48 @@ class CertificatsCenterController extends Controller {
      *
      */
     public function showAction($id) {
-        //   public function showAction(CertificatsCenter $certificat) {
         $session = $this->getRequest()->getSession();
         $myretour = $session->get('buttonretour');
-
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->find($id);
-
         $applis = $entity->getIdapplis();
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find CertificatsCenter entity.');
         }
 
+       if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
+            return $this->render('ApplicationCertificatsBundle:CertificatsCenter:showxhtml.html.twig', array(
+                    'entity' => $entity,
+                    'btnretour' => $myretour,
+                    'delete_form' => $deleteForm->createView(),
+                    'applis' => $applis,
+        ));
+           
+       }
         $deleteForm = $this->createDeleteForm($id);
-
         return $this->render('ApplicationCertificatsBundle:CertificatsCenter:show.html.twig', array(
                     'entity' => $entity,
                     'btnretour' => $myretour,
                     'delete_form' => $deleteForm->createView(),
                     'applis' => $applis,
-                ));
+        ));
     }
+    /*
+ public function showXhtmlAction($id) {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Changements entity.');
+        }
+
+        $deleteForm = $this->createDeleteForm($id);
+
+        return $this->render('ApplicationChangementsBundle:Changements:showxhtml.html.twig', array(
+                    'entity' => $entity,
+                    'delete_form' => $deleteForm->createView(),));
+    }*/
 
     /**
      * Displays a form to create a new CertificatsCenter entity.
@@ -349,8 +283,6 @@ class CertificatsCenterController extends Controller {
         $form = $this->createForm(new CertificatsCenterType(), $entity);
         $session = $this->getRequest()->getSession();
         $myretour = $session->get('buttonretour');
-        // print_r($myretour);
-        //  exit(1);
         if (!isset($myretour)) {
             $myretour = 'certificatscenter';
         }
@@ -358,7 +290,7 @@ class CertificatsCenterController extends Controller {
                     'entity' => $entity,
                     'form' => $form->createView(),
                     'btnretour' => $myretour,
-                ));
+        ));
     }
 
     /**
@@ -398,10 +330,6 @@ class CertificatsCenterController extends Controller {
             // grant owner access
             $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
             $aclProvider->updateAcl($acl);
-
-
-
-
             $session = $this->getRequest()->getSession();
             // ajoute des messages flash
             $id = $entity->getId();
@@ -414,7 +342,7 @@ class CertificatsCenterController extends Controller {
                     'entity' => $entity,
                     'form' => $form->createView(),
                     'btnretour' => $myretour,
-                ));
+        ));
     }
 
     /**
@@ -424,25 +352,21 @@ class CertificatsCenterController extends Controller {
     public function editAction($id) {
 
         $em = $this->getDoctrine()->getManager();
-
-
-// stocke un attribut pour une réutilisation lors d'une future requête utilisateur
-//$session->set('buttonretour', 'bar');
-// dans un autre contrôleur pour une autre requête
+        // stocke un attribut pour une réutilisation lors d'une future requête utilisateur
+        //$session->set('buttonretour', 'bar');
+        // dans un autre contrôleur pour une autre requête
         $session = $this->getRequest()->getSession();
         $myretour = $session->get('buttonretour');
         if (!isset($myretour)) {
             $myretour = 'certificatscenter';
         }
         $entity = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->find($id);
-
         // check rights
         $securityContext = $this->get('security.context');
 
 
         // Soit owner du record soit admin
-        if (false === $securityContext->isGranted('OWNER', $entity)
-                && false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+        if (false === $securityContext->isGranted('OWNER', $entity) && false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
         }
 
@@ -471,7 +395,7 @@ class CertificatsCenterController extends Controller {
                     'btnretour' => $myretour,
                         //   'acl'=>$acl,
                         //  'idty'=>$securityIdentity,
-                ));
+        ));
     }
 
     /**
@@ -516,7 +440,7 @@ class CertificatsCenterController extends Controller {
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
-                ));
+        ));
     }
 
     /**
@@ -664,7 +588,7 @@ class CertificatsCenterController extends Controller {
         $grid->setId('certificatsgrid');
         $grid->addExport(new CSVExport('CSV Export'));
         $grid->addExport(new ExcelExport('Excel Export'));
-       // $grid->addExport(new PHPExcelPDFExport('Simple PDF Export'));
+        // $grid->addExport(new PHPExcelPDFExport('Simple PDF Export'));
         //chiant si error
         $grid->setPersistence(true);
         $grid->setDefaultOrder('id', 'desc');
@@ -720,40 +644,35 @@ class CertificatsCenterController extends Controller {
         // return new Response();
     }
 
-     public function update_certificats_statusAction() {
+    public function update_certificats_statusAction() {
         $request = $this->get('request');
- 
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
-       
             $id = $request->request->get('id');
             $em = $this->getDoctrine()->getManager();
-         //           $entity_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->findOneByDescription("closed");
-         
             $entity = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->findOneById($id);
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Cert entity.');
             }
-            
-            $id_warning=$entity->getWarningFile();
-            
-            if ($id_warning ){
-              $entity->setWarningFile(false);
-             $em->persist($entity);
+
+            $id_warning = $entity->getWarningFile();
+
+            if ($id_warning) {
+                $entity->setWarningFile(false);
+                $em->persist($entity);
                 $em->flush();
-            
-            }
-            else {
-                  $entity->setWarningFile(true);
-             $em->persist($entity);
+            } else {
+                $entity->setWarningFile(true);
+                $em->persist($entity);
                 $em->flush();
             }
-          
-                  $array=array('mystatus'=>$id_warning);
-         //   $array=array($array);
-          $response = new Response(json_encode($array));
+
+            $array = array('mystatus' => $id_warning);
+            //   $array=array($array);
+            $response = new Response(json_encode($array));
 
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
     }
+
 }

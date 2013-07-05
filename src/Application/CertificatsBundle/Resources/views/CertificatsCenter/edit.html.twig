@@ -147,6 +147,7 @@ var parts = Vid_cert.split('/');
 {% block stylesheets %}
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/sliding.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/certifcatssearch.css') }}" type="text/css" media="all"/>
 <style>
         
         tr.single {
@@ -166,9 +167,9 @@ var parts = Vid_cert.split('/');
  <br><br>
 
     <form action="{{ path('certificatscenter_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-        <table class="table table-bordered">
-            <tbody>
-                <tr class="single"><td>
+          <table class="table-mybordered">
+
+            <tr><td class="calendar">
                         <div>
     {{ form_errors(edit_form.fileName) }}
     {{ form_label(edit_form.fileName, 'Nom du Fichier'|trans) }}
@@ -194,14 +195,17 @@ var parts = Vid_cert.split('/');
     {{ form_errors(edit_form.way) }}
     {{ form_label(edit_form.way, 'Way'|trans) }}
     {{ form_widget(edit_form.way) }}
-
+<br>
   {{ form_errors(edit_form.statusFile) }}
     {{ form_widget(edit_form.statusFile) }}
-
+<br>
+ {{ form_errors(edit_form.warningFile) }}
+   {{ form_label(edit_form.warningFile, 'Activer le Warning') }}
+    {{ form_widget(edit_form.warningFile) }}
 
                                 </div>
                             </td>
-                            <td>
+                            <td class="calendar">
                                 <div>
  {{ form_rest(edit_form) }}
                                     </div>

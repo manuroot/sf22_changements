@@ -1,5 +1,5 @@
 $(document).ready(function() {
- var img_path='bundles/applicationcertificats/images/';
+ var img_path='/bundles/applicationcertificats/images/';
  $("td > a").click(function(event) {
     
    /*  console.log("open test button");*/
