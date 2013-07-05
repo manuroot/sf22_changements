@@ -1,5 +1,6 @@
+{% if request.ajax == false %}
 {% extends "ApplicationCertificatsBundle::layout.html.twig" %}
-
+{% endif %}
 
 {% block javascripts %}
 {{ parent() }}

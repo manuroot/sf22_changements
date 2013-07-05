@@ -10,10 +10,10 @@
      output='js/compiled/ccertifictas.js' filter='?yui_js' %}
 <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
-{#
-<script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
-  <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/editme.js') }}"></script>
-#}
+
+<script type="text/javascript" src="{{ asset('bundles/applicationcertificats/js/jquery.colorbox.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('bundles/applicationcertificats/js/editme.js') }}"></script>
+
 {#=========================
 Uniquement les administrateursandbox
 ============================#}
@@ -33,6 +33,7 @@ Uniquement les administrateursandbox
                 output='css/compiled/mycertificats.css' filter='cssrewrite,?yui_css' debug=false %}
 <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
 {% endstylesheets %}
+<link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/colorbox.css') }}" type="text/css" media="all"/>
 
 <style>
         td {

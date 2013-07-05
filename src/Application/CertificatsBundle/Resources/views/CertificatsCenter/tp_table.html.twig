@@ -78,19 +78,21 @@
             <td>{{ entity.serviceName }}</td>
            <!-- <td>{{ entity.way }}</td>-->
            <!-- <td>{{ entity.statusFile }}</td>-->
+             <td>
+                                     <a title="Opération: {{ entity.fileName }}" href="{{ path('certificatscenter_show', { 'id': entity.id }) }}">
+                                {#<a class="editme" title="Opération: {{ entity.fileName }}" href="{{ path('certificatscenter_show', { 'id': entity.id }) }}">#}
+                                    <img src="{{ asset('bundles/applicationcertificats/images/detail.png') }}" alt="show" width="15" height="15" />
+                                </a>
+                            </td>     
+                       {#
                  <td>
                     <a href="{{ path('certificatscenter_show', { 'id': entity.id }) }}">
                         <img src="{{ asset('bundles/applicationcertificats/images/detail.png') }}" alt="show" width="15" height="15" />
                     </a>
                 </td>
-                
+                #}
                    {% if is_granted("ROLE_ADMIN") %}
-                            
-                            
-                            
-                        <td>   
-                            
-
+                       <td>
                     <a href="{{ path('certificatscenter_edit', { 'id': entity.id }) }}">
                         <img src="{{ asset('bundles/applicationcertificats/images/edit.png') }}" alt="edit" width="15" height="15" />
                     </a>

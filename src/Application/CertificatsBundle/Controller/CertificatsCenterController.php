@@ -230,7 +230,7 @@ class CertificatsCenterController extends Controller {
      * Finds and displays a CertificatsCenter entity.
      *
      */
-    public function showAction($id) {
+    public function showAction(Request $request,$id) {
         $session = $this->getRequest()->getSession();
         $myretour = $session->get('buttonretour');
         $em = $this->getDoctrine()->getManager();
