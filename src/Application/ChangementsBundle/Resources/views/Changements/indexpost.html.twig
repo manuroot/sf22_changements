@@ -13,13 +13,15 @@
     {% javascripts 
     '@ApplicationChangementsBundle/Resources/public/js/jquery.cookie.js'
     '@ApplicationChangementsBundle/Resources/public/js/changements.js'
+    '@ApplicationChangementsBundle/Resources/public/js/jquery.colorbox.js'
+    '@ApplicationChangementsBundle/Resources/public/js/editme.js'
      output='js/compiled/changements.js' filter='?yui_js' %}
 <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
-
+{#
    <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
   <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/editme.js') }}"></script>
-     {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+ #}    {% if is_granted("IS_AUTHENTICATED_FULLY") %}
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/changementsicons.js') }}"></script>
@@ -35,14 +37,14 @@
      {% stylesheets 
                 '@ApplicationChangementsBundle/Resources/public/css/sliding.css' 
                 '@ApplicationChangementsBundle/Resources/public/css/changements.css' 
-              
+               '@ApplicationChangementsBundle/Resources/public/css/colorbox.css' 
 
                 output='css/compiled/changements.css' filter='cssrewrite,?yui_css' debug=false %}
 <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
 {% endstylesheets %}
-
+{#
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>
-
+#}
 <style>
         td {
     font-size: 12px;

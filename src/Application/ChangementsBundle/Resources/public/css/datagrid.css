@@ -21,13 +21,13 @@ text-align:center;
     font-size: 12px;
     width: 98%;
 }
-
+/*
 .editme{
     background: url("../images/edit.png") no-repeat bottom left;
     display: inline-block;
    width: 16px;
   
-}
+}*/
 
 .deleteme{
     background: url("../images/delete.png") no-repeat bottom left;

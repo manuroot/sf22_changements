@@ -28,8 +28,6 @@ div.ui-datepicker {
 }
 
 
-
-
 #ShowHideContainer {
     padding-top:10px;
     padding-bottom:20px;}
@@ -53,23 +51,7 @@ div.ui-datepicker {
     text-decoration: underline;
     background-color: rgb(255, 209, 0);
 }
- /*.table td {
 
-    line-height: 20px;
-    text-align: left;
-    vertical-align: top;
-    border-top: 1px solid rgb(221, 221, 221);
-}*/
-
-  /*  table{
-    border-style: solid;
-    border-width: 1px;
-    border-color: black;
-  
-    border-collapse: collapse;
-width:98%;
-   
-    }*/
    .table-mybordered {
         width:auto;
         min-width:80%;
@@ -88,12 +70,7 @@ width:98%;
     border-collapse: separate;
     border-radius: 6px 6px 6px 6px;
     margin-bottom:50px;
-  /* background-color: #3BA3D0;*/
-    /*      background-image:linear-gradient(red, blue); 
-    background-image:-moz-linear-gradient(red, blue); 
-    background-image:-webkit-gradient(linear, red, blue);
-    background-image:-o-linear-gradient(red, blue); 
-    background-image:-ms-linear-gradient(red, blue); */
+ 
 }
 .table-mybordered   tr > td.calendar{
       padding-left:20px;
@@ -118,3 +95,32 @@ width:98%;
   
 }
   
+     td {
+    font-size: 12px;
+    /*border-collapse: separate;*/
+   /* font-family: 'Times New Roman',Times,serif;*/
+}
+      .input-append, .input-prepend {
+  
+    font-size: 0px;
+    white-space: nowrap;
+  padding-left:3px;
+    float:left;
+}
+
+.table {
+    font-size: 11px;
+    border-collapse: separate;
+  /*  font-family: 'Times New Roman',Times,serif;*/
+}
+
+tr.title th {
+   
+    line-height: 30px;
+  
+}
+select {
+width:180px;}
+select.pattern-selector {
+width:150px;
+}
