@@ -96,7 +96,10 @@ class ChangementsFilterAmoiType extends AbstractType {
                     'label' => 'Status',
                     'class' => 'Application\ChangementsBundle\Entity\ChangementsStatus',
                     'property' => 'nom',
-                        'empty_value' => '--- Choisir une option ---',
+                        'expanded' => false,
+                    'multiple' => true,
+                    'required' => false,
+                      /* 'empty_value' => '--- Choisir une option ---',*/
                 ))
                 
                   ->add('demandeur', 'entity', array(
