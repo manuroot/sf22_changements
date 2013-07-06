@@ -3,6 +3,7 @@
 namespace Application\RelationsBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Application\RelationsBundle\Entity\Projet;
 use Application\RelationsBundle\Form\ProjetType;
@@ -38,7 +39,7 @@ class ProjetController extends Controller {
      */
     public function indexAction() {
         $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('ApplicationRelationsBundle:Projet')->findAll();
+        $entities = $em->getRepository('ApplicationRelationsBundle:Projet')->myFindAll();
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
                 $entities, $this->get('request')->query->get('page', 1)/* page number */, 10/* limit per page */
@@ -64,7 +65,12 @@ class ProjetController extends Controller {
         }
         // find a group of products based on an arbitrary column value
         $repo_certs = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter');
-        $certificats = $repo_certs->findByProject($id);
+        //trop gourmand !!!! ==>
+       // $certificats = $repo_certs->findByProject($id);
+        
+        $certificats = $repo_certs->myFindaAll($id);
+        
+        
         $deleteForm = $this->createDeleteForm($id);
         return $this->render('ApplicationRelationsBundle:Projet:show.html.twig', array(
                     'entity' => $entity,
@@ -189,5 +195,37 @@ class ProjetController extends Controller {
                         ->getForm()
         ;
     }
+   // A ameliorer: recup par l'entity !!!
 
+   public function downloadAction($filename) {
+        $request = $this->get('request');
+        $session = $request->getSession();
+
+        $path = $this->get('kernel')->getRootDir() . "/../web/uploads/documents/";
+
+        // Flush in "safe" mode to enforce an Exception if keys are not unique
+
+        if (!file_exists($path . $filename)) {
+            $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas (code 1)");
+            return $this->redirect($this->generateUrl('docchangements'));
+        }
+
+        try {
+            $content = file_get_contents($path . $filename);
+        } catch (\ErrorException $e) {
+            $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas (code 2)");
+            return $this->redirect($this->generateUrl('docchangements'));
+        }
+
+      $response = new Response();
+
+        //set headers
+        $response->headers->set('Content-Type', 'mime/type');
+        $response->headers->set('Content-Disposition', 'attachment;filename="' . $filename);
+        //$session = $this->getRequest()->getSession();
+        $session->getFlashBag()->add('notice', "Le fichier $filename a ete téléchargé");
+
+        $response->setContent($content);
+        return $response;
+    }
 }

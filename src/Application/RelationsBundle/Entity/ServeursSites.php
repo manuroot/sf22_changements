@@ -4,12 +4,16 @@ namespace Application\RelationsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
- * CertificatsProjet
+ * ServeursSites
  *
  * @ORM\Table(name="serveurs_sites")
  * @ORM\Entity
+ * @UniqueEntity(fields="nom", message="Nom déja utilisé")
  * @ORM\Entity(repositoryClass="Application\RelationsBundle\Repository\ServeursSitesRepository")
  */
 class ServeursSites {
@@ -26,7 +30,7 @@ class ServeursSites {
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=40, nullable=false)
+     * @ORM\Column(name="nom", type="string", length=40, nullable=false,unique=true)
      */
     private $nom;
     

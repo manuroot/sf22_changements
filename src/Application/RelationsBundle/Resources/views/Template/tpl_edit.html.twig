@@ -19,7 +19,8 @@
 {% endfor %}
 
 <form  class="form-horizontal" action="{{ path(tpl_update, { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{ form_widget(edit_form) }}
+     {{ form_errors(edit_form) }}
+     {{ form_widget(edit_form) }}
         <p>
             <button type="submit" class="btn btn-medium btn-warning">Modifier</button>
             <a href="{{ path(tpl_retour) }}" class="btn btn-medium btn-success">Retour</a>

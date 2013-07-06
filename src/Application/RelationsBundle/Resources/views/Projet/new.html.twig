@@ -3,9 +3,55 @@
   {% block stylesheets %}
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
-
  {% endblock %}
 
+    {% block javascripts %}
+    {{ parent() }}
+<script type="text/javascript">
+     var collectionHolder = $('ul.docs');
+
+    var $addDocumentLink = $('<a href="#" class="add_documents_link">Ajouter un Fichier</a>');
+    var $newLinkLi = $('<li></li>').append($addDocumentLink);
+
+    jQuery(document).ready(function(){
+    collectionHolder.find('li').each(function(){
+    addDocumentFormDeleteLink($(this));
+    });
+
+    collectionHolder.append($newLinkLi);
+
+    $addDocumentLink.on('click', function(e) {
+    e.preventDefault();
+
+    addDocumentForm(collectionHolder, $newLinkLi);
+    });
+    });
+
+    function addDocumentForm(collectionHolder, $newLinkLi) {
+
+    var prototype = collectionHolder.attr('data-prototype');
+
+    var newForm = prototype.replace(/\$\$name\$\$/g, collectionHolder.children().length);
+
+    var $newFormLi = $('<li></li>').append(newForm);
+
+    $newLinkLi.before($newFormLi);
+    addDocumentFormDeleteLink($newFormLi);
+    }
+
+    function addDocumentFormDeleteLink($docFormLi) {
+    var $removeFormA = $('<a href= "#">Supprimer?</a>');
+    $docFormLi.append($removeFormA);
+
+    $removeFormA.on('click', function(e) {
+    e.preventDefault();
+    $docFormLi.remove();
+    });
+    }
+
+</script>
+
+{% endblock %}
 {% block content_header '' %}
 
 {% block title %}AJOUTER PROJET{% endblock %}

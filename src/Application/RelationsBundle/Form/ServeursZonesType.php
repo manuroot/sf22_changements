@@ -11,8 +11,9 @@ class ServeursZonesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nom')
-                ->add('description')
+                  ->add('nom',null,array('label'=>'Nom de la Zone'))
+             ->add('description',null,array('label'=>'Description'))
+        
         ;
     }
 

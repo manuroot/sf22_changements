@@ -28,3 +28,7 @@ projets_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "ApplicationRelationsBundle:Projet:delete" }
    # requirements: { _method: post|get }
+
+download_filesprojet_route:
+    pattern:  /download/projet/{filename}
+    defaults: { _controller: ApplicationRelationsBundle:Projet:download } 

@@ -4,12 +4,23 @@ namespace Application\RelationsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * CertificatsProjet
  *
  * @ORM\Table(name="serveurs")
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
+ *
+ * @UniqueEntity(fields="nom", message="Nom déja utilisé")
+ * @UniqueEntity(fields="ip_in", message="IP deja utilisée")
+ * @UniqueEntity(fields="ip_out", message="IP deja utilisée")
+ * @UniqueEntity(fields="nom_dns", message="Nom DNS deja utilisée")
+ * 
+ * 
  * @ORM\Entity(repositoryClass="Application\RelationsBundle\Repository\ServeursRepository")
  */
 class Serveurs {
@@ -26,13 +37,13 @@ class Serveurs {
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=40, nullable=false)
+     * @ORM\Column(name="nom", type="string", length=40, nullable=false,unique=true)
      */
     private $nom;
   /**
      * @var string
      *
-     * @ORM\Column(name="nom_dns", type="string", length=80, nullable=false)
+     * @ORM\Column(name="nom_dns", type="string", length=80, nullable=false,unique=true)
      */
     private $nom_dns;
 
@@ -55,16 +66,32 @@ class Serveurs {
      /**
      * @var string
      *
-     * @ORM\Column(name="ip_in", type="string", length=20, nullable=true)
+     * @ORM\Column(name="ip_in", type="string", length=20, nullable=true, unique=true)
+      * 
+      * 
+     *
+     * @Assert\Regex(
+     *     pattern="/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/",
+     *     match=true,
+     *     message="patterns: ip ex: 192.168.1.12"
+     * )
+     * @var string $ip_in
      */
+  
     private $ip_in;
     
     /**
      * @var string
      *
-     * @ORM\Column(name="ip_out", type="string", length=20, nullable=true)
+     * @ORM\Column(name="ip_out", type="string", length=20, nullable=true, unique=true)
+     * @Assert\Regex(
+     *     pattern="/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/",
+     *     match=true,
+     *     message="patterns: ip ex: 192.168.1.12"
+     * )
+     * @var string $ip_in
      */
-    private $ip_out;
+     private $ip_out;
 
      /**
      * @var \ChronoUserGroup
@@ -102,7 +129,34 @@ class Serveurs {
     private $idzone;
     
     
-      
+       /**
+     * @var boolean
+     *
+     * @ORM\Column(name="warning", type="boolean", nullable=true)
+     */
+    private $warning;
+    
+      /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="added_date", type="date", nullable=false)
+     */
+    private $addedDate;
+
+      /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated_date", type="date", nullable=false)
+     */
+    private $updatedDate;  
+    
+      public function __construct()
+  {
+    $this->addedDate = new \DateTime('now');
+    $this->updatedDate = new \DateTime('now');
+    $this->warning = false;
+    
+  }
     
     public function __toString() {
         return $this->getNom();    // this will not look good if SonataAdminBundle uses this ;)
@@ -322,5 +376,91 @@ class Serveurs {
     public function getIdEnv()
     {
         return $this->id_env;
+    }
+    
+     /**
+     * Set addedDate
+     *
+     * @param \DateTime $addedDate
+     * @return CertificatsCenter
+     */
+    public function setAddedDate($addedDate)
+    {
+        $this->addedDate = $addedDate;
+    
+        return $this;
+    }
+
+    /**
+     * Get addedDate
+     *
+     * @return \DateTime 
+     */
+    public function getAddedDate()
+    {
+        return $this->addedDate;
+    }
+
+    /**
+     * Set addedDate
+     *
+     * @param \DateTime $addedDate
+     * @return CertificatsCenter
+     */
+    public function setUpdatedDate($updatedDate)
+    {
+        $this->updatedDate = $updatedDate;
+    
+        return $this;
+    }
+
+    /**
+     * Get addedDate
+     *
+     * @return \DateTime 
+     */
+    public function getUpdatedDate()
+    {
+        return $this->updatedDate;
+    }
+    
+      /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue() {
+       
+        $this->setUpdatedDate(new \DateTime());
+     
+    }
+
+    public function prePersist() {
+          $this->setAddedDate(new \DateTime);
+        $this->setUpdatedDate(new \DateTime);
+        /* if (null == $this->getGlobalnote()){
+
+
+          } */
+    }
+     /**
+    *  Set statusFile
+     *
+     * @param boolean $statusFile
+     * @return CertificatsCenter
+     */
+    public function setWarning($warning)
+    {
+        $this->warningFile = $warning;
+    
+        return $this;
+    }
+
+    /**
+     * Get warning
+     *
+     * @return boolean 
+     */
+    public function getWarning()
+    {
+        return $this->warning;
     }
 }

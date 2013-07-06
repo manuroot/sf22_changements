@@ -83,19 +83,41 @@
                         <tr> 
                             <td>{{ fic.id }}</td>
                             <td>{{ fic.name }}</td>
-                                 <td>{{ fic.path }}</td>
+                         <td><a href="{{ path('download_filesprojet_route', { 'filename': fic.path }) }}">{{ fic.path }}</a></td>
+
                         </tr>
        {% endfor %}
                         </tbody>
                     </table>
-
-<h3><center>Liste des Certificats de ce projet</center></h3>
+ 
+        <h3><center>Liste des Certificats de ce projet</center></h3>
 <table class="table table-striped table-bordered table-hover">
     <thead>
-        <tr class="title"><th>Nom</th></tr>
+        <tr class="title">
+            <th>Nom</th>
+            <th>Type</th>
+              <th>CN-NameType</th>
+            <th>Date Début</th>
+            <th>Date Fin</th>
+        </tr>
   </thead>
         {% for certificat in certificats %}
-        <tr> <td>{{ certificat.fileName }}</td>
+        <tr>
+            <td>{{ certificat.fileName }}</td>
+           <td>{{ certificat.typeCert.FileType }}</td>
+            
+        
+            <td>{{ certificat.cnName }}</td>
+           {% if certificat.startDate %}
+                 <td>   {{ certificat.startDate|date('Y-m-d') }}{% endif %}</td>
+                    
+                    
+            {% if certificat.endTime %}
+
+              
+           <td>    {{ certificat.endTime|date('Y-m-d') }}</td>
+           
+{% endif %}
         </tr>
 
        {% endfor %}

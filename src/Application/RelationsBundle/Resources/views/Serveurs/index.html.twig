@@ -4,6 +4,41 @@
 {{ parent() }}
       <link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
      
+<style>
+        td {
+    font-size: 12px;
+  
+}
+    .input-append, .input-prepend {
+  
+    font-size: 11px;
+    white-space: nowrap;
+  padding-left:3px;
+    float:left;
+   /* height: 50px;*/
+}
+
+.table {
+    font-size: 11px;
+    border-collapse: separate;
+  /*  font-family: 'Times New Roman',Times,serif;*/
+}
+
+tr.title th {
+   
+    line-height: 30px;
+  
+}
+
+tr.danger {background:red;}
+
+select {
+width:180px;}
+select.pattern-selector {
+width:150px;
+}
+
+    </style>
  {% endblock %}
 
 {% block content_header '' %}
@@ -53,7 +88,11 @@
                                            <i class="icon-user"></i></th>
                              <th{% if pagination.isSorted('d.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Env', 'd.nom') }}
                                            <i class="icon-user"></i></th>
-                  
+                             
+                              <th{% if pagination.isSorted('a.updatedDate') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Debut', 'a.updatedDate') }}
+                                <i class=" icon-time"></i></th>
+                   <th{% if pagination.isSorted('a.warning') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Warning', 'a.warning') }}</th>
+
                 {% if is_granted("ROLE_ADMIN") %}
                 <th colspan="3">Actions</th>
                 {% else %}
@@ -63,8 +102,14 @@
     </thead>
     <tbody>
     {% for entity in pagination %}
-        <tr>
-            <td><a href="{{ path('serveurs_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+       
+   
+       {% if entity.warning == 1 %} 
+                <tr class="error">
+                        {% else %}
+              <tr>
+             {% endif %}   
+             <td><a href="{{ path('serveurs_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.nom }}</td>
               <td>{{ entity.nomDns }}</td>
                 <td>{{ entity.nomSite }}</td>
@@ -74,6 +119,8 @@
                    <td>{{ entity.idsite }}</td>
                <td>{{ entity.idzone }}</td>
                <td>{{ entity.idEnv }}</td>
+              <td>{% if entity.updatedDate is not null %}{{ entity.updatedDate|date('Y-m-d') }}{% endif %}</td>
+                         
               {% include 'ApplicationRelationsBundle:Template:index-actions.html.twig' 
                    with {
                         'edit':'serveurs_edit',

@@ -13,8 +13,23 @@ class ApplisType extends AbstractType
     {
         $builder
                 
+                 ->add('nomapplis', null, array(
+                    'label'=>'Nom',
+                    'widget_addon' => array(
+                        'icon' => 'pencil',
+                        'type' => 'prepend'
+                        )))
                 
-            ->add('nomapplis',null,array('label' => 'Application'))
+                 ->add('description', 'textarea', array(
+                    'label'=>'Description',
+                    'widget_addon' => array(
+                        'icon' => 'pencil',
+                        'type' => 'prepend'
+                        )))
+                
+                
+                
+           // ->add('nomapplis',null,array('label' => 'Application'))
               /*  $formMapper->add('city', 'genemu_jqueryautocomplete_text', array(
                     'route_name' => 'ajax_form_request_cities',
                     'configs' => array('minLength' => 3),
@@ -29,7 +44,7 @@ class ApplisType extends AbstractType
                 'Van Persie'
             ),
         ))*/
-                ->add('description','text',array('label' => 'Description'));
+        //       ->add('description','text',array('label' => 'Description'));
               //  ApplisSimpleType
              //   $builder->add('tags', 'collection', array('type' => new TagType()));
        //     ->add('idprojets')

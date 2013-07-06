@@ -3,7 +3,22 @@
   {% block stylesheets %}
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/sliding.css') }}" type="text/css" media="all"/>
+  <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
+   <style>
 
+            .table {
+                font-size: 11px;
+                /* border-collapse: separate;*/
+                /*  font-family: 'Times New Roman',Times,serif;*/
+            }
+            label {
+                color:#02195e;
+              /*  text-align: left;*/
+    
+}
+
+
+        </style>
  {% endblock %}
 
 {% block content_header '' %}

@@ -19,7 +19,23 @@ class CertificatsCenterRepository extends EntityRepository {
         //->getResult();
     }
 
-    public function myFindaAll() {
+    public function myFindaAll($id=null) {
+       
+        $id=2;
+        $query=$this->createQueryBuilder('a')
+                ->select(array('a,b,c'))
+               
+                        ->leftJoin('a.project', 'b')
+                        ->leftJoin('a.typeCert', 'c')
+                        ->orderBy('a.id', 'DESC') ;
+        if (isset($id)){
+               $query->andwhere('b.id = :myid');
+             $query->setParameter('myid', $id);
+        }
+                return $query->getQuery();
+    }
+    
+    /*public function myFindaAll() {
         return $this->createQueryBuilder('a')
                 ->select(array('a,b,c'))
                
@@ -27,6 +43,8 @@ class CertificatsCenterRepository extends EntityRepository {
                         ->leftJoin('a.typeCert', 'c')
                         ->orderBy('a.id', 'DESC') ;
                         //->getQuery();
-    }
+    }*/
+
+     
 
 }
