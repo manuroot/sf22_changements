@@ -18,6 +18,7 @@ class ServeursType extends AbstractType {
                 ->add('nom_dns')
                 ->add('idzone', null, array('label' => 'Zone'))
                 ->add('idsite', null, array('label' => 'Site'))
+                ->add('id_env', null, array('label' => 'Env'))
         ;
     }
 

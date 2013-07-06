@@ -65,7 +65,7 @@ class ServeursController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $querie = $em->getRepository('ApplicationRelationsBundle:Serveurs')->myfindAll();
-       $pagination = $this->createpaginator($querie, 10);
+       $pagination = $this->createpaginator($querie, 15);
        $count=$pagination->getTotalItemCount();
         return $this->render('ApplicationRelationsBundle:Serveurs:index.html.twig', array(
             'pagination' => $pagination,
@@ -88,7 +88,11 @@ class ServeursController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('serveurs_show', array('id' => $entity->getId())));
+             $session = $this->getRequest()->getSession();
+            // ajoute des messages flash
+            $id = $entity->getId();
+            $session->getFlashBag()->add('warning', "Enregistrement $id ajouté avec succès");
+            return $this->redirect($this->generateUrl('serveurs_show', array('id' => $id)));
         }
 
         return $this->render('ApplicationRelationsBundle:Serveurs:new.html.twig', array(
@@ -179,6 +183,11 @@ class ServeursController extends Controller
             $em->persist($entity);
             $em->flush();
 
+                $session = $this->getRequest()->getSession();
+            // ajoute des messages flash
+            $id = $entity->getId();
+            $session->getFlashBag()->add('warning', "Enregistrement $id modifié avec succès");
+      
             return $this->redirect($this->generateUrl('serveurs_edit', array('id' => $id)));
         }
 

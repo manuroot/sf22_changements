@@ -51,7 +51,8 @@
                        
                         <th{% if pagination.isSorted('c.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Site', 'c.nom') }}
                                            <i class="icon-user"></i></th>
-                          
+                             <th{% if pagination.isSorted('d.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Env', 'd.nom') }}
+                                           <i class="icon-user"></i></th>
                   
                 {% if is_granted("ROLE_ADMIN") %}
                 <th colspan="3">Actions</th>
@@ -72,6 +73,7 @@
               <td>{{ entity.ipOut }}</td>
                    <td>{{ entity.idsite }}</td>
                <td>{{ entity.idzone }}</td>
+               <td>{{ entity.idEnv }}</td>
               {% include 'ApplicationRelationsBundle:Template:index-actions.html.twig' 
                    with {
                         'edit':'serveurs_edit',

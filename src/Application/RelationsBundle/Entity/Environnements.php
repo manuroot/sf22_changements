@@ -40,6 +40,12 @@ class Environnements
     */
     private $idchangements;
 
+     /**
+     * @var ArrayCollection $departements
+     *
+     * @ORM\OneToMany(targetEntity="Serveurs", mappedBy="id_env", cascade={"persist", "remove", "merge"})
+     */
+    private $serveurs;
     
        public function __toString() {
         return $this->getNom();    // this will not look good if SonataAdminBundle uses this ;)
@@ -146,5 +152,38 @@ class Environnements
     public function getIdchangements()
     {
         return $this->idchangements;
+    }
+
+    /**
+     * Add serveurs
+     *
+     * @param \Application\RelationsBundle\Entity\Serveurs $serveurs
+     * @return Environnements
+     */
+    public function addServeur(\Application\RelationsBundle\Entity\Serveurs $serveurs)
+    {
+        $this->serveurs[] = $serveurs;
+    
+        return $this;
+    }
+
+    /**
+     * Remove serveurs
+     *
+     * @param \Application\RelationsBundle\Entity\Serveurs $serveurs
+     */
+    public function removeServeur(\Application\RelationsBundle\Entity\Serveurs $serveurs)
+    {
+        $this->serveurs->removeElement($serveurs);
+    }
+
+    /**
+     * Get serveurs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getServeurs()
+    {
+        return $this->serveurs;
     }
 }

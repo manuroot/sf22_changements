@@ -3,39 +3,3 @@
             'tpl_update':'serveurs_update',
    'tpl_delete':'serveurs_delete',
 'tpl_retour':'serveurs'}  %}   
-
-{#
-  {% block stylesheets %}
-{{ parent() }}
-<link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
-
- {% endblock %}
-
-{% block content_header '' %}
-{% block title %}EDITION SERVEUR{% endblock %}
-{% block content %}
-
-
-<form  class="form-horizontal" action="{{ path('serveurs_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{ form_widget(edit_form) }}
-        <p>
-            <button type="submit" class="btn btn-large btn-warning">Modifier</button>
-            <a href="{{ path('serveurs') }}" class="btn btn-large btn-success">Retour</a>
-        </p>
-    </form>
-
-    <form action="{{ path('serveurs_delete', { 'id': entity.id }) }}" method="post">
-        {{ form_errors(delete_form) }}
-          {{ form_rest(delete_form) }}
-            <div style="text-align:right">
-                <button type="submit"  class="btn btn-small btn-danger" onclick="if(!confirm('Are you sure?')) { return false; }">Supprimer Serveur</button>
-
-            </div>
-        </form>
-
-
-      
-
-{% endblock %}
-
-#}

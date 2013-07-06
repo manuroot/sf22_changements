@@ -17,6 +17,7 @@ class ServeursRepository extends EntityRepository
                   ->select('a,b,c')
                         ->leftJoin('a.idzone', 'b')
                         ->leftJoin('a.idsite', 'c')
+                        ->leftJoin('a.id_env', 'd')
                       /*  ->leftJoin('a.idStatus', 'd')
                         ->leftJoin('a.picture', 'f')*/
                         ->orderBy('a.id')

@@ -66,7 +66,18 @@ class Serveurs {
      */
     private $ip_out;
 
+     /**
+     * @var \ChronoUserGroup
+     *
+     * @ORM\ManyToOne(targetEntity="Environnements",inversedBy="serveurs", cascade={"persist", "merge"}))
+     * @ORM\OrderBy({"nom" = "ASC"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_env", referencedColumnName="id",nullable=true)
+     * })
+     */
+    private $id_env;
     
+  
     
       /**
      * @var \ServeursSites
@@ -286,5 +297,30 @@ class Serveurs {
     public function getIdzone()
     {
         return $this->idzone;
+    }
+
+  
+
+    /**
+     * Set id_env
+     *
+     * @param \Application\RelationsBundle\Entity\Environnements $idEnv
+     * @return Serveurs
+     */
+    public function setIdEnv(\Application\RelationsBundle\Entity\Environnements $idEnv = null)
+    {
+        $this->id_env = $idEnv;
+    
+        return $this;
+    }
+
+    /**
+     * Get id_env
+     *
+     * @return \Application\RelationsBundle\Entity\Environnements 
+     */
+    public function getIdEnv()
+    {
+        return $this->id_env;
     }
 }
