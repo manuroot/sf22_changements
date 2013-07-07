@@ -27,7 +27,7 @@ $(document).ready(function() {
     });
  function remplirSelect (dataAjax) {
    $.ajax({
-        url: Routing.generate('certificatscenter_updatexhtml_certificats'),
+        url: Routing.generate('serveurs_updatexhtml_status'),
        /*  url: "{{ path('changements_updatexhtml_changement') }}", */
         type: "POST", 
         data : dataAjax, 
