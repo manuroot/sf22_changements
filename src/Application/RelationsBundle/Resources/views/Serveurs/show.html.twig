@@ -3,7 +3,7 @@
   {% block stylesheets %}
 {{ parent() }}
       <link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
-     
+       <link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/tableview.css') }}" type="text/css" media="all"/>
  {% endblock %}
 
 {% block content_header '' %}
@@ -11,7 +11,90 @@
 {% block content %}
       
      <br><br>
-      
+     
+<table class="view table-bordered">
+
+ <thead>
+                        <tr class="title">
+                            <th>Paramètres</th>
+                            <th>Valeurs</th>
+                        </tr>
+                    </thead>
+    <tbody>
+        {#
+         <th>Id</th>
+            <th>Nom</th>
+            <th>Nom Site</th>
+            <th>Nom DNS</th>
+            <th>Description</th>
+            <th>IP_In</th>
+            <th>IP_Out</th>
+            <th>Zone</th>
+                <th>Site</th>
+                    <th>Environnement</th>
+#}
+        <tr>
+            <td class="viewlabel">Id</td>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <td class="viewlabel">Nom</td>
+            <td>{{ entity.nom }}</td>
+        </tr>
+        <tr>
+            <td class="viewlabel">Nom Site</td>
+            <td>{{ entity.nomSite }}</td>
+        </tr>
+        <tr>
+            <td class="viewlabel">Nom DNS</td>
+
+            <td>{{ entity.nomDns }}</td>
+        </tr>
+        <tr>
+            <td class="viewlabel">Description</td>
+            <td class="single">{{ entity.description }}</td>
+        </tr>
+        <tr>
+            <td class="viewlabel">IP_In</td>
+            <td>{{ entity.ipIn }}</td>
+                 </tr>
+                  <tr>
+            <td class="viewlabel">IP_Out</td>
+            <td>{{ entity.ipOut }}</td>
+            
+                </tr>
+                 
+                <tr>
+            <td class="viewlabel">idzone</td>
+            <td>{{ entity.idzone }}</td>
+            
+                </tr>
+        
+                        <tr>
+            <td class="viewlabel">idsite</td>
+            <td>{{ entity.idSite }}</td>
+            
+                </tr>
+        
+                       
+                      <tr>
+            <td class="viewlabel">Environnement</td>
+             <td>   {{ entity.idEnv }} </td>
+         
+            
+                </tr>
+        
+       
+                </tbody>
+            </table>
+     
+  
+       
+     
+     
+     
+     {#
+     
 <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr class="title">
@@ -64,12 +147,12 @@
     </tbody>
 </table>
     
-         
+       #}  
   
    
      
   
-    
+<br/>    
      
 {% endblock %}
 

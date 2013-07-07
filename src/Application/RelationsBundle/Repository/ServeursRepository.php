@@ -12,15 +12,26 @@ use Doctrine\ORM\EntityRepository;
  */
 class ServeursRepository extends EntityRepository
 {
-      public function myFindAll() {
+    
+      public function myFindAll($id=null) {
         $query=$this->createQueryBuilder('a')
-                  ->select('a,b,c')
+                  ->select('a,b,c,d')
                         ->leftJoin('a.idzone', 'b')
                         ->leftJoin('a.idsite', 'c')
                         ->leftJoin('a.id_env', 'd')
+               /*    ->addSelect('g')
+                //->addSelect('g')
+                ->distinct('GroupConcat(g.nom) AS kak')
+                ->leftJoin('a.idEnv', 'g')*/
+            
                       /*  ->leftJoin('a.idStatus', 'd')
                         ->leftJoin('a.picture', 'f')*/
                         ->orderBy('a.id');
+         if (isset($id)){
+               $query->andwhere('a.id = :myid');
+             $query->setParameter('myid', $id);
+              return $query->getQuery()->getSingleResult();
+        }
          return $query;
         //->getQuery();
                        

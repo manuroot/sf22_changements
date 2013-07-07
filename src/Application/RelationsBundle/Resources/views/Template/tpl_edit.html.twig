@@ -2,7 +2,7 @@
 {% block stylesheets %}
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
-
+<link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/table.css') }}" type="text/css" media="all"/>
  {% endblock %}
 
 {% block content_header '' %}
@@ -18,13 +18,24 @@
     {% endfor %}
 {% endfor %}
 
+
 <form  class="form-horizontal" action="{{ path(tpl_update, { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+     <table class="table-mybordered">
+        <tbody>
+            <tr>
+                
+  <td class="calendar">
      {{ form_errors(edit_form) }}
      {{ form_widget(edit_form) }}
+                </td></tr>
+             <tr>
+                <td class="calendar">
         <p>
             <button type="submit" class="btn btn-medium btn-warning">Modifier</button>
             <a href="{{ path(tpl_retour) }}" class="btn btn-medium btn-success">Retour</a>
         </p>
+         </td></tr>
+        </tbody></table>
     </form>
 
     <form action="{{ path(tpl_delete, { 'id': entity.id }) }}" method="post">

@@ -19,12 +19,21 @@ class DocchangementsRepository extends EntityRepository {
         //->getResult();
     }
  public function myFindAll() {
-        return $this->createQueryBuilder('a')
-                        ->leftJoin('a.idchangement', 'b')
+      //  return $this->createQueryBuilder('a')
+        /*                ->leftJoin('a.idchangement', 'b')
                 ->orderBy('a.id', 'DESC')
                         //   ->leftJoin('a.demandeur', 'c')
                         ->getQuery();
-    }
-  
+    }*/
+ 
+        $query = $this->createQueryBuilder('a')
+                ->select('a,b')
+                ->add('orderBy', 'a.id DESC')
+                ->leftJoin('a.idchangement', 'b');
+                //  ->leftJoin($join, $alias, $conditionType)
+              
+        ;
+        return $query->getQuery();
 
+}
 }

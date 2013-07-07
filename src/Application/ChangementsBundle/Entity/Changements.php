@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use CalendR\Event\AbstractEvent;
 
+//use Application\RelationsBundle\Entity\Document;
 /**
  * Changements
  *
@@ -477,10 +478,10 @@ private $comments;
     public function __construct()
     {
         // ????????
-        $this->idusers = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->idapplis = new \Doctrine\Common\Collections\ArrayCollection();
-          $this->picture = new \Doctrine\Common\Collections\ArrayCollection();
-       $this->idEnvironnement = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->idusers = new ArrayCollection();
+        $this->idapplis = new ArrayCollection();
+          $this->picture = new ArrayCollection();
+       $this->idEnvironnement = new ArrayCollection();
      //   $this->idapplis = new \Doctrine\Common\Collections\ArrayCollection();
      /*         $this->uid = $uid;
         $this->begin = clone $start;
@@ -604,7 +605,18 @@ private $comments;
 
     
    
+     /**
+     * Set picture
+     *
+     * @param Docchangements $picture
+     * @return Changements
+     */
+    public function setPicture(Docchangements $picture = null)
+    {
+        $this->picture = $picture;
     
+        return $this;
+    }
 
     /**
      * Set picture
@@ -612,7 +624,7 @@ private $comments;
      * @param \Application\RelationsBundle\Entity\Document $picture
      * @return Changements
      */
-    public function setPicture(\Application\RelationsBundle\Entity\Document $picture = null)
+    public function setOldPicture(\Application\RelationsBundle\Entity\Document $picture = null)
     {
         $this->picture = $picture;
     
@@ -656,7 +668,7 @@ private $comments;
     /**
      * Add picture
      *
-     * @param \Application\RelationsBundle\Entity\Document $picture
+     * @param Docchangements $picture
      * @return Changements
      */
     public function addPicture(Docchangements $picture)
@@ -675,6 +687,8 @@ private $comments;
     {
         $this->picture->removeElement($picture);
     }
+    
+    
 
     public function getConfirmation(){
         

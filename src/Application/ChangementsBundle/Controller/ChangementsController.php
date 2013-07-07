@@ -151,7 +151,6 @@ class ChangementsController extends Controller {
         //$em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $session = $request->getSession();
-
         $session->set('buttonretour', 'changements_post');
         list($filterForm, $queryBuilder, $message) = $this->filter();
 
@@ -175,6 +174,8 @@ class ChangementsController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $session = $request->getSession();
+        $session->set('buttonretour', 'changements_posttest');
+    
         $searchForm = $this->createForm(new ChangementsFilterAmoiType());
 
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {

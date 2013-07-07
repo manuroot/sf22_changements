@@ -1,10 +1,10 @@
 changements_post:
-    pattern:  /
+    pattern:  /operations
     defaults: { _controller: "ApplicationChangementsBundle:Changements:indexpost" }
     methods: POST|GET
 
 changements_posttest:
-    pattern:  /operations
+    pattern:  /
     defaults: { _controller: "ApplicationChangementsBundle:Changements:indexposttest" }
     methods: POST|GET
 

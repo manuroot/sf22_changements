@@ -16,6 +16,7 @@ class ChangementsType extends AbstractType {
 $builder
   
           ->add('nom', null, array(
+              'label'=>'Nom',
               'attr' => array(
                            'placeholder' => '5 a 30 car.'
                                     ),

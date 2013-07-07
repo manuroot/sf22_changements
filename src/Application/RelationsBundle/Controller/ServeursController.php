@@ -134,7 +134,7 @@ class ServeursController extends Controller {
      */
     public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('ApplicationRelationsBundle:Serveurs')->find($id);
+        $entity = $em->getRepository('ApplicationRelationsBundle:Serveurs')->myFindAll($id);
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Serveurs entity.');
         }

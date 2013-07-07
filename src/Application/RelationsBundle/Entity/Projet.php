@@ -4,7 +4,7 @@ namespace Application\RelationsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-
+use Application\RelationsBundle\Entity\Applis;
 /**
  * CertificatsProjet
  *
@@ -38,14 +38,13 @@ class Projet {
     private $description;
 
     /**
+     * @var ArrayCollection Applis $idapplis
+     * Owning Side
+     * 
      * @ORM\ManyToMany(targetEntity="Applis", inversedBy="idprojets",cascade={"persist"})
      * @ORM\JoinTable(name="projet_applis",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="certificatsprojet_id", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="certificatsapplis_id", referencedColumnName="id")
-     *   }
+     *   joinColumns={@ORM\JoinColumn(name="certificatsprojet_id", referencedColumnName="id")},
+     *   inverseJoinColumns={@ORM\JoinColumn(name="certificatsapplis_id", referencedColumnName="id")}
      * )
      */
     private $idapplis;
@@ -108,8 +107,8 @@ class Projet {
     }
 
     public function __construct() {
-        $this->projets = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->picture = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->idapplis = new ArrayCollection();
+        $this->picture = new ArrayCollection();
     }
 
     /**
@@ -181,23 +180,37 @@ class Projet {
 
         
     }
-    //}
-    
-    public function addIdappli(\Application\RelationsBundle\Entity\Applis $idapplis) {
+   /**
+     * Add Applis
+     *
+     * @param Applis $idapplis
+     */
+    public function addIdappli(Applis $idapplis) {
  // Si l'objet fait déjà partie de la collection on ne l'ajoute pas
-             $this->idapplis[] = $idapplis;
+        //     $this->idapplis[] = $idapplis;
    
-       /*  if (! $this->idapplis->contains($idapplis)) {
+         if (!$this->idapplis->contains($idapplis)) {
          
         $this->idapplis->add($idapplis);
-*/
+
         
-  //  }
+    }
     }
 
-
+ public function setIdapplis($items)
+    {
+        if ($items instanceof ArrayCollection || is_array($items)) {
+            foreach ($items as $item) {
+                $this->addIdappli($item);
+            }
+        } elseif ($items instanceof Applis) {
+            $this->addIdappli($items);
+        } else {
+            throw new \Exception("$items must be an instance of Applus or ArrayCollection");
+        }
+    }
    
-public function setIdapplis($applis)
+public function setOldIdapplis($applis)
     {
        /* if ($applis instanceof ArrayCollection || is_array($applis)) {
             foreach ($applis as $appli) {

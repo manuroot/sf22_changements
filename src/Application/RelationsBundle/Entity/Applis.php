@@ -3,7 +3,8 @@
 namespace Application\RelationsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\Common\Collections\ArrayCollection;
+use Application\RelationsBundle\Entity\Projet;
 /**
  * Applis
  *
@@ -36,14 +37,22 @@ class Applis {
     private $description;
 
     /**
+     *
+     * @var ArrayCollection Projet $idprojets
+     *
+     * Inverse Side
+     * 
      * @ORM\ManyToMany(targetEntity="Projet", mappedBy="idapplis",cascade={"persist"})
      */
     private $idprojets;
 
     // @ORM\ManyToMany(targetEntity="Projet", mappedBy="idapplis")
 
+    
+    
+    
     public function __construct() {
-        $this->idprojets = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->idprojets = new ArrayCollection();
     }
 
     public function __toString() {
@@ -101,13 +110,46 @@ class Applis {
         return $this->description;
     }
 
+    
+    /**
+     * Add Client
+     *
+     * @param Client $client
+     */
+    public function addIdprojet(Projet $idprojets)
+    {
+        // Si l'objet fait déjà partie de la collection on ne l'ajoute pas
+        if (!$this->idprojets->contains($idprojets)) {
+        if (!$idprojets->getIdapplis()->contains($this)) {
+            // ajout coté proprietaire
+                $idprojets->addIdappli($this);  // Lie le Client au produit.
+            }
+            $this->idprojets->add($idprojets);
+        }
+    }
+    public function setIdprojets($items)
+    {
+        if ($items instanceof ArrayCollection || is_array($items)) {
+            foreach ($items as $item) {
+                $this->addIdprojet($item);
+            }
+        } elseif ($items instanceof Projet) {
+            $this->addIdprojet($items);
+        } else {
+            throw new \Exception("$items must be an instance of Client or ArrayCollection");
+        }
+    }
+    
+    
+    
+    
     /**
      * Add idprojets
      *
      * @param \Application\RelationsBundle\Entity\Projet $idprojets
      * @return Applis
      */
-    public function addIdprojet(\Application\RelationsBundle\Entity\Projet $idprojets) {
+    public function addOldIdprojet(\Application\RelationsBundle\Entity\Projet $idprojets) {
         //   $idprojets->addIdapplis($this);
         //   $this->idprojets[] = $idprojets;
         //   return $this;

@@ -49,8 +49,10 @@ margin: .8em 0 .2em;
 line-height: 1.5;
 }
 /*
+<input id="changements_picture_1_file" class=" not-removable" 
+type="file" name="changements[picture][1][file]"></input>
 table { width:300px;}*/
-
+/*td.file { max-width:250px;}*/
 .mytiny {width:380px;}
     </style>
     {#  {{ form_stylesheet(edit_form) }}#}
@@ -137,11 +139,15 @@ function addTagFormDeleteLink($tagFormLi) {
     <form action="{{ path('changements_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
           <table class="table-mybordered">
 
-            <tr><td class="calendar">
+            <tr><td class="calendar file">
                         <div> {{ form_row(edit_form.nom) }}</div>
+                        <br/> <br/>
                         <div> {{ form_row(edit_form.dateDebut) }} </div>
+                           <br/> <br/>
                         <div>{{ form_row(edit_form.dateFin) }} </div>
+                           <br/> <br/>
                         <div>{{ form_row(edit_form.dateComep) }}</div>
+                           <br/> <br/>
                         <div> {{ form_row(edit_form.dateVsr) }}</div>
                         
                     <h3>FICHIERS</h3>
