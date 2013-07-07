@@ -449,7 +449,7 @@ class Serveurs {
      */
     public function setWarning($warning)
     {
-        $this->warningFile = $warning;
+        $this->warning = $warning;
     
         return $this;
     }

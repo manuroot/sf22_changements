@@ -37,12 +37,31 @@ width:180px;}
 select.pattern-selector {
 width:150px;
 }
-
+   
     </style>
+   <link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/table.css') }}" type="text/css" media="all"/>
+ {% endblock %}
+    
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts 
+    '@ApplicationRelationsBundle/Resources/public/js/jquery.cookie.js'
+    '@ApplicationRelationsBundle/Resources/public/js/serveursboxfilter.js'
+     output='js/compiled/boxserveurs.js' filter='?yui_js' %}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+
+  {% if is_granted("ROLE_ADMIN") %}
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script>var menuDownUrl = "{{ asset('bundles/applicationcertificats/images/') }}";</script>
+<script type="text/javascript" src="{{ asset('bundles/applicationrelations/js/serveursicons.js') }}"></script>
+{% endif %}
  {% endblock %}
 
 {% block content_header '' %}
-{% block title %}SERVEURS ( {{ total }}){% endblock %}
+{% block title %}SERVEURS ( {{total }}){% endblock %}
 
     
 {% block content %}
@@ -54,12 +73,34 @@ width:150px;
         </div>
     {% endfor %}
 {% endfor %}
-
+{#
    {% if is_granted("ROLE_ADMIN") %}
 <a href="{{ path('serveurs_new') }}" class="btn btn-medium btn-primary">Ajouter Serveur</a>
 {% endif %}
 <br> <br>  
+#}
+ <div id="ShowHideContainer">
+  
+<form id="target" class="form-horizontal" action="{{ path('serveurs') }}" method="POST" {{ form_enctype(search_form) }}>
+    <a id="ShowHideButton">
+        <button id="show" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
+            <i class="icon-search"></i>  Afficher Filtres</button>
+    </a>
+    <button type="submit" id="reset" name="submit-filter" class="btn btn-medium btn-warning" value="reset" >
+        <i class="icon-minus-sign"></i> Effacer Filtres</button>
+        {% if is_granted("ROLE_ADMIN") %}
+        <a href="{{ path('serveurs_new') }}" class="ajoutchange btn btn-medium btn-primary">
+                <i class="icon-plus"></i> Ajouter Serveur
+            </a>
+{% endif %}
+    </form>
 
+     
+     
+<div id="ShowHideBox" class="hidden">
+          {% include 'ApplicationRelationsBundle:Serveurs:indexsearch_form.html.twig' %}
+        </div>
+</div>
 <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr class="title">
@@ -88,11 +129,11 @@ width:150px;
                                            <i class="icon-user"></i></th>
                              <th{% if pagination.isSorted('d.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Env', 'd.nom') }}
                                            <i class="icon-user"></i></th>
-                             
+                   <th{% if pagination.isSorted('a.warning') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'W', 'a.warning') }}
+              <i class="icon-flag"></i></th>
                               <th{% if pagination.isSorted('a.updatedDate') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Debut', 'a.updatedDate') }}
                                 <i class=" icon-time"></i></th>
-                   <th{% if pagination.isSorted('a.warning') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Warning', 'a.warning') }}</th>
-
+               
                 {% if is_granted("ROLE_ADMIN") %}
                 <th colspan="3">Actions</th>
                 {% else %}
@@ -119,6 +160,18 @@ width:150px;
                    <td>{{ entity.idsite }}</td>
                <td>{{ entity.idzone }}</td>
                <td>{{ entity.idEnv }}</td>
+                 <td>
+                                {% if entity.warning == 0 %}
+                                    <a class="open" data-id="{{entity.id}}" href="#">
+                                        <img src="{{ asset('bundles/applicationcertificats/images/cadenas-souvert.png') }}" alt="show" width="15" height="15"/>
+                                    </a>
+                                      {% else %}
+                                    <a class="closed" data-id="{{entity.id}}" href="#">
+                                        <img src="{{ asset('bundles/applicationcertificats/images/cadenas-sferme.png') }}" alt="show" width="15" height="15" />
+                                    </a>
+                               {% endif %}
+                            </td> 
+                        
               <td>{% if entity.updatedDate is not null %}{{ entity.updatedDate|date('Y-m-d') }}{% endif %}</td>
                          
               {% include 'ApplicationRelationsBundle:Template:index-actions.html.twig' 

@@ -128,12 +128,13 @@ class CertificatsCenterController extends Controller {
         list($filterForm, $queryBuilder, $message) = $this->filter();
         if ($message)
             $session->getFlashBag()->add('warning', "$message");
-
-        $pagination = $this->createpaginator($queryBuilder, 15);
+    $pagination = $this->createpaginator($queryBuilder, 15);
+        $count = $pagination->getTotalItemCount();
         return $this->render('ApplicationCertificatsBundle:CertificatsCenter:index.html.twig', array(
                     'search_form' => $filterForm->createView(),
                     'pagination' => $pagination,
                     'date_warning' => $date_warning,
+                    'total' => $count,
         ));
     }
 
@@ -230,7 +231,7 @@ class CertificatsCenterController extends Controller {
      * Finds and displays a CertificatsCenter entity.
      *
      */
-    public function showAction(Request $request,$id) {
+    public function showAction(Request $request, $id) {
         $session = $this->getRequest()->getSession();
         $myretour = $session->get('buttonretour');
         $em = $this->getDoctrine()->getManager();
@@ -240,15 +241,14 @@ class CertificatsCenterController extends Controller {
             throw $this->createNotFoundException('Unable to find CertificatsCenter entity.');
         }
 
-       if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
+        if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
             return $this->render('ApplicationCertificatsBundle:CertificatsCenter:showxhtml.html.twig', array(
-                    'entity' => $entity,
-                    'btnretour' => $myretour,
-                    'delete_form' => $deleteForm->createView(),
-                    'applis' => $applis,
-        ));
-           
-       }
+                        'entity' => $entity,
+                        'btnretour' => $myretour,
+                        'delete_form' => $deleteForm->createView(),
+                        'applis' => $applis,
+            ));
+        }
         $deleteForm = $this->createDeleteForm($id);
         return $this->render('ApplicationCertificatsBundle:CertificatsCenter:show.html.twig', array(
                     'entity' => $entity,
@@ -257,22 +257,23 @@ class CertificatsCenterController extends Controller {
                     'applis' => $applis,
         ));
     }
+
     /*
- public function showXhtmlAction($id) {
-        $em = $this->getDoctrine()->getManager();
+      public function showXhtmlAction($id) {
+      $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
+      $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Changements entity.');
-        }
+      if (!$entity) {
+      throw $this->createNotFoundException('Unable to find Changements entity.');
+      }
 
-        $deleteForm = $this->createDeleteForm($id);
+      $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('ApplicationChangementsBundle:Changements:showxhtml.html.twig', array(
-                    'entity' => $entity,
-                    'delete_form' => $deleteForm->createView(),));
-    }*/
+      return $this->render('ApplicationChangementsBundle:Changements:showxhtml.html.twig', array(
+      'entity' => $entity,
+      'delete_form' => $deleteForm->createView(),));
+      } */
 
     /**
      * Displays a form to create a new CertificatsCenter entity.

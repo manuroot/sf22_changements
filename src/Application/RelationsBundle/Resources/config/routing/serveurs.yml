@@ -28,3 +28,10 @@ serveurs_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "ApplicationRelationsBundle:Serveurs:delete" }
     requirements: { _method: post|delete }
+
+
+serveurs_updatexhtml_status:
+    pattern:  /updatexhtml
+    defaults: { _controller: "ApplicationRelationsBundle:Serveurs:update_serveurs_status" }
+    options:
+        expose: true

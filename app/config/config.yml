@@ -60,7 +60,7 @@ assetic:
     #pour le dev
     use_controller: false
     #bundles:        [ ]
-    bundles:        [ ApplicationChangementsBundle,ApplicationCertificatsBundle ]
+    bundles:        [ ApplicationChangementsBundle,ApplicationCertificatsBundle,ApplicationRelationsBundle ]
     #bundles:        [ ApplicationChangementsBundle,SonataNewsBundle ]
     java: /usr/bin/java
     #java: "C:\Program Files\Java\jre6\bin\java.exe"
@@ -232,7 +232,7 @@ fos_user:
   
 
 fos_js_routing:
-     routes_to_expose: [ changements_updatexhtml_changement,certificatscenter_updatexhtml_certificats ]  
+     routes_to_expose: [ changements_updatexhtml_changement,certificatscenter_updatexhtml_certificats,serveurs_updatexhtml_status ]  
     
 #==================================================
 #  TINYMCE

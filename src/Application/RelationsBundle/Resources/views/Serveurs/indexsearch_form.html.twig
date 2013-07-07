@@ -1,0 +1,49 @@
+  <form  class="form" action="{{ path('serveurs') }}" method="POST" {{ form_enctype(search_form) }}>
+       <table class="table-mybordered">
+
+            <tr><td class="calendar">
+                
+           {{ form_errors(search_form.nom) }}
+    {{ form_label(search_form.nom, 'Nom'|trans) }}
+    {{ form_widget(search_form.nom) }}
+                            
+    {{ form_errors(search_form.description) }}
+    {{ form_label(search_form.description, 'CN'|trans) }}
+    {{ form_widget(search_form.description) }}
+   
+    {{ form_errors(search_form.ip_in) }}
+    {{ form_label(search_form.ip_in, 'IP in'|trans) }}
+    {{ form_widget(search_form.ip_in) }}
+         
+        {{ form_errors(search_form.ip_out) }}
+    {{ form_label(search_form.ip_out, 'IP in'|trans) }}
+    {{ form_widget(search_form.ip_out) }}
+         
+                        
+    </td>
+ <td class="calendar">
+  
+         
+                                        
+                                        
+{{ form_rest(search_form) }}
+    
+
+  </td>
+   </tr>
+   <tr><td class="calendar" colspan="2">
+            
+     <button id="filter" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="filter" >
+          <i class="icon-search"></i>  Filtrer</button>
+  {#  <button type="submit" name="submit-filter" class="btn btn-medium btn-danger" value="reset" >
+         <i class="icon-minus-sign"></i>  Reset</button>#}
+         </td></tr></tbody></table>
+ </form>
+
+
+
+
+
+                             
+
+  

@@ -80,7 +80,7 @@ class ServeursType extends AbstractType {
                         'icon' => 'pencil',
                         'type' => 'prepend'
                         )))
-                        ->add('warning', 'checkbox', array('label' => 'Activer le Warning'))
+                        ->add('warning', 'checkbox', array('label' => 'Activer le Warning','required' => false))
         ;
     }
 

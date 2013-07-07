@@ -21,7 +21,7 @@ class CertificatsCenterRepository extends EntityRepository {
 
     public function myFindaAll($id=null) {
        
-        $id=2;
+      //  $id=2;
         $query=$this->createQueryBuilder('a')
                 ->select(array('a,b,c'))
                
@@ -32,7 +32,8 @@ class CertificatsCenterRepository extends EntityRepository {
                $query->andwhere('b.id = :myid');
              $query->setParameter('myid', $id);
         }
-                return $query->getQuery();
+                    return $query;
+   //  return $query->getQuery();
     }
     
     /*public function myFindaAll() {
