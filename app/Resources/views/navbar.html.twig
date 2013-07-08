@@ -103,8 +103,9 @@
                                                                             </ul>
                                                                         </li>
                                                                         
-                                                                           {% if foo[0] == 'serveurs' %}
-                                <li class="dropdown active">
+                                                   
+                               {% if foo[0] == 'serveurs' %}
+                                  <li class="dropdown active">
                                     {% else %}  
                                     <li class="dropdown">
                                     {% endif %}
@@ -117,7 +118,18 @@
                                                       
                                             </ul>
                                  </li>
-
+                        {% if foo[0] == 'serveurs' %}
+                                    <li class="dropdown active">
+                                    {% else %}  
+                                    <li class="dropdown">
+                                    {% endif %}
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-white  icon-wrench"></i>
+                                                Projets<b class="caret"></b> </a>
+                                            <ul class="dropdown-menu">
+                                                  <li><a href="{{ path('projets') }}"><i class="icon-camera"></i> {{ 'Projets'|trans }}</a></li>
+          
+                                            </ul>
+                                 </li>
    {% if is_granted("ROLE_ADMIN") %}
 
                                                                         <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-white icon-wrench"></i>
@@ -128,10 +140,7 @@
                                                                                 <li><a href="{{ path('environnement') }}"><i class="icon-camera"></i> {{ 'Environnements'|trans }}</a></li>
                                                                                  <li><a href="{{ path('users') }}"><i class="icon-camera"></i> {{ 'Eservices-Users(FOSUSER)'|trans }}</a></li>                            
                                                                                 <li><a href="{{ path('applications') }}"><i class="icon-camera"></i> {{ 'Applications'|trans }}</a></li>
-                                                                                <li><a href="{{ path('projets') }}"><i class="icon-camera"></i> {{ 'Projets'|trans }}</a></li>
-
-
-                                                                            </ul>
+                                                                                               </ul>
                                                                         </li>
 {% endif %}
 
