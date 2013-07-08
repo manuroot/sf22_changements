@@ -78,6 +78,18 @@ class CertificatsCenterFiltresType extends AbstractType {
                     'expanded' => false,
                     'multiple' => false,
                 ))
+                    
+                 ->add('demandeur', 'filter_entity', array(
+                    'label' => 'Demandeur',
+                    'class' => 'Application\RelationsBundle\Entity\ChronoUser',
+                    'query_builder' => function(EntityRepository $em) {
+                        return $em->createQueryBuilder('u')
+                                ->orderBy('u.nomUser', 'ASC');
+                    },
+                    'property' => 'nomUser',
+                                'required' => false,
+                     'empty_value' => '--- Choisir une option ---', 
+                ))
                 /*
                   $builder->add('foo', 'filter_text', array(
                   'condition_pattern' => TextFilterType::SELECT_PATTERN,

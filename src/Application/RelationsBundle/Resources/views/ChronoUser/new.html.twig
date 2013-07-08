@@ -1,22 +1,28 @@
 {% extends "ApplicationRelationsBundle::layout.html.twig" %}
+{% block stylesheets %}
+{{ parent() }} 
+<link rel="stylesheet" href="{{ asset('css/sliding.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('css/certifcatssearch.css') }}" type="text/css" media="all"/>
+<style>
+        
+        tr.single {
+         background-color: #f1f1f1;
+        }
 
-  {% block stylesheets %}
-{{ parent() }}
-<link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
-
- {% endblock %}
-
+    </style> 
+{% endblock %}
+    
 
 {% block content_header '' %}
 {% block title %}AJOUTER UTILISATEUR{% endblock %}
 {% block content %}
 
 <form action="{{ path('chronouser_create') }}" method="post" {{ form_enctype(form) }}>
+   <table class="table-mybordered">
 
-    <table class="table table-bordered">
-            <tbody>
-
-    <tr><td>
+          <tr>
+              <td class="calendar">
+   
                         <div>
                             
     {{ form_row(form.nomUser) }}
@@ -25,13 +31,14 @@
   
                                 </div>
                             </td>
-                            <td>
+                         <td class="calendar">
                                 <div>
  {{ form_rest(form) }}
                                     </div>
                                 </td>
                             </tr>
-                            <tr><td colspan="2">
+                            <tr>
+                                  <td class="calendar" colspan="2">
                                     <p>
                                         <button type="submit" class="btn btn-small btn-warning">Ajouter</button>
                                         </form>
@@ -42,7 +49,7 @@
                                     
                                 </td></tr>
                        
-                        </tbody>
+                       
                     </table>
              
  {#{ form_widget(form) }#}

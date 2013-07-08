@@ -27,7 +27,7 @@ class ChronoUserController extends Controller {
         $query = $em->getRepository('ApplicationRelationsBundle:ChronoUser')->myFindAll();
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-                $query, $this->get('request')->query->get('page', 1)/* page number */, 15/* limit per page */
+                $query, $this->get('request')->query->get('page', 1)/* page number */, 20/* limit per page */
         );
         $pagination->setTemplate('ApplicationRelationsBundle:pagination:sliding.html.twig');
         //$pagination->setTemplate('ApplicationMyNotesBundle:pagination:sliding.html.twig');

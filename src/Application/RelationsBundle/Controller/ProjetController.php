@@ -42,7 +42,7 @@ class ProjetController extends Controller {
         $entities = $em->getRepository('ApplicationRelationsBundle:Projet')->myFindAll();
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-                $entities, $this->get('request')->query->get('page', 1)/* page number */, 10/* limit per page */
+                $entities, $this->get('request')->query->get('page', 1)/* page number */, 15/* limit per page */
         );
         $pagination->setTemplate('ApplicationRelationsBundle:pagination:sliding.html.twig');
         return $this->render('ApplicationRelationsBundle:Projet:index.html.twig', array(

@@ -11,11 +11,15 @@
  <th{% if pagination.isSorted('a.cnName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'CN', 'a.cnName') }}</th>
       
  <th{% if pagination.isSorted('a.endTime') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Fin', 'a.endTime') }}</th>
- <th{% if pagination.isSorted('a.warningFile') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Warning', 'a.warningFile') }}</th>
+ <th{% if pagination.isSorted('a.warningFile') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'W', 'a.warningFile') }}
+     
+     
  <th{% if pagination.isSorted('a.serverName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Serveur', 'a.serverName') }}</th>
  
  <th{% if pagination.isSorted('a.port') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Port', 'a.port') }}</th>
- <th{% if pagination.isSorted('a.serviceName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Service', 'a.serviceName') }}</th>
+  <th{% if pagination.isSorted('a.serviceName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Service', 'a.serviceName') }}</th>
+ <th{% if pagination.isSorted('d.nomUser') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'U', 'd.nomUser') }}
+        <i class=" icon-user"></i></th>
            {% if is_granted("ROLE_ADMIN") %}
  <th colspan="3"><center>Actions</center></th>
 {% else %}
@@ -76,6 +80,7 @@
             <td>{{ entity.serverName }}</td>
             <td>{{ entity.port }}</td>
             <td>{{ entity.serviceName }}</td>
+            <td>{{ entity.demandeur }}</td>
            <!-- <td>{{ entity.way }}</td>-->
            <!-- <td>{{ entity.statusFile }}</td>-->
              <td>

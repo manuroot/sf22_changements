@@ -6,14 +6,17 @@ use Doctrine\ORM\Mapping as ORM;
 use APY\DataGridBundle\Grid\Mapping as GRID;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
+/*
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Choice;
-use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints\Date;*/
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Application\RelationsBundle\Entity\Projet;
 use Application\RelationsBundle\Entity\Applis;
 use Application\RelationsBundle\Entity\FileType;
+
 
 /**
  * CertificatsCenter
@@ -195,7 +198,20 @@ class CertificatsCenter
     // @GRID\Column(field="category.name", title="Category Name")
      // @GRID\Column(field="category.firstChild.name", title="Category first child")
      // @GRID\Column(field="category.tags", type="array", title="Category tags")
-     
+    
+    
+      /**
+     * @var \ChronoUser
+     *
+     * @ORM\ManyToOne(targetEntity="Application\RelationsBundle\Entity\ChronoUser")
+     * @ORM\OrderBy({"nomUser" = "ASC"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="demandeur", referencedColumnName="id")
+     * })
+     * @GRID\Column(field="demandeur.nomUser", title="Demandeur",size="20",filter="select",selectFrom="query")
+    */
+    private $demandeur;
+
    public function __construct()
   {
     $this->addedDate = new \DateTime('now');
@@ -635,6 +651,29 @@ class CertificatsCenter
 
 
           } */
+    }
+    
+     /**
+     * Set demandeur
+     *
+     * @param \Application\ChangementsBundle\Entity\ChronoUser $demandeur
+     * @return Changements
+     */
+    public function setDemandeur(\Application\RelationsBundle\Entity\ChronoUser $demandeur = null)
+    {
+        $this->demandeur = $demandeur;
+    
+        return $this;
+    }
+
+    /**
+     * Get idProject
+     *
+     * @return \Application\RelationsBundle\Entity\ChronoUser 
+     */
+    public function getDemandeur()
+    {
+        return $this->demandeur;
     }
     /*
      * SELECT 

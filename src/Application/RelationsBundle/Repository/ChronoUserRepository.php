@@ -14,9 +14,9 @@ class ChronoUserRepository extends EntityRepository {
 
     public function myFindAll() {
         return $this->createQueryBuilder('a')
+                ->select('a,b')
                 ->leftJoin('a.idgroup', 'b')
                         ->getQuery();
-
         //->getResult();
     }
 public function myFindaAll() {

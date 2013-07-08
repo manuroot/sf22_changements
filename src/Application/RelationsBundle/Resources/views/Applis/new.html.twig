@@ -1,25 +1,48 @@
 {% extends "ApplicationRelationsBundle::layout.html.twig" %}
+{% block stylesheets %}
+{{ parent() }} 
+<link rel="stylesheet" href="{{ asset('css/sliding.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('css/certifcatssearch.css') }}" type="text/css" media="all"/>
+<style>
 
-  {% block stylesheets %}
-{{ parent() }}
-      <link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
-     
- {% endblock %}
+        tr.single {
+            background-color: #f1f1f1;
+        }
+
+    </style> 
+{% endblock %}
+
 
 {% block content_header '' %}
 {% block title %}AJOUTER APPLICATION{% endblock %}
 {% block content %}
-     
 
-<form class="form-horizontal" action="{{ path('applications_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-       <p>
-            <button type="submit" class="btn btn-small btn-warning">Ajouter</button>
-            <a href="{{ path('applications') }}" class="btn btn-small btn-success">Retour</a>
-        </p>
-   
-</form>
+<br/><br/>
+    <form class="form-horizontal" action="{{ path('applications_create') }}" method="post" {{ form_enctype(form) }}>
+    <table class="table-mybordered">
+
+          <tr>
+              <td class="calendar">
+                    {{ form_errors(form.nomapplis) }}
+                      {{ form_label(form.nomapplis) }}
+                    {{ form_widget(form.nomapplis) }}
+                 
+                      <br />
+<br />
+      {{ form_row(form.description) }}  
+                          </td>
+                         <td class="calendar">  
+    
+       {{ form_row(form.idprojets) }}  
+           {{ form_rest(form) }}
+          </td></tr><tr>
+                         <td class="calendar" colspan="2">  
+                        
+            <button type="submit" class="btn btn-large btn-warning">Modifier</button>
+            <a href="{{ path('applications') }}" class="btn btn-large btn-success">Retour</a>
+         </td> </tr></table>
+    </form>
 
 
-      
+
 {% endblock %}

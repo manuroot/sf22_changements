@@ -1,10 +1,16 @@
 {% extends "ApplicationRelationsBundle::layout.html.twig" %}
+{% block stylesheets %}
+{{ parent() }} 
+<link rel="stylesheet" href="{{ asset('css/sliding.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('css/certifcatssearch.css') }}" type="text/css" media="all"/>
+<style>
+        
+        tr.single {
+         background-color: #f1f1f1;
+        }
 
-  {% block stylesheets %}
-{{ parent() }}
-      <link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
-     
- {% endblock %}
+    </style> 
+{% endblock %}
 
 {% block content_header '' %}
 {% block title %}AJOUTER ENVIRONNEMENT{% endblock %}
@@ -12,11 +18,18 @@
 
 
 <form action="{{ path('environnement_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_rest(form) }}
-          <p>
+   <table class="table-mybordered">
+
+          <tr>
+              <td class="calendar">   {{ form_rest(form) }}
+         </td></tr><tr>
+              <td class="calendar">
+                  
             <button type="submit" class="btn btn-small btn-warning">Ajouter</button>
             <a href="{{ path('environnement') }}" class="btn btn-small btn-success">Retour</a>
-        </p>
+                 
+        </td></tr>
+                    </table>
    
 </form>
 

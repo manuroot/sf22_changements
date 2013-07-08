@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Application\RelationsBundle\Entity\Applis;
 use Application\RelationsBundle\Form\ApplisType;
-use Application\RelationsBundle\Form\ApplisSimpleType;
+
 
 /**
  * Applis controller.
@@ -62,7 +62,7 @@ class ApplisController extends Controller {
      */
     public function newAction() {
         $entity = new Applis();
-        $form = $this->createForm(new ApplisSimpleType(), $entity);
+        $form = $this->createForm(new ApplisType(), $entity);
 
         return $this->render('ApplicationRelationsBundle:Applis:new.html.twig', array(
                     'entity' => $entity,
@@ -76,7 +76,7 @@ class ApplisController extends Controller {
      */
     public function createAction(Request $request) {
         $entity = new Applis();
-        $form = $this->createForm(new ApplisSimpleType(), $entity);
+        $form = $this->createForm(new ApplisType(), $entity);
         $form->bind($request);
 
         if ($form->isValid()) {

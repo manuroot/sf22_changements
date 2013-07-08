@@ -1,9 +1,10 @@
-{% extends "ApplicationEservicesBundle::layout.html.twig" %}
-
-  {% block stylesheets %}
-{{ parent() }}
-      <link rel="stylesheet" href="{{ asset('bundles/applicationeservices/css/sliding.css') }}" type="text/css" media="all"/>
-   <style>
+{% extends "ApplicationRelationsBundle::layout.html.twig" %}
+{% block stylesheets %}
+{{ parent() }} 
+<link rel="stylesheet" href="{{ asset('css/sliding.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('css/certifcatssearch.css') }}" type="text/css" media="all"/>
+<style>
+        
         .mytextarea {
             border: 1px solid #D4E0EE;
             background-color: #f1f1f1;
@@ -16,8 +17,8 @@
         }
 
     </style> 
- {% endblock %}
-    
+
+    {% endblock %}
 {% block content_header '' %}
 {% block title %}
 Creer Un Groupe
@@ -25,9 +26,13 @@ Creer Un Groupe
 {% block content %}
   
     <form action="{{ path('egroup_groupes_create') }}" method="post" {{ form_enctype(form) }}>
-        
-         <table class="table table-bordered">
-    <tbody>         <tr><td>
+     <table class="table-mybordered">
+
+          <tr>
+              <td class="calendar">   {{ form_rest(form) }}
+         </td></tr><tr>
+              <td class="calendar">    
+       
                  <div>
                    {{ form_widget(form) }}
                 {#     {{ form_row(form.services) }}#}
@@ -35,10 +40,10 @@ Creer Un Groupe
          
                </td></tr>
                                                 
-<tr><td colspan="3">
+<tr><td class="calendar" colspan="3">
                                    
   <button type="submit" class="btn btn-small btn-warning">Modifier</button>
-    </td></tr></tbody></table>   </form>       
+    </td></tr></table>   </form>       
 
                                     
                                        

@@ -1,22 +1,46 @@
 {% extends "ApplicationRelationsBundle::layout.html.twig" %}
+{% block stylesheets %}
+{{ parent() }} 
+<link rel="stylesheet" href="{{ asset('css/sliding.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('css/certifcatssearch.css') }}" type="text/css" media="all"/>
+<style>
+        
+        tr.single {
+         background-color: #f1f1f1;
+        }
 
-  {% block stylesheets %}
-{{ parent() }}
-<link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
-
- {% endblock %}
+    </style> 
+{% endblock %}
+    
 
 {% block content_header '' %}
 {% block title %}EDITION APPLICATION{% endblock %}
 {% block content %}
-
+<br><br>
 
 <form  class="form-horizontal" action="{{ path('applications_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{ form_widget(edit_form) }}
-        <p>
+   <table class="table-mybordered">
+
+          <tr>
+              <td class="calendar">
+                    {{ form_errors(edit_form.nomapplis) }}
+                      {{ form_label(edit_form.nomapplis) }}
+                    {{ form_widget(edit_form.nomapplis) }}
+                 
+                      <br />
+<br />
+      {{ form_row(edit_form.description) }}  
+                          </td>
+                         <td class="calendar">  
+    
+       {{ form_row(edit_form.idprojets) }}  
+           {{ form_rest(edit_form) }}
+          </td></tr><tr>
+                         <td class="calendar" colspan="2">  
+                        
             <button type="submit" class="btn btn-large btn-warning">Modifier</button>
             <a href="{{ path('applications') }}" class="btn btn-large btn-success">Retour</a>
-        </p>
+         </td> </tr></table>
     </form>
 
     <form action="{{ path('applications_delete', { 'id': entity.id }) }}" method="post">

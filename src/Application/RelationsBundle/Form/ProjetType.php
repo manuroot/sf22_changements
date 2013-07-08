@@ -5,6 +5,8 @@ namespace Application\RelationsBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\ORM\EntityRepository;
+
 //use Application\CertificatsBuundle\Form\CertificatsTagType;
 
 class ProjetType extends AbstractType
@@ -60,10 +62,25 @@ class ProjetType extends AbstractType
         ))
     ;*/
    /*   selct multiple*/  
-        
+         /*->add('idProjet', 'entity', array(
+                    'class' => 'ApplicationRelationsBundle:Projet',
+                    'query_builder' => function(EntityRepository $em) {
+                        return $em->createQueryBuilder('u')
+                                ->orderBy('u.nomprojet', 'ASC');
+                    },
+                    'property' => 'nomprojet',
+                    'multiple' => false,
+                    'required' => true,
+                    'label' => 'Projet',
+                    'empty_value' => '--- Choisir une option ---'
+                ))*/
         
               $builder->add('idapplis','entity', array(
             'class' => 'Application\RelationsBundle\Entity\Applis',
+                  'query_builder' => function(EntityRepository $em) {
+                        return $em->createQueryBuilder('u')
+                                ->orderBy('u.nomapplis', 'ASC');
+                    },
             'property' => 'nomapplis',
             'multiple' => true,
             'required' => true,

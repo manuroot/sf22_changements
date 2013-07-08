@@ -1,0 +1,95 @@
+{% extends "ApplicationCertificatsBundle::layout.html.twig" %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/applicationcertificats/js/datenew.js') }}"></script>
+{% endblock %}
+
+
+{% block stylesheets %}
+{{ parent() }} 
+<link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/sliding.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/certifcatssearch.css') }}" type="text/css" media="all"/>
+<style>
+        
+        tr.single {
+         background-color: #f1f1f1;
+        }
+
+    </style> 
+{% endblock %}
+
+
+{% block content_header '' %}
+    
+{% block title %}{{ titre }}  CERTIFICAT {% endblock %}
+
+{% block content %}
+
+{% if action == 'edit' %}
+
+<form   action="{{ path(path_form, { 'id': entity.id }) }}" method="post" {{ form_enctype(form) }}>
+{% else %}
+ <form  action="{{ path(path_form)}}" method="post" {{ form_enctype(form) }}>
+{% endif %}
+
+
+    <br><br>
+    
+         <table class="table-mybordered">
+
+            <tr><td class="calendar">
+                        <div>
+    {{ form_errors(form.fileName) }}
+    {{ form_label(form.fileName, 'Nom du Fichier'|trans) }}
+    {{ form_widget(form.fileName) }}
+                            </div>
+                            <div>
+    {{ form_errors(form.cnName) }}
+    {{ form_label(form.cnName, 'CN du certificat'|trans) }}
+    {{ form_widget(form.cnName) }}
+                                </div>
+    {{ form_errors(form.serviceName) }}
+    {{ form_label(form.serviceName, 'Service'|trans) }}
+    {{ form_widget(form.serviceName) }}
+              {{ form_errors(form.serverName) }}
+    {{ form_label(form.serverName, 'Serveur'|trans) }}
+    {{ form_widget(form.serverName) }}
+
+
+             {{ form_errors(form.port) }}
+    {{ form_label(form.port, 'Port'|trans) }}
+    {{ form_widget(form.port) }}
+
+    {{ form_errors(form.way) }}
+    {{ form_label(form.way, 'Way'|trans) }}
+    {{ form_widget(form.way) }}
+<br>
+  {{ form_errors(form.statusFile) }}
+    {{ form_widget(form.statusFile) }}
+<br>
+ {{ form_errors(form.warningFile) }}
+   {{ form_label(form.warningFile, 'Activer le Warning') }}
+    {{ form_widget(form.warningFile) }}
+
+                                </div>
+                            </td>
+                            <td class="calendar">
+                                <div>
+ {{ form_rest(form) }}
+                                    </div>
+                                </td>
+                            </tr>
+                            <td class="calendar" colspan="2">
+                                    <p>
+                                        <button type="submit" class="btn btn-small btn-warning">Modifier</button>
+                                        <a href="{{ path(btnretour) }}" class="btn btn-small btn-success">Retour</a>
+                                    </p>
+                                </td></tr>
+                        </tbody>
+                    </table>
+
+
+{% endblock %}

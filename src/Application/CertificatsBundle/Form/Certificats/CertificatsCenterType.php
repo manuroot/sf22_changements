@@ -126,8 +126,20 @@ class CertificatsCenterType extends AbstractType {
             'required' => true,
             'label' => 'Type',
             'empty_value' => '--- Choisir une option ---'
-        ));
-
+        ))
+   ->add('demandeur', 'entity', array(
+                    'class' => 'ApplicationRelationsBundle:ChronoUser',
+                    'query_builder' => function(EntityRepository $em) {
+                        return $em->createQueryBuilder('u')
+                                ->orderBy('u.nomUser', 'ASC');
+                    },
+                    'property' => 'nomUser',
+                    'multiple' => false,
+                    'required' => true,
+                    'label' => 'Demandeur',
+                    'empty_value' => '--- Choisir une option ---'
+                ));
+            
         $builder->add('project', 'entity', array(
             //'class' => 'Application\CertificatsBundle\Entity\CertificatsProjet',
             'class' => 'ApplicationRelationsBundle:Projet',
