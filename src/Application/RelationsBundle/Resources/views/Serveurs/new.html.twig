@@ -1,8 +1,10 @@
- {% include 'ApplicationRelationsBundle:Template:tpl_new.html.twig' 
-       with {'h1Nom':'UN SERVEUR',
-            'tpl_create':'serveurs_create',
-            'tpl_retour':'serveurs',
-             'myform':form   
+ {% include 'ApplicationRelationsBundle:Template:tpl_newedit.html.twig' 
+          with {'h1Nom':'NOUVEAU SERVEUR',
+                'action':'new',
+                'path_form':'serveurs_create',
+                'form':form,  
+                'tpl_retour':'serveurs',
+            
 }  
 %}   
 

@@ -1,5 +1,12 @@
- {% include 'ApplicationRelationsBundle:Template:tpl_edit.html.twig' 
-       with {'h1Nom':'SERVEUR',
-            'tpl_update':'serveurs_update',
+ {% include 'ApplicationRelationsBundle:Template:tpl_newedit.html.twig' 
+       with {'h1Nom':'EDITION SERVEUR',
+                'action':'edit',
+              'form':edit_form,  
+'path_form':'serveurs_update',
+      'delete_form':delete_form, 
    'tpl_delete':'serveurs_delete',
 'tpl_retour':'serveurs'}  %}   
+
+
+
+        
