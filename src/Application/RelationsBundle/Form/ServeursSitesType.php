@@ -13,6 +13,7 @@ class ServeursSitesType extends AbstractType
         $builder
             ->add('nom',null,array('label'=>'Nom du Site'))
              ->add('description',null,array('label'=>'Description'))
+             ->add('ip',null,array('label'=>'Ip'))
         ;
     }
 

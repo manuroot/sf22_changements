@@ -24,13 +24,17 @@
 {% endif %}
 <br> <br>  
 
+
+
 <table class="table table-striped table-bordered table-hover">
     <thead>
-       
         <tr class="title">
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Description</th>
+              <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
+                 <th{% if pagination.isSorted('a.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom', 'a.nom') }}
+                              <i class="icon-pencil"></i></th>
+                           <th{% if pagination.isSorted('a.description') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom DNS', 'a.nom_dns') }}
+                              <i class="icon-pencil"></i></th>
+                         
                 {% if is_granted("ROLE_ADMIN") %}
                 <th colspan="3">Actions</th>
                 {% else %}
@@ -38,7 +42,8 @@
                 {% endif %}
              </tr>
     </thead>
-        <tbody>
+    <tbody>
+  
            {% for entity in pagination %}
             <tr>
                 <td><a href="{{ path('serveurs_zones_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>

@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use APY\DataGridBundle\Grid\Mapping as GRID;
+
 
 
 /**
@@ -14,7 +16,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="serveurs_sites")
  * @ORM\Entity
  * @UniqueEntity(fields="nom", message="Nom déja utilisé")
+ * @UniqueEntity(fields="ip", message="IP deja utilisée")
  * @ORM\Entity(repositoryClass="Application\RelationsBundle\Repository\ServeursSitesRepository")
+ * @GRID\Source(columns="id,nom,ip,description") 
  */
 class ServeursSites {
 
@@ -24,6 +28,7 @@ class ServeursSites {
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @GRID\Column(title="id", size="20", type="text",filter="false")
      */
     private $id;
 
@@ -47,7 +52,19 @@ class ServeursSites {
      */
     private $serveurs;
  
-    
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="ip", type="string", length=20, nullable=true, unique=true)
+     * 
+     * @Assert\Regex(
+     *     pattern="/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/",
+     *     match=true,
+     *     message="patterns: ip ex: 192.168.1.12"
+     * )
+     */
+  
+    private $ip;
     
     public function __toString() {
         return $this->getNom();    // this will not look good if SonataAdminBundle uses this ;)
@@ -151,4 +168,28 @@ class ServeursSites {
     {
         return $this->description;
     }
+    
+     /**
+     * Set ip
+     *
+     * @param string $ip
+     * @return string
+     */
+    public function setIp($ip)
+    {
+        $this->ip = $ip;
+    
+        return $this;
+    }
+
+    /**
+     * Get ip
+     *
+     * @return string 
+     */
+    public function getIp()
+    {
+        return $this->ip;
+    }
+
 }

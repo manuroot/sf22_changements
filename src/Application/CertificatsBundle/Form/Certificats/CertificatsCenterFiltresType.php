@@ -35,6 +35,12 @@ class CertificatsCenterFiltresType extends AbstractType {
                         'text_options'=>array( 'attr' => array('icon' => 'icon-user')),
                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
                     ))
+                
+                    
+                ->add('serviceName', 'filter_text', array(
+                        'text_options'=>array( 'attr' => array('icon' => 'icon-wrench')),
+                    'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
+                    ))
                 ->add('cnName', 'filter_text', array(
                            'text_options'=>array( 'attr' => array('icon' => 'icon-wrench')),
                

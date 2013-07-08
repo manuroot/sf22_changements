@@ -2,6 +2,11 @@ serveurs_sites:
     pattern:  /
     defaults: { _controller: "ApplicationRelationsBundle:ServeursSites:index" }
 
+serveurs_sites_apy:
+    pattern:  /indexapy
+    defaults: { _controller: "ApplicationRelationsBundle:ServeursSites:indexapy" }
+
+
 serveurs_sites_show:
     pattern:  /{id}/show
     defaults: { _controller: "ApplicationRelationsBundle:ServeursSites:show" }

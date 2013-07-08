@@ -3,10 +3,15 @@
 
             <tr><td class="calendar">
                 
-           {{ form_errors(search_form.fileName) }}
+    {{ form_errors(search_form.fileName) }}
     {{ form_label(search_form.fileName, 'Nom'|trans) }}
     {{ form_widget(search_form.fileName) }}
                             
+    {{ form_errors(search_form.serviceName) }}
+    {{ form_label(search_form.serviceName, 'Service'|trans) }}
+    {{ form_widget(search_form.serviceName) }}
+   
+
     {{ form_errors(search_form.cnName) }}
     {{ form_label(search_form.cnName, 'CN'|trans) }}
     {{ form_widget(search_form.cnName) }}
@@ -15,6 +20,8 @@
     {{ form_label(search_form.serverName, 'Serveur'|trans) }}
     {{ form_widget(search_form.serverName) }}
          
+                    
+                    
                         
     </td>
  <td class="calendar">

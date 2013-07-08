@@ -8,6 +8,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Application\RelationsBundle\Entity\ServeursSites;
 use Application\RelationsBundle\Form\ServeursSitesType;
 
+
+use APY\DataGridBundle\Grid\Source\Entity;
+use APY\DataGridBundle\Grid\Grid;
+use APY\DataGridBundle\Grid\Column\ActionsColumn;
+use APY\DataGridBundle\Grid\Action\MassAction;
+use APY\DataGridBundle\Grid\Action\DeleteMassAction;
+use APY\DataGridBundle\Grid\Action\RowAction;
+use APY\DataGridBundle\Grid\Column\TextColumn;
+use APY\DataGridBundle\Grid\Column\DateColumn;
+use APY\DataGridBundle\Grid\Export\CSVExport;
+use APY\DataGridBundle\Grid\Export\ExcelExport;
 /**
  * ServeursSites controller.
  *
@@ -46,7 +57,7 @@ class ServeursSitesController extends Controller
         $em = $this->getDoctrine()->getManager();
          $entities = $em->getRepository('ApplicationRelationsBundle:ServeursSites')->findAll();
          //$querie = $em->getRepository('ApplicationRelationsBundle:Serveurs')->myfindAll();
-       $pagination = $this->createpaginator($entities, 5);
+       $pagination = $this->createpaginator($entities, 20);
        $count=$pagination->getTotalItemCount();
          return $this->render('ApplicationRelationsBundle:ServeursSites:index.html.twig', array(
             'pagination' => $pagination,
@@ -219,5 +230,28 @@ class ServeursSitesController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+    
+    
+      //==============================================
+    // VIEW ALL ACTEURS
+    //==============================================
+    public function indexapyAction($page = 1) {
+
+        $session = $this->getRequest()->getSession();
+        // ajoute des messages flash
+        $session->set('buttonretour', 'serveurs_sites_apy');
+        $source = new Entity('ApplicationRelationsBundle:ServeursSites');
+        $grid = $this->container->get('grid');
+        $grid->setSource($source);
+        $grid->setId('zerveurssitesgrid');
+        $grid->addExport(new CSVExport('CSV Export'));
+        $grid->addExport(new ExcelExport('Excel Export'));
+        $grid->setPersistence(true);
+        $grid->setDefaultOrder('id', 'desc');
+        // Set the selector of the number of items per page
+        $grid->setLimits(array(20));
+        $grid->setPage($page);
+         return $grid->getGridResponse('ApplicationRelationsBundle:ServeursSites:indexapy.html.twig');
     }
 }
