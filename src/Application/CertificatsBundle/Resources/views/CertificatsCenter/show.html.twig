@@ -3,6 +3,9 @@
   {% block stylesheets %}
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('bundles/whiteoctoberpagerfanta/css/pagerfantaDefault.css') }}" type="text/css" media="all" />
+  <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/certifcatssearch.css') }}" type="text/css" media="all"/>
+  <style>
+  table.view {min:700px;}</style>
 {% endblock %}
 
 
@@ -19,79 +22,87 @@
         </div>
     {% endfor %}
 {% endfor %}
-     <a href="{{ path(btnretour) }}" class="btn btn-small btn-success">Retour</a>
       {% if is_granted("ROLE_ADMIN") %}           
 <a href="{{ path('certificatscenter_edit', { 'id': entity.id }) }}" class="btn btn-small btn-warning">Editer</a>
 {% endif %}
 
 <br> <br> 
 
+<table class="view table-bordered">
 
-<table class="table table-striped table-bordered table-hover">
-    <tbody>
+ <thead>
+        
+                        <tr class="title">
+                            <th>Paramètres</th>
+                            <th>Valeurs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
         <tr>
-            <th>Id</th>
+              <td class="viewlabel">Id</td>
             <td>{{ entity.id }}</td>
         </tr>
         <tr>
-            <th>Filename</th>
+             <td class="viewlabel">Filename</td> 
             <td>{{ entity.fileName }}</td>
         </tr>
         <tr>
-            <th>Project</th>
+                 <td class="viewlabel">Project</td>
+            
                <td>{{ entity.project.nomprojet }}</td>
           
         </tr>
         <tr>
-            <th>Typecert</th>
+            
+            <td class="viewlabel">Typecert</td>
             <td>{{ entity.typeCert.FileType }}</td>
         </tr>
         <tr>
-            <th>Cnname</th>
+            <td class="viewlabel">Cnname</td>
             <td>{{ entity.cnName }}</td>
         </tr>
         <tr>
-            <th>Startdate</th>
+            <td class="viewlabel">Startdate</td>
             <td>{{ entity.startDate|date('Y-m-d') }}</td>
         </tr>
         <tr class="error">
                     <!--<td>{{ entity.endTime|date('Y-m-d H:i:s') }}</td>-->
-            <th class="warning">Endtime</th>
+            <td class="viewlabel">Endtime</td>
             <td>{{ entity.endTime|date('Y-m-d') }}</td>
         </tr>
         <tr>
-            <th>Date d'Ajout</th>
+            <td class="viewlabel">Date d'Ajout</td>
             <td>{{ entity.addedDate|date('Y-m-d H:i:s') }}</td>
         </tr>
         
         <tr>
-            <th>Date de modification</th>
+            <td class="viewlabel">Date de modification</td>
             <td>{{ entity.updatedDate|date('Y-m-d H:i:s') }}</td>
         </tr>
         
         <tr>
-            <th>Servername</th>
+            <td class="viewlabel">Servername</td>
             <td>{{ entity.serverName }}</td>
         </tr>
         <tr>
-            <th>Port</th>
+            <td class="viewlabel">Port</td>
             <td>{{ entity.port }}</td>
         </tr>
         <tr>
-            <th>Servicename</th>
+            <td class="viewlabel">Servicename</td>
             <td>{{ entity.serviceName }}</td>
         </tr>
         <tr>
-            <th>Way</th>
+            <td class="viewlabel">Way</td>
             <td>{{ entity.way }}</td>
         </tr>
         <tr>
-            <th>Statusfile</th>
+            <td class="viewlabel">Statusfile</td>
             <td>{{ entity.statusFile }}</td>
         </tr>
         
   
- <tr><th>Applications</th><td>
+ <tr><td class="viewlabel">Applications</td><td>
              {% for appli in applis %} {{ appli.nomapplis }}
 
        {% endfor %}
@@ -100,7 +111,9 @@
     </tbody>
 </table>
 
+ <br><br>
+         <a href="{{ path(btnretour) }}" class="btn btn-large btn-success">Retour</a>
+     <br><br>
 
-
-
+  
 {% endblock %}
