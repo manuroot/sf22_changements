@@ -34,6 +34,11 @@ class CertificatsCenterType extends AbstractType {
                         'icon' => 'pencil',
                         'type' => 'prepend'
                     ),))
+                 ->add('description','textarea',array(
+                    'widget_addon' => array(
+                        'icon' => 'lock',
+                        'type' => 'prepend'
+                    ),))
                 ->add('port','text',array(
                      'attr' => array(
                     'placeholder' => "ex: 80",

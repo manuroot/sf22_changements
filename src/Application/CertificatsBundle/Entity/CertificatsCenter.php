@@ -212,6 +212,36 @@ class CertificatsCenter
     */
     private $demandeur;
 
+      /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=200, nullable=true)
+     */
+    private $description;
+    
+     /**
+     * Set description
+     *
+     * @param string $description
+     * @return Serveurs
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
    public function __construct()
   {
     $this->addedDate = new \DateTime('now');

@@ -77,8 +77,11 @@
    {{ form_label(form.warningFile, 'Activer le Warning') }}
     {{ form_widget(form.warningFile) }}
 
-                                </div>
-                            </td>
+
+</div>
+ {{ form_errors(form.description) }}
+   {{ form_label(form.description, 'Description') }}
+    {{ form_widget(form.description) }}                            </td>
                             <td class="calendar">
                                 <div>
  {{ form_rest(form) }}
