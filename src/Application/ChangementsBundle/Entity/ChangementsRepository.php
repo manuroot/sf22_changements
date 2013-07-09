@@ -41,6 +41,24 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         //->getResult();
     }
 
+   /* public function myFindWhere($field,$value) {
+        $parameters = array();
+        $values = array('partial a.{id,$field}');
+
+        $query = $this->createQueryBuilder('a')
+                ->select($values)
+         ->add('orderBy', 'a.id DESC')
+         ->andwhere('a.id = :myid');
+        $query->setParameter('myid', $id);
+        $query->andWhere("a.$field LIKE :$val");
+        $parameters[$val] = '%' . $value . '%';
+         
+
+        return $query->getQuery()->getSingleResult();
+    }*/
+
+    
+    
     public function myFindaIdAll($id) {
         $parameters = array();
         $values = array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f');

@@ -46,14 +46,7 @@ class ServeursType extends AbstractType {
                         )
                     ))    
             
-                ->add('nom_site',null,array('label'=>'Nom du Site',
-                     'attr' => array(
-                           'placeholder' => 'Site de reference'
-                           ),
-                    'widget_addon' => array(
-                        'icon' => 'pencil',
-                        'type' => 'prepend'
-                        )))
+               
                 ->add('nom_dns',null,array('label'=>'Nom DNS',
                      'attr' => array(
                            'placeholder' => 'Nom dns de reference'

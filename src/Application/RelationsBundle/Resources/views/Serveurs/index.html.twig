@@ -37,7 +37,11 @@ width:180px;}
 select.pattern-selector {
 width:150px;
 }
-   
+     label {
+                color:#02195e;
+              /*  text-align: left;*/
+    
+}
     </style>
    <link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/table.css') }}" type="text/css" media="all"/>
  {% endblock %}
@@ -111,10 +115,7 @@ width:150px;
                               <i class="icon-pencil"></i></th>
                            <th{% if pagination.isSorted('a.nom_dns') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom DNS', 'a.nom_dns') }}
                               <i class="icon-pencil"></i></th>
-                          <th{% if pagination.isSorted('a.nom_site') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom Site', 'a.nom_site') }}
-                              <i class="icon-pencil"></i></th>
-                      
-                           <th{% if pagination.isSorted('a.description') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Description', 'a.description') }}
+                             <th{% if pagination.isSorted('a.description') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Description', 'a.description') }}
                                           <i class="icon-pencil"></i></th>
                             <th{% if pagination.isSorted('a.ip_in') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'IP_In', 'a.ip_in') }}
                             <i class="icon-user"></i></th>
@@ -153,7 +154,7 @@ width:150px;
              <td><a href="{{ path('serveurs_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.nom }}</td>
               <td>{{ entity.nomDns }}</td>
-                <td>{{ entity.nomSite }}</td>
+           
               <td>{{ entity.description }}</td>
            <td>{{ entity.ipIn }}</td>
               <td>{{ entity.ipOut }}</td>
@@ -162,11 +163,11 @@ width:150px;
                <td>{{ entity.idEnv }}</td>
                  <td>
                                 {% if entity.warning == 0 %}
-                                    <a class="open" data-id="{{entity.id}}" href="#">
+                                    <a class="open" data-id="{{entity.id}}" href="#{{ entity.id }}">
                                         <img src="{{ asset('bundles/applicationcertificats/images/cadenas-souvert.png') }}" alt="show" width="15" height="15"/>
                                     </a>
                                       {% else %}
-                                    <a class="closed" data-id="{{entity.id}}" href="#">
+                                    <a class="closed" data-id="{{entity.id}}" href="#{{ entity.id }}">
                                         <img src="{{ asset('bundles/applicationcertificats/images/cadenas-sferme.png') }}" alt="show" width="15" height="15" />
                                     </a>
                                {% endif %}

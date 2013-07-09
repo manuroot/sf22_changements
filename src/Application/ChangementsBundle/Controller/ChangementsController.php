@@ -923,9 +923,8 @@ class ChangementsController extends Controller {
         $term = $request->get('term');
 
         $repository = $this->getDoctrine()->getRepository('MyAppMyBundle:City');
-        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
-
-        $cities = $repository->searchCityByName($term);
+        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->findwhere($id);
+      $cities = $repository->searchCityByName($term);
 
         $json = array();
 
@@ -1036,6 +1035,45 @@ class ChangementsController extends Controller {
         }
     }
 
+     public function ajaxticketexterneAction() {
+        $request = $this->get('request');
+
+      
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $members = $em->getRepository('GenemuEntityBundle:Member')->findAjaxValue($value);
+
+        $json = array();
+        foreach ($members as $member) {
+            $json[] = array(
+                'label' => $member->getName(),
+                'value' => $member->getId()
+            );
+        }
+
+        $response = new Response();
+        $response->setContent(json_encode($json));
+
+        return $response;
+        
+        
+        
+        
+        
+        if ($request->isXmlHttpRequest()) {
+            $term = $request->request->get('motcle');
+
+            $array = $this->getDoctrine()
+                    ->getEntityManager()
+                    ->getRepository('menCommandesBundle:commande')
+                    ->listeNature($term);
+
+            $response = new Response(json_encode($array));
+
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+    }
     private function createCalendarForm($values = array()) {
 
         $myears = range(Date('Y') - 5, Date('Y') + 5);

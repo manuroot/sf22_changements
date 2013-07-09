@@ -59,15 +59,15 @@
                             </td>
                             <td>
                                 {% if entity.idStatus.description == 'open' %}
-                                    <a class="open" data-id="{{entity.id}}" href="#">
+                                    <a class="open" data-id="{{entity.id}}"  href="#{{ entity.id }}">
                                         <img src="{{ asset('bundles/applicationcertificats/images/cadenas-souvert.png') }}" alt="show" width="15" height="15"/>
                                     </a>
                                 {% elseif   entity.idStatus.description == 'closed' %}
-                                    <a class="closed" data-id="{{entity.id}}" href="#">
+                                    <a class="closed" data-id="{{entity.id}}"  href="#{{ entity.id }}">
                                         <img src="{{ asset('bundles/applicationcertificats/images/cadenas-sferme.png') }}" alt="show" width="15" height="15" />
                                     </a>
                                {% else %}
-                                    <a class="open" data-id="{{entity.id}}" href="#">
+                                    <a class="open" data-id="{{entity.id}}"  href="#{{ entity.id }}">
                                         <img src="{{ asset('bundles/applicationcertificats/images/cadenas-sbleu.png') }}" alt="show" width="15" height="15" />
                                     </a>
                                {% endif %}

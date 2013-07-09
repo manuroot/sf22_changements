@@ -19,7 +19,7 @@
  <th{% if pagination.isSorted('a.port') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Port', 'a.port') }}</th>
   <th{% if pagination.isSorted('a.serviceName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Service', 'a.serviceName') }}</th>
  <th{% if pagination.isSorted('d.nomUser') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'U', 'd.nomUser') }}
-        <i class=" icon-user"></i></th>
+        <i class=" icon-white icon-user"></i></th>
            {% if is_granted("ROLE_ADMIN") %}
  <th colspan="3"><center>Actions</center></th>
 {% else %}
@@ -63,11 +63,11 @@
               #}
                     <td>
                                 {% if entity.warningFile == 0 %}
-                                    <a class="open" data-id="{{entity.id}}" href="#">
+                                    <a class="open" data-id="{{entity.id}}" href="#{{ entity.id }}">
                                         <img src="{{ asset('bundles/applicationcertificats/images/cadenas-souvert.png') }}" alt="show" width="15" height="15"/>
                                     </a>
                                       {% else %}
-                                    <a class="closed" data-id="{{entity.id}}" href="#">
+                                    <a class="closed" data-id="{{entity.id}}" href="#{{ entity.id }}">
                                         <img src="{{ asset('bundles/applicationcertificats/images/cadenas-sferme.png') }}" alt="show" width="15" height="15" />
                                     </a>
                                {% endif %}

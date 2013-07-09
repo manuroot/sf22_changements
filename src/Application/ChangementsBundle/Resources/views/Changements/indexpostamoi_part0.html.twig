@@ -41,21 +41,13 @@
                 /* border-collapse: separate;*/
                 /*  font-family: 'Times New Roman',Times,serif;*/
             }
-            select option:hover {
-                background-color: #b6d1fd;
-}
-            select#changements_searchfilter_idusers{
-            height:150px;}
             label {
                 color:#02195e;
               /*  text-align: left;*/
     
-}/*
- div#mybutton {
+}
 
-	padding-top: 130px; 
-	margin-left: 5px;
-       }*/
+
         </style>
          {{ form_stylesheet(search_form) }}
 {% endblock %}
@@ -67,7 +59,7 @@
 {% endblock %}
 
 {% block content %}
-
+ 
 {% set dateright = '30' %}
 {% set date_right_warning= '+' ~  dateright ~ 'days' %}
 {#{% set date_right_warning= '+15days' %}#}
@@ -81,33 +73,9 @@
     {% endfor %}
 {% endfor %}
 
-        <div id="ShowHideContainer">
+{% include 'ApplicationChangementsBundle:Changements:indexpostamoi_part1.html.twig' %}
 
-            <form id="target" class="form-horizontal" action="{{ path('changements_posttest') }}" method="POST" {{ form_enctype(search_form) }}>
-                <a id="ShowHideButton">
-                    <button id="show" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
-                        <i class="icon-search"></i>  Afficher Filtres</button>
-                </a>
-                <button type="submit" id="reset" name="submit-filter" class="btn btn-medium btn-warning" value="reset" >
-                    <i class="icon-minus-sign"></i> Effacer Filtres</button>
-          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                <a href="{{ path('changements_newflowstart') }}" class=" ajoutchange btn btn-medium btn-primary">
-                    <i class=" icon-plus"></i> Ajouter un Changement
-                </a>
-        {% endif %}
-
-            </form>
-
-            <div id="ShowHideBoxown" class="hidden">
-        {% include 'ApplicationChangementsBundle:Changements:indexsearchsimple_form.html.twig' %}
-                </div>
-            </div>
-    {#<table class="table table-bordered table-striped table-hover">#}
-               {% include 'ApplicationChangementsBundle:Changements:tp_table.html.twig' %}
-
-
-
-   {{ knp_pagination_render(pagination, 'ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig') }}
+{% include 'ApplicationChangementsBundle:Changements:indexpostamoi_part2.html.twig' %}
 
 
 {% endblock %}

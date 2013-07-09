@@ -64,9 +64,11 @@ $builder
                   )) */
             
               ->add('ticketExt', null, array(
+                  
                     'label' => 'Ticket Externe',
                   
                   'attr' => array(
+                           'style' => 'width:120px',
                            'placeholder' => 'ex: [1-XXXXXX | XXXXX]'
                                     ),
                     'widget_addon' => array(
@@ -75,8 +77,9 @@ $builder
                     ),))
         
                 ->add('ticketInt', null, array(
-                    'attr' => array(
-                           'placeholder' => 'ex: 12345 (5 a 10 car.)'
+                     'attr' => array(
+                          'style' => 'width:120px',
+                        'placeholder' => 'ex: 12345 (5 a 10 car.)'
                                     ),
                      
                     'label' => 'Ticket Interne',
@@ -274,6 +277,10 @@ $builder
                     'empty_value' => '--- Choisir une option ---'
                 ))
                 ->add('idusers', 'entity', array(
+                    'attr' => array(
+                          'style' => 'height:150px',
+                        'placeholder' => 'ex: 12345 (5 a 10 car.)'
+                                    ),
                     'class' => 'ApplicationRelationsBundle:ChronoUser',
                     'query_builder' => function(EntityRepository $em) {
                         return $em->createQueryBuilder('u')

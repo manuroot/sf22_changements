@@ -20,15 +20,25 @@
 
 
 <form action="{{ path('chronogroup_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-  {{ form_widget(edit_form) }}
-    <p>
-          <button type="submit" class="btn btn-small btn-warning">Modifier</button>
-     <a href="{{  path('chronogroup') }}" class="btn btn-small btn-success">Retour</a>
-    </p>
-</form>
+   <table class="table-mybordered">
 
-
-   
+          <tr>
+              <td class="calendar">
+     {{ form_widget(edit_form) }}
+ </td></tr><tr>
+                  <td class="calendar">
+                  
+            
+            <button type="submit" class="btn btn-large btn-warning">Modifier</button>
+            <a href="{{ path('chronogroup') }}" class="btn btn-large btn-success">Retour</a>
+        
+        </td></tr>
+                       
+                       
+                    </table>
+    
+</form>     
+    
      
   
                                     

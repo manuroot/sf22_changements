@@ -1,63 +1,21 @@
 <form  class="form" action="{{ path('changements_post') }}" method="POST" {{ form_enctype(search_form) }}>
        <table class="table-mybordered">
-
-            <tr><td class="calendar">
-                
-                             
-    {{ form_errors(search_form.nom) }}
-    {{ form_label(search_form.nom, 'Nom'|trans) }}
-    {{ form_widget(search_form.nom) }}
-                     
-                        
-    {{ form_errors(search_form.ticketExt) }}
-    {{ form_label(search_form.ticketExt, 'Ticket Externe'|trans) }}
-    {{ form_widget(search_form.ticketExt) }}
-                        
-     {{ form_errors(search_form.ticketInt) }}
-    {{ form_label(search_form.ticketInt, 'Ticket Interne'|trans) }}
-    {{ form_widget(search_form.ticketInt) }}
-                        
-  
-                        
-    {{ form_errors(search_form.dateDebut) }}
-    {{ form_label(search_form.dateDebut, 'Date De Début'|trans) }}
-    {{ form_widget(search_form.dateDebut) }}
-                        
-    {{ form_errors(search_form.dateFin) }}
-    {{ form_label(search_form.dateFin, 'Date De Fin'|trans) }}
-    {{ form_widget(search_form.dateFin) }}
-  
-    
-    
-                        
+           <tr><td class="calendar">
+    {{ form_row(search_form.nom) }}
+    {{ form_row(search_form.ticketExt) }}
+     {{ form_row(search_form.ticketInt) }}
+    {{ form_row(search_form.dateDebut) }}
+    {{ form_row(search_form.dateFin) }}
     </td>
  <td class="calendar">
-    
-   {{ form_errors(search_form.idStatus) }}
-    {{ form_label(search_form.idStatus) }}
-    {{ form_widget(search_form.idStatus) }}                                        
+   
+ {{ form_row(search_form.idStatus) }}
 {{ form_rest(search_form) }}
-
   </td>
    </tr>
    <tr><td class="calendar" colspan="2">
             
      <button id="filter" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="filter" >
           <i class="icon-search"></i>  Filtrer</button>
-  {#  <button type="submit" name="submit-filter" class="btn btn-medium btn-danger" value="reset" >
-         <i class="icon-minus-sign"></i>  Reset</button>#}
-         </td></tr></tbody></table>
+          </td></tr></tbody></table>
  </form>
-
-
-
-{#
-<div class="input-append">
-    <input name="search" id="search"/>
-    <button class="btn">button</button>
-</div>#}
-
-{#
-  <input name="search" id="search"/>
-    <button class="btn">button</button>
-#}

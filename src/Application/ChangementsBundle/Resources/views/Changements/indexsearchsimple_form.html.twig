@@ -2,43 +2,25 @@
    <table class="table-mybordered">
 
     <tr><td class="calendar">
-    {{ form_errors(search_form.nom) }}
-    {{ form_label(search_form.nom, 'Nom'|trans) }}
-    {{ form_widget(search_form.nom) }}
-    <br/>
-    {{ form_errors(search_form.description) }}
-    {{ form_label(search_form.description, 'Description'|trans) }}
-    {{ form_widget(search_form.description) }}
-  <br>
-     {{ form_errors(search_form.idusers) }}
-    {{ form_label(search_form.idusers) }}
-    {{ form_widget(search_form.idusers) }}
+    {{ form_row(search_form.nom) }}
+      <br/>
+    {{ form_row(search_form.description) }}
+   <br><br>
+     {{ form_row(search_form.idusers) }}
     </td>
     <td class="calendar"> 
-    {{ form_errors(search_form.dateDebut) }}
-    {{ form_label(search_form.dateDebut, 'Date Début Min'|trans) }}
-    {{ form_widget(search_form.dateDebut) }}
-                        <br><br>
-    {{ form_errors(search_form.dateDebut_max) }}
-    {{ form_label(search_form.dateDebut_max, 'Date Début Max'|trans) }}
-    {{ form_widget(search_form.dateDebut_max) }}
-                             <br><br>
-    {{ form_errors(search_form.dateFin) }}
-    {{ form_label(search_form.dateFin, 'Date Fin Min'|trans) }}
-    {{ form_widget(search_form.dateFin) }}
-             <br><br>
-    {{ form_errors(search_form.dateFin_max) }}
-    {{ form_label(search_form.dateFin_max, 'Date Fin Max'|trans) }}
-    {{ form_widget(search_form.dateFin_max) }}
+    {{ form_row(search_form.dateDebut) }}
+    <br><br>
+    {{ form_row(search_form.dateDebut_max) }}
+    <br><br>
+    {{ form_row(search_form.dateFin) }}
+    <br><br>
+    {{ form_row(search_form.dateFin_max) }}
+    <br><br>
+    {{ form_row(search_form.ticketExt) }}
            <br><br>
-    {{ form_errors(search_form.ticketExt) }}
-    {{ form_label(search_form.ticketExt, 'Ticket Externe'|trans) }}
-    {{ form_widget(search_form.ticketExt) }}
-                            <br><br>
-    {{ form_errors(search_form.ticketInt) }}
-    {{ form_label(search_form.ticketInt, 'Ticket Interne'|trans) }}
-    {{ form_widget(search_form.ticketInt) }} 
-    </td>
+    {{ form_row(search_form.ticketInt) }}
+     </td>
     <td class="calendar">
     {{ form_rest(search_form) }}</td>
     </tr>

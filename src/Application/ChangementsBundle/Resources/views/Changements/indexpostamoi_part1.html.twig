@@ -1,0 +1,23 @@
+        <div id="ShowHideContainer">
+
+            <form id="target" class="form-horizontal" action="{{ path('changements_posttest') }}" method="POST" {{ form_enctype(search_form) }}>
+                <a id="ShowHideButton">
+                    <button id="show" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
+                        <i class="icon-search"></i>  Afficher Filtres</button>
+                </a>
+                <button type="submit" id="reset" name="submit-filter" class="btn btn-medium btn-warning" value="reset" >
+                    <i class="icon-minus-sign"></i> Effacer Filtres</button>
+          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <a href="{{ path('changements_newflowstart') }}" class=" ajoutchange btn btn-medium btn-primary">
+                    <i class=" icon-plus"></i> Ajouter un Changement
+                </a>
+        {% endif %}
+
+            </form>
+
+            <div id="ShowHideBoxown" class="hidden">
+        {% include 'ApplicationChangementsBundle:Changements:indexsearchsimple_form.html.twig' %}
+                </div>
+            </div>
+
+  
