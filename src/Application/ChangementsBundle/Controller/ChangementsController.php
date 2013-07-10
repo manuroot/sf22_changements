@@ -214,6 +214,7 @@ class ChangementsController extends Controller {
             else {
                 // $message = "pas de session";
                 $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy(array());
+              
             }
 
             // 1 requete !!!!

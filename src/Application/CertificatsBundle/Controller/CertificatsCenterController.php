@@ -10,7 +10,9 @@ use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Application\CertificatsBundle\Entity\CertificatsCenter;
+use Application\CertificatsBundle\Entity\CertificatsActions;
 use Application\CertificatsBundle\Form\Certificats\CertificatsCenterType;
+use Application\CertificatsBundle\Form\CertificatsActionsType;
 use Application\CertificatsBundle\Form\Certificats\CertificatsCenterCheckType;
 use Application\CertificatsBundle\Form\Certificats\CertificatsCenterFiltresType;
 use APY\DataGridBundle\Grid\Source\Entity;
@@ -213,6 +215,11 @@ class CertificatsCenterController extends Controller {
     //public function editAction(Request $request, $id) {
     public function validatecheckcertAction(Request $request) {
 
+        
+        
+        $entity=new CertificatsActions();
+           $actionForm = $this->createForm(new CertificatsActionsType());
+     
         $vForm = $this->createForm(new CertificatsCenterCheckType());
         if ($request->getMethod() == 'POST') {
             $postData = $request->request->get('checkcert');
@@ -220,6 +227,7 @@ class CertificatsCenterController extends Controller {
             return $this->render('ApplicationCertificatsBundle:CertificatsCenter:checkcert.html.twig', array(
                         'datas' => $postData,
                         'form' => $vForm->createView(),
+                        'myform'=> $actionForm->createView(),
             ));
             // }
         }

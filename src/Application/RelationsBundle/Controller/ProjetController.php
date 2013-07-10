@@ -39,7 +39,8 @@ class ProjetController extends Controller {
      */
     public function indexAction() {
         $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('ApplicationRelationsBundle:Projet')->myFindAll();
+        $entities = $em->getRepository('ApplicationRelationsBundle:Projet')->findAll();
+      //  $entities = $em->getRepository('ApplicationRelationsBundle:Projet')->myFindAll();
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
                 $entities, $this->get('request')->query->get('page', 1)/* page number */, 15/* limit per page */
