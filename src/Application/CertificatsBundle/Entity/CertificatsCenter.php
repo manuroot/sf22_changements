@@ -38,7 +38,7 @@ class CertificatsCenter
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @GRID\Column(title="id", size="20", type="text",filter="false")
+     * @GRID\Column(title="id", size="20", type="text",filter="false",filterable=false)
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
@@ -184,12 +184,11 @@ class CertificatsCenter
      * @ORM\OrderBy({"nomapplis" = "ASC"})
      * @ORM\JoinTable(name="certificats_xapplis")
      *
-   *  @Grid\Column(type="text",title="Applis2",size="30",field="idapplis.nomapplis:GroupConcat",operators={"like"}, operatorsVisible=false, filterable=false,operatorsVisible=true,selectFrom="query")
-  
-      */
+     */
     private $idapplis;
     // agarder
-    //    @Grid\Column(type="text",title="Applis1",size="30",field="idapplis.nomapplis:GroupConcat",  selectExpanded=true , operatorsVisible=true,selectFrom="query")
+    //      *  @Grid\Column(type="text",title="Applis2",field="idapplis.nomapplis:GroupConcat",operators={"like"}, operatorsVisible=false, filterable=false,operatorsVisible=true,selectFrom="query")
+      //    @Grid\Column(type="text",title="Applis1",size="30",field="idapplis.nomapplis:GroupConcat",  selectExpanded=true , operatorsVisible=true,selectFrom="query")
     //    *  @Grid\Column(type="text",title="Applis2",size="30",field="idapplis.nomapplis:GroupConcat",joinType="inner",operators={"eq","neq","nlike","lt","like"}, operatorsVisible=true,selectFrom="query",groupBy={"id"})
   //  @Grid\Column(type="text",title="Applis1",size="30",field="idapplis.nomapplis",joinType="inner",selectFrom="values",groupBy={"id"})
     // @Grid\Column(type="extended_text",field="idapplis.nomapplis:GroupConcat", title="Applis",filter="select", selectMulti="false", )

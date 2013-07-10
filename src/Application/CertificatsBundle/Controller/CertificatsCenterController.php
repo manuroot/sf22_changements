@@ -547,8 +547,6 @@ class CertificatsCenterController extends Controller {
         // ajoute des messages flash
         $session->set('buttonretour', 'certificatscenter_viewapy');
         $source = new Entity('ApplicationCertificatsBundle:CertificatsCenter');
-
-
         $source->manipulateRow(
                 function ($row) {
                     // Don't show the row if the price is greater than $maxPrice
@@ -564,24 +562,6 @@ class CertificatsCenterController extends Controller {
                     return $row;
                 }
         );
-        /*         *   {% if date(value) < date('-30days') %}
-         */
-
-        /*    $source->manipulateRow(
-          function ($row)
-          {
-          //   if (date($row->getField('endTime')) < date('-30days')) {
-          if (date($row->getField('endTime')->format('Y-m-d')) < date('-30days')->) {
-          $row->setColor('#00ff00');
-          }
-
-
-          return $row;
-          }
-          ); */
-
-//$grid->setSource($source); 
-
         $grid = $this->container->get('grid');
         // Attach the source to the grid
         $grid->setSource($source);
