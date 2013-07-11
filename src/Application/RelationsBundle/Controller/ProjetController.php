@@ -8,19 +8,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Application\RelationsBundle\Entity\Projet;
 use Application\RelationsBundle\Form\ProjetType;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Pagerfanta\Pagerfanta;
-use Pagerfanta\Adapter\DoctrineORMAdapter;
-use Pagerfanta\Exception\NotValidCurrentPageException;
+
 use Application\CertificatsBundle\Entity\CertificatsCenter;
-use Application\CertificatsBundle\Form\CertificatsCenterType;
-use APY\DataGridBundle\Grid\Source\Entity;
-use APY\DataGridBundle\Grid\Grid;
-use APY\DataGridBundle\Grid\Column\ActionsColumn;
-use APY\DataGridBundle\Grid\Action\MassAction;
-use APY\DataGridBundle\Grid\Action\DeleteMassAction;
-use APY\DataGridBundle\Grid\Action\RowAction;
-use APY\DataGridBundle\Grid\Column\TextColumn;
-use APY\DataGridBundle\Grid\Column\DateColumn;
+
+
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
@@ -39,6 +30,10 @@ class ProjetController extends Controller {
      */
     public function indexAction() {
         $em = $this->getDoctrine()->getManager();
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        $session->set('buttonretour', 'projets');
+    
         $entities = $em->getRepository('ApplicationRelationsBundle:Projet')->findAll();
       //  $entities = $em->getRepository('ApplicationRelationsBundle:Projet')->myFindAll();
         $paginator = $this->get('knp_paginator');
@@ -57,7 +52,10 @@ class ProjetController extends Controller {
      */
     public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
-
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        $session->set('buttonretour', 'projets_show');
+    
         $entity = $em->getRepository('ApplicationRelationsBundle:Projet')->find($id);
         $changements = $em->getRepository('ApplicationChangementsBundle:Changements')->findByIdProjet($id);
         $applis = $entity->getIdapplis();
@@ -196,37 +194,5 @@ class ProjetController extends Controller {
                         ->getForm()
         ;
     }
-   // A ameliorer: recup par l'entity !!!
-
-   public function downloadAction($filename) {
-        $request = $this->get('request');
-        $session = $request->getSession();
-
-        $path = $this->get('kernel')->getRootDir() . "/../web/uploads/documents/";
-
-        // Flush in "safe" mode to enforce an Exception if keys are not unique
-
-        if (!file_exists($path . $filename)) {
-            $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas (code 1)");
-            return $this->redirect($this->generateUrl('docchangements'));
-        }
-
-        try {
-            $content = file_get_contents($path . $filename);
-        } catch (\ErrorException $e) {
-            $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas (code 2)");
-            return $this->redirect($this->generateUrl('docchangements'));
-        }
-
-      $response = new Response();
-
-        //set headers
-        $response->headers->set('Content-Type', 'mime/type');
-        $response->headers->set('Content-Disposition', 'attachment;filename="' . $filename);
-        //$session = $this->getRequest()->getSession();
-        $session->getFlashBag()->add('notice', "Le fichier $filename a ete téléchargé");
-
-        $response->setContent($content);
-        return $response;
-    }
+  
 }

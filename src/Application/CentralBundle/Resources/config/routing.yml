@@ -1,3 +1,9 @@
+download_route:
+    pattern:  /download/{filename}
+    defaults: { _controller: ApplicationCentralBundle:Default:download } 
+    
 application_central_homepage:
     pattern:  /hello/{name}
     defaults: { _controller: ApplicationCentralBundle:Default:index }
+    
+ 

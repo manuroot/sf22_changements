@@ -180,22 +180,8 @@ class DocchangementsController extends Controller {
                     'delete_form' => $deleteForm->createView(),
                 ));
     }
-/*  $projets = $entity->getIdprojets();
 
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new ApplisType(), $entity);
-        // A verifier => not owning side !!!
-        $request = $this->getRequest();
-        if ($request->getMethod() === 'POST') {
-            $editForm->bind($request);
-
-            if ($editForm->isValid()) {
-            foreach ($entity->getIdprojets() AS $projet) {
-                    //$projet->addIdappli($entity);
-                    $projet->addIdappli($entity);
- * 
- */
-    
+        
     /**
      * Deletes a Docchangements entity.
      *

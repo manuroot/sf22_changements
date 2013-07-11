@@ -641,6 +641,10 @@ class ChangementsController extends Controller {
 
     public function showXhtmlAction($id) {
         $em = $this->getDoctrine()->getManager();
+        $session = $this->getRequest()->getSession();
+        // ajoute des messages flash
+        $session->set('buttonretour', 'changements_showXhtml');
+    
 
         $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
 
@@ -871,53 +875,6 @@ class ChangementsController extends Controller {
         return $this->render('ApplicationChangementsBundle:Changements:upload.html.twig', array(
                     'form' => $form->createView(),
                 ));
-    }
-
-    // A ameliorer: recup par l'entity !!!
-
-    public function downloadAction($filename) {
-        $request = $this->get('request');
-        $session = $request->getSession();
-
-        $path = $this->get('kernel')->getRootDir() . "/../web/uploads/documents/";
-
-        // Flush in "safe" mode to enforce an Exception if keys are not unique
-
-        if (!file_exists($path . $filename)) {
-            $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas (code 1)");
-            return $this->redirect($this->generateUrl('docchangements'));
-        }
-
-        try {
-            $content = file_get_contents($path . $filename);
-        } catch (\ErrorException $e) {
-            $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas (code 2)");
-            return $this->redirect($this->generateUrl('docchangements'));
-        }
-
-
-        //catches all exceptions extended from Exception (which is everything)
-
-
-
-        /*  if (!$data = file_get_contents(file_get_contents($path.$filename))) {
-          $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas: contacter l'administrateur");
-          return $this->redirect($this->generateUrl('docchangements'));
-          //  $content = file_get_contents($path.$filename);
-          //if (!isset($content)){
-
-          } */
-
-        $response = new Response();
-
-        //set headers
-        $response->headers->set('Content-Type', 'mime/type');
-        $response->headers->set('Content-Disposition', 'attachment;filename="' . $filename);
-        //$session = $this->getRequest()->getSession();
-        $session->getFlashBag()->add('notice', "Le fichier $filename a ete téléchargé");
-
-        $response->setContent($content);
-        return $response;
     }
 
     public function TicketAjaxAction(Request $request) {

@@ -84,8 +84,6 @@ changements_newflow:
     pattern:  /newflow
     defaults: { _controller: "ApplicationChangementsBundle:Changements:newflow" }
     
-download_route:
-    pattern:  /download/{filename}
-    defaults: { _controller: ApplicationChangementsBundle:Changements:download }  
+
  
     

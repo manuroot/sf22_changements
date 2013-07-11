@@ -10,6 +10,11 @@ application_certificats:
     resource: "@ApplicationCertificatsBundle/Resources/config/routing.yml"
     prefix:   /
 
+central_routes:
+    resource: "@ApplicationCentralBundle/Resources/config/routing.yml"
+    prefix:   /
+   
+   
 admin_myuser:
     resource: '@ApplicationSonataUserBundle/Resources/config/routing.yml'
     prefix: /
