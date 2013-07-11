@@ -829,7 +829,7 @@ ORDER BY
     
     public function setIdEnvironnement(\Application\RelationsBundle\Entity\Environnements $idEnvironnement = null)
     {
-        $this->project = $idEnvironnement;
+        $this->idEnvironnement = $idEnvironnement;
     
         return $this;
     }

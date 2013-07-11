@@ -78,12 +78,25 @@ class CertificatsCenterFiltresType extends AbstractType {
                 
                
                 ->add('project', 'filter_entity', array(
+                     'label'=>'Projets',
                     'class' => 'Application\RelationsBundle\Entity\Projet',
                      'query_builder' => function(EntityRepository $em) {
                 return $em->createQueryBuilder('u')
                                 ->orderBy('u.nomprojet', 'ASC');
             },
                     'property' => 'nomprojet',
+                    'expanded' => false,
+                    'multiple' => false,
+                ))
+                  
+                   ->add('idEnvironnement', 'filter_entity', array(
+                       'label'=>'Environnements',
+                    'class' => 'Application\RelationsBundle\Entity\Environnements',
+                     'query_builder' => function(EntityRepository $em) {
+                return $em->createQueryBuilder('u')
+                                ->orderBy('u.nom', 'ASC');
+            },
+                    'property' => 'nom',
                     'expanded' => false,
                     'multiple' => false,
                 ))

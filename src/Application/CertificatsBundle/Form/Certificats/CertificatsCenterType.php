@@ -36,6 +36,8 @@ class CertificatsCenterType extends AbstractType {
                         'type' => 'prepend'
                     ),))
                  ->add('description','textarea',array(
+                    'label' => 'Description',
+                     'required' => false,
                     'widget_addon' => array(
                         'icon' => 'lock',
                         'type' => 'prepend'
@@ -175,7 +177,7 @@ class CertificatsCenterType extends AbstractType {
                     },
                     'property' => 'nomUser',
                     'multiple' => false,
-                    'required' => true,
+                    'required' => false,
                     'label' => 'Demandeur',
                     'empty_value' => '--- Choisir une option ---'
                 ));
@@ -219,7 +221,7 @@ class CertificatsCenterType extends AbstractType {
             },
             'property' => 'nomapplis',
             'multiple' => true,
-            'required' => true,
+            'required' => false,
             'label' => 'Applications'
         ));
     }
