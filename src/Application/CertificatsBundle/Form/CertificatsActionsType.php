@@ -12,10 +12,10 @@ class CertificatsActionsType extends AbstractType {
         $builder
                 ->add('nom', 'entity', array(
                     'class' => 'Application\CertificatsBundle\Entity\CertificatsActions',
-                    'query_builder' => function(EntityRepository $em) {
+                   /* 'query_builder' => function(EntityRepository $em) {
                         return $em->createQueryBuilder('u')
                                 ->orderBy('u.nom', 'ASC');
-                    },
+                    },*/
                     'multiple' => true,
                     'property' => 'nom',
                     'label' => 'Nom Operation',

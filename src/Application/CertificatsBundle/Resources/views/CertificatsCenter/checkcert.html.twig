@@ -42,12 +42,12 @@
         <a href="{{ path('certificatscenter_new') }}" class="btn btn-medium btn-primary">Ajouter Certificat</a>
 {% endif %}
         <br> <br>  
-
+{#
         
   <form class="form-horizontal" action="{{ path('certificatscenter_validatecert') }}" method="post" {{ form_enctype(myform) }}>
           {{ form_rest(myform) }}
   </form>
-        
+ #}       
         <form class="form-horizontal" action="{{ path('certificatscenter_validatecert') }}" method="post" {{ form_enctype(form) }}>
 
    <br><br>

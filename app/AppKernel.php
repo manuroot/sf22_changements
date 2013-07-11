@@ -79,7 +79,8 @@ class AppKernel extends Kernel {
               new FOS\JsRoutingBundle\FOSJsRoutingBundle()
            
          
-
+,
+            new Application\CentralBundle\ApplicationCentralBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -4,15 +4,20 @@ namespace Application\CertificatsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use APY\DataGridBundle\Grid\Mapping as GRID;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
+/*
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\MinLength;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Choice;
-use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints\Date;*/
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Application\RelationsBundle\Entity\Projet;
 use Application\RelationsBundle\Entity\Applis;
 use Application\RelationsBundle\Entity\FileType;
+
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * CertificatsCenter
@@ -20,9 +25,13 @@ use Application\RelationsBundle\Entity\FileType;
  * @ORM\Table(name="certificats_center")
  * @ORM\Entity(repositoryClass="Application\CertificatsBundle\Entity\CertificatsCenterRepository")
  * @ORM\HasLifecycleCallbacks()
-* @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,typeCert.fileType,idapplis.nomapplis:AtGroupConcat",groupBy={"id"}) 
-*/
-//* @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,typeCert.fileType,idapplis.nomapplis:GroupConcat:distinct",groupBy={"id"}) 
+ * @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,typeCert.fileType,idapplis.nomapplis:GroupConcat",groupBy={"id"}) 
+ */
+
+
+// * @GRID\Source(groupBy={"id"}) 
+// //* @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,typeCert.fileType,idapplis.nomapplis:GroupConcat",groupBy={"id"}) 
+//* @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,typeCert.fileType,idapplis.nomapplis:GroupConcat",groupBy={"id"}) 
 class CertificatsCenter
 {
     /**
@@ -30,7 +39,7 @@ class CertificatsCenter
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @GRID\Column(title="id", size="20", type="text",filter="false")
+     * @GRID\Column(title="id", size="20", type="text",filter="false",filterable=false)
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
@@ -39,7 +48,15 @@ class CertificatsCenter
      * @var string
      *
      * @ORM\Column(name="file_name", type="string", length=50, nullable=false)
-     * @GRID\Column(title="Nom", size="100", type="text")
+     * @Assert\Length(
+     *      min = "5",
+     *      max = "50",
+     *      minMessage = "Your name must be at least {{ limit }} characters length |
+     *  Au minimum {{ limit }} caracteres",
+     *      maxMessage = "filenamee cannot be longer than than {{ limit }} characters length |
+     *  fichier: au maximum {{ limit }} caracteres"
+     * )
+     * @GRID\Column(title="Nom", size="50", type="text")
      */
     private $fileName;
 
@@ -122,6 +139,15 @@ class CertificatsCenter
      */
     private $statusFile;
 
+    
+      /**
+     * @var boolean
+     *
+     * @ORM\Column(name="warning_file", type="boolean", nullable=true)
+     */
+    private $warningFile;
+    
+    
   /**
      * @var \Projet
      *
@@ -136,9 +162,30 @@ class CertificatsCenter
     private $project;
 
      /**
-     * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media")
+      * 
+     * @ORM\OneToOne(targetEntity="\Application\CertificatsBundle\Entity\CertificatsFiles",inversedBy = "certificats",cascade={"persist"}), 
+     * @ORM\JoinColumn(name = "fichier", nullable = true, referencedColumnName = "id")
      */
-    protected $picture;
+    protected $fichier;
+    
+      /**
+     * @Assert\File(
+     *     maxSize="1M",
+     *     mimeTypes={"image/png", "image/jpeg", "image/pjpeg"}
+     * )
+     * @Vich\UploadableField(mapping="product_image", fileNameProperty="imageName")
+     *
+     * @var File $image
+     */
+    protected $image;
+
+    /**
+     * @ORM\Column(type="string", length=255, name="image_name")
+     *
+     * @var string $imageName
+     */
+    protected $imageName;
+    
     
     //* @OrderBy({"name" = "ASC"})
     /**
@@ -154,20 +201,74 @@ class CertificatsCenter
     private $typeCert;
 
      /**
-      * @var string
+     * @var Doctrine\Common\Collections\ArrayCollection
      * @ORM\ManyToMany(targetEntity="\Application\RelationsBundle\Entity\Applis", inversedBy="idprojets",cascade={"persist"})
      * @ORM\OrderBy({"nomapplis" = "ASC"})
      * @ORM\JoinTable(name="certificats_xapplis")
-     * @Grid\Column(type="extended_text",field="idapplis.nomapplis:AtGroupConcat", title="Cities",filter="select", selectMulti="true", selectFrom="values")
+     *
      */
     private $idapplis;
+    // agarder
+    //      *  @Grid\Column(type="text",title="Applis2",field="idapplis.nomapplis:GroupConcat",operators={"like"}, operatorsVisible=false, filterable=false,operatorsVisible=true,selectFrom="query")
+      //    @Grid\Column(type="text",title="Applis1",size="30",field="idapplis.nomapplis:GroupConcat",  selectExpanded=true , operatorsVisible=true,selectFrom="query")
+    //    *  @Grid\Column(type="text",title="Applis2",size="30",field="idapplis.nomapplis:GroupConcat",joinType="inner",operators={"eq","neq","nlike","lt","like"}, operatorsVisible=true,selectFrom="query",groupBy={"id"})
+  //  @Grid\Column(type="text",title="Applis1",size="30",field="idapplis.nomapplis",joinType="inner",selectFrom="values",groupBy={"id"})
+    // @Grid\Column(type="extended_text",field="idapplis.nomapplis:GroupConcat", title="Applis",filter="select", selectMulti="false", )
 //@Grid\Column(field="tags.name:count:distinct", title="Tags") 
+    // * @GRID\Column(field="category.name", title="Category Name", joinType="inner")
+    // @GRID\Column(field="category.name", title="Category Name")
+     // @GRID\Column(field="category.firstChild.name", title="Category first child")
+     // @GRID\Column(field="category.tags", type="array", title="Category tags")
     
+    
+      /**
+     * @var \ChronoUser
+     *
+     * @ORM\ManyToOne(targetEntity="Application\RelationsBundle\Entity\ChronoUser")
+     * @ORM\OrderBy({"nomUser" = "ASC"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="demandeur", referencedColumnName="id")
+     * })
+     * @GRID\Column(field="demandeur.nomUser", title="Demandeur",size="20",filter="select",selectFrom="query")
+    */
+    private $demandeur;
+
+      /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=200, nullable=true)
+     */
+    private $description;
+    
+     /**
+     * Set description
+     *
+     * @param string $description
+     * @return Serveurs
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
    public function __construct()
   {
     $this->addedDate = new \DateTime('now');
     $this->updatedDate = new \DateTime('now');
     $this->statusFile = true;
+    $this->warningFile = false;
     
   }
     /**
@@ -436,7 +537,30 @@ class CertificatsCenter
     {
         return $this->statusFile;
     }
+    
+    
+   /**
+    *  Set statusFile
+     *
+     * @param boolean $statusFile
+     * @return CertificatsCenter
+     */
+    public function setWarningFile($warningFile)
+    {
+        $this->warningFile = $warningFile;
+    
+        return $this;
+    }
 
+    /**
+     * Get warningFile
+     *
+     * @return boolean 
+     */
+    public function getWarningFile()
+    {
+        return $this->warningFile;
+    }
     /**
      * Set typeCert
      *
@@ -487,8 +611,8 @@ class CertificatsCenter
     
  public static function loadValidatorMetadata(ClassMetadata $metadata) {
         //nom
-        $metadata->addPropertyConstraint('fileName', new NotBlank());
-        $metadata->addPropertyConstraint('fileName', new MinLength(5));
+      //  $metadata->addPropertyConstraint('fileName', new NotBlank());
+     //   $metadata->addPropertyConstraint('fileName', new MinLength(5));
       //   $metadata->addPropertyConstraint('endTime', new Assert\Date());
        /* $metadata->addConstraint(new UniqueEntity(array(
             "fields" => "fileName", 
@@ -539,29 +663,7 @@ class CertificatsCenter
         return $this->idapplis;
     }
 
-    /**
-     * Set picture
-     *
-     * @param \Application\Sonata\MediaBundle\Entity\Media $picture
-     * @return CertificatsCenter
-     */
-    public function setPicture(\Application\Sonata\MediaBundle\Entity\Media $picture = null)
-    {
-        $this->picture = $picture;
-    
-        return $this;
-    }
-
-    /**
-     * Get picture
-     *
-     * @return \Application\Sonata\MediaBundle\Entity\Media 
-     */
-    public function getPicture()
-    {
-        return $this->picture;
-    }
-    
+   
     /**
      * @ORM\PreUpdate
      */
@@ -578,5 +680,86 @@ class CertificatsCenter
 
 
           } */
+    }
+    
+     /**
+     * Set demandeur
+     *
+     * @param \Application\ChangementsBundle\Entity\ChronoUser $demandeur
+     * @return Changements
+     */
+    public function setDemandeur(\Application\RelationsBundle\Entity\ChronoUser $demandeur = null)
+    {
+        $this->demandeur = $demandeur;
+    
+        return $this;
+    }
+
+    /**
+     * Get idProject
+     *
+     * @return \Application\RelationsBundle\Entity\ChronoUser 
+     */
+    public function getDemandeur()
+    {
+        return $this->demandeur;
+    }
+    /*
+     * SELECT 
+  c0_.id AS id0, 
+  c0_.nom AS nom1, 
+  c0_.date_debut AS date_debut2, 
+  c0_.date_fin AS date_fin3, 
+  c1_.nomprojet AS nomprojet4, 
+  c2_.nom_user AS nom_user5, 
+  GROUP_CONCAT(distinct e3_.nom) AS sclr6 
+FROM 
+  changements_main c0_ 
+  LEFT JOIN certificats_projet c1_ ON c0_.id_projet = c1_.id 
+  LEFT JOIN chrono_user c2_ ON c0_.demandeur = c2_.id 
+  LEFT JOIN changements_environnements c4_ ON c0_.id = c4_.changements_id 
+  LEFT JOIN environnement e3_ ON e3_.id = c4_.environnements_id 
+GROUP BY 
+  c0_.id 
+HAVING sclr6 LIKE '%prod%'
+ORDER BY 
+  c0_.id DESC 
+     */
+
+    
+    
+    
+     /**
+     * Add fichier
+     *
+     * @param \Application\CertificatsBundle\Entity\CertificatsFiles $fichier
+     * @return CertificatsFiles
+     */
+    public function addFichier(\Application\CertificatsBundle\Entity\CertificatsFiles $fichier) {
+        $this->fichier = $fichier;
+
+        return $this;
+    }
+    /**
+     * Set fichier
+     *
+     * @param \Application\CertificatsBundle\Entity\CertificatsFiles $fichier
+     * @return CertificatsCenter
+     */
+    public function setFichier(\Application\CertificatsBundle\Entity\CertificatsFiles $fichier = null)
+    {
+        $this->fichier = $fichier;
+    
+        return $this;
+    }
+
+    /**
+     * Get fichier
+     *
+     * @return \Application\CertificatsBundle\Entity\CertificatsFiles 
+     */
+    public function getFichier()
+    {
+        return $this->fichier;
     }
 }

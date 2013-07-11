@@ -1,0 +1,7 @@
+parameters:
+#    application_central.example.class: Application\CentralBundle\Example
+
+services:
+#    application_central.example:
+#        class: %application_central.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

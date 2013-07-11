@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\HttpFoundation\File\File;
 
 class CertificatsCenterType extends AbstractType {
 
@@ -65,12 +66,13 @@ class CertificatsCenterType extends AbstractType {
                 
                   ->add('warningFile', 'checkbox', array('label' => 'Activer le Warning','required' => false))
                 
-               // ->add('picture', array(), array('edit' => 'list', 'link_parameters' => array('context' => 'symbols')))
-                /*
-->add('picture', 'sonata_type_model_list', array('required' => false),
+               // ->add('picture')
+               // , array(), array('edit' => 'list', 'link_parameters' => array('context' => 'symbols')))
+              
+/*->add('picture', 'sonata_type_model_list', array('required' => false),
                    array('link_parameters'=>array('context'=>'default',
-                   'provider'=>'sonata.media.provider.image')))*/
-        
+                   'provider'=>'sonata.media.provider.image')))
+        */
         
         
          ->add('startDate', 'date', array(
@@ -103,7 +105,40 @@ class CertificatsCenterType extends AbstractType {
                 'type' => 'prepend'
             ),
         ));
+         $builder->add('image', 'file', array(
+                    'data_class' => 'Symfony\Component\HttpFoundation\File\File',
+                    'property_path' => 'image',
+                    'required' => false,
+                ));
+              //    $builder->add('imageName','file');
+        //
+       //        ->add('fichier','file');
         
+        
+         /* ->add('fichier', 'file', array(
+                          'data_class' => 'new CertificatsFiles',
+                          ));*/
+                  
+                   //    ->add('fichier', new CertificatsFilesType());
+        
+      //  ->add('fichier','file');
+        /*,'entity', array(
+            'class' => 'Application\RelationsBundle\Entity\Filetype',
+             'property' => 'FileType',
+            'multiple' => false,
+            'required' => true,
+            'label' => 'Type',
+            'empty_value' => '--- Choisir une option ---'
+        ))*/
+      //  ->add('fichier', 'file');
+        /*, array(
+                    'type' => new DocfichierType(),
+                    'allow_add' => true,
+                    'by_reference' => false,
+                    'allow_delete' => true,
+                   /*'attr' => array(
+                'class' => 'span5'
+            )*/
         
         
         /*

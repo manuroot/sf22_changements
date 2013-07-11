@@ -1,18 +1,59 @@
 <?php
 
-namespace Application\CertificatsBundle\Fonctions;
+namespace Application\CertificatsBundle\Model;
 
-class Openssl {
+class MyOpenSsl {
 
-    private $private_key;
-    private $csr_key;
-    private $req_cert;
-    private $dn_default;
-    private $req_csr;
+    private $fichiers;
+    private $operations;
 
-    //private $SSLcnf;
+    public function __construct() {
+        $this->operations = $this->Operations();
+        $this->fichiers = $this->Fichiers();
+    }
+
+    public function getOperations() {
+        return $this->operations;
+    }
+
+    public function getFichiers() {
+        return $this->fichiers;
+    }
+
+    protected function Fichiers() {
+
+        return array(
+            'Certificats(crt)',
+            'Certificats(pem)',
+            'Autorité(crt)',
+            'Autorité(pem)',
+        );
+    }
+
+    protected function Operations() {
+        $liste_operations_certificat = array(
+            'View csr' => 'View csr',
+            'View crt' => 'View crt',
+            'View der' => 'View der',
+            'View bundle' => 'View bundle',
+            'View key' => 'View key',
+            'View p12' => 'View p12',
+            'View crl' => 'View crl',
+            'Check crt/key' => 'check crt/key',
+            'Create p12' => 'Create p12',
+            'Bundle crt/key' => 'Bundle crt/key',
+            'Decrypt priv_key' => 'Decrypt priv_key',
+            'Convert der->pem' => 'Convert der->pem',
+            'Convert pem->der' => 'Convert pem->der',
+            'Convert p12->crt/key' => 'Convert p12->crt/key',
+            'Parse x509' => 'Parse x509',
+                //'Download p12'=> 'Download p12',
+        );
+        return array_keys($liste_operations_certificat);
+    }
+
 //===============================
-    private function print_element($item, $key, $nom_array = 'temp') {
+    public function print_element($item, $key, $nom_array = 'temp') {
 //===============================
         if (is_array($item)) {
             echo "$key is Array:\n<br>";
@@ -23,14 +64,8 @@ class Openssl {
         }
     }
 
-    public function __construct() {
-        // TOUS LES ATTRIBUTS EN PRIVÉ 
-
-
-    }
-
 //===============================
-    private function Affiche_RetVal($retval, $output) {
+    public function Affiche_RetVal($retval, $output) {
 //===============================
 
         print "<br>#==========================<br>";
@@ -57,7 +92,7 @@ class Openssl {
     }
 
 //===============================
-    private function asn1der_ia5string($str) {
+    public function asn1der_ia5string($str) {
 //===============================
         $len = strlen($str) - 2;
         if ($len < 0 && $len > 127) {
@@ -75,7 +110,7 @@ class Openssl {
     }
 
 //===============================
-    private function execCommand($IP, $Command) {
+    public function execCommand($IP, $Command) {
 //===============================
         exec('sudo -H -u chris ssh utest@' . escapeshellcmd($IP) . ' "' . escapeshellcmd($Command) . ' 2>&1"', $output, $retval);
         if ($retval == 0) {
@@ -88,12 +123,12 @@ class Openssl {
     }
 
 //===============================
-    private function OpenSSL($p12, $pass) {
+    public function OpenSSL($p12, $pass) {
 //===============================
     }
 
 //===============================
-    private function Convert_p12tocertificat($p12, $pass, $dest_crt = '/tmp/tmp.crt') {
+    public function Convert_p12tocertificat($p12, $pass, $dest_crt = '/tmp/tmp.crt') {
 //===============================
         $file = basename($p12);
 //$dir = dirname($p12);
@@ -109,21 +144,15 @@ class Openssl {
     }
 
 //===============================
+    public function Convert_p12topem($p12, $pass, $dest_key = 'key', $dest_crt = 'crt') {
 //===============================
-    private function Convert_p12topem($p12, $pass, $dest_key = 'key', $dest_crt = 'crt') {
-//===============================
-        if (Test_value_file($p12) != TRUE) {
-            return array(FALSE, NULL);
-        }
         $file = basename($p12);
 //$dir = dirname($p12);
         $info = pathinfo($file);
         $file_name = basename($file, '.' . $info['extension']);
-        list($reponse_crt, $newcrt) = Test_And_Rename_File("${dest_crt}/${file_name}.crt");
-        list($reponse_key, $newkey) = Test_And_Rename_File("${dest_key}/${file_name}.key");
-        if (!$reponse_crt || !$reponse_key) {
-            return array(FALSE, NULL, NULL);
-        }
+        /* if ( ! isset($pass) || "$var"=="test" ) {
+          echo "$pass est définie même si elle est vide ou par default";
+          } */
         print "<h3>Decrypt_key</h3>";
         print "openssl pkcs12 -in $p12 -passin pass:$pass -out ${dest_crt}/${file_name}.crt -nodes -nokeys";
         $output = shell_exec("(/usr/bin/openssl pkcs12 -in $p12 -passin pass:$pass -out ${dest_crt}/${file_name}.crt -nodes -nokeys) 2>&1");
@@ -131,16 +160,19 @@ class Openssl {
         print "openssl pkcs12 -in $p12 -passin pass:$pass -out ${dest_key}/${file_name}.key -nodes -nocerts";
         $output = shell_exec("(openssl pkcs12 -in $p12 -passin pass:$pass -out ${dest_key}/${file_name}.key -nodes -nocerts) 2>&1");
         echo "<pre>$output</pre>";
-        return array(TRUE, "${dest_crt}/${file_name}.crt", "${dest_key}/${file_name}.key");
+        return array("${dest_crt}/${file_name}.crt", "${dest_key}/${file_name}.key");
     }
 
 //===============================
-    private function Decrypt_key_php($file, $pass, $sub_dir = 'key') {
+    public function Decrypt_key_php($file, $pass, $dir_default = '/var/www/upload', $sub_dir = 'key') {
 //===============================
-        if (!Test_value_file($file)) {
+        print "starting decrypt $file<br>";
+        if (is_file($file) && is_readable($file)) {
+            print "<br>Oki file $file exists<br>";
+        } else {
+            print "not readable or not a file";
             return array(FALSE, NULL);
         }
-        print "starting decrypt $file<br>";
 
         $priv_key = file_get_contents($file);
         print "key=<br>$priv_key<br>";
@@ -176,11 +208,8 @@ class Openssl {
     }
 
 //===============================
-    private function Read_p12($file, $pass, $var = 'test') {
+    public function Read_p12($file, $pass, $var = 'test') {
 //===============================
-        if (!Test_value_file($file)) {
-            return FALSE;
-        }
         $p12cert = array();
         $fd = fopen($file, 'r');
         $p12buf = fread($fd, filesize($file));
@@ -203,7 +232,7 @@ class Openssl {
     }
 
 //===============================
-    private function Return_Dates($name) {
+    public function Return_Dates($name) {
 //===============================
         $file_basename = basename($name);
         $info = pathinfo($name);
@@ -229,9 +258,8 @@ class Openssl {
     }
 
 //===============================
-    private function Return_CN_Cert($name) {
+    public function Return_CN_Cert($name) {
 //===============================
-
         global $def_data;
         $file_basename = basename($name);
         $info = pathinfo($name);
@@ -258,37 +286,8 @@ class Openssl {
     }
 
 //===============================
-    private function Test_value_file($name) {
+    public function View_Cert_php($name) {
 //===============================
-        if (!(isset($name)) || $name == '') {
-            print "Pas de fichier selectionné<br>";
-            return (FALSE);
-        }
-        $file = basename($name);
-#if (! file_exists($name)) {print "Le fichier $file n\'existe pas<br>"; return (FALSE);}
-        if (!file_exists($name)) {
-            print "Le fichier $file n\'existe pas<br>";
-            return (FALSE);
-        } else {
-            if (!is_file($name)) {
-                print "$file n\'est pas un fichier<br>";
-                return (FALSE);
-            } elseif (!is_readable($name)) {
-                print "$file n\'est pas lisible<br>";
-                return (FALSE);
-            } else {
-                print "<br>Tests $file OKI<br>";
-                return(TRUE);
-            }
-        }
-    }
-
-//===============================
-    private function View_Cert_php($name) {
-//===============================
-        if (Test_value_file($name) != TRUE) {
-            return FALSE;
-        }
         global $def_data;
         $file = basename($name);
         print "<h3>View Certificate</h3>";
@@ -381,12 +380,9 @@ class Openssl {
     }
 
 //===============================
-    private function Parse_x509($name) {
+    public function Parse_x509($name) {
 //===============================
 
-        if (Test_value_file($name) != TRUE) {
-            return FALSE;
-        }
         $file_basename = basename($name);
         $info = pathinfo($name);
         $data = file_get_contents($name);
@@ -418,11 +414,9 @@ class Openssl {
     }
 
 //===============================
-    private function Check_Cert_ca($name_cert, $name_ca) {
+    public function Check_Cert_ca($name_cert, $name_ca) {
 //===============================
-        if (Test_value_file($name_cert) != TRUE || Test_value_file($name_ca) != TRUE) {
-            return FALSE;
-        }
+
         $file_cert = basename($name_cert);
         $file_ca = basename($name_ca);
         print "<h3>Verify Certificate</h3>";
@@ -438,8 +432,9 @@ class Openssl {
     }
 
 //===============================
-    private function View_Cert($name) {
+    public function View_Cert($name) {
 //===============================
+
         $file = basename($name);
         print "<h3>View Certificate</h3>";
 
@@ -452,7 +447,7 @@ class Openssl {
     }
 
 //===============================
-    private function View_p12($name, $pass) {
+    public function View_p12($name, $pass) {
 //===============================
 //if ( ! isset($pass) || "$var"=="test" ) {
 //$pass='';
@@ -470,17 +465,13 @@ class Openssl {
     }
 
 //===============================
-    private function View_openssl($name, $what, $pass = '') {
+    public function View_openssl($name, $what, $pass = '', $rep = '/var/www/upload') {
 //===============================
         $cmd = '';
         $cmd1 = '';
         $file = basename($name);
         $dir = dirname($name);
         $info = pathinfo($file);
-        if (Test_value_file($name) != TRUE) {
-            print "Erreur de fichier<br>";
-            return FALSE;
-        }
         $file_name = basename($file, '.' . $info['extension']);
 //print "pass=$pass<br>";
         print "<h3>$what</h3>";
@@ -490,19 +481,11 @@ class Openssl {
             case "View csr":
                 $cmd = ' req -noout -text ';
                 break;
-            case "View crl":
-                $cmd = ' crl -noout -text ';
-                break;
             case "View p12":
                 // openssl pkcs12 -info -nodes -in cred.p12
                 $cmd = ' pkcs12 -info -nodes ';
                 break;
             case "View key":
-                exec('cat ' . escapeshellcmd($name) . ' 2>&1', $output, $retval);
-                $retval .="<br>";
-                Affiche_RetVal($retval, $output);
-                unset($retval);
-                unset($output);
                 $cmd = ' rsa -noout -text ';
                 break;
             case "View ac_crt":
@@ -538,13 +521,10 @@ class Openssl {
     }
 
 ///===============================
-    private function Create_p12_php($crt, $key, $pass_cert, $pass_p12, $extension_p12 = 'p12', $sub_dir_p12 = 'p12') {
+    public function Create_p12_php($crt, $key, $pass_cert, $pass_p12, $extension_p12 = 'p12', $dir_default = '/var/www/upload', $sub_dir_p12 = 'p12') {
 //===============================
         global $save;
-        if (Test_value_file($crt) != TRUE || Test_value_file($key) != TRUE) {
-            return array(FALSE, NULL);
-        }
-        //
+        echo "dir def=" . $dir_default . "<br>";
         echo "sub_dir=" . $sub_dir_p12 . "<br />";
         print "save=$save<br>";
         $var_key = array(file_get_contents("$key"), $pass_cert);
@@ -554,16 +534,14 @@ class Openssl {
             print "Error missing key/crt<br>";
             return array("Error missing key/crt<br>", NULL);
         }
+
         print "key=$key <br> cert=$crt<br>";
         $info = pathinfo($crt);
-        //   echo "dir def=" . $dir_default . "  sub_dir=" . $sub_dir_p12 . "<br />";
+        echo "dir def=" . $dir_default . "  sub_dir=" . $sub_dir_p12 . "<br />";
         $prefixe_p12 = basename($crt, '.' . $info['extension']);
         $file_p12 = $prefixe_p12 . '.' . $extension_p12;
-        $path = dirname($crt);
-        $full_dir_p12 = dirname($path) . '/' . $sub_dir_p12;
-
-        echo "fichier a tester:  ${full_dir_p12}/$file_p12 <br />";
-        list($reponse, $file) = Test_And_Rename_File("${full_dir_p12}/$file_p12");
+        echo "fichier a tester:  ${dir_default}${sub_dir_p12}/$file_p12 <br />";
+        list($reponse, $file) = Test_And_Rename_File("${dir_default}${sub_dir_p12}/$file_p12");
         print "Retour : file=$file <br>";
         /* a tester avant d exporter */
         $reponse = openssl_pkcs12_export_to_file($var_crt, $file, $var_key, $pass_p12);
@@ -577,34 +555,129 @@ class Openssl {
             print "return file: ${sub_dir_p12}/${file_basename}<br>";
             return array($reponse, $file_return);
         } else {
-            print "Erreur: Reponse de l\'export = $reponse<br>";
             return array($reponse, NULL);
         }
     }
 
-///===============================
-    private function Test_If_Bundle($file, $arr) {
-        $file_handle = fopen($file, "r");
-        $status = 0;
-        while (!feof($file_handle)) {
-            $line = fgets($file_handle);
-            foreach ($arr as $value) {
-                if (preg_match("/$value/", $line)) {
-                    ++$status;
-                }
-            }
-        }
-        fclose($file_handle);
-        echo "status=$status<br>";
-        if ($status >= 2) {
-            return TRUE;
-        } else {
-            return FALSE;
-        }
+//-------------------------------------------------------------
+    public function Create_Bundle($crt, $key, $dir_default = '/var/www/upload', $subdir = 'bundle') {
+//-------------------------------------------------------------
+//openssl x509 -in file.crt/key -noout -modulus
+        print "<h3>Create Bundle</h3>";
+        $file = basename($crt);
+        $path = $dir_default . $subdir;
+        $info = pathinfo($file);
+        $prefixe_name = basename($file, '.' . $info['extension']);
+
+//echo $file_name; // outputs 'image'
+
+
+        $file = $prefixe_name . '-bundle' . '.crt';
+//openssl_private_encrypt($source,$crypttext,$res)
+        print "file=$file<br>";
+        list($reponse, $newfile) = Test_And_Rename_File("$path/$file");
+
+        print "cat $crt $key > $newfile 2>&1";
+//$output = shell_exec("cat ${crt} $key > ${dir_default}/bundle/${file_name}-${add}.crt 2>&1");
+        $output = shell_exec("cat $crt $key > $newfile 2>&1");
+        exec('cat ' . escapeshellcmd($crt) . ' ' . escapeshellcmd($key) . ' > ' . escapeshellcmd($newfile) . ' 2>&1', $output, $retval);
+        Affiche_RetVal($retval, $output);
+
+        echo "<pre>$output</pre>";
+
+        $file_basename = basename($newfile);
+        print "basename file: $file_basename<br>";
+        print "sub_dir: $subdir<br>";
+        $file_return = $subdir . '/' . $file_basename;
+        print "return file: ${subdir}/${file_basename}<br>";
+
+        /* $part = explode("${dir_default}/", $newfile);
+          if (isset($part[1])){
+          $saved=$part[1];
+          } */
+        return array($reponse, $file_return);
+#return array($retval,$saved);
+//return array("oki ${file_name}-${add}.crt","bundle/${file_name}-${add}.crt");
     }
 
-///===============================
-    private function Save_Data($data, $file, $suffixe = 'zzz') {
+//-------------------------------------------------------------
+    public function Pem2XDer($file, $dir_default = '/var/www/upload', $subdir = 'bundle') {
+//-------------------------------------------------------------
+        print "starting conversion $file<br>";
+        print "default dir=${dir_default}<br>";
+        $saved = '';
+#$add = "-".date("Ymd-H-i");
+        if (is_file($file) && is_readable($file)) {
+            print "<br>Oki file $file exists<br>";
+        } else {
+            print "not readable or not a file";
+            return("false");
+        }
+        $pem_data = file_get_contents($file);
+        $begin = "CERTIFICATE-----";
+        $end = "-----END";
+        $pem_data = substr($pem_data, strpos($pem_data, $begin) + strlen($begin));
+        $pem_data = substr($pem_data, 0, strpos($pem_data, $end));
+#print $pem_data . '<br>';
+        $der = base64_decode($pem_data);
+
+//print "der=$der<br>";
+        list($reponse, $file) = Test_And_Rename_File($file, 'der');
+        print "Retour 1: file=$file <br>";
+        if ($reponse == "TRUE") {
+            print "<br>call save data for $file<br>";
+            list($reponse, $newfile, $mes) = Save_Data1($der, $file);
+        }
+
+        print "<br>New file=$newfile<br>";
+        $part = explode("${dir_default}/", $newfile);
+        if (isset($part[1])) {
+            $saved = $part[1];
+            print "file=$file return = $saved<br>";
+            echo "<h2>Creation de " . $saved . "</h2>";
+        } else {
+            $mess = "ERROR explode<br>";
+        }
+        return array($reponse, $saved);
+    }
+
+//-------------------------------------------------------------
+    public function Der2XPem($file, $dir_default = '/var/www/upload/') {
+//-------------------------------------------------------------
+        $saved = '';
+        print "starting conversion $file<br>";
+        print "default dir=${dir_default}<br>";
+        if (is_file($file) && is_readable($file)) {
+            print "<br>Oki file $file exists<br>";
+        }
+# else {print "$file: not readable or not a file";return("false");}
+        $der_data = file_get_contents($file);
+        $pem = chunk_split(base64_encode($der_data), 64, "\n");
+        $pem = "-----BEGIN CERTIFICATE-----\n" . $pem . "-----END CERTIFICATE-----\n";
+        print "$pem";
+        print "<br><br>";
+
+        list($reponse, $file) = Test_And_Rename_File($file, 'pem');
+        print "Retour 1: file=$file <br>";
+        if ($reponse == "TRUE") {
+            print "<br>call save data for $file<br>";
+            list($reponse, $newfile, $mes) = Save_Data1($pem, $file);
+            print "<br>retour new file=${newfile}<br>";
+            print "<br>sauvegarde des donnees au format pem<br>";
+        }
+
+        list($reponse, $saved, $message) = Save_Data($pem, $file, 'pem');
+        print "fic_saved = $saved<br>";
+        print $message . '<br>';
+        $part = explode($dir_default, $saved);
+        $saved = $part[1];
+        echo "<h2>Creation de  $saved</h2>";
+#print $pem . '<br>';
+        return array($reponse, $saved);
+    }
+
+//-------------------------------------------------------------
+    public function Save_Data($data, $file, $suffixe = 'zzz') {
 //-------------------------------------------------------------
 
         echo 'info' . pathinfo($file, PATHINFO_EXTENSION);
@@ -644,8 +717,9 @@ class Openssl {
         return array(true, "${dir}/${myfile}", 'write oki');
     }
 
-///===============================
-    private function Test_And_Rename_File($file, $extension_default = 'abc') {
+    /* ------------------------------------------------------------- */
+
+    public function Test_And_Rename_File($file, $extension_default = 'abc') {
 //-------------------------------------------------------------print "<br>Analise File: $file<br>";
         $file_basename = basename($file);
         $info = pathinfo($file);
@@ -703,9 +777,9 @@ class Openssl {
         return array(TRUE, "$path/$file");
     }
 
-///===============================
-///===============================
-    private function Save_Data1($data, $file) {
+    /* ------------------------------------------------------------- */
+
+    public function Save_Data1($data, $file) {
         /* ------------------------------------------------------------- */
         print "<br>#==========================<br>";
         print "Ecriture de $file";
@@ -728,18 +802,19 @@ class Openssl {
         return array(true, "$file", 'write oki');
     }
 
+    /* ====================================================
+      Anciennes fonctions a conserver
+      ==================================================== */
+
 //===============================
-///===============================
-    private function Check_Cert($crt, $key, $pass) {
+    public function Check_Cert($crt, $key, $pass) {
 //===============================
+//openssl x509 -in file.crt/key -noout -modulus
         if (!isset($pass) || "$pass" == '') {
             echo "no password";
             $pass = '';
         } else {
             $pass = '-passin pass:' . $pass;
-        }
-        if (Test_value_file($crt) != TRUE || Test_value_file($key) != TRUE) {
-            return FALSE;
         }
 
         print "<h3>Check_cert/key</h3>";
@@ -759,9 +834,53 @@ class Openssl {
         }
     }
 
+//-------------------------------------------------------------
+    public function Create_p12($crt, $key, $pass, $passout = 'test', $dir_p12 = 'p12', $dir_default = '/var/www/upload', $current = '') {
+//-------------------------------------------------------------
+//openssl x509 -in file.crt/key -noout -modulus
+//echo putenv("RANDFILE=/var/www/upload/.rnd");
+        echo "current dir=" . $current . "<br />";
+        putenv("RANDFILE=/var/www/upload/.rnd");
+        $dir_default = $dir_default . '/' . $current;
+        $date = date("Y-m-d-Hi");
+        $file = basename($crt);
+//$dir_p12 = dirname($crt);
+//$dir_p12 = dirname($crt);
+        $info = pathinfo($file);
+        $file_name = basename($file, '.' . $info['extension']);
+        $cmd = ' pkcs12 -export ';
+        /*
+          File must exist
+          ls /var/wwww/upload.rnd
+          -rw------- 1 www-data www-data
+         */
+
+        print "<h3>to do</h3>";
+        if (!isset($pass) || "$pass" == '') {
+            echo "no password";
+            $pass = '';
+        } else {
+            $pass = '-passin pass:' . $pass;
+            $pass = " $pass ";
+            echo "use password:$pass";
+        }
+        $passout = " -passout pass:$passout ";
+        $out = "${dir_default}/${dir_p12}/${file_name}-${date}.p12 ";
+        print "<br>out=$out<br>";
+//echo 'export RANDFILE=$HOME/upload/.rnd';
+        echo '/usr/bin/openssl' . escapeshellcmd($cmd) . ' -in ' . escapeshellcmd($crt) . escapeshellcmd($pass) . ' -inkey ' . escapeshellcmd($key) . escapeshellcmd($passout) . ' -out ' . escapeshellcmd($out) . ' 2>&1';
+        exec('/usr/bin/openssl' . escapeshellcmd($cmd) . ' -in ' . escapeshellcmd($crt) . escapeshellcmd($pass) . ' -inkey ' . escapeshellcmd($key) . escapeshellcmd($passout) . ' -out ' . escapeshellcmd($out) . ' 2>&1', $output, $retval);
+        Affiche_RetVal($retval, $output);
+        print "Creation file: <h4>${file_name}-{$date}.p12</h4> .. done<br>";
+//$part = explode(${dir_default}, $saved);
+//$saved=$part[1];
+        print "return = p12/${file_name}-{$date}.p12<br>";
+
+        return array($retval, "p12/${file_name}-{$date}.p12");
+    }
+
 //===============================
-///===============================
-    private function Decrypt_key($key, $pass) {
+    public function Decrypt_key($key, $pass) {
 //===============================
         $file = basename($key);
         $dir = dirname($key);
@@ -777,125 +896,4 @@ class Openssl {
         echo "<pre>$output</pre>";
     }
 
-    private function Der2XPem($file) {
-//-------------------------------------------------------------
-        $saved = '';
-        $dir = dirname($file);
-        print "starting conversion $file<br>";
-        print "default dir=${dir_default}<br>";
-        if (is_file($file) && is_readable($file)) {
-            print "<br>Oki file $file exists<br>";
-        }
-# else {print "$file: not readable or not a file";return("false");}
-        $der_data = file_get_contents($file);
-        $pem = chunk_split(base64_encode($der_data), 64, "\n");
-        $pem = "-----BEGIN CERTIFICATE-----\n" . $pem . "-----END CERTIFICATE-----\n";
-        print "$pem";
-        print "<br><br>";
-
-        print "test and rename<br>";
-        list($reponse, $file) = Test_And_Rename_File($file, 'pem');
-        print "end test and rename<br>";
-        print "Retour 1: file=$file <br>";
-        if ($reponse == "TRUE") {
-            print "<br>call save data for $file<br>";
-            list($reponse, $newfile, $mes) = Save_Data1($pem, $file);
-            print "<br>retour new file=${newfile}<br>";
-            print "<br>sauvegarde des donnees au format pem<br>";
-        }
-        print $message . '<br>';
-        $file = basename($newfile);
-        $reste_dir = basename($dir);
-        $file_return = $reste_dir . '/' . $file;
-        print "fic_saved = $newfile file=$file reste=$reste_dir<br>";
-        echo "<h2>Return=Creation de  $file_return</h2>";
-#print $pem . '<br>';
-        return array($reponse, $file_return);
-    }
-
-///===============================
-    private function Create_Bundle($crt, $key, $sub_dir_bundle) {
-//-------------------------------------------------------------
-
-        print "test values<br>";
-        if (Test_value_file($crt) != TRUE || Test_value_file($key) != TRUE) {
-            return FALSE;
-        }
-        print "end test values<br>";
-        echo "bundle directory=$sub_dir_bundle<br>";
-        if (!isset($sub_dir_bundle)) {
-            $sub_dir_bundle = dirname($crt);
-        }
-        echo "bundle directory=$sub_dir_bundle<br>";
-        print "<h3>Create Bundle</h3>";
-        // nom du fichier crt
-        $file = basename($crt);
-        $info = pathinfo($file);
-        $path = dirname($crt);
-        $dir = dirname($path);
-
-        $dir_bundle = $dir . '/' . $sub_dir_bundle;
-        echo "full bundle directory=$dir_bundle<br>";
-
-        $info = pathinfo($file);
-        $prefixe_name = basename($file, '.' . $info['extension']);
-        $file_bundle = $prefixe_name . '-bundle' . '.crt';
-        print "file=$file_bundle<br>";
-        print "test and rename<br>";
-        list($reponse, $newfile) = Test_And_Rename_File("$dir_bundle/$file_bundle");
-        print "end test and rename<br>";
-
-        print "cat $crt $key > $newfile 2>&1";
-        $output = shell_exec("cat $crt $key > $newfile 2>&1");
-        exec('cat ' . escapeshellcmd($crt) . ' ' . escapeshellcmd($key) . ' > ' . escapeshellcmd($newfile) . ' 2>&1', $output, $retval);
-        Affiche_RetVal($retval, $output);
-        echo "<pre>$output</pre>";
-
-        $file_basename = basename($newfile);
-        print "basename file: $file_basename<br>";
-        $file_return = $sub_dir_bundle . '/' . $file_basename;
-        print "return file: $file_return<br>";
-        return array($reponse, $file_return);
-    }
-
-///===============================
-///===============================
-    private function Pem2XDer($file) {
-//-------------------------------------------------------------
-        print "starting conversion $file<br>";
-        //  print "default dir=${dir_default}<br>";
-        $dir = dirname($file);
-#$add = "-".date("Ymd-H-i");
-        if (is_file($file) && is_readable($file)) {
-            print "<br>Oki file $file exists<br>";
-        } else {
-            print "not readable or not a file";
-            return("false");
-        }
-        $pem_data = file_get_contents($file);
-        $begin = "CERTIFICATE-----";
-        $end = "-----END";
-        $pem_data = substr($pem_data, strpos($pem_data, $begin) + strlen($begin));
-        $pem_data = substr($pem_data, 0, strpos($pem_data, $end));
-#print $pem_data . '<br>';
-        $der = base64_decode($pem_data);
-
-//print "der=$der<br>";
-        list($reponse, $file) = Test_And_Rename_File($file, 'der');
-        print "Retour 1: file=$file <br>";
-        if ($reponse == "TRUE") {
-            print "<br>call save data for $file<br>";
-            list($reponse, $newfile, $mes) = Save_Data1($der, $file);
-        }
-
-        print "<br>New file=$newfile<br>";
-        $file = basename($newfile);
-        $reste_dir = basename($dir);
-        $file_return = $reste_dir . '/' . $file;
-        print "fic_saved = $saved file=$file reste=$reste_dir<br>";
-        echo "<h2>Return=Creation de  $file_return</h2>";
-        return array($reponse, $file_return);
-    }
-
 }
-

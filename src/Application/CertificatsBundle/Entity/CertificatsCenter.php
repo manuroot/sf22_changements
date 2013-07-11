@@ -16,7 +16,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Application\RelationsBundle\Entity\Projet;
 use Application\RelationsBundle\Entity\Applis;
 use Application\RelationsBundle\Entity\FileType;
-
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * CertificatsCenter
@@ -24,6 +25,7 @@ use Application\RelationsBundle\Entity\FileType;
  * @ORM\Table(name="certificats_center")
  * @ORM\Entity(repositoryClass="Application\CertificatsBundle\Entity\CertificatsCenterRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @Vich\Uploadable
  * @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,typeCert.fileType,idapplis.nomapplis:GroupConcat",groupBy={"id"}) 
  */
 
@@ -161,9 +163,32 @@ class CertificatsCenter
     private $project;
 
      /**
-     * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media")
+      * 
+     * @ORM\OneToOne(targetEntity="\Application\CertificatsBundle\Entity\CertificatsFiles",inversedBy = "certificats",cascade={"persist"}), 
+     * @ORM\JoinColumn(name = "fichier", nullable = true, referencedColumnName = "id")
      */
-    protected $picture;
+    protected $fichier;
+    
+    /**
+* @Assert\File(
+* maxSize="5M",
+* mimeTypes={"image/png", "image/jpeg", "image/pjpeg","image/gif"}
+* )
+* @Vich\UploadableField(mapping="product_image", fileNameProperty="imageName")
+*
+* @var File $image
+*/
+    protected $image;
+
+    /**
+* @ORM\Column(type="string", length=255, name="image_name", nullable=true)
+*
+* @var string $imageName
+*/
+    protected $imageName;
+
+
+    
     
     //* @OrderBy({"name" = "ASC"})
     /**
@@ -641,29 +666,7 @@ class CertificatsCenter
         return $this->idapplis;
     }
 
-    /**
-     * Set picture
-     *
-     * @param \Application\Sonata\MediaBundle\Entity\Media $picture
-     * @return CertificatsCenter
-     */
-    public function setPicture(\Application\Sonata\MediaBundle\Entity\Media $picture = null)
-    {
-        $this->picture = $picture;
-    
-        return $this;
-    }
-
-    /**
-     * Get picture
-     *
-     * @return \Application\Sonata\MediaBundle\Entity\Media 
-     */
-    public function getPicture()
-    {
-        return $this->picture;
-    }
-    
+   
     /**
      * @ORM\PreUpdate
      */
@@ -725,4 +728,82 @@ HAVING sclr6 LIKE '%prod%'
 ORDER BY 
   c0_.id DESC 
      */
+
+    
+    
+    
+     /**
+     * Add fichier
+     *
+     * @param \Application\CertificatsBundle\Entity\CertificatsFiles $fichier
+     * @return CertificatsFiles
+     */
+    public function addFichier(\Application\CertificatsBundle\Entity\CertificatsFiles $fichier) {
+        $this->fichier = $fichier;
+
+        return $this;
+    }
+    /**
+     * Set fichier
+     *
+     * @param \Application\CertificatsBundle\Entity\CertificatsFiles $fichier
+     * @return CertificatsCenter
+     */
+    public function setFichier(\Application\CertificatsBundle\Entity\CertificatsFiles $fichier = null)
+    {
+        $this->fichier = $fichier;
+    
+        return $this;
+    }
+
+    /**
+     * Get fichier
+     *
+     * @return \Application\CertificatsBundle\Entity\CertificatsFiles 
+     */
+    public function getFichier()
+    {
+        return $this->fichier;
+    }
+
+  /**
+* Set image
+*
+* @param string $image
+* @return Message
+*/
+    public function setImage($image) {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+* Get image
+*
+* @return string
+*/
+    public function getImage() {
+        return $this->image;
+    }
+
+    /**
+* Set imageName
+*
+* @param string $imageName
+* @return Message
+*/
+    public function setImageName($imageName) {
+        $this->imageName = $imageName;
+        return $this;
+    }
+
+    /**
+* Get imageName
+*
+* @return string
+*/
+    public function getImageName() {
+        return $this->imageName;
+    }
 }

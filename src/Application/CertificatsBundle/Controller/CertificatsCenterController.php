@@ -31,7 +31,8 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use APY\DataGridBundle\Grid\Export\CSVExport;
 use APY\DataGridBundle\Grid\Export\ExcelExport;
-
+use Application\CertificatsBundle\Model\MyOpenSsl;
+use Application\CentralBundle\Model\MesFiltres;
 //use APY\DataGridBundle\Grid\Export\PHPExcelPDFExport;
 //use APY\DataGridBundle\Grid\Export\ExcelExport;
 
@@ -130,7 +131,7 @@ class CertificatsCenterController extends Controller {
         list($filterForm, $queryBuilder, $message) = $this->filter();
         if ($message)
             $session->getFlashBag()->add('warning', "$message");
-    $pagination = $this->createpaginator($queryBuilder, 15);
+        $pagination = $this->createpaginator($queryBuilder, 15);
         $count = $pagination->getTotalItemCount();
         return $this->render('ApplicationCertificatsBundle:CertificatsCenter:index.html.twig', array(
                     'search_form' => $filterForm->createView(),
@@ -206,32 +207,54 @@ class CertificatsCenterController extends Controller {
 
     public function checkcertAction() {
 
+        $entity = new CertificatsActions();
+        //  $myForm = $this->createForm(new CertificatsActionsType(),$entity);
         $form = $this->createForm(new CertificatsCenterCheckType());
         return $this->render('ApplicationCertificatsBundle:CertificatsCenter:checkcert.html.twig', array(
                     'form' => $form->createView(),
+                        // 'myform'=> $myForm->createView(),
         ));
     }
 
-    //public function editAction(Request $request, $id) {
     public function validatecheckcertAction(Request $request) {
 
-        
-        
-        $entity=new CertificatsActions();
-           $actionForm = $this->createForm(new CertificatsActionsType());
-     
+        //  $entity=new CertificatsActions();
+        // $myForm = $this->createForm(new CertificatsActionsType(),$entity);
+
         $vForm = $this->createForm(new CertificatsCenterCheckType());
         if ($request->getMethod() == 'POST') {
             $postData = $request->request->get('checkcert');
             $vForm->bind($postData);
+            $ssl = new MyOpenSsl();
+            $all_ope = $ssl->getOperations();
+            $all_fic = $ssl->getFichiers();
+            $arr = array($all_ope, $all_fic);
+            var_dump($postData);
+            var_dump($arr);
+            // post:
+            //["opecert"]=> string(1) "3" ["typecert"]=> string(1) "4" ["contenu"]=> string(7) "hgfgffg" [
+       
+            $current_ope=$all_ope[$postData['opecert']];
+                    $current_fic=$all_fic[$postData['typecert']];
+                    $current_data=$postData['contenu'];
+                    $arr_current=array(
+                        'ope'=>$current_ope,
+                        'cert'=>$current_fic,
+                        'data'=>$current_data,
+                        );
+                         var_dump($arr_current);
+                          exit(1);
             return $this->render('ApplicationCertificatsBundle:CertificatsCenter:checkcert.html.twig', array(
                         'datas' => $postData,
                         'form' => $vForm->createView(),
-                        'myform'=> $actionForm->createView(),
+                            // 'myform'=> $myForm->createView(),
             ));
+
+    
             // }
         }
         return $this->render('ApplicationCertificatsBundle:CertificatsCenter:validatecert.html.twig', array(
+                        // 'myform'=> $myForm->createView(),
         ));
     }
 
@@ -414,6 +437,9 @@ class CertificatsCenterController extends Controller {
     public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
+         $session = $request->getSession();
+        $session->set('buttonretour', 'certificatscenter');
+
         $entity = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->find($id);
 
         if (!$entity) {
@@ -444,11 +470,12 @@ class CertificatsCenterController extends Controller {
             else
                 return $this->redirect($this->generateUrl('certificatscenter'));
         }
-
+        // pas valide
         return $this->render('ApplicationCertificatsBundle:CertificatsCenter:edit.html.twig', array(
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
+            'btnretour'=>'certificatscenter',
         ));
     }
 
@@ -642,24 +669,18 @@ class CertificatsCenterController extends Controller {
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Cert entity.');
             }
-
             $id_warning = $entity->getWarningFile();
-
             if ($id_warning) {
                 $entity->setWarningFile(false);
-                $em->persist($entity);
-                $em->flush();
-            } else {
+             } else {
                 $entity->setWarningFile(true);
-                $em->persist($entity);
-                $em->flush();
-            }
-
+             }
+             $em->persist($entity);
+             $em->flush();
             $array = array('mystatus' => $id_warning);
             //   $array=array($array);
             $response = new Response(json_encode($array));
-
-            $response->headers->set('Content-Type', 'application/json');
+           $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
     }
