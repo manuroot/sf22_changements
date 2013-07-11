@@ -100,10 +100,16 @@ select[multiple], select[size] {
                                             <button type="submit" class="btn btn-small btn-danger" onclick="if(!confirm('Are you sure?')) { return false; }">Supprimer Projet</button>
                                         </div>
                                     </form>
+        
+        
+{% endif %}  
                                 </td>
                             </tr>
                        
                     </table>
+    
+    
+  {% if action == 'edit' %}  
 <h3><center>Liste des Fichiers associés</center></h3>
                     <table class="table table-bordered table-hover">
                         <thead>
@@ -117,9 +123,8 @@ select[multiple], select[size] {
                             
                         </tr>
        {% endfor %}
-                        </tbody>
+                     
                     </table>
 
 {% endif %}  
-
 {% endblock %}

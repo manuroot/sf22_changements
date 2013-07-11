@@ -140,30 +140,7 @@ class Applis {
         }
     }
     
-    
-    
-    
-    /**
-     * Add idprojets
-     *
-     * @param \Application\RelationsBundle\Entity\Projet $idprojets
-     * @return Applis
-     */
-    public function addOldIdprojet(\Application\RelationsBundle\Entity\Projet $idprojets) {
-        //   $idprojets->addIdapplis($this);
-        //   $this->idprojets[] = $idprojets;
-        //   return $this;
-        //echo "here";exit;
-        // Si l'objet fait déjà partie de la collection on ne l'ajoute pas
-        if ($this->idprojets->contains($idprojets)) {
-            return;
-        }
-        //sinon
-        $this->idprojets->add($idprojets);
-        $idprojets->addIdapplis($this);
-        //$user->addUserGroup($this);
-    }
-
+   
     /**
      * Remove idprojets
      *

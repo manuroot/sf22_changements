@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
+use Application\ChangementsBundle\Entity\Changements;
 /**
  * Projet
  *
@@ -40,6 +41,11 @@ class Docchangements {
     
     
     /**
+     *
+     * @var ArrayCollection Projet $idchangements
+     *
+     * Inverse Side
+     * 
      * @ORM\ManyToMany(targetEntity="Changements", mappedBy="picture",cascade={"persist"})
      */
     private $idchangement;
@@ -320,7 +326,7 @@ public function postLoad()
      * Constructor
      */
     public function __construct() {
-        $this->idchangement = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->idchangement = new ArrayCollection();
         
     }
 
@@ -330,20 +336,45 @@ public function postLoad()
      * @param \Application\ChangementsBundle\Entity\Changements $idchangement
      * @return Docchangements
      */
-    public function addIdchangement(\Application\ChangementsBundle\Entity\Changements $idchangement) {
-        $this->idchangement[] = $idchangement;
+    public function addIdchangement(Changements $idchangement) {
+         if (!$this->idchangement->contains($idchangement)) {
+        if (!$idchangement->getPicture()->contains($this)) {
+           
+                $idchangement->addPicture($this);  // Lie le Client au produit.
+            }
+            $this->idchangement->add($idchangement);
+        }
+        //$this->idchangement[] = $idchangement;
 
-        return $this;
+      //  return $this;
     }
 
+    public function setIdchangement($items) {
+         if ($items instanceof ArrayCollection || is_array($items)) {
+            foreach ($items as $item) {
+                $this->addIdchangement($item);
+            }
+        } elseif ($items instanceof Changements) {
+            $this->addPicture($items);
+        } else {
+            throw new \Exception("$items must be an instance of Changements or ArrayCollection");
+        }
+    }
     /**
      * Remove idchangement
      *
      * @param \Application\ChangementsBundle\Entity\Changements $idchangement
      */
-    public function removeIdchangement(\Application\ChangementsBundle\Entity\Changements $idchangement) {
+    
+     public function removeIdchangement(Changements $idchangement) {
+        if (!$this->idchangement->contains($idchangement)) {
+            return;
+        }
         $this->idchangement->removeElement($idchangement);
+        $idchangement->removePicture($this);
     }
+    
+  
 
     /**
      * Get idchangement
@@ -353,58 +384,7 @@ public function postLoad()
     public function getIdchangement() {
         return $this->idchangement;
     }
-
-    /*  public function generateFileNameFilename($file = null)
-      {
-      if (null === $file) {
-      // use a random filename instead
-      return null;
-      }
-
-      if (file_exists($file->getpath().$file->getOriginalName())) {
-      return $this->appendToName($file);
-      }
-
-      return $file->getOriginalName();
-      } */
-    /*
-      public function appendToName($file, $index = 0)
-      {
-      $newname = pathinfo($file->getOriginalName(), PATHINFO_FILENAME).$index.$file->getExtension();
-
-      if (file_exists($file->getpath().$newname)) {
-      return $this->appendToName($file, ++$index);
-      } else {
-      return $newname;
-      }
-      } */
-
-    /* public function generatePathFileName($file)
-      {
-      return $file->getOriginalName();
-      } */
-    /**
-      // @ORM\PreRemove()
-     */
-    /*  public function storeFilenameForRemove()
-      {
-      $this->filenameForRemove = $this->getAbsolutePath();
-      } */
-    /**
-      // @ORM\PostRemove()
-     */
-    /* public function removeUpload()
-      {
-      if ($this->filenameForRemove) {
-      unlink($this->filenameForRemove);
-      }
-      }
-      }
-
-      public function getAbsolutePath()
-      {
-      return null === $this->path ? null : $this->getUploadRootDir().'/'.$this->id.'.'.$this->path;
-      } */
+ 
 
     /**
      * Set updatedAt

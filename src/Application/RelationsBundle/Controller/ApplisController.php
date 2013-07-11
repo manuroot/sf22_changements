@@ -123,6 +123,33 @@ class ApplisController extends Controller {
                 ));
     }
 
+    
+    /*
+     *  $entity = $em->getRepository('ApplicationChangementsBundle:Docchangements')->find($id);
+        $current_changements = clone $entity->getIdchangement();
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Docchangements entity.');
+        }
+        // recup des changements
+        //$changements = $entity->getIdchangement();
+        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createForm(new DocchangementsType(), $entity);
+        $editForm->bind($request);
+
+        if ($editForm->isValid()) {
+            // on vide cote changement
+            foreach ( $current_changements as $change )
+                {
+                    $change->getPicture()->removeElement( $entity );
+                    $em->persist($change);
+                }
+                  // on ajoute cote changement
+                 foreach ($entity->getIdchangement() AS $changement) {
+                     $changement->addPicture($entity);
+                 }
+            // on persite coté document
+            $em->persist($entity);
+     */
     /**
      * Edits an existing Applis entity.
      *
@@ -132,7 +159,7 @@ class ApplisController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ApplicationRelationsBundle:Applis')->find($id);
-
+        $current_projets = clone $entity->getIdprojets();
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Applis entity.');
         }
@@ -146,43 +173,20 @@ class ApplisController extends Controller {
             $editForm->bind($request);
 
             if ($editForm->isValid()) {
+                 // on vide cote changement 
+                 // (form==> byreference a false !!!!)
+           /* foreach ( $current_projets as $projet )
+                {
+                    $projet->getIdapplis()->removeElement( $entity );
+                    $em->persist($projet);
+                }*/
             foreach ($entity->getIdprojets() AS $projet) {
                     //$projet->addIdappli($entity);
                     $projet->addIdappli($entity);
                     //   var_dump($projet);
                 }
-                //   $projets= $em->getRepository('ApplicationRelationsBundle:CertificatsProjet')->findByIdapplis($id);
-                // $projets=$entity->getIdprojets();
-                //    $projets->addIdappli($entity);
-                //      $em->persist($projets);
-                // $em->flush();
-                // foreach ($projets as $projet) {
-                //    $projets->addIdapplis($entity);
-                //      $em->persist($projet);
-                // $em->flush();
-                // }
-                /*   foreach ($entity as $list) {
-                  $alist = $em->getRepository('ApplicationRelationsBundle:CertificatsProjet')
-                  ->findOneById($list->getId());
-
-                  $agent->addAgentList($aList);
-                  $em->persist($agent);
-                  $em->flush();
-
-                  $aList->addAgent($agent);
-                  $em->persist($aList);
-                  $em->flush();
-                  }
-                 */
-
-
-
-                $em->persist($entity);
-                /*    $projets = $em->getRepository('ApplicationRelationsBundle:CertificatsProjet')->findByIdapplis($id);
-                  if ($projets)
-                  $projets->addIdappli($entity); */
-
-                $em->flush();
+                 $em->persist($entity);
+                 $em->flush();
 
                 //  return $this->redirect($this->generateUrl('applications_edit', array('id' => $id)));
             }
@@ -203,19 +207,15 @@ class ApplisController extends Controller {
     public function deleteAction(Request $request, $id) {
         $form = $this->createDeleteForm($id);
         $form->bind($request);
-
-        if ($form->isValid()) {
+       if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('ApplicationRelationsBundle:Applis')->find($id);
-
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Applis entity.');
             }
-
             $em->remove($entity);
             $em->flush();
         }
-
         return $this->redirect($this->generateUrl('applications'));
     }
 

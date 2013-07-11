@@ -142,24 +142,35 @@ class DocchangementsController extends Controller {
      *
      */
     public function updateAction(Request $request, $id) {
+      
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('ApplicationChangementsBundle:Docchangements')->find($id);
-
+        $current_changements = clone $entity->getIdchangement();
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Docchangements entity.');
         }
-
+        // recup des changements
+        //$changements = $entity->getIdchangement();
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createForm(new DocchangementsType(), $entity);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
+            // on vide cote changement
+            // ou passer par byreference a false dans le formulaire
+            foreach ( $current_changements as $change ){
+                    $change->getPicture()->removeElement( $entity );
+                    $em->persist($change);
+                }
+                  // on ajoute cote changement
+                 foreach ($entity->getIdchangement() AS $changement){
+                     $changement->addPicture($entity);
+                 }
+            // on persite coté document
             $em->persist($entity);
             $em->flush();
             $session = $this->getRequest()->getSession();
             $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
-
             return $this->redirect($this->generateUrl('docchangements_edit', array('id' => $id)));
         }
 
@@ -169,7 +180,22 @@ class DocchangementsController extends Controller {
                     'delete_form' => $deleteForm->createView(),
                 ));
     }
+/*  $projets = $entity->getIdprojets();
 
+        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createForm(new ApplisType(), $entity);
+        // A verifier => not owning side !!!
+        $request = $this->getRequest();
+        if ($request->getMethod() === 'POST') {
+            $editForm->bind($request);
+
+            if ($editForm->isValid()) {
+            foreach ($entity->getIdprojets() AS $projet) {
+                    //$projet->addIdappli($entity);
+                    $projet->addIdappli($entity);
+ * 
+ */
+    
     /**
      * Deletes a Docchangements entity.
      *

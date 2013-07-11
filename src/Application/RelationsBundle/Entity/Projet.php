@@ -111,14 +111,7 @@ class Projet {
         $this->picture = new ArrayCollection();
     }
 
-    /**
-     * Get idapplis
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getIdapplis() {
-        return $this->idapplis;
-    }
+    
     public function __toString() {
         return $this->getNomprojet();    // this will not look good if SonataAdminBundle uses this ;)
     }
@@ -153,33 +146,15 @@ class Projet {
         return $this->picture;
     }
 
-    /**
-     * Add idapplis
+   /**
+     * Get idapplis
      *
-     * @param \Application\RelationsBundle\Entity\Applis $idapplis
-     * @return CertificatsProjet
+     * @return \Doctrine\Common\Collections\Collection 
      */
-    public function xaddIdappli(\Application\RelationsBundle\Entity\Applis $applis) {
- // Si l'objet fait déjà partie de la collection on ne l'ajoute pas
-       if ($applis instanceof ArrayCollection || is_array($applis)) {
-             if (! $this->idapplis->contains($applis)) {
-                $this->idapplis->add($applis);
-              //  $this->addIdappli($appli);
-            }
-        } elseif ($applis instanceof Applis) {
-         /*   $this->addIdappli($applis);*/
-              $this->idapplis->add($applis);
-            
-        }
-         // work: mais pas en sens inverse   
-      /*  $this->idapplis[] = $applis;*/
-    
-        return $this;
-         
-     
-
-        
+    public function getIdapplis() {
+        return $this->idapplis;
     }
+    
    /**
      * Add Applis
      *
@@ -210,22 +185,6 @@ class Projet {
         }
     }
    
-public function setOldIdapplis($applis)
-    {
-       /* if ($applis instanceof ArrayCollection || is_array($applis)) {
-            foreach ($applis as $appli) {
-                $this->addIdappli($appli);
-            }
-        } elseif (*/
-            if ($applis instanceof Applis) {
-            $this->addIdappli($applis);
-        } 
-        else {
-            throw new \Exception("$applis must be an instance of Produit or ArrayCollection");
-        }
-    }
-    
-    
     /**
      * Remove idapplis
      *

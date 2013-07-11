@@ -121,12 +121,15 @@ class Changements extends AbstractEvent
     */
      private $idProjet;
    
-     
-          /**
+           /**
      * @ORM\ManyToMany(targetEntity="Docchangements", inversedBy="idchangement",cascade={"persist"})
-     * @ORM\JoinTable(name="changements_documents")
+     * @ORM\JoinTable(name="changements_documents",
+     * joinColumns={@ORM\JoinColumn(name="changements_id", referencedColumnName="id")},
+     *   inverseJoinColumns={@ORM\JoinColumn(name="docchangements_id", referencedColumnName="id")}
+     * )
      */
      protected $picture;
+   
    
     
     
@@ -170,9 +173,7 @@ class Changements extends AbstractEvent
      *
      * @ORM\ManyToOne(targetEntity="Application\RelationsBundle\Entity\ChronoUser")
      * @ORM\OrderBy({"nomUser" = "ASC"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="demandeur", referencedColumnName="id")
-     * })
+     * @ORM\JoinColumn(name="demandeur", referencedColumnName="id")
      * @GRID\Column(field="demandeur.nomUser", title="Demandeur",size="20",filter="select",selectFrom="query")
     */
     private $demandeur;
@@ -182,11 +183,9 @@ class Changements extends AbstractEvent
      *
      * @ORM\ManyToOne(targetEntity="ChangementsStatus")
      * @ORM\OrderBy({"nom" = "ASC"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_status", referencedColumnName="id",nullable=false)
-     *  })
+     * @ORM\JoinColumn(name="id_status", referencedColumnName="id",nullable=false)
      * @GRID\Column(field="idStatus.nom", title="Status",size="10",filter="select",selectFrom="query")
-    */
+     */
     private $idStatus;
    
       /**
@@ -603,33 +602,6 @@ private $comments;
         return $this->idEnvironnement;
     }
 
-    
-   
-     /**
-     * Set picture
-     *
-     * @param Docchangements $picture
-     * @return Changements
-     */
-    public function setPicture(Docchangements $picture = null)
-    {
-        $this->picture = $picture;
-    
-        return $this;
-    }
-
-    /**
-     * Set picture
-     *
-     * @param \Application\RelationsBundle\Entity\Document $picture
-     * @return Changements
-     */
-    public function setOldPicture(\Application\RelationsBundle\Entity\Document $picture = null)
-    {
-        $this->picture = $picture;
-    
-        return $this;
-    }
 
     /**
      * Get picture
@@ -642,52 +614,67 @@ private $comments;
     }
 
    
-    /**
-     * Set avatar
-     *
-     * @param string $avatar
-     * @return Changements
-     */
-   /* public function setAvatar($avatar)
-    {
-        $this->avatar = $avatar;
-    
-        return $this;
-    }*/
-
-    /**
-     * Get avatar
-     *
-     * @return string 
-     */
-   /* public function getAvatar()
-    {
-        return $this->avatar;
-    }*/
-
+   
     /**
      * Add picture
      *
      * @param Docchangements $picture
      * @return Changements
      */
-    public function addPicture(Docchangements $picture)
+      public function addPicture(Docchangements $picture)
     {
-        $this->picture[] = $picture;
-    
-        return $this;
+     // Si l'objet fait déjà partie de la collection on ne l'ajoute pas
+         if (!$this->picture->contains($picture)) {
+            $this->picture->add($picture);
+        }
     }
-
+    
+      /**
+     * Set picture
+     *
+     * @param Docchangements $picture
+     * @return Changements
+     */
+    
+   // public function setPicture(Docchangements $picture = null)
+     public function setPicture($items)
+    {
+        if ($items instanceof ArrayCollection || is_array($items)) {
+            foreach ($items as $item) {
+                $this->addPicture($item);
+            }
+        } elseif ($items instanceof Docchangements) {
+            $this->addPicture($item);
+        } else {
+            throw new \Exception("$items must be an instance of Applus or ArrayCollection");
+        }
+    }
+   
     /**
      * Remove picture
      *
      * @param \Application\RelationsBundle\Entity\Document $picture
      */
-    public function removePicture(Docchangements $picture)
+     /**
+     * Remove idapplis
+     *
+     * @param Docchangements $picture
+     */
+    public function removePicture(Docchangements $picture){
+        if (!$this->picture->contains($picture)) {
+            return;
+        }
+        $this->picture->removeElement($picture);
+
+        $picture->removeIdchangement($this);
+       //removeIdchangement(\Application\ChangementsBundle\Entity\Changements $idchangement) {
+        }
+        
+    /*public function removePicture(Docchangements $picture)
     {
         $this->picture->removeElement($picture);
     }
-    
+    */
     
 
     public function getConfirmation(){

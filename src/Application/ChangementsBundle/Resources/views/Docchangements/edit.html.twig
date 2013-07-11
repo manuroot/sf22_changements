@@ -3,7 +3,14 @@
   {% block stylesheets %}
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/sliding.css') }}" type="text/css" media="all"/>
+ <style>
 
+       select#doc_idchangement{
+           width:300px;
+           height:280px;}
+
+
+        </style>
  {% endblock %}
 
 {% block content_header '' %}

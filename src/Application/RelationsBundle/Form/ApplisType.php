@@ -75,7 +75,8 @@ class ApplisType extends AbstractType
             'property' => 'nomprojet',
             'multiple' => true,
             'required' => true,
-            'label' => 'Nom des Projets'
+            'label' => 'Nom des Projets',
+             'by_reference' => false
             ));
     }
   
