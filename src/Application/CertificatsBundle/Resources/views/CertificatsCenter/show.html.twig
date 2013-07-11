@@ -46,6 +46,14 @@
              <td class="viewlabel">Filename</td> 
             <td>{{ entity.fileName }}</td>
         </tr>
+           <tr>
+             <td class="viewlabel">Environnement</td> 
+            <td>
+             {% if entity.idEnvironnement %}
+             {{ entity.idEnvironnement.nom }}
+             {% endif %}
+            </td>
+        </tr>
         <tr>
                  <td class="viewlabel">Project</td>
             

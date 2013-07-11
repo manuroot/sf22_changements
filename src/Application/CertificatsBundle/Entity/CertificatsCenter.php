@@ -26,7 +26,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Entity(repositoryClass="Application\CertificatsBundle\Entity\CertificatsCenterRepository")
  * @ORM\HasLifecycleCallbacks()
  * @Vich\Uploadable
- * @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,typeCert.fileType,idapplis.nomapplis:GroupConcat",groupBy={"id"}) 
+ * @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,idEnvironnement.nom,typeCert.fileType,idapplis.nomapplis:GroupConcat",groupBy={"id"}) 
  */
 
 
@@ -188,6 +188,18 @@ class CertificatsCenter
     protected $imageName;
 
 
+     /**
+     * @var string
+     * 
+     * @ORM\ManyToOne(targetEntity="Application\RelationsBundle\Entity\Environnements")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idEnvironnement", referencedColumnName="id")
+     * })
+     * @GRID\Column(field="idEnvironnement.nom", filterable=false,size="20",title="Env", filter="select",selectFrom="query")
+     */
+    private $idEnvironnement;
+    
+    
     
     
     //* @OrderBy({"name" = "ASC"})
@@ -805,5 +817,30 @@ ORDER BY
 */
     public function getImageName() {
         return $this->imageName;
+    }
+    
+    
+     /**
+     * Set environnement
+     *
+     * @param \Application\RelationsBundle\Entity\Environnements $idEnvironnement
+     * @return CertificatsCenter
+     */
+    
+    public function setIdEnvironnement(\Application\RelationsBundle\Entity\Environnements $idEnvironnement = null)
+    {
+        $this->project = $idEnvironnement;
+    
+        return $this;
+    }
+
+    /**
+     * Get environnement
+     *
+     * @return \Application\RelationsBundle\Entity\Environnements 
+     */
+    public function getIdEnvironnement()
+    {
+        return $this->idEnvironnement;
     }
 }

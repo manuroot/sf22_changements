@@ -194,6 +194,22 @@ class CertificatsCenterType extends AbstractType {
            'empty_value' => '--- Choisir une option ---'
         ));
             
+          
+              $builder->add('idEnvironnement', 'entity', array(
+            'class' => 'Application\RelationsBundle\Entity\Environnements',
+            //'class' => 'ApplicationRelationsBundle:Environnements',
+             'query_builder' => function(EntityRepository $em) {
+                return $em->createQueryBuilder('u')
+                                ->orderBy('u.nom', 'ASC');
+            },
+            'property' => 'nom',
+            'multiple' => false,
+            'required' => true,
+            'label' => 'Environnement',
+           'empty_value' => '--- Choisir une option ---'
+        ));
+            
+            
             
         $builder->add('idapplis', 'entity', array(
             'class' => 'ApplicationRelationsBundle:Applis',
