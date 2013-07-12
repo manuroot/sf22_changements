@@ -71,19 +71,21 @@ class ChangementsFilterAmoiType extends AbstractType {
                         ),
                      'mapped'=>false,'required'=>false))
          
-               /* ->add('ticketExt', 'genemu_jqueryautocompleter_entity', array(
+              /*  ->add('ticketExt', 'genemu_jqueryautocompleter_entity', array(
                         'label'=>'Ticket Externe XX',
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'
                     ),
                     'required' => false,
+                 'mapped'=>false
+                    'empty_value'=>false,
                     'class' => 'Application\ChangementsBundle\Entity\Changements',
-                   //'query_builder' => function(EntityRepository $em) {
-                    //    return $em->createQueryBuilder('u')
-                      //          ->where('u.ticketExt !=0')
-                          //      ->orderBy('u.ticketExt', 'ASC');
-                    //},
+                   'query_builder' => function(EntityRepository $em) {
+                        return $em->createQueryBuilder('u')
+                                ->where('u.ticketExt IS NOT NULL')
+                                ->orderBy('u.ticketExt', 'ASC');
+                    },
                     'property' => 'ticketExt',
                      // 'configs' => array(
                         //  'minLength' => 2,

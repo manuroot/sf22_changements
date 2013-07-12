@@ -25,7 +25,7 @@ $builder
                         'type' => 'prepend'
                         )))
            
-        /*  ->add('ticketExt', 'genemu_jqueryautocomplete_entity', array(
+        /*  ->add('ticketExt', 'genemu_jqueryautocompleter_entity', array(
             'property' => 'ticketExt',
                   'widget_addon' => array(
                   'icon' => 'pencil',
@@ -45,16 +45,17 @@ $builder
                     'mapped' => false,
               //      'data' => $this->getData()-> getTicketInt()
                 ))*/
-        /*
-          ->add('ticketInt', 'genemu_jqueryautocompleter_entity', array(
+        
+        /*  ->add('ticketInt', 'genemu_jqueryautocompleter_entity', array(
                    'label' => 'Ticket Externe',  
                   'widget_addon' => array(
                   'icon' => 'tag',
                   'type' => 'prepend'
                   ),
                   'required'=>false,   
+              'empty_value'=>false,
                   'class' => 'Application\ChangementsBundle\Entity\Changements',
-                    'query_builder' => function($repository) {
+                   'query_builder' => function($repository) {
                 return $repository->createQueryBuilder('c')
                     ->where('c.ticketInt IS NOT NULL');
                     
