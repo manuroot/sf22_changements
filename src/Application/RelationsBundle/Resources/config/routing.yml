@@ -38,3 +38,7 @@ _serveurs_sites:
 _serveurs_zones:
     resource: "@ApplicationRelationsBundle/Resources/config/routing/serveurszones.yml"
     prefix:   /serveurs_zones
+    
+_projets_documents:
+    resource: "@ApplicationRelationsBundle/Resources/config/routing/documentbb.yml"
+    prefix:   /projets_documents

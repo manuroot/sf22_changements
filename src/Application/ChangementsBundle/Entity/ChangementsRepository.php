@@ -62,7 +62,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
     public function myFindaIdAll($id) {
         $parameters = array();
         $values = array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f');
-
+        
         $query = $this->createQueryBuilder('a')
                 ->select($values)
                 ->leftJoin('a.idProjet', 'b')
@@ -161,6 +161,15 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
             $parameters['tag'] = (string) $criteria['tag'];
             //       $parameters['tag'] = 'tag1';
         }
+        if (isset($criteria['comments'])) {
+            $query->addSelect('v');
+            $query->leftJoin('v.comments', 'v');
+          }
+          if (isset($criteria['byid'])) {
+             $query->andWhere('a.id = :myid');
+            //   ->groupby('a.name');
+            $parameters['myid'] = (string) $criteria['byid'];
+          }
         $query->setParameters($parameters);
         // ??
         $query->groupby('a.name');

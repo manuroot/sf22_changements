@@ -2,14 +2,6 @@
 
 {% block stylesheets %}
  {{ parent() }}
- {#    {% stylesheets 
-                '@ApplicationChangementsBundle/Resources/public/css/sliding.css' 
-                '@ApplicationChangementsBundle/Resources/public/css/changements.css' 
-                output='css/compiled/changements.css' filter='cssrewrite,?yui_css' debug=false %}
-<link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
-{% endstylesheets %}
-  <link rel="stylesheet" href="{{ asset('css/compiled/changements.css') }}" type="text/css" media="all"/>
-#}
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
 <style>
@@ -53,7 +45,14 @@ line-height: 1.5;
 type="file" name="changements[picture][1][file]"></input>
 table { width:300px;}*/
 /*td.file { max-width:250px;}*/
-.mytiny {width:380px;}
+.mytiny {width:380px}
+.tinymce {width:750px;height:300px;}
+td.description {
+text-align:center; 
+    vertical-align:middle;
+}
+
+
     </style>
     {#  {{ form_stylesheet(edit_form) }}#}
     
@@ -149,23 +148,11 @@ function addTagFormDeleteLink($tagFormLi) {
                         <div>{{ form_row(edit_form.dateComep) }}</div>
                            <br/> <br/>
                         <div> {{ form_row(edit_form.dateVsr) }}</div>
-                        
-                    <h3>FICHIERS</h3>
-    <ul class="tags" data-prototype="{{ form_widget(edit_form.picture.vars.prototype)|e }}">
-
-        {# itère sur chaque tag existant et affiche son unique champ : name #}
-        {% for tag in edit_form.picture %}
-        
-            <li>{{ form_widget(tag) }}
-            {#{{ form_row(tag.name) }}#}
-                </li>
-        {% endfor %}
-    </ul>
-                    {% do edit_form.picture.setRendered() %}
-                        
+             {#    {% do edit_form.picture.setRendered() %} #} 
                  
-                       {# <a class="btn-add" data-target="post_tags">Ajouter un Fichier</a>#}
-                        </td>
+                </td>
+                
+        
                          <td class="calendar mytiny">
                             <div>
                             {{ form_row(edit_form.idProjet) }}</div>
@@ -173,16 +160,41 @@ function addTagFormDeleteLink($tagFormLi) {
                                 <br>
                                 <div class="boxlist">{{ form_row(edit_form.idStatus) }}</div>
                                 <br>
-                                <div>
-                         
-                                    {{ form_row(edit_form.description,{ 'attr': {'class': 'tinymce'} }) }}
-                               
-                         
-         </div>
-                                </td>
-                              <td class="calendar">{{ form_rest(edit_form) }} </td>
+                                 </td>
+                                
+                              <td class="calendar">
+                        {{ form_row(edit_form.ticketExt) }}
+                        {{ form_row(edit_form.ticketInt) }}
+                                      {{ form_row(edit_form.idapplis) }}
+                                      {{ form_row(edit_form.demandeur) }}
+                                      {{ form_row(edit_form.idusers) }}
+                           </td>
                             </tr>
-                            <tr>  <tr><td class="calendar" colspan="3">
+                            <tr>  <td class="calendar description" colspan="3">
+       {{ form_row(edit_form.description,{ 'attr': {'class': 'tinymce'} }) }}
+                                            </td><tr/>
+                             <tr>  <td class="calendar" colspan="3">
+                             
+                               <ul class="tags" data-prototype="{{ form_widget(edit_form.picture.vars.prototype)|e }}">
+
+       {% for tag in edit_form.picture %}
+   
+ <li> 
+  {{ form_errors(tag.file) }}
+      {{ form_widget(tag.file) }}
+        {{ form_errors(tag.name) }}
+         {{ form_widget(tag.name) }}
+          {#  {{ form_widget(tag.OriginalFilename) }}#}
+</li>
+    {% endfor %}
+    
+    </ul>
+                             
+                        
+                 
+               </td>
+         </tr>     
+                            <tr>  <tr><td class="calendar" colspan="3"> {{ form_rest(edit_form) }} 
                                     <button type="submit" class="btn btn-small btn-warning">Modifier</button>
                                     <a href="{{ path('changements_post') }}" class="btn btn-small btn-success">Retour</a>
                                     </form>

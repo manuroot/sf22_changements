@@ -68,7 +68,76 @@ class ChangementsCommentsController extends Controller {
         }
         return array($user_id, $group_id);
     }
+/*
+ * blic function getMyPager(array $criteria, $ret = 'getquery') {
 
+        $parameters = array();
+        $query = $this->createQueryBuilder('a')
+                ->select('a,b,c,d,e,f')
+                ->add('orderBy', 'a.id DESC')
+                ->leftJoin('a.proprietaire', 'b')
+                //  ->leftJoin($join, $alias, $conditionType)
+                ->leftJoin('a.categorie', 'c')
+                ->leftJoin('a.idStatus', 'd')
+                ->leftJoin('a.globalnote', 'e')
+                ->leftJoin('a.imageMedia', 'f')
+        ;
+        if (isset($criteria['author'])) {
+            //  print_r($criteria);exit(1);
+            $query->andwhere('a.proprietaire = :proprietaire');
+            $parameters['proprietaire'] = $criteria['author'];
+        }
+
+
+        if (isset($criteria['non-author'])) {
+            //  print_r($criteria);exit(1);
+            $query->andWhere('a.proprietaire <> :user_id');
+            $parameters['user_id'] = $criteria['non-author'];
+        }
+
+
+
+        if (isset($criteria['alltags'])) {
+            $query->addSelect('t');
+            $query->leftJoin('a.tags', 't');
+        }
+        if (isset($criteria['year'])) {
+            // echo "year=" . $criteria['year'] . "<br>";exit(1);
+            $query->andWhere('a.createdAt LIKE :year');
+            $parameters['year'] = '%' . $criteria['year'] . '%';
+        }
+        if (isset($criteria['date'])) {
+            // echo "year=" . $criteria['year'] . "<br>";exit(1);
+            $query->andWhere('a.createdAt LIKE :date');
+            $parameters['date'] = '%' . $criteria['date'] . '%';
+        }
+        if (isset($criteria['tag'])) {
+            $query->addSelect('t');
+            $query->leftJoin('a.tags', 't');
+            $query->andWhere('t.id = :tag');
+            //   ->groupby('a.name');
+            $parameters['tag'] = (string) $criteria['tag'];
+            //       $parameters['tag'] = 'tag1';
+        }
+        if (isset($criteria['comments'])) {
+            $query->addSelect('v');
+            $query->leftJoin('v.comments', 'v');
+          }
+          if (isset($criteria['byid'])) {
+             $query->andWhere('a.id = :myid');
+            //   ->groupby('a.name');
+            $parameters['myid'] = (string) $criteria['byid'];
+          }
+        $query->setParameters($parameters);
+        // ??
+        $query->groupby('a.name');
+        //>getQuery();
+        //  print_r($query->getQuery());
+        //  exit(1);
+        if ($ret == 'query')
+            return $query;
+      
+ */
     public function newAction($changement_id) {
 
         $em = $this->getDoctrine()->getManager();
@@ -101,7 +170,8 @@ class ChangementsCommentsController extends Controller {
         $validation = 1;
         // recup du changement:
         $em = $this->getDoctrine()->getManager();
-        $changement = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
+       $changement = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
+       //$criteria=array('comments'=>0,'byid'=>$id);
         if (!$changement) {
             throw $this->createNotFoundException('Unable to find Changement.');
         }

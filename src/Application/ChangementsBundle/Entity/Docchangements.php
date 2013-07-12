@@ -30,6 +30,13 @@ class Docchangements {
     // champs supplemanetaire de saisie
     private $name;
 
+     
+     //@ORM\Column(type="string", length=255, nullable=true)
+     
+    // champs supplemanetaire md5
+   // private $md5;
+    
+    
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
@@ -410,5 +417,28 @@ public function postLoad()
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Set md5
+     *
+     * @param string $md5
+     * @return Docchangements
+     */
+    public function setMd5($md5)
+    {
+        $this->md5 = $md5;
+    
+        return $this;
+    }
+
+    /**
+     * Get md5
+     *
+     * @return string 
+     */
+    public function getMd5()
+    {
+        return $this->md5;
     }
 }

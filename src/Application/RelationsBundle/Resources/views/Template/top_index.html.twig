@@ -1,0 +1,75 @@
+ {% block stylesheets %}
+{{ parent() }}
+      <link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
+     
+<style>
+        td {
+    font-size: 12px;
+  
+}
+    .input-append, .input-prepend {
+  
+    font-size: 11px;
+    white-space: nowrap;
+  padding-left:3px;
+    float:left;
+   /* height: 50px;*/
+}
+
+.table {
+    font-size: 11px;
+    border-collapse: separate;
+  /*  font-family: 'Times New Roman',Times,serif;*/
+}
+
+tr.title th {
+   
+    line-height: 30px;
+  
+}
+
+tr.danger {background:red;}
+
+select {
+width:180px;}
+select.pattern-selector {
+width:150px;
+}
+     label {
+                color:#02195e;
+              /*  text-align: left;*/
+    
+}
+    </style>
+   <link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/table.css') }}" type="text/css" media="all"/>
+ {% endblock %}
+    
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts 
+    '@ApplicationRelationsBundle/Resources/public/js/jquery.cookie.js'
+    '@ApplicationRelationsBundle/Resources/public/js/serveursboxfilter.js'
+     output='js/compiled/boxserveurs.js' filter='?yui_js' %}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+
+  {% if is_granted("ROLE_ADMIN") %}
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script>var menuDownUrl = "{{ asset('bundles/applicationcertificats/images/') }}";</script>
+<script type="text/javascript" src="{{ asset('bundles/applicationrelations/js/serveursicons.js') }}"></script>
+{% endif %}
+ {% endblock %}
+
+
+
+{% block content_header '' %}
+
+{% block title %}SERVEURS ( {{total }}){% endblock %}
+
+    
+{% block content %}
+
+{% endblock %}
+

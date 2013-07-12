@@ -15,9 +15,17 @@ class DocfichierType extends AbstractType {
                // ->add('name')
            ->add('name','text',array(
                'label' => 'Description du Fichier',
+               'required'=>true,
+               )
+               )
+                /* ->add('OriginalFilename','text',array(
+                     'attr' => array('style' => 'width:150px'),
+               'label' => 'Nom',
                'required'=>false,
+                     'read_only'=>true,
+                     //'disabled'=>true,
                )
-               )
+               )*/
         ;
     }
 

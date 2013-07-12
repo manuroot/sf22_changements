@@ -11,8 +11,11 @@ class DocchangementsType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('file')
+                ->add('file',null,array('label' => 'MAJ Fichier',
+               
+               ))
                      ->add('name',null,array('label' => 'Nom'))
+                
             
             //    ->add('name','text',array('label' => 'Nom',required=>false,'mapped'=>false))
                 ->add('idchangement', 'entity', array(

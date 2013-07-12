@@ -136,7 +136,7 @@ width:150px;
                                 <i class=" icon-time"></i></th>
                
                 {% if is_granted("ROLE_ADMIN") %}
-                <th colspan="3">Actions</th>
+                <th colspan="2">Actions</th>
                 {% else %}
                 <th>Actions</th>
                 {% endif %}
@@ -179,7 +179,8 @@ width:150px;
                    with {
                         'edit':'serveurs_edit',
                         'delete':'serveurs_delete',
-                        'show':'serveurs_show'}
+                        'show':'serveurs_show'
+                        }
               %}   
         {% endfor %} 
     </tr>

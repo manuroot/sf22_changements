@@ -120,7 +120,7 @@
                                                       
                                             </ul>
                                  </li>
-                        {% if foo[0] == 'serveurs' %}
+                        {% if foo[0] == 'projets' %}
                                     <li class="dropdown active">
                                     {% else %}  
                                     <li class="dropdown">
@@ -129,6 +129,7 @@
                                                 Projets<b class="caret"></b> </a>
                                             <ul class="dropdown-menu">
                                                   <li><a href="{{ path('projets') }}"><i class="icon-camera"></i> {{ 'Projets'|trans }}</a></li>
+                                                  <li><a href="{{ path('projets_documents') }}"><i class="icon-camera"></i> {{ 'projets_documents'|trans }}</a></li>
           
                                             </ul>
                                  </li>

@@ -9,7 +9,6 @@ use Application\RelationsBundle\Entity\Applis;
  * CertificatsProjet
  *
  * @ORM\Table(name="certificats_projet")
- * @ORM\Entity
  * @ORM\Entity(repositoryClass="Application\RelationsBundle\Repository\ProjetRepository")
  */
 class Projet {

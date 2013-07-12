@@ -1,0 +1,30 @@
+projets_documents:
+    pattern:  /
+    defaults: { _controller: "ApplicationRelationsBundle:Documentbb:index" }
+
+projets_documents_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationRelationsBundle:Documentbb:show" }
+
+projets_documents_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationRelationsBundle:Documentbb:new" }
+
+projets_documents_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationRelationsBundle:Documentbb:create" }
+    requirements: { _method: post }
+
+projets_documents_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationRelationsBundle:Documentbb:edit" }
+
+projets_documents_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationRelationsBundle:Documentbb:update" }
+    requirements: { _method: post|put }
+
+projets_documents_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationRelationsBundle:Documentbb:delete" }
+    requirements: { _method: post|delete }

@@ -27,7 +27,7 @@ use Ob\HighchartsBundle\Highcharts\Highchart;
 use Doctrine\ORM\Tools\Pagination\CountOutputWalker;
 use Application\ChangementsBundle\Entity\ChangementsStatus;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-
+use Application\CentralBundle\Model\MesFiltresBundle;
 /* use Pagerfanta\Pagerfanta;
   use Pagerfanta\Adapter\DoctrineORMAdapter;
   use Pagerfanta\Exception\NotValidCurrentPageException; */
@@ -160,6 +160,8 @@ class ChangementsController extends Controller {
         if ($message)
             $session->getFlashBag()->add('warning', "$message");
 
+        $pager=new MesFiltresBundle();
+      //  $pagination = $pager->createpaginator($queryBuilder, 15);
         $pagination = $this->createpaginator($queryBuilder, 15);
         return $this->render('ApplicationChangementsBundle:Changements:indexpost.html.twig', array(
                     'search_form' => $filterForm->createView(),

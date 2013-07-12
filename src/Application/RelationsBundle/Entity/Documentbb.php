@@ -8,8 +8,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * CertificatsProjet
  *
- * @ORM\Table(name="documentsbb")
- * @ORM\Entity
+ * @ORM\Table(name="projet_alldocuments")
+ * @ORM\Entity(repositoryClass="Application\RelationsBundle\Repository\DocumentbbRepository")
  * @ORM\HasLifecycleCallbacks
  */
 

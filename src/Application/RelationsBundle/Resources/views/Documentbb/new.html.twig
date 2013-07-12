@@ -1,0 +1,55 @@
+{% extends "ApplicationRelationsBundle::layout.html.twig" %}
+{% block stylesheets %}
+{{ parent() }} 
+<link rel="stylesheet" href="{{ asset('css/sliding.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('css/certifcatssearch.css') }}" type="text/css" media="all"/>
+<style>
+        
+        tr.single {
+         background-color: #f1f1f1;
+        }
+
+    </style> 
+{% endblock %}
+    
+
+{% block content_header '' %}
+{% block title %}NOUVEAU DOCUMENT{% endblock %}
+{% block content %}
+
+<form action="{{ path('chronouser_create') }}" method="post" {{ form_enctype(form) }}>
+   <table class="table-mybordered">
+
+          <tr>
+              <td class="calendar">
+
+    <form action="{{ path('projets_documents_create') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+     
+            
+            
+              </td>
+                         <td class="calendar">
+                                <div>
+ {{ form_rest(form) }}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                  <td class="calendar" colspan="2">
+                                    <p>
+                                        <button type="submit" class="btn btn-small btn-warning">Ajouter</button>
+                                        </form>
+       
+                                        <a href="{{  path('projets_documents') }}" class="btn btn-small btn-success">Retour</a>
+                                    </p>
+                                    
+                                    
+                                </td></tr>
+                       
+                       
+                    </table>
+             
+        
+     
+{% endblock %}

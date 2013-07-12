@@ -33,10 +33,11 @@ class ChangementsCommentsRepository extends EntityRepository{
     
 public function getCommentsForChangement($changementId)
     {
-        $qb = $this->createQueryBuilder('c')
-                   ->select('c')
-                   ->where('c.changement = :changement_id')
-                    ->addOrderBy('c.created')
+        $qb = $this->createQueryBuilder('a')
+                   ->select('a,c')
+                 ->leftJoin('a.changement','c')
+                   ->where('c.id = :changement_id')
+                    ->addOrderBy('a.created')
                    ->setParameter('changement_id', $changementId);
 
         
