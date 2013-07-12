@@ -26,6 +26,7 @@ use APY\DataGridBundle\Grid\Export\ExcelExport;
 use Ob\HighchartsBundle\Highcharts\Highchart;
 use Doctrine\ORM\Tools\Pagination\CountOutputWalker;
 use Application\ChangementsBundle\Entity\ChangementsStatus;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 
 /* use Pagerfanta\Pagerfanta;
   use Pagerfanta\Adapter\DoctrineORMAdapter;
@@ -662,6 +663,7 @@ class ChangementsController extends Controller {
     /**
      * Displays a form to create a new Changements entity.
      *
+     * @Secure(roles="ROLE_USER")
      */
     public function newAction() {
         $entity = new Changements();
@@ -729,6 +731,7 @@ class ChangementsController extends Controller {
     /**
      * Creates a new Changements entity.
      *
+     * @Secure(roles="ROLE_USER")
      */
     public function createAction(Request $request) {
         $entity = new Changements();
@@ -753,6 +756,7 @@ class ChangementsController extends Controller {
     /**
      * Displays a form to edit an existing Changements entity.
      *
+     * @Secure(roles="ROLE_USER")
      */
     public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
@@ -779,6 +783,7 @@ class ChangementsController extends Controller {
     /**
      * Edits an existing Changements entity.
      *
+     * @Secure(roles="ROLE_USER")
      */
     public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
@@ -820,6 +825,7 @@ class ChangementsController extends Controller {
     /**
      * Deletes a Changements entity.
      *
+     * @Secure(roles="ROLE_USER")
      */
     public function deleteAction(Request $request, $id) {
         $form = $this->createDeleteForm($id);

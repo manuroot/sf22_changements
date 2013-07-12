@@ -328,6 +328,7 @@ class CertificatsCenterController extends Controller {
     /**
      * Creates a new CertificatsCenter entity.
      *
+     * @Secure(roles="ROLE_USER")
      */
     public function createAction(Request $request) {
         $entity = new CertificatsCenter();
@@ -380,6 +381,7 @@ class CertificatsCenterController extends Controller {
     /**
      * Displays a form to edit an existing CertificatsCenter entity.
      *
+     * @Secure(roles="ROLE_USER")
      */
     public function editAction($id) {
 
@@ -433,6 +435,7 @@ class CertificatsCenterController extends Controller {
     /**
      * Edits an existing CertificatsCenter entity.
      *
+     * @Secure(roles="ROLE_USER")
      */
     public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
@@ -488,7 +491,7 @@ class CertificatsCenterController extends Controller {
     //==============================================
 
     /**
-      // @Secure(roles="ROLE_ADMIN")
+    * @Secure(roles="ROLE_ADMIN")
      */
     public function deleteAction($id) {
 

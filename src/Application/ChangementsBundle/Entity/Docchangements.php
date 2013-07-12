@@ -24,20 +24,23 @@ class Docchangements {
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank
      */
+    // champs supplemanetaire de saisie
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
+    // champs pour nom local aletatoire
     private $path;
 
       /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    private $OriginalFilename;
+     // nom origine du fichier
+       private $OriginalFilename;
     
     
     /**
@@ -255,11 +258,11 @@ public function postLoad()
     public function setName($name) {
        // $this->name = $name;
          if (!isset($name)) {
-            $this->name = "file";
-        }
+            $this->name =$this->getFile()->getClientOriginalName();
+        }else {
     //     $this->OriginalFilename=$this->getFile()->getClientOriginalName();
          $this->name=$name;
-       
+        }
         //$this->file;}
 
         return $this;

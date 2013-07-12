@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Application\RelationsBundle\Form\ServeursFiltresType;
+use JMS\SecurityExtraBundle\Annotation\Secure;
+
 /*
   use Pagerfanta\Pagerfanta;
   use Pagerfanta\Adapter\DoctrineORMAdapter;
@@ -118,6 +120,7 @@ class ServeursController extends Controller {
     /**
      * Displays a form to create a new Serveurs entity.
      *
+     * @Secure(roles="ROLE_USER")
      */
     public function newAction() {
         $entity = new Serveurs();
@@ -147,6 +150,7 @@ class ServeursController extends Controller {
     /**
      * Displays a form to edit an existing Serveurs entity.
      *
+     * @Secure(roles="ROLE_USER")
      */
     public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
@@ -166,6 +170,7 @@ class ServeursController extends Controller {
     /**
      * Edits an existing Serveurs entity.
      *
+     * @Secure(roles="ROLE_USER")
      */
     public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
@@ -195,6 +200,7 @@ class ServeursController extends Controller {
     /**
      * Deletes a Serveurs entity.
      *
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function deleteAction(Request $request, $id) {
         $form = $this->createDeleteForm($id);

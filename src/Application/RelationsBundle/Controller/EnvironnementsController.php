@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Application\RelationsBundle\Entity\Environnements;
 use Application\RelationsBundle\Form\EnvironnementsType;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 
 /**
  * Environnements controller.
@@ -53,6 +54,7 @@ class EnvironnementsController extends Controller
     /**
      * Displays a form to create a new Environnements entity.
      *
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function newAction()
     {
@@ -68,6 +70,7 @@ class EnvironnementsController extends Controller
     /**
      * Creates a new Environnements entity.
      *
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function createAction(Request $request)
     {
@@ -92,6 +95,7 @@ class EnvironnementsController extends Controller
     /**
      * Displays a form to edit an existing Environnements entity.
      *
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function editAction($id)
     {
@@ -148,6 +152,7 @@ class EnvironnementsController extends Controller
     /**
      * Deletes a Environnements entity.
      *
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function deleteAction(Request $request, $id)
     {

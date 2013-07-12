@@ -12,8 +12,12 @@ class DocfichierType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
                 ->add('file')
-                ->add('name')
-         //  ->add('name','text',array('label' => 'Description du Fichier'))
+               // ->add('name')
+           ->add('name','text',array(
+               'label' => 'Description du Fichier',
+               'required'=>false,
+               )
+               )
         ;
     }
 

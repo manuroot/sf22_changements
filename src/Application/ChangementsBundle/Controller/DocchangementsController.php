@@ -101,10 +101,14 @@ class DocchangementsController extends Controller {
             $em = $this->getDoctrine()->getManager();
              // list($fic,$ext)=$entity->getFilename();
             //    echo "ext=$ext $fic<br>";exit(1);
-            
+    
+          // on ajoute cote changement
+                 foreach ($entity->getIdchangement() AS $changement){
+                     $changement->addPicture($entity);
+                 }
+            // on persite coté document
             $em->persist($entity);
             $em->flush();
-
             return $this->redirect($this->generateUrl('docchangements_show', array('id' => $entity->getId())));
         }
 
@@ -162,6 +166,7 @@ class DocchangementsController extends Controller {
                     $change->getPicture()->removeElement( $entity );
                     $em->persist($change);
                 }
+                  //$entity = $em->getRepository('ApplicationChangementsBundle:Docchangements')->find($id);
                   // on ajoute cote changement
                  foreach ($entity->getIdchangement() AS $changement){
                      $changement->addPicture($entity);

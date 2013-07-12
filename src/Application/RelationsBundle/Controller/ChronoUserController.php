@@ -9,7 +9,7 @@ use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Application\RelationsBundle\Entity\ChronoUser;
 use Application\RelationsBundle\Form\ChronoUserType;
-
+use JMS\SecurityExtraBundle\Annotation\Secure;
 /**
  * ChronoUser controller.
  *
@@ -58,7 +58,7 @@ class ChronoUserController extends Controller {
 
     /**
      * Displays a form to create a new ChronoUser entity.
-     *
+       * @Secure(roles="ROLE_ADMIN")
      */
     public function newAction() {
         $entity = new ChronoUser();
@@ -73,6 +73,7 @@ class ChronoUserController extends Controller {
     /**
      * Creates a new ChronoUser entity.
      *
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function createAction(Request $request) {
         $entity = new ChronoUser();
@@ -122,7 +123,7 @@ class ChronoUserController extends Controller {
 
     /**
      * Edits an existing ChronoUser entity.
-     *
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();

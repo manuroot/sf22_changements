@@ -164,7 +164,7 @@ class CertificatsCenter
 
      /**
       * 
-     * @ORM\OneToOne(targetEntity="\Application\CertificatsBundle\Entity\CertificatsFiles",mappedBy = "certificats",cascade={"persist"}), 
+     * @ORM\OneToOne(targetEntity="\Application\CertificatsBundle\Entity\CertificatsFiles",inversedBy = "certificats",cascade={"persist"}), 
      * @ORM\JoinColumn(name = "fichier", nullable = true, referencedColumnName = "id")
      */
     protected $fichier;
