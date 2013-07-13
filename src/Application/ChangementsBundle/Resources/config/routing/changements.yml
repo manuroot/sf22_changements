@@ -63,6 +63,11 @@ changements_edit:
     pattern:  /{id}/edit
     defaults: { _controller: "ApplicationChangementsBundle:Changements:edit" }
 
+changements_newfichier:
+    pattern:  /{id}/newfichier
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:newFichier" }
+
+
 changements_update:
     pattern:  /{id}/update
     defaults: { _controller: "ApplicationChangementsBundle:Changements:update" }

@@ -23,7 +23,7 @@
                                  <i class=" icon-tag"></i></th>
                             <th {% if pagination.isSorted('g.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Env', 'g.nom') }}
                                 <i class=" icon-wrench"></i></th>
-                            <th colspan="3">Actions</th>
+                            <th colspan="4">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,15 +60,15 @@
                             <td>
                                 {% if entity.idStatus.description == 'open' %}
                                     <a class="open" data-id="{{entity.id}}"  href="#{{ entity.id }}">
-                                        <img src="{{ asset('bundles/applicationcertificats/images/cadenas-souvert.png') }}" alt="show" width="15" height="15"/>
+                                        <img src="{{ asset('bundles/applicationchangements/images/cadenas-souvert.png') }}" alt="show" width="15" height="15"/>
                                     </a>
                                 {% elseif   entity.idStatus.description == 'closed' %}
                                     <a class="closed" data-id="{{entity.id}}"  href="#{{ entity.id }}">
-                                        <img src="{{ asset('bundles/applicationcertificats/images/cadenas-sferme.png') }}" alt="show" width="15" height="15" />
+                                        <img src="{{ asset('bundles/applicationchangements/images/cadenas-sferme.png') }}" alt="show" width="15" height="15" />
                                     </a>
                                {% else %}
                                     <a class="open" data-id="{{entity.id}}"  href="#{{ entity.id }}">
-                                        <img src="{{ asset('bundles/applicationcertificats/images/cadenas-sbleu.png') }}" alt="show" width="15" height="15" />
+                                        <img src="{{ asset('bundles/applicationchangements/images/cadenas-sbleu.png') }}" alt="show" width="15" height="15" />
                                     </a>
                                {% endif %}
                             </td> 
@@ -77,13 +77,17 @@
                             <td>{{ entity.idEnvironnement|join(', ') }}</td>
                             <td>
                                 <a class="editme" title="Opération: {{ entity.nom }}" href="{{ path('changements_showXhtml', { 'id': entity.id }) }}">
-                                    <img src="{{ asset('bundles/applicationcertificats/images/detail.png') }}" alt="show" width="15" height="15" />
+                                    <img src="{{ asset('bundles/applicationchangements/images/detail.png') }}" alt="show" width="15" height="15" />
                                 </a>
                             </td>
                             
                         {% if is_granted("ROLE_USER") %}
                                <td><a href="{{ path('changements_edit', { 'id': entity.id }) }}">
-                                <img src="{{ asset('bundles/applicationcertificats/images/edit.png') }}" alt="edit" width="15" height="15" />
+                                <img src="{{ asset('bundles/applicationchangements/images/edit.png') }}" alt="edit" width="15" height="15" />
+                                </a>
+                            </td>
+                             <td><a href="{{ path('changements_newfichier', { 'id': entity.id }) }}">
+                                <img src="{{ asset('bundles/applicationchangements/images/star-on.png') }}" alt="fichier" width="15" height="15" />
                                 </a>
                             </td>
                         {% endif %}
