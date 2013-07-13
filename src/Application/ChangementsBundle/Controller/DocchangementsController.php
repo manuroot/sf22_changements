@@ -160,6 +160,11 @@ class DocchangementsController extends Controller {
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
+            
+             /*  $postData = $request->request->get('doc');
+              //$data = $editForm->getData();
+              var_dump($postData);
+              exit(1); */
             // on vide cote changement
             // ou passer par byreference a false dans le formulaire
             foreach ( $current_changements as $change ){

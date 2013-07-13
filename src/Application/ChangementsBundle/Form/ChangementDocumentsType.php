@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
 
+use Application\ChangementsBundle\Form\EventListener\AddFichierFieldSubscriber;
 
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
@@ -15,6 +16,8 @@ use Symfony\Component\Form\FormEvent;
 class ChangementDocumentsType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
+           $builder->addEventSubscriber(new AddFichierFieldSubscriber());
+   
        
       //  foreach ( $builder->getData()->getId() as $myid){}
         /* if ($builder->getData()->getId()) { 
@@ -22,12 +25,13 @@ class ChangementDocumentsType extends AbstractType {
         }else {
           $builder->add('file','file',array('label'=>'Fichier (*)','required'=>true,));
         }*/
-        $factory = $builder->getFormFactory();
+     /*   $factory = $builder->getFormFactory();
     
      $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
             // respond to the event, modify data, or form elements
  
             $data = $event->getData();
+            var_dump($data);exit(1);
             $form = $event->getForm();
             foreach ($data->getId() as $myid){
            // if ($data->getId()) {
@@ -37,7 +41,7 @@ class ChangementDocumentsType extends AbstractType {
            // }
             //}
             }
-        });
+        });*/
         
        /* if ($builder->getData()->getId()) { // or !getId()
                $builder->add('file','file',array('label'=>'Fichier (*)','required'=>false));
@@ -62,7 +66,7 @@ class ChangementDocumentsType extends AbstractType {
           $builder->add('file','file',array('required'=>false,));
         }*/
                // ->add('name')
-          $builder->add('file',null,array('label'=>'Fichier ()'));
+        //  $builder->add('file',null,array('label'=>'Fichier ()'));
            $builder->add('name','text',array(
                'label' => 'Description du Fichier',
                'required'=>false,

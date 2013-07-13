@@ -782,6 +782,20 @@ class ChangementsController extends Controller {
                 ));
     }
 
+     /**
+     * Displays a form to create a new Docchangements entity.
+     *
+     */
+    public function newFichierAction($id) {
+        $entity = new Docchangements();
+        $form = $this->createForm(new ChangementDocumentsType(), $entity);
+
+        return $this->render('ApplicationChangementsBundle:Changements:new_fichier.html.twig', array(
+                    'entity' => $entity,
+                    'form' => $form->createView(),
+                ));
+    }
+
     /**
      * Edits an existing Changements entity.
      *
@@ -799,9 +813,10 @@ class ChangementsController extends Controller {
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
-            /*  $data = $editForm->getData();
-              var_dump($data);
-              exit; */
+             /*$postData = $request->request->get('changements');
+              //$data = $editForm->getData();
+              var_dump($postData);
+              exit(1); */
             /* if ($form->get('file')->getData() != NULL) {//user have uploaded a new file
               $file = $form->get('file')->getData();//get 'UploadedFile' object
               $news->setPath($file->getClientOriginalName());//change field that holds file's path in db to a temporary value,i.e original file name uploaded by user

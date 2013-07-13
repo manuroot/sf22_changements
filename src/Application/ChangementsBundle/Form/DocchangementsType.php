@@ -6,17 +6,20 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
+use Application\ChangementsBundle\Form\EventListener\AddFichierFieldSubscriber;
+
 
 class DocchangementsType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         
-         if ($builder->getData()->getId()) { 
+         /*if ($builder->getData()->getId()) { 
                $builder->add('file','file',array('label'=>'Fichier','required'=>false));
         }else {
           $builder->add('file','file',array('label'=>'Fichier (*)','required'=>true,));
-        }
-        
+        }*/
+          $builder->addEventSubscriber(new AddFichierFieldSubscriber());
+   
         $builder
               //  ->add('file',null,array('label' => 'MAJ Fichier'))
                      ->add('name',null,array('label' => 'Nom'))
