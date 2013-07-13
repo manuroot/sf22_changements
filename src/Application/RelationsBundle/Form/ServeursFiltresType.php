@@ -8,8 +8,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Application\RelationsBundle\Form;
 
+namespace Application\RelationsBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -29,82 +29,73 @@ class ServeursFiltresType extends AbstractType {
 
 
         $builder
-             
-                
                 ->add('nom', 'filter_text', array(
-                        'text_options'=>array( 'attr' => array('icon' => 'icon-user')),
+                    'text_options' => array('attr' => array('icon' => 'icon-user')),
                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
-                    ))
+                ))
                 ->add('description', 'filter_text', array(
-                      'label'=>'Description',
-                           'text_options'=>array( 'attr' => array('icon' => 'icon-wrench')),
-               
+                    'label' => 'Description',
+                    'text_options' => array('attr' => array('icon' => 'icon-wrench')),
                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'
                     ),))
-                 ->add('ip_in', 'filter_text', array(
-                       'label'=>'IP In',
-                           'text_options'=>array( 'attr' => array('icon' => 'icon-wrench')),
-               
+                ->add('ip_in', 'filter_text', array(
+                    'label' => 'IP In',
+                    'text_options' => array('attr' => array('icon' => 'icon-wrench')),
                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'
                     ),))
-                 
-                 ->add('nom_dns', 'filter_text', array(
-                        'label'=>'Nom DNS',
-                        'text_options'=>array( 'attr' => array('icon' => 'icon-user')),
+                ->add('nom_dns', 'filter_text', array(
+                    'label' => 'Nom DNS',
+                    'text_options' => array('attr' => array('icon' => 'icon-user')),
                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
-                    ))
-                
-                 ->add('ip_out', 'filter_text', array(
-                       'label'=>'IP Out',
-                           'text_options'=>array( 'attr' => array('icon' => 'icon-wrench')),
-               
+                ))
+                ->add('ip_out', 'filter_text', array(
+                    'label' => 'IP Out',
+                    'text_options' => array('attr' => array('icon' => 'icon-wrench')),
                     'condition_pattern' => FilterOperands::OPERAND_SELECTOR,
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'
                     ),))
-                
-               ->add('idsite', 'filter_entity', array(
-                     'label'=>'Site',
+                ->add('idsite', 'filter_entity', array(
+                    'label' => 'Site',
                     'class' => 'Application\RelationsBundle\Entity\ServeursSites',
-                     'query_builder' => function(EntityRepository $em) {
-                return $em->createQueryBuilder('u')
+                    'query_builder' => function(EntityRepository $em) {
+                        return $em->createQueryBuilder('u')
                                 ->orderBy('u.nom', 'ASC');
-            },
+                    },
                     'property' => 'nom',
                     'expanded' => false,
                     'multiple' => false,
                 ))
                 ->add('idzone', 'filter_entity', array(
-                    'label'=>'Zone',
+                    'label' => 'Zone',
                     'class' => 'Application\RelationsBundle\Entity\ServeursZones',
-                     'query_builder' => function(EntityRepository $em) {
-                return $em->createQueryBuilder('u')
+                    'query_builder' => function(EntityRepository $em) {
+                        return $em->createQueryBuilder('u')
                                 ->orderBy('u.nom', 'ASC');
-            },
-                    'property' => 'nom',
-                    'expanded' => false,
-                    'multiple' => false,
-                )) 
-                ->add('id_env', 'filter_entity', array(
-                    'label'=>'Environnement',
-                    'class' => 'Application\RelationsBundle\Entity\Environnements',
-                     'query_builder' => function(EntityRepository $em) {
-                return $em->createQueryBuilder('u')
-                                ->orderBy('u.nom', 'ASC');
-            },
+                    },
                     'property' => 'nom',
                     'expanded' => false,
                     'multiple' => false,
                 ))
-                    ;
-           
+                ->add('id_env', 'filter_entity', array(
+                    'label' => 'Environnement',
+                    'class' => 'Application\RelationsBundle\Entity\Environnements',
+                    'query_builder' => function(EntityRepository $em) {
+                        return $em->createQueryBuilder('u')
+                                ->orderBy('u.nom', 'ASC');
+                    },
+                    'property' => 'nom',
+                    'expanded' => false,
+                    'multiple' => false,
+                ))
+        ;
     }
 
     public function getName() {

@@ -198,7 +198,7 @@ $builder
 
                 //  ->add('product_image')
                   ->add('picture', 'collection', array(
-                    'type' => new DocfichierType(),
+                    'type' => new ChangementDocumentsType(),
                     'allow_add' => true,
                     'by_reference' => false,
                     'allow_delete' => true,

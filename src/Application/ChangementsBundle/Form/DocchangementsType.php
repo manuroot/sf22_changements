@@ -10,10 +10,15 @@ use Doctrine\ORM\EntityRepository;
 class DocchangementsType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
+        
+         if ($builder->getData()->getId()) { 
+               $builder->add('file','file',array('label'=>'Fichier','required'=>false));
+        }else {
+          $builder->add('file','file',array('label'=>'Fichier (*)','required'=>true,));
+        }
+        
         $builder
-                ->add('file',null,array('label' => 'MAJ Fichier',
-               
-               ))
+              //  ->add('file',null,array('label' => 'MAJ Fichier'))
                      ->add('name',null,array('label' => 'Nom'))
                 
             
@@ -33,7 +38,7 @@ class DocchangementsType extends AbstractType {
         $resolver->setDefaults(array(
             //    'data_class' => 'Symfony\Component\HttpFoundation\File\File',
             'data_class' => 'Application\ChangementsBundle\Entity\Docchangements',
-                // 'cascade_validation' => true,
+             'cascade_validation' => true,
         ));
     }
 

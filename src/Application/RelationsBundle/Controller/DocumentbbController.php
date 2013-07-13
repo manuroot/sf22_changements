@@ -62,7 +62,7 @@ class DocumentbbController extends Controller
         $entity  = new Documentbb();
         $form = $this->createForm(new DocumentbbType(), $entity);
         $form->bind($request);
-
+      //  exit(1);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
@@ -159,6 +159,9 @@ class DocumentbbController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            $session = $this->getRequest()->getSession();
+            $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
+         
             return $this->redirect($this->generateUrl('projets_documents_edit', array('id' => $id)));
         }
 

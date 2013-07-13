@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Application\ChangementsBundle\Entity\Changements;
+
 /**
  * Projet
  *
@@ -25,31 +26,34 @@ class Docchangements {
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\NotBlank
      */
     // champs supplemanetaire de saisie
     private $name;
 
-     
-     //@ORM\Column(type="string", length=255, nullable=true)
-     
-    // champs supplemanetaire md5
-   // private $md5;
-    
-    
+    /**
+     * champs supplemanetaire md5
+     * 
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    private $md5;
+
+    /**
+     * @Assert\File(maxSize="6000000")
+     */
+    private $file;
+
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     // champs pour nom local aletatoire
     private $path;
 
-      /**
+    /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-     // nom origine du fichier
-       private $OriginalFilename;
-    
-    
+    // nom origine du fichier
+    private $OriginalFilename;
+
     /**
      *
      * @var ArrayCollection Projet $idchangements
@@ -60,10 +64,7 @@ class Docchangements {
      */
     private $idchangement;
 
-    /**
-     * @Assert\File(maxSize="6000000")
-     */
-    private $file;
+
     //Assert\NotBlank
 
     /**
@@ -73,37 +74,46 @@ class Docchangements {
      * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
+  
+    private $temp;
 
     /**
      * Get id
      *
-     * @return string 
+     * @return UploadedFile
      * fichier temporaire: ex: /tmp/php702KS7
      */
-    
-   // private $OriginalFilename;
-    
+    // private $OriginalFilename;
+
     public function getFile() {
         return $this->file;
     }
- /**
+
+    /**
      * Set file
      *
-     * @param string $file
+     * 
+     * @param UploadedFile $file
      * @return Document
      */
-    public function setFile($file)
-    {
+    public function setFile(UploadedFile $file = null) {
         $this->file = $file;
-    
+        // check if we have an old image path
+        if (isset($this->path)) {
+            // store the old name to delete after the update
+            $this->temp = $this->path;
+            $this->path = null;
+        } else {
+            $this->path = 'initial';
+        }
+
         return $this;
     }
-    
-       public function __toString() {
+
+    public function __toString() {
         return $this->getName();    // this will not look good if SonataAdminBundle uses this ;)
     }
-    
-    
+
     public function getAbsolutePath() {
         return null === $this->path ? null : $this->getUploadRootDir() . '/' . $this->path;
     }
@@ -124,23 +134,30 @@ class Docchangements {
     }
 
     /**
+     * Avant le persist et l'update (fichier deja uploadé)
+     * 
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
     public function preUpload() {
-          $this->updatedAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
         if (null !== $this->file) {
-     
+
             // faites ce que vous voulez pour générer un nom unique
-          // a remettre apres
-          //  $this->path=$this->generateNewFilename();
-           $ext=$this->file->guessExtension();
-           if (! isset($ext)){$ext="bin";}
+            // a remettre apres
+            //  $this->path=$this->generateNewFilename();
+            $ext = $this->file->guessExtension();
+            if (!isset($ext)) {
+                $ext = "bin";
+            }
             $this->path = sha1(uniqid(mt_rand(), true)) . '.' . $ext;
-          $this->OriginalFilename=$this->getFile()->getClientOriginalName();
-    
-       //      echo "pathfilename=" .  $this->path . "<br>";exit(1);
-         //   $this->path = sha1(uniqid(mt_rand(), true)) . '.' . $this->file->guessExtension();
+            // recup nom origne
+            $this->OriginalFilename = $this->getFile()->getClientOriginalName();
+            if (!$this->name)
+                $this->name = $this->OriginalFilename;
+            $this->md5 = md5_file($this->file);
+               $this->updatedAt = new \DateTime();
+
         }
     }
 
@@ -159,76 +176,84 @@ class Docchangements {
         // erreur il y a
         $this->file->move($this->getUploadRootDir(), $this->path);
 
-        unset($this->file);
+        // check if we have an old image
+        if (isset($this->temp)) {
+            // delete the old image
+            unlink($this->getUploadRootDir() . '/' . $this->temp);
+            // clear the temp image path
+            $this->temp = null;
+        }
+       // unset($this->file);
+        // clean up the file property as you won't need it anymore
+        $this->file = null;
     }
-/**
-   * Generates a non-random-filename
-   *
-   * @return string A non-random name to represent the current file
-   */
-  public function getFilename()
-  {
-      // nom du fichier
-    $filename = $this->getFile()->getClientOriginalName();
-    $ext=$this->getFile()->guessExtension();
-  //  $ext = $this->getFile()->getExtension();
-   // if ($ext !==null)
-   
-    
-     echo "root dir=" . $this->getUploadRootDir() . "<br>";
-     echo "file=$filename<br>";
-     $name = substr($filename, 0, - strlen($ext));
-    $i = 1;
-  //  $this->getUploadRootDir(), $this->path;
-    $fullpath=$this->getUploadRootDir();
-    while(file_exists($fullpath . '/' .  $filename)) {
-      $filename = $name . '-' . $i . $ext;
-      $i++;
+
+    /**
+     * Generates a non-random-filename
+     *
+     * @return string A non-random name to represent the current file
+     */
+    public function getFilename() {
+        // nom du fichier
+        $filename = $this->getFile()->getClientOriginalName();
+        $ext = $this->getFile()->guessExtension();
+        //  $ext = $this->getFile()->getExtension();
+        // if ($ext !==null)
+
+
+        echo "root dir=" . $this->getUploadRootDir() . "<br>";
+        echo "file=$filename<br>";
+        $name = substr($filename, 0, - strlen($ext));
+        $i = 1;
+        //  $this->getUploadRootDir(), $this->path;
+        $fullpath = $this->getUploadRootDir();
+        while (file_exists($fullpath . '/' . $filename)) {
+            $filename = $name . '-' . $i . $ext;
+            $i++;
+        }
+        echo "ext=$ext<br>";
+        echo "new name=$filename<br>";
+        exit(1);
+
+
+        return array($filename, $ext,);
     }
-     echo "ext=$ext<br>";
-      echo "new name=$filename<br>";
-     exit(1);
-   
-    
-    return array($filename,$ext,);
-  }
-  
-  
-   public function generateNewFilename()
-  {
-      // nom du fichier
-    $filename = $this->getFile()->getClientOriginalName();
-    $ext=$this->getFile()->guessExtension();
-  //  $ext = $this->getFile()->getExtension();
-   // if ($ext !==null)
-   
-    
-     echo "root dir=" . $this->getUploadRootDir() . "<br>";
-     echo "file=$filename<br>";
-     if (isset($ext) && strlen($ext)>0){
-            $name = substr($filename, 0, - (strlen($ext)+1));
-             $i = 1;
-  //  $this->getUploadRootDir(), $this->path;
-    $fullpath=$this->getUploadRootDir();
-    while(file_exists($fullpath . '/' .  $filename)) {
-      $filename = $name . '-' . $i . '.' . $ext;
-      $i++;
+
+    public function generateNewFilename() {
+        // nom du fichier
+        $filename = $this->getFile()->getClientOriginalName();
+        $ext = $this->getFile()->guessExtension();
+        //  $ext = $this->getFile()->getExtension();
+        // if ($ext !==null)
+
+
+        echo "root dir=" . $this->getUploadRootDir() . "<br>";
+        echo "file=$filename<br>";
+        if (isset($ext) && strlen($ext) > 0) {
+            $name = substr($filename, 0, - (strlen($ext) + 1));
+            $i = 1;
+            //  $this->getUploadRootDir(), $this->path;
+            $fullpath = $this->getUploadRootDir();
+            while (file_exists($fullpath . '/' . $filename)) {
+                $filename = $name . '-' . $i . '.' . $ext;
+                $i++;
+            }
+        }
+        else
+            $name = $filename;
+
+        echo "ext=$ext<br>name=$name<br>";
+        echo "new name=$filename<br>";
+        exit(1);
+
+
+        return ($filename);
     }
-     }
-     else 
-           $name=$filename;
-   
-     echo "ext=$ext<br>name=$name<br>";
-      echo "new name=$filename<br>";
-     exit(1);
-   
-    
-    return ($filename);
-  }
-  public function generatePathFileName($file)
-{
-  return $file->getOriginalName();
-}
+
+    public function generatePathFileName($file) {
+        return $file->getOriginalName();
+    }
+
     /**
      * @ORM\PostRemove()
      */
@@ -239,13 +264,12 @@ class Docchangements {
     }
 
     /**
- * @ORM\PostLoad()
- */
-public function postLoad()
-{
-    $this->updatedAt = new \DateTime();
-}
-
+     * @ORM\PostLoad()
+     */
+    public function postLoad() {
+        //  nimporte koi!!
+        //   $this->updatedAt = new \DateTime();
+    }
 
     /**
      * Get id
@@ -263,35 +287,29 @@ public function postLoad()
      * @return Document
      */
     public function setName($name) {
-       // $this->name = $name;
-         if (!isset($name)) {
-            $this->name =$this->getFile()->getClientOriginalName();
-        }else {
-    //     $this->OriginalFilename=$this->getFile()->getClientOriginalName();
-         $this->name=$name;
-        }
-        //$this->file;}
-
+        // $this->name = $name;
+        if (isset($name))
+            $this->name = $name;
         return $this;
     }
 
-      /**
-      *  Set name
+    /**
+     *  Set name
      *
      * @param string $name
      * @return Document
      */
     public function setOriginalFilename() {
-       // $this->name = $name;
-       
-         $this->OriginalFilename=$this->getFile()->getClientOriginalName();
-       
+        // $this->name = $name;
+
+        $this->OriginalFilename = $this->getFile()->getClientOriginalName();
+
         //$this->file;}
 
         return $this;
     }
-    
-     /**
+
+    /**
      * Get name
      *
      * @return string 
@@ -299,9 +317,7 @@ public function postLoad()
     public function getOriginalFilename() {
         return $this->OriginalFilename;
     }
-    
-    
-    
+
     /**
      * Get name
      *
@@ -337,7 +353,6 @@ public function postLoad()
      */
     public function __construct() {
         $this->idchangement = new ArrayCollection();
-        
     }
 
     /**
@@ -347,20 +362,19 @@ public function postLoad()
      * @return Docchangements
      */
     public function addIdchangement(Changements $idchangement) {
-         if (!$this->idchangement->contains($idchangement)) {
-        if (!$idchangement->getPicture()->contains($this)) {
-           
+        if (!$this->idchangement->contains($idchangement)) {
+            if (!$idchangement->getPicture()->contains($this)) {
+
                 $idchangement->addPicture($this);  // Lie le Client au produit.
             }
             $this->idchangement->add($idchangement);
         }
         //$this->idchangement[] = $idchangement;
-
-      //  return $this;
+        //  return $this;
     }
 
     public function setIdchangement($items) {
-         if ($items instanceof ArrayCollection || is_array($items)) {
+        if ($items instanceof ArrayCollection || is_array($items)) {
             foreach ($items as $item) {
                 $this->addIdchangement($item);
             }
@@ -370,21 +384,19 @@ public function postLoad()
             throw new \Exception("$items must be an instance of Changements or ArrayCollection");
         }
     }
+
     /**
      * Remove idchangement
      *
      * @param \Application\ChangementsBundle\Entity\Changements $idchangement
      */
-    
-     public function removeIdchangement(Changements $idchangement) {
+    public function removeIdchangement(Changements $idchangement) {
         if (!$this->idchangement->contains($idchangement)) {
             return;
         }
         $this->idchangement->removeElement($idchangement);
         $idchangement->removePicture($this);
     }
-    
-  
 
     /**
      * Get idchangement
@@ -394,7 +406,6 @@ public function postLoad()
     public function getIdchangement() {
         return $this->idchangement;
     }
- 
 
     /**
      * Set updatedAt
@@ -402,10 +413,9 @@ public function postLoad()
      * @param \DateTime $updatedAt
      * @return Docchangements
      */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-    
+    public function setUpdatedAt($updatedAt) {
+       $this->updatedAt = $updatedAt;
+
         return $this;
     }
 
@@ -414,8 +424,7 @@ public function postLoad()
      *
      * @return \DateTime 
      */
-    public function getUpdatedAt()
-    {
+    public function getUpdatedAt() {
         return $this->updatedAt;
     }
 
@@ -425,10 +434,9 @@ public function postLoad()
      * @param string $md5
      * @return Docchangements
      */
-    public function setMd5($md5)
-    {
+    public function setMd5($md5) {
         $this->md5 = $md5;
-    
+
         return $this;
     }
 
@@ -437,8 +445,8 @@ public function postLoad()
      *
      * @return string 
      */
-    public function getMd5()
-    {
+    public function getMd5() {
         return $this->md5;
     }
+
 }

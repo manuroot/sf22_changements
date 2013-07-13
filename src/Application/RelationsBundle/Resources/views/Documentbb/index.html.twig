@@ -79,7 +79,7 @@ width:150px;
 {% endfor %}
 
    {% if is_granted("ROLE_ADMIN") %}
-<a href="{{ path('projets_documents_new') }}" class="btn btn-medium btn-primary">Ajouter Projet</a>
+<a href="{{ path('projets_documents_new') }}" class="btn btn-medium btn-primary">Ajouter Document</a>
 {% endif %}
 <br> <br>  
     
@@ -89,6 +89,12 @@ width:150px;
                 <th>Id</th>
                 <th>Name</th>
                 <th>Path</th>
+                     <th{% if pagination.isSorted('a.md5') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'md5', 'a.md5') }}</th>
+             
+                  <th{% if pagination.isSorted('a.updatedAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date Update', 'a.updatedAt') }}</th>
+                <th>Projets</th>
+            
+     
                  {% if is_granted("ROLE_ADMIN") %}
                 <th colspan="2">Actions</th>
                 {% else %}
@@ -101,7 +107,16 @@ width:150px;
             <tr>
                 <td><a href="{{ path('projets_documents_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.name }}</td>
-                <td>{{ entity.path }}</td>
+                <td>{% if entity.path %}
+                 <a href="{{ path('download_route', { 'filename': entity.path }) }}">{{ entity.path }}</a>
+                 {% endif %}
+                 </td>
+            
+          
+                  <td>{{ entity.md5 }}</td>
+           <td>{% if entity.updatedAt is not empty %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            <td>{{ entity.idprojets|join('<br> ')|raw }}</td>
+                    
                 
                           {% include 'ApplicationRelationsBundle:Template:index-actions.html.twig' 
        with {'edit':'projets_documents_edit',

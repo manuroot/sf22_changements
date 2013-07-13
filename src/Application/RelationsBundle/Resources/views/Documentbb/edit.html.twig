@@ -3,6 +3,13 @@
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/table.css') }}" type="text/css" media="all"/>
+<style>
+        select#doc_idprojets {
+            height:300px;
+            width:200px;
+        }
+    </style>
+    </style>
  {% endblock %}
 
 
@@ -25,11 +32,16 @@
            
     <form action="{{ path('projets_documents_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
         <input type="hidden" name="_method" value="PUT" />
-        <tr><td class="calendar">   {{ form_widget(edit_form) }}
-                
-                 <tr>
+        <tr><td class="calendar">  
+
+                 {{ form_row(edit_form.file) }}
+                {{ form_row(edit_form.name) }}
+                </td>
+                 
               <td class="calendar">
                     {{ form_rest(edit_form) }}
+                      </td></tr><tr>
+                  <td colspan="2" class="calendar"> 
                      <button type="submit" class="btn btn-large btn-warning">Modifier</button>
                       <a href="{{ path('projets_documents') }}" class="btn btn-large btn-success">Retour</a>
    </form>
@@ -39,7 +51,7 @@
                                 </td>
                             </tr>
                        <tr>
-            <td class="calendar">
+            <td colspan="2" class="calendar"> 
  
          <form action="{{ path('projets_documents_delete', { 'id': entity.id }) }}" method="post">
           <input type="hidden" name="_method" value="DELETE" />
