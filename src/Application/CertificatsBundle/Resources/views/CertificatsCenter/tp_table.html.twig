@@ -20,8 +20,11 @@
  
   <th{% if pagination.isSorted('a.serviceName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Service', 'a.serviceName') }}</th>
   <th{% if pagination.isSorted('e.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Env', 'e.nom') }}</th>
+ <th>F</th>
  <th{% if pagination.isSorted('d.nomUser') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'U', 'd.nomUser') }}
+     
         <i class=" icon-white icon-user"></i></th>
+ 
            {% if is_granted("ROLE_ADMIN") %}
  <th colspan="3"><center>Actions</center></th>
 {% else %}
@@ -87,7 +90,8 @@
              {{ entity.idEnvironnement.nom }}
              {% endif %}
                  </td>
-             
+             <td> {% if entity.Fichier %} 1 {% else %} 0 {% endif %}
+                 </td>
             <td>{{ entity.demandeur }}</td>
            <!-- <td>{{ entity.way }}</td>-->
            <!-- <td>{{ entity.statusFile }}</td>-->

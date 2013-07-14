@@ -324,6 +324,7 @@ class CertificatsCenterController extends Controller {
                     'entity' => $entity,
                     'form' => $form->createView(),
                     'btnretour' => $myretour,
+            'fichier'=>null,
         ));
     }
 
@@ -424,11 +425,14 @@ class CertificatsCenterController extends Controller {
         $editForm = $this->createForm(new CertificatsCenterType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
+        $fichier=$entity->getFichier();
+       
         return $this->render('ApplicationCertificatsBundle:CertificatsCenter:edit.html.twig', array(
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
                     'btnretour' => $myretour,
+            'fichier'=>$fichier,
                         //   'acl'=>$acl,
                         //  'idty'=>$securityIdentity,
         ));
@@ -453,23 +457,35 @@ class CertificatsCenterController extends Controller {
 
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createForm(new CertificatsCenterType(), $entity);
-
-     //   $postData = $request->request->get('moncert');
-        
-       /* $uploadedFile = $request->files->get('moncert');
+       // $postData = $request->request->all;
+$postData = $this->getRequest()->request;        
+        $uploadedFile = $request->files->get('moncert');
         if ($uploadedFile['fichier']['file'] != NULL) {
                print_r($uploadedFile['fichier']['file']);
                 $entity->setFichier(NULL);
                //$userProfile->setPicture(NULL);
-        }*/
-        //var_dump($request->request->all());
+        }else {
+            // si pas de fichier en base
+            echo "pas de fichier";
+            $fichier_entity=$entity->getFichier();
+            if (!$fichier_entity){
+             //   $entity->setFichier(null);
+                
+                echo "<br>Nok fichier pas en base<br>";
+            //    unset($request["moncert"]["fichier"]);
+            }
+            else { echo "<br>ok fichier deja en base<br>";}
+        }
+      //  echo "<br>datas?<br>";
+     //   var_dump($postData);
         //   unset($postData['id']);
              // var_dump($postData);
               //print_r($postData);
 //exit(1);
        // non sinon il en manque !!
-         $editForm->bind($request);
-  
+    //    $editForm->bind($postData);
+    $editForm->bind($request);
+
   
         if ($editForm->isValid()) {
             $em->persist($entity);

@@ -759,7 +759,7 @@ ORDER BY
      * @param \Application\CertificatsBundle\Entity\CertificatsFiles $fichier
      * @return CertificatsFiles
      */
-    public function addFichier(CertificatsFiles $fichier) {
+    public function addFichier(CertificatsFiles $fichier=null) {
         $this->fichier = $fichier;
 
         return $this;

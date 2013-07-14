@@ -17,12 +17,13 @@ class FichiersType extends AbstractType {
    
         
            $builder
-                   ->add('file')
-                   ->add('name','text',array(
+                 ->add('file')
+               /*    ->add('name','text',array(
                'label' => 'Description du Fichier',
                'required'=>false,
                )
-               );             
+               )*/
+                   ;             
         
     }
 
@@ -35,7 +36,7 @@ class FichiersType extends AbstractType {
     }
 
     public function getName() {
-        return 'moncert';
+        return 'fichier_certificats';
     }
 
 }

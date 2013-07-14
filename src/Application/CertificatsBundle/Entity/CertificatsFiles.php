@@ -28,12 +28,7 @@ class CertificatsFiles {
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    // champs supplemanetaire de saisie
-    private $name;
-
+  
     /**
      * champs supplemanetaire md5
      * 
@@ -66,7 +61,14 @@ class CertificatsFiles {
     
     protected $certificats;
     
-    
+     /**
+     * Date/Time of the update
+     *
+     * @var \Datetime
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    private $createdAt;
+  
 
     //Assert\NotBlank
 
@@ -74,7 +76,7 @@ class CertificatsFiles {
      * Date/Time of the update
      *
      * @var \Datetime
-     * @ORM\Column(name="updated_at", type="datetime")
+     * @ORM\Column(name="updated_at", type="datetime",nullable=true)
      */
     private $updatedAt;
   
@@ -139,13 +141,25 @@ class CertificatsFiles {
     }
 
     /**
+      * @ORM\PrePersist()
+     */
+     public function preTestFic() {
+        
+          if (null !== $this->file) {
+             $this->createdAt = new \DateTime();   
+          }
+        // si pa de fichier physique
+        if (null == $this->path && null==$this->file) {
+            return;
+        }
+     }
+    /**
      * Avant le persist et l'update (fichier deja uploadé)
      * 
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
     public function preUpload() {
-        $this->updatedAt = new \DateTime();
         
         // si upload de fichier (temp file)
         if (null !== $this->file) {
@@ -161,23 +175,32 @@ class CertificatsFiles {
             $this->path = sha1(uniqid(mt_rand(), true)) . '.' . $ext;
             // recup nom origne
             $this->OriginalFilename = $this->getFile()->getClientOriginalName();
-            if (!$this->name || $this->name =="")
-                $this->name = $this->OriginalFilename;
-            $this->md5 = md5_file($this->file);
+             $this->md5 = md5_file($this->file);
+             // date fichier uploadé
                $this->updatedAt = new \DateTime();
-              
+             //   $this->createdAt = new \DateTime();
         }
-        // check du md5
+        // check du md5 si fichier existe deja
+        if ($this->path){
+            //   $this->updatedAt = new \DateTime();
+      
           if (!$this->md5 && (file_exists($this->getUploadDir() . '/' . $this->path))){
              $this->md5 = md5_file($this->getUploadDir() . '/' . $this->path);
         }
         // check du nom
-         if (!$this->name || $this->name =="TOTO" ){
+      /*   if (!$this->name || $this->name =="TOTO" ){
               $this->name = $this->OriginalFilename;
-         }
+         }*/
+        }
+        if (!$this->createdAt){
+             $this->createdAt = new \DateTime();
+        }
          // echo "here 222";exit(1);
     }
 
+    
+     
+        
     /**
      * @ORM\PostPersist()
      * @ORM\PostUpdate()
@@ -297,21 +320,7 @@ class CertificatsFiles {
         return $this->id;
     }
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return Document
-     */
-    public function setName($name) {
-        // $this->name = $name;
-        if (isset($name) && $name !="")
-            $this->name = $name;
-        else 
-            $this->name = "TOTO";
-        return $this;
-    }
-
+   
     /**
      *  Set name
      *
@@ -337,14 +346,7 @@ class CertificatsFiles {
         return $this->OriginalFilename;
     }
 
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName() {
-        return $this->name;
-    }
+  
 
     /**
      * Set path
@@ -375,6 +377,28 @@ class CertificatsFiles {
     }
 
    
+     /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreateddAt() {
+        return $this->createdAt;
+    }
+    
+    
+     /**
+     * Set updatedAt
+     *
+     * @param \DateTime $createdAt
+     * @return Docchangements
+     */
+    public function setCreatedAt($createdAt) {
+       $this->createdAt = $createdAt;
+
+        return $this;
+    }
+    
     /**
      * Set updatedAt
      *

@@ -23,13 +23,13 @@ class CertificatsCenterRepository extends EntityRepository {
        
       //  $id=2;
         $query=$this->createQueryBuilder('a')
-                ->select(array('a,b,c,d,e'))
-               
+                ->select(array('a,b,c,d,e,f'))
+                
                         ->leftJoin('a.project', 'b')
                         ->leftJoin('a.typeCert', 'c')
                 ->leftJoin('a.demandeur', 'd')
                  ->leftJoin('a.idEnvironnement', 'e')
-                
+                ->leftJoin('a.fichier', 'f')
                         ->orderBy('a.id', 'DESC') ;
         if (isset($id)){
                $query->andwhere('b.id = :myid');

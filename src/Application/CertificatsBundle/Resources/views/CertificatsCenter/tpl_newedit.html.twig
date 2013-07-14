@@ -87,6 +87,17 @@
     {{ form_widget(form.description) }}                            </td>
                             <td class="calendar">
                                 <div>
+                                    {% if fichier is not null %}                
+                                        Actuel: <br>
+                                  <strong>  {{ fichier.OriginalFilename }}
+                                        <br>
+                                        {{ fichier.updatedAt|date('Y-m-d H:i:s') }}
+                                        </strong>
+                                        {% else %}
+                                        (Pas de fichier actuellement)
+                                        {% endif %}
+          {{ form_errors(form.fichier) }}
+       {{ form_widget(form.fichier) }}                           
  {{ form_rest(form) }}
                                     </div>
                                 </td>
