@@ -118,8 +118,27 @@
              {% for appli in applis %} {{ appli.nomapplis }}
 
        {% endfor %}
-                        </td>
+                   </td>
+               
         </tr>
+           {% if  entity.fichier %}
+         
+             <tr>
+             <td class="viewlabel">Fichier Nom</td>
+            <td>{{ entity.fichier.OriginalFilename }}  </td>
+        </tr>     
+         <tr>
+           <td class="viewlabel">Fichier Lien</td>
+            <td><a class="fichier" href="{{ path('download_route', { 'filename': entity.fichier.path }) }}">{{ entity.fichier.path }}</a>
+            </td>
+        </tr>     
+        
+          <tr>
+           <td class="viewlabel">Fichier md5</td>
+          <td>{{ entity.fichier.md5 }}  </td>
+            </td>
+        </tr> 
+        {% endif %}
     </tbody>
 </table>
 

@@ -7,14 +7,23 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
 
-class CertificatsFilesType extends AbstractType {
+use Application\CertificatsBundle\Form\EventListener\AddFichierFieldSubscriber;
+
+
+class FichiersType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder
-                ->add('file','file')
-              //  ->add('name')
-         //  ->add('name','text',array('label' => 'Description du Fichier'))
-        ;
+         //  $builder->addEventSubscriber(new AddFichierFieldSubscriber());
+   
+        
+           $builder
+                   ->add('file')
+                   ->add('name','text',array(
+               'label' => 'Description du Fichier',
+               'required'=>false,
+               )
+               );             
+        
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
@@ -26,7 +35,7 @@ class CertificatsFilesType extends AbstractType {
     }
 
     public function getName() {
-        return 'certificats_fichier';
+        return 'moncert';
     }
 
 }

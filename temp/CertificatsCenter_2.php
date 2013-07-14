@@ -17,13 +17,15 @@ use Application\RelationsBundle\Entity\Projet;
 use Application\RelationsBundle\Entity\Applis;
 use Application\RelationsBundle\Entity\FileType;
 use Symfony\Component\HttpFoundation\File\File;
-use Application\CertificatsBundle\Entity\CertificatsFiles;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 /**
  * CertificatsCenter
  *
  * @ORM\Table(name="certificats_center")
  * @ORM\Entity(repositoryClass="Application\CertificatsBundle\Entity\CertificatsCenterRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @Vich\Uploadable
  * @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,idEnvironnement.nom,typeCert.fileType,idapplis.nomapplis:GroupConcat",groupBy={"id"}) 
  */
 
@@ -162,12 +164,28 @@ class CertificatsCenter
 
      /**
       * 
-     * @ORM\OneToOne(targetEntity="\Application\CertificatsBundle\Entity\CertificatsFiles",mappedBy="certificats",cascade={"persist","remove"}), 
-     * @ORM\JoinColumn(name = "fichier", nullable = true, referencedColumnName = "id",onDelete="set null")
+     * @ORM\OneToOne(targetEntity="\Application\CertificatsBundle\Entity\CertificatsFiles",mappedBy = "certificats",cascade={"persist"}), 
+     * @ORM\JoinColumn(name = "fichier", nullable = true, referencedColumnName = "id")
      */
     protected $fichier;
     
-   
+    /**
+* @Assert\File(
+* maxSize="5M",
+* mimeTypes={"image/png", "image/jpeg", "image/pjpeg","image/gif"}
+* )
+* @Vich\UploadableField(mapping="product_image", fileNameProperty="imageName")
+*
+* @var File $image
+*/
+    protected $image;
+
+    /**
+* @ORM\Column(type="string", length=255, name="image_name", nullable=true)
+*
+* @var string $imageName
+*/
+    protected $imageName;
 
 
      /**
@@ -724,34 +742,7 @@ ORDER BY
      */
 
     
-  
-     
-   
-    /**
-     * Remove fichier
-     *
-     * @param 
-     */
-     /**
-     * Remove fichier
-     *
-     * @param Docchangements $picture
-     */
-    public function removeFichier(\Application\CertificatsBundle\Entity\CertificatsFiles $fichier){
-        if (!$this->fichier->contains($fichier)) {
-            return;
-        }
-        $this->fichier->removeElement($fichier);
-
-       // $fichier->removeIdchangement($this);
-      
-        }
-        
-    /*public function removePicture(Docchangements $picture)
-    {
-        $this->picture->removeElement($picture);
-    }
-    */
+    
     
      /**
      * Add fichier
@@ -759,7 +750,7 @@ ORDER BY
      * @param \Application\CertificatsBundle\Entity\CertificatsFiles $fichier
      * @return CertificatsFiles
      */
-    public function addFichier(CertificatsFiles $fichier) {
+    public function addFichier(\Application\CertificatsBundle\Entity\CertificatsFiles $fichier) {
         $this->fichier = $fichier;
 
         return $this;
@@ -770,13 +761,8 @@ ORDER BY
      * @param \Application\CertificatsBundle\Entity\CertificatsFiles $fichier
      * @return CertificatsCenter
      */
-    public function setFichier(CertificatsFiles $fichier = null)
+    public function setFichier(\Application\CertificatsBundle\Entity\CertificatsFiles $fichier = null)
     {
-          /* if ($item instanceof CertificatsFiles) {
-            $this->addFichier($item);
-        } else {
-            throw new \Exception("$items must be an instance of Applus or ArrayCollection");
-        }*/
         $this->fichier = $fichier;
     
         return $this;
@@ -792,7 +778,47 @@ ORDER BY
         return $this->fichier;
     }
 
- 
+  /**
+* Set image
+*
+* @param string $image
+* @return Message
+*/
+    public function setImage($image) {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+* Get image
+*
+* @return string
+*/
+    public function getImage() {
+        return $this->image;
+    }
+
+    /**
+* Set imageName
+*
+* @param string $imageName
+* @return Message
+*/
+    public function setImageName($imageName) {
+        $this->imageName = $imageName;
+        return $this;
+    }
+
+    /**
+* Get imageName
+*
+* @return string
+*/
+    public function getImageName() {
+        return $this->imageName;
+    }
+    
     
      /**
      * Set environnement

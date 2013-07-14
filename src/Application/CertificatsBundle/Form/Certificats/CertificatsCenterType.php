@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
+
 use Symfony\Component\HttpFoundation\File\File;
 
 class CertificatsCenterType extends AbstractType {
@@ -107,11 +108,16 @@ class CertificatsCenterType extends AbstractType {
                 'type' => 'prepend'
             ),
         ));
-         $builder->add('image', 'file', array(
+       /* $builder->add('fichier', 'file', array(
                     'data_class' => 'Symfony\Component\HttpFoundation\File\File',
-                    'property_path' => 'image',
+                    'property_path' => 'fichier',
                     'required' => false,
-                ));
+                ));*/
+          $builder->add('fichier', new FichiersType());
+                    
+                 
+        //  $builder->add('fichier','file');
+               
               //    $builder->add('imageName','file');
         //
        //        ->add('fichier','file');
@@ -228,7 +234,8 @@ class CertificatsCenterType extends AbstractType {
 
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
-            'data_class' => 'Application\CertificatsBundle\Entity\CertificatsCenter'
+            'data_class' => 'Application\CertificatsBundle\Entity\CertificatsCenter',
+            'cascade_validation' => true,
         ));
     }
 

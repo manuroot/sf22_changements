@@ -33,6 +33,8 @@ use APY\DataGridBundle\Grid\Export\CSVExport;
 use APY\DataGridBundle\Grid\Export\ExcelExport;
 use Application\CertificatsBundle\Model\MyOpenSsl;
 use Application\CentralBundle\Model\MesFiltres;
+use Application\CertificatsBundle\Entity\CertificatsFiles;
+
 //use APY\DataGridBundle\Grid\Export\PHPExcelPDFExport;
 //use APY\DataGridBundle\Grid\Export\ExcelExport;
 
@@ -452,13 +454,23 @@ class CertificatsCenterController extends Controller {
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createForm(new CertificatsCenterType(), $entity);
 
-        $postData = $request->request->get('moncert');
+     //   $postData = $request->request->get('moncert');
+        
+       /* $uploadedFile = $request->files->get('moncert');
+        if ($uploadedFile['fichier']['file'] != NULL) {
+               print_r($uploadedFile['fichier']['file']);
+                $entity->setFichier(NULL);
+               //$userProfile->setPicture(NULL);
+        }*/
         //var_dump($request->request->all());
         //   unset($postData['id']);
-        //      var_dump($postData);
-
-        $editForm->bind($postData);
-
+             // var_dump($postData);
+              //print_r($postData);
+//exit(1);
+       // non sinon il en manque !!
+         $editForm->bind($request);
+  
+  
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
