@@ -69,7 +69,7 @@ $builder
                     'label' => 'Ticket Externe',
                   
                   'attr' => array(
-                           'style' => 'width:120px',
+                           'style' => 'width:150px',
                            'placeholder' => 'ex: [1-XXXXXX | XXXXX]'
                                     ),
                     'widget_addon' => array(
@@ -79,7 +79,7 @@ $builder
         
                 ->add('ticketInt', null, array(
                      'attr' => array(
-                          'style' => 'width:120px',
+                          'style' => 'width:150px',
                         'placeholder' => 'ex: 12345 (5 a 10 car.)'
                                     ),
                      

@@ -33,8 +33,15 @@
 
   {% block stylesheets %}
 {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
+          <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/changements.css') }}" type="text/css" media="all"/>
+          <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>
+   
+  {#
+a remettre: ne marche pas sous windows
     <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
-   <style>
+   #}
+  <style>
 
             .table {
                 font-size: 11px;

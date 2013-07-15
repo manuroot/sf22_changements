@@ -787,13 +787,26 @@ class ChangementsController extends Controller {
      *
      */
     public function newFichierAction($id) {
-        $entity = new Docchangements();
-        $form = $this->createForm(new ChangementDocumentsType(), $entity);
+      
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindaIdAll($id);
+        //myFindIdAll($id,$criteria = array()) 
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Changements entity.');
+        }
+       $editForm = $this->createForm(new ChangementsType(), $entity);
 
-        return $this->render('ApplicationChangementsBundle:Changements:new_fichier.html.twig', array(
+
+        
+     
+    //    $entity = new Docchangements();
+    
+ return $this->render('ApplicationChangementsBundle:Changements:new_fichier.html.twig', array(
                     'entity' => $entity,
-                    'form' => $form->createView(),
+                    'edit_form' => $editForm->createView(),
+                
                 ));
+      
     }
 
     /**
