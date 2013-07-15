@@ -115,7 +115,7 @@ width:150px;
           
                   <td>{{ entity.md5 }}</td>
            <td>{% if entity.updatedAt is not empty %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-            <td>{{ entity.idprojets|join('<br> ')|raw }}</td>
+            <td>{{ entity.idprojet|join('<br> ')|raw }}</td>
                     
                 
                           {% include 'ApplicationRelationsBundle:Template:index-actions.html.twig' 

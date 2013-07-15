@@ -5,10 +5,11 @@ namespace Application\RelationsBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Application\RelationsBundle\Entity\Applis;
+use Application\RelationsBundle\Entity\Documentbb;
 /**
  * CertificatsProjet
  *
- * @ORM\Table(name="certificats_projet")
+ * @ORM\Table(name="projet_main")
  * @ORM\Entity(repositoryClass="Application\RelationsBundle\Repository\ProjetRepository")
  */
 class Projet {
@@ -48,11 +49,17 @@ class Projet {
      */
     private $idapplis;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Documentbb", inversedBy="idprojets",cascade={"persist"},orphanRemoval=true)
-     * @ORM\JoinTable(name="projet_documents")
+       
+     /**
+     * Owner side
+     * 
+     * @ORM\ManyToMany(targetEntity="Documentbb", inversedBy="idprojet",cascade={"persist"})
+     * @ORM\JoinTable(name="projet_documents",
+     * joinColumns={@ORM\JoinColumn(name="projet_id", referencedColumnName="id")},
+     *   inverseJoinColumns={@ORM\JoinColumn(name="documentbb_id", referencedColumnName="id")}
+     * )
      */
-    protected $picture;
+     protected $picture;
 
     /**
      * Get id
@@ -118,17 +125,26 @@ class Projet {
     
     
     
-    
-    
-      /**
+    /**
+     * Get picture
+     *
+     * @return Docchangements 
+     */
+    public function getPicture()
+    {
+        return $this->picture;
+    }
+
+   
+   
+    /**
      * Add picture
      *
-     * @param \Application\RelationsBundle\Entity\Documentbb $picture
-     * @return CertificatsProjet
-     
+     * @param Docchangements $picture
+     * @return Changements
      */
-      public function addPicture(Documentbb $picture) {
-   
+      public function addPicture(Documentbb $picture)
+    {
      // Si l'objet fait déjà partie de la collection on ne l'ajoute pas
          if (!$this->picture->contains($picture)) {
             $this->picture->add($picture);
@@ -138,9 +154,11 @@ class Projet {
       /**
      * Set picture
      *
-     * @param Documentbb $picture
-     * @return Projet
+     * @param Docchangements $picture
+     * @return Changements
      */
+    
+   // public function setPicture(Docchangements $picture = null)
      public function setPicture($items)
     {
         if ($items instanceof ArrayCollection || is_array($items)) {
@@ -169,29 +187,11 @@ class Projet {
             return;
         }
         $this->picture->removeElement($picture);
-
         $picture->removeIdprojet($this);
+       //removeIdchangement(\Application\ChangementsBundle\Entity\Changements $idchangement) {
         }
-        
-  
-    
-    /**
-     * Remove picture
-     *
-     * @param \Application\RelationsBundle\Entity\Document $picture
-     */
-    /*public function removePicture(\Application\RelationsBundle\Entity\Documentbb $picture) {
-        $this->picture->removeElement($picture);
-    }*/
-
-    /**
-     * Get picture
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getPicture() {
-        return $this->picture;
-    }
+   
+       
 
    /**
      * Get idapplis

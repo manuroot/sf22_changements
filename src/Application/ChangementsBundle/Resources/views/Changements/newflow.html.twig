@@ -1,7 +1,4 @@
 {% extends "ApplicationChangementsBundle::layout.html.twig" %}
-{# in src/MyCompany/MyBundle/Resources/views/User/registerUser.html.twig #}
-
-
 
 {% block stylesheets %}
 {{ parent() }}
@@ -19,11 +16,11 @@
             color: red;
             font-weight: bold;
         }
-             .tinymce {
+            .tinymce {
                      border: 1px solid #D4E0EE;
             background-color: #f1f1f1;
             width:350px; height:150px;
-                 /*min-width:400px;*/
+              
              min-height: 200px;
              }
            .mytextarea {
@@ -38,6 +35,9 @@
             background-color: #f1f1f1;
 
             
+        }
+        select#changements_idapplis,select#changements_idusers {
+        height:250px;
         }
       /*  .boxlist {
             border: 1px solid #D4E0EE;
@@ -74,7 +74,7 @@
 
     {{ form_errors(form) }}
  {% if flow.getCurrentStep() == 1 %}
-                             </td><td>     {{ form_row(form.description,{ 'attr': {'class': 'tinymce'} }) }}</td>
+          {{ form_row(form.description,{ 'attr': {'class': 'tinymce'} }) }}</td>
                            <td>     {{ form_rest(form) }}
                                 
  {% endif %}
@@ -108,6 +108,8 @@
            <tr><th>Description</th>   <td>{{ entity.description|raw }}</td> </tr>
            <tr> <th>Projet</th> <td>{{ entity.idProjet }}</td>  </tr>
            <tr><th>Status</th><td>{{ entity.idStatus }}</td></tr>
+            <tr><th>ticket Interne</th><td>{{ entity.ticketInt }}</td></tr>
+             <tr><th>ticket Externe</th><td>{{ entity.ticketExt }}</td></tr>
            <tr><th>Applications</th>
            <td>  {{ entity.idapplis|join(', ') }}      </td>  </tr>     
            <tr><th>Environnements</th>

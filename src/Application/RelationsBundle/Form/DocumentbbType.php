@@ -20,7 +20,7 @@ class DocumentbbType extends AbstractType
                        //->add('file')
                         ->add('name',null,array('required'=>false))
                       //  ->add('fichier',new DocumentsType())
-                         ->add('idprojets',null,array('label'=>'Projets associés'))
+                         ->add('idprojet',null,array('label'=>'Projets associés'))
                         ;
         }
 

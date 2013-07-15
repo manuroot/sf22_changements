@@ -11,7 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * CertificatsProjet
  *
- * @ORM\Table(name="serveurs")
+ * @ORM\Table(name="serveurs_main")
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  *

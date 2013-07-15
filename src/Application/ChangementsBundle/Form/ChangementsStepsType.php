@@ -18,30 +18,79 @@ class ChangementsStepsType extends AbstractType {
             case 1:
                 $builder
                 
-                   ->add('nom', 'genemu_jqueryautocomplete_entity', array(
+               /* ->add('nom', 'genemu_jqueryautocomplete_entity', array(
                        'attr' => array(
                            'placeholder' => '5 a 30 car.'
                                     ),
-                  /*   'class' => 'MyBundle\Entity\MyEntity',*/
-       /*     'property' => 'name',*/
                   'widget_addon' => array(
                   'icon' => 'pencil',
                   'type' => 'prepend'
                   ),
                   'class' => 'Application\ChangementsBundle\Entity\Changements',
                   'property' => 'nom',
+                   'empty_data'=>false,
                   'configs' => array(
                   'minLength' => 1,
                   ),
-                  )) 
+                  )) */
                     
-                       /* ->add('nom', 'text', array(
+                     ->add('nom', 'genemu_jqueryautocomplete_entity', array(
+                         'attr' => array(
+                           'placeholder' => '5 a 30 car.'
+                                    ),
+                         'widget_addon' => array(
+                  'icon' => 'pencil',
+                  'type' => 'prepend'
+                  ),
+            'class' => 'Application\ChangementsBundle\Entity\Changements',
+            'property' => 'nom',
+                         'empty_data'=>false,
+                         'render_required_asterisk'=>true,
+        ))
+                    
+            
+    ->add('ticketExt', 'genemu_jqueryautocomplete_entity', array(
+                            'attr' => array(
+                           'placeholder' => 'ex: [1-XXXXXX | XXXXX]'
+                                    ),
+                           'label'=>'Ticket Externe',
                              'widget_addon' => array(
-                                'icon' => 'pencil',
+                                'icon' => 'tag',
                                 'type' => 'prepend'
                             ),
-                        ))*/
-                       ->add('ticketExt',null,array(
+                    'class' => 'Application\ChangementsBundle\Entity\Changements',
+                   
+                    'property' => 'ticketExt',
+        'required'=>false,
+                    'empty_data'=>false,
+        //  'render_required_asterisk'=>'tyrty',
+                      
+                )) 
+                                    /*
+                    ->add('ticketInt', 'genemu_jqueryautocompleter_entity', array(
+                            'attr' => array(
+                           'placeholder' => 'ex: 12345 (5 a 10 car.)'
+                                    ),
+                           'label'=>'Ticket Interne',
+                             'widget_addon' => array(
+                                'icon' => 'tag',
+                                'type' => 'prepend'
+                            ),
+                    'class' => 'Application\ChangementsBundle\Entity\Changements',
+                   
+                    'property' => 'ticketInt',
+                          'query_builder' => function(EntityRepository $em) {
+                                return $em->createQueryBuilder('u')
+                                        
+                                          ->where('u.ticketInt IS NOT NULL')
+                                        ->orderBy('u.ticketInt', 'ASC');
+                                   
+                            },
+                    
+                ))   */
+                 
+                    
+                     /*->add('ticketExt',null,array(
                            'attr' => array(
                            'placeholder' => 'ex: [1-XXXXXX | XXXXX]'
                                     ),
@@ -50,8 +99,11 @@ class ChangementsStepsType extends AbstractType {
                                 'icon' => 'tag',
                                 'type' => 'prepend'
                             ),
-                           ))
-               ->add('ticketInt',null,array(
+                           ))*/
+                    
+                    
+              ->add('ticketInt',null,array(
+                //   'render_required_asterisk'=>true,
                       'attr' => array(
                            'placeholder' => 'ex: 12345 (5 a 10 car.)'
                                     ),
@@ -61,6 +113,8 @@ class ChangementsStepsType extends AbstractType {
                                 'icon' => 'tag',
                                 'type' => 'prepend'
                             ),))
+                               
+                                    
         
                       ->add('dateDebut', 'datetime', array(
                     'label' => 'Date début',
@@ -107,14 +161,15 @@ class ChangementsStepsType extends AbstractType {
                        'rows' => "15",
                         'class' => 'tinymce',
                         )));*/
-                    ->add('description', 'textarea', array(
+                   /* ->add('description', 'textarea', array(
                     'label' => 'Description de l\'opération',
                     'attr' => array(
                         'cols' => "25",
                          'rows' => "15",
                         'class' => 'tinymce',
-                        )))
-                  /*   ->add('description', 'textarea', array(
+                        )))*/
+                     ->add('description', 'textarea')
+                /*, array(
         'attr' => array(
             //'placeholder'=>'Description du changement',
             'cols'=>"60",
@@ -322,3 +377,18 @@ class ChangementsStepsType extends AbstractType {
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -8,7 +8,7 @@ use Application\RelationsBundle\Entity\Projet;
 /**
  * Applis
  *
- * @ORM\Table(name="certificats_applis")
+ * @ORM\Table(name="applis_main")
  * @ORM\Entity
  */
 class Applis {

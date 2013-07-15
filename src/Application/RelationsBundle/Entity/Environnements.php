@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Environnement
  *
- * @ORM\Table(name="environnement")
+ * @ORM\Table(name="environnement_main")
  * @ORM\Entity
  */
 class Environnements
