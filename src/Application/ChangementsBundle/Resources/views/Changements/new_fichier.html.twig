@@ -147,45 +147,7 @@ function addTagFormDeleteLink($tagFormLi) {
     <form action="{{ path('changements_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
           <table class="table-mybordered">
 
-            <tr><td class="calendar file">
-                        <div> {{ form_row(edit_form.nom) }}</div>
-                        <br/> <br/>
-                        <div> {{ form_row(edit_form.dateDebut) }} </div>
-                           <br/> <br/>
-                        <div>{{ form_row(edit_form.dateFin) }} </div>
-                           <br/> <br/>
-                        <div>{{ form_row(edit_form.dateComep) }}</div>
-                           <br/> <br/>
-                        <div> {{ form_row(edit_form.dateVsr) }}</div>
-             {#    {% do edit_form.picture.setRendered() %} #} 
-                 
-                </td>
-                
-        
-                         <td class="calendar mytiny">
-                            <div>
-                            {{ form_row(edit_form.idProjet) }}</div>
-                                <div class="boxlist">{{ form_row(edit_form.idEnvironnement) }}</div>
-                                <br>
-                                <div class="boxlist">{{ form_row(edit_form.idStatus) }}</div>
-                                <br>
-                                 </td>
-                                
-                              <td class="calendar lastcol">
-                        {{ form_row(edit_form.ticketExt) }}
-                                       <br/> <br/>
-                        {{ form_row(edit_form.ticketInt) }}
-                                        <br/> <br/>
-                                      {{ form_row(edit_form.idapplis) }}
-                                   
-                                      {{ form_row(edit_form.demandeur) }}
-                                    
-                                      {{ form_row(edit_form.idusers) }}
-                           </td>
-                            </tr>
-                            <tr>  <td class="calendar description" colspan="3">
-       {{ form_row(edit_form.description,{ 'attr': {'class': 'tinymce'} }) }}
-                                            </td><tr/>
+
                              <tr>  <td class="calendar" colspan="3">
                              
                                <ul class="tags" data-prototype="{{ form_widget(edit_form.picture.vars.prototype)|e }}">
@@ -197,7 +159,7 @@ function addTagFormDeleteLink($tagFormLi) {
       {{ form_widget(tag.file) }}
         {{ form_errors(tag.name) }}
          {{ form_widget(tag.name) }}
-          {#  {{ form_widget(tag.OriginalFilename) }}#}
+      
 </li>
     {% endfor %}
     
@@ -207,20 +169,13 @@ function addTagFormDeleteLink($tagFormLi) {
                  
                </td>
          </tr>     
-                            <tr>  <tr><td class="calendar" colspan="3"> {{ form_rest(edit_form) }} 
+                              <tr><td class="calendar" colspan="3"> 
                                     <button type="submit" class="btn btn-small btn-warning">Modifier</button>
                                     <a href="{{ path('changements_post') }}" class="btn btn-small btn-success">Retour</a>
                                     </form>
 
 
-                                    <form action="{{ path('changements_delete', { 'id': entity.id }) }}" method="post">
-                                     {{ form_errors(delete_form) }}
-                                     {{ form_row(delete_form.id) }}
-                                     {{ form_rest(delete_form) }}
-                                            <div style="text-align:right">
-                                                <button type="submit" class="btn btn-small btn-danger" onclick="if(!confirm('Are you sure?')) { return false; }">Supprimer Projet</button>
-                                            </div>
-                                        </form>
+                                   
                                     </td></tr>
                             </tbody>
                         </table>

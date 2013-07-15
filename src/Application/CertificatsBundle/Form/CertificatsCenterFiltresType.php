@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Application\CertificatsBundle\Form\Certificats;
+namespace Application\CertificatsBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

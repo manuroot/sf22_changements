@@ -160,9 +160,12 @@ class CertificatsCenter
     */
     private $project;
 
+// @ORM\OneToOne(targetEntity="\Application\CertificatsBundle\Entity\CertificatsFiles",mappedBy="certificats",cascade={"persist","remove"}), 
+    
      /**
       * 
-     * @ORM\OneToOne(targetEntity="\Application\CertificatsBundle\Entity\CertificatsFiles",mappedBy="certificats",cascade={"persist","remove"}), 
+     * @ORM\OneToOne(targetEntity="\Application\CertificatsBundle\Entity\CertificatsFiles", inversedBy="certificats",cascade={"persist","remove"}), 
+      * 
      * @ORM\JoinColumn(name = "fichier", nullable = true, referencedColumnName = "id",onDelete="set null")
      */
     protected $fichier;

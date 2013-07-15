@@ -56,7 +56,7 @@ class CertificatsFiles {
    
   
     /**
-     * @ORM\OneToOne(targetEntity = "CertificatsCenter", inversedBy = "fichier")
+     * @ORM\OneToOne(targetEntity = "CertificatsCenter", mappedBy = "fichier")
      */
     
     protected $certificats;

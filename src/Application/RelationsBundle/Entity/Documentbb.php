@@ -5,6 +5,8 @@ namespace Application\RelationsBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+use Application\RelationsBundle\Entity\Projet;
 
 /**
  * CertificatsProjet
@@ -186,21 +188,7 @@ class Documentbb {
         // clean up the file property as you won't need it anymore
         $this->file = null;
     }
-    
-   /* public function upload() {
-        if (null === $this->file) {
-            return;
-        }
-
-        // s'il y a une erreur lors du déplacement du fichier, une exception
-        // va automatiquement être lancée par la méthode move(). Cela va empêcher
-        // proprement l'entité d'être persistée dans la base de données si
-        // erreur il y a
-        $this->file->move($this->getUploadRootDir(), $this->path);
-
-        unset($this->file);
-    }*/
-    
+     
     
 
     /**
@@ -272,38 +260,66 @@ class Documentbb {
      * Constructor
      */
     public function __construct() {
-        $this->idprojets = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->idprojets = new ArrayCollection();
     }
 
-    /**
-     * Add idprojets
+    
+    
+    
+      /**
+     * Add idchangement
      *
      * @param \Application\CertificatsBundle\Entity\CertificatsProjet $idprojets
      * @return Documentbb
      */
-    public function addIdprojet(\Application\RelationsBundle\Entity\Projet $idprojets) {
-        $this->idprojets[] = $idprojets;
+    public function addIdprojet(Projet $idprojets) {
+       // $this->idprojets[] = $idprojets;
+        if (!$this->idprojets->contains($idprojets)) {
+            if (!$idprojets->getPicture()->contains($this)) {
 
-        return $this;
+                $idprojets->addPicture($this);  // Lie le Client au produit.
+            }
+            $this->idprojets->add($idprojets);
+        }
+        //$this->idchangement[] = $idchangement;
+        //  return $this;
+    }
+
+    public function setIdprojet($items) {
+        if ($items instanceof ArrayCollection || is_array($items)) {
+            foreach ($items as $item) {
+                $this->addIdprojet($item);
+            }
+        } elseif ($items instanceof Projet) {
+            $this->addPicture($items);
+        } else {
+            throw new \Exception("$items must be an instance of Changements or ArrayCollection");
+        }
     }
 
     /**
-     * Remove idprojets
+     * Remove idprojet
      *
-     * @param \Application\RelationsBundle\Entity\Projet $idprojets
+      * @param \Application\RelationsBundle\Entity\Projet $idprojets
      */
-    public function removeIdprojet(\Application\RelationsBundle\Entity\Projet $idprojets) {
+    public function removeIdprojet(Projet $idprojets) {
+        if (!$this->idprojets->contains($idprojets)) {
+            return;
+        }
         $this->idprojets->removeElement($idprojets);
+        $idprojets->removePicture($this);
     }
 
     /**
-     * Get idprojets
+     * Get idprojet
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
     public function getIdprojets() {
         return $this->idprojets;
     }
+
+
 
     /**
      * Set updatedAt

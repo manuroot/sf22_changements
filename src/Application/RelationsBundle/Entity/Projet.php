@@ -115,26 +115,74 @@ class Projet {
         return $this->getNomprojet();    // this will not look good if SonataAdminBundle uses this ;)
     }
 
-    /**
+    
+    
+    
+    
+    
+      /**
      * Add picture
      *
-     * @param \Application\RelationsBundle\Entity\Document $picture
+     * @param \Application\RelationsBundle\Entity\Documentbb $picture
      * @return CertificatsProjet
+     
      */
-    public function addPicture(\Application\RelationsBundle\Entity\Documentbb $picture) {
-        $this->picture[] = $picture;
-
-        return $this;
+      public function addPicture(Documentbb $picture) {
+   
+     // Si l'objet fait déjà partie de la collection on ne l'ajoute pas
+         if (!$this->picture->contains($picture)) {
+            $this->picture->add($picture);
+        }
     }
-
+    
+      /**
+     * Set picture
+     *
+     * @param Documentbb $picture
+     * @return Projet
+     */
+     public function setPicture($items)
+    {
+        if ($items instanceof ArrayCollection || is_array($items)) {
+            foreach ($items as $item) {
+                $this->addPicture($item);
+            }
+        } elseif ($items instanceof Documentbb) {
+            $this->addPicture($item);
+        } else {
+            throw new \Exception("$items must be an instance of Applus or ArrayCollection");
+        }
+    }
+   
     /**
      * Remove picture
      *
      * @param \Application\RelationsBundle\Entity\Document $picture
      */
-    public function removePicture(\Application\RelationsBundle\Entity\Documentbb $picture) {
+     /**
+     * Remove idapplis
+     *
+     * @param Docchangements $picture
+     */
+    public function removePicture(Documentbb $picture){
+        if (!$this->picture->contains($picture)) {
+            return;
+        }
         $this->picture->removeElement($picture);
-    }
+
+        $picture->removeIdprojet($this);
+        }
+        
+  
+    
+    /**
+     * Remove picture
+     *
+     * @param \Application\RelationsBundle\Entity\Document $picture
+     */
+    /*public function removePicture(\Application\RelationsBundle\Entity\Documentbb $picture) {
+        $this->picture->removeElement($picture);
+    }*/
 
     /**
      * Get picture
