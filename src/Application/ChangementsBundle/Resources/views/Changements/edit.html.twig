@@ -9,10 +9,12 @@
             font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
             font-weight: bold;
         }
+       
          .boxlist {
      border: 1px solid #D4E0EE;
     background-color: #f1f1f1;
     padding-left:10px;
+    width:300px;
 
 }
 
@@ -45,7 +47,7 @@ line-height: 1.5;
 type="file" name="changements[picture][1][file]"></input>
 table { width:300px;}*/
 /*td.file { max-width:250px;}*/
-.mytiny {width:380px}
+.mytiny {width:380px;}
 .tinymce {width:750px;height:300px;}
 td.description {
 text-align:center; 
@@ -164,9 +166,13 @@ function addTagFormDeleteLink($tagFormLi) {
                                 
                               <td class="calendar">
                         {{ form_row(edit_form.ticketExt) }}
+                                       <br/> <br/>
                         {{ form_row(edit_form.ticketInt) }}
+                                        <br/> <br/>
                                       {{ form_row(edit_form.idapplis) }}
+                                   
                                       {{ form_row(edit_form.demandeur) }}
+                                    
                                       {{ form_row(edit_form.idusers) }}
                            </td>
                             </tr>
