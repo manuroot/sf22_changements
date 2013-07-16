@@ -61,7 +61,6 @@ class CertificatsCenterController extends Controller {
      *  CREATION DU PAGINATOR
      * 
       =================================================================== */
-
     private function createpaginator($query, $num_perpage = 5) {
 
         $paginator = $this->get('knp_paginator');

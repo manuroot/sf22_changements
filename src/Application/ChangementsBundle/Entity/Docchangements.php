@@ -151,7 +151,6 @@ class Docchangements  {
      */
     public function preUpload() {
         $this->updatedAt = new \DateTime();
-        
         // si upload de fichier (temp file)
         if (null !== $this->file) {
 

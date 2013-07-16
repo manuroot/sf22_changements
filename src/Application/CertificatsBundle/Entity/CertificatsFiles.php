@@ -476,22 +476,10 @@ class CertificatsFiles {
      return $ext;
     }
     public function isAuthorValid(ExecutionContextInterface $context) {
-        // somehow you have an array of "fake names"
+ 
         $ok = $this->ok_extensions;
-// nom origine du fichier uploadé
-       $ext=$this->getExtension();
-       /*$fic = $this->getFile()->getClientOriginalName();
-        $info = pathinfo($fic);
-        if (isset($info)) {
-            $ext = $info['extension'];
-        }
-        if (!isset($ext)) {
-            $ext = $this->file->guessExtension();
-        }
-        if (!isset($ext))
-            $ext = "bin";
-        //      print_r($ext);exit(1);*/
-        if (!in_array($ext, $ok)) {
+      $ext=$this->getExtension();
+      if (!in_array($ext, $ok)) {
              $message = "$ext non autorisée, Extensions autorisees: (crt,pem,key,txt,p12)";
             $context->addViolationAt('file', $message, array(), null);
         }

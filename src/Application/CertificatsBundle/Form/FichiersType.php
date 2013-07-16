@@ -24,7 +24,6 @@ class FichiersType extends AbstractType {
                )
                )*/
                    ;             
-        
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
