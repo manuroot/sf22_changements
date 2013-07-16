@@ -90,7 +90,7 @@ class Serveurs {
      /**
      * @var \ChronoUserGroup
      *
-     * @ORM\ManyToOne(targetEntity="Environnements",inversedBy="serveurs", cascade={"persist", "merge"}))
+     * @ORM\ManyToOne(targetEntity="Environnements",inversedBy="serveurs",cascade={"persist", "merge"}))
      * @ORM\OrderBy({"nom" = "ASC"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_env", referencedColumnName="id",nullable=true)
