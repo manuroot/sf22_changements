@@ -795,18 +795,11 @@ class ChangementsController extends Controller {
             throw $this->createNotFoundException('Unable to find Changements entity.');
         }
        $editForm = $this->createForm(new ChangementsType(), $entity);
-
-
-        
-     
-    //    $entity = new Docchangements();
-    
  return $this->render('ApplicationChangementsBundle:Changements:new_fichier.html.twig', array(
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                 
                 ));
-      
     }
 
     /**

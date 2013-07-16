@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 class ChangementsType extends AbstractType {
 
@@ -177,8 +179,57 @@ $builder
                     'required' => true,
                     'label' => 'Projet',
                     'empty_value' => '--- Choisir une option ---'
-                ))
-                ->add('idapplis', 'entity', array(
+                ));
+                            
+                 
+               $factory = $builder->getFormFactory();
+           /*   $projet_id = $builder->getData()->getIdProjet();
+        $refreshApplis = function ($form, $idProjet) use ($factory) {
+       $form->add($factory->createNamed('entity','idapplis',null, array(
+                'class'         => 'ApplicationRelationsBundle:Applis',
+                'property'      => 'nomapplis',
+                'label'         => 'Applications',
+                'query_builder' => function (EntityRepository $repository) use ($idProjet) {
+                                       $qb = $repository->createQueryBuilder('idapplis')
+                                                        ->innerJoin('idapplis.idProjets', 'projet');
+ 
+                                       if($idProjet instanceof Projet) {
+                                           $qb = $qb->where('idapplis.idProjets = :projet')
+                                                    ->setParameter('projet', $idProjet);
+                                       } elseif(is_numeric($idProjet)) {
+                                           $qb = $qb->where('idapplis.id = :projet_id')
+                                                    ->setParameter('projet_id', $idProjet);
+                                       } else {
+                                           //?
+                                           $qb = $qb->where('idapplis.id = 1');
+                                       }
+ 
+                                       return $qb;
+                                   }
+                 )));
+        };*/
+       
+      /*    $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($refreshApplis) {
+            $form = $event->getForm();
+            $data = $event->getData();
+
+            if($data == null)
+               $refreshApplis($form, null); //As of beta2, when a form is created setData(null) is called first
+ 
+            if($data instanceof Projet) {
+                $refreshApplis($form, $data->getIdApplis()->getIdProjets());
+                }
+        });
+ 
+        $builder->addEventListener(FormEvents::PRE_BIND, function (DataEvent $event) use ($refreshApplis) {
+           $form = $event->getForm();
+            $data = $event->getData();
+ 
+            if(array_key_exists('idProjet', $data)) {
+                $refreshApplis($form, $data['idProjet']);
+            }
+        });*/
+               $builder->add('idapplis', 'entity', array(
                     'class' => 'ApplicationRelationsBundle:Applis',
                     'query_builder' => function(EntityRepository $em) {
                         return $em->createQueryBuilder('u')
@@ -189,7 +240,7 @@ $builder
                      
                     'required' => true,
                     'label' => 'Applications'
-                ))
+                ));
 
                 /* ->add('picture',new DocumentsType())
                   ->add('avatar', 'file', array(
@@ -197,7 +248,7 @@ $builder
                   )) */
 
                 //  ->add('product_image')
-                  ->add('picture', 'collection', array(
+                  $builder->add('picture', 'collection', array(
                     'type' => new ChangementDocumentsType(),
                     'allow_add' => true,
                     'by_reference' => false,

@@ -43,9 +43,12 @@ class Docchangements  {
     private $md5;
 
     /**
-     * @Assert\File(maxSize="6000000")
+     * @Assert\File(maxSize="5M",
+     *    notFoundMessage = "Le fichier n'a pas été trouvé sur le disque",
+     *    uploadErrorMessage = "Erreur dans l'upload du fichier"
+     * )
      */
-    private $file;
+     private $file;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)

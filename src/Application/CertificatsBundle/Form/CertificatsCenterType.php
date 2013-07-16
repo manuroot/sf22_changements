@@ -113,7 +113,9 @@ class CertificatsCenterType extends AbstractType {
                     'property_path' => 'fichier',
                     'required' => false,
                 ));*/
-          $builder->add('fichier', new FichiersType(),array('required'=>false));
+          $builder->add('fichier', new FichiersType(),array(
+              'label'=>'Fichier',
+              'required'=>false));
                     
                  
         //  $builder->add('fichier','file');

@@ -2,44 +2,32 @@
 
 {% block stylesheets %}
  {{ parent() }}
+{#
  <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
           <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/changements.css') }}" type="text/css" media="all"/>
           <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>
-   {#
+ #}
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
-#}
-          <link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
+
 <style>
-        .monlabel {
-            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-            font-weight: bold;
-        }
-       
-         .boxlist {
-     border: 1px solid #D4E0EE;
-    background-color: #f1f1f1;
+.monlabel {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+      
+.boxlist {border: 1px solid #D4E0EE;background-color: #f1f1f1;
     padding-left:10px;
     width:300px;
-
 }
-
-       /* .tinymce {
-        width:50%;}*/
-       
-        .leserreurs {
+.leserreurs {
             font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
             font-weight: bold;
             font-size:18px;
             color:red;
-        }
-       /* tr {
-         background-color: red;
-        }*/
-        .hrsep {color: blue;
-background-color: blue;
-height: 3px; }
-a.add_tag_link { color:whitesmoke;
 }
+.hrsep {color: blue;background-color: blue;height: 3px; }
+a.add_tag_link { color:whitesmoke;}
 
 .ui-autocomplete-category {
 font-weight: bold;
@@ -47,24 +35,14 @@ padding: .2em .4em;
 margin: .8em 0 .2em;
 line-height: 1.5;
 }
-/*
-<input id="changements_picture_1_file" class=" not-removable" 
-type="file" name="changements[picture][1][file]"></input>
-table { width:300px;}*/
-/*td.file { max-width:250px;}*/
 .mytiny {width:380px;}
 .tinymce {width:750px;height:300px;}
-td.description {
-text-align:center; 
-    vertical-align:middle;
-}
-.lastcol {
-width:250px;}
-
-
-    </style>
-    {#  {{ form_stylesheet(edit_form) }}#}
-    
+td.description {text-align:center;vertical-align:middle;}
+.lastcol {width:250px;}
+select#changements_idapplis,select#changements_idusers{height:200px;}
+</style>
+{#  {{ form_stylesheet(edit_form) }}#}
+  
 {% endblock %}
 
 {% block javascripts %}
@@ -162,26 +140,25 @@ function addTagFormDeleteLink($tagFormLi) {
                 </td>
                 
         
-                         <td class="calendar mytiny">
+              <td class="calendar mytiny">
                             <div>
                             {{ form_row(edit_form.idProjet) }}</div>
                                 <div class="boxlist">{{ form_row(edit_form.idEnvironnement) }}</div>
                                 <br>
                                 <div class="boxlist">{{ form_row(edit_form.idStatus) }}</div>
                                 <br>
-                                 </td>
-                                
-                              <td class="calendar lastcol">
-                        {{ form_row(edit_form.ticketExt) }}
+                                 {{ form_row(edit_form.ticketExt) }}
                                        <br/> <br/>
                         {{ form_row(edit_form.ticketInt) }}
-                                        <br/> <br/>
+                                 </td>
+                                
+                     <td class="calendar lastcol">
                                       {{ form_row(edit_form.idapplis) }}
                                    
                                       {{ form_row(edit_form.demandeur) }}
                                     
                                       {{ form_row(edit_form.idusers) }}
-                           </td>
+                     </td>
                             </tr>
                             <tr>  <td class="calendar description" colspan="3">
        {{ form_row(edit_form.description,{ 'attr': {'class': 'tinymce'} }) }}

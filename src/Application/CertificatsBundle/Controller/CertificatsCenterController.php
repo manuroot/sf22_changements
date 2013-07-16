@@ -77,6 +77,12 @@ class CertificatsCenterController extends Controller {
         return $pagination;
     }
 
+    /* ====================================================================
+     * 
+     *  FILTRES DE RECHERCHE
+     * 
+      =================================================================== */
+
     protected function filter() {
         //  $message = "filter datas";
         $message = "";
@@ -121,15 +127,19 @@ class CertificatsCenterController extends Controller {
         }
     }
 
-    public function indexAction(Request $request) {
+    /* ====================================================================
+     * 
+     *  INDEX (TABLE MAIN)
+     * 
+      =================================================================== */
 
+    public function indexAction(Request $request) {
         $date_warning = array(7, 15);
         $message = "";
         //$em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $session = $request->getSession();
         $session->set('buttonretour', 'certificatscenter');
-
         list($filterForm, $queryBuilder, $message) = $this->filter();
         if ($message)
             $session->getFlashBag()->add('warning', "$message");
@@ -140,83 +150,30 @@ class CertificatsCenterController extends Controller {
                     'pagination' => $pagination,
                     'date_warning' => $date_warning,
                     'total' => $count,
-        ));
+                ));
     }
 
-    /*
-      return $this->render('ApplicationCertificatsBundle:CertificatsCenter:index.html.twig', array(
-      'pagination' => $pagination,
-      'search_form' => $searchForm->createView(),
-      )); */
-
-//return compact('pagination');
-
-    public function indexoldAction() {
-
-
-        /*
-          $message = \Swift_Message::newInstance()
-          ->setSubject('Hello Email')
-          ->setFrom('send@example.com')
-          ->setTo('mroot72000@yahoo.fr')
-          ->setBody(
-          $this->renderView(
-          'ApplicationCertificatsBundle:CertificatsCenter:email.txt.twig'
-          )
-          )
-          ;
-          $this->get('mailer')->send($message); */
-        /* $session = new Session();
-          $session->start();
-          // définit et récupère des attributs de session
-          $session->set('name', 'Drak');
-          $session->get('name');
-
-          // définit des messages dits « flash »
-          $session->getFlashBag()->add('notice', 'Profile updated'); */
-//$this->get('session')->getFlashBag()->set('type', 'message');
-        // ajoute des messages flash
-        /* $session->getFlashBag()->add('warning', 'Your config file is writable, it should be set read-only');
-          $session->getFlashBag()->add('error', 'Failed to update name');
-          $session->getFlashBag()->add('error', 'Another error'); */
-        $session = $this->getRequest()->getSession();
-        $session->set('buttonretour', 'certificatscenter');
-        $searchForm = $this->createForm(new CertificatsCenterFiltresType());
-        if ($this->get('request')->query->has('submit-filter')) {
-            // echo "submit filters";exit(1);
-            // bind values from the request
-            $searchForm->bind($this->get('request'));
-            $filterBuilder = $this->get('doctrine.orm.entity_manager')
-                            ->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->myFindaAll();
-            $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($searchForm, $filterBuilder);
-            //   var_dump($filterBuilder->getDql());exit(1);
-        } else {
-            $em = $this->getDoctrine()->getManager();
-            $query = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->myFindaAll();
-        }
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
-                $query, $this->get('request')->query->get('page', 1)/* page number */, 10/* limit per page */
-        );
-        $pagination->setTemplate('ApplicationCertificatsBundle:pagination:sliding.html.twig');
-        //$pagination->setTemplate('ApplicationMyNotesBundle:pagination:sliding.html.twig');
-        return $this->render('ApplicationCertificatsBundle:CertificatsCenter:index.html.twig', array(
-                    'pagination' => $pagination,
-                    'search_form' => $searchForm->createView(),
-        ));
-//return compact('pagination');
-    }
+    /* ====================================================================
+     * 
+     *  VERIFICATION CERT
+     * 
+      =================================================================== */
 
     public function checkcertAction() {
-
         $entity = new CertificatsActions();
         //  $myForm = $this->createForm(new CertificatsActionsType(),$entity);
         $form = $this->createForm(new CertificatsCenterCheckType());
         return $this->render('ApplicationCertificatsBundle:CertificatsCenter:checkcert.html.twig', array(
                     'form' => $form->createView(),
                         // 'myform'=> $myForm->createView(),
-        ));
+                ));
     }
+
+    /* ====================================================================
+     * 
+     *  VALIDER CHECK CERT
+     * 
+      =================================================================== */
 
     public function validatecheckcertAction(Request $request) {
 
@@ -235,35 +192,37 @@ class CertificatsCenterController extends Controller {
             var_dump($arr);
             // post:
             //["opecert"]=> string(1) "3" ["typecert"]=> string(1) "4" ["contenu"]=> string(7) "hgfgffg" [
-       
-            $current_ope=$all_ope[$postData['opecert']];
-                    $current_fic=$all_fic[$postData['typecert']];
-                    $current_data=$postData['contenu'];
-                    $arr_current=array(
-                        'ope'=>$current_ope,
-                        'cert'=>$current_fic,
-                        'data'=>$current_data,
-                        );
-                         var_dump($arr_current);
-                          exit(1);
+
+            $current_ope = $all_ope[$postData['opecert']];
+            $current_fic = $all_fic[$postData['typecert']];
+            $current_data = $postData['contenu'];
+            $arr_current = array(
+                'ope' => $current_ope,
+                'cert' => $current_fic,
+                'data' => $current_data,
+            );
+            var_dump($arr_current);
+            exit(1);
             return $this->render('ApplicationCertificatsBundle:CertificatsCenter:checkcert.html.twig', array(
                         'datas' => $postData,
                         'form' => $vForm->createView(),
                             // 'myform'=> $myForm->createView(),
-            ));
+                    ));
 
-    
+
             // }
         }
         return $this->render('ApplicationCertificatsBundle:CertificatsCenter:validatecert.html.twig', array(
                         // 'myform'=> $myForm->createView(),
-        ));
+                ));
     }
 
-    /**
-     * Finds and displays a CertificatsCenter entity.
-     *
-     */
+    /** ===================================================================
+     * 
+     *  SHOW ENREGISTREMENT $ID
+     * 
+     * @Secure(roles="ROLE_USER")
+      =================================================================== */
     public function showAction(Request $request, $id) {
         $session = $this->getRequest()->getSession();
         $myretour = $session->get('buttonretour');
@@ -274,44 +233,26 @@ class CertificatsCenterController extends Controller {
             throw $this->createNotFoundException('Unable to find CertificatsCenter entity.');
         }
 
-        if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
-            return $this->render('ApplicationCertificatsBundle:CertificatsCenter:showxhtml.html.twig', array(
-                        'entity' => $entity,
-                        'btnretour' => $myretour,
-                        'delete_form' => $deleteForm->createView(),
-                        'applis' => $applis,
-            ));
-        }
+        if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST')
+            $html = 'ApplicationCertificatsBundle:CertificatsCenter:showxhtml.html.twig';
+        else
+            $html = 'ApplicationCertificatsBundle:CertificatsCenter:show.html.twig';
+
         $deleteForm = $this->createDeleteForm($id);
-        return $this->render('ApplicationCertificatsBundle:CertificatsCenter:show.html.twig', array(
+        return $this->render($html, array(
                     'entity' => $entity,
                     'btnretour' => $myretour,
                     'delete_form' => $deleteForm->createView(),
                     'applis' => $applis,
-        ));
+                ));
     }
 
-    /*
-      public function showXhtmlAction($id) {
-      $em = $this->getDoctrine()->getManager();
-
-      $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
-
-      if (!$entity) {
-      throw $this->createNotFoundException('Unable to find Changements entity.');
-      }
-
-      $deleteForm = $this->createDeleteForm($id);
-
-      return $this->render('ApplicationChangementsBundle:Changements:showxhtml.html.twig', array(
-      'entity' => $entity,
-      'delete_form' => $deleteForm->createView(),));
-      } */
-
-    /**
-     * Displays a form to create a new CertificatsCenter entity.
-     *
-     */
+    /** ===================================================================
+     * 
+     *  NEW ENREGISTREMENT 
+     * 
+     * @Secure(roles="ROLE_USER")
+      =================================================================== */
     public function newAction() {
         $entity = new CertificatsCenter();
         $form = $this->createForm(new CertificatsCenterType(), $entity);
@@ -324,15 +265,16 @@ class CertificatsCenterController extends Controller {
                     'entity' => $entity,
                     'form' => $form->createView(),
                     'btnretour' => $myretour,
-            'fichier'=>null,
-        ));
+                    'fichier' => null,
+                ));
     }
 
-    /**
-     * Creates a new CertificatsCenter entity.
-     *
+    /** ===================================================================
+     * 
+     *  CREATE ENREGISTREMENT $ID
+     * 
      * @Secure(roles="ROLE_USER")
-     */
+      =================================================================== */
     public function createAction(Request $request) {
         $entity = new CertificatsCenter();
         $form = $this->createForm(new CertificatsCenterType(), $entity);
@@ -378,14 +320,15 @@ class CertificatsCenterController extends Controller {
                     'entity' => $entity,
                     'form' => $form->createView(),
                     'btnretour' => $myretour,
-        ));
+                ));
     }
 
-    /**
-     * Displays a form to edit an existing CertificatsCenter entity.
-     *
+    /** ===================================================================
+     * 
+     *  UPDATE ENREGISTREMENT $ID
+     * 
      * @Secure(roles="ROLE_USER")
-     */
+      =================================================================== */
     public function editAction($id) {
 
         $em = $this->getDoctrine()->getManager();
@@ -425,28 +368,29 @@ class CertificatsCenterController extends Controller {
         $editForm = $this->createForm(new CertificatsCenterType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        $fichier=$entity->getFichier();
-       
+        $fichier = $entity->getFichier();
+
         return $this->render('ApplicationCertificatsBundle:CertificatsCenter:edit.html.twig', array(
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
                     'btnretour' => $myretour,
-            'fichier'=>$fichier,
+                    'fichier' => $fichier,
                         //   'acl'=>$acl,
                         //  'idty'=>$securityIdentity,
-        ));
+                ));
     }
 
-    /**
-     * Edits an existing CertificatsCenter entity.
-     *
+    /** ===================================================================
+     * 
+     *  UPDATE ENREGISTREMENT $ID
+     * 
      * @Secure(roles="ROLE_USER")
-     */
+      =================================================================== */
     public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
-         $session = $request->getSession();
+        $session = $request->getSession();
         $session->set('buttonretour', 'certificatscenter');
 
         $entity = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->find($id);
@@ -454,39 +398,19 @@ class CertificatsCenterController extends Controller {
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find CertificatsCenter entity.');
         }
-
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createForm(new CertificatsCenterType(), $entity);
-       // $postData = $request->request->all;
-$postData = $this->getRequest()->request;        
+        // $postData = $request->request->all;
+        //$postData = $this->getRequest()->request;
         $uploadedFile = $request->files->get('moncert');
         if ($uploadedFile['fichier']['file'] != NULL) {
-               print_r($uploadedFile['fichier']['file']);
-                $entity->setFichier(NULL);
-               //$userProfile->setPicture(NULL);
-        }else {
-            // si pas de fichier en base
-            echo "pas de fichier";
-            $fichier_entity=$entity->getFichier();
-            if (!$fichier_entity){
-             //   $entity->setFichier(null);
-                
-                echo "<br>Nok fichier pas en base<br>";
-            //    unset($request["moncert"]["fichier"]);
-            }
-            else { echo "<br>ok fichier deja en base<br>";}
+            //     print_r($uploadedFile['fichier']['file']);
+            $entity->setFichier(NULL);
+            //$userProfile->setPicture(NULL);
         }
-      //  echo "<br>datas?<br>";
-     //   var_dump($postData);
-        //   unset($postData['id']);
-             // var_dump($postData);
-              //print_r($postData);
-//exit(1);
-       // non sinon il en manque !!
-    //    $editForm->bind($postData);
-    $editForm->bind($request);
-
-  
+        // non sinon il en manque !!
+        //    $editForm->bind($postData);
+        $editForm->bind($request);
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
@@ -501,33 +425,28 @@ $postData = $this->getRequest()->request;
             else
                 return $this->redirect($this->generateUrl('certificatscenter'));
         }
-        // pas valide
+        $fichier = $entity->getFichier();
+        // form pas valide
         return $this->render('ApplicationCertificatsBundle:CertificatsCenter:edit.html.twig', array(
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
-            'btnretour'=>'certificatscenter',
-        ));
+                    'btnretour' => 'certificatscenter',
+                    'fichier' => $fichier,
+                ));
     }
 
-    /**
-     * Deletes a CertificatsCenter entity.
-     *
-     */
-    //==============================================
-    // SUPPRIMER ACTEUR
-    //==============================================
-
-    /**
-    * @Secure(roles="ROLE_ADMIN")
-     */
+    /** ===================================================================
+     * 
+     *  DELETE ENREGISTREMENT $ID
+     * 
+     * @Secure(roles="ROLE_ADMIN")
+      =================================================================== */
+    
     public function deleteAction($id) {
-
 
         $session = $this->getRequest()->getSession();
         $myretour = $session->get('buttonretour');
-
-
         $em = $this->getDoctrine()->getManager();
         $em = $this->container->get('doctrine')->getManager();
         $cert = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->find($id);
@@ -535,11 +454,9 @@ $postData = $this->getRequest()->request;
         if (!$cert) {
             throw new NotFoundHttpException("Note non trouvée");
         }
-
         $aclProvider = $this->get('security.acl.provider');
         $objectIdentity = ObjectIdentity::fromDomainObject($cert);
         $aclProvider->deleteAcl($objectIdentity);
-
         /*
           $aclProvider = $this->get('security.acl.provider');
          * $aclProvier->deleteAcl($objectIdentity) 
@@ -578,25 +495,10 @@ $postData = $this->getRequest()->request;
         return $this->redirect($this->generateUrl('certificatscenter'));
     }
 
-    protected function createSearchForm() {
-
-        return $this->createFormBuilder()
-                        ->add('Serveur', 'text', array('label' => 'Serveur'))
-                        ->add('amount', 'choice', array(
-                            'label' => 'Montant en euros',
-                            'choices' => array(
-                                1 => 1,
-                                2 => 2,
-                                10 => 10, 20 => 20, 50 => 50, 100 => 100, 200 => 200),
-                            'preferred_choices' => array(10),
-                        ))
-                        //->add('currency', null, array('data' => 'EUR', 'label' => 'Devise'))
-                        ->add('item_name', 'hidden', array(
-                            'data' => 'Participation Au Blog MROOT',
-                        ))
-                        ->getForm()
-        ;
-    }
+    
+      //==============================================
+    // SUPPRIMER CERTS :FORM DE BASE
+    //==============================================
 
     private function createDeleteForm($id) {
         return $this->createFormBuilder(array('id' => $id))
@@ -655,6 +557,12 @@ $postData = $this->getRequest()->request;
         return $grid->getGridResponse('ApplicationCertificatsBundle:CertificatsCenter:indexapy.html.twig');
     }
 
+    /* ====================================================================
+     * 
+     *  AJAX RECHERCHE
+     * 
+      =================================================================== */
+
     public function listByProjetAction() {
         $request = $this->getRequest();
 
@@ -691,6 +599,12 @@ $postData = $this->getRequest()->request;
         // return new Response();
     }
 
+    /* ====================================================================
+     * 
+     *  AJAX RECHERCHE
+     * 
+      =================================================================== */
+
     public function update_certificats_statusAction() {
         $request = $this->get('request');
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
@@ -703,17 +617,44 @@ $postData = $this->getRequest()->request;
             $id_warning = $entity->getWarningFile();
             if ($id_warning) {
                 $entity->setWarningFile(false);
-             } else {
+            } else {
                 $entity->setWarningFile(true);
-             }
-             $em->persist($entity);
-             $em->flush();
+            }
+            $em->persist($entity);
+            $em->flush();
             $array = array('mystatus' => $id_warning);
             //   $array=array($array);
             $response = new Response(json_encode($array));
-           $response->headers->set('Content-Type', 'application/json');
+            $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
+    }
+
+    /* ====================================================================
+     * 
+     *  NOUVEAU CERT
+     * 
+      =================================================================== */
+
+    public function newcertificatsfileAction() {
+        $entity = new Docchangements();
+        $form = $this->createForm(new DocchangementsType(), $entity);
+
+        // si données postées
+        if ($request->getMethod() == 'POST') {
+            //  $postData = $request->request->get('checkcert');
+            //  $vForm->bind($postData);
+            if ($uploadedFile['fichier']['file'] != NULL) {
+                //     print_r($uploadedFile['fichier']['file']);
+                $entity->setFichier(NULL);
+                //$userProfile->setPicture(NULL);
+            }
+        }
+
+        return $this->render('ApplicationChangementsBundle:Docchangements:new.html.twig', array(
+                    'entity' => $entity,
+                    'form' => $form->createView(),
+                ));
     }
 
 }

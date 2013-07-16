@@ -13,18 +13,12 @@
 <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/sliding.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/certifcatssearch.css') }}" type="text/css" media="all"/>
 <style>
-    select[multiple], select[size] {
-    height: 250px;
-}
-    textarea {
-        width:400px;
-    height:200px;
-    }
-        tr.single {
-         background-color: #f1f1f1;
-        }
-
-    </style> 
+    select[multiple], select[size] {height: 250px;}
+    textarea {width:400px;height:200px;}
+    tr.single {background-color: #f1f1f1;}
+    div.fichier{
+        padding:5px;background-color:whitesmoke;color:#0033cc;}
+</style> 
 {% endblock %}
 
 
@@ -86,7 +80,7 @@
    {{ form_label(form.description, 'Description') }}
     {{ form_widget(form.description) }}                            </td>
                             <td class="calendar">
-                                <div>
+                                <div class="fichier">
                                     {% if fichier is not null %}                
                                         Actuel: <br>
                                   <strong>  {{ fichier.OriginalFilename }}
@@ -97,8 +91,10 @@
                                         (Pas de fichier actuellement)
                                         {% endif %}
           {{ form_errors(form.fichier) }}
-       {{ form_widget(form.fichier) }}                           
- {{ form_rest(form) }}
+                                        
+       {{ form_widget(form.fichier) }}  
+                                        </div>
+ <div>{{ form_rest(form) }}
                                     </div>
                                 </td>
                             </tr><tr>

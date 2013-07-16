@@ -129,6 +129,14 @@ class ChangementsFilterAmoiType extends AbstractType {
                     'required' => false,
                     'label' => 'Environnements'
                 ))
+                 ->add('idProjet', 'entity', array(
+                    'class' => 'ApplicationRelationsBundle:Projet',
+                    'property' => 'nomprojet',
+                    'expanded' => false,
+                    'multiple' => true,
+                    'required' => false,
+                    'label' => 'Projet'
+                ))
                    ->add('idStatus', 'filter_entity', array(
                     'label' => 'Status',
                     'class' => 'Application\ChangementsBundle\Entity\ChangementsStatus',

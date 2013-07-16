@@ -37,10 +37,19 @@ class CertificatsFiles {
     private $md5;
 
     /**
-     * @Assert\File(maxSize="6000000")
+     * @Assert\File( maxSize="500k",
+     *    notFoundMessage = "Le fichier n'a pas été trouvé sur le disque",
+     *    uploadErrorMessage = "Erreur dans l'upload du fichier"
+     * )
      */
     private $file;
 
+      //   mimeTypes = {"application/x-x509-ca-cert", "application/x-pkcs12", "application/p12"},
+     //     mimeTypesMessage = "Le fichier choisi ne correspond pas à un fichier valide",
+     //     notFoundMessage = "Le fichier n'a pas été trouvé sur le disque",
+     //    uploadErrorMessage = "Erreur dans l'upload du fichier"
+   
+  
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
@@ -53,7 +62,6 @@ class CertificatsFiles {
     // nom origine du fichier
     private $OriginalFilename;
 
-   
   
     /**
      * @ORM\OneToOne(targetEntity = "CertificatsCenter", mappedBy = "fichier")
@@ -228,6 +236,13 @@ class CertificatsFiles {
         $this->file = null;
     }
 
+ /*   public function Ficinfos{
+        if (isset($this->path))
+     $file_basename = basename($file);
+    $dir = dirname($file);
+    $info = pathinfo($file);
+    $prefixe_name = basename($file_basename, '.' . $info['extension']);
+}*/
     /**
      * Generates a non-random-filename
      *
@@ -465,3 +480,37 @@ class CertificatsFiles {
         return $this->certificats;
     }
 }
+/*application/pkcs8                   .p8  .key
+application/pkcs10                  .p10 .csr
+application/pkix-cert               .cer
+application/pkix-crl                .crl
+application/pkcs7-mime              .p7c
+
+application/x-x509-ca-cert          .crt .der
+application/x-x509-user-cert        .crt
+application/x-pkcs7-crl             .crl
+
+application/x-pem-file              .pem
+application/x-pkcs12                .p12 .pfx
+
+application/x-pkcs7-certificates    .p7b .spc
+application/x-pkcs7-certreqresp     .p7r
+ 
+ *  *   mimeTypes = {
+     * "application/x-x509-user-cert",
+     *   "application/x-pkcs12", 
+     *   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+     *   "application/msword",
+     *   "application/x-x509-ca-cert", "application/p12"},
+     *    mimeTypesMessage = "Le fichier choisi ne correspond pas à un fichier valide (crt,pem,pkcs12)",* 
+ */
+
+
+/*echo 'info' . pathinfo($file, PATHINFO_EXTENSION);
+    echo '<br>';
+    $file_basename = basename($file);
+    $dir = dirname($file);
+    $info = pathinfo($file);
+    $prefixe_name = basename($file_basename, '.' . $info['extension']);
+ * 
+ */
