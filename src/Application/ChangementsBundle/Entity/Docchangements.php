@@ -42,6 +42,8 @@ class Docchangements  {
      */
     private $md5;
 
+    
+    
     /**
      * @Assert\File(maxSize="5M",
      *    notFoundMessage = "Le fichier n'a pas été trouvé sur le disque",
@@ -156,13 +158,25 @@ class Docchangements  {
             // faites ce que vous voulez pour générer un nom unique
             // a remettre apres
             //  $this->path=$this->generateNewFilename();
-            $ext = $this->file->guessExtension();
+            
+             $ext = null;
+            $this->OriginalFilename = $this->getFile()->getClientOriginalName();
+            $fic = $this->OriginalFilename;
+            $info = pathinfo($fic);
+            if (isset($info)) {
+                $ext = $info['extension'];
+            }
+            if (!isset($ext)) {
+                $ext = $this->file->guessExtension();
+            }
             if (!isset($ext)) {
                 $ext = "bin";
             }
             $this->path = sha1(uniqid(mt_rand(), true)) . '.' . $ext;
+            
+       
             // recup nom origne
-            $this->OriginalFilename = $this->getFile()->getClientOriginalName();
+         
             if (!$this->name || $this->name =="")
                 $this->name = $this->OriginalFilename;
             $this->md5 = md5_file($this->file);

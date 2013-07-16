@@ -11,7 +11,7 @@ class CertificatsFilesType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('file','file',array('label'=>'Fichier'))
+                ->add('file',null,array('label'=>'Fichier'))
               //  ->add('name')
          //  ->add('name','text',array('label' => 'Description du Fichier'))
         ;
@@ -21,7 +21,7 @@ class CertificatsFilesType extends AbstractType {
         $resolver->setDefaults(array(
             //    'data_class' => 'Symfony\Component\HttpFoundation\File\File',
             'data_class' => 'Application\CertificatsBundle\Entity\CertificatsFiles',
-                // 'cascade_validation' => true,
+              'cascade_validation' => true,
         ));
     }
 

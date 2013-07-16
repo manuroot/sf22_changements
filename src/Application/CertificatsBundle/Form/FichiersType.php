@@ -17,7 +17,7 @@ class FichiersType extends AbstractType {
    
         
            $builder
-                 ->add('file','file',array('label'=>'Uploader un Fichier'))
+                 ->add('file',null,array('label'=>'Uploader un Fichier'))
                /*    ->add('name','text',array(
                'label' => 'Description du Fichier',
                'required'=>false,

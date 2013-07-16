@@ -404,6 +404,10 @@ class CertificatsCenterController extends Controller {
         //$postData = $this->getRequest()->request;
         $uploadedFile = $request->files->get('moncert');
         if ($uploadedFile['fichier']['file'] != NULL) {
+         
+        //    echo "original name=" . $uploadedFile['fichier']['file']->originalName . "<br>";
+   //    print_r($uploadedFile['fichier']);
+   //   exit(1);
             //     print_r($uploadedFile['fichier']['file']);
             $entity->setFichier(NULL);
             //$userProfile->setPicture(NULL);

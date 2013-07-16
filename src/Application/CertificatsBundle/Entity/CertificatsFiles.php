@@ -3,23 +3,24 @@
 namespace Application\CertificatsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Application\CertificatsBundle\Entity\CertificatsCenter;
-
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\ExecutionContextInterface;
 
 /**
  * Certificats_Files
  *
  * @ORM\Table(name="certificats_files")
  * @ORM\Entity()
-  * @ORM\HasLifecycleCallbacks
+ * @Assert\Callback(methods={"isAuthorValid"})
+ * @ORM\HasLifecycleCallbacks
  */
-
 class CertificatsFiles {
-    
 
     /**
      * @ORM\Id
@@ -28,7 +29,6 @@ class CertificatsFiles {
      */
     private $id;
 
-  
     /**
      * champs supplemanetaire md5
      * 
@@ -37,46 +37,35 @@ class CertificatsFiles {
     private $md5;
 
     /**
-     * @Assert\File( maxSize="500k",
-     *    notFoundMessage = "Le fichier n'a pas été trouvé sur le disque",
-     *    uploadErrorMessage = "Erreur dans l'upload du fichier"
-     * )
+     *  @Assert\File( maxSize="10M")
      */
-    private $file;
+    public $file;
+    private $ok_extensions = array("crt", "pem", "cer", "p12", "pkcs12", "p7", "p7b");
 
-      //   mimeTypes = {"application/x-x509-ca-cert", "application/x-pkcs12", "application/p12"},
-     //     mimeTypesMessage = "Le fichier choisi ne correspond pas à un fichier valide",
-     //     notFoundMessage = "Le fichier n'a pas été trouvé sur le disque",
-     //    uploadErrorMessage = "Erreur dans l'upload du fichier"
-   
-  
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    // champs pour nom local aletatoire
     private $path;
-
+    // champs pour nom local aletatoire
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     // nom origine du fichier
     private $OriginalFilename;
 
-  
     /**
      * @ORM\OneToOne(targetEntity = "CertificatsCenter", mappedBy = "fichier")
      */
-    
     protected $certificats;
-    
-     /**
+
+    /**
      * Date/Time of the update
      *
      * @var \Datetime
      * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
-  
+
 
     //Assert\NotBlank
 
@@ -87,10 +76,9 @@ class CertificatsFiles {
      * @ORM\Column(name="updated_at", type="datetime",nullable=true)
      */
     private $updatedAt;
-  
     private $temp;
+    protected $disk_path = 'uploads/documents';
 
-     protected $disk_path='uploads/documents';
     //protected $disk_path='uploads/documents/certificats';
     /**
      * Get id
@@ -112,6 +100,8 @@ class CertificatsFiles {
      * @return Document
      */
     public function setFile(UploadedFile $file = null) {
+
+
         $this->file = $file;
         // check if we have an old image path
         if (isset($this->path)) {
@@ -149,18 +139,19 @@ class CertificatsFiles {
     }
 
     /**
-      * @ORM\PrePersist()
+     * @ORM\PrePersist()
      */
-     public function preTestFic() {
-        
-          if (null !== $this->file) {
-             $this->createdAt = new \DateTime();   
-          }
+    public function preTestFic() {
+
+        if (null !== $this->file) {
+            $this->createdAt = new \DateTime();
+        }
         // si pa de fichier physique
-        if (null == $this->path && null==$this->file) {
+        if (null == $this->path && null == $this->file) {
             return;
         }
-     }
+    }
+
     /**
      * Avant le persist et l'update (fichier deja uploadé)
      * 
@@ -168,47 +159,43 @@ class CertificatsFiles {
      * @ORM\PreUpdate()
      */
     public function preUpload() {
-        
+
         // si upload de fichier (temp file)
         if (null !== $this->file) {
-
-           //  echo "here 111";exit(1);
-            // faites ce que vous voulez pour générer un nom unique
-            // a remettre apres
-            //  $this->path=$this->generateNewFilename();
-            $ext = $this->file->guessExtension();
+            // recup nom origne
+              $ext=$this->getExtension();
+             $this->OriginalFilename = $this->getFile()->getClientOriginalName();
+           /* $ext = null;
+        
+            $fic = $this->OriginalFilename;
+            $info = pathinfo($fic);
+            if (isset($info)) {
+                $ext = $info['extension'];
+            }
+            if (!isset($ext)) {
+                $ext = $this->file->guessExtension();
+            }
             if (!isset($ext)) {
                 $ext = "bin";
-            }
+            }*/
             $this->path = sha1(uniqid(mt_rand(), true)) . '.' . $ext;
-            // recup nom origne
-            $this->OriginalFilename = $this->getFile()->getClientOriginalName();
-             $this->md5 = md5_file($this->file);
-             // date fichier uploadé
-               $this->updatedAt = new \DateTime();
-             //   $this->createdAt = new \DateTime();
+            $this->md5 = md5_file($this->file);
+            // date fichier uploadé
+            $this->updatedAt = new \DateTime();
+            //   $this->createdAt = new \DateTime();
         }
         // check du md5 si fichier existe deja
-        if ($this->path){
-            //   $this->updatedAt = new \DateTime();
-      
-          if (!$this->md5 && (file_exists($this->getUploadDir() . '/' . $this->path))){
-             $this->md5 = md5_file($this->getUploadDir() . '/' . $this->path);
+        //   $this->isAuthorized();
+        if ($this->path) {
+            if (!$this->md5 && (file_exists($this->getUploadDir() . '/' . $this->path))) {
+                $this->md5 = md5_file($this->getUploadDir() . '/' . $this->path);
+            }
         }
-        // check du nom
-      /*   if (!$this->name || $this->name =="TOTO" ){
-              $this->name = $this->OriginalFilename;
-         }*/
+        if (!$this->createdAt) {
+            $this->createdAt = new \DateTime();
         }
-        if (!$this->createdAt){
-             $this->createdAt = new \DateTime();
-        }
-         // echo "here 222";exit(1);
     }
 
-    
-     
-        
     /**
      * @ORM\PostPersist()
      * @ORM\PostUpdate()
@@ -231,18 +218,19 @@ class CertificatsFiles {
             // clear the temp image path
             $this->temp = null;
         }
-       // unset($this->file);
+        // unset($this->file);
         // clean up the file property as you won't need it anymore
         $this->file = null;
     }
 
- /*   public function Ficinfos{
-        if (isset($this->path))
-     $file_basename = basename($file);
-    $dir = dirname($file);
-    $info = pathinfo($file);
-    $prefixe_name = basename($file_basename, '.' . $info['extension']);
-}*/
+    /*   public function Ficinfos{
+      if (isset($this->path))
+      $file_basename = basename($file);
+      $dir = dirname($file);
+      $info = pathinfo($file);
+      $prefixe_name = basename($file_basename, '.' . $info['extension']);
+      } */
+
     /**
      * Generates a non-random-filename
      *
@@ -297,9 +285,9 @@ class CertificatsFiles {
         else
             $name = $filename;
 
-      /*  echo "ext=$ext<br>name=$name<br>";
-        echo "new name=$filename<br>";
-        exit(1);*/
+        /*  echo "ext=$ext<br>name=$name<br>";
+          echo "new name=$filename<br>";
+          exit(1); */
 
 
         return ($filename);
@@ -335,7 +323,6 @@ class CertificatsFiles {
         return $this->id;
     }
 
-   
     /**
      *  Set name
      *
@@ -360,8 +347,6 @@ class CertificatsFiles {
     public function getOriginalFilename() {
         return $this->OriginalFilename;
     }
-
-  
 
     /**
      * Set path
@@ -391,8 +376,7 @@ class CertificatsFiles {
         $this->idchangement = new ArrayCollection();
     }
 
-   
-     /**
+    /**
      * Get createdAt
      *
      * @return \DateTime 
@@ -400,20 +384,19 @@ class CertificatsFiles {
     public function getCreateddAt() {
         return $this->createdAt;
     }
-    
-    
-     /**
+
+    /**
      * Set updatedAt
      *
      * @param \DateTime $createdAt
      * @return Docchangements
      */
     public function setCreatedAt($createdAt) {
-       $this->createdAt = $createdAt;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
-    
+
     /**
      * Set updatedAt
      *
@@ -421,7 +404,7 @@ class CertificatsFiles {
      * @return Docchangements
      */
     public function setUpdatedAt($updatedAt) {
-       $this->updatedAt = $updatedAt;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
@@ -456,17 +439,15 @@ class CertificatsFiles {
         return $this->md5;
     }
 
-
     /**
      * Set certificats
      *
      * @param \Application\CertificatsBundle\Entity\CertificatsCenter $certificats
      * @return CertificatsFiles
      */
-    public function setCertificats(\Application\CertificatsBundle\Entity\CertificatsCenter $certificats = null)
-    {
+    public function setCertificats(\Application\CertificatsBundle\Entity\CertificatsCenter $certificats = null) {
         $this->certificats = $certificats;
-    
+
         return $this;
     }
 
@@ -475,11 +456,123 @@ class CertificatsFiles {
      *
      * @return \Application\CertificatsBundle\Entity\CertificatsCenter 
      */
-    public function getCertificats()
-    {
+    public function getCertificats() {
         return $this->certificats;
     }
+
+    private function getExtension(){
+     
+// nom origine du fichier uploadé
+        $fic = $this->getFile()->getClientOriginalName();
+        $info = pathinfo($fic);
+        if (isset($info)) {
+            $ext = $info['extension'];
+        }
+        if (!isset($ext)) {
+            $ext = $this->file->guessExtension();
+        }
+        if (!isset($ext))
+            $ext = "bin";
+     return $ext;
+    }
+    public function isAuthorValid(ExecutionContextInterface $context) {
+        // somehow you have an array of "fake names"
+        $ok = $this->ok_extensions;
+// nom origine du fichier uploadé
+       $ext=$this->getExtension();
+       /*$fic = $this->getFile()->getClientOriginalName();
+        $info = pathinfo($fic);
+        if (isset($info)) {
+            $ext = $info['extension'];
+        }
+        if (!isset($ext)) {
+            $ext = $this->file->guessExtension();
+        }
+        if (!isset($ext))
+            $ext = "bin";
+        //      print_r($ext);exit(1);*/
+        if (!in_array($ext, $ok)) {
+             $message = "$ext non autorisée, Extensions autorisees: (crt,pem,key,txt,p12)";
+            $context->addViolationAt('file', $message, array(), null);
+        }
+    }
+
+    public function getMapOriginalExtension() {
+        $path_info = pathinfo($this->file->getClientOriginalName());
+        return $path_info['extension'];
+    }
+
+    private function getSanitizedFilename(UploadedFile $file) {
+        $whitelist = array('jpg jpeg gif png txt html doc xls pdf ppt pps odt ods odp');
+
+// $original = $file->getFilename();
+        $filename = $file->getClientOriginalName();
+
+// Split the filename up by periods. The first part becomes the basename
+// the last part the final extension.
+        $filename_parts = explode('.', $filename);
+        $new_filename = array_shift($filename_parts); // Remove file basename.
+        $final_extension = array_pop($filename_parts); // Remove final extension.
+// Loop through the middle parts of the name and add an underscore to the
+// end of each section that could be a file extension but isn't in the list
+// of allowed extensions.
+        foreach ($filename_parts as $filename_part) {
+            $new_filename .= '.' . $filename_part;
+            if (!in_array($filename_part, $whitelist) && preg_match("/^[a-zA-Z]{2,5}\d?$/", $filename_part)) {
+                $new_filename .= '_';
+            }
+        }
+        $filename = $new_filename . '.' . $final_extension;
+
+        if (preg_match('/\.(php|pl|py|cgi|asp|js)(\.|$)/i', $filename) && (substr($filename, -4) != '.txt')) {
+            $filename .= '.txt';
+        }
+
+        return $this->checkFilename($filename);
+    }
+
+    private function checkFilename($basename) {
+// Strip control characters (ASCII value < 32). Though these are allowed in
+// some filesystems, not many applications handle them well.
+        $basename = preg_replace('/[\x00-\x1F]/u', '_', $basename);
+        $directory = $this->getUploadDir();
+
+        if (substr(PHP_OS, 0, 3) == 'WIN') {
+// These characters are not allowed in Windows filenames
+            $basename = str_replace(array(':', '*', '?', '"', '<', '>', '|'), '_', $basename);
+        }
+
+// A URI or path may already have a trailing slash or look like "public://".
+        if (substr($directory, -1) == '/') {
+            $separator = '';
+        } else {
+            $separator = '/';
+        }
+
+        $destination = $directory . $separator . $basename;
+
+        if (file_exists($destination)) {
+// Destination file already exists, generate an alternative.
+            $pos = strrpos($basename, '.');
+            if ($pos !== FALSE) {
+                $name = substr($basename, 0, $pos);
+                $ext = substr($basename, $pos);
+            } else {
+                $name = $basename;
+                $ext = '';
+            }
+
+            $counter = 0;
+            do {
+                $destination = $directory . $separator . $name . '_' . $counter++ . $ext;
+            } while (file_exists($destination));
+        }
+
+        return $destination;
+    }
+
 }
+
 /*application/pkcs8                   .p8  .key
 application/pkcs10                  .p10 .csr
 application/pkix-cert               .cer
@@ -512,5 +605,41 @@ application/x-pkcs7-certreqresp     .p7r
     $dir = dirname($file);
     $info = pathinfo($file);
     $prefixe_name = basename($file_basename, '.' . $info['extension']);
+ *   *  mimeTypes = {"application/x-x509-user-cert",
+     * "application/x-x509-ca-cert", "application/x-pkcs12", "application/p12"},
+     *  mimeTypesMessage = "Le fichier choisi ne correspond pas à un fichier valide",
+   ,mimeTypes = {
+       *  "application/x-x509-ca-cert",
+  * "application/x-x509-server-cert",
+  * "application/x-x509-email-cert",
+   *"application/x-x509-user-cert",
+       * "certificat/crt","application/pkix-cert"
+ * @Assert\Callback(methods={"isAuthorized"}) 
  * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * ,mimeTypes = {
+       *  "application/pkix-attr-cert",
+       * "certificat/crt",
+       * "application/pkix-cert",
+       * "application/x-x509-user-cert",
+       * "application/x-x509-ca-cert",
+       *  "application/x-pkcs12",
+        * "application/p12",
+       * "application/pdf",
+       * "application/x-pdf", 
+       * "image/png"},
+       *  mimeTypesMessage = "Le fichier choisi ne correspond pas à un fichier valide",
+      *    notFoundMessage = "Le fichier n'a pas été trouvé sur le disque",
+     *  uploadErrorMessage = "Erreur dans l'upload du fichier",
+     *  notReadableMessage =  "Not readable"
  */
