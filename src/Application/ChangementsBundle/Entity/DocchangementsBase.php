@@ -1,21 +1,20 @@
 <?php
 
-namespace Application\CentralBundle\Model;
+namespace Application\ChangementsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 
+
+
 /**
- *
+ * Projet
+ * @Orm\MappedSuperclass
  * @ORM\HasLifecycleCallbacks
  */
-
-/** @MappedSuperclass */
-
-  
-class MappedSuperClasseDocuments {
+class DocchangementsBase  {
 
     /**
      * @ORM\Id
@@ -37,10 +36,15 @@ class MappedSuperClasseDocuments {
      */
     private $md5;
 
+    
+    
     /**
-     * @Assert\File(maxSize="6000000")
+     * @Assert\File(maxSize="5M",
+     *    notFoundMessage = "Le fichier n'a pas été trouvé sur le disque",
+     *    uploadErrorMessage = "Erreur dans l'upload du fichier"
+     * )
      */
-    private $file;
+     private $file;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
@@ -54,11 +58,7 @@ class MappedSuperClasseDocuments {
     // nom origine du fichier
     private $OriginalFilename;
 
-  
-
-
-    //Assert\NotBlank
-
+    
     /**
      * Date/Time of the update
      *
@@ -133,24 +133,46 @@ class MappedSuperClasseDocuments {
      */
     public function preUpload() {
         $this->updatedAt = new \DateTime();
+        // si upload de fichier (temp file)
         if (null !== $this->file) {
 
             // faites ce que vous voulez pour générer un nom unique
             // a remettre apres
             //  $this->path=$this->generateNewFilename();
-            $ext = $this->file->guessExtension();
+            
+             $ext = null;
+            $this->OriginalFilename = $this->getFile()->getClientOriginalName();
+            $fic = $this->OriginalFilename;
+            $info = pathinfo($fic);
+            if (isset($info)) {
+                $ext = $info['extension'];
+            }
+            if (!isset($ext)) {
+                $ext = $this->file->guessExtension();
+            }
             if (!isset($ext)) {
                 $ext = "bin";
             }
             $this->path = sha1(uniqid(mt_rand(), true)) . '.' . $ext;
+            
+       
             // recup nom origne
-            $this->OriginalFilename = $this->getFile()->getClientOriginalName();
-            if (!$this->name)
+         
+            if (!$this->name || $this->name =="")
                 $this->name = $this->OriginalFilename;
             $this->md5 = md5_file($this->file);
                $this->updatedAt = new \DateTime();
-
+              // echo "here";exit(1);
         }
+        // check du md5
+          if (!$this->md5 && (file_exists($this->getUploadDir() . '/' . $this->path))){
+             $this->md5 = md5_file($this->getUploadDir() . '/' . $this->path);
+        }
+        // check du nom
+         if (!$this->name || $this->name =="TOTO" ){
+              $this->name = $this->OriginalFilename;
+         }
+        // echo "here";exit(1);
     }
 
     /**
@@ -280,8 +302,10 @@ class MappedSuperClasseDocuments {
      */
     public function setName($name) {
         // $this->name = $name;
-        if (isset($name))
+        if (isset($name) && $name !="")
             $this->name = $name;
+        else 
+            $this->name = "TOTO";
         return $this;
     }
 
@@ -344,8 +368,10 @@ class MappedSuperClasseDocuments {
      * Constructor
      */
     public function __construct() {
-    
+   
     }
+
+    
 
   
     /**
