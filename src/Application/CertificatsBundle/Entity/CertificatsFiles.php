@@ -39,7 +39,7 @@ class CertificatsFiles {
     /**
      *  @Assert\File( maxSize="10M")
      */
-    public $file;
+    private $file;
     private $ok_extensions = array("crt", "pem", "cer", "p12", "pkcs12", "p7", "p7b");
 
     /**
