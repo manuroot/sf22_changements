@@ -1,4 +1,4 @@
-download_route:
+download_simple_route:
     pattern:  /download/{filename}
     defaults: { _controller: ApplicationCentralBundle:Default:download } 
     

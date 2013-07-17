@@ -2,15 +2,7 @@ application_certificats_certificatscenter:
     resource: "@ApplicationCertificatsBundle/Resources/config/routing/certificatscenter.yml"
     prefix:   /certificatscenter
 
+application_certificats_certificatscenter_download:
+    resource: "@ApplicationCertificatsBundle/Resources/config/routing/certificatsdownload.yml"
+    prefix:   /certificatscenterd
     
-_tasks:
-    resource: "@ApplicationCertificatsBundle/Resources/config/routing/task.yml"
-    prefix:   /task
-
-_tags:
-    resource: "@ApplicationCertificatsBundle/Resources/config/routing/tag.yml"
-    prefix:   /tag
-    #prefix:   /admin/tag
- 
-    
-  

@@ -221,4 +221,51 @@ class DocchangementsController extends Controller {
         ;
     }
 
+     public function downloadAction($id) {
+         
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('ApplicationChangementsBundle:Docchangements')->find($id);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Docchangements entity.');
+        }
+        
+        $request = $this->get('request');
+     //   $url='docchangements';
+        $session = $request->getSession();
+        $url=$session->get('buttonretour');
+        if (!isset($url))
+            $url='docchangements';    
+     //   $path = $entity->getUploadRootDir();
+        $filename=$entity->getPath();
+        $realname=$entity->getOriginalFilename();
+        if (!isset($realname))
+            $realname=$filename;
+        $path = $this->get('kernel')->getRootDir() . "/../web/uploads/documents/";
+
+        // Flush in "safe" mode to enforce an Exception if keys are not unique
+
+         //if (!file_exists($path . $filename)) {
+        if (!file_exists($path . $filename)) {
+            $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas (code 1)");
+            return $this->redirect($this->generateUrl($url));
+        }
+
+        try {
+            $content = file_get_contents($path . $filename);
+        } catch (\ErrorException $e) {
+            $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas (code 2)");
+            return $this->redirect($this->generateUrl($url));
+        }
+         $response = new Response();
+
+        //set headers
+        $response->headers->set('Content-Type', 'mime/type');
+        $response->headers->set('Content-Disposition', 'attachment;filename="' . $realname);
+        //$response->headers->set('Content-Length',filesize($filename));
+        //$session = $this->getRequest()->getSession();
+        $session->getFlashBag()->add('notice', "Le fichier $filename a ete téléchargé");
+
+        $response->setContent($content);
+        return $response;
+    }
 }

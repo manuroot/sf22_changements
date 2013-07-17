@@ -286,8 +286,10 @@ $(document).ready(function() {
                     <td>{{ fic.name }}</td>
                     <td>{{ fic.OriginalFilename }}</td>
                     <td>{{ fic.updatedAt|date('Y-m-d H') ~ 'h' }}</td>
-                    <td><a class="fichier" href="{{ path('download_route', { 'filename': fic.path }) }}">{{ fic.path }}</a></td>
-
+                    <td><a class="fichier" href="{{ path('docchangements_download', { 'id': fic.id }) }}">{{ fic.path }}</a></td>
+                    
+                  {#  <td><a class="fichier" href="{{ path('download_route', { 'filename': fic.path }) }}">{{ fic.path }}</a></td>
+#}
                        <!-- <a href="{#{ asset('bundles/my/Resources/public/pdf/dok.pdf') }#}">Download PDF!</a>-->
 
                 </tr>

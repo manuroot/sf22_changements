@@ -195,7 +195,7 @@ $('.btn-remove').live('click', function(event) {
                             <td>{{ fic.id }}</td>
                             <td>{{ fic.name }}</td>
                             
-                             <td><a href="{{ path('download_route', { 'filename': fic.path }) }}">{{ fic.path }}</a></td>
+                             <td><a href="{{ path('docchangements_download', { 'id': fic.id }) }}">{{ fic.path }}</a></td>
      
                             <!-- <a href="{#{ asset('bundles/my/Resources/public/pdf/dok.pdf') }#}">Download PDF!</a>-->
                             

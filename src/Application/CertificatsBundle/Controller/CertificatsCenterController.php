@@ -666,19 +666,28 @@ class CertificatsCenterController extends Controller {
      *  DOWNLOAD CERT
      * 
       =================================================================== */
-      public function downloadAction($filename) {
+      
+      public function downloadAction($id) {
+         
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->find($id);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Docchangements entity.');
+        }
+        
         $request = $this->get('request');
      //   $url='docchangements';
         $session = $request->getSession();
         $url=$session->get('buttonretour');
         if (!isset($url))
-            $url='docchangements';    
-        
-        $path = $this->get('kernel')->getRootDir() . "/../web/uploads/documents/certificats";
-
-        // Flush in "safe" mode to enforce an Exception if keys are not unique
-
+            $url='certificatscenter';    
+        $filename=$entity->getPath();
+        $realname=$entity->getOriginalFilename();
+        if (!isset($realname))
+            $realname=$filename;
+        $path = $this->get('kernel')->getRootDir() . "/../" . $entity->getDownloadDir();
         if (!file_exists($path . $filename)) {
+              // $session->getFlashBag()->add('error', "Le fichier $path/$filename n 'existe pas (code 1)");
             $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas (code 1)");
             return $this->redirect($this->generateUrl($url));
         }
@@ -693,12 +702,12 @@ class CertificatsCenterController extends Controller {
 
         //set headers
         $response->headers->set('Content-Type', 'mime/type');
-        $response->headers->set('Content-Disposition', 'attachment;filename="' . $filename);
-        //$session = $this->getRequest()->getSession();
+        $response->headers->set('Content-Disposition', 'attachment;filename="' . $realname);
         $session->getFlashBag()->add('notice', "Le fichier $filename a ete téléchargé");
 
         $response->setContent($content);
         return $response;
     }
-
+    
+    
 }

@@ -30,6 +30,15 @@ class Docchangements  extends DocchangementsBase {
      */
     protected $idchangement;
 
+   /**
+     * Date/Time of the update
+     *
+     * @var \Datetime
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    protected $createdAt;
+
+     protected $disk_path = 'uploads/documents';
 
     
     /**
@@ -40,6 +49,7 @@ class Docchangements  extends DocchangementsBase {
         $this->idchangement = new ArrayCollection();
     }
 
+   
     /**
      * Add idchangement
      *

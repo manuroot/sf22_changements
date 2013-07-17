@@ -2,6 +2,11 @@ docchangements:
     pattern:  /
     defaults: { _controller: "ApplicationChangementsBundle:Docchangements:index" }
 
+docchangements_download:
+    pattern:  /{id}/download/
+    defaults: { _controller: "ApplicationChangementsBundle:Docchangements:download" }
+  
+  
 docchangements_show:
     pattern:  /{id}/show
     defaults: { _controller: "ApplicationChangementsBundle:Docchangements:show" }

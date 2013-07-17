@@ -40,7 +40,7 @@ class CertificatsFiles {
      *  @Assert\File( maxSize="10M")
      */
     private $file;
-    private $ok_extensions = array("crt", "pem", "cer", "p12", "pkcs12", "p7", "p7b");
+    private $ok_extensions = array("crt", "der","pem", "cer", "p12", "pkcs12", "p7", "p7b");
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
@@ -77,7 +77,7 @@ class CertificatsFiles {
      */
     private $updatedAt;
     private $temp;
-    protected $disk_path = 'uploads/documents';
+    protected $disk_path = 'uploads/documents/certificats';
 
     //protected $disk_path='uploads/documents/certificats';
     /**
@@ -92,6 +92,24 @@ class CertificatsFiles {
         return $this->file;
     }
 
+    
+    /**
+     * Set disk path
+     * 
+     */
+    public function setDiskPath($disk_path='uploads/documents/certificats') {
+        $this->disk_path=$disk_path;
+        
+    }
+    
+    /**
+     * Get disk path
+     * 
+     */
+    public function getDiskPath() {
+        return $this->disk_path;
+        
+    }
     /**
      * Set file
      *
@@ -132,12 +150,17 @@ class CertificatsFiles {
         return __DIR__ . '/../../../../web/' . $this->getUploadDir();
     }
 
-    protected function getUploadDir() {
+    public function getUploadDir() {
         // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
         // le document/image dans la vue.
         return $this->disk_path;
     }
 
+    public function getDownloadDir() {
+        // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
+        // le document/image dans la vue.
+        return 'web/' . $this->disk_path . '/';
+    }
     /**
      * @ORM\PrePersist()
      */
@@ -165,19 +188,6 @@ class CertificatsFiles {
             // recup nom origne
               $ext=$this->getExtension();
              $this->OriginalFilename = $this->getFile()->getClientOriginalName();
-           /* $ext = null;
-        
-            $fic = $this->OriginalFilename;
-            $info = pathinfo($fic);
-            if (isset($info)) {
-                $ext = $info['extension'];
-            }
-            if (!isset($ext)) {
-                $ext = $this->file->guessExtension();
-            }
-            if (!isset($ext)) {
-                $ext = "bin";
-            }*/
             $this->path = sha1(uniqid(mt_rand(), true)) . '.' . $ext;
             $this->md5 = md5_file($this->file);
             // date fichier uploadé
@@ -223,14 +233,7 @@ class CertificatsFiles {
         $this->file = null;
     }
 
-    /*   public function Ficinfos{
-      if (isset($this->path))
-      $file_basename = basename($file);
-      $dir = dirname($file);
-      $info = pathinfo($file);
-      $prefixe_name = basename($file_basename, '.' . $info['extension']);
-      } */
-
+ 
     /**
      * Generates a non-random-filename
      *
@@ -373,6 +376,7 @@ class CertificatsFiles {
      * Constructor
      */
     public function __construct() {
+        $this->disk_path=$this->setDiskPath();
         $this->idchangement = new ArrayCollection();
     }
 
@@ -478,11 +482,15 @@ class CertificatsFiles {
     public function isAuthorValid(ExecutionContextInterface $context) {
  
         $ok = $this->ok_extensions;
+        // slmt si fichier uploadé
+           if (null !== $this->file) {
+     
       $ext=$this->getExtension();
       if (!in_array($ext, $ok)) {
              $message = "$ext non autorisée, Extensions autorisees: (crt,pem,key,txt,p12)";
             $context->addViolationAt('file', $message, array(), null);
         }
+           }
     }
 
     public function getMapOriginalExtension() {

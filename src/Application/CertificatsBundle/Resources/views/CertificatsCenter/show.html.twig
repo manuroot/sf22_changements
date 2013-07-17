@@ -121,7 +121,9 @@
                    </td>
                
         </tr>
-           {% if  entity.fichier %}
+        
+                                            
+           {% if  entity.fichier and is_granted("ROLE_ADMIN")%}
          
              <tr>
              <td class="viewlabel">Fichier Nom</td>
@@ -129,14 +131,20 @@
         </tr>     
          <tr>
            <td class="viewlabel">Fichier Lien</td>
-            <td><a class="fichier" href="{{ path('download_route', { 'filename': entity.fichier.path }) }}">{{ entity.fichier.path }}</a>
-            </td>
+           <td>
+           {% if entity.fichier.id and entity.fichier.path %}
+                    <a class="fichier" href="{{ path('certificatscenter_download', { 'id': entity.fichier.id }) }}">{{ entity.fichier.path }}</a>
+                    
+                    {% endif %}
+           </td>
+         {#   <td><a class="fichier" href="{{ path('download_route', { 'filename': entity.fichier.path }) }}">{{ entity.fichier.path }}</a>
+            </td>#}
         </tr>     
         
           <tr>
            <td class="viewlabel">Fichier md5</td>
           <td>{{ entity.fichier.md5 }}  </td>
-            </td>
+            
         </tr> 
         {% endif %}
     </tbody>

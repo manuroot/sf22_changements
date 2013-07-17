@@ -102,7 +102,24 @@ class DocchangementsBase  {
 
         return $this;
     }
-
+  /**
+     * Set disk path
+     * 
+     */
+    public function setDiskPath($disk_path='uploads/documents') {
+        $this->disk_path=$disk_path;
+        
+    }
+    
+    /**
+     * Get disk path
+     * 
+     */
+    public function getDiskPath() {
+        return $this->disk_path;
+        
+    }
+    
     public function __toString() {
         return $this->getName();    // this will not look good if SonataAdminBundle uses this ;)
     }
@@ -115,15 +132,15 @@ class DocchangementsBase  {
         return null === $this->path ? null : $this->getUploadDir() . '/' . $this->path;
     }
 
-    protected function getUploadRootDir() {
+    public function getUploadRootDir() {
         // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
         return __DIR__ . '/../../../../web/' . $this->getUploadDir();
     }
 
-    protected function getUploadDir() {
+    public function getUploadDir() {
         // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
         // le document/image dans la vue.
-        return 'uploads/documents';
+           return $this->disk_path;
     }
 
     /**
