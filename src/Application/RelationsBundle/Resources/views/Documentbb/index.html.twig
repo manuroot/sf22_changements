@@ -108,7 +108,7 @@ width:150px;
                 <td><a href="{{ path('projets_documents_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.name }}</td>
                 <td>{% if entity.path %}
-                 <a href="{{ path('download_route', { 'filename': entity.path }) }}">{{ entity.path }}</a>
+                 <a href="{{ path('download_simple_route', { 'filename': entity.path }) }}">{{ entity.path }}</a>
                  {% endif %}
                  </td>
             

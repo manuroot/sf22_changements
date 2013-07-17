@@ -1,0 +1,34 @@
+certificats_documents:
+    pattern:  /
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsFiles:index" }
+
+certificatscenter_download:
+    pattern:  /{id}/download/
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsFiles:download" }
+    
+certificats_documents_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsFiles:show" }
+
+certificats_documents_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsFiles:new" }
+
+certificats_documents_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsFiles:create" }
+    requirements: { _method: post }
+
+certificats_documents_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsFiles:edit" }
+
+certificats_documents_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsFiles:update" }
+    requirements: { _method: post|put }
+
+certificats_documents_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsFiles:delete" }
+    requirements: { _method: post|delete }

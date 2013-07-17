@@ -101,7 +101,10 @@
                                                              {% if is_granted("IS_AUTHENTICATED_FULLY") %}
                                                                                 <li><a href="{{ path('certificatscenter_new') }}"><i class="icon-camera"></i> {{ 'Nouveau Certificat'|trans }}</a></li>
                                                                                 <li><a href="{{ path('certificatscenter_check') }}"><i class="icon-camera"></i> {{ 'Vérifier Certificat'|trans }}</a></li>
+                                                          
+                                                             <li><a href="{{ path('certificats_documents') }}"><i class="icon-camera"></i> {{ 'Fichiers-Certificats'|trans }}</a></li>
                                                             {% endif %}
+                                                                                    
                                                                             </ul>
                                                                         </li>
                                                                         

@@ -1,5 +1,0 @@
-certificatscenter_download:
-    pattern:  /{id}/download/
-    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsCenter:download" }
-  
-  

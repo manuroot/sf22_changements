@@ -3,6 +3,7 @@
 namespace Application\CertificatsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use APY\DataGridBundle\Grid\Mapping as GRID;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -18,7 +19,8 @@ use Symfony\Component\Validator\ExecutionContextInterface;
  * @ORM\Table(name="certificats_files")
  * @ORM\Entity()
  * @Assert\Callback(methods={"isAuthorValid"})
- * @ORM\HasLifecycleCallbacks
+ * @GRID\Source(columns="id,md5,path,OriginalFilename,$certificats",groupBy={"id"}) 
+  * @ORM\HasLifecycleCallbacks
  */
 class CertificatsFiles {
 
@@ -62,7 +64,7 @@ class CertificatsFiles {
      * Date/Time of the update
      *
      * @var \Datetime
-     * @ORM\Column(name="created_at", type="datetime")
+     * @ORM\Column(name="created_at", type="datetime",nullable=true)
      */
     private $createdAt;
 

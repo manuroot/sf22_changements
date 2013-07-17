@@ -72,7 +72,7 @@ class CertificatsCenterController extends Controller {
             "sortDirectionParameterName" => "dir",
             'sortFieldParameterName' => "sort")
         );
-        $pagination->setTemplate('ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig');
+        $pagination->setTemplate('ApplicationCertificatsBundle:pagination:twitter_bootstrap_pagination.html.twig');
         return $pagination;
     }
 
@@ -660,54 +660,7 @@ class CertificatsCenterController extends Controller {
                 ));
     }
 
-    
-  /* ====================================================================
-     * 
-     *  DOWNLOAD CERT
-     * 
-      =================================================================== */
-      
-      public function downloadAction($id) {
-         
-        $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->find($id);
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Docchangements entity.');
-        }
-        
-        $request = $this->get('request');
-     //   $url='docchangements';
-        $session = $request->getSession();
-        $url=$session->get('buttonretour');
-        if (!isset($url))
-            $url='certificatscenter';    
-        $filename=$entity->getPath();
-        $realname=$entity->getOriginalFilename();
-        if (!isset($realname))
-            $realname=$filename;
-        $path = $this->get('kernel')->getRootDir() . "/../" . $entity->getDownloadDir();
-        if (!file_exists($path . $filename)) {
-              // $session->getFlashBag()->add('error', "Le fichier $path/$filename n 'existe pas (code 1)");
-            $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas (code 1)");
-            return $this->redirect($this->generateUrl($url));
-        }
-
-        try {
-            $content = file_get_contents($path . $filename);
-        } catch (\ErrorException $e) {
-            $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas (code 2)");
-            return $this->redirect($this->generateUrl($url));
-        }
-         $response = new Response();
-
-        //set headers
-        $response->headers->set('Content-Type', 'mime/type');
-        $response->headers->set('Content-Disposition', 'attachment;filename="' . $realname);
-        $session->getFlashBag()->add('notice', "Le fichier $filename a ete téléchargé");
-
-        $response->setContent($content);
-        return $response;
-    }
+   
     
     
 }

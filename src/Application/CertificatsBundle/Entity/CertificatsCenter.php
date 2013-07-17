@@ -263,6 +263,12 @@ class CertificatsCenter
         return $this->description;
     }
 
+ 
+     public function __toString() {
+        return $this->getFileName();    
+    }
+    
+    
    public function __construct()
   {
     $this->addedDate = new \DateTime('now');

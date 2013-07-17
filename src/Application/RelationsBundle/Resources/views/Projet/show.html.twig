@@ -85,7 +85,7 @@
                             <td>{{ fic.name }}</td>
                          <td>  
                             {%  if (fic.path is not null) %}
-                            <a href="{{ path('download_route', { 'filename': fic.path }) }}">{{ fic.path }}</a>
+                            <a href="{{ path('download_simple_route', { 'filename': fic.path }) }}">{{ fic.path }}</a>
                             {% else %} pas de path: contacter Administrateur
                             {% endif %}
                          </td>

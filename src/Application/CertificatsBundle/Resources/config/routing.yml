@@ -2,7 +2,7 @@ application_certificats_certificatscenter:
     resource: "@ApplicationCertificatsBundle/Resources/config/routing/certificatscenter.yml"
     prefix:   /certificatscenter
 
-application_certificats_certificatscenter_download:
-    resource: "@ApplicationCertificatsBundle/Resources/config/routing/certificatsdownload.yml"
-    prefix:   /certificatscenterd
+application_certificats_docs:
+    resource: "@ApplicationCertificatsBundle/Resources/config/routing/certificatsfiles.yml"
+    prefix:   /certificatsdocs
     
