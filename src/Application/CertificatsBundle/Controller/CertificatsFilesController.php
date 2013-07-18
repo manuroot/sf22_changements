@@ -60,7 +60,7 @@ class CertificatsFilesController extends Controller
             "sortDirectionParameterName" => "dir",
             'sortFieldParameterName' => "sort")
         );
-        $pagination->setTemplate('ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig');
+        $pagination->setTemplate('ApplicationCertificatsBundle:pagination:twitter_bootstrap_pagination.html.twig');
         return $pagination;
     }
     
@@ -86,18 +86,10 @@ class CertificatsFilesController extends Controller
         $request = $this->getRequest();
         $session = $request->getSession();
         $session->set('buttonretour', 'certificats_documents');
-         $entities = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->findAll();
-
-      
-     //   $pagination->setTemplate('ApplicationRelationsBundle:pagination:sliding.html.twig');
-        
-        
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
-                $entities, $this->get('request')->query->get('page', 1)/* page number */, 5/* limit per page */
-        );
-        $pagination->setTemplate('ApplicationCertificatsBundle:pagination:sliding.html.twig');
-        return $this->render('ApplicationCertificatsBundle:CertificatsFiles:index.html.twig', array(
+         $query = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->myFindAll();
+          $pagination = $this->createpaginator($query, 10);
+        $count = $pagination->getTotalItemCount();
+          return $this->render('ApplicationCertificatsBundle:CertificatsFiles:index.html.twig', array(
                     'pagination' => $pagination,
         ));
     }

@@ -1,20 +1,43 @@
-{% extends '::base.html.twig' %}
+{% extends "ApplicationCertificatsBundle::layout.html.twig" %}
 
-{% block body -%}
-    <h1>CertificatsFiles creation</h1>
+  {% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/whiteoctoberpagerfanta/css/pagerfantaDefault.css') }}" type="text/css" media="all" />
+  <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/certifcatssearch.css') }}" type="text/css" media="all"/>
+  <style>
+  table.view {min:700px;}</style>
+{% endblock %}
 
-    <form action="{{ path('certificats_documents_create') }}" method="post" {{ form_enctype(form) }}>
+{% block title %}CertificatsFiles creation{% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+{% for type, flashMessages in app.session.flashbag.all() %}
+    {% for flashMessage in flashMessages %}
+        <div class="alert alert-{{ type }}">
+            {{ flashMessage|trans }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
+ <br><br>
+   
+  <form action="{{ path('certificats_documents_create') }}" method="post" {{ form_enctype(form) }}>
+   
+         <table class="table-mybordered">
+
+            <tr><td class="calendar">
+                        <div>
         {{ form_widget(form) }}
+                                </div>
         <p>
-            <button type="submit">Create</button>
+              <button type="submit" class="btn btn-medium btn-warning">Ajouter</button>
         </p>
+        </table>
     </form>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('certificats_documents') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+ <a href="{{ path('certificats_documents') }}" class="btn btn-medium btn-success">Retour</a>
+                                   
+       
 {% endblock %}

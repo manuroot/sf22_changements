@@ -53,22 +53,19 @@ tr.danger {background:red;}
 <a href="{{ path('certificats_documents_new') }}" class="btn btn-medium btn-primary">Ajouter Fichier</a>
 {% endif %}
 <br> <br>  
-
+ 
 <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr class="title">
   <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
-            {#    <th{% if pagination.isSorted('a.path') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom Physique', 'a.path') }}</th>
-#}
                      <th{% if pagination.isSorted('a.OriginalFilename') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom Origine', 'a.OriginalFilename') }}</th>
-              
                     <th{% if pagination.isSorted('a.md5') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'md5', 'a.md5') }}</th>
-              
                   <th{% if pagination.isSorted('a.updatedAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date Update', 'a.updatedAt') }}</th>
-     {#
-                   <th{% if pagination.isSorted('a.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date Created', 'a.createdAt') }}</th>
-              #}
-                    <th{% if pagination.isSorted('a.certificats.fileName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Certificats', 'a.certificats.fileName') }}</th>
+          <th{% if pagination.isSorted('b.project') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Projet', 'b.project.nomprojet') }}</th>
+     {#              <th{% if pagination.isSorted('a.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date Created', 'a.createdAt') }}</th>
+                  <td>{{ entity.certificats.project }}</td> #}
+                    <th{% if pagination.isSorted('b.fileName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Certificats', 'b.fileName') }}</th>
+            
                 {% if is_granted("ROLE_ADMIN") %}
                 <th colspan="3">Actions</th>
                 {% else %}
@@ -95,7 +92,7 @@ tr.danger {background:red;}
           {# <td>{{ entity.OriginalFilename }}</td>createdAt#}
             <td>{{ entity.md5 }}</td>
              <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-             
+              <td>{% if entity.certificats %}{{ entity.certificats.project }}{% endif %}</td>
              {# <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>#}
               <td>{{ entity.certificats }}</td>
             <td>

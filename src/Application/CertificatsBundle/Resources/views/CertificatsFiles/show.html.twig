@@ -1,48 +1,84 @@
-{% extends '::base.html.twig' %}
+{% extends "ApplicationCertificatsBundle::layout.html.twig" %}
 
-{% block body -%}
-    <h1>CertificatsFiles</h1>
+  {% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/whiteoctoberpagerfanta/css/pagerfantaDefault.css') }}" type="text/css" media="all" />
+  <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/certifcatssearch.css') }}" type="text/css" media="all"/>
+  <style>
+  table.view {min:700px;}</style>
+{% endblock %}
 
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
+
+{% block title %}CertificatsFiles Détails{% endblock %}
+
+
+{% block content_header '' %}
+
+{% block content %}
+{% for type, flashMessages in app.session.flashbag.all() %}
+    {% for flashMessage in flashMessages %}
+        <div class="alert alert-{{ type }}">
+            {{ flashMessage|trans }}
+        </div>
+    {% endfor %}
+{% endfor %}
+      {% if is_granted("ROLE_ADMIN") %}           
+<a href="{{ path('certificatscenter_edit', { 'id': entity.id }) }}" class="btn btn-small btn-warning">Editer</a>
+{% endif %}
+
+<br> <br> 
+
+<table class="view table-bordered">
+
+ <thead>
+        
+                        <tr class="title">
+                            
+                   <th>Paramètres</th>
+                            <th>Valeurs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        <tr>
+              <td class="viewlabel">Id</td>             
+                   <td>{{ entity.id }}</td>
             </tr>
-            <tr>
-                <th>Md5</th>
-                <td>{{ entity.md5 }}</td>
+            
             </tr>
+        <tr>
+             <td class="viewlabel">Md5</td> 
+            <td>{{ entity.md5 }}</td>
+        </tr>
+           {#<tr>
+             <td class="viewlabel">Date de création</td> 
+                  <td>{{ entity.created_at|date('Y-m-d H:i:s') }}</td>
+           
+        </tr>#}
+         <tr>
+             <td class="viewlabel">Date de maj</td> 
+                  <td>{{ entity.updatedAt|date('Y-m-d H:i:s') }}</td>
+           
+        </tr>
+         <tr>
+             <td class="viewlabel">Certificat</td> 
+                  <td>{{ entity.certificats }}</td>
+           
+        </tr>
+        {% if entity.certificats.project %}
             <tr>
-                <th>Path</th>
-                <td>{{ entity.path }}</td>
-            </tr>
-            <tr>
-                <th>Originalfilename</th>
-                <td>{{ entity.OriginalFilename }}</td>
-            </tr>
-            <tr>
-                <th>Createdat</th>
-                <td>{{ entity.createdAt|date('Y-m-d H:i:s') }}</td>
-            </tr>
-            <tr>
-                <th>Updatedat</th>
-                <td>{{ entity.updatedAt|date('Y-m-d H:i:s') }}</td>
-            </tr>
+             <td class="viewlabel">Projet</td> 
+                  <td>{{ entity.certificats.project }}</td>
+           
+        </tr>
+        {% endif %}
         </tbody>
     </table>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('certificats_documents') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('certificats_documents_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
+
+ <br><br>
+              <a href="{{ path('certificats_documents') }}" class="btn btn-large btn-success">Retour</a>
+     <br><br>
+     
     <li>
         <form action="{{ path('certificats_documents_delete', { 'id': entity.id }) }}" method="post">
             <input type="hidden" name="_method" value="DELETE" />

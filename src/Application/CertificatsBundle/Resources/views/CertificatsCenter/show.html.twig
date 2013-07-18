@@ -8,9 +8,7 @@
   table.view {min:700px;}</style>
 {% endblock %}
 
-
 {% block title %}Certificat Détails{% endblock %}
-
 
 {% block content_header '' %}
 
@@ -29,130 +27,44 @@
 <br> <br> 
 
 <table class="view table-bordered">
-
- <thead>
-        
-                        <tr class="title">
-                            <th>Paramètres</th>
-                            <th>Valeurs</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-        <tr>
-              <td class="viewlabel">Id</td>
-            <td>{{ entity.id }}</td>
-        </tr>
-        <tr>
-             <td class="viewlabel">Nom</td> 
-            <td>{{ entity.fileName }}</td>
-        </tr>
-           <tr>
-             <td class="viewlabel">Environnement</td> 
-            <td>
-             {% if entity.idEnvironnement %}
-             {{ entity.idEnvironnement.nom }}
-             {% endif %}
-            </td>
-        </tr>
-        <tr>
-                 <td class="viewlabel">Project</td>
-            
-               <td>{{ entity.project.nomprojet }}</td>
-          
-        </tr>
-        <tr>
-            
-            <td class="viewlabel">Type</td>
-            <td>{{ entity.typeCert.FileType }}</td>
-        </tr>
-        <tr>
-            <td class="viewlabel">Cnname</td>
-            <td>{{ entity.cnName }}</td>
-        </tr>
-        <tr>
-            <td class="viewlabel">Startdate</td>
-            <td>{{ entity.startDate|date('Y-m-d') }}</td>
-        </tr>
-        <tr class="error">
-                    <!--<td>{{ entity.endTime|date('Y-m-d H:i:s') }}</td>-->
-            <td class="viewlabel">Endtime</td>
-            <td>{{ entity.endTime|date('Y-m-d') }}</td>
-        </tr>
-        <tr>
-            <td class="viewlabel">Date d'Ajout</td>
-            <td>{{ entity.addedDate|date('Y-m-d H:i:s') }}</td>
-        </tr>
-        
-        <tr>
-            <td class="viewlabel">Date de modification</td>
-            <td>{{ entity.updatedDate|date('Y-m-d H:i:s') }}</td>
-        </tr>
-        
-        <tr>
-            <td class="viewlabel">Servername</td>
-            <td>{{ entity.serverName }}</td>
-        </tr>
-        <tr>
-            <td class="viewlabel">Port</td>
-            <td>{{ entity.port }}</td>
-        </tr>
-        <tr>
-            <td class="viewlabel">Service(s)</td>
-            <td>{{ entity.serviceName }}</td>
-        </tr>
-        <tr>
-            <td class="viewlabel">Way</td>
-            <td>{{ entity.way }}</td>
-        </tr>
-        <tr>
-            <td class="viewlabel">Status Fichier</td>
-            <td>{{ entity.statusFile }}</td>
-        </tr>
-        
-   <tr>
-            <td class="viewlabel">description</td>
-            <td>{{ entity.description|raw }}</td>
-        </tr>
-        
- <tr><td class="viewlabel">Applications</td><td>
-             {% for appli in applis %} {{ appli.nomapplis }}
-
-       {% endfor %}
-                   </td>
-               
-        </tr>
-        
-                                            
-           {% if  entity.fichier and is_granted("ROLE_ADMIN")%}
-         
-             <tr>
-             <td class="viewlabel">Fichier Nom</td>
-            <td>{{ entity.fichier.OriginalFilename }}  </td>
-        </tr>     
-         <tr>
-           <td class="viewlabel">Fichier Lien</td>
-           <td>
+ <thead><tr class="title"><th>Paramètres</th><th>Valeurs</th></tr></thead>
+<tbody>
+       
+<tr><td class="viewlabel">Id</td><td>{{ entity.id }}</td></tr>
+<tr><td class="viewlabel">Nom</td><td>{{ entity.fileName }}</td></tr>
+<tr><td class="viewlabel">Environnement</td><td>{% if entity.idEnvironnement %}{{ entity.idEnvironnement.nom }}{% endif %}</td></tr>
+<tr><td class="viewlabel">Project</td><td>{{ entity.project.nomprojet }}</td></tr>
+<tr><td class="viewlabel">Type</td><td>{{ entity.typeCert.FileType }}</td></tr>
+<tr><td class="viewlabel">Cnname</td><td>{{ entity.cnName }}</td></tr>
+<tr><td class="viewlabel">Startdate</td><td>{{ entity.startDate|date('Y-m-d') }}</td></tr>
+<tr class="error"><td class="viewlabel">Endtime</td><td>{{ entity.endTime|date('Y-m-d') }}</td></tr>
+<tr><td class="viewlabel">Date d'Ajout</td><td>{{ entity.addedDate|date('Y-m-d H:i:s') }}</td></tr>
+<tr><td class="viewlabel">Date de modification</td><td>{{ entity.updatedDate|date('Y-m-d H:i:s') }}</td></tr>
+<tr><td class="viewlabel">Servername</td><td>{{ entity.serverName }}</td></tr>
+<tr><td class="viewlabel">Port</td><td>{{ entity.port }}</td></tr>
+<tr><td class="viewlabel">Service(s)</td><td>{{ entity.serviceName }}</td></tr>
+<tr><td class="viewlabel">Way</td><td>{{ entity.way }}</td></tr>
+<tr><td class="viewlabel">Status Fichier</td><td>{{ entity.statusFile }}</td></tr>
+<tr><td class="viewlabel">description</td><td>{{ entity.description|raw }}</td></tr>
+<tr><td class="viewlabel">Applications</td><td>{% for appli in applis %} {{ appli.nomapplis }}{% endfor %}</td></tr>
+{% if  entity.fichier and is_granted("ROLE_ADMIN")%}
+    <tr><td class="viewlabel">Fichier Nom</td><td>{{ entity.fichier.OriginalFilename }}</td></tr>     
+    <tr><td class="viewlabel">Fichier Lien</td>
+        <td>
            {% if entity.fichier.id and entity.fichier.path %}
-                    <a class="fichier" href="{{ path('certificatscenter_download', { 'id': entity.fichier.id }) }}">{{ entity.fichier.path }}</a>
-                    
-                    {% endif %}
-           </td>
-         {#   <td><a class="fichier" href="{{ path('download_route', { 'filename': entity.fichier.path }) }}">{{ entity.fichier.path }}</a>
-            </td>#}
-        </tr>     
-        
-          <tr>
-           <td class="viewlabel">Fichier md5</td>
-          <td>{{ entity.fichier.md5 }}  </td>
-            
-        </tr> 
-        {% endif %}
-    </tbody>
+            <a class="fichier" href="{{ path('certificatscenter_download', { 'id': entity.fichier.id }) }}">{{ entity.fichier.path }}</a>
+            {% endif %}
+       </td>
+    </tr>     
+    <tr><td class="viewlabel">Fichier md5</td><td>{{ entity.fichier.md5 }}</td></tr> 
+{% endif %}
+    
+</tbody>
 </table>
 
- <br><br>
-         <a href="{{ path(btnretour) }}" class="btn btn-large btn-success">Retour</a>
-     <br><br>
 
+<br><br>
+         <a href="{{ path(btnretour) }}" class="btn btn-large btn-success">Retour</a>
+<br><br>
   
 {% endblock %}

@@ -17,7 +17,7 @@ use Symfony\Component\Validator\ExecutionContextInterface;
  * Certificats_Files
  *
  * @ORM\Table(name="certificats_files")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Application\CertificatsBundle\Entity\CertificatsFilesRepository")
  * @Assert\Callback(methods={"isAuthorValid"})
  * @GRID\Source(columns="id,md5,path,OriginalFilename,$certificats",groupBy={"id"}) 
   * @ORM\HasLifecycleCallbacks
@@ -78,6 +78,8 @@ class CertificatsFiles {
      * @ORM\Column(name="updated_at", type="datetime",nullable=true)
      */
     private $updatedAt;
+    
+    
     private $temp;
     protected $disk_path = 'uploads/documents/certificats';
 
