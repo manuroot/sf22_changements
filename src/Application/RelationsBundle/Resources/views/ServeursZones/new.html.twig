@@ -1,9 +1,12 @@
- {% include 'ApplicationRelationsBundle:Template:tpl_new.html.twig' 
-       with {'h1Nom':'UNE ZONE',
-            'tpl_create':'serveurs_zones_create',
+{% include 'ApplicationRelationsBundle:Template:tpl_newedit.html.twig' 
+       with {
+            'idf':'zone',
+            'h1Nom':'NOUVELLE ZONE',
+            'action':'new',
+            'form':form,  
+            'path_form':'serveurs_zones_create',
             'tpl_retour':'serveurs_zones',
-             'myform':form   
-}  
-%}  
-
+            'button_submit':'Ajouter',
+        }
+  %}  
 

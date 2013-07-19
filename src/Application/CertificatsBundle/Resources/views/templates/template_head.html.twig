@@ -1,0 +1,35 @@
+{% block stylesheets %}
+{{ parent() }}
+{% stylesheets 
+                '@ApplicationCertificatsBundle/Resources/public/css/sliding.css' 
+                '@ApplicationCertificatsBundle/Resources/public/css/certifcatssearch.css' 
+                output='css/compiled/mycertificats.css' filter='cssrewrite,?yui_css' debug=false %}
+<link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
+{% endstylesheets %}
+<link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/colorbox.css') }}" type="text/css" media="all"/>
+
+<style>
+        td {
+    font-size: 12px;
+  
+}
+   
+
+.table {
+    font-size: 11px;
+    border-collapse: separate;
+  /*  font-family: 'Times New Roman',Times,serif;*/
+}
+
+tr.title th {
+   
+    line-height: 30px;
+  
+}
+
+tr.danger {background:red;}
+
+    </style>
+{% endblock %}
+    
+{% block content_header '' %}

@@ -343,7 +343,10 @@ mopa_bootstrap:
         checkbox_label: 'widget' # default is both (label|widget|both)
     navbar: ~
     
-    
+
+oneup_uploader:
+    mappings:
+        gallery: ~    
         
 #bc_bootstrap:
 #    assets_dir: %kernel.root_dir%/../vendor/twitter/bootstrap

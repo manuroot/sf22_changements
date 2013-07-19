@@ -23,7 +23,7 @@
     {% endfor %}
 {% endfor %}
       {% if is_granted("ROLE_ADMIN") %}           
-<a href="{{ path('certificatscenter_edit', { 'id': entity.id }) }}" class="btn btn-small btn-warning">Editer</a>
+<a href="{{ path('certificats_documents_edit', { 'id': entity.id }) }}" class="btn btn-medium btn-warning">Editer</a>
 {% endif %}
 
 <br> <br> 
@@ -59,19 +59,16 @@
                   <td>{{ entity.updatedAt|date('Y-m-d H:i:s') }}</td>
            
         </tr>
-         <tr>
-             <td class="viewlabel">Certificat</td> 
-                  <td>{{ entity.certificats }}</td>
-           
-        </tr>
-        {% if entity.certificats.project %}
-            <tr>
-             <td class="viewlabel">Projet</td> 
-                  <td>{{ entity.certificats.project }}</td>
-           
-        </tr>
+       
+        {% if entity.certificats %}
+          <tr><td class="viewlabel">Certificat</td><td>{{ entity.certificats }}</td></tr>
+         <tr><td class="viewlabel">Projet</td><td>{{ entity.certificats.project }}</td></tr>
+        {% else %}
+        <tr><td class="viewlabel">Certificat</td><td>Aucun Certificat</td></tr>
+         <tr><td class="viewlabel">Certificat</td><td>Aucun Projet</td></tr>
+      
         {% endif %}
-        </tbody>
+   </tbody>
     </table>
 
 
@@ -79,12 +76,18 @@
               <a href="{{ path('certificats_documents') }}" class="btn btn-large btn-success">Retour</a>
      <br><br>
      
-    <li>
+    
         <form action="{{ path('certificats_documents_delete', { 'id': entity.id }) }}" method="post">
             <input type="hidden" name="_method" value="DELETE" />
             {{ form_widget(delete_form) }}
             <button type="submit">Delete</button>
         </form>
-    </li>
-</ul>
+  
+
+    
+{% if cmd_x509 is not null %}
+   <pre>{{ cmd_x509|raw }}</pre>
+
+{% endif %}
+<br>
 {% endblock %}

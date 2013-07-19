@@ -387,6 +387,7 @@ class MyOpenSsl {
         $info = pathinfo($name);
         $data = file_get_contents($name);
 
+         $data_parse=null;
         print "<h3>View Certificate: $file_basename</h3>";
 
         if (isset($info['extension'])) {
@@ -401,16 +402,10 @@ class MyOpenSsl {
 
         $data_parse = openssl_x509_parse($data);
         if (!$data_parse) {
-            print "Error parsing data from $file_basename";
-            return (FALSE);
+            return ($data_parse);
         }
-//$data_parse = openssl_x509_parse(file_get_contents($name));
         array_walk($data_parse, 'print_element');
-//$ext_value =  $ssl['extensions']['1.2.3.4.5.6'];
-//$ssl = openssl_x509_parse($cert);
-//  print_r(array_values($data));
-//  print_r(array_keys($data));
-        return (TRUE);
+        return ($data_parse);
     }
 
 //===============================
@@ -427,7 +422,7 @@ class MyOpenSsl {
 //print (/usr/bin/openssl x509 -in ' . escapeshellcmd($name) . '  -noout -text 2>&1'
 //$output = shell_exec("(/usr/bin/openssl x509 -in $name  -noout -text) 2>&1");
         exec('/usr/bin/openssl verify -CAfile ' . escapeshellcmd($name_ca) . '  -verbose ' . escapeshellcmd($name_cert) . ' 2>&1', $output, $retval);
-        Affiche_RetVal($retval, $output);
+        
         return $retval;
     }
 
@@ -435,15 +430,16 @@ class MyOpenSsl {
     public function View_Cert($name) {
 //===============================
 
-        $file = basename($name);
-        print "<h3>View Certificate</h3>";
-
+        $output=array();
+        $retval=null;
+     //   $file = basename($name);
+           $file = $name;
         print "/usr/bin/openssl x509 -in $file -noout -text";
 //print (/usr/bin/openssl x509 -in ' . escapeshellcmd($name) . '  -noout -text 2>&1'
-//$output = shell_exec("(/usr/bin/openssl x509 -in $name  -noout -text) 2>&1");
-        exec('/usr/bin/openssl x509 -in ' . escapeshellcmd($name) . '  -noout -text 2>&1', $output, $retval);
-        Affiche_RetVal($retval, $output);
-        return $retval;
+$output = shell_exec("(/usr/bin/openssl x509 -in $name  -noout -text) 2>&1");
+     //   exec('/usr/bin/openssl x509 -in ' . escapeshellcmd($name) . '  -noout -text 2>&1', $output, $retval);
+      //  $this->Affiche_RetVal($retval, $output);
+        return $output;
     }
 
 //===============================
@@ -460,7 +456,7 @@ class MyOpenSsl {
         print "<h3>View p12</h3>";
 //$output = shell_exec("(/usr/bin/openssl pkcs12 -info -nodes $pass -in $name) 2>&1");//echo "<pre>$output</pre>";print '/usr/bin/openssl pkcs12 -info -nodes -passin pass:integ -in ' .  $name;
         exec('/usr/bin/openssl pkcs12 -info -nodes ' . escapeshellcmd($pass) . ' -in ' . escapeshellcmd($name) . ' 2>&1', $output, $retval);
-        Affiche_RetVal($retval, $output);
+        $this->Affiche_RetVal($retval, $output);
         return $retval;
     }
 
@@ -516,8 +512,9 @@ class MyOpenSsl {
         print "pass=$pass<br>";
 //print "/usr/bin/openssl' . $cmd  -in $name $pass $cmd1.<br>";
         exec('/usr/bin/openssl' . $cmd . ' -in ' . escapeshellcmd($name) . ' ' . escapeshellcmd($pass) . escapeshellcmd($cmd1) . ' 2>&1', $output, $retval);
-        Affiche_RetVal($retval, $output);
-        return $retval;
+    
+        //$this->Affiche_RetVal($retval, $output);
+        return $output;
     }
 
 ///===============================
@@ -581,7 +578,7 @@ class MyOpenSsl {
 //$output = shell_exec("cat ${crt} $key > ${dir_default}/bundle/${file_name}-${add}.crt 2>&1");
         $output = shell_exec("cat $crt $key > $newfile 2>&1");
         exec('cat ' . escapeshellcmd($crt) . ' ' . escapeshellcmd($key) . ' > ' . escapeshellcmd($newfile) . ' 2>&1', $output, $retval);
-        Affiche_RetVal($retval, $output);
+        $this->Affiche_RetVal($retval, $output);
 
         echo "<pre>$output</pre>";
 
@@ -870,7 +867,7 @@ class MyOpenSsl {
 //echo 'export RANDFILE=$HOME/upload/.rnd';
         echo '/usr/bin/openssl' . escapeshellcmd($cmd) . ' -in ' . escapeshellcmd($crt) . escapeshellcmd($pass) . ' -inkey ' . escapeshellcmd($key) . escapeshellcmd($passout) . ' -out ' . escapeshellcmd($out) . ' 2>&1';
         exec('/usr/bin/openssl' . escapeshellcmd($cmd) . ' -in ' . escapeshellcmd($crt) . escapeshellcmd($pass) . ' -inkey ' . escapeshellcmd($key) . escapeshellcmd($passout) . ' -out ' . escapeshellcmd($out) . ' 2>&1', $output, $retval);
-        Affiche_RetVal($retval, $output);
+        $this->Affiche_RetVal($retval, $output);
         print "Creation file: <h4>${file_name}-{$date}.p12</h4> .. done<br>";
 //$part = explode(${dir_default}, $saved);
 //$saved=$part[1];

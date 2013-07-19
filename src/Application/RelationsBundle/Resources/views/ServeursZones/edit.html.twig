@@ -1,5 +1,13 @@
-  {% include 'ApplicationRelationsBundle:Template:tpl_edit.html.twig' 
-       with {'h1Nom':'SITE',
-            'tpl_update':'serveurs_zones_update',
-   'tpl_delete':'serveurs_zones_delete',
-'tpl_retour':'serveurs_zones'}  %}   
+  {% include 'ApplicationRelationsBundle:Template:tpl_newedit.html.twig' 
+       with {
+            'idf':'zone',
+            'h1Nom':'EDITION ZONE',
+            'action':'edit',
+            'form':edit_form,  
+            'delete_form':delete_form, 
+            'path_form':'serveurs_zones_update',
+            'tpl_delete':'serveurs_zones_delete',
+            'tpl_retour':'serveurs_zones',
+            'button_submit':'Modifier',
+        }
+  %}  

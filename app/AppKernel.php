@@ -76,7 +76,8 @@ class AppKernel extends Kernel {
             //====================================================
           //  new ADesigns\CalendarBundle\ADesignsCalendarBundle(),
             new Ob\HighchartsBundle\ObHighchartsBundle(),
-              new FOS\JsRoutingBundle\FOSJsRoutingBundle()
+              new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+                new Oneup\UploaderBundle\OneupUploaderBundle()
            
          
 ,

@@ -32,7 +32,7 @@
               <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
                  <th{% if pagination.isSorted('a.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom', 'a.nom') }}
                               <i class="icon-pencil"></i></th>
-                           <th{% if pagination.isSorted('a.description') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom DNS', 'a.nom_dns') }}
+                           <th{% if pagination.isSorted('a.description') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Description', 'a.nom_dns') }}
                               <i class="icon-pencil"></i></th>
                          
                 {% if is_granted("ROLE_ADMIN") %}

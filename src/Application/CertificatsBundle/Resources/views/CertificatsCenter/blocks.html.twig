@@ -90,6 +90,7 @@
 {# -------------------------------------------------- grid_filters -------------------------------------------------- #}
 {% block grid_filters %}
     <tr class="grid-row-filters">
+       
     {% for column in grid.columns %}
         {% if column.visible(grid.isReadyForExport) %}
         <th{% if loop.last %} class="last-column"{% endif %}{% if(column.size > -1) %} style="width:{{ column.size }}px;"{% endif %}>{% if column.filterable %}{{ grid_filter(column, grid)|raw }}{% endif %}</th>

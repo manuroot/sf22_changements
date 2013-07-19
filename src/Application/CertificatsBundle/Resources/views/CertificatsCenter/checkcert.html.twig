@@ -38,54 +38,36 @@
     {% endfor %}
 {% endfor %}
 
-   {% if is_granted("ROLE_ADMIN") %}
-        <a href="{{ path('certificatscenter_new') }}" class="btn btn-medium btn-primary">Ajouter Certificat</a>
-{% endif %}
         <br> <br>  
-{#
-        
-  <form class="form-horizontal" action="{{ path('certificatscenter_validatecert') }}" method="post" {{ form_enctype(myform) }}>
-          {{ form_rest(myform) }}
-  </form>
- #}       
+
         <form class="form-horizontal" action="{{ path('certificatscenter_validatecert') }}" method="post" {{ form_enctype(form) }}>
 
-   <br><br>
+  
          <table class="table-mybordered">
-
-            <tr><td class="calendar">
-                         
-         {{ form_row(form.opecert) }}
-            {{ form_row(form.typecert) }}
-         {{ form_widget(form.contenu) }}
-        {{ form_rest(form) }}
-
-
-                                </div>
-                            </div>
-                    
-                     <td class="calendar" colspan="2">
-                               
-                                   <button type="submit" class="btn btn-large btn-warning">Modifier</button>      </p>
-                         
-                        </div>
-                    </div>
-                      </td></tr>
+            <tr>
+                <td class="calendar">
+                    {{ form_row(form.fichier) }}               
+                    {{ form_row(form.fichierp12) }}               
+                    {{ form_row(form.fichiercrl) }}               
+                    {{ form_row(form.opecert) }}
+                    {{ form_row(form.typecert) }}
+                </td>
+                <td class="calendar">
+                    {{ form_widget(form.contenu) }}
+                    {{ form_rest(form) }}
+                </td>
+            </tr>
+            <tr>             
+                <td class="calendar" colspan="2">
+                    <button type="submit" class="btn btn-large btn-warning">Modifier</button>      </p>
+                </td>
+            </tr>
                     
                     </table>
                 </form>
 
- {% if datas is defined %}
-               
-                <br>
-    {{ datas.opecert }}
-                <br>
-    {{  datas.typecert }}
-                <br>
-    {{  datas.contenu|raw }}
-  {#  {% for data in datas %}
-    {{ data }}
-    {% endfor %}
-#}    {%endif %}
+    {% if datas is defined %}
+        <br>{{ datas.opecert }}<br>{{  datas.typecert }}<br>{{  datas.contenu|raw }}
+    {%endif %}
 
 {% endblock %}

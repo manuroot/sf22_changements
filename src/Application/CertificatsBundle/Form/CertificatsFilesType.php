@@ -11,7 +11,7 @@ class CertificatsFilesType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('file',null,array('label'=>'Fichier'))
+                ->add('file',null,array('label'=>'Uploader Fichier'))
               //  ->add('name')
          //  ->add('name','text',array('label' => 'Description du Fichier'))
         ;

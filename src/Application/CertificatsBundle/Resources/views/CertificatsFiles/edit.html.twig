@@ -5,7 +5,14 @@
 <link rel="stylesheet" href="{{ asset('bundles/whiteoctoberpagerfanta/css/pagerfantaDefault.css') }}" type="text/css" media="all" />
   <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/certifcatssearch.css') }}" type="text/css" media="all"/>
   <style>
-  table.view {min:700px;}</style>
+  table.view {min:700px;}
+    
+    select[multiple], select[size] {height: 250px;}
+    textarea {width:400px;height:200px;}
+    tr.single {background-color: #f1f1f1;}
+    div.fichier{
+        padding:5px;background-color:whitesmoke;color:#0033cc;}
+</style> 
 {% endblock %}
 
 {% block title %}CertificatsFiles édition{% endblock %}
@@ -29,18 +36,34 @@
                         <div>   <input type="hidden" name="_method" value="PUT" />
         {{ form_widget(edit_form) }}
                                 </div>
-        <p>
-            <button type="submit">Edit</button>
+        
+            </td>
+            <td class="calendar">
+             <div class="fichier">
+                                    {% if entity.OriginalFilename is not null %}                
+                                        Actuel: <br>
+                                  <strong>  {{ entity.OriginalFilename }}
+                                        <br>{{ entity.path }}
+                                        <br>
+                                        {{ entity.updatedAt|date('Y-m-d H:i:s') }}
+                                        </strong>
+                                        {% else %}
+                                        (Pas de fichier actuellement)
+                                        {% endif %}
+                                        </div>
+                                        </td>
+            </tr>
+            <td class="calendar" colspan="2">
+                                    <p>
+                                        <button type="submit" class="btn btn-medium btn-warning">Modifier</button>
+                                        <a href="{{ path('certificats_documents') }}" class="btn btn-medium btn-success">Retour</a>
+                                    </p>
+                                </td>
+           
             </table>
-        </p>
+     
     </form>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('certificats_documents') }}">
-            Back to the list
-        </a>
-    </li>
     <li>
         <form action="{{ path('certificats_documents_delete', { 'id': entity.id }) }}" method="post">
             <input type="hidden" name="_method" value="DELETE" />

@@ -4,51 +4,47 @@ namespace Application\CertificatsBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
+use Application\CertificatsBundle\Model\MyOpenSsl;
 use Application\CertificatsBundle\Entity\CertificatsFiles;
 use Application\CertificatsBundle\Form\CertificatsFilesType;
-
-
+use Application\CertificatsBundle\Form\CertificatsFilesAddType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-/*use APY\DataGridBundle\Grid\Source\Entity;
-use APY\DataGridBundle\Grid\Grid;
-use APY\DataGridBundle\Grid\Column\ActionsColumn;
-use APY\DataGridBundle\Grid\Action\MassAction;
-use APY\DataGridBundle\Grid\Action\DeleteMassAction;
-use APY\DataGridBundle\Grid\Action\RowAction;
-use APY\DataGridBundle\Grid\Column\TextColumn;
-use APY\DataGridBundle\Grid\Column\DateColumn;
-use APY\DataGridBundle\Grid\Export\CSVExport;
-use APY\DataGridBundle\Grid\Export\ExcelExport;
+/* use APY\DataGridBundle\Grid\Source\Entity;
+  use APY\DataGridBundle\Grid\Grid;
+  use APY\DataGridBundle\Grid\Column\ActionsColumn;
+  use APY\DataGridBundle\Grid\Action\MassAction;
+  use APY\DataGridBundle\Grid\Action\DeleteMassAction;
+  use APY\DataGridBundle\Grid\Action\RowAction;
+  use APY\DataGridBundle\Grid\Column\TextColumn;
+  use APY\DataGridBundle\Grid\Column\DateColumn;
+  use APY\DataGridBundle\Grid\Export\CSVExport;
+  use APY\DataGridBundle\Grid\Export\ExcelExport;
  *  
  */
 
 /*
- use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
-use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
-use Symfony\Component\Security\Acl\Permission\MaskBuilder;
+  use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
+  use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
+  use Symfony\Component\Security\Acl\Permission\MaskBuilder;
  * 
  */
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-
-
 /**
  * CertificatsFiles controller.
  *
  */
-class CertificatsFilesController extends Controller
-{
-
+class CertificatsFilesController extends Controller {
     /* ====================================================================
      * 
      *  CREATION DU PAGINATOR
      * 
       =================================================================== */
+
     private function createpaginator($query, $num_perpage = 5) {
 
         $paginator = $this->get('knp_paginator');
@@ -63,44 +59,41 @@ class CertificatsFilesController extends Controller
         $pagination->setTemplate('ApplicationCertificatsBundle:pagination:twitter_bootstrap_pagination.html.twig');
         return $pagination;
     }
-    
-    
+
     /**
      * Lists all CertificatsFiles entities.
      *
      */
-    public function indexoldAction()
-    {
+    public function indexoldAction() {
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->findAll();
 
         return $this->render('ApplicationCertificatsBundle:CertificatsFiles:index.html.twig', array(
-            'entities' => $entities,
+                    'entities' => $entities,
         ));
     }
-    
-    
-      public function indexAction() {
+
+    public function indexAction() {
         $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $session = $request->getSession();
         $session->set('buttonretour', 'certificats_documents');
-         $query = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->myFindAll();
-          $pagination = $this->createpaginator($query, 10);
+        $query = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->myFindAll();
+        $pagination = $this->createpaginator($query, 10);
         $count = $pagination->getTotalItemCount();
-          return $this->render('ApplicationCertificatsBundle:CertificatsFiles:index.html.twig', array(
+        return $this->render('ApplicationCertificatsBundle:CertificatsFiles:index.html.twig', array(
                     'pagination' => $pagination,
         ));
     }
+
     /**
      * Creates a new CertificatsFiles entity.
      *
      */
-    public function createAction(Request $request)
-    {
-        $entity  = new CertificatsFiles();
-        $form = $this->createForm(new CertificatsFilesType(), $entity);
+    public function createAction(Request $request) {
+        $entity = new CertificatsFiles();
+        $form = $this->createForm(new CertificatsFilesAddType(), $entity);
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -112,8 +105,8 @@ class CertificatsFilesController extends Controller
         }
 
         return $this->render('ApplicationCertificatsBundle:CertificatsFiles:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+                    'entity' => $entity,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -121,14 +114,14 @@ class CertificatsFilesController extends Controller
      * Displays a form to create a new CertificatsFiles entity.
      *
      */
-    public function newAction()
-    {
+    public function newAction() {
         $entity = new CertificatsFiles();
-        $form   = $this->createForm(new CertificatsFilesType(), $entity);
+        $form = $this->createForm(new CertificatsFilesAddType(), $entity);
+
 
         return $this->render('ApplicationCertificatsBundle:CertificatsFiles:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+                    'entity' => $entity,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -136,29 +129,34 @@ class CertificatsFilesController extends Controller
      * Finds and displays a CertificatsFiles entity.
      *
      */
-    public function showAction($id)
-    {
+    public function showAction($id) {
+        $cmd_x509 = null;
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find CertificatsFiles entity.');
         }
-
-        $deleteForm = $this->createDeleteForm($id);
-
+     $deleteForm = $this->createDeleteForm($id);
+        $openssl = new MyOpenSsl();
+        //   $x509=$openssl->View_Cert($name);
+        $filename = $entity->getPath();
+        $path = $this->get('kernel')->getRootDir() . "/../" . $entity->getDownloadDir();
+        $fic = $path . $filename;
+        if (file_exists($fic)) {
+            $cmd_x509 = $openssl->View_Cert($fic);
+        }
         return $this->render('ApplicationCertificatsBundle:CertificatsFiles:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
+                    'entity' => $entity,
+                    'cmd_x509' => $cmd_x509,
+                    'delete_form' => $deleteForm->createView(),));
     }
 
     /**
      * Displays a form to edit an existing CertificatsFiles entity.
      *
      */
-    public function editAction($id)
-    {
+    public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->find($id);
@@ -167,13 +165,14 @@ class CertificatsFilesController extends Controller
             throw $this->createNotFoundException('Unable to find CertificatsFiles entity.');
         }
 
-        $editForm = $this->createForm(new CertificatsFilesType(), $entity);
+        $editForm = $this->createForm(new CertificatsFilesAddType(), $entity);
+
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('ApplicationCertificatsBundle:CertificatsFiles:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -181,8 +180,7 @@ class CertificatsFilesController extends Controller
      * Edits an existing CertificatsFiles entity.
      *
      */
-    public function updateAction(Request $request, $id)
-    {
+    public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->find($id);
@@ -203,17 +201,63 @@ class CertificatsFilesController extends Controller
         }
 
         return $this->render('ApplicationCertificatsBundle:CertificatsFiles:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
+
+    /**
+     * Edits an existing Docchangements entity.
+     *
+     */
+    /*  public function updateAction(Request $request, $id) {
+
+      $em = $this->getDoctrine()->getManager();
+      $entity = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->find($id);
+      if (!$entity) {
+      throw $this->createNotFoundException('Unable to find Docchangements entity.');
+      }
+      $current_changements = clone $entity->getIdchangement();
+
+      // recup des changements
+      //$changements = $entity->getIdchangement();
+      $deleteForm = $this->createDeleteForm($id);
+      $editForm = $this->createForm(new DocchangementsType(), $entity);
+      $editForm->bind($request);
+
+      if ($editForm->isValid()) {
+      // on vide cote changement
+      // ou passer par byreference a false dans le formulaire
+      foreach ( $current_changements as $change ){
+      $change->getPicture()->removeElement( $entity );
+      $em->persist($change);
+      }
+      //$entity = $em->getRepository('ApplicationChangementsBundle:Docchangements')->find($id);
+      // on ajoute cote changement
+      foreach ($entity->getIdchangement() AS $changement){
+      $changement->addPicture($entity);
+      }
+      // on persite coté document
+      $em->persist($entity);
+      $em->flush();
+      $session = $this->getRequest()->getSession();
+      $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
+      return $this->redirect($this->generateUrl('docchangements_edit', array('id' => $id)));
+      }
+
+      return $this->render('ApplicationChangementsBundle:Docchangements:edit.html.twig', array(
+      'entity' => $entity,
+      'edit_form' => $editForm->createView(),
+      'delete_form' => $deleteForm->createView(),
+      ));
+      } */
+
     /**
      * Deletes a CertificatsFiles entity.
      *
      */
-    public function deleteAction(Request $request, $id)
-    {
+    public function deleteAction(Request $request, $id) {
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 
@@ -239,43 +283,41 @@ class CertificatsFilesController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
-    {
+    private function createDeleteForm($id) {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
-            ->getForm()
+                        ->add('id', 'hidden')
+                        ->getForm()
         ;
     }
-    
-     
-  /* ====================================================================
+
+    /* ====================================================================
      * 
      *  DOWNLOAD CERT
      * 
      * @Secure(roles="ROLE_ADMIN")
       =================================================================== */
-      
-      public function downloadAction($id) {
-         
+
+    public function downloadAction($id) {
+
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->find($id);
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Docchangements entity.');
         }
-        
+
         $request = $this->get('request');
-     //   $url='docchangements';
+        //   $url='docchangements';
         $session = $request->getSession();
-        $url=$session->get('buttonretour');
+        $url = $session->get('buttonretour');
         if (!isset($url))
-            $url='certificatscenter';    
-        $filename=$entity->getPath();
-        $realname=$entity->getOriginalFilename();
+            $url = 'certificatscenter';
+        $filename = $entity->getPath();
+        $realname = $entity->getOriginalFilename();
         if (!isset($realname))
-            $realname=$filename;
+            $realname = $filename;
         $path = $this->get('kernel')->getRootDir() . "/../" . $entity->getDownloadDir();
         if (!file_exists($path . $filename)) {
-              // $session->getFlashBag()->add('error', "Le fichier $path/$filename n 'existe pas (code 1)");
+            // $session->getFlashBag()->add('error', "Le fichier $path/$filename n 'existe pas (code 1)");
             $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas (code 1)");
             return $this->redirect($this->generateUrl($url));
         }
@@ -286,7 +328,7 @@ class CertificatsFilesController extends Controller
             $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas (code 2)");
             return $this->redirect($this->generateUrl($url));
         }
-         $response = new Response();
+        $response = new Response();
 
         //set headers
         $response->headers->set('Content-Type', 'mime/type');
@@ -296,4 +338,5 @@ class CertificatsFilesController extends Controller
         $response->setContent($content);
         return $response;
     }
+
 }

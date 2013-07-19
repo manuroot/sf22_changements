@@ -1,7 +1,16 @@
- {% include 'ApplicationRelationsBundle:Template:tpl_edit.html.twig' 
-       with {'h1Nom':'SITE',
-            'tpl_update':'serveurs_sites_update',
-   'tpl_delete':'serveurs_sites_delete',
-'tpl_retour':'serveurs_sites'}  %}   
+  {% include 'ApplicationRelationsBundle:Template:tpl_newedit.html.twig' 
+       with {
+            'idf':'site',
+            'h1Nom':'EDITION SITE',
+            'action':'edit',
+            'form':edit_form,  
+            'delete_form':delete_form, 
+            'path_form':'serveurs_sites_update',
+            'tpl_delete':'serveurs_sites_delete',
+            'tpl_retour':'serveurs_sites',
+            'button_submit':'Modifier',
+        }
+  %}   
+
 
 

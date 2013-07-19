@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\CertificatsBundle\Entity;
+namespace Application\CertificatsBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 

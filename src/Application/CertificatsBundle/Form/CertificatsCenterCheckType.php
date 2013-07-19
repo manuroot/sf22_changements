@@ -37,10 +37,61 @@ class CertificatsCenterCheckType extends AbstractType {
         'label' => 'Certificat',
         'multiple' => false,
        
-        )
-        )
+        ))
                 
-                
+       ->add('fichier', 'entity', array(
+            'class' => 'Application\CertificatsBundle\Entity\CertificatsFiles',
+            'query_builder' => function(EntityRepository $em) {
+                return $em->createQueryBuilder('a')
+                                ->select('a,b,c')
+                         ->leftJoin('a.certificats', 'b')
+                          ->leftJoin('b.typeCert', 'c')
+                          ->andwhere('c.fileType LIKE :mytype')
+                          ->setParameter('mytype', '%CERT%')
+                          ->orderBy('a.OriginalFilename', 'ASC');
+            },
+            'property' => 'OriginalFilename',
+            'multiple' => false,
+            'required' => true,
+            'label' => 'Fichier',
+            'empty_value' => '--- Choisir une option ---'
+        ))
+         
+     ->add('fichierp12', 'entity', array(
+            'class' => 'Application\CertificatsBundle\Entity\CertificatsFiles',
+            'query_builder' => function(EntityRepository $em) {
+                return $em->createQueryBuilder('a')
+                                ->select('a,b,c')
+                         ->leftJoin('a.certificats', 'b')
+                          ->leftJoin('b.typeCert', 'c')
+                          ->andwhere('c.fileType LIKE :mytype')
+                          ->setParameter('mytype', '%P12%')
+                          ->orderBy('a.OriginalFilename', 'ASC');
+            },
+            'property' => 'OriginalFilename',
+            'multiple' => false,
+            'required' => true,
+            'label' => 'Fichierp12',
+            'empty_value' => '--- Choisir une option ---'
+        ))
+        
+                     ->add('fichiercrl', 'entity', array(
+            'class' => 'Application\CertificatsBundle\Entity\CertificatsFiles',
+            'query_builder' => function(EntityRepository $em) {
+                return $em->createQueryBuilder('a')
+                                ->select('a,b,c')
+                         ->leftJoin('a.certificats', 'b')
+                          ->leftJoin('b.typeCert', 'c')
+                          ->andwhere('c.fileType LIKE :mytype')
+                          ->setParameter('mytype', '%CRL%')
+                          ->orderBy('a.OriginalFilename', 'ASC');
+            },
+            'property' => 'OriginalFilename',
+            'multiple' => false,
+            'required' => true,
+            'label' => 'Fichier crl',
+            'empty_value' => '--- Choisir une option ---'
+        ))
         ->add('typecert', 'choice', array('label' => 'Opération',
             'multiple' => false,
             'choices' => $this->operations,

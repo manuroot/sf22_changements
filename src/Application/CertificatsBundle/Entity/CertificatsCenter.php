@@ -22,7 +22,7 @@ use Application\CertificatsBundle\Entity\CertificatsFiles;
  * CertificatsCenter
  *
  * @ORM\Table(name="certificats_center")
- * @ORM\Entity(repositoryClass="Application\CertificatsBundle\Entity\CertificatsCenterRepository")
+ * @ORM\Entity(repositoryClass="Application\CertificatsBundle\Repository\CertificatsCenterRepository")
  * @ORM\HasLifecycleCallbacks()
  * @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,idEnvironnement.nom,typeCert.fileType,idapplis.nomapplis:GroupConcat",groupBy={"id"}) 
  */

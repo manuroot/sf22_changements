@@ -17,7 +17,7 @@ use Symfony\Component\Validator\ExecutionContextInterface;
  * Certificats_Files
  *
  * @ORM\Table(name="certificats_files")
- * @ORM\Entity(repositoryClass="Application\CertificatsBundle\Repository\CertificatsFilesRepository")
+ * @ORM\Entity(repositoryClass="Application\CertificatsBundle\Entity\CertificatsFilesRepository")
  * @Assert\Callback(methods={"isAuthorValid"})
  * @GRID\Source(columns="id,md5,path,OriginalFilename,$certificats",groupBy={"id"}) 
   * @ORM\HasLifecycleCallbacks
@@ -389,7 +389,7 @@ class CertificatsFiles {
      *
      * @return \DateTime 
      */
-    public function getCreatedAt() {
+    public function getCreateddAt() {
         return $this->createdAt;
     }
 
@@ -570,4 +570,79 @@ class CertificatsFiles {
 
         return $destination;
     }
+ public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
 }
+
+/*application/pkcs8                   .p8  .key
+application/pkcs10                  .p10 .csr
+application/pkix-cert               .cer
+application/pkix-crl                .crl
+application/pkcs7-mime              .p7c
+
+application/x-x509-ca-cert          .crt .der
+application/x-x509-user-cert        .crt
+application/x-pkcs7-crl             .crl
+
+application/x-pem-file              .pem
+application/x-pkcs12                .p12 .pfx
+
+application/x-pkcs7-certificates    .p7b .spc
+application/x-pkcs7-certreqresp     .p7r
+ 
+ *  *   mimeTypes = {
+     * "application/x-x509-user-cert",
+     *   "application/x-pkcs12", 
+     *   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+     *   "application/msword",
+     *   "application/x-x509-ca-cert", "application/p12"},
+     *    mimeTypesMessage = "Le fichier choisi ne correspond pas à un fichier valide (crt,pem,pkcs12)",* 
+ */
+
+
+/*echo 'info' . pathinfo($file, PATHINFO_EXTENSION);
+    echo '<br>';
+    $file_basename = basename($file);
+    $dir = dirname($file);
+    $info = pathinfo($file);
+    $prefixe_name = basename($file_basename, '.' . $info['extension']);
+ *   *  mimeTypes = {"application/x-x509-user-cert",
+     * "application/x-x509-ca-cert", "application/x-pkcs12", "application/p12"},
+     *  mimeTypesMessage = "Le fichier choisi ne correspond pas à un fichier valide",
+   ,mimeTypes = {
+       *  "application/x-x509-ca-cert",
+  * "application/x-x509-server-cert",
+  * "application/x-x509-email-cert",
+   *"application/x-x509-user-cert",
+       * "certificat/crt","application/pkix-cert"
+ * @Assert\Callback(methods={"isAuthorized"}) 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * ,mimeTypes = {
+       *  "application/pkix-attr-cert",
+       * "certificat/crt",
+       * "application/pkix-cert",
+       * "application/x-x509-user-cert",
+       * "application/x-x509-ca-cert",
+       *  "application/x-pkcs12",
+        * "application/p12",
+       * "application/pdf",
+       * "application/x-pdf", 
+       * "image/png"
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */

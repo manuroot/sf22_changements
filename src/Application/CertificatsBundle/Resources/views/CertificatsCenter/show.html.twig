@@ -46,9 +46,11 @@
 <tr><td class="viewlabel">Way</td><td>{{ entity.way }}</td></tr>
 <tr><td class="viewlabel">Status Fichier</td><td>{{ entity.statusFile }}</td></tr>
 <tr><td class="viewlabel">description</td><td>{{ entity.description|raw }}</td></tr>
+
 <tr><td class="viewlabel">Applications</td><td>{% for appli in applis %} {{ appli.nomapplis }}{% endfor %}</td></tr>
 {% if  entity.fichier and is_granted("ROLE_ADMIN")%}
     <tr><td class="viewlabel">Fichier Nom</td><td>{{ entity.fichier.OriginalFilename }}</td></tr>     
+    <tr><td class="viewlabel">Fichier Id</td><td>{% if entity.fichier.id %}{{ entity.fichier.id }}{% endif %}</td></tr>
     <tr><td class="viewlabel">Fichier Lien</td>
         <td>
            {% if entity.fichier.id and entity.fichier.path %}
