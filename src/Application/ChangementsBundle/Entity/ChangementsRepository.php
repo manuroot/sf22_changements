@@ -40,25 +40,10 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
 
         //->getResult();
     }
-
-   /* public function myFindWhere($field,$value) {
-        $parameters = array();
-        $values = array('partial a.{id,$field}');
-
-        $query = $this->createQueryBuilder('a')
-                ->select($values)
-         ->add('orderBy', 'a.id DESC')
-         ->andwhere('a.id = :myid');
-        $query->setParameter('myid', $id);
-        $query->andWhere("a.$field LIKE :$val");
-        $parameters[$val] = '%' . $value . '%';
-         
-
-        return $query->getQuery()->getSingleResult();
-    }*/
-
     
-    
+    /* edit et showxhtml
+     * 
+     */
     public function myFindaIdAll($id) {
         $parameters = array();
         $values = array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f');
@@ -111,77 +96,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
       $queryBuilder->groupBy('a.title');
       $queryBuilder->orderBy('a.title', 'DESC'); */
 
-    public function getMyPager(array $criteria, $ret = 'getquery') {
-
-        $parameters = array();
-        $query = $this->createQueryBuilder('a')
-                ->select('a,b,c,d,e,f')
-                ->add('orderBy', 'a.id DESC')
-                ->leftJoin('a.proprietaire', 'b')
-                //  ->leftJoin($join, $alias, $conditionType)
-                ->leftJoin('a.categorie', 'c')
-                ->leftJoin('a.idStatus', 'd')
-                ->leftJoin('a.globalnote', 'e')
-                ->leftJoin('a.imageMedia', 'f')
-        ;
-        if (isset($criteria['author'])) {
-            //  print_r($criteria);exit(1);
-            $query->andwhere('a.proprietaire = :proprietaire');
-            $parameters['proprietaire'] = $criteria['author'];
-        }
-
-
-        if (isset($criteria['non-author'])) {
-            //  print_r($criteria);exit(1);
-            $query->andWhere('a.proprietaire <> :user_id');
-            $parameters['user_id'] = $criteria['non-author'];
-        }
-
-
-
-        if (isset($criteria['alltags'])) {
-            $query->addSelect('t');
-            $query->leftJoin('a.tags', 't');
-        }
-        if (isset($criteria['year'])) {
-            // echo "year=" . $criteria['year'] . "<br>";exit(1);
-            $query->andWhere('a.createdAt LIKE :year');
-            $parameters['year'] = '%' . $criteria['year'] . '%';
-        }
-        if (isset($criteria['date'])) {
-            // echo "year=" . $criteria['year'] . "<br>";exit(1);
-            $query->andWhere('a.createdAt LIKE :date');
-            $parameters['date'] = '%' . $criteria['date'] . '%';
-        }
-        if (isset($criteria['tag'])) {
-            $query->addSelect('t');
-            $query->leftJoin('a.tags', 't');
-            $query->andWhere('t.id = :tag');
-            //   ->groupby('a.name');
-            $parameters['tag'] = (string) $criteria['tag'];
-            //       $parameters['tag'] = 'tag1';
-        }
-        if (isset($criteria['comments'])) {
-            $query->addSelect('v');
-            $query->leftJoin('v.comments', 'v');
-          }
-          if (isset($criteria['byid'])) {
-             $query->andWhere('a.id = :myid');
-            //   ->groupby('a.name');
-            $parameters['myid'] = (string) $criteria['byid'];
-          }
-        $query->setParameters($parameters);
-        // ??
-        $query->groupby('a.name');
-        //>getQuery();
-        //  print_r($query->getQuery());
-        //  exit(1);
-        if ($ret == 'query')
-            return $query;
-        else
-            return $query->getQuery();
-        //return $query->getQuery()->getResult();
-    }
+   
 
     public function myFindAll($criteria = array()) {
 
@@ -302,6 +217,11 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
             $query->andWhere('a.dateFin < (:dateFin_max)');
             $parameters['dateFin_max'] = $criteria['dateFin_max'];
         }
+           if (isset($criteria['byid'])) {
+             $query->andWhere('a.id = :myid');
+            //   ->groupby('a.name');
+            $parameters['myid'] = (string) $criteria['byid'];
+          }
         
         // Supprimer champs qui ne sont pas dans la classe
         foreach ($criteria as $field => $value) {
@@ -330,34 +250,6 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
 
 
         return $query;
-    }
-
-    public function myFindIdAll($id, $criteria = array()) {
-
-        $parameters = array();
-        $values = array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
-        $query = $this->createQueryBuilder('a')
-                ->select($values)
-                /* ->leftJoin('a.idProjet', 'b')
-                  ->leftJoin('a.demandeur', 'c')
-                  ->leftJoin('a.idStatus', 'd')
-                  ->leftJoin('a.picture', 'f')
-
-                  ->addSelect('g')
-                  //->addSelect('g')
-                  ->distinct('GroupConcat(g.nom) AS kak')
-                  ->leftJoin('a.idEnvironnement', 'g')
-
-                  ->leftJoin('a.comments', 'h')
-                  //->addSelect('e')
-                  ->addSelect('partial e.{id,nomUser}')
-                  ->distinct('GroupConcat(e.nomUser)')
-                  ->leftJoin('a.idusers', 'e');
-                  $query->add('orderBy', 'a.id DESC'); */
-                ->andWhere('a.id = :myid');
-        $parameters['myid'] = $id;
-        $query->setParameters($parameters);
-        return $query->getQuery();
     }
 
     public function myFindsimpleAll($criteria = array()) {

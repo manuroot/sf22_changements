@@ -346,7 +346,8 @@ mopa_bootstrap:
 
 oneup_uploader:
     mappings:
-        gallery: ~    
+        gallery:     
+          frontend: blueimp
         
 #bc_bootstrap:
 #    assets_dir: %kernel.root_dir%/../vendor/twitter/bootstrap

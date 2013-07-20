@@ -13,6 +13,7 @@ use Application\ChangementsBundle\Form\DocchangementsType;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
+use Application\ChangementsBundle\Form\DocchangementsFilterType;
 
 /**
  * Docchangements controller.
@@ -20,11 +21,33 @@ use Pagerfanta\Exception\NotValidCurrentPageException;
  */
 class DocchangementsController extends Controller {
 
+      /* ====================================================================
+     * 
+     *  CREATION DU PAGINATOR
+     * 
+      =================================================================== */
+
+    private function createpaginator($query, $num_perpage = 5) {
+
+        $paginator = $this->get('knp_paginator');
+        //$paginator->setUseOutputWalkers(true);
+        $pagename = 'page'; // Set custom page variable name
+        $page = $this->get('request')->query->get($pagename, 1); // Get custom page variable
+
+        $pagination = $paginator->paginate(
+                $query, $page, $num_perpage, array('pageParameterName' => $pagename,
+            "sortDirectionParameterName" => "dir",
+            'sortFieldParameterName' => "sort")
+        );
+        $pagination->setTemplate('ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig');
+        $pagination->setSortableTemplate('ApplicationChangementsBundle:pagination:sortable_link.html.twig');
+        return $pagination;
+    }
     /**
      * Lists all Docchangements entities.
      *
      */
-    public function indexAction() {
+    public function indexoldAction() {
         $session = $this->getRequest()->getSession();
         $session->set('buttonretour', 'docchangements');
         $em = $this->getDoctrine()->getManager();
@@ -43,7 +66,56 @@ class DocchangementsController extends Controller {
                     'pagination' => $pagination,
                 ));
     }
+    
+    
+ public function indexAction(Request $request) {
 
+        //  $entity = new Changements();
+        $parameters = array();
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        $session->set('buttonretour', 'docchangements');
+      
+        $searchForm = $this->createForm(new DocchangementsFilterType());
+     
+        if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
+            $session->remove('docchangementFilternew');
+        } elseif ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
+            $alldatas = $request->request->all();
+            $datas = $alldatas["docchangements_searchfilter"];
+            $parameters = $datas;
+            $session->set('docchangementFilternew', $datas);
+            $searchForm->bind($datas);
+        } else {
+            if ($session->has('docchangementFilternew')) {
+                $datas = $session->get('docchangementFilternew');
+                $parameters = $datas;
+                $searchForm->bind($datas);
+            }
+        }
+       $query = $em->getRepository('ApplicationChangementsBundle:Docchangements')->getListBy($parameters);
+    $pagination = $this->createpaginator($query, 15);
+        return $this->render('ApplicationChangementsBundle:Docchangements:index.html.twig', array(
+                    'search_form' => $searchForm->createView(),
+                    'pagination' => $pagination,
+        ));
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public function indexoAction() {
         $em = $this->getDoctrine()->getManager();
 

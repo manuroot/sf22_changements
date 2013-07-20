@@ -14,11 +14,6 @@ changements_genemutest:
     defaults: { _controller: "ApplicationChangementsBundle:Changements:indexgenemu" }
    
     
-changements:
-    pattern:  /old
-    defaults: { _controller: "ApplicationChangementsBundle:Changements:index" }
-    methods: POST|GET
-
 
 changements_charts:
     pattern:  /charts

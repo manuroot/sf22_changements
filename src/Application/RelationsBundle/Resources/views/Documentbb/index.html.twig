@@ -87,13 +87,20 @@ width:150px;
     <thead>
         <tr class="title">
                 <th>Id</th>
-                <th>Name</th>
-                <th>Path</th>
-                     <th{% if pagination.isSorted('a.md5') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'md5', 'a.md5') }}</th>
+                
+                <th{% if pagination.isSorted('a.name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom', 'a.name') }}
+                                           <i class="icon-user"></i></th>
+     
+                
+                <th{% if pagination.isSorted('a.path') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom Physique', 'a.path') }}
+                                           <i class="icon-user"></i></th>
+     
+                    <th{% if pagination.isSorted('a.md5') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'md5', 'a.md5') }}</th>
              
                   <th{% if pagination.isSorted('a.updatedAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date Update', 'a.updatedAt') }}</th>
-                <th>Projets</th>
-            
+              
+             <th{% if pagination.isSorted('b.nomprojet') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Projet', 'b.nomprojet') }}
+                                           <i class="icon-user"></i></th>
      
                  {% if is_granted("ROLE_ADMIN") %}
                 <th colspan="2">Actions</th>

@@ -1,28 +1,62 @@
 {% extends "ApplicationChangementsBundle::layout.html.twig" %}
+{% macro icon_class( type ) %}
+  {% set type_class_map = {
+    like: 'icon-user'
+  } %}
+  {{ type_class_map[type] }}
+{% endmacro %}
+
+{% block javascripts %}
+    {{ parent() }}
+   <script type="text/javascript" src="{{ asset('js/compiled/changementsown.js') }}"></script>
+  {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/changementsicons.js') }}"></script>
+{% endif %}
+   {{ form_javascript(search_form) }}
+{% endblock %}
+
 
   {% block stylesheets %}
 {{ parent() }}
-<link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/sliding.css') }}" type="text/css" media="all"/>
-  <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
-   <style>
+{#  <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
+          <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/changements.css') }}" type="text/css" media="all"/>
+          <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>
+   #}
+  
+{#a remettre: ne marche pas sous windows#}
+    <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
+  
+  <style>
 
             .table {
                 font-size: 11px;
                 /* border-collapse: separate;*/
                 /*  font-family: 'Times New Roman',Times,serif;*/
             }
+            select option:hover {
+                background-color: #b6d1fd;
+}
+            select#docchangements_searchfilter_idchangements{
+            width:250px;height:300px;}
             label {
                 color:#02195e;
               /*  text-align: left;*/
     
-}
+}/*
+ div#mybutton {
 
-
+	padding-top: 130px; 
+	margin-left: 5px;
+       }*/
         </style>
- {% endblock %}
+         {{ form_stylesheet(search_form) }}
+{% endblock %}
 
 {% block content_header '' %}
 
+        
 {% block title %}
 Fichiers sur les Opérations
 {% endblock %}
@@ -37,7 +71,23 @@ Fichiers sur les Opérations
     </div>
     {% endfor %}
 {% endfor %}
-  
+   <div id="ShowHideContainer">
+
+            <form id="target" class="form-horizontal" action="{{ path('docchangements') }}" method="POST" {{ form_enctype(search_form) }}>
+                <a id="ShowHideButton">
+                    <button id="show" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
+                        <i class="icon-search"></i>  Afficher Filtres</button>
+                </a>
+                <button type="submit" id="reset" name="submit-filter" class="btn btn-medium btn-warning" value="reset" >
+                    <i class="icon-minus-sign"></i> Effacer Filtres</button>
+         
+
+            </form>
+
+            <div id="ShowHideBoxown" class="hidden">
+        {% include 'ApplicationChangementsBundle:Docchangements:indexsearch_form.html.twig' %}
+                </div>
+            </div>
 
     <a href="{{ path('docchangements_new') }}" class="btn btn-medium btn-primary">Ajouter Fichier</a>
     <br> <br>  

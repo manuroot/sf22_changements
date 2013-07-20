@@ -52,6 +52,7 @@ class Changements extends AbstractEvent
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=50, nullable=false)
+     * @ORM\OrderBy({"nom" = "ASC"})
      * @Assert\Length(
      *      min = "5",
      *      max = "30",

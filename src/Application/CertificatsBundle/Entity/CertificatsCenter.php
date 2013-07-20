@@ -24,11 +24,13 @@ use Application\CertificatsBundle\Entity\CertificatsFiles;
  * @ORM\Table(name="certificats_center")
  * @ORM\Entity(repositoryClass="Application\CertificatsBundle\Repository\CertificatsCenterRepository")
  * @ORM\HasLifecycleCallbacks()
- * @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,idEnvironnement.nom,typeCert.fileType,idapplis.nomapplis:GroupConcat",groupBy={"id"}) 
+ * @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,idEnvironnement.nom,typeCert.fileType",groupBy={"id"}) 
  */
 
 
-// * @GRID\Source(groupBy={"id"}) 
+// * keep:
+//  * @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,idEnvironnement.nom,typeCert.fileType,idapplis.nomapplis:GroupConcat",groupBy={"id"}) 
+// @GRID\Source(groupBy={"id"}) 
 // //* @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,typeCert.fileType,idapplis.nomapplis:GroupConcat",groupBy={"id"}) 
 //* @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,typeCert.fileType,idapplis.nomapplis:GroupConcat",groupBy={"id"}) 
 class CertificatsCenter
@@ -205,12 +207,15 @@ class CertificatsCenter
      * @ORM\ManyToMany(targetEntity="\Application\RelationsBundle\Entity\Applis", inversedBy="idprojets",cascade={"persist"})
      * @ORM\OrderBy({"nomapplis" = "ASC"})
      * @ORM\JoinTable(name="certificats_xapplis")
+    
      *
      */
     private $idapplis;
     // agarder
     //      *  @Grid\Column(type="text",title="Applis2",field="idapplis.nomapplis:GroupConcat",operators={"like"}, operatorsVisible=false, filterable=false,operatorsVisible=true,selectFrom="query")
       //    @Grid\Column(type="text",title="Applis1",size="30",field="idapplis.nomapplis:GroupConcat",  selectExpanded=true , operatorsVisible=true,selectFrom="query")
+   //  *  @Grid\Column(type="array",title="Applis2",field="idapplis.nomapplis", operatorsVisible=true, filterable=true,selectFrom="query")
+    //    
     //    *  @Grid\Column(type="text",title="Applis2",size="30",field="idapplis.nomapplis:GroupConcat",joinType="inner",operators={"eq","neq","nlike","lt","like"}, operatorsVisible=true,selectFrom="query",groupBy={"id"})
   //  @Grid\Column(type="text",title="Applis1",size="30",field="idapplis.nomapplis",joinType="inner",selectFrom="values",groupBy={"id"})
     // @Grid\Column(type="extended_text",field="idapplis.nomapplis:GroupConcat", title="Applis",filter="select", selectMulti="false", )

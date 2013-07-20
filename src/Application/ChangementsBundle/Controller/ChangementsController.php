@@ -28,6 +28,7 @@ use Doctrine\ORM\Tools\Pagination\CountOutputWalker;
 use Application\ChangementsBundle\Entity\ChangementsStatus;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Application\CentralBundle\Model\MesFiltresBundle;
+
 /* use Pagerfanta\Pagerfanta;
   use Pagerfanta\Adapter\DoctrineORMAdapter;
   use Pagerfanta\Exception\NotValidCurrentPageException; */
@@ -72,59 +73,27 @@ class ChangementsController extends Controller {
         $session = $request->getSession();
         $filterForm = $this->createForm(new ChangementsFilterType());
         $filterBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
-
-        //  var_dump($filterBuilder->getDql());
-        // exit(1);
-        //debug
-        //  return array($filterForm, $filterBuilder, $message);
         // Reset filter
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
-            //  $message = "reset filtres";
             $session->remove('changementControllerFilter');
             $query = $filterBuilder;
             return array($filterForm, $query, $message);
         }
-
         // datas filter
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
             $alldatas = $request->request->all();
-
-
-            // if ($alldatas['submit-filter'] == 'reset'){
             $datas = $alldatas["changements_filter"];
-            //var_dump($datas);exit(1);
-            /* if (is_array($datas['idusers'])) {
-              //     var_dump($datas['idusers']);exit(1);
-              $datas['idusers'] = $datas['idusers'][0];
-              } */
-            // $data['idusers']=$data['idusers'][0];
-            /*     var_dump($datas);
-              var_dump($datas['idusers']);
-              echo $datas['idusers'];
-              var_dump($data['idusers']);exit(1); */
-            // $message = "post datas ";
             $filterForm->bind($datas);
             if ($filterForm->isValid()) {
-                // $message .= " - filtre valide";
                 $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
-
-                //   var_dump($query->getDql());exit(1);
                 $session->set('changementControllerFilter', $datas);
-                // var_dump($query->getDql());
             } else {
-                //  $message .= " - filtre valide";
-
                 $query = $filterBuilder;
             }
-            //print_r($datas);
-            //  var_dump($query->getDql());
-
             return array($filterForm, $query, $message);
         } else {
-            //   echo "<br>pas post datas<br>";
             // Get filter from session
             if ($session->has('changementControllerFilter')) {
-                // $message = "session get";
                 $datas = $session->get('changementControllerFilter');
                 $filterForm->bind($datas);
                 $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $filterBuilder);
@@ -134,13 +103,6 @@ class ChangementsController extends Controller {
                 // $message = "pas de session";
                 $query = $filterBuilder;
             }
-            // var_dump($query);
-            //   exit(1);
-            //   $query_year = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_year(2013);
-            //  var_dump($query_year->getDql());
-            // exit(1);
-
-
             return array($filterForm, $query, $message);
         }
     }
@@ -154,20 +116,14 @@ class ChangementsController extends Controller {
         $session = $request->getSession();
         $session->set('buttonretour', 'changements_post');
         list($filterForm, $queryBuilder, $message) = $this->filter();
-
-        //    $queryBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindsimpleAll();
-
         if ($message)
             $session->getFlashBag()->add('warning', "$message");
-
-        $pager=new MesFiltresBundle();
-      //  $pagination = $pager->createpaginator($queryBuilder, 15);
         $pagination = $this->createpaginator($queryBuilder, 15);
         return $this->render('ApplicationChangementsBundle:Changements:indexpost.html.twig', array(
                     'search_form' => $filterForm->createView(),
                     'pagination' => $pagination,
                     'date_warning' => $date_warning,
-                ));
+        ));
     }
 
     public function indexposttestAction(Request $request) {
@@ -178,60 +134,28 @@ class ChangementsController extends Controller {
         $request = $this->getRequest();
         $session = $request->getSession();
         $session->set('buttonretour', 'changements_posttest');
-    
         $searchForm = $this->createForm(new ChangementsFilterAmoiType());
-
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
-            //  $message = "reset filtres";
             $session->remove('changementControllerFilternew');
-
-            $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy(array());
         } elseif ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
             $alldatas = $request->request->all();
             $datas = $alldatas["changements_searchfilter"];
-            //  var_dump($datas);exit(1);
-            //foreach ($datas){}
-            /* foreach ($datas as $field => $value) {
-              // A revoir
-              //if ($this->getClassMetadata($entity)->hasField($field)) {
-              // Make sure we only use existing fields (avoid any injection)
-              $parameters[$field]=$value;
-              // }
-              } */
             $parameters = $datas;
             $session->set('changementControllerFilternew', $datas);
             $searchForm->bind($datas);
-
-            $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy($parameters);
         } else {
-            //   echo "<br>pas post datas<br>";
-            // Get filter from session
             if ($session->has('changementControllerFilternew')) {
-                // $message = "session get";
                 $datas = $session->get('changementControllerFilternew');
                 $parameters = $datas;
-                $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy($parameters);
                 $searchForm->bind($datas);
             }
-            // ou pas
-            else {
-                // $message = "pas de session";
-                $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy(array());
-              
-            }
-
-            // 1 requete !!!!
-            // $query->getQuery()->execute();
-
-            /* return $this->render('ApplicationChangementsBundle:Changements:simple.html.twig', array(
-              'search_form' => $searchForm->createView(),
-              )); */
         }
+        $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy($parameters);
         $pagination = $this->createpaginator($query, 15);
         return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi.html.twig', array(
                     'search_form' => $searchForm->createView(),
                     'pagination' => $pagination,
-                ));
+        ));
     }
 
     /*
@@ -244,35 +168,7 @@ class ChangementsController extends Controller {
      */
 
 
-    /*
-     * GET PARAMETERS
-     */
-
-    public function indexAction() {
-
-        $session = $this->getRequest()->getSession();
-        $session->set('buttonretour', 'changements');
-        $em = $this->getDoctrine()->getManager();
-        $searchForm = $this->createForm(new ChangementsFilterType());
-        $filterBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
-        if ($this->get('request')->query->has('submit-filter')) {
-            $searchForm->bind($this->get('request'));
-            // $datas=$this->get('request')->query;
-            /*  print_r($datas); */
-            $query = $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($searchForm, $filterBuilder);
-            // var_dump($filterBuilder->getDql());exit(1);
-        } else {
-            $em = $this->getDoctrine()->getManager();
-            $query = $filterBuilder;
-        }
-
-        $pagination = $this->createpaginator($query, 5);
-        return $this->render('ApplicationChangementsBundle:Changements:index.html.twig', array(
-                    'search_form' => $searchForm->createView(),
-                    'pagination' => $pagination,
-                ));
-        // Chart
-    }
+   
 
     public function indexchartsAction() {
 
@@ -369,7 +265,7 @@ class ChangementsController extends Controller {
                 'style' => array(
                     'fontWeight' => 'bold',
                     'color' => '(Highcharts.theme && Highcharts.theme.textColor) || "gray"',
-            ))
+                ))
         ));
 
         $ob1->series($series);
@@ -443,14 +339,14 @@ class ChangementsController extends Controller {
                     'chart2' => $ob2,
                     'chart5' => $ob5,
                     'chart4' => $ob4
-                ));
+        ));
     }
 
     public function indexdashboardAction() {
 
 
         return $this->render('ApplicationChangementsBundle:Changements:indexdashboard.html.twig', array(
-                ));
+        ));
     }
 
     public function calendarAction(Request $request) {
@@ -509,7 +405,7 @@ class ChangementsController extends Controller {
                     'form' => $form->createView(),
                     'year' => $current_year,
                         // 'current_month' => $month
-                ));
+        ));
     }
 
 //==============================================
@@ -629,7 +525,7 @@ class ChangementsController extends Controller {
     public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
+        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindaIdAll($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Changements entity.');
@@ -647,13 +543,13 @@ class ChangementsController extends Controller {
         $session = $this->getRequest()->getSession();
         // ajoute des messages flash
         $session->set('buttonretour', 'changements_showXhtml');
-    
-
-        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
+        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindaIdAll($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Changements entity.');
         }
+
+
 
         $deleteForm = $this->createDeleteForm($id);
 
@@ -675,7 +571,7 @@ class ChangementsController extends Controller {
         return $this->render('ApplicationChangementsBundle:Changements:new.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),
-                ));
+        ));
     }
 
     public function newflowstartAction() {
@@ -727,7 +623,7 @@ class ChangementsController extends Controller {
                     'form' => $form->createView(),
                     'flow' => $flow,
                     'entity' => $entity,
-                ));
+        ));
     }
 
     /**
@@ -752,7 +648,7 @@ class ChangementsController extends Controller {
         return $this->render('ApplicationChangementsBundle:Changements:new.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),
-                ));
+        ));
     }
 
     /**
@@ -765,7 +661,7 @@ class ChangementsController extends Controller {
 
         // $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
         $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindaIdAll($id);
-        //myFindIdAll($id,$criteria = array()) 
+
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Changements entity.');
         }
@@ -779,27 +675,26 @@ class ChangementsController extends Controller {
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
-                ));
+        ));
     }
 
-     /**
+    /**
      * Displays a form to create a new Docchangements entity.
      *
      */
     public function newFichierAction($id) {
-      
+
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindaIdAll($id);
-        //myFindIdAll($id,$criteria = array()) 
+
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Changements entity.');
         }
-       $editForm = $this->createForm(new ChangementsType(), $entity);
- return $this->render('ApplicationChangementsBundle:Changements:new_fichier.html.twig', array(
+        $editForm = $this->createForm(new ChangementsType(), $entity);
+        return $this->render('ApplicationChangementsBundle:Changements:new_fichier.html.twig', array(
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
-                
-                ));
+        ));
     }
 
     /**
@@ -819,7 +714,7 @@ class ChangementsController extends Controller {
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
-             /*$postData = $request->request->get('changements');
+            /* $postData = $request->request->get('changements');
               //$data = $editForm->getData();
               var_dump($postData);
               exit(1); */
@@ -842,7 +737,7 @@ class ChangementsController extends Controller {
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
-                ));
+        ));
     }
 
     /**
@@ -903,7 +798,7 @@ class ChangementsController extends Controller {
         }
         return $this->render('ApplicationChangementsBundle:Changements:upload.html.twig', array(
                     'form' => $form->createView(),
-                ));
+        ));
     }
 
     public function TicketAjaxAction(Request $request) {
@@ -911,7 +806,7 @@ class ChangementsController extends Controller {
 
         $repository = $this->getDoctrine()->getRepository('MyAppMyBundle:City');
         $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->findwhere($id);
-      $cities = $repository->searchCityByName($term);
+        $cities = $repository->searchCityByName($term);
 
         $json = array();
 
@@ -1022,10 +917,10 @@ class ChangementsController extends Controller {
         }
     }
 
-     public function ajaxticketexterneAction() {
+    public function ajaxticketexterneAction() {
         $request = $this->get('request');
 
-      
+
 
         $em = $this->getDoctrine()->getEntityManager();
         $members = $em->getRepository('GenemuEntityBundle:Member')->findAjaxValue($value);
@@ -1042,11 +937,11 @@ class ChangementsController extends Controller {
         $response->setContent(json_encode($json));
 
         return $response;
-        
-        
-        
-        
-        
+
+
+
+
+
         if ($request->isXmlHttpRequest()) {
             $term = $request->request->get('motcle');
 
@@ -1061,6 +956,7 @@ class ChangementsController extends Controller {
             return $response;
         }
     }
+
     private function createCalendarForm($values = array()) {
 
         $myears = range(Date('Y') - 5, Date('Y') + 5);
@@ -1096,52 +992,47 @@ class ChangementsController extends Controller {
 
     public function update_changement_statusAction() {
         $request = $this->get('request');
- 
+
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
-       
+
             $id = $request->request->get('id');
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Changements entity.');
             }
-            $id_status=$entity->getIdStatus();
-            
-            if ($id_status == "en cours"){
-                 $entity_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->findOneByDescription("closed");
-             //    var_dump($id_status);
-                 $entity->setIdStatus($entity_status);
-             $em->persist($entity);
-                $em->flush();
-            
-            }
-            if ($id_status == "en preparation" || $id_status == "en attente"){
-                 $entity_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->findOneByDescription("open");
-             //    var_dump($id_status);
-                 $entity->setIdStatus($entity_status);
-             $em->persist($entity);
-                $em->flush();
-            
-            }
-            elseif   ($id_status == "fermé") {
-                 $entity_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->findOneByDescription("prepare");
+            $id_status = $entity->getIdStatus();
+
+            if ($id_status == "en cours") {
+                $entity_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->findOneByDescription("closed");
+                //    var_dump($id_status);
                 $entity->setIdStatus($entity_status);
-           $em->persist($entity);
+                $em->persist($entity);
                 $em->flush();
-            
             }
-             
-        //   $entity_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->find($id_status);
-          
-         //  echo "id_status=$id_status<br>";exit(1);
-          // $status=new ChangementsStatus;
-           // ChangementsStatus;
-           /* $status=new ChangementsStatus;
-            $status=$entity->getIdStatus();*/
-            /*echo "description=$description";*/
-            $array=array('mystatus'=>"$id_status");
-            $array=array($array);
-          $response = new Response(json_encode($array));
+            if ($id_status == "en preparation" || $id_status == "en attente") {
+                $entity_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->findOneByDescription("open");
+                //    var_dump($id_status);
+                $entity->setIdStatus($entity_status);
+                $em->persist($entity);
+                $em->flush();
+            } elseif ($id_status == "fermé") {
+                $entity_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->findOneByDescription("prepare");
+                $entity->setIdStatus($entity_status);
+                $em->persist($entity);
+                $em->flush();
+            }
+
+            //   $entity_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->find($id_status);
+            //  echo "id_status=$id_status<br>";exit(1);
+            // $status=new ChangementsStatus;
+            // ChangementsStatus;
+            /* $status=new ChangementsStatus;
+              $status=$entity->getIdStatus(); */
+            /* echo "description=$description"; */
+            $array = array('mystatus' => "$id_status");
+            $array = array($array);
+            $response = new Response(json_encode($array));
 
             $response->headers->set('Content-Type', 'application/json');
             return $response;
