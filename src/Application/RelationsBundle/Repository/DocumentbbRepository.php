@@ -14,7 +14,9 @@ class DocumentbbRepository extends EntityRepository {
 
     public function myFindAll() {
         return $this->createQueryBuilder('a')
-                     ->select('a')
+                     ->select('a,b')
+                
+                ->leftJoin('a.idprojet', 'b')
                 ->add('orderBy', 'a.id DESC')
                 
                         ->getQuery();

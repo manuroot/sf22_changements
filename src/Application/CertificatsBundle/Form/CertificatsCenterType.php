@@ -236,7 +236,8 @@ class CertificatsCenterType extends AbstractType {
 
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
-            'data_class' => 'Application\CertificatsBundle\Entity\CertificatsCenter',
+       //      'data_class' => null,
+          'data_class' => 'Application\CertificatsBundle\Entity\CertificatsCenter',
             'cascade_validation' => true,
         ));
     }

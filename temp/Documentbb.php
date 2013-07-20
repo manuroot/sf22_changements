@@ -46,14 +46,14 @@ class Documentbb {
      */
     private $idprojet;
 
-      /**
+    /**
      * Date/Time of the update
      *
      * @var \Datetime
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
-    
+
     /**
      *
      * Champs file
@@ -61,45 +61,40 @@ class Documentbb {
      * @Assert\File(maxSize="6000000")
      */
     private $file;
-    
-     /**
+
+    /**
      * champs supplemanetaire md5
      * 
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $md5;
-    
-    
     // nom origine du fichier
     private $OriginalFilename;
 
-     /**
-     * Date/Time of the update
-     *
-     * @var \Datetime
-     * @ORM\Column(name="created_at", type="datetime")
+    /**
+     * Set disk path
+     * 
      */
-    protected $createdAt;
-    
-    
-    
-     /**
-     * Constructor
-     */
-    public function __construct() {
-     //   parent::__construct();
-        $this->idprojet = new ArrayCollection();
-           $this->createdAt = new \DateTime();
+    public function setDiskPath($disk_path = 'uploads/documents') {
+        $this->disk_path = $disk_path;
     }
-    
-     /**
-     * Get id
-     *
-     * @return UploadedFile
-     * fichier temporaire: ex: /tmp/php702KS7
-     */
-    // private $OriginalFilename;
 
+    /**
+     * Get disk path
+     * 
+     */
+    public function getDiskPath() {
+        return $this->disk_path;
+    }
+
+    public function __toString() {
+        return $this->getName();    // this will not look good if SonataAdminBundle uses this ;)
+    }
+
+    /**
+     * 
+     * @return string 
+     */
     public function getFile() {
         return $this->file;
     }
@@ -107,8 +102,7 @@ class Documentbb {
     /**
      * Set file
      *
-     * 
-     * @param UploadedFile $file
+     * @param string $file
      * @return Document
      */
     public function setFile(UploadedFile $file = null) {
@@ -124,27 +118,6 @@ class Documentbb {
 
         return $this;
     }
-  /**
-     * Set disk path
-     * 
-     */
-    public function setDiskPath($disk_path='uploads/documents') {
-        $this->disk_path=$disk_path;
-        
-    }
-    
-    /**
-     * Get disk path
-     * 
-     */
-    public function getDiskPath() {
-        return $this->disk_path;
-        
-    }
-    
-    public function __toString() {
-        return $this->getName();    // this will not look good if SonataAdminBundle uses this ;)
-    }
 
     public function getAbsolutePath() {
         return null === $this->path ? null : $this->getUploadRootDir() . '/' . $this->path;
@@ -154,65 +127,42 @@ class Documentbb {
         return null === $this->path ? null : $this->getUploadDir() . '/' . $this->path;
     }
 
-    public function getUploadRootDir() {
+    protected function getUploadRootDir() {
         // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
         return __DIR__ . '/../../../../web/' . $this->getUploadDir();
     }
 
-    public function getUploadDir() {
+    protected function getUploadDir() {
         // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
         // le document/image dans la vue.
-           return $this->disk_path;
+        return 'uploads/documents';
     }
 
     /**
-     * Avant le persist et l'update (fichier deja uploadé)
-     * 
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
     public function preUpload() {
-        $this->updatedAt = new \DateTime();
-        // si upload de fichier (temp file)
-        if (null !== $this->file) {
 
-            // faites ce que vous voulez pour générer un nom unique
-            // a remettre apres
-            //  $this->path=$this->generateNewFilename();
-            
-             $ext = null;
-            $this->OriginalFilename = $this->getFile()->getClientOriginalName();
-            $fic = $this->OriginalFilename;
-            $info = pathinfo($fic);
-            if (isset($info)) {
-                $ext = $info['extension'];
-            }
-            if (!isset($ext)) {
-                $ext = $this->file->guessExtension();
-            }
+        // amodifier apres
+        $this->updatedAt = new \DateTime();
+
+        if (null !== $this->file) {
+            $ext = $this->file->guessExtension();
             if (!isset($ext)) {
                 $ext = "bin";
             }
             $this->path = sha1(uniqid(mt_rand(), true)) . '.' . $ext;
-            
-       
-            // recup nom origne
-         
-            if (!$this->name || $this->name =="")
+
+            $this->OriginalFilename = $this->getFile()->getClientOriginalName();
+            if (!$this->name)
                 $this->name = $this->OriginalFilename;
             $this->md5 = md5_file($this->file);
-               $this->updatedAt = new \DateTime();
-              // echo "here";exit(1);
+            $this->updatedAt = new \DateTime();
         }
-        // check du md5
-          if (!$this->md5 && (file_exists($this->getUploadDir() . '/' . $this->path))){
-             $this->md5 = md5_file($this->getUploadDir() . '/' . $this->path);
+        if (!$this->md5 && (file_exists($this->getUploadDir() . '/' . $this->path))) {
+            $this->md5 = md5_file($this->getUploadDir() . '/' . $this->path);
         }
-        // check du nom
-         if (!$this->name || $this->name =="TOTO" ){
-              $this->name = $this->OriginalFilename;
-         }
-    //    echo "here";exit(1);
     }
 
     /**
@@ -237,93 +187,20 @@ class Documentbb {
             // clear the temp image path
             $this->temp = null;
         }
-       // unset($this->file);
+        // unset($this->file);
         // clean up the file property as you won't need it anymore
         $this->file = null;
     }
 
     /**
-     * Generates a non-random-filename
-     *
-     * @return string A non-random name to represent the current file
-     */
-    public function getFilename() {
-        // nom du fichier
-        $filename = $this->getFile()->getClientOriginalName();
-        $ext = $this->getFile()->guessExtension();
-        //  $ext = $this->getFile()->getExtension();
-        // if ($ext !==null)
-
-
-        echo "root dir=" . $this->getUploadRootDir() . "<br>";
-        echo "file=$filename<br>";
-        $name = substr($filename, 0, - strlen($ext));
-        $i = 1;
-        //  $this->getUploadRootDir(), $this->path;
-        $fullpath = $this->getUploadRootDir();
-        while (file_exists($fullpath . '/' . $filename)) {
-            $filename = $name . '-' . $i . $ext;
-            $i++;
-        }
-        echo "ext=$ext<br>";
-        echo "new name=$filename<br>";
-        exit(1);
-
-
-        return array($filename, $ext,);
-    }
-
-    public function generateNewFilename() {
-        // nom du fichier
-        $filename = $this->getFile()->getClientOriginalName();
-        $ext = $this->getFile()->guessExtension();
-        //  $ext = $this->getFile()->getExtension();
-        // if ($ext !==null)
-
-
-        echo "root dir=" . $this->getUploadRootDir() . "<br>";
-        echo "file=$filename<br>";
-        if (isset($ext) && strlen($ext) > 0) {
-            $name = substr($filename, 0, - (strlen($ext) + 1));
-            $i = 1;
-            //  $this->getUploadRootDir(), $this->path;
-            $fullpath = $this->getUploadRootDir();
-            while (file_exists($fullpath . '/' . $filename)) {
-                $filename = $name . '-' . $i . '.' . $ext;
-                $i++;
-            }
-        }
-        else
-            $name = $filename;
-
-        echo "ext=$ext<br>name=$name<br>";
-        echo "new name=$filename<br>";
-        exit(1);
-
-
-        return ($filename);
-    }
-
-    public function generatePathFileName($file) {
-        return $file->getOriginalName();
-    }
-
-    /**
      * @ORM\PostRemove()
      */
-    public function removeUpload() {
-        if ($file = $this->getAbsolutePath()) {
-            unlink($file);
-        }
-    }
-
-    /**
-     * @ORM\PostLoad()
-     */
-    public function postLoad() {
-        //  nimporte koi!!
-        //   $this->updatedAt = new \DateTime();
-    }
+    /*  public function removeUpload()
+      {
+      if ($file = $this->getAbsolutePath()) {
+      unlink($file);
+      }
+      } */
 
     /**
      * Get id
@@ -341,37 +218,13 @@ class Documentbb {
      * @return Document
      */
     public function setName($name) {
-        // $this->name = $name;
-        if (isset($name) && $name !="")
+
+        if (isset($name))
             $this->name = $name;
-        else 
-            $this->name = "TOTO";
-        return $this;
-    }
-
-    /**
-     *  Set name
-     *
-     * @param string $name
-     * @return Document
-     */
-    public function setOriginalFilename() {
-        // $this->name = $name;
-
-        $this->OriginalFilename = $this->getFile()->getClientOriginalName();
-
-        //$this->file;}
+        //$this->OriginalFilename;
+        //  echo "origine=--" . $this->OriginalFilename . "--<br>";
 
         return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getOriginalFilename() {
-        return $this->OriginalFilename;
     }
 
     /**
@@ -404,9 +257,13 @@ class Documentbb {
         return $this->path;
     }
 
-    
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        $this->idprojet = new ArrayCollection();
+    }
 
-  
     /**
      * Set updatedAt
      *
@@ -414,7 +271,7 @@ class Documentbb {
      * @return Docchangements
      */
     public function setUpdatedAt($updatedAt) {
-       $this->updatedAt = $updatedAt;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
@@ -428,27 +285,6 @@ class Documentbb {
         return $this->updatedAt;
     }
 
-    
-    /**
-     * Set CreatedAt
-     *
-     * @param \DateTime $CreatedAt
-     * @return Docchangements
-     */
-    public function setCreatedAt($createdAt) {
-       $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get CreatedAt
-     *
-     * @return \DateTime 
-     */
-    public function getCreatedAt() {
-        return $this->createdAt;
-    }
     /**
      * Set md5
      *
@@ -470,15 +306,14 @@ class Documentbb {
         return $this->md5;
     }
 
-
     /**
-* Add idchangement
-*
-* @param \Application\RelationsBundle\Entity\Projet $idprojets
-* @return Documentbb
-*/
+     * Add idchangement
+     *
+     * @param \Application\RelationsBundle\Entity\Projet $idprojets
+     * @return Documentbb
+     */
     public function addIdprojet(Projet $idprojets) {
-       // $this->idprojets[] = $idprojets;
+        // $this->idprojets[] = $idprojets;
         if (!$this->idprojet->contains($idprojets)) {
             if (!$idprojets->getPicture()->contains($this)) {
 
@@ -495,14 +330,9 @@ class Documentbb {
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getIdprojet()
-    {
+    public function getIdprojet() {
         return $this->idprojet;
     }
-
-   
-    
-    
 
     public function setIdprojet($items) {
         if ($items instanceof ArrayCollection || is_array($items)) {
@@ -519,7 +349,7 @@ class Documentbb {
     /**
      * Remove idprojet
      *
-      * @param \Application\RelationsBundle\Entity\Projet $idprojets
+     * @param \Application\RelationsBundle\Entity\Projet $idprojets
      */
     public function removeIdprojet(Projet $idprojets) {
         if (!$this->idprojets->contains($idprojets)) {

@@ -35,8 +35,8 @@ class CertificatsCenterRepository extends EntityRepository {
                $query->andwhere('b.id = :myid');
              $query->setParameter('myid', $id);
         }
-                    return $query;
-   //  return $query->getQuery();
+                return $query;
+  //   return $query->getQuery()->getSingleResult();
     }
     
     /*public function myFindaAll() {

@@ -33,26 +33,27 @@
                 <th>Path</th>
                 <td>{{ entity.path }}</td>
             </tr>
+            
+               <tr>
+            <td colspan="2" class="calendar"> 
+ 
+         <form action="{{ path('projets_documents_delete', { 'id': entity.id }) }}" method="post">
+          <input type="hidden" name="_method" value="DELETE" />
+        {{ form_errors(delete_form) }}
+           {{ form_row(delete_form.id) }}
+           {{ form_rest(delete_form) }}
+                                        <div style="text-align:right">
+                                            <button type="submit" class="btn btn-small btn-danger" onclick="if(!confirm('Are you sure?')) { return false; }">Supprimer Document</button>
+                                        </div>
+                                    </form>
+  
+                                </td>
+                            </tr>
         </tbody>
     </table>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('projets_documents') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('projets_documents_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('projets_documents_delete', { 'id': entity.id }) }}" method="post">
-            <input type="hidden" name="_method" value="DELETE" />
-            {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+      <a href="{{ path('projets_documents') }}" class="btn btn-large btn-success">Retour</a>      <ul class="record_actions">
+   
+   
+        
 {% endblock %}

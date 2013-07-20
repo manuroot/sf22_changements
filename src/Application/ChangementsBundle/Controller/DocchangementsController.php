@@ -99,9 +99,6 @@ class DocchangementsController extends Controller {
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-             // list($fic,$ext)=$entity->getFilename();
-            //    echo "ext=$ext $fic<br>";exit(1);
-    
           // on ajoute cote changement
                  foreach ($entity->getIdchangement() AS $changement){
                      $changement->addPicture($entity);
@@ -111,7 +108,6 @@ class DocchangementsController extends Controller {
             $em->flush();
             return $this->redirect($this->generateUrl('docchangements_show', array('id' => $entity->getId())));
         }
-
         return $this->render('ApplicationChangementsBundle:Docchangements:new.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),

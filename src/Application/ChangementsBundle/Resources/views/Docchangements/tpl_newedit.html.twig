@@ -4,7 +4,10 @@
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
-<style>select#doc_idchangement{height:250px;}</style>
+<style>select#doc_idchangement{height:250px;}
+ div.fichier{
+        padding:5px;background-color:whitesmoke;color:#0033cc;margin-bottom:20px;}
+    </style>
  {% endblock %}
 
 
@@ -27,6 +30,26 @@
 
 <table class="table-mybordered">
       <tr><td class="calendar">
+              
+       {% if action == 'edit' %}       
+                <div class="fichier">
+                                    {% if entity.name is not null %}                
+                                        Actuel: <br>
+                                  <strong>  {{ entity.OriginalFilename }} ({{ entity.name }})
+                                        <br>
+                                        Updated: {{ entity.updatedAt|date('Y-m-d H:i:s') }}
+                                        <br>
+                                        Created: {{ entity.createdAt|date('Y-m-d H:i:s') }}
+                                        </strong>
+                                        {% else %}
+                                        (Pas de fichier actuellement)
+                                        {% endif %}
+         
+                                        </div>
+          {% endif %}    
+              
+              
+              
                 {{ form_row(form.name) }}
                 {{ form_row(form.file) }}
                 </td>

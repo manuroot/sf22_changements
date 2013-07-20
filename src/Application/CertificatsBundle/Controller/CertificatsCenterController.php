@@ -188,7 +188,7 @@ class CertificatsCenterController extends Controller {
             $all_fic = $ssl->getFichiers();
             $arr = array($all_ope, $all_fic);
             var_dump($postData);
-            var_dump($arr);
+          //  var_dump($arr);
             // post:
             //["opecert"]=> string(1) "3" ["typecert"]=> string(1) "4" ["contenu"]=> string(7) "hgfgffg" [
 
@@ -339,7 +339,9 @@ class CertificatsCenterController extends Controller {
         if (!isset($myretour)) {
             $myretour = 'certificatscenter';
         }
+        //peut mieux faire (17 sql request)
         $entity = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->find($id);
+       // $entity = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->myFindaAll($id); 
         // check rights
         $securityContext = $this->get('security.context');
 

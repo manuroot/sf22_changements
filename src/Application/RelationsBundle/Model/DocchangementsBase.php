@@ -1,33 +1,27 @@
 <?php
 
-namespace Application\ChangementsBundle\Entity;
+namespace Application\RelationsBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
-use Application\ChangementsBundle\Entity\Changements;
-//use Application\CentralBundle\Model\DocchangementsBase;
+
 
 
 /**
  * Projet
-
- * @ORM\Table(name="changements_fichiers")
- * @ORM\Entity(repositoryClass="Application\ChangementsBundle\Entity\DocchangementsRepository")
+ * @Orm\MappedSuperclass
  * @ORM\HasLifecycleCallbacks
  */
+class DocchangementsBase  {
 
-class Docchangements   {
-//class Docchangements  extends DocchangementsBase {
-// * @Orm\MappedSuperclass
-
-/**
-* @ORM\Id
-* @ORM\Column(type="integer")
-* @ORM\GeneratedValue(strategy="AUTO")
-*/
-protected $id;
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
     
 
     /**
@@ -75,97 +69,8 @@ protected $id;
     protected $updatedAt;
   
     protected $temp;
-        /**
-     *
-     * @var ArrayCollection Projet $idchangements
-     *
-     * Inverse Side
-     * 
-     * @ORM\ManyToMany(targetEntity="Changements", mappedBy="picture",cascade={"persist"})
-     */
-    protected $idchangement;
-
-   /**
-     * Date/Time of the update
-     *
-     * @var \Datetime
-     * @ORM\Column(name="created_at", type="datetime")
-     */
-    protected $createdAt;
-    
-    
-
-     protected $disk_path = 'uploads/documents';
-
-    
-    /**
-     * Constructor
-     */
-    public function __construct() {
-     //   parent::__construct();
-        $this->idchangement = new ArrayCollection();
-           $this->createdAt = new \DateTime();
-    }
-
-   
-    /**
-     * Add idchangement
-     *
-     * @param \Application\ChangementsBundle\Entity\Changements $idchangement
-     * @return Docchangements
-     */
-    public function addIdchangement(Changements $idchangement) {
-        if (!$this->idchangement->contains($idchangement)) {
-            if (!$idchangement->getPicture()->contains($this)) {
-
-                $idchangement->addPicture($this);  // Lie le Client au produit.
-            }
-            $this->idchangement->add($idchangement);
-        }
-        //$this->idchangement[] = $idchangement;
-        //  return $this;
-    }
-
-    public function setIdchangement($items) {
-        if ($items instanceof ArrayCollection || is_array($items)) {
-            foreach ($items as $item) {
-                $this->addIdchangement($item);
-            }
-        } elseif ($items instanceof Changements) {
-            $this->addPicture($items);
-        } else {
-            throw new \Exception("$items must be an instance of Changements or ArrayCollection");
-        }
-    }
 
     /**
-     * Remove idchangement
-     *
-     * @param \Application\ChangementsBundle\Entity\Changements $idchangement
-     */
-    public function removeIdchangement(Changements $idchangement) {
-        if (!$this->idchangement->contains($idchangement)) {
-            return;
-        }
-        $this->idchangement->removeElement($idchangement);
-        $idchangement->removePicture($this);
-    }
-
-    /**
-     * Get idchangement
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getIdchangement() {
-        return $this->idchangement;
-    }
-
-
-    
-    
-    
-    
-     /**
      * Get id
      *
      * @return UploadedFile
@@ -285,7 +190,7 @@ protected $id;
          if (!$this->name || $this->name =="TOTO" ){
               $this->name = $this->OriginalFilename;
          }
-    //    echo "here";exit(1);
+        // echo "here";exit(1);
     }
 
     /**
@@ -477,6 +382,14 @@ protected $id;
         return $this->path;
     }
 
+    /**
+     * Constructor
+     */
+    public function __construct() {
+   
+        
+        }
+
     
 
   
@@ -501,27 +414,6 @@ protected $id;
         return $this->updatedAt;
     }
 
-    
-    /**
-     * Set CreatedAt
-     *
-     * @param \DateTime $CreatedAt
-     * @return Docchangements
-     */
-    public function setCreatedAt($createdAt) {
-       $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get CreatedAt
-     *
-     * @return \DateTime 
-     */
-    public function getCreatedAt() {
-        return $this->createdAt;
-    }
     /**
      * Set md5
      *

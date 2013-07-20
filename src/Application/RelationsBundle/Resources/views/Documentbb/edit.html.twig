@@ -8,8 +8,12 @@
             height:300px;
             width:200px;
         }
-    </style>
-    </style>
+    div.fichier{
+        padding:5px;background-color:whitesmoke;color:#0033cc;margin-bottom:20px;}
+</style> 
+
+
+    
  {% endblock %}
 
 
@@ -28,17 +32,36 @@
 {% endfor %}
 <br>
  <table class="table-mybordered">
-
-           
+                    
     <form action="{{ path('projets_documents_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
         <input type="hidden" name="_method" value="PUT" />
         <tr><td class="calendar">  
-
+     <div class="fichier">
+                                    {% if entity.name is not null %}                
+                                        Actuel: <br>
+                                  <strong>  {{ entity.OriginalFilename }} ({{ entity.name }})
+                                        <br>
+                                        Updated: {{ entity.updatedAt|date('Y-m-d H:i:s') }}
+                                        <br>
+                                        Created: {{ entity.createdAt|date('Y-m-d H:i:s') }}
+                                        </strong>
+                                        {% else %}
+                                        (Pas de fichier actuellement)
+                                        {% endif %}
+         
+                                        </div>
+ 
+                        
+                        
+                        
+        
+        
                  {{ form_row(edit_form.file) }}
                 {{ form_row(edit_form.name) }}
                 </td>
                  
               <td class="calendar">
+                   {{ form_row(edit_form.idprojet) }}
                     {{ form_rest(edit_form) }}
                       </td></tr><tr>
                   <td colspan="2" class="calendar"> 
@@ -71,3 +94,6 @@
       
    
 {% endblock %}
+
+
+                           

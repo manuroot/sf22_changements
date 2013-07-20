@@ -8,15 +8,36 @@
     select[multiple], select[size] {
     height: 200px;
 }
-    
-        tr.single {
+
+.divbox {
+   /* margin-bottom:25px;
+     background-color:red;
+     height:auto;*/
+}
+     .firstleft {
+         padding-left:5px;
+         float: left;
+         width:200px;
+         background-color:#e8e8e8;border:1px solid;padding:3px;margin:3px;
+         }
+
+          .secondleft {
+          float: left;
+              position:relative;
+              margin:3px;
+         margin-left:25px;
+         width:200px;
+         background-color:#e8e8e8;border:1px solid;padding:3px;
+         }
+         tr.single {
          background-color: #f1f1f1;
         }
 
         textarea {
-            width: 40ex;
-            height:20ex;
-            margin: 0;
+            width: 60ex;
+            height:30ex;
+            margin-top:10px;
+           
             padding: 2px; /* it's best to have a little padding */
             border: 1px solid #ccc; /* gets around varying border styles */
             border-radius: 4px /* optional; for newer browsers */
@@ -40,21 +61,36 @@
 
         <br> <br>  
 
-        <form class="form-horizontal" action="{{ path('certificatscenter_validatecert') }}" method="post" {{ form_enctype(form) }}>
+        <form  action="{{ path('certificatscenter_validatecert') }}" method="post" {{ form_enctype(form) }}>
 
   
          <table class="table-mybordered">
             <tr>
                 <td class="calendar">
-                    {{ form_row(form.fichier) }}               
-                    {{ form_row(form.fichierp12) }}               
-                    {{ form_row(form.fichiercrl) }}               
-                    {{ form_row(form.opecert) }}
-                    {{ form_row(form.typecert) }}
-                </td>
+                    {{ form_row(form.fichier_cert) }}   
+                    {{ form_row(form.fichier_cert_key) }}   
+                    {{ form_row(form.password_key_cert) }} 
+                        
+                    {{ form_row(form.fichier_p12) }}               
+                    {{ form_row(form.password_p12) }} 
+                        
+                    {{ form_row(form.fichier_ac_cert) }} 
+                    {{ form_row(form.fichier_ac_cert_key) }} 
+                    {{ form_row(form.password_key_ac) }} 
+                        
+                    {{ form_row(form.fichier_crl) }} 
+                        
+                  </td>
                 <td class="calendar">
+                    <div class="divbox">
+                        <div class="firstleft">{{ form_row(form.operations_view) }}</div>
+                      <div class="secondleft">{{ form_row(form.operations_check) }}</div>
+                      </div>
+                        <div>
                     {{ form_widget(form.contenu) }}
+                    {{ form_row(form.password_contenu) }} 
                     {{ form_rest(form) }}
+                                </div>
                 </td>
             </tr>
             <tr>             

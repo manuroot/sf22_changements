@@ -190,7 +190,7 @@ class DocchangementsBase  {
          if (!$this->name || $this->name =="TOTO" ){
               $this->name = $this->OriginalFilename;
          }
-        // echo "here";exit(1);
+         echo "here";exit(1);
     }
 
     /**

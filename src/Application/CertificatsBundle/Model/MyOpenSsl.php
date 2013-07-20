@@ -4,34 +4,49 @@ namespace Application\CertificatsBundle\Model;
 
 class MyOpenSsl {
 
-    private $fichiers;
-    private $operations;
+    private $type_fichiers;
+    private $type_password;
+    private $type_operations;
 
     public function __construct() {
-        $this->operations = $this->Operations();
-        $this->fichiers = $this->Fichiers();
+        $this->type_operations = $this->Operations();
+        $this->type_fichiers = $this->Fichiers();
+        $this->type_password = $this->Password();
     }
 
     public function getOperations() {
-        return $this->operations;
+        return $this->type_operations;
     }
 
     public function getFichiers() {
-        return $this->fichiers;
+        return $this->type_fichiers;
+    }
+
+    public function getPassword() {
+        return $this->type_password;
+    }
+    
+    public function Password() {
+        return array(
+            'password_key_cert' => 'Password Cert Key',
+            'password_key_ac' => 'Password AC_Cert Key',
+            'password_p12' => 'Password P12 ',
+            'password_contenu' => 'Password Contenu ',
+        );
     }
 
     protected function Fichiers() {
-
-        return array(
-            'Certificats(crt)',
-            'Certificats(pem)',
-            'Autorité(crt)',
-            'Autorité(pem)',
+        return array('fichier_cert' => 'CERT',
+            'fichier_ac_cert' => 'AC_CERT',
+            'fichier_crl' => 'CRL',
+            'fichier_p12' => 'CERT_P12',
+            'fichier_cert_key' => 'KEY',
+            'fichier_ac_cert_key' => 'AC_KEY',
         );
     }
 
     protected function Operations() {
-        $liste_operations_certificat = array(
+        $liste_operations_view = array(
             'View csr' => 'View csr',
             'View crt' => 'View crt',
             'View der' => 'View der',
@@ -39,6 +54,9 @@ class MyOpenSsl {
             'View key' => 'View key',
             'View p12' => 'View p12',
             'View crl' => 'View crl',
+            'Parse x509' => 'Parse x509');
+
+        $liste_operations_check = array(
             'Check crt/key' => 'check crt/key',
             'Create p12' => 'Create p12',
             'Bundle crt/key' => 'Bundle crt/key',
@@ -46,10 +64,9 @@ class MyOpenSsl {
             'Convert der->pem' => 'Convert der->pem',
             'Convert pem->der' => 'Convert pem->der',
             'Convert p12->crt/key' => 'Convert p12->crt/key',
-            'Parse x509' => 'Parse x509',
                 //'Download p12'=> 'Download p12',
         );
-        return array_keys($liste_operations_certificat);
+        return array(array_keys($liste_operations_view), array_keys($liste_operations_check));
     }
 
 //===============================
@@ -387,7 +404,7 @@ class MyOpenSsl {
         $info = pathinfo($name);
         $data = file_get_contents($name);
 
-         $data_parse=null;
+        $data_parse = null;
         print "<h3>View Certificate: $file_basename</h3>";
 
         if (isset($info['extension'])) {
@@ -422,7 +439,7 @@ class MyOpenSsl {
 //print (/usr/bin/openssl x509 -in ' . escapeshellcmd($name) . '  -noout -text 2>&1'
 //$output = shell_exec("(/usr/bin/openssl x509 -in $name  -noout -text) 2>&1");
         exec('/usr/bin/openssl verify -CAfile ' . escapeshellcmd($name_ca) . '  -verbose ' . escapeshellcmd($name_cert) . ' 2>&1', $output, $retval);
-        
+
         return $retval;
     }
 
@@ -430,15 +447,15 @@ class MyOpenSsl {
     public function View_Cert($name) {
 //===============================
 
-        $output=array();
-        $retval=null;
-     //   $file = basename($name);
-           $file = $name;
+        $output = array();
+        $retval = null;
+        //   $file = basename($name);
+        $file = $name;
         print "/usr/bin/openssl x509 -in $file -noout -text";
 //print (/usr/bin/openssl x509 -in ' . escapeshellcmd($name) . '  -noout -text 2>&1'
-$output = shell_exec("(/usr/bin/openssl x509 -in $name  -noout -text) 2>&1");
-     //   exec('/usr/bin/openssl x509 -in ' . escapeshellcmd($name) . '  -noout -text 2>&1', $output, $retval);
-      //  $this->Affiche_RetVal($retval, $output);
+        $output = shell_exec("(/usr/bin/openssl x509 -in $name  -noout -text) 2>&1");
+        //   exec('/usr/bin/openssl x509 -in ' . escapeshellcmd($name) . '  -noout -text 2>&1', $output, $retval);
+        //  $this->Affiche_RetVal($retval, $output);
         return $output;
     }
 
@@ -512,7 +529,7 @@ $output = shell_exec("(/usr/bin/openssl x509 -in $name  -noout -text) 2>&1");
         print "pass=$pass<br>";
 //print "/usr/bin/openssl' . $cmd  -in $name $pass $cmd1.<br>";
         exec('/usr/bin/openssl' . $cmd . ' -in ' . escapeshellcmd($name) . ' ' . escapeshellcmd($pass) . escapeshellcmd($cmd1) . ' 2>&1', $output, $retval);
-    
+
         //$this->Affiche_RetVal($retval, $output);
         return $output;
     }
