@@ -352,7 +352,7 @@ class ChangementsController extends Controller {
     public function calendarAction(Request $request) {
 
         $session = $this->getRequest()->getSession();
-        $session->set('buttonretour', 'changements');
+        $session->set('buttonretour', 'changements_calendar');
         $datas_session = $session->get('calendar_dates');
         $surround_months = array();
         $form = $this->createForm(new CalendarType());
@@ -726,11 +726,11 @@ class ChangementsController extends Controller {
             $em->flush();
             $session = $this->getRequest()->getSession();
             $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
-            $route_back = $session->get('buttonretour');
+           /* $route_back = $session->get('buttonretour');
             if (isset($route_back))
                 return $this->redirect($this->generateUrl($route_back, array('id' => $id)));
-            else
-                return $this->redirect($this->generateUrl('changements'));
+            else*/
+                return $this->redirect($this->generateUrl('changements_posttest'));
         }
 
         return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
@@ -761,7 +761,7 @@ class ChangementsController extends Controller {
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('changements'));
+        return $this->redirect($this->generateUrl('changements_posttest'));
     }
 
     private function createDeleteForm($id) {

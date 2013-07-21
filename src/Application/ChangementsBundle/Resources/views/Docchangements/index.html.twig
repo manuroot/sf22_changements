@@ -20,14 +20,7 @@
 
   {% block stylesheets %}
 {{ parent() }}
-{#  <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
-          <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/changements.css') }}" type="text/css" media="all"/>
-          <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>
-   #}
-  
-{#a remettre: ne marche pas sous windows#}
-    <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
-  
+   <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
   <style>
 
             .table {
@@ -44,14 +37,9 @@
                 color:#02195e;
               /*  text-align: left;*/
     
-}/*
- div#mybutton {
-
-	padding-top: 130px; 
-	margin-left: 5px;
-       }*/
-        </style>
-         {{ form_stylesheet(search_form) }}
+}
+</style>
+{{ form_stylesheet(search_form) }}
 {% endblock %}
 
 {% block content_header '' %}
@@ -71,51 +59,35 @@ Fichiers sur les Opérations
     </div>
     {% endfor %}
 {% endfor %}
-   <div id="ShowHideContainer">
 
-            <form id="target" class="form-horizontal" action="{{ path('docchangements') }}" method="POST" {{ form_enctype(search_form) }}>
-                <a id="ShowHideButton">
-                    <button id="show" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
-                        <i class="icon-search"></i>  Afficher Filtres</button>
-                </a>
-                <button type="submit" id="reset" name="submit-filter" class="btn btn-medium btn-warning" value="reset" >
-                    <i class="icon-minus-sign"></i> Effacer Filtres</button>
-         
 
-            </form>
-
-            <div id="ShowHideBoxown" class="hidden">
-        {% include 'ApplicationChangementsBundle:Docchangements:indexsearch_form.html.twig' %}
-                </div>
-            </div>
-
-    <a href="{{ path('docchangements_new') }}" class="btn btn-medium btn-primary">Ajouter Fichier</a>
-    <br> <br>  
+{% include 'ApplicationChangementsBundle:templates:container_search.html.twig' 
+        with {
+            'form_path': 'docchangements',
+            'search_form': search_form,'box':"ShowHideBoxown",
+             'new_path': 'docchangements_new',
+            'new_text':"Ajouter un Fichier",
+              'include_html_search': 'ApplicationChangementsBundle:Docchangements:indexsearch_form.html.twig'
+}
+%}
+ 
+<br> <br>  
 
     <table class="table table-striped table-bordered table-hover">
         <thead>
             <tr class="title">
                 <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
                 <th{% if pagination.isSorted('a.name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Description', 'a.name') }}</th>
-               {# <th{% if pagination.isSorted('a.path') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom Physique', 'a.path') }}</th>
-             #}
-                    <th{% if pagination.isSorted('a.OriginalFilename') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom Origine', 'a.OriginalFilename') }}</th>
-              
-                    <th{% if pagination.isSorted('a.md5') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'md5', 'a.md5') }}</th>
-              
-                  <th{% if pagination.isSorted('a.updatedAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date Update', 'a.updatedAt') }}</th>
-     
-                   <th{% if pagination.isSorted('b.idchangement.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Changements', 'b.idchangement.nom') }}</th>
-     
-              <th>Changements</th>
-    <!--<th>Avatar</th>-->
+                <th{% if pagination.isSorted('a.OriginalFilename') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom Origine', 'a.OriginalFilename') }}</th>
+                <th{% if pagination.isSorted('a.md5') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'md5', 'a.md5') }}</th>
+                <th{% if pagination.isSorted('a.updatedAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date Update', 'a.updatedAt') }}</th>
+                <th{% if pagination.isSorted('b.idchangement.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Changements', 'b.idchangement.nom') }}</th>
+                <th>Changements</th>
                 <th colspan="3">Actions</th>
             </tr>
-      
-    <tbody>
-    {% for entity in pagination %}
-   
-        <tr>
+      <tbody>
+      {% for entity in pagination %}
+      <tr>
             <td><a href="{{ path('docchangements_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.name }}</td>
             <td>
@@ -127,31 +99,23 @@ Fichiers sur les Opérations
                 error
                  {% endif %}
                  </td>
-          {# <td>{{ entity.OriginalFilename }}</td>#}
             <td>{{ entity.md5 }}</td>
-             <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-             <td>{{ entity.idchangement|join('<br> ')|raw }}</td>
-            
+            <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            <td>{{ entity.idchangement|join('<br> ')|raw }}</td>
             <td>
-               <a href="{{ path('docchangements_show', { 'id': entity.id }) }}">
-                                                <img src="{{ asset('bundles/applicationcertificats/images/detail.png') }}" alt="show" width="15" height="15" />
-                                            </a>
-                                        </td>
-                                        <td>
-
-
-                                            <a href="{{ path('docchangements_edit', { 'id': entity.id }) }}">
-                                                <img src="{{ asset('bundles/applicationcertificats/images/edit.png') }}" alt="edit" width="15" height="15" />
-                                            </a>
-    </td>
+                    <a href="{{ path('docchangements_show', { 'id': entity.id }) }}">
+                        <img src="{{ asset('bundles/applicationcertificats/images/detail.png') }}" alt="show" width="15" height="15" />
+                    </a>
+            </td>
+            <td>
+                  <a href="{{ path('docchangements_edit', { 'id': entity.id }) }}">
+                      <img src="{{ asset('bundles/applicationcertificats/images/edit.png') }}" alt="edit" width="15" height="15" />
+                  </a>
+            </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
-
-      {{ knp_pagination_render(pagination) }}
-    
-    
-      
+{{ knp_pagination_render(pagination) }}
 {% endblock %}
     

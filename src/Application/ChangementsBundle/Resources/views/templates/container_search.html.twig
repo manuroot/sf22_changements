@@ -1,0 +1,20 @@
+  <div id="ShowHideContainer">
+
+            <form id="target" class="form-horizontal" action="{{ path(form_path) }}" method="POST" {{ form_enctype(search_form) }}>
+                <a id="ShowHideButton">
+                    <button id="show" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
+                        <i class="icon-search"></i>  Afficher Filtres</button>
+                </a>
+                <button type="submit" id="reset" name="submit-filter" class="btn btn-medium btn-warning" value="reset" >
+                    <i class="icon-minus-sign"></i> Effacer Filtres</button>
+          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <a href="{{ path(new_path) }}" class=" ajoutchange btn btn-medium btn-primary">
+                    <i class=" icon-plus"></i> {{ new_text }}
+                </a>
+        {% endif %}
+
+            </form>
+<div id="{{ box }}" class="hidden">
+         {% include include_html_search %}
+                </div>
+            </div>

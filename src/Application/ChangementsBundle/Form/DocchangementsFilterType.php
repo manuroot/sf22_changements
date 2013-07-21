@@ -15,7 +15,7 @@ class DocchangementsFilterType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
        $builder
-                ->add('nom','text',array( 
+                ->add('name','text',array( 
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'

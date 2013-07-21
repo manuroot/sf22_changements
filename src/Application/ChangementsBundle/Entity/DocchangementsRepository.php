@@ -76,7 +76,7 @@ class DocchangementsRepository extends EntityRepository {
         }
 
         //les like
-        $like_arrays = array('nom', 'md5','OriginalFilename', 'path');
+        $like_arrays = array('name', 'md5','OriginalFilename', 'path');
         foreach ($like_arrays as $val) {
             //  echo "val=$val<br>";
             if (isset($criteria[$val]) && !preg_match('/^\s*$/', $criteria[$val])) {

@@ -49,7 +49,7 @@ class ChangementsStepsType extends AbstractType {
         ))
                     
             
-    ->add('ticketExt', 'genemu_jqueryautocomplete_entity', array(
+   /* ->add('ticketExt', 'genemu_jqueryautocomplete_entity', array(
                             'attr' => array(
                            'placeholder' => 'ex: [1-XXXXXX | XXXXX]'
                                     ),
@@ -65,7 +65,7 @@ class ChangementsStepsType extends AbstractType {
                     'empty_data'=>false,
         //  'render_required_asterisk'=>'tyrty',
                       
-                )) 
+                )) */
                                     /*
                     ->add('ticketInt', 'genemu_jqueryautocompleter_entity', array(
                             'attr' => array(
@@ -90,7 +90,7 @@ class ChangementsStepsType extends AbstractType {
                 ))   */
                  
                     
-                     /*->add('ticketExt',null,array(
+                     ->add('ticketExt',null,array(
                            'attr' => array(
                            'placeholder' => 'ex: [1-XXXXXX | XXXXX]'
                                     ),
@@ -99,7 +99,7 @@ class ChangementsStepsType extends AbstractType {
                                 'icon' => 'tag',
                                 'type' => 'prepend'
                             ),
-                           ))*/
+                           ))
                     
                     
               ->add('ticketInt',null,array(

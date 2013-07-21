@@ -33,15 +33,8 @@
 
   {% block stylesheets %}
 {{ parent() }}
-{#  <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
-          <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/changements.css') }}" type="text/css" media="all"/>
-          <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>
-   #}
-  
-{#a remettre: ne marche pas sous windows#}
-    <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
-  
-  <style>
+ <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
+ <style>
 
             .table {
                 font-size: 11px;
@@ -87,34 +80,19 @@
 
     {% endfor %}
 {% endfor %}
-
-        <div id="ShowHideContainer">
-
-            <form id="target" class="form-horizontal" action="{{ path('changements_posttest') }}" method="POST" {{ form_enctype(search_form) }}>
-                <a id="ShowHideButton">
-                    <button id="show" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
-                        <i class="icon-search"></i>  Afficher Filtres</button>
-                </a>
-                <button type="submit" id="reset" name="submit-filter" class="btn btn-medium btn-warning" value="reset" >
-                    <i class="icon-minus-sign"></i> Effacer Filtres</button>
-          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                <a href="{{ path('changements_newflowstart') }}" class=" ajoutchange btn btn-medium btn-primary">
-                    <i class=" icon-plus"></i> Ajouter un Changement
-                </a>
-        {% endif %}
-
-            </form>
-
-            <div id="ShowHideBoxown" class="hidden">
-        {% include 'ApplicationChangementsBundle:Changements:indexsearchsimple_form.html.twig' %}
-                </div>
-            </div>
-    {#<table class="table table-bordered table-striped table-hover">#}
-               {% include 'ApplicationChangementsBundle:Changements:tp_table.html.twig' %}
+    {% include 'ApplicationChangementsBundle:templates:container_search.html.twig' 
+        with {
+            'form_path': 'changements_posttest',
+            'search_form': search_form,'box':"ShowHideBoxown",
+             'new_path': 'changements_newflowstart',
+            'new_text':"Ajouter un Changement",
+              'include_html_search':  'ApplicationChangementsBundle:Changements:indexsearchsimple_form.html.twig'
+}
+%}
 
 
-
-   {{ knp_pagination_render(pagination, 'ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig') }}
+{% include 'ApplicationChangementsBundle:Changements:tp_table.html.twig' %}
+{{ knp_pagination_render(pagination, 'ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig') }}
 
 
 {% endblock %}

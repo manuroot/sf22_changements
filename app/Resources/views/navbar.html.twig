@@ -49,10 +49,11 @@
 
                                        {% endif %}   
 
-                                <li><a href="{{ path('sonata_user_profile_edit_authentication') }}">{{ 'Edit Profile' }}</a>
-                                 </li>
+                                
 
                                     {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+                                    <li><a href="{{ path('sonata_user_profile_edit_authentication') }}">{{ 'Edit Profile' }}</a>
+                                 </li>
                                     <li><a href="{{ path('fos_user_registration_register') }}">{{ 'Register'|trans }}</a>
                             
                                 <li><a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></li>

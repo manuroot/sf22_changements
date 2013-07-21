@@ -1,7 +1,7 @@
 <?php
 
-
 namespace Application\ChangementsBundle\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 use APY\DataGridBundle\Grid\Mapping as GRID;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -26,18 +26,19 @@ use CalendR\Event\AbstractEvent;
  * @GRID\Source(columns="id,nom,idStatus.nom,ticketExt,ticketInt,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUser,idEnvironnement.nom:GroupConcat",groupBy={"id"})
  * @Vich\Uploadable
  */
- 
 //* @GRID\Source(columns="id,nom,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUser,idusers.nomUser:GroupConcat,idEnvironnement.nom:GroupConcat",groupBy={"id"})
 // @GRID\Source(columns="id,nom,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUser,idEnvironnement.nom:concat_ws",groupBy={"id"})
 // @GRID\Source(columns="id,nom,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUser,idusers.nomUser:GroupConcat,idEnvironnement.nom:GroupConcat",groupBy={"id"})
 
-class Changements extends AbstractEvent
+class Changements extends AbstractEvent {
+
 //class Changements
-{
-    
+
+
     protected $begin;
     protected $end;
     protected $uid;
+
     /**
      * @var integer
      *
@@ -64,7 +65,6 @@ class Changements extends AbstractEvent
      *
      * @GRID\Column(field="nom", title="Nom",size="55")
      */
-  
     private $nom;
 
     /**
@@ -79,12 +79,11 @@ class Changements extends AbstractEvent
      * @var \DateTime
      *
      * @ORM\Column(name="date_fin", type="datetime", nullable=false)
-      * @GRID\Column(title="Fin", size="30",format="Y-m-d",type="datetime")
+     * @GRID\Column(title="Fin", size="30",format="Y-m-d",type="datetime")
      * 
      */
     private $dateFin;
-
-      // @GRID\Column(title="Fin", size="40",format="Y-m-d h:i",type="datetime")
+    // @GRID\Column(title="Fin", size="40",format="Y-m-d h:i",type="datetime")
     /**
      * @var \DateTime
      *
@@ -108,7 +107,6 @@ class Changements extends AbstractEvent
      */
     private $description;
 
-     
     /**
      * @var \Projet
      *
@@ -118,65 +116,62 @@ class Changements extends AbstractEvent
      *   @ORM\JoinColumn(name="id_projet", referencedColumnName="id",nullable=false)
      * })
      * @GRID\Column(field="idProjet.nomprojet", title="Projet",size="20",filter="select",selectFrom="query")
- 
-    */
-     private $idProjet;
-   
-           /**
+
+     */
+    private $idProjet;
+
+    /**
+     * @var string
+     * 
      * @ORM\ManyToMany(targetEntity="Docchangements", inversedBy="idchangement",cascade={"persist"})
      * @ORM\JoinTable(name="changements_documents",
      * joinColumns={@ORM\JoinColumn(name="changements_id", referencedColumnName="id")},
      *   inverseJoinColumns={@ORM\JoinColumn(name="docchangements_id", referencedColumnName="id")}
      * )
      */
-     protected $picture;
-   
-   
-    
-    
-     /**
+    protected $picture;
+
+    /**
      * @var string
-      * 
+     * 
      * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\Environnements",inversedBy="idchangements",cascade={"persist"})
      * @ORM\OrderBy({"nom" = "ASC"})
      * @ORM\JoinTable(name="changements_environnements")
      * @GRID\Column(field="idEnvironnement.nom:GroupConcat", filterable=false,size="20",title="Env", filter="select",selectFrom="query")
      */
-
     private $idEnvironnement;
-          //* @GRID\Column(type="extended_text", field="idEnvironnement.nom:AtGroupConcat", title="Categories", filter="select", selectMulti="true", selectFrom="values")
-          //  * @GRID\Column(type="extended_text", field="idEnvironnement.nom:AtGroupConcat", filterable=true,size="20",title="Env", filter="select",selectMulti="false",selectFrom="values")
- //title="Categories", filter="select", selectMulti="true", selectFrom="values")
+    //* @GRID\Column(type="extended_text", field="idEnvironnement.nom:AtGroupConcat", title="Categories", filter="select", selectMulti="true", selectFrom="values")
+    //  * @GRID\Column(type="extended_text", field="idEnvironnement.nom:AtGroupConcat", filterable=true,size="20",title="Env", filter="select",selectMulti="false",selectFrom="values")
+    //title="Categories", filter="select", selectMulti="true", selectFrom="values")
     //last:* @GRID\Column(field="idEnvironnement.nom:GroupConcat", filterable=true,size="20",title="Env", filter="select",selectFrom="query")
     // @GRID\Column(title="Env", field="idEnvironnement", size="30", visible=true, sortable=true, filtrable="true")
-   // GRID\Column(title="Environnements", field="idEnvironnement.nom:concat_ws",  visible=true, sortable=true, filter="select",selectFrom="query")
-     
-     /**
+    // GRID\Column(title="Environnements", field="idEnvironnement.nom:concat_ws",  visible=true, sortable=true, filter="select",selectFrom="query")
+
+    /**
      *  @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\Applis", inversedBy="idprojets",cascade={"persist"})
      * @ORM\OrderBy({"nomapplis" = "ASC"})
      * @ORM\JoinTable(name="changements_applis")
      */
     private $idapplis;
- 
+
     /**
      * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\ChronoUser", inversedBy="idchangement",cascade={"persist"})
      * @ORM\OrderBy({"nomUser" = "ASC"})
      * @ORM\JoinTable(name="changements_users")
-       */
+     */
     private $idusers;
-    
-   //  * @GRID\Column(field="idusers.nomUser:GroupConcat", size="20",title="Users", filter="select")
-   
+
+    //  * @GRID\Column(field="idusers.nomUser:GroupConcat", size="20",title="Users", filter="select")
 // @GRID\Column(title="Users", field="idusers.nomUser:GroupConcat", size="20", visible=true, sortable=true, filtrable="true")
-    
-     /**
+
+    /**
      * @var \ChronoUser
      *
      * @ORM\ManyToOne(targetEntity="Application\RelationsBundle\Entity\ChronoUser")
      * @ORM\OrderBy({"nomUser" = "ASC"})
      * @ORM\JoinColumn(name="demandeur", referencedColumnName="id")
      * @GRID\Column(field="demandeur.nomUser", title="Demandeur",size="20",filter="select",selectFrom="query")
-    */
+     */
     private $demandeur;
 
     /**
@@ -188,15 +183,13 @@ class Changements extends AbstractEvent
      * @GRID\Column(field="idStatus.nom", title="Status",size="10",filter="select",selectFrom="query")
      */
     private $idStatus;
-   
-      /**
-    * @ORM\OneToMany(targetEntity="ChangementsComments", mappedBy="changement",cascade={"persist"})
- */
-private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="ChangementsComments", mappedBy="changement",cascade={"persist"})
+     */
+    private $comments;
 
-
-  /**
+    /**
      * @ORM\Column(type="string", length=12, name="ticket_ext", nullable=true)
      * @GRID\Column(type="text",field="ticketExt", title="TExt",size="12")
      *
@@ -209,69 +202,65 @@ private $comments;
      */
     private $ticketExt;
 // pattern="/(^[1-9]-[0-9]+$|[0-9]{5,10})/",
-    
-     /**
+
+    /**
      * @ORM\Column(type="integer", length=5, name="ticket_int", nullable=true)
      * @GRID\Column(type="text",field="ticketInt", title="TInt",size="10")
-      *  * @Assert\Regex(
-    * pattern="/^[0-9]{5,6}/",
+     *  * @Assert\Regex(
+     * pattern="/^[0-9]{5,6}/",
      *     match=true,
      *     message="patterns autorisées ex: 12345 (5 a 10 car.)"
      * )
      * @var integer $ticket_int
      */
     private $ticketInt;
-    
-  /*//**
- //* @Assert\File(
- *     maxSize="1M",
- *     mimeTypes={"image/png", "image/jpeg", "image/pjpeg"}
- * )
- * @Vich\UploadableField(mapping="user_avatar", fileNameProperty="avatar")
- * @ORM\Column(type="string", length=255)
- *
- * @var File $avatar
- */
+
+    /* //**
+      //* @Assert\File(
+     *     maxSize="1M",
+     *     mimeTypes={"image/png", "image/jpeg", "image/pjpeg"}
+     * )
+     * @Vich\UploadableField(mapping="user_avatar", fileNameProperty="avatar")
+     * @ORM\Column(type="string", length=255)
+     *
+     * @var File $avatar
+     */
 //protected $avatar;
 
-    
-  /*  public function getUid()
-    {
-        return $this->uid;
-    }
 
-    public function getBegin()
-    {
-        return $this->begin;
-    }
+    /*  public function getUid()
+      {
+      return $this->uid;
+      }
 
-    public function getEnd()
-    {
-        return $this->end;
-    }*/
-    
-    
+      public function getBegin()
+      {
+      return $this->begin;
+      }
+
+      public function getEnd()
+      {
+      return $this->end;
+      } */
+
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
-  
     /**
      * Set nom
      *
      * @param string $nom
      * @return Changements
      */
-    public function setNom($nom)
-    {
+    public function setNom($nom) {
         $this->nom = $nom;
-    
+
         return $this;
     }
 
@@ -280,8 +269,7 @@ private $comments;
      *
      * @return string 
      */
-    public function getNom()
-    {
+    public function getNom() {
         return $this->nom;
     }
 
@@ -291,10 +279,9 @@ private $comments;
      * @param \DateTime $dateDebut
      * @return Changements
      */
-    public function setDateDebut($dateDebut)
-    {
+    public function setDateDebut($dateDebut) {
         $this->dateDebut = $dateDebut;
-    
+
         return $this;
     }
 
@@ -303,8 +290,7 @@ private $comments;
      *
      * @return \DateTime 
      */
-    public function getDateDebut()
-    {
+    public function getDateDebut() {
         return $this->dateDebut;
     }
 
@@ -314,10 +300,9 @@ private $comments;
      * @param \DateTime $dateFin
      * @return Changements
      */
-    public function setDateFin($dateFin)
-    {
+    public function setDateFin($dateFin) {
         $this->dateFin = $dateFin;
-    
+
         return $this;
     }
 
@@ -326,8 +311,7 @@ private $comments;
      *
      * @return \DateTime 
      */
-    public function getDateFin()
-    {
+    public function getDateFin() {
         return $this->dateFin;
     }
 
@@ -337,10 +321,9 @@ private $comments;
      * @param \DateTime $dateComep
      * @return Changements
      */
-    public function setDateComep($dateComep)
-    {
+    public function setDateComep($dateComep) {
         $this->dateComep = $dateComep;
-    
+
         return $this;
     }
 
@@ -349,8 +332,7 @@ private $comments;
      *
      * @return \DateTime 
      */
-    public function getDateComep()
-    {
+    public function getDateComep() {
         return $this->dateComep;
     }
 
@@ -360,10 +342,9 @@ private $comments;
      * @param \DateTime $dateVsr
      * @return Changements
      */
-    public function setDateVsr($dateVsr)
-    {
+    public function setDateVsr($dateVsr) {
         $this->dateVsr = $dateVsr;
-    
+
         return $this;
     }
 
@@ -372,8 +353,7 @@ private $comments;
      *
      * @return \DateTime 
      */
-    public function getDateVsr()
-    {
+    public function getDateVsr() {
         return $this->dateVsr;
     }
 
@@ -383,10 +363,9 @@ private $comments;
      * @param string $description
      * @return Changements
      */
-    public function setDescription($description)
-    {
+    public function setDescription($description) {
         $this->description = $description;
-    
+
         return $this;
     }
 
@@ -395,24 +374,19 @@ private $comments;
      *
      * @return string 
      */
-    public function getDescription()
-    {
+    public function getDescription() {
         return $this->description;
     }
 
-   
-
-  
-     /**
+    /**
      * Set demandeur
      *
      * @param \Application\ChangementsBundle\Entity\ChronoUser $demandeur
      * @return Changements
      */
-    public function setDemandeur(\Application\RelationsBundle\Entity\ChronoUser $demandeur = null)
-    {
+    public function setDemandeur(\Application\RelationsBundle\Entity\ChronoUser $demandeur = null) {
         $this->demandeur = $demandeur;
-    
+
         return $this;
     }
 
@@ -421,8 +395,7 @@ private $comments;
      *
      * @return \Application\RelationsBundle\Entity\ChronoUser 
      */
-    public function getDemandeur()
-    {
+    public function getDemandeur() {
         return $this->demandeur;
     }
 
@@ -432,10 +405,9 @@ private $comments;
      * @param \Application\RelationsBundle\Entity\Projet $idProjet
      * @return Changements
      */
-    public function setIdProjet(\Application\RelationsBundle\Entity\Projet $idProjet = null)
-    {
+    public function setIdProjet(\Application\RelationsBundle\Entity\Projet $idProjet = null) {
         $this->idProjet = $idProjet;
-    
+
         return $this;
     }
 
@@ -444,21 +416,19 @@ private $comments;
      *
      * @return \Application\RelationsBundle\Entity\Projet 
      */
-    public function getIdProjet()
-    {
+    public function getIdProjet() {
         return $this->idProjet;
     }
-    
-     /**
+
+    /**
      * Set idProject
      *
      * @param \Application\ChangementsBundle\Entity\ChangementsStatut $idStatus
      * @return Changements
      */
-    public function setIdStatus(\Application\ChangementsBundle\Entity\ChangementsStatus $idStatus = null)
-    {
+    public function setIdStatus(\Application\ChangementsBundle\Entity\ChangementsStatus $idStatus = null) {
         $this->idStatus = $idStatus;
-    
+
         return $this;
     }
 
@@ -467,37 +437,34 @@ private $comments;
      *
      * @return \Application\ChangementsBundle\Entity\ChangementsStatus 
      */
-    public function getIdStatus()
-    {
+    public function getIdStatus() {
         return $this->idStatus;
     }
-    
+
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         // ????????
         $this->idusers = new ArrayCollection();
         $this->idapplis = new ArrayCollection();
-          $this->picture = new ArrayCollection();
-       $this->idEnvironnement = new ArrayCollection();
-     //   $this->idapplis = new \Doctrine\Common\Collections\ArrayCollection();
-     /*         $this->uid = $uid;
-        $this->begin = clone $start;
-        $this->end = clone $end;*/
+        $this->picture = new ArrayCollection();
+        $this->idEnvironnement = new ArrayCollection();
+        //   $this->idapplis = new \Doctrine\Common\Collections\ArrayCollection();
+        /*         $this->uid = $uid;
+          $this->begin = clone $start;
+          $this->end = clone $end; */
     }
-    
+
     /**
      * Add idusers
      *
      * @param \Application\RelationsBundle\Entity\ChronoUser $idusers
      * @return Changements
      */
-    public function addIduser(\Application\RelationsBundle\Entity\ChronoUser $idusers)
-    {
+    public function addIduser(\Application\RelationsBundle\Entity\ChronoUser $idusers) {
         $this->idusers[] = $idusers;
-    
+
         return $this;
     }
 
@@ -506,8 +473,7 @@ private $comments;
      *
      * @param \Application\RelationsBundle\Entity\ChronoUser $idusers
      */
-    public function removeIduser(\Application\RelationsBundle\Entity\ChronoUser $idusers)
-    {
+    public function removeIduser(\Application\RelationsBundle\Entity\ChronoUser $idusers) {
         $this->idusers->removeElement($idusers);
     }
 
@@ -516,11 +482,11 @@ private $comments;
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getIdusers()
-    {
+    public function getIdusers() {
         return $this->idusers;
     }
-     public function __toString() {
+
+    public function __toString() {
         return $this->getNom();    // this will not look good if SonataAdminBundle uses this ;)
     }
 
@@ -530,10 +496,9 @@ private $comments;
      * @param \Application\RelationsBundle\Entity\Applis $idapplis
      * @return Changements
      */
-    public function addIdappli(\Application\RelationsBundle\Entity\Applis $idapplis)
-    {
+    public function addIdappli(\Application\RelationsBundle\Entity\Applis $idapplis) {
         $this->idapplis[] = $idapplis;
-    
+
         return $this;
     }
 
@@ -542,8 +507,7 @@ private $comments;
      *
      * @param \Application\RelationsBundle\Entity\Applis $idapplis
      */
-    public function removeIdappli(\Application\RelationsBundle\Entity\Applis $idapplis)
-    {
+    public function removeIdappli(\Application\RelationsBundle\Entity\Applis $idapplis) {
         $this->idapplis->removeElement($idapplis);
     }
 
@@ -552,22 +516,18 @@ private $comments;
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getIdapplis()
-    {
+    public function getIdapplis() {
         return $this->idapplis;
     }
-    
+
     /**
      * Set fic
      *
      * @param string $fic
      */
-    public function setFic($fic)
-    {
+    public function setFic($fic) {
         $this->fic = $fic;
     }
- 
-    
 
     /**
      * Add idEnvironnement
@@ -575,10 +535,9 @@ private $comments;
      * @param \Application\RelationsBundle\Entity\Environnements $idEnvironnement
      * @return Changements
      */
-    public function addIdEnvironnement(\Application\RelationsBundle\Entity\Environnements $idEnvironnement)
-    {
+    public function addIdEnvironnement(\Application\RelationsBundle\Entity\Environnements $idEnvironnement) {
         $this->idEnvironnement[] = $idEnvironnement;
-    
+
         return $this;
     }
 
@@ -587,8 +546,7 @@ private $comments;
      *
      * @param \Application\RelationsBundle\Entity\Environnements $idEnvironnement
      */
-    public function removeIdEnvironnement(\Application\RelationsBundle\Entity\Environnements $idEnvironnement)
-    {
+    public function removeIdEnvironnement(\Application\RelationsBundle\Entity\Environnements $idEnvironnement) {
         $this->idEnvironnement->removeElement($idEnvironnement);
     }
 
@@ -596,50 +554,42 @@ private $comments;
      * Get idEnvironnement
      *
      * @return \Doctrine\Common\Collections\Collection 
-  
+
      */
-    public function getIdEnvironnement()
-    {
+    public function getIdEnvironnement() {
         return $this->idEnvironnement;
     }
-
 
     /**
      * Get picture
      *
      * @return Docchangements 
      */
-    public function getPicture()
-    {
+    public function getPicture() {
         return $this->picture;
     }
 
-   
-   
     /**
      * Add picture
      *
      * @param Docchangements $picture
      * @return Changements
      */
-      public function addPicture(Docchangements $picture)
-    {
-     // Si l'objet fait déjà partie de la collection on ne l'ajoute pas
-         if (!$this->picture->contains($picture)) {
+    public function addPicture(Docchangements $picture) {
+        // Si l'objet fait déjà partie de la collection on ne l'ajoute pas
+        if (!$this->picture->contains($picture)) {
             $this->picture->add($picture);
         }
     }
-    
-      /**
+
+    /**
      * Set picture
      *
      * @param Docchangements $picture
      * @return Changements
      */
-    
-   // public function setPicture(Docchangements $picture = null)
-     public function setPicture($items)
-    {
+    // public function setPicture(Docchangements $picture = null)
+    public function setPicture($items) {
         if ($items instanceof ArrayCollection || is_array($items)) {
             foreach ($items as $item) {
                 $this->addPicture($item);
@@ -650,61 +600,57 @@ private $comments;
             throw new \Exception("$items must be an instance of Applus or ArrayCollection");
         }
     }
-   
+
     /**
      * Remove picture
      *
      * @param \Application\RelationsBundle\Entity\Document $picture
      */
-     /**
+
+    /**
      * Remove idapplis
      *
      * @param Docchangements $picture
      */
-    public function removePicture(Docchangements $picture){
+    public function removePicture(Docchangements $picture) {
         if (!$this->picture->contains($picture)) {
             return;
         }
         $this->picture->removeElement($picture);
 
         $picture->removeIdchangement($this);
-       //removeIdchangement(\Application\ChangementsBundle\Entity\Changements $idchangement) {
-        }
-        
-    /*public function removePicture(Docchangements $picture)
-    {
-        $this->picture->removeElement($picture);
+        //removeIdchangement(\Application\ChangementsBundle\Entity\Changements $idchangement) {
     }
-    */
-    
 
-    public function getConfirmation(){
-        
+    /* public function removePicture(Docchangements $picture)
+      {
+      $this->picture->removeElement($picture);
+      }
+     */
+
+    public function getConfirmation() {
+
         return "Nom:" . $this->getNom() . "<br>" . $this->getIdapplis();
     }
-   
-    
-    public function getUid()
-    {
+
+    public function getUid() {
         return $this->id;
     }
 
-    public function getBegin()
-    {
+    public function getBegin() {
         return $this->dateDebut;
     }
 
-    public function getEnd()
-    {
+    public function getEnd() {
         return $this->dateFin;
     }
+
     /**
      * Remove comments
      *
      * @param \Application\ChangementsBundle\Entity\ChangementsComments $comments
      */
-    public function removeComment(\Application\ChangementsBundle\Entity\ChangementsComments $comments)
-    {
+    public function removeComment(\Application\ChangementsBundle\Entity\ChangementsComments $comments) {
         $this->comments->removeElement($comments);
     }
 
@@ -714,10 +660,9 @@ private $comments;
      * @param \Application\ChangementsBundle\Entity\ChangementsComments $comments
      * @return Eproduit
      */
-    public function addComment(\Application\ChangementsBundle\Entity\ChangementsComments $comments)
-    {
+    public function addComment(\Application\ChangementsBundle\Entity\ChangementsComments $comments) {
         $this->comments[] = $comments;
-    
+
         return $this;
     }
 
@@ -726,8 +671,7 @@ private $comments;
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getComments()
-    {
+    public function getComments() {
         return $this->comments;
     }
 
@@ -737,10 +681,9 @@ private $comments;
      * @param integer $ticketExt
      * @return Changements
      */
-    public function setTicketExt($ticketExt)
-    {
+    public function setTicketExt($ticketExt) {
         $this->ticketExt = $ticketExt;
-    
+
         return $this;
     }
 
@@ -749,8 +692,7 @@ private $comments;
      *
      * @return integer 
      */
-    public function getTicketExt()
-    {
+    public function getTicketExt() {
         return $this->ticketExt;
     }
 
@@ -760,10 +702,9 @@ private $comments;
      * @param integer $ticketInt
      * @return Changements
      */
-    public function setTicketInt($ticketInt)
-    {
+    public function setTicketInt($ticketInt) {
         $this->ticketInt = $ticketInt;
-    
+
         return $this;
     }
 
@@ -772,8 +713,8 @@ private $comments;
      *
      * @return integer 
      */
-    public function getTicketInt()
-    {
+    public function getTicketInt() {
         return $this->ticketInt;
     }
+
 }
