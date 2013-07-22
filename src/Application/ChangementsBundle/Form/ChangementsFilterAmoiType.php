@@ -100,7 +100,7 @@ class ChangementsFilterAmoiType extends AbstractType {
                     ),
                'mapped'=>false,'required'=>false))*/
                 
-               ->add('ticketExt','text',array(
+            ->add('ticketExt','text',array(
                     'attr' => array('style' => 'width:120px'),
                        'label'=>'Ticket Externe',
                        'widget_addon' => array(
@@ -108,7 +108,34 @@ class ChangementsFilterAmoiType extends AbstractType {
                         'type' => 'prepend'
                     ),
             'mapped'=>false,'required'=>false))
+               
+              
+           /*       ->add('ticketExt', 'genemu_jqueryautocompleter_entity', array(
+            'route_name' => 'ajax_ticketext',
+                'class' => 'Application\ChangementsBundle\Entity\Changements',
+        ))*/
                 
+                /*->add('ticketExt', 'genemu_jqueryautocompleter_entity', array(
+                        'label'=>'Ticket Externe XX',
+                    'widget_addon' => array(
+                        'icon' => 'pencil',
+                        'type' => 'prepend'
+                    ),
+                    'required' => false,
+                 'mapped'=>false,
+                    'empty_value'=>false,
+                    'class' => 'Application\ChangementsBundle\Entity\Changements',
+                   'query_builder' => function(EntityRepository $em) {
+                        return $em->createQueryBuilder('u')
+                                ->where('u.ticketExt IS NOT NULL')
+                                ->orderBy('u.ticketExt', 'ASC');
+                    },
+                    'property' => 'ticketExt',
+                     // 'configs' => array(
+                        //  'minLength' => 2,
+                       //  ), 
+                ))*/
+                          
             
                 
         ->add('ticketInt','text',array(

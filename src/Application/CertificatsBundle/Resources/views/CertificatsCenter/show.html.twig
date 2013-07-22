@@ -13,15 +13,10 @@
 {% block content_header '' %}
 
 {% block content %}
-{% for type, flashMessages in app.session.flashbag.all() %}
-    {% for flashMessage in flashMessages %}
-        <div class="alert alert-{{ type }}">
-            {{ flashMessage|trans }}
-        </div>
-    {% endfor %}
-{% endfor %}
-      {% if is_granted("ROLE_ADMIN") %}           
-<a href="{{ path('certificatscenter_edit', { 'id': entity.id }) }}" class="btn btn-small btn-warning">Editer</a>
+{% include 'ApplicationCertificatsBundle:templates:flash.html.twig' %}
+
+{% if is_granted("ROLE_ADMIN") %}           
+    <a href="{{ path('certificatscenter_edit', { 'id': entity.id }) }}" class="btn btn-small btn-warning">Editer</a>
 {% endif %}
 
 <br> <br> 

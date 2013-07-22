@@ -84,6 +84,9 @@ changements_newflow:
     pattern:  /newflow
     defaults: { _controller: "ApplicationChangementsBundle:Changements:newflow" }
     
-
- 
+ajax_ticketext:
+    pattern:  /ajaxticketext
+    methods: POST|GET
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:TicketAjax" }
+    
     

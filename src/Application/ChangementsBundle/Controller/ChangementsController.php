@@ -142,6 +142,16 @@ class ChangementsController extends Controller {
             $datas = $alldatas["changements_searchfilter"];
             $parameters = $datas;
             $session->set('changementControllerFilternew', $datas);
+           /* if (is_array($datas['ticketExt'])){
+                $x=$data['ticketExt']['label'];
+                unset($data['ticketExt']);
+                $x=$data['ticketExt']=$x;
+            }*/
+           
+            /*  $xx= $datas['ticketExt']->label;
+                echo "x=$xx";
+                //print_r($datas['ticketExt']);
+            print_r($datas);exit(1);*/
             $searchForm->bind($datas);
         } else {
             if ($session->has('changementControllerFilternew')) {
@@ -803,24 +813,23 @@ class ChangementsController extends Controller {
 
     public function TicketAjaxAction(Request $request) {
         $term = $request->get('term');
-
-        $repository = $this->getDoctrine()->getRepository('MyAppMyBundle:City');
-        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->findwhere($id);
-        $cities = $repository->searchCityByName($term);
-
+          $em = $this->getDoctrine()->getManager();
+        $entity_ticket = $em->getRepository('ApplicationChangementsBundle:Changements')->findAjaxValue(array('ticketExt'=>$term));
         $json = array();
 
-        foreach ($cities as $city) {
+        //print_r(  $entity_ticket );exit(1);
+        foreach ($entity_ticket->getQuery()->getResult() as $ticket) {
             $json[] = array(
-                'label' => $city->getName() . ' (' . $city->getDepartement()->getNumber() . ')',
-                'value' => $city->getName()
-            );
+                'label' => $ticket->getTicketExt(),
+                'value' => $ticket->getId()
+                );
+            
         }
 
-        $response = new Response();
-        $response->setContent(json_encode($json));
-
-        return $response;
+            $response = new Response(json_encode($json));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+     
     }
 
     public function ajaxCityAction(Request $request) {
@@ -837,6 +846,7 @@ class ChangementsController extends Controller {
             );
         }
 
+        print_r($json);exit(1);
         $response = new Response();
         $response->setContent(json_encode($json));
 

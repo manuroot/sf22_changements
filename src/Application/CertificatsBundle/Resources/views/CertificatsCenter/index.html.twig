@@ -7,7 +7,7 @@
     {% javascripts 
     '@ApplicationCertificatsBundle/Resources/public/js/jquery.cookie.js'
     '@ApplicationCertificatsBundle/Resources/public/js/certificatsfilters.js'
-     output='js/compiled/ccertifictas.js' filter='?yui_js' %}
+     output='js/compiled/ccertificats.js' filter='?yui_js' %}
 <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
 
@@ -69,11 +69,15 @@ width:180px;}
 select.pattern-selector {
 width:150px;
 }
-  label {
+label,.mondiv { color:#02195e; font-size: 12px;
+    font-weight: normal;
+    line-height: 20px;}
+  
+  /*label {
                 color:#02195e;
-              /*  text-align: left;*/
+          
     
-}
+}*/
 
     </style>
 {% endblock %}
@@ -84,45 +88,19 @@ LISTE DES {{ parent() }}  ({{ total }})
 {% endblock %}
 {% block content %}
 
-{% for type, flashMessages in app.session.flashbag.all() %}
-    {% for flashMessage in flashMessages %}
-        <div class="alert alert-{{ type }}">
-            {{ flashMessage|trans }}
-        </div>
-    {% endfor %}
-{% endfor %}
-
-  
-
- <div id="ShowHideContainer">
-  
-<form id="target" class="form-horizontal" action="{{ path('certificatscenter') }}" method="POST" {{ form_enctype(search_form) }}>
-    <a id="ShowHideButton">
-        <button id="show" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
-            <i class="icon-search"></i>  Afficher Filtres</button>
-    </a>
-    <button type="submit" id="reset" name="submit-filter" class="btn btn-medium btn-warning" value="reset" >
-        <i class="icon-minus-sign"></i> Effacer Filtres</button>
-        {% if is_granted("ROLE_ADMIN") %}
-        <a href="{{ path('certificatscenter_new') }}" class="ajoutchange btn btn-medium btn-primary">
-                <i class="icon-plus"></i> Ajouter Certificat
-            </a>
-{% endif %}
-    </form>
-
-<div id="ShowHideBox" class="hidden">
-          {% include 'ApplicationCertificatsBundle:CertificatsCenter:indexsearch_form.html.twig' %}
-        </div>
-</div>
-
-
+{% include 'ApplicationCertificatsBundle:templates:flash.html.twig' %}
+{% include 'ApplicationCertificatsBundle:templates:container_search.html.twig' 
+        with {
+            'form_path': 'certificatscenter',
+            'search_form': search_form,'box':"ShowHideBox",
+             'new_path': 'certificatscenter_new',
+            'new_text':"Ajouter un Certificat",
+              'include_html_search': 'ApplicationCertificatsBundle:CertificatsCenter:indexsearch_form.html.twig'
+}
+%}
       
 {% include 'ApplicationCertificatsBundle:CertificatsCenter:tp_table.html.twig' %}
-                   
-              
-   {{ knp_pagination_render(pagination, 'ApplicationCertificatsBundle:pagination:twitter_bootstrap_pagination.html.twig') }}
-
- 
+{{ knp_pagination_render(pagination, 'ApplicationCertificatsBundle:pagination:twitter_bootstrap_pagination.html.twig') }}
  
 {% endblock %}
 

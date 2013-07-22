@@ -31,28 +31,38 @@ tr.title th {
 }
 
 tr.danger {background:red;}
-
+select#certificatsfiles_searchfilter_certificats {width:250px;height:300px;}
+label,.mondiv { color:#02195e; font-size: 12px;
+    font-weight: normal;
+    line-height: 20px;}
     </style>
 {% endblock %}
     
+    
+    
+{% block javascripts %}
+    {{ parent() }}
+   <script type="text/javascript" src="{{ asset('js/compiled/ccertificats.js') }}"></script>
+ 
+   {{ form_javascript(search_form) }}
+{% endblock %}
+
 {% block content_header '' %}
 {% block title %}FICHIERS-CERTIFICATS{% endblock %}
 
     
 {% block content %}
 
-{% for type, flashMessages in app.session.flashbag.all() %}
-    {% for flashMessage in flashMessages %}
-        <div class="alert alert-{{ type }}">
-            {{ flashMessage|trans }}
-        </div>
-    {% endfor %}
-{% endfor %}
- 
-   {% if is_granted("ROLE_ADMIN") %}
-<a href="{{ path('certificats_documents_new') }}" class="btn btn-medium btn-primary">Ajouter Fichier</a>
-{% endif %}
-<br> <br>  
+{% include 'ApplicationCertificatsBundle:templates:flash.html.twig' %}
+{% include 'ApplicationCertificatsBundle:templates:container_search.html.twig' 
+        with {
+            'form_path': 'certificats_documents',
+            'search_form': search_form,'box':"ShowHideBox",
+             'new_path': 'certificats_documents_new',
+            'new_text':"Ajouter un Fichier",
+              'include_html_search': 'ApplicationCertificatsBundle:CertificatsFiles:indexsearch_form.html.twig'
+}
+%}
  
 <table class="table table-striped table-bordered table-hover">
     <thead>

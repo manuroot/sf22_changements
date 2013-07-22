@@ -151,6 +151,44 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         //->getQuery();
     }
 
+    public function findAjaxValue($criteria) {
+       //   $query = $this->myFindNewAll();
+          $parameters = array();
+          $query = $this->createQueryBuilder('a');
+              //  ->select($values)
+      
+
+      
+          // Supprimer champs qui ne sont pas dans la classe
+        foreach ($criteria as $field => $value) {
+            if (!$this->getClassMetadata()->hasField($field)) {
+                // Make sure we only use existing fields (avoid any injection)
+                unset($criteria[$field]);
+                //  continue;
+            }
+        }
+
+        //les like
+        $like_arrays = array('nom', 'description','ticketExt', 'ticketInt');
+        foreach ($like_arrays as $val) {
+            //  echo "val=$val<br>";
+            if (isset($criteria[$val]) && !preg_match('/^\s*$/', $criteria[$val])) {
+
+                //   if (isset($criteria[$val]) && ! preg_match('/[\s]+/',$criteria[$val])) {
+                //     echo "critere=" . $criteria["$val"] . "<br>";
+                $query->andWhere("a.$val LIKE :$val");
+
+                $parameters[$val] = '%' . $criteria[$val] . '%';
+            }
+        }
+
+        $query->setParameters($parameters);
+
+
+        return $query;
+    }
+    
+    
     // TODO REGEX
     public function getListBy($criteria) {
 

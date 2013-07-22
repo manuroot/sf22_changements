@@ -43,13 +43,8 @@ LISTE DES {{ parent() }}
  
 {% block content %}
 
-{% for type, flashMessages in app.session.flashbag.all() %}
-    {% for flashMessage in flashMessages %}
-<div class="alert alert-{{ type }}">
-            {{ flashMessage|trans }}
-    </div>
-    {% endfor %}
-{% endfor %}
+
+{% include 'ApplicationCertificatsBundle:templates:flash.html.twig' %}
  
  {#{ date('-30days')|date('Y-m-d') }#}
 

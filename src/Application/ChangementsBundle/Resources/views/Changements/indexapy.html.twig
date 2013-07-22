@@ -82,7 +82,8 @@ LISTE DES OPERATIONS
  
 {% block content %}
  
-
+{% include 'ApplicationChangementsBundle:templates:flash.html.twig' %}
+{#
 {% for type, flashMessages in app.session.flashbag.all() %}
     {% for flashMessage in flashMessages %}
 <div class="alert alert-{{ type }}">
@@ -90,7 +91,7 @@ LISTE DES OPERATIONS
     </div>
     {% endfor %}
 {% endfor %}
-
+#}
  {#{ date('-30days')|date('Y-m-d') }#}
   {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
             <a href="{{ path('changements_newflowstart') }}" class=" ajoutchange btn btn-medium btn-primary">

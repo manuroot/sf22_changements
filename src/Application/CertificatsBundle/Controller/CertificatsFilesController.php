@@ -8,6 +8,7 @@ use Application\CertificatsBundle\Model\MyOpenSsl;
 use Application\CertificatsBundle\Entity\CertificatsFiles;
 use Application\CertificatsBundle\Form\CertificatsFilesType;
 use Application\CertificatsBundle\Form\CertificatsFilesAddType;
+use Application\CertificatsBundle\Form\CertificatsFilesFilterType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -74,7 +75,7 @@ class CertificatsFilesController extends Controller {
         ));
     }
 
-    public function indexAction() {
+    public function indexooldAction() {
         $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $session = $request->getSession();
@@ -87,6 +88,39 @@ class CertificatsFilesController extends Controller {
         ));
     }
 
+     public function indexAction(Request $request) {
+
+        //  $entity = new Changements();
+        $parameters = array();
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        $session->set('buttonretour', 'certificats_documents');
+      
+        $searchForm = $this->createForm(new CertificatsFilesFilterType());
+     
+        if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
+            $session->remove('certificatsfiles_filter');
+        } elseif ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
+            $alldatas = $request->request->all();
+            $datas = $alldatas["certificatsfiles_searchfilter"];
+            $parameters = $datas;
+            $session->set('certificatsfiles_filter', $datas);
+            $searchForm->bind($datas);
+        } else {
+            if ($session->has('certificatsfiles_filter')) {
+                $datas = $session->get('certificatsfiles_filter');
+                $parameters = $datas;
+                $searchForm->bind($datas);
+            }
+        }
+       $query = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->getListBy($parameters);
+    $pagination = $this->createpaginator($query, 15);
+          return $this->render('ApplicationCertificatsBundle:CertificatsFiles:index.html.twig', array(
+                    'search_form' => $searchForm->createView(),
+                    'pagination' => $pagination,
+        ));
+    }
     /**
      * Creates a new CertificatsFiles entity.
      *

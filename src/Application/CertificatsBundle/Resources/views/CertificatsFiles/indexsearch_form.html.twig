@@ -1,0 +1,31 @@
+<form  class="form" action="{{ path('certificats_documents') }}" method="POST" {{ form_enctype(search_form) }}>
+   <table class="table-mybordered">
+
+    <tr><td class="calendar">
+    {{ form_row(search_form.name) }}
+  {#    <br/>
+    {{ form_row(search_form.path) }}#}
+  
+    {{ form_row(search_form.OriginalFilename) }}
+
+      {{ form_row(search_form.md5) }}
+ 
+    </td>
+    <td class="calendar"> 
+   
+   {# {{ form_row(search_form.updatedAt_max) }}#}
+<div class="mondiv"> Date de MAJ</div>
+      {{ form_widget(search_form.updatedAt) }}  {{ form_widget(search_form.updatedAt_max) }}
+        
+    {{ form_row(search_form.certificats) }}
+    {{ form_rest(search_form) }}
+     </td>
+    
+    </tr>
+    <tr><td class="calendar" colspan="2">
+       <button id="filter" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="filter" >
+          <i class="icon-search"></i>  Filtrer</button>
+    </tr>
+    </tbody>
+    </table>
+ </form>

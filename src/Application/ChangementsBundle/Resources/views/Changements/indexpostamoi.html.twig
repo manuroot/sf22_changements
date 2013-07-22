@@ -71,16 +71,10 @@
 {% set dateright = '30' %}
 {% set date_right_warning= '+' ~  dateright ~ 'days' %}
 {#{% set date_right_warning= '+15days' %}#}
-{% for type, flashMessages in app.session.flashbag.all() %}
-    {% for flashMessage in flashMessages %}
-        <div class="alert alert-{{ type }}">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-      {{ flashMessage|trans }}
-        </div>
 
-    {% endfor %}
-{% endfor %}
-    {% include 'ApplicationChangementsBundle:templates:container_search.html.twig' 
+{% include 'ApplicationChangementsBundle:templates:flash.html.twig' %}
+        
+{% include 'ApplicationChangementsBundle:templates:container_search.html.twig' 
         with {
             'form_path': 'changements_posttest',
             'search_form': search_form,'box':"ShowHideBoxown",

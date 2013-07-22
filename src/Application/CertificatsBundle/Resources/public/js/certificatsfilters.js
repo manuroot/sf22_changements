@@ -1,7 +1,15 @@
 $(document).ready(function() {
 
-var mesdates=["#changements_filter_dateDebut","#changements_filter_dateFin"];
- $( "#certificats_filter_endTime_left_date" ).datepicker({
+var mydates=[
+    "#certificats_filter_endTime_right_date",
+    "#certificats_filter_endTime_left_date",
+    "#certificatsfiles_searchfilter_updatedAt",
+    "#certificatsfiles_searchfilter_updatedAt_max",
+];
+/*var mydates=["#changements_searchfilter_dateDebut","#changements_searchfilter_dateFin"];*/
+mydates.forEach(function(entry) {
+   /* console.log(entry);*/
+$( entry ).datepicker({
 minDate: "-1Y",
 maxDate: "+10Y",
 changeMonth: true,
@@ -11,24 +19,9 @@ dateFormat: "yy-mm-dd",
 onClose: function( selectedDate ) {
 $( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
 }
+});  
+   
 });
-    $( "#certificats_filter_endTime_right_date" ).datepicker({
-maxDate: "+10Y",
-minDate: "-1Y",
-changeMonth: true,
-changeYear: true,
-numberOfMonths: 1,
-dateFormat: "yy-mm-dd",
-onClose: function( selectedDate ) {
-$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
-}
-});
-
-
-
-
-
-
 
 
 function runEffect() {

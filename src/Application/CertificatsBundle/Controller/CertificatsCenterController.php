@@ -311,8 +311,8 @@ class CertificatsCenterController extends Controller {
             // ajoute des messages flash
             $id = $entity->getId();
             $session->getFlashBag()->add('warning', "Enregistrement $id ajout successfull");
-
-            return $this->redirect($this->generateUrl('certificatscenter_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('certificatscenter'));
+            //return $this->redirect($this->generateUrl('certificatscenter_show', array('id' => $entity->getId())));
         }
 
         return $this->render('ApplicationCertificatsBundle:CertificatsCenter:new.html.twig', array(

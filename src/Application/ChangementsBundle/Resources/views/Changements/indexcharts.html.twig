@@ -36,17 +36,9 @@ Opérations 2013
 
 {% block content %}
 
-{% for type, flashMessages in app.session.flashbag.all() %}
-    {% for flashMessage in flashMessages %}
-<div class="alert alert-{{ type }}">
-          
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-      {{ flashMessage|trans }}
-    </div>
- 
-    {% endfor %}
-{% endfor %}
-{#  <div id="datepicker"></div>#}
+{% include 'ApplicationChangementsBundle:templates:flash.html.twig' %}
+
+
  
  <div id="linechart1" style="min-width:380px;width:370px;height:380px; padding:5px;margin: 10px auto;float:left;"></div>
  <div id="linechart2" style="min-width:380px;width:370px;height:380px; padding:5px;margin: 10px auto;float:left;"></div>
