@@ -142,16 +142,16 @@ class ChangementsController extends Controller {
             $datas = $alldatas["changements_searchfilter"];
             $parameters = $datas;
             $session->set('changementControllerFilternew', $datas);
-           /* if (is_array($datas['ticketExt'])){
-                $x=$data['ticketExt']['label'];
-                unset($data['ticketExt']);
-                $x=$data['ticketExt']=$x;
-            }*/
-           
+            /* if (is_array($datas['ticketExt'])){
+              $x=$data['ticketExt']['label'];
+              unset($data['ticketExt']);
+              $x=$data['ticketExt']=$x;
+              } */
+
             /*  $xx= $datas['ticketExt']->label;
-                echo "x=$xx";
-                //print_r($datas['ticketExt']);
-            print_r($datas);exit(1);*/
+              echo "x=$xx";
+              //print_r($datas['ticketExt']); */
+            //    print_r($datas);exit(1);
             $searchForm->bind($datas);
         } else {
             if ($session->has('changementControllerFilternew')) {
@@ -176,9 +176,6 @@ class ChangementsController extends Controller {
       $request->request->get('bar', 'valeur par défaut si bar est inexistant');
 
      */
-
-
-   
 
     public function indexchartsAction() {
 
@@ -736,11 +733,11 @@ class ChangementsController extends Controller {
             $em->flush();
             $session = $this->getRequest()->getSession();
             $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
-           /* $route_back = $session->get('buttonretour');
-            if (isset($route_back))
-                return $this->redirect($this->generateUrl($route_back, array('id' => $id)));
-            else*/
-                return $this->redirect($this->generateUrl('changements_posttest'));
+            /* $route_back = $session->get('buttonretour');
+              if (isset($route_back))
+              return $this->redirect($this->generateUrl($route_back, array('id' => $id)));
+              else */
+            return $this->redirect($this->generateUrl('changements_posttest'));
         }
 
         return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
@@ -809,162 +806,6 @@ class ChangementsController extends Controller {
         return $this->render('ApplicationChangementsBundle:Changements:upload.html.twig', array(
                     'form' => $form->createView(),
         ));
-    }
-
-    public function TicketAjaxAction(Request $request) {
-        $term = $request->get('term');
-          $em = $this->getDoctrine()->getManager();
-        $entity_ticket = $em->getRepository('ApplicationChangementsBundle:Changements')->findAjaxValue(array('ticketExt'=>$term));
-        $json = array();
-
-        //print_r(  $entity_ticket );exit(1);
-        foreach ($entity_ticket->getQuery()->getResult() as $ticket) {
-            $json[] = array(
-                'label' => $ticket->getTicketExt(),
-                'value' => $ticket->getId()
-                );
-            
-        }
-
-            $response = new Response(json_encode($json));
-            $response->headers->set('Content-Type', 'application/json');
-            return $response;
-     
-    }
-
-    public function ajaxCityAction(Request $request) {
-        $value = $request->get('term');
-
-        $em = $this->getDoctrine()->getEntityManager();
-        $cities = $em->getRepository('GenemuEntityBundle:City')->findAjaxValue($value);
-
-        $json = array();
-        foreach ($cities as $city) {
-            $json[] = array(
-                'label' => $member->getName(),
-                'value' => $member->getId()
-            );
-        }
-
-        print_r($json);exit(1);
-        $response = new Response();
-        $response->setContent(json_encode($json));
-
-        return $response;
-    }
-
-    public function ajaxVilleAction(Request $request) {
-        $value = $request->get('term');
-
-        $em = $this->getDoctrine()->getEntityManager();
-        $villes = $em->getRepository('RgbVilleBundle:Ville')->searchByNom($value);
-
-        $json = array();
-        foreach ($villes as $ville) {
-            $json[] = array(
-                'label' => $ville->getNom(),
-                'value' => $ville->getId()
-            );
-        }
-
-        $response = new Response();
-        $response->setContent(json_encode($json));
-
-        return $response;
-    }
-
-    public function listByProjetAction() {
-        $request = $this->getRequest();
-
-        if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
-            $em = $this->getDoctrine()->getManager();
-            $id = '';
-            $applis = array();
-            $cert_app = array();
-
-            $id = $request->request->get('id_projet');
-            $projet = $em->getRepository('ApplicationRelationsBundle:Projet')->find($id);
-
-            $id_cert = $request->request->get('id_cert');
-            if (isset($id_cert) && $id_cert != "create") {
-                //    var_dump($id_cert);
-                $cert = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->find($id_cert);
-                foreach ($cert->getIdapplis() as $appli) {
-                    array_push($cert_app, $appli->getId());
-                }
-                $applis['cert'] = $cert_app;
-            }
-            foreach ($projet->getIdapplis() as $appli) {
-                //$applis[] = array($appli);
-                $applis['applis'][$appli->getId()] = $appli->getNomapplis();
-                //      $applis[] = array($appli->getId(), $appli->getNomapplis());
-            }
-
-            //    $appli=array(3,4);
-            $response = new Response(json_encode($applis));
-            $response->headers->set('Content-Type', 'application/json');
-
-            return $response;
-        }
-        // return new Response();
-    }
-
-    public function ajaxprojetsAction() {
-        $request = $this->get('request');
-
-        if ($request->isXmlHttpRequest()) {
-            $term = $request->request->get('motcle');
-
-            $array = $this->getDoctrine()
-                    ->getEntityManager()
-                    ->getRepository('menCommandesBundle:commande')
-                    ->listeNature($term);
-
-            $response = new Response(json_encode($array));
-
-            $response->headers->set('Content-Type', 'application/json');
-            return $response;
-        }
-    }
-
-    public function ajaxticketexterneAction() {
-        $request = $this->get('request');
-
-
-
-        $em = $this->getDoctrine()->getEntityManager();
-        $members = $em->getRepository('GenemuEntityBundle:Member')->findAjaxValue($value);
-
-        $json = array();
-        foreach ($members as $member) {
-            $json[] = array(
-                'label' => $member->getName(),
-                'value' => $member->getId()
-            );
-        }
-
-        $response = new Response();
-        $response->setContent(json_encode($json));
-
-        return $response;
-
-
-
-
-
-        if ($request->isXmlHttpRequest()) {
-            $term = $request->request->get('motcle');
-
-            $array = $this->getDoctrine()
-                    ->getEntityManager()
-                    ->getRepository('menCommandesBundle:commande')
-                    ->listeNature($term);
-
-            $response = new Response(json_encode($array));
-
-            $response->headers->set('Content-Type', 'application/json');
-            return $response;
-        }
     }
 
     private function createCalendarForm($values = array()) {
@@ -1048,6 +889,129 @@ class ChangementsController extends Controller {
             return $response;
         }
     }
+
+    public function GetTicketExtAjaxAction($field, $term) {
+
+        $em = $this->getDoctrine()->getManager();
+        $entity_ticket = $em->getRepository('ApplicationChangementsBundle:Changements')->findAjaxValue(array($field => $term));
+        $json = array();
+        foreach ($entity_ticket->getQuery()->getResult() as $ticket) {
+            array_push($json, $ticket->getTicketExt());
+        }
+        return $json;
+    }
+
+   
+    
+     public function DescriptionAjaxAction(Request $request) {
+        $term = $request->get('term');
+         $em = $this->getDoctrine()->getManager();
+        $entity_ticket = $em->getRepository('ApplicationChangementsBundle:Changements')->findAjaxValue(array('description' => $term));
+        $json = array();
+        foreach ($entity_ticket->getQuery()->getResult() as $ticket) {
+            array_push($json, $ticket->getDescription());
+        }
+        $response = new Response(json_encode($json));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+    
+     public function NomAjaxAction(Request $request) {
+        $term = $request->get('term');
+         $em = $this->getDoctrine()->getManager();
+        $entity_ticket = $em->getRepository('ApplicationChangementsBundle:Changements')->findAjaxValue(array('nom' => $term));
+        $json = array();
+        foreach ($entity_ticket->getQuery()->getResult() as $ticket) {
+            array_push($json, (string)$ticket->getNom());
+        }
+        $response = new Response(json_encode($json));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+    public function TicketExtAjaxAction(Request $request) {
+        $term = $request->get('term');
+         $em = $this->getDoctrine()->getManager();
+        $entity_ticket = $em->getRepository('ApplicationChangementsBundle:Changements')->findAjaxValue(array('ticketExt' => $term));
+        $json = array();
+        foreach ($entity_ticket->getQuery()->getResult() as $ticket) {
+            array_push($json, (string)$ticket->getTicketExt());
+        }
+        $response = new Response(json_encode($json));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    public function TicketIntAjaxAction(Request $request) {
+        $term = $request->get('term');
+       $em = $this->getDoctrine()->getManager();
+        $entity_ticket = $em->getRepository('ApplicationChangementsBundle:Changements')->findAjaxValue(array('ticketInt' => $term));
+        $json = array();
+        foreach ($entity_ticket->getQuery()->getResult() as $ticket) {
+       //  print_r($ticket);
+              array_push($json, (string)$ticket->getTicketInt());
+           }
+       // exit(1);
+        $response = new Response(json_encode($json));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+   
+    public function listByProjetAction() {
+        $request = $this->getRequest();
+
+        if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
+            $em = $this->getDoctrine()->getManager();
+            $id = '';
+            $applis = array();
+            $cert_app = array();
+
+            $id = $request->request->get('id_projet');
+            $projet = $em->getRepository('ApplicationRelationsBundle:Projet')->find($id);
+
+            $id_cert = $request->request->get('id_cert');
+            if (isset($id_cert) && $id_cert != "create") {
+                //    var_dump($id_cert);
+                $cert = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->find($id_cert);
+                foreach ($cert->getIdapplis() as $appli) {
+                    array_push($cert_app, $appli->getId());
+                }
+                $applis['cert'] = $cert_app;
+            }
+            foreach ($projet->getIdapplis() as $appli) {
+                //$applis[] = array($appli);
+                $applis['applis'][$appli->getId()] = $appli->getNomapplis();
+                //      $applis[] = array($appli->getId(), $appli->getNomapplis());
+            }
+
+            //    $appli=array(3,4);
+            $response = new Response(json_encode($applis));
+            $response->headers->set('Content-Type', 'application/json');
+
+            return $response;
+        }
+        // return new Response();
+    }
+
+    public function ajaxprojetsAction() {
+        $request = $this->get('request');
+
+        if ($request->isXmlHttpRequest()) {
+            $term = $request->request->get('motcle');
+
+            $array = $this->getDoctrine()
+                    ->getEntityManager()
+                    ->getRepository('menCommandesBundle:commande')
+                    ->listeNature($term);
+
+            $response = new Response(json_encode($array));
+
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+    }
+
+ 
 
 }
 

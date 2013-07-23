@@ -83,10 +83,29 @@ changements_newflowstart:
 changements_newflow:
     pattern:  /newflow
     defaults: { _controller: "ApplicationChangementsBundle:Changements:newflow" }
+
+
+ajax_nom:
+    pattern:  /ajaxnom
+    methods: POST|GET
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:NomAjax" }
+  
+  
+ajax_ticketint:
+    pattern:  /ajaxticketint
+    methods: POST|GET
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:TicketIntAjax" }
+    
+ajax_description:
+    pattern:  /ajaxdescription
+    methods: POST|GET
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:DescriptionAjax" }
     
 ajax_ticketext:
     pattern:  /ajaxticketext
     methods: POST|GET
-    defaults: { _controller: "ApplicationChangementsBundle:Changements:TicketAjax" }
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:TicketExtAjax" }
+    
+
     
     
