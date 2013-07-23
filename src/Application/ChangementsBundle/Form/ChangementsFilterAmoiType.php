@@ -23,6 +23,7 @@ class ChangementsFilterAmoiType extends AbstractType {
                         'icon' => 'pencil',
                         'type' => 'prepend'
                     ),
+                     'configs' => array('minLength' => 2),
                     'mapped' => false, 'required' => false,
                     'route_name' => 'ajax_nom',
                     'class' => 'Application\ChangementsBundle\Entity\Changements',
@@ -130,6 +131,7 @@ class ChangementsFilterAmoiType extends AbstractType {
                         'icon' => 'tag',
                         'type' => 'prepend'
                     ),
+                     'configs' => array('minLength' => 2),
                     'mapped' => false, 'required' => false,
                      'route_name' => 'ajax_ticketint',
                     'class' => 'Application\ChangementsBundle\Entity\Changements',
@@ -141,6 +143,7 @@ class ChangementsFilterAmoiType extends AbstractType {
                         'icon' => 'tag',
                         'type' => 'prepend'
                     ),
+                    'configs' => array('minLength' => 2),
                     'mapped' => false, 'required' => false,
                     'route_name' => 'ajax_ticketext',
                     'class' => 'Application\ChangementsBundle\Entity\Changements',
