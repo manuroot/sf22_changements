@@ -145,7 +145,9 @@ function addTagFormDeleteLink($tagFormLi) {
                             {{ form_row(edit_form.idProjet) }}</div>
                                 <div class="boxlist">{{ form_row(edit_form.idEnvironnement) }}</div>
                                 <br>
-                                <div class="boxlist">{{ form_row(edit_form.idStatus) }}</div>
+                                  <div class="boxlist">{{ form_row(edit_form.astreinte) }}</div>
+                                  <br>
+                                   <div class="boxlist">{{ form_row(edit_form.idStatus) }}</div>
                                 <br>
                                  {{ form_row(edit_form.ticketExt) }}
                                        <br/> <br/>
@@ -186,8 +188,8 @@ function addTagFormDeleteLink($tagFormLi) {
          </tr>     
                 <tr>
                     <td class="calendar" colspan="3"> {{ form_rest(edit_form) }} 
-                                    <button type="submit" class="btn btn-small btn-warning">Modifier</button>
-                                    <a href="{{ path('changements_post') }}" class="btn btn-small btn-success">Retour</a>
+                                    <button type="submit" class="btn btn-large btn-warning">Modifier</button>
+                                    <a href="{{ path('changements_post') }}" class="btn btn-large btn-success">Retour</a>
                                     </form>
 
 
@@ -196,7 +198,7 @@ function addTagFormDeleteLink($tagFormLi) {
                                      {{ form_row(delete_form.id) }}
                                      {{ form_rest(delete_form) }}
                                             <div style="text-align:right">
-                                                <button type="submit" class="btn btn-small btn-danger" onclick="if(!confirm('Are you sure?')) { return false; }">Supprimer Projet</button>
+                                                <button type="submit" class="btn btn-medium btn-danger" onclick="if(!confirm('Are you sure?')) { return false; }">Supprimer Projet</button>
                                             </div>
                                         </form>
               </td>

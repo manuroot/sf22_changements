@@ -225,6 +225,15 @@ class Changements extends AbstractEvent {
      *
      * @var File $avatar
      */
+    
+     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="astreinte", type="boolean", nullable=true)
+     */
+    private $astreinte;
+    
+    
 //protected $avatar;
 
 
@@ -450,6 +459,7 @@ class Changements extends AbstractEvent {
         $this->idapplis = new ArrayCollection();
         $this->picture = new ArrayCollection();
         $this->idEnvironnement = new ArrayCollection();
+         $this->astreinte = false;
         //   $this->idapplis = new \Doctrine\Common\Collections\ArrayCollection();
         /*         $this->uid = $uid;
           $this->begin = clone $start;
@@ -711,10 +721,33 @@ class Changements extends AbstractEvent {
     /**
      * Get ticketInt
      *
-     * @return integer 
+     * @return Changements 
      */
     public function getTicketInt() {
         return $this->ticketInt;
     }
 
+       /**
+     * Set statusFile
+     *
+     * @param boolean $astreinte
+      * @return integer 
+     */
+    public function setAstreinte($astreinte)
+    {
+        $this->astreinte = $astreinte;
+    
+        return $this;
+    }
+
+    /**
+     * Get statusFile
+     *
+     * @return boolean 
+     */
+    public function getAstreinte()
+    {
+        return $this->astreinte;
+    }
+    
 }

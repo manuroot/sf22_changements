@@ -181,7 +181,8 @@ $builder
                     'empty_value' => '--- Choisir une option ---'
                 ));
                             
-                 
+                  $builder->add('astreinte', 'checkbox', array('label' => 'Astreinte','required' => false));
+                  
                $factory = $builder->getFormFactory();
            /*   $projet_id = $builder->getData()->getIdProjet();
         $refreshApplis = function ($form, $idProjet) use ($factory) {

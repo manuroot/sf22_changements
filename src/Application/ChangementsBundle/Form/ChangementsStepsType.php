@@ -286,6 +286,7 @@ class ChangementsStepsType extends AbstractType {
 
                         //  ->add('fichier', new DocumentsType())
                 
+                 ->add('astreinte', 'checkbox', array('label' => 'Atreinte','required' => false))
                 ->add('idEnvironnement', 'entity', array(
                             'class' => 'ApplicationRelationsBundle:Environnements',
                              'query_builder' => function(EntityRepository $em) {

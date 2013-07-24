@@ -151,10 +151,12 @@ knp_paginator:
         sort_direction_name: direction # sort direction query parameter name
         distinct: true                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
     template:
+      pagination: KnpPaginatorBundle:Pagination:sliding.html.twig     # sliding pagination controls template
+      sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
       # sliding pagination controls template
-      pagination: ApplicationRelationsBundle:pagination:twitter_bootstrap_pagination.html.twig
+      #pagination: ApplicationRelationsBundle:pagination:twitter_bootstrap_pagination.html.twig
        # sliding pagination controls template
-      sortable: ApplicationRelationsBundle:pagination:sortable_link.html.twig 
+      #sortable: ApplicationRelationsBundle:pagination:sortable_link.html.twig 
       # sort link template
    
 #==================================================

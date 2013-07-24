@@ -44,15 +44,36 @@ class ChangementsController extends Controller {
      * 
       =================================================================== */
 
+    /*$paginator = new Paginator;
+
+$count = $entityManager
+    ->createQuery('SELECT COUNT(c) FROM Entity\CompositeKey c')
+    ->getSingleScalarResult()
+;
+
+$query = $entityManager
+    ->createQuery('SELECT c FROM Entity\CompositeKey c')
+    ->setHint('knp_paginator.count', $count)
+;
+$pagination = $paginator->paginate($query, 1, 10, array('distinct' => false));
+     * 
+     */
     private function createpaginator($query, $num_perpage = 5) {
 
         $paginator = $this->get('knp_paginator');
         //$paginator->setUseOutputWalkers(true);
         $pagename = 'page'; // Set custom page variable name
         $page = $this->get('request')->query->get($pagename, 1); // Get custom page variable
-
+ /*$em = $this->getDoctrine()->getManager();
+$count = $em
+    ->createQuery('SELECT COUNT(c) FROM Application\ChangementsBundle\Entity\Changements c')
+    ->getSingleScalarResult()
+;*/
+       
         $pagination = $paginator->paginate(
-                $query, $page, $num_perpage, array('pageParameterName' => $pagename,
+                $query, $page, $num_perpage, array(
+                    'pageParameterName' => $pagename,
+                    'distinct' => true,
             "sortDirectionParameterName" => "dir",
             'sortFieldParameterName' => "sort")
         );
@@ -142,16 +163,6 @@ class ChangementsController extends Controller {
             $datas = $alldatas["changements_searchfilter"];
             $parameters = $datas;
             $session->set('changementControllerFilternew', $datas);
-            /* if (is_array($datas['ticketExt'])){
-              $x=$data['ticketExt']['label'];
-              unset($data['ticketExt']);
-              $x=$data['ticketExt']=$x;
-              } */
-
-            /*  $xx= $datas['ticketExt']->label;
-              echo "x=$xx";
-              //print_r($datas['ticketExt']); */
-            //    print_r($datas);exit(1);
             $searchForm->bind($datas);
         } else {
             if ($session->has('changementControllerFilternew')) {
@@ -160,11 +171,21 @@ class ChangementsController extends Controller {
                 $searchForm->bind($datas);
             }
         }
+     //    $parameters = array();
         $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy($parameters);
-        $pagination = $this->createpaginator($query, 15);
+      /*  $result=$query->getQuery()->getResult();
+         return $this->render('ApplicationChangementsBundle:Changements:indexdebug.html.twig', array(
+                    'search_form' => $searchForm->createView(),
+                    'pagination' => $pagination,
+                    'total' => $count,  
+        ));*/
+        
+        $pagination = $this->createpaginator($query, 20);
+        $count = $pagination->getTotalItemCount();
         return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi.html.twig', array(
                     'search_form' => $searchForm->createView(),
                     'pagination' => $pagination,
+                    'total' => $count,  
         ));
     }
 
@@ -922,7 +943,8 @@ class ChangementsController extends Controller {
         $entity_ticket = $em->getRepository('ApplicationChangementsBundle:Changements')->findAjaxValue(array('nom' => $term));
         $json = array();
         foreach ($entity_ticket->getQuery()->getResult() as $ticket) {
-            array_push($json, (string)$ticket->getNom());
+            if (! in_array((string)$ticket->getNom(), $json))
+                array_push($json, (string)$ticket->getNom());
         }
         $response = new Response(json_encode($json));
         $response->headers->set('Content-Type', 'application/json');
@@ -934,7 +956,8 @@ class ChangementsController extends Controller {
         $entity_ticket = $em->getRepository('ApplicationChangementsBundle:Changements')->findAjaxValue(array('ticketExt' => $term));
         $json = array();
         foreach ($entity_ticket->getQuery()->getResult() as $ticket) {
-            array_push($json, (string)$ticket->getTicketExt());
+            if (! in_array((string)$ticket->getTicketExt(), $json))
+                array_push($json, (string)$ticket->getTicketExt());
         }
         $response = new Response(json_encode($json));
         $response->headers->set('Content-Type', 'application/json');
@@ -947,8 +970,8 @@ class ChangementsController extends Controller {
         $entity_ticket = $em->getRepository('ApplicationChangementsBundle:Changements')->findAjaxValue(array('ticketInt' => $term));
         $json = array();
         foreach ($entity_ticket->getQuery()->getResult() as $ticket) {
-       //  print_r($ticket);
-              array_push($json, (string)$ticket->getTicketInt());
+             if (! in_array((string)$ticket->getTicketInt(), $json))
+                array_push($json, (string)$ticket->getTicketInt());
            }
        // exit(1);
         $response = new Response(json_encode($json));

@@ -69,9 +69,11 @@ class Documentbb {
      */
     private $md5;
     
-    
-    // nom origine du fichier
-    private $OriginalFilename;
+     /**
+     * nom origine du fichier
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+     protected $OriginalFilename;
 
      /**
      * Date/Time of the update

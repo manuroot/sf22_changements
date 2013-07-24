@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityRepository;
 use CalendR\Event\Provider\ProviderInterface;
 use DoctrineExtensions\Query\Mysql\GroupConcat;
 use Application\ChangementsBundle\Entity\Changements;
+use Application\ChangementsBundle\Query\Mysql\AtGroupConcat;
 
 //use CalendR\Extension\Doctrine2\EventRepository as EventRepositoryTrait;
 /**
@@ -18,15 +19,14 @@ use Application\ChangementsBundle\Entity\Changements;
  */
 class ChangementsRepository extends EntityRepository implements ProviderInterface {
 
-    
     public function get_all_months() {
-    return array(
-          'Jan','Feb', 'Mar','Apr',
-          'May','Jun','Jul','Aug',
-          'Sep','Oct','Nov','Dec'
-          );
-}
-            
+        return array(
+            'Jan', 'Feb', 'Mar', 'Apr',
+            'May', 'Jun', 'Jul', 'Aug',
+            'Sep', 'Oct', 'Nov', 'Dec'
+        );
+    }
+
 //class ChangementsRepository extends EntityRepository{
     //use EventRepositoryTrait;
     public function myFindaAll() {
@@ -40,14 +40,15 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
 
         //->getResult();
     }
-    
+
     /* edit et showxhtml
      * 
      */
+
     public function myFindaIdAll($id) {
         $parameters = array();
         $values = array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f');
-        
+
         $query = $this->createQueryBuilder('a')
                 ->select($values)
                 ->leftJoin('a.idProjet', 'b')
@@ -96,8 +97,6 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
       $queryBuilder->groupBy('a.title');
       $queryBuilder->orderBy('a.title', 'DESC'); */
 
-   
-
     public function myFindAll($criteria = array()) {
 
         $parameters = array();
@@ -131,35 +130,29 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         $values = array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
         $query = $this->createQueryBuilder('a')
                 ->select($values)
+                  ->distinct('a')
                 ->leftJoin('a.idProjet', 'b')
                 ->leftJoin('a.demandeur', 'c')
                 ->leftJoin('a.idStatus', 'd')
                 ->leftJoin('a.picture', 'f')
                 ->addSelect('g')
-                //->addSelect('g')
                 ->leftJoin('a.idEnvironnement', 'g')
+                // ->distinct('GroupConcat(g.nom)')
                 ->leftJoin('a.comments', 'h')
-                //->addSelect('e')
                 ->addSelect('partial e.{id,nomUser}')
-                //->distinct('GroupConcat(e.nomUser)')
-                ->leftJoin('a.idusers', 'e');
-        //  $parameters['idEnv'] = (string) $ids;
-        // $query->setParameters($parameters);
-        //     $query->setParameter('ids', $ids);
-        $query->add('orderBy', 'a.id DESC');
+              //  ->distinct('GroupConcat(e.nomUser)')
+                ->leftJoin('a.idusers', 'e')
+                //->groupBy('a.id')
+                ->add('orderBy', 'a.id DESC');
+        // 
         return $query;
         //->getQuery();
     }
 
     public function findAjaxValue($criteria) {
-       //   $query = $this->myFindNewAll();
-          $parameters = array();
-          $query = $this->createQueryBuilder('a');
-              //  ->select($values)
-      
-
-      
-          // Supprimer champs qui ne sont pas dans la classe
+        $parameters = array();
+        $query = $this->createQueryBuilder('a');
+        // Supprimer champs qui ne sont pas dans la classe
         foreach ($criteria as $field => $value) {
             if (!$this->getClassMetadata()->hasField($field)) {
                 // Make sure we only use existing fields (avoid any injection)
@@ -167,34 +160,46 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
                 //  continue;
             }
         }
-
         //les like
-        $like_arrays = array('nom', 'description','ticketExt', 'ticketInt');
+        $like_arrays = array('nom', 'description', 'ticketExt', 'ticketInt');
         foreach ($like_arrays as $val) {
             //  echo "val=$val<br>";
             if (isset($criteria[$val]) && !preg_match('/^\s*$/', $criteria[$val])) {
-
-                //   if (isset($criteria[$val]) && ! preg_match('/[\s]+/',$criteria[$val])) {
-                //     echo "critere=" . $criteria["$val"] . "<br>";
                 $query->andWhere("a.$val LIKE :$val");
-
                 $parameters[$val] = '%' . $criteria[$val] . '%';
             }
         }
-
         $query->setParameters($parameters);
-
-
         return $query;
     }
-    
-    
+
+    //class ChangementsRepository extends EntityRepository{
+    //use EventRepositoryTrait;
+    public function myFindtest() {
+        return $this->createQueryBuilder('a')
+                        ->select('a,b,c,d,e,f,g,h')
+                        ->leftJoin('a.idProjet', 'b')
+                        ->leftJoin('a.demandeur', 'c')
+                        ->leftJoin('a.idStatus', 'd')
+                        ->leftJoin('a.idusers', 'e')
+                        ->distinct('GroupConcat(e.nomUser)')
+                        ->leftJoin('a.picture', 'f')
+                        ->leftJoin('a.idEnvironnement', 'g')
+                        ->leftJoin('a.comments', 'h')
+                        ->orderBy('a.id')
+                        ->getQuery();
+
+
+        //->getResult();
+    }
+
     // TODO REGEX
     public function getListBy($criteria) {
 
+        // $query = $this->myFindsimpleAll();
         $query = $this->myFindNewAll();
         $parameters = array();
-
+        //return $query;
         if (isset($criteria['idEnvironnement']) && $criteria['idEnvironnement'] != "") {
             //       var_dump($criteria['idEnvironnement']);exit(1);
             $query->andWhere('g.id IN (:idEnv)');
@@ -206,61 +211,47 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
             $query->andWhere('c.id = (:idUser)');
             $parameters['idUser'] = $criteria['demandeur'];
         }
-        
+
         if (isset($criteria['idProjet']) && $criteria['idProjet'] != "") {
             //       var_dump($criteria['idEnvironnement']);exit(1);
             $query->andWhere('b.id IN (:idProjet)');
-              $query->distinct('GroupConcat(d.nomprojet) AS projet');
+            $query->distinct('GroupConcat(d.nomprojet) AS projet');
             $parameters['idProjet'] = $criteria['idProjet'];
-            
-           
-          
         }
-      /*  if (isset($criteria['idStatus']) && $criteria['idStatus'] != "") {
-            //       var_dump($criteria['idEnvironnement']);exit(1);
-            $query->andWhere('d.id = (:idStatus)');
-            $parameters['idStatus'] = $criteria['idStatus'];
-        }*/
-        
         if (isset($criteria['idStatus']) && $criteria['idStatus'] != "") {
             //       var_dump($criteria['idEnvironnement']);exit(1);
             $query->andWhere('d.id IN (:idStatus)');
             $query->distinct('GroupConcat(d.nom) AS status');
             $parameters['idStatus'] = $criteria['idStatus'];
         }
-        
-        
+
         if (isset($criteria['idusers']) && $criteria['idusers'] != "") {
             //       var_dump($criteria['idEnvironnement']);exit(1);
             $query->andWhere('e.id IN (:idUsers)');
             $query->distinct('GroupConcat(e.nomUser)');
             $parameters['idUsers'] = $criteria['idusers'];
         }
-
-
         if (isset($criteria['dateDebut']) && $criteria['dateDebut'] != "") {
             $query->andWhere('a.dateDebut > (:datedebut)');
             $parameters['datedebut'] = $criteria['dateDebut'];
         }
-           if (isset($criteria['dateDebut_max']) && $criteria['dateDebut_max'] != "") {
+        if (isset($criteria['dateDebut_max']) && $criteria['dateDebut_max'] != "") {
             $query->andWhere('a.dateDebut < (:datedebut_max)');
             $parameters['datedebut_max'] = $criteria['dateDebut_max'];
         }
-        
-         if (isset($criteria['dateFin']) && $criteria['dateFin'] != "") {
+        if (isset($criteria['dateFin']) && $criteria['dateFin'] != "") {
             $query->andWhere('a.dateFin > (:dateFin)');
             $parameters['dateFin'] = $criteria['dateFin'];
         }
-           if (isset($criteria['dateFin_max']) && $criteria['dateFin_max'] != "") {
+        if (isset($criteria['dateFin_max']) && $criteria['dateFin_max'] != "") {
             $query->andWhere('a.dateFin < (:dateFin_max)');
             $parameters['dateFin_max'] = $criteria['dateFin_max'];
         }
-           if (isset($criteria['byid'])) {
-             $query->andWhere('a.id = :myid');
+        if (isset($criteria['byid'])) {
+            $query->andWhere('a.id = :myid');
             //   ->groupby('a.name');
             $parameters['myid'] = (string) $criteria['byid'];
-          }
-        
+        }
         // Supprimer champs qui ne sont pas dans la classe
         foreach ($criteria as $field => $value) {
             if (!$this->getClassMetadata()->hasField($field)) {
@@ -269,9 +260,8 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
                 //  continue;
             }
         }
-
         //les like
-        $like_arrays = array('nom', 'description','ticketExt', 'ticketInt');
+        $like_arrays = array('nom', 'description', 'ticketExt', 'ticketInt');
         foreach ($like_arrays as $val) {
             //  echo "val=$val<br>";
             if (isset($criteria[$val]) && !preg_match('/^\s*$/', $criteria[$val])) {
@@ -293,20 +283,19 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
     public function myFindsimpleAll($criteria = array()) {
 
         //$em = $this->getDoctrine()->getManager();
-        $em = $this->getManager();
+      //  $em = $this->getManager();
         //$values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
         $values = 'a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id},';
         //   $values='a,partial b.{id,nomprojet},partial c.{id,nomUser},partial GroupConcat(e.nomUser),partial d.{id,nom,description},f,partial h.{id}';
-        $query = $em->createQuery("
-            SELECT $values FROM ApplicationChangementsBundle:Changements a 
+        $query = $this->_em->createQuery("
+            SELECT a,b,c,d,e,f,g,h FROM ApplicationChangementsBundle:Changements a 
             LEFT JOIN a.idProjet b
            LEFT JOIN a.demandeur c 
             LEFT JOIN a.idStatus d 
             LEFT JOIN a.idusers e 
              LEFT JOIN a.picture f
             LEFT JOIN a.idEnvironnement g 
-           LEFT JOIN a.comments h
-            GROUP BY a.id
+           LEFT JOIN a.comments h           
            "
         );
         /* GroupConcat(e.nomUser) */
@@ -323,24 +312,23 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
     }
 
     public function getEvents(\DateTime $begin, \DateTime $end, array $options = array()) {
-    //    echo "getEvents query";exit(1);
+        //    echo "getEvents query";exit(1);
         return $this->getEventsQueryBuilder($begin, $end, $options);
     }
 
-  
     public function sum_appli_year($year = null) {
 
-            $current_date = new \DateTime();
-          if (! isset($year)){
-            $year= $current_date->format('Y');
+        $current_date = new \DateTime();
+        if (!isset($year)) {
+            $year = $current_date->format('Y');
         }
-       $query = $this->createQueryBuilder('a')
+        $query = $this->createQueryBuilder('a')
                 ->select('count(a.id) as nb,b.nomprojet,MONTH(a.dateDebut) as mois')
                 ->leftJoin('a.idProjet', 'b')
                 ->andWhere('a.dateDebut LIKE :date')
                 ->groupby('b.nomprojet');
-       
-       // pkoi 2 ??
+
+        // pkoi 2 ??
         $parameters['date'] = '%' . $year . '-%';
         //  echo "year=" . $parameters['date'] . "<br>";
         $query->setParameters($parameters);
@@ -351,30 +339,28 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
                 ->setParameter('madate', '%' . $year . '-%')
                 ->getQuery()
                 ->getSingleScalarResult();
-    $datas = array();
+        $datas = array();
         foreach ($query->getQuery()->getScalarResult() as $valeur) {
-      //     echo "qa=$qa " . $valeur['nomprojet'] . "=" . $valeur['nb'] . "<br>";
+            //     echo "qa=$qa " . $valeur['nomprojet'] . "=" . $valeur['nb'] . "<br>";
 // echo $valeur['nomprojet'] . "--" . $valeur['mois'] . "<br>";
             array_push($datas, array($valeur['nomprojet'], round(($valeur['nb'] / $qa) * 100)));
         }
-       //    exit(1);
+        //    exit(1);
         // print_r($datas);
         return $datas;
     }
 
-    
-    
     public function sum_demandeur_year($year = null) {
 
-            $current_date = new \DateTime();
-          if (! isset($year)){
-            $year= $current_date->format('Y');
+        $current_date = new \DateTime();
+        if (!isset($year)) {
+            $year = $current_date->format('Y');
         }
-       $query = $this->createQueryBuilder('a')
+        $query = $this->createQueryBuilder('a')
                 ->select('count(a.id) as nb,b.nomUser,MONTH(a.dateDebut) as mois')
                 ->leftJoin('a.demandeur', 'b')
                 ->andWhere('a.dateDebut LIKE :date')
-               ->groupby('b.nomUser');
+                ->groupby('b.nomUser');
         $parameters['date'] = '%' . $year . '-%';
         //  echo "year=" . $parameters['date'] . "<br>";
         $query->setParameters($parameters);
@@ -384,7 +370,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
                 ->setParameter('madate', '%' . $year . '-%')
                 ->getQuery()
                 ->getSingleScalarResult();
-    $datas = array();
+        $datas = array();
         foreach ($query->getQuery()->getScalarResult() as $valeur) {
             // echo $valeur['nomprojet'] . "--" . $valeur['mois'] . "<br>";
             array_push($datas, array($valeur['nomUser'], round(($valeur['nb'] / $qa) * 100)));
@@ -393,6 +379,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         // print_r($datas);
         return $datas;
     }
+
     public function getNbTopicParForums() {
         $qb = $this->createQueryBuilder('f')
                 ->join('f.topics', 't')
@@ -430,9 +417,9 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
      */
 
     public function sum_allappli_bymonthyear($year = null) {
-         $current_date = new \DateTime();
-         if (! isset($year)){
-            $year= $current_date->format('Y');
+        $current_date = new \DateTime();
+        if (!isset($year)) {
+            $year = $current_date->format('Y');
         }
         $query = $this->createQueryBuilder('a')
                 //->select('MONTH(a.dateDebut) as mois,sum(b.nomprojet) as projet,count(a.id) as nb')
@@ -444,14 +431,14 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         $parameters['date'] = '%' . $year . '-%';
         $query->setParameters($parameters);
         //return $query->getQuery();
-         return $query->getQuery();
+        return $query->getQuery();
     }
 
     public function sum_appli_monthyear($year = null) {
 
-          $current_date = new \DateTime();
-          if (! isset($year)){
-            $year= $current_date->format('Y');
+        $current_date = new \DateTime();
+        if (!isset($year)) {
+            $year = $current_date->format('Y');
         }
 
         $query = $this->createQueryBuilder('a')
