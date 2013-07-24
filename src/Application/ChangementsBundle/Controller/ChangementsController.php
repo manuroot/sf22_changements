@@ -69,14 +69,20 @@ $count = $em
     ->createQuery('SELECT COUNT(c) FROM Application\ChangementsBundle\Entity\Changements c')
     ->getSingleScalarResult()
 ;*/
-       
+       /* $_GET['sort'] = 'e.nomUser';
+        $_GET['direction'] = 'asc';
+       */
         $pagination = $paginator->paginate(
                 $query, $page, $num_perpage, array(
                     'pageParameterName' => $pagename,
-                    'distinct' => true,
-            "sortDirectionParameterName" => "dir",
-            'sortFieldParameterName' => "sort")
+                   // 'distinct' => false,
+           "sortDirectionParameterName" => "dir",
+           'sortFieldParameterName' => "sort"
+            )
         );
+      //  $pagination->setParam('sort', 'e.nomUser');
+     //   $pagination->setParam('dir', 'asc');
+//$pagination->setParam('sort', 'DESC');
         $pagination->setTemplate('ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig');
         $pagination->setSortableTemplate('ApplicationChangementsBundle:pagination:sortable_link.html.twig');
         return $pagination;
@@ -154,6 +160,11 @@ $count = $em
         $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $session = $request->getSession();
+        
+         /*$sort = $this->get('request')->query->get('sort');
+         var_dump($sort);
+         if ($sort =='e.nomUser')
+         exit(1);*/
         $session->set('buttonretour', 'changements_posttest');
         $searchForm = $this->createForm(new ChangementsFilterAmoiType());
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
@@ -181,6 +192,11 @@ $count = $em
         ));*/
         
         $pagination = $this->createpaginator($query, 20);
+        /*  $sort = $this->get('request')->query->get('sort');
+         var_dump($sort);
+         if ($sort =='e.nomUser')
+         exit(1);*/
+        
         $count = $pagination->getTotalItemCount();
         return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi.html.twig', array(
                     'search_form' => $searchForm->createView(),

@@ -41,11 +41,21 @@ tr:hover td {
 }
 td {
     
-    font-size:10px;
+    font-size:11px;
 }
+
 .grid table {
     width:100%;
 }
+
+.grid-search {
+  background-color:whitesmoke;
+/*height:200px;width:auto;*/
+}
+
+{#
+.grid-search > div{ float:left;text-align: left;
+}#}
     </style>
 {% endblock %}
 
@@ -106,23 +116,89 @@ LISTE DES OPERATIONS
         {% endif %}
 <br> <br> 
 
+{#
+{% if not ajax_request %}
+{{ grid_search(grid,'APYDataGridBundle::blocks_js.jquery.html.twig') }}
+{% endif %}
+{{ grid(grid,'APYDataGridBundle::blocks_js.jquery.html.twig') }}
+#}
+
+{{ grid_search(grid, _self) }}
 {{ grid(grid, _self) }}
 
 
-{#{{ grid_search(grid) }}#}
-{#{ grid(grid, 'ApplicationChangementsBundle::apygrid/blocks.html.twig') }#} 
-
+{#
+{{ grid(grid, 'ApplicationChangementsBundle:Changements:blocks.html.twig') }} 
+#}
 {% endblock %}
 
 
 {% block footer %}
 {% endblock %}
         
+{# -------------------------------------------------- grid_filters -------------------------------------------------- #}
+{% block grid_filters %}
+    
+{% endblock grid_filters %}
+{# -------------------------------------------------- grid_search -------------------------------------------------- #}
+{% block grid_search %}
+{% if grid.isFilterSectionVisible %}
+    <div class="grid-search">
+        <form id="{{ grid.hash }}_search" action="{{ grid.routeUrl }}" method="post">
+       {# {% set long=floor(grid.columns/2) %}
+                 {% for column in grid.columns %}#}
+                
+                  
+            
+         {% for column in grid.columns %}
+            {% if column.visible(true) and column.isFilterable %}
+               
+                {% set columnTitle = grid.prefixTitle ~ column.title %}
+                {% if column.filterable %}
+                     <div ><label>{{ columnTitle|trans }}</label>
+                       {{ grid_filter(column, grid, false)|raw }}
 
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+                    
+                        
+            <div class="grid-search-action">
+                
+                <button type="submit" class="btn btn-small btn-primary" value="{{ 'Search'|trans }}">
+                <i class="icon-minus-sign"></i> Search</button>
+                
+                  <button type="button" class="btn btn-small btn-danger" value="{{ 'Reset'|trans }}" onclick="return {{ grid.hash }}_reset();"/>
+                <i class="icon-minus-sign"></i> Reset</button>
+            
+                {#
+                     <button type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
+            <i class="icon-minus-sign"></i> Reset Actions</button>   
+                <input type="button" class="grid-search-reset" value="{{ 'Reset'|trans }}" onclick="return {{ grid.hash }}_reset();"/></div>
+
+                       
+                        
+                
+                <<button type="button" class="btn btn-small btn-primary" value="{{ 'Search'|trans }}"/>
+                <input type="button" class="grid-search-reset" value="{{ 'Reset'|trans }}" onclick="return {{ grid.hash }}_reset();"/>
+            #} 
+           
+                     </div>
+        </form>
+    </div>
+{% endif %}
+{% endblock grid_search %}
+    
+    
+    
+    
   
         {#============ADMIN ONLY======================#}
        
 {% block grid_actions %}
+ 
+         
  {% if is_granted('ROLE_SUPER_ADMIN')  %}
 <div class="mass-actions">
 <span class="grid_massactions_helper">
@@ -222,7 +298,7 @@ LISTE DES OPERATIONS
 {% endblock grid_column_idStatus_nom_cell %}
 
 {% block grid_column_type_filter %}
-{{ column.id }}
+
 {% endblock grid_column_type_filter %}
   
 {# -------------------------------------------- grid_column_filter_type_massaction --------------------------------------- #}

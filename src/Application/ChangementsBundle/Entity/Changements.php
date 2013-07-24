@@ -45,7 +45,7 @@ class Changements extends AbstractEvent {
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @GRID\Column(title="id", size="10", type="text",filter="false")
+     * @GRID\Column(title="id", size="10", type="text",filterable="false")
      */
     private $id;
 
@@ -156,8 +156,7 @@ class Changements extends AbstractEvent {
 
     /**
      * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\ChronoUser", inversedBy="idchangement",cascade={"persist"})
-     * @ORM\OrderBy({"nomUser" = "ASC"})
-     * @ORM\JoinTable(name="changements_users")
+      * @ORM\JoinTable(name="changements_users")
      */
     private $idusers;
 
@@ -168,7 +167,6 @@ class Changements extends AbstractEvent {
      * @var \ChronoUser
      *
      * @ORM\ManyToOne(targetEntity="Application\RelationsBundle\Entity\ChronoUser")
-     * @ORM\OrderBy({"nomUser" = "ASC"})
      * @ORM\JoinColumn(name="demandeur", referencedColumnName="id")
      * @GRID\Column(field="demandeur.nomUser", title="Demandeur",size="20",filter="select",selectFrom="query")
      */

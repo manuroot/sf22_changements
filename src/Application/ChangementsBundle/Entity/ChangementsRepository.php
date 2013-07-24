@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityRepository;
 use CalendR\Event\Provider\ProviderInterface;
 use DoctrineExtensions\Query\Mysql\GroupConcat;
 use Application\ChangementsBundle\Entity\Changements;
-use Application\ChangementsBundle\Query\Mysql\AtGroupConcat;
+//use Application\ChangementsBundle\Query\Mysql\AtGroupConcat;
 
 //use CalendR\Extension\Doctrine2\EventRepository as EventRepositoryTrait;
 /**
@@ -130,7 +130,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         $values = array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
         $query = $this->createQueryBuilder('a')
                 ->select($values)
-                  ->distinct('a')
+                //  ->distinct('a')
                 ->leftJoin('a.idProjet', 'b')
                 ->leftJoin('a.demandeur', 'c')
                 ->leftJoin('a.idStatus', 'd')
@@ -141,9 +141,9 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
                 ->leftJoin('a.comments', 'h')
                 ->addSelect('partial e.{id,nomUser}')
               //  ->distinct('GroupConcat(e.nomUser)')
-                ->leftJoin('a.idusers', 'e')
+                ->leftJoin('a.idusers', 'e');
                 //->groupBy('a.id')
-                ->add('orderBy', 'a.id DESC');
+             //   ->add('orderBy', 'a.id DESC');
         // 
         return $query;
         //->getQuery();
@@ -215,7 +215,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         if (isset($criteria['idProjet']) && $criteria['idProjet'] != "") {
             //       var_dump($criteria['idEnvironnement']);exit(1);
             $query->andWhere('b.id IN (:idProjet)');
-            $query->distinct('GroupConcat(d.nomprojet) AS projet');
+            $query->distinct('GroupConcat(b.nomprojet) AS projet');
             $parameters['idProjet'] = $criteria['idProjet'];
         }
         if (isset($criteria['idStatus']) && $criteria['idStatus'] != "") {
@@ -225,12 +225,19 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
             $parameters['idStatus'] = $criteria['idStatus'];
         }
 
+        
+          //  ->distinct('GroupConcat(e.nomUser)')
+                        
+                        
         if (isset($criteria['idusers']) && $criteria['idusers'] != "") {
             //       var_dump($criteria['idEnvironnement']);exit(1);
             $query->andWhere('e.id IN (:idUsers)');
-            $query->distinct('GroupConcat(e.nomUser)');
+          // $query->distinct('GroupConcat(e.nomUser)');
             $parameters['idUsers'] = $criteria['idusers'];
         }
+         $query->distinct('GroupConcat(e.nomUser) AS DD');
+         
+         // ->distinct('GroupConcat(g.nom)')
         if (isset($criteria['dateDebut']) && $criteria['dateDebut'] != "") {
             $query->andWhere('a.dateDebut > (:datedebut)');
             $parameters['datedebut'] = $criteria['dateDebut'];
@@ -274,10 +281,11 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
             }
         }
 
+         //$query->add('orderBy', 'distinct GroupConcat(e.nomUser) DESC');
         $query->setParameters($parameters);
 
 
-        return $query;
+        return $query->getQuery();
     }
 
     public function myFindsimpleAll($criteria = array()) {
