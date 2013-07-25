@@ -8,8 +8,8 @@ use Doctrine\ORM\EntityRepository;
 use CalendR\Event\Provider\ProviderInterface;
 use DoctrineExtensions\Query\Mysql\GroupConcat;
 use Application\ChangementsBundle\Entity\Changements;
-//use Application\ChangementsBundle\Query\Mysql\AtGroupConcat;
 
+//use Application\ChangementsBundle\Query\Mysql\AtGroupConcat;
 //use CalendR\Extension\Doctrine2\EventRepository as EventRepositoryTrait;
 /**
  * NotesRepository
@@ -76,13 +76,13 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
      * WORKING::
      * 
      * SELECT DISTINCT c0_.id AS id0, c0_.nom AS nom1, c0_.date_debut AS date_debut2, c0_.date_fin AS date_fin3, c1_.nomprojet AS nomprojet4, c2_.nom_user AS nom_user5, GROUP_CONCAT( DISTINCT c3_.nom_user ) AS sclr6, GROUP_CONCAT( DISTINCT e4_.nom ) AS sclr7
-      FROM changements c0_
-      LEFT JOIN certificats_projet c1_ ON c0_.id_projet = c1_.id
+      FROM changements_main c0_
+      LEFT JOIN projet_main c1_ ON c0_.id_projet = c1_.id
       LEFT JOIN chrono_user c2_ ON c0_.demandeur = c2_.id
       INNER JOIN changements_users c5_ ON c0_.id = c5_.changements_id
       LEFT JOIN chrono_user c3_ ON c3_.id = c5_.chronouser_id
       LEFT JOIN changements_environnements c6_ ON c0_.id = c6_.changements_id
-      LEFT JOIN environnement e4_ ON e4_.id = c6_.environnements_id
+      LEFT JOIN environnement_main e4_ ON e4_.id = c6_.environnements_id
       GROUP BY c0_.id
       ORDER BY sclr6 ASC
       LIMIT 0 , 30
@@ -140,10 +140,10 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
                 // ->distinct('GroupConcat(g.nom)')
                 ->leftJoin('a.comments', 'h')
                 ->addSelect('partial e.{id,nomUser}')
-              //  ->distinct('GroupConcat(e.nomUser)')
+                //  ->distinct('GroupConcat(e.nomUser)')
                 ->leftJoin('a.idusers', 'e');
-                //->groupBy('a.id')
-             //   ->add('orderBy', 'a.id DESC');
+        //->groupBy('a.id')
+        //   ->add('orderBy', 'a.id DESC');
         // 
         return $query;
         //->getQuery();
@@ -196,10 +196,14 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
     // TODO REGEX
     public function getListBy($criteria) {
 
-        // $query = $this->myFindsimpleAll();
-        $query = $this->myFindNewAll();
+        
+
+        $ungroup = (isset($criteria['ungroup']) ? $criteria['ungroup'] : null);
+       $query = $this->myFindNewAll();
+      //   $query->distinct('GroupConcat(e.nomUser)');
+      //  $query = $this->myFindsimpleAll();
         $parameters = array();
-        //return $query;
+      return $query;
         if (isset($criteria['idEnvironnement']) && $criteria['idEnvironnement'] != "") {
             //       var_dump($criteria['idEnvironnement']);exit(1);
             $query->andWhere('g.id IN (:idEnv)');
@@ -225,19 +229,19 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
             $parameters['idStatus'] = $criteria['idStatus'];
         }
 
-        
-          //  ->distinct('GroupConcat(e.nomUser)')
-                        
-                        
+
+        //  ->distinct('GroupConcat(e.nomUser)')
+
+
         if (isset($criteria['idusers']) && $criteria['idusers'] != "") {
             //       var_dump($criteria['idEnvironnement']);exit(1);
             $query->andWhere('e.id IN (:idUsers)');
-          // $query->distinct('GroupConcat(e.nomUser)');
+            $query->distinct('GroupConcat(e.nomUser)');
             $parameters['idUsers'] = $criteria['idusers'];
         }
-         $query->distinct('GroupConcat(e.nomUser) AS DD');
-         
-         // ->distinct('GroupConcat(g.nom)')
+     //   $query->distinct('GroupConcat(e.nomUser) AS DD');
+
+        // ->distinct('GroupConcat(g.nom)')
         if (isset($criteria['dateDebut']) && $criteria['dateDebut'] != "") {
             $query->andWhere('a.dateDebut > (:datedebut)');
             $parameters['datedebut'] = $criteria['dateDebut'];
@@ -281,22 +285,75 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
             }
         }
 
-         //$query->add('orderBy', 'distinct GroupConcat(e.nomUser) DESC');
-        $query->setParameters($parameters);
 
+        $query->setParameters($parameters);
+        //var_dump($criteria);exit(1);
+        if (isset($ungroup)) {
+
+            // $query->distinct('GroupConcat(e.nomUser)');
+          //  $query->add('groupBy', 'a.id');
+            //  echo "ungroup";exit(1);
+        }
 
         return $query->getQuery();
     }
 
     public function myFindsimpleAll($criteria = array()) {
-
+/*
+ * 
+ * SELECT a.id , group_concat( b.b_val ) AS bvals
+>     FROM b
+>     LEFT JOIN ab ON b.id  = ab.idb
+>     LEFT JOIN a ON a.id  = ab.ida
+>     LEFT JOIN ab as ab2 ON ab2.ida = a.id 
+>     LEFT JOIN b as b2 ON b2.id  = ab2.idb
+>     WHERE b2.b_val='deuxbis'
+>     GROUP BY a.id 
+ * 
+ * SELECT DISTINCT c0_.id AS id0, c0_.nom AS nom1, c0_.date_debut AS date_debut2,
+   c0_.date_fin AS date_fin3, c1_.nomprojet AS nomprojet4,
+  c2_.nom_user AS nom_user5, GROUP_CONCAT( DISTINCT c3_.nom_user ) AS sclr6,
+  GROUP_CONCAT( DISTINCT e4_.nom ) AS sclr7
+      FROM changements_main c0_
+      LEFT JOIN projet_main c1_ ON c0_.id_projet = c1_.id
+      LEFT JOIN chrono_user c2_ ON c0_.demandeur = c2_.id
+      INNER JOIN changements_users c5_ ON c0_.id = c5_.changements_id
+      LEFT JOIN chrono_user c3_ ON c3_.id = c5_.chronouser_id
+      LEFT JOIN changements_environnements c6_ ON c0_.id = c6_.changements_id
+      LEFT JOIN environnement_main e4_ ON e4_.id = c6_.environnements_id
+      GROUP BY c0_.id
+ */
         //$em = $this->getDoctrine()->getManager();
-      //  $em = $this->getManager();
+        //  $em = $this->getManager();
         //$values=array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
         $values = 'a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id},';
         //   $values='a,partial b.{id,nomprojet},partial c.{id,nomUser},partial GroupConcat(e.nomUser),partial d.{id,nom,description},f,partial h.{id}';
+       /*
+        * SELECT a.id , group_concat( b.b_val ) AS bvals
+>     FROM b
+>     LEFT JOIN ab ON b.id  = ab.idb
+>     LEFT JOIN a ON a.id  = ab.ida
+>     LEFT JOIN ab as ab2 ON ab2.ida = a.id 
+>     LEFT JOIN b as b2 ON b2.id  = ab2.idb
+>     WHERE b2.b_val='deuxbis'
+>     GROUP BY a.id 
+        */
         $query = $this->_em->createQuery("
-            SELECT a,b,c,d,e,f,g,h FROM ApplicationChangementsBundle:Changements a 
+            SELECT  a,b,c,d,f,g,h,e FROM ApplicationChangementsBundle:Changements a 
+            LEFT JOIN a.idProjet b
+           LEFT JOIN a.demandeur c 
+            LEFT JOIN a.idStatus d 
+            LEFT JOIN a.idusers AS e ON e.id=a.id
+             LEFT JOIN a.picture f
+            LEFT JOIN a.idEnvironnement g 
+           LEFT JOIN a.comments h   
+           ORDER BY a.id
+         
+           "
+        );
+        /*
+         *   $query = $this->_em->createQuery("
+            SELECT  a,b,c,d,GroupConcat( DISTINCT e.nomUser ),f,g,h FROM ApplicationChangementsBundle:Changements a 
             LEFT JOIN a.idProjet b
            LEFT JOIN a.demandeur c 
             LEFT JOIN a.idStatus d 
@@ -306,6 +363,21 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
            LEFT JOIN a.comments h           
            "
         );
+         *  $query = $this->createQueryBuilder('a')
+                ->select($values)
+                //  ->distinct('a')
+                ->leftJoin('a.idProjet', 'b')
+                ->leftJoin('a.demandeur', 'c')
+                ->leftJoin('a.idStatus', 'd')
+                ->leftJoin('a.picture', 'f')
+                ->addSelect('g')
+                ->leftJoin('a.idEnvironnement', 'g')
+                // ->distinct('GroupConcat(g.nom)')
+                ->leftJoin('a.comments', 'h')
+                ->addSelect('partial e.{id,nomUser}')
+                //  ->distinct('GroupConcat(e.nomUser)')
+                ->leftJoin('a.idusers', 'e');
+         */
         /* GroupConcat(e.nomUser) */
         return $query;
     }

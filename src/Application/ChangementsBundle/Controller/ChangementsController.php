@@ -161,8 +161,9 @@ $count = $em
         $request = $this->getRequest();
         $session = $request->getSession();
         
-         /*$sort = $this->get('request')->query->get('sort');
-         var_dump($sort);
+         $sort = $this->get('request')->query->get('sort');
+       
+         /*var_dump($sort);
          if ($sort =='e.nomUser')
          exit(1);*/
         $session->set('buttonretour', 'changements_posttest');
@@ -182,6 +183,11 @@ $count = $em
                 $searchForm->bind($datas);
             }
         }
+          if ($sort == 'e.nomUser' || $sort == 'g.nom'){
+             $parameters['ungroup']=1;
+         //  exit(1);  
+          }
+         // var_dump($parameters);echo "<br><br>";
      //    $parameters = array();
         $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy($parameters);
       /*  $result=$query->getQuery()->getResult();
