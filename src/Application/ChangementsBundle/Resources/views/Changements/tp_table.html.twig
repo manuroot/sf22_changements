@@ -16,9 +16,11 @@
                                 <i class=" icon-user"></i></th>
                             <th><i class=" icon-book"></i></th>
                             <th><i class=" icon-pencil"></i></th>
+                            {#
                             <th style="min-width:100px" {% if pagination.isSorted('e.nomUser') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Users', 'e.nomUser') }}
-                                <i class=" icon-user"></i><i class=" icon-user"></i></th>
-                            <th style="min-width:30px" {% if pagination.isSorted('d.idStatus') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'F', 'd.idStatus') }}
+                                <i class=" icon-user"></i><i class=" icon-user"></i></th>#}
+                            <th style="min-width:100px" class="sorted">Users <i class=" icon-user"></i><i class=" icon-user"></i></th>
+                            <th style="min-width:30px" {% if pagination.isSorted('d.idStatus.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'F', 'd.idStatus.nom') }}
                                 <i class=" icon-flag"></i></th>
                              <th style="min-width:50px" {% if pagination.isSorted('a.ticketExt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'T_Ext', 'a.ticketExt') }}
                                 <i class=" icon-tag"></i></th>

@@ -137,7 +137,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
                 ->leftJoin('a.picture', 'f')
                 ->addSelect('g')
                 ->leftJoin('a.idEnvironnement', 'g')
-                 ->distinct('GroupConcat(g.nom)')
+               //  ->distinct('GroupConcat(g.nom)')
                 ->leftJoin('a.comments', 'h')
                 ->addSelect('partial e.{id,nomUser}')
                //  ->distinct('GroupConcat(e.nomUser)')
@@ -145,7 +145,10 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
                 //->groupBy('e.id')
        // ->groupBy('a.id');
        
-          ->add('orderBy', 'a.id DESC');
+          ->add('orderBy', 'a.id DESC')
+    /*   ->groupBy('a.id')
+            ->addGroupBy('e.id')->addGroupBy('g.id')*/
+            ;
         // 
         return $query;
         //->getQuery();
