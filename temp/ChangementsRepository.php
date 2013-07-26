@@ -137,15 +137,14 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
                 ->leftJoin('a.picture', 'f')
                 ->addSelect('g')
                 ->leftJoin('a.idEnvironnement', 'g')
-                 ->distinct('GroupConcat(g.nom)')
+                // ->distinct('GroupConcat(g.nom)')
                 ->leftJoin('a.comments', 'h')
                 ->addSelect('partial e.{id,nomUser}')
                //  ->distinct('GroupConcat(e.nomUser)')
                 ->leftJoin('a.idusers', 'e')
-                //->groupBy('e.id')
        // ->groupBy('a.id');
-       
-          ->add('orderBy', 'a.id DESC');
+       ;
+        //   ->add('orderBy', 'a.id DESC');
         // 
         return $query;
         //->getQuery();
@@ -286,7 +285,7 @@ return $query;*/
 
         if (isset($criteria['idusers']) && $criteria['idusers'] != "") {
             //       var_dump($criteria['idEnvironnement']);exit(1);
-            $query->andWhere('e.id IN (:idUsers)')->groupBy('e.id')->orderBy('e.nomUser');
+            $query->andWhere('e.id IN (:idUsers)');
             $query->distinct('GroupConcat(e.nomUser)');
             $parameters['idUsers'] = $criteria['idusers'];
         }

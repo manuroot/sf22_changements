@@ -6,30 +6,6 @@
   {{ type_class_map[type] }}
 {% endmacro %}
 
-{% block javascripts %}
-    {{ parent() }}
-    {% javascripts 
-    '@ApplicationChangementsBundle/Resources/public/js/jquery.cookie.js'
-    '@ApplicationChangementsBundle/Resources/public/js/changementsown.js'
-    '@ApplicationChangementsBundle/Resources/public/js/jquery.colorbox.js'
-    '@ApplicationChangementsBundle/Resources/public/js/editme.js'
-
-      output='js/compiled/changementsown.js' filter='?yui_js' %}
-<script src="{{ asset_url }}"></script>
-{% endjavascripts %}
-{#
-<script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
-<script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/editme.js') }}"></script>
-#}
-
-    {% if is_granted("IS_AUTHENTICATED_FULLY") %}
-<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-<script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/changementsicons.js') }}"></script>
-{% endif %}
-   {{ form_javascript(search_form) }}
-{% endblock %}
-
 
   {% block stylesheets %}
 {{ parent() }}
@@ -56,15 +32,27 @@
 	margin-left: 5px;
        }
         </style>
-         {{ form_stylesheet(search_form) }}
+        
 {% endblock %}
 
 {% block content_header '' %}
 
 {% block title %}
-        PLANNING DES OPERATIONS  ({{ total }})
+        PLANNING DES OPERATIONS 
 {% endblock %}
 
 {% block content %}
-test
+
+       <div id="matable">
+     <table class="table table-striped table-bordered table-hover">
+        {% for entity in myentity %}
+             <tr>
+             
+            <td>{{ entity.id }}</td>
+                            
+             </tr>
+             
+    {% endfor %}
+        </table>
+         </div>
 {% endblock %}

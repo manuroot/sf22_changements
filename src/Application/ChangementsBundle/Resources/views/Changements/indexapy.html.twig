@@ -50,13 +50,17 @@ td {
 
 .grid-search {
   background-color:whitesmoke;
-/*height:200px;width:auto;*/
+height:300px;width:auto;
 }
 
-{#
-.grid-search > div{ float:left;text-align: left;
-}#}
-    </style>
+
+
+ .mysearch{ float:left;text-align: left;
+         
+}
+
+.mgrid-search-action {margin-left:20px;margin-top:10px;padding-left:10px;width: 300px;}
+/*  .mgrid-search-action button{position:relative;}*/  </style>
 {% endblock %}
 
 
@@ -148,43 +152,29 @@ LISTE DES OPERATIONS
        {# {% set long=floor(grid.columns/2) %}
                  {% for column in grid.columns %}#}
                 
-                  
+       <div>
             
          {% for column in grid.columns %}
             {% if column.visible(true) and column.isFilterable %}
                
                 {% set columnTitle = grid.prefixTitle ~ column.title %}
                 {% if column.filterable %}
-                     <div ><label>{{ columnTitle|trans }}</label>
+                     <div class="mysearch"><label>{{ columnTitle|trans }}</label>
                        {{ grid_filter(column, grid, false)|raw }}
 
                     </div>
                 {% endif %}
             {% endif %}
         {% endfor %}
-                    
+          </div>          
                         
-            <div class="grid-search-action">
-                
+            <div class="mgrid-search-action">
                 <button type="submit" class="btn btn-small btn-primary" value="{{ 'Search'|trans }}">
                 <i class="icon-minus-sign"></i> Search</button>
                 
                   <button type="button" class="btn btn-small btn-danger" value="{{ 'Reset'|trans }}" onclick="return {{ grid.hash }}_reset();"/>
                 <i class="icon-minus-sign"></i> Reset</button>
-            
-                {#
-                     <button type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
-            <i class="icon-minus-sign"></i> Reset Actions</button>   
-                <input type="button" class="grid-search-reset" value="{{ 'Reset'|trans }}" onclick="return {{ grid.hash }}_reset();"/></div>
-
-                       
-                        
-                
-                <<button type="button" class="btn btn-small btn-primary" value="{{ 'Search'|trans }}"/>
-                <input type="button" class="grid-search-reset" value="{{ 'Reset'|trans }}" onclick="return {{ grid.hash }}_reset();"/>
-            #} 
-           
-                     </div>
+           </div>
         </form>
     </div>
 {% endif %}

@@ -156,6 +156,7 @@ class Changements extends AbstractEvent {
 
     /**
      * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\ChronoUser", inversedBy="idchangement",cascade={"persist"})
+      * @ORM\OrderBy({"nomUser" = "ASC"})
       * @ORM\JoinTable(name="changements_users")
      */
     private $idusers;

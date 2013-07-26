@@ -28,6 +28,10 @@ use Doctrine\ORM\Tools\Pagination\CountOutputWalker;
 use Application\ChangementsBundle\Entity\ChangementsStatus;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Application\CentralBundle\Model\MesFiltresBundle;
+/*
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\Adapter\ArrayAdapter;
+use Pagerfanta\Adapter\DoctrineORMAdapter;*/
 
 /* use Pagerfanta\Pagerfanta;
   use Pagerfanta\Adapter\DoctrineORMAdapter;
@@ -44,44 +48,57 @@ class ChangementsController extends Controller {
      * 
       =================================================================== */
 
-    /*$paginator = new Paginator;
+   /* private function mypager($adapter = null, $max = 5, $page = 1) {
+        if (isset($adapter)) {
+            $pagerfanta = new Pagerfanta($adapter);
+            $pagerfanta->setMaxPerPage(5);
 
-$count = $entityManager
-    ->createQuery('SELECT COUNT(c) FROM Entity\CompositeKey c')
-    ->getSingleScalarResult()
-;
+            return $pagerfanta;
+        } else {
+            return null;
+        }
+    }
+*/
+    /* $paginator = new Paginator;
 
-$query = $entityManager
-    ->createQuery('SELECT c FROM Entity\CompositeKey c')
-    ->setHint('knp_paginator.count', $count)
-;
-$pagination = $paginator->paginate($query, 1, 10, array('distinct' => false));
+      $count = $entityManager
+      ->createQuery('SELECT COUNT(c) FROM Entity\CompositeKey c')
+      ->getSingleScalarResult()
+      ;
+
+      $query = $entityManager
+      ->createQuery('SELECT c FROM Entity\CompositeKey c')
+      ->setHint('knp_paginator.count', $count)
+      ;
+      $pagination = $paginator->paginate($query, 1, 10, array('distinct' => false));
      * 
      */
+
     private function createpaginator($query, $num_perpage = 5) {
 
         $paginator = $this->get('knp_paginator');
+        //  $paginator->setUseOutputWalkers(true);
         //$paginator->setUseOutputWalkers(true);
         $pagename = 'page'; // Set custom page variable name
         $page = $this->get('request')->query->get($pagename, 1); // Get custom page variable
- /*$em = $this->getDoctrine()->getManager();
-$count = $em
-    ->createQuery('SELECT COUNT(c) FROM Application\ChangementsBundle\Entity\Changements c')
-    ->getSingleScalarResult()
-;*/
-       /* $_GET['sort'] = 'e.nomUser';
-        $_GET['direction'] = 'asc';
-       */
+        /* $em = $this->getDoctrine()->getManager();
+          $count = $em
+          ->createQuery('SELECT COUNT(c) FROM Application\ChangementsBundle\Entity\Changements c')
+          ->getSingleScalarResult()
+          ; */
+        /* $_GET['sort'] = 'e.nomUser';
+          $_GET['direction'] = 'asc';
+         */
         $pagination = $paginator->paginate(
                 $query, $page, $num_perpage, array(
-                    'pageParameterName' => $pagename,
-                   // 'distinct' => false,
-           "sortDirectionParameterName" => "dir",
-           'sortFieldParameterName' => "sort"
-            )
+            'pageParameterName' => $pagename,
+            // 'distinct' => false,
+            "sortDirectionParameterName" => "dir",
+            'sortFieldParameterName' => "sort"
+                )
         );
-      //  $pagination->setParam('sort', 'e.nomUser');
-     //   $pagination->setParam('dir', 'asc');
+        //  $pagination->setParam('sort', 'e.nomUser');
+        //   $pagination->setParam('dir', 'asc');
 //$pagination->setParam('sort', 'DESC');
         $pagination->setTemplate('ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig');
         $pagination->setSortableTemplate('ApplicationChangementsBundle:pagination:sortable_link.html.twig');
@@ -155,17 +172,12 @@ $count = $em
 
     public function indexposttestAction(Request $request) {
 
-        //  $entity = new Changements();
         $parameters = array();
         $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $session = $request->getSession();
-        
-         $sort = $this->get('request')->query->get('sort');
-       
-         /*var_dump($sort);
-         if ($sort =='e.nomUser')
-         exit(1);*/
+      
+        $sort = $this->get('request')->query->get('sort');
         $session->set('buttonretour', 'changements_posttest');
         $searchForm = $this->createForm(new ChangementsFilterAmoiType());
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
@@ -183,31 +195,27 @@ $count = $em
                 $searchForm->bind($datas);
             }
         }
-          if ($sort == 'e.nomUser' || $sort == 'g.nom'){
-             $parameters['ungroup']=1;
-         //  exit(1);  
-          }
-         // var_dump($parameters);echo "<br><br>";
-     //    $parameters = array();
-        $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy($parameters);
-      /*  $result=$query->getQuery()->getResult();
-         return $this->render('ApplicationChangementsBundle:Changements:indexdebug.html.twig', array(
-                    'search_form' => $searchForm->createView(),
-                    'pagination' => $pagination,
-                    'total' => $count,  
-        ));*/
-        
-        $pagination = $this->createpaginator($query, 20);
-        /*  $sort = $this->get('request')->query->get('sort');
-         var_dump($sort);
-         if ($sort =='e.nomUser')
-         exit(1);*/
-        
+        /*if ($sort == 'e.nomUser' || $sort == 'g.nom') {
+            $parameters['ungroup'] = 1;
+            //  exit(1);  
+        }*/
+        // var_dump($parameters);echo "<br><br>";
+        //    $parameters = array();
+         $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy($parameters);
+        $pagination = $this->createpaginator($query, 10);
+       /* $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy($parameters);
+        $paginator = $this->get('knp_paginator');
+        $count = $em
+                ->createQuery('SELECT COUNT(a) FROM Application\ChangementsBundle\Entity\Changements a')
+                ->getSingleScalarResult()
+        ;
+        $query->setHint('knp_paginator.count', $count);
+        $pagination = $paginator->paginate($query, 1, 10, array('distinct' => true));*/
         $count = $pagination->getTotalItemCount();
         return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi.html.twig', array(
                     'search_form' => $searchForm->createView(),
                     'pagination' => $pagination,
-                    'total' => $count,  
+                    'total' => $count,
         ));
     }
 
@@ -944,11 +952,9 @@ $count = $em
         return $json;
     }
 
-   
-    
-     public function DescriptionAjaxAction(Request $request) {
+    public function DescriptionAjaxAction(Request $request) {
         $term = $request->get('term');
-         $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $entity_ticket = $em->getRepository('ApplicationChangementsBundle:Changements')->findAjaxValue(array('description' => $term));
         $json = array();
         foreach ($entity_ticket->getQuery()->getResult() as $ticket) {
@@ -958,28 +964,29 @@ $count = $em
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
-    
-     public function NomAjaxAction(Request $request) {
+
+    public function NomAjaxAction(Request $request) {
         $term = $request->get('term');
-         $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $entity_ticket = $em->getRepository('ApplicationChangementsBundle:Changements')->findAjaxValue(array('nom' => $term));
         $json = array();
         foreach ($entity_ticket->getQuery()->getResult() as $ticket) {
-            if (! in_array((string)$ticket->getNom(), $json))
-                array_push($json, (string)$ticket->getNom());
+            if (!in_array((string) $ticket->getNom(), $json))
+                array_push($json, (string) $ticket->getNom());
         }
         $response = new Response(json_encode($json));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
+
     public function TicketExtAjaxAction(Request $request) {
         $term = $request->get('term');
-         $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $entity_ticket = $em->getRepository('ApplicationChangementsBundle:Changements')->findAjaxValue(array('ticketExt' => $term));
         $json = array();
         foreach ($entity_ticket->getQuery()->getResult() as $ticket) {
-            if (! in_array((string)$ticket->getTicketExt(), $json))
-                array_push($json, (string)$ticket->getTicketExt());
+            if (!in_array((string) $ticket->getTicketExt(), $json))
+                array_push($json, (string) $ticket->getTicketExt());
         }
         $response = new Response(json_encode($json));
         $response->headers->set('Content-Type', 'application/json');
@@ -988,20 +995,19 @@ $count = $em
 
     public function TicketIntAjaxAction(Request $request) {
         $term = $request->get('term');
-       $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $entity_ticket = $em->getRepository('ApplicationChangementsBundle:Changements')->findAjaxValue(array('ticketInt' => $term));
         $json = array();
         foreach ($entity_ticket->getQuery()->getResult() as $ticket) {
-             if (! in_array((string)$ticket->getTicketInt(), $json))
-                array_push($json, (string)$ticket->getTicketInt());
-           }
-       // exit(1);
+            if (!in_array((string) $ticket->getTicketInt(), $json))
+                array_push($json, (string) $ticket->getTicketInt());
+        }
+        // exit(1);
         $response = new Response(json_encode($json));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
-   
     public function listByProjetAction() {
         $request = $this->getRequest();
 
@@ -1055,8 +1061,6 @@ $count = $em
             return $response;
         }
     }
-
- 
 
 }
 
