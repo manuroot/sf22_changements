@@ -54,9 +54,13 @@ class ChangementsController extends Controller {
         $pagename = 'page'; // Set custom page variable name
         $page = $this->get('request')->query->get($pagename, 1); // Get custom page variable
         $em = $this->getDoctrine()->getManager();
-        $count_total = $em->getRepository('ApplicationChangementsBundle:Changements')->getSimpleCountedJoinedBy();
-        $total = $count_total[1];
-        $query->setHint('knp_paginator.count', $total);
+      /* 
+        $results = $query->getResult();
+        $total = count($results);
+
+      // $count_total = $em->getRepository('ApplicationChangementsBundle:Changements')->getSimpleCountedJoinedBy();
+      //  $total = $count_total[1];
+        $query->setHint('knp_paginator.count', $total);*/
         $pagination = $paginator->paginate(
                 $query, $page, $num_perpage, array(
             'pageParameterName' => $pagename,
