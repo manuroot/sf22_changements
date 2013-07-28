@@ -32,3 +32,10 @@ certificats_documents_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "ApplicationCertificatsBundle:CertificatsFiles:delete" }
     requirements: { _method: post|delete }
+
+
+ajax_nom_certfiles:
+    pattern:  /ajaxfiles
+    methods: POST|GET
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsFiles:NomAjax" }
+  

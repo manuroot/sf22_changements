@@ -40,12 +40,27 @@ use Pagerfanta\Exception\NotValidCurrentPageException;
  * Changements controller.
  *
  */
-class ChangementsController extends Controller {
+class ChangementsfortestController extends Controller {
     /* ====================================================================
      *
      * CREATION DU PAGINATOR
      *
       =================================================================== */
+
+    /* $paginator = new Paginator;
+
+      $count = $entityManager
+      ->createQuery('SELECT COUNT(c) FROM Entity\CompositeKey c')
+      ->getSingleScalarResult()
+      ;
+
+      $query = $entityManager
+      ->createQuery('SELECT c FROM Entity\CompositeKey c')
+      ->setHint('knp_paginator.count', $count)
+      ;
+      $pagination = $paginator->paginate($query, 1, 10, array('distinct' => false));
+     *
+     */
 
     private function createpaginator($query, $num_perpage = 5) {
 
@@ -54,9 +69,17 @@ class ChangementsController extends Controller {
         $pagename = 'page'; // Set custom page variable name
         $page = $this->get('request')->query->get($pagename, 1); // Get custom page variable
         $em = $this->getDoctrine()->getManager();
+        //$count_total = $em->getRepository('ApplicationChangementsBundle:Changements')->getCountedJoinedBy();
         $count_total = $em->getRepository('ApplicationChangementsBundle:Changements')->getSimpleCountedJoinedBy();
+        //print_r($count_total);
+        //exit(1);
         $total = $count_total[1];
         $query->setHint('knp_paginator.count', $total);
+        /* $count = $em
+          ->createQuery('SELECT COUNT(c.id), FROM Application\ChangementsBundle\Entity\Changements c')
+          ->getSingleScalarResult()
+          ; */
+
         $pagination = $paginator->paginate(
                 $query, $page, $num_perpage, array(
             'pageParameterName' => $pagename,
@@ -158,9 +181,9 @@ class ChangementsController extends Controller {
                 $searchForm->bind($datas);
             }
         }
-        $query_changements = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll($parameters);
+         $query_changements = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll($parameters);
         //$query_changements = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy($parameters);
-
+        
         $pagination = $this->createpaginator($query_changements, 10);
         $count = $pagination->getTotalItemCount();
         return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi.html.twig', array(
@@ -371,6 +394,15 @@ class ChangementsController extends Controller {
             $session->set('calendar_dates', $dataform);
             $current_year = $dataform['publishedAt']['year'];
             $current_month = $dataform['publishedAt']['month'];
+            /* $next = date('Y-m-d', strtotime('+5days'));
+              $currenta = ($row->getField('dateDebut')->format('Y-m-d'));
+              $current = date('Y-m-d', strtotime($currenta)); */
+            //$current = new \DateTime($row->getField('endTime')->format('Y-m-d'));
+            //$current = date('Y-m-d', strtotime($row->getField('endTime')));
+            //$surround_months['next']month=date('MMMM');
+            // $date=$current_year . '-' $current_month . '-01';
+            //$surround_months['previous']= $currenta = $date->format('Y-m-d'));
+            //$surround_months['previous']=;$next_month=date('MMMM');
             $form->bind($dataform);
         } elseif (isset($datas_session)) {
             // echo "data set<br>";
@@ -432,20 +464,77 @@ class ChangementsController extends Controller {
                         $row->setColor('#fcf8e3');
                     }
 
+                    //$current = new \DateTime($row->getField('endTime')->format('Y-m-d'));
+                    //$current = date('Y-m-d', strtotime($row->getField('endTime')));
+                    /* if ($current < $past) {
+                      $row->setColor('#fddddd');
+                      } */
+                    //elseif ($current < $next) {
+                    /* if ($current < $next) {
+                      $row->setColor('#fcf8e3');
+                      } */
 
+                    // echo "current=$currenta<br>";
                     return $row;
                 }
         );
+        /*
+          $source->manipulateRow(
+          function ($row) {
+          // Don't show the row if the price is greater than $maxPrice
+          // $past = date('Y-m-d');
+          $next = date('Y-m-d', strtotime('+5days'));
+          $currenta = ($row->getField('dateDebut')->format('Y-m-d'));
+          $current = date('Y-m-d', strtotime($currenta));
+          //$current = new \DateTime($row->getField('endTime')->format('Y-m-d'));
+          //$current = date('Y-m-d', strtotime($row->getField('endTime')));
+          if ($current < $past) {
+          $row->setColor('#fddddd');
+          }
+          //elseif ($current < $next) {
+          if ($current < $next) {
+          $row->setColor('#fcf8e3');
+          }
+
+          return $row;
+          }
+          ); */
+
         $grid = $this->container->get('grid');
         // Attach the source to the grid
         $grid->setSource($source);
 
         $grid->setId('changementsgrid');
+
+
+        //chiant si error
+        /* $grid->addExport(new ExcelExport('Excel Export','changements.xls',array(),'Windows-1252'));
+          //$grid->addExport(new ExcelExport($title, $fileName, $params, $charset, $role));
+          $grid->addExport(new GridExport('CSV Export in French', 'export', array('delimiter' => ';'), 'Windows-1252'));
+          // $grid->addExport(new GridExport('CSV Export', 'export')); */
         $grid->setPersistence(false);
         $grid->setDefaultOrder('id', 'desc');
         // Set the selector of the number of items per page
         $grid->setLimits(array(15));
 
+        /* $categoriesColumn = $grid->getColumn('idEnvironnement.nom:AtGroupConcat');
+          $categoryValues = array(
+          'production' => 'production',
+          'integration' => 'integration',
+          );
+          $categoriesColumn->setValues(
+          $categoryValues
+          );
+          $categoriesColumn->setOperators(
+          array("like","nlike","eq","neq")
+          );
+
+
+         */
+
+        /* $categoriesColumn->setOperators(
+          array("like")
+          ); */
 
         // Set the default page
         $grid->setPage($page);
@@ -657,10 +746,22 @@ class ChangementsController extends Controller {
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
+            /* $postData = $request->request->get('changements');
+              //$data = $editForm->getData();
+              var_dump($postData);
+              exit(1); */
+            /* if ($form->get('file')->getData() != NULL) {//user have uploaded a new file
+              $file = $form->get('file')->getData();//get 'UploadedFile' object
+              $news->setPath($file->getClientOriginalName());//change field that holds file's path in db to a temporary value,i.e original file name uploaded by user
+              } */
             $em->persist($entity);
             $em->flush();
             $session = $this->getRequest()->getSession();
             $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
+            /* $route_back = $session->get('buttonretour');
+              if (isset($route_back))
+              return $this->redirect($this->generateUrl($route_back, array('id' => $id)));
+              else */
             return $this->redirect($this->generateUrl('changements_posttest'));
         }
 
@@ -744,6 +845,12 @@ class ChangementsController extends Controller {
         $year = isset($values['annee']) ? $values['annee'] : 'annee';
         $month = isset($values['mois']) ? $values['mois'] : 'mois';
         return $this->createFormBuilder()
+                        /* ->add('publishedAt', 'date', array(
+                          'widget' => 'choice',
+                          'empty_value' => array('year' => $year, 'month' => $month, 'day' => '1')
+                          )) */
+                        // ->add('month', 'choice', array('label' => 'Mois', 'choices' => $mmonth,'data'=>$month))
+                        // ->add('year', 'choice', array('label' => 'Année', 'choices' => $myears, 'data' => $year))
                         ->add('publishedAt', 'birthday', array(
                             'widget' => 'choice',
                             'format' => 'yyyy-MM-dd',
@@ -751,6 +858,9 @@ class ChangementsController extends Controller {
                             'years' => range(Date('Y'), 2008),
                             'label' => false,
                             'input' => 'string',
+                                // 'data'=>'2013-05-01',
+                                // 'data' => new \DateTime('2009-02-20')
+                                //'data' => date_create()
                         ))
                         ->getForm()
         ;
@@ -788,6 +898,14 @@ class ChangementsController extends Controller {
                 $em->persist($entity);
                 $em->flush();
             }
+
+            // $entity_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->find($id_status);
+            // echo "id_status=$id_status<br>";exit(1);
+            // $status=new ChangementsStatus;
+            // ChangementsStatus;
+            /* $status=new ChangementsStatus;
+              $status=$entity->getIdStatus(); */
+            /* echo "description=$description"; */
             $array = array('mystatus' => "$id_status");
             $array = array($array);
             $response = new Response(json_encode($array));
@@ -926,13 +1044,33 @@ class ChangementsController extends Controller {
         $session = $request->getSession();
 
         $sort = $this->get('request')->query->get('sort');
-        $query = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
-
-        // avec query->getQuery() only
-        $query->setFirstResult(0);
+       $query = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
+   
+       // avec query->getQuery() only
+       $query->setFirstResult(0);
         $query->setMaxResults(10);
 
+//$pagination = $query->getArrayResult();
+        /* foreach ($pagination as $k=>$v){
+          echo "k=$k v=$v<br>";
+          }
+          exit(1); */
+//$pagination = $query->getResult(Query::HYDRATE_ARRAY);
+        // $pagination=$query->getResult();
+        // $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getJoinedBy();
+        // $pagination=$query->getResult();
+        //  $count=10;
         $pagination = $this->createpaginator($query, 10);
+        /* $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy($parameters);
+          $paginator = $this->get('knp_paginator');
+          $count = $em
+          ->createQuery('SELECT COUNT(a) FROM Application\ChangementsBundle\Entity\Changements a')
+          ->getSingleScalarResult()
+          ;
+          $query->setHint('knp_paginator.count', $count);
+          $pagination = $paginator->paginate($query, 1, 10, array('distinct' => true)); */
+        // $count = $pagination->getTotalItemCount();
+        //   $count = $pagination->getTotalItemCount();
         return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi_debug.html.twig', array(
                     'pagination' => $pagination,
                     'total' => $count,
@@ -957,36 +1095,14 @@ class ChangementsController extends Controller {
         $request = $this->getRequest();
         $session = $request->getSession();
 
-        
-        $session->set('buttonretour', 'changements_posttest');
-        $searchForm = $this->createForm(new ChangementsFilterAmoiType());
-        if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
-            $session->remove('changementControllerFilternew');
-        } elseif ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
-            $alldatas = $request->request->all();
-            $datas = $alldatas["changements_searchfilter"];
-            $parameters = $datas;
-            $session->set('changementControllerFilternew', $datas);
-            $searchForm->bind($datas);
-        } else {
-            if ($session->has('changementControllerFilternew')) {
-                $datas = $session->get('changementControllerFilternew');
-                $parameters = $datas;
-                $searchForm->bind($datas);
-            }
-        }
-        $sort = $this->get('request')->query->get('sort', 'a.id');
-        $dir = $this->get('request')->query->get('dir', 'DESC');
-
-        $next_dir= ($dir == 'DESC') ? 'ASC' : 'DESC';
-//echo "sort=$sort, dir=$dir<br>";exit(1);
+        $sort = $this->get('request')->query->get('sort');
 
         /* if ($sort == 'e.nomUser' || $sort == 'g.nom') {
           $parameters['ungroup'] = 1;
           //  exit(1);
           } */
         $page = $this->get('request')->query->get('page', 1); // Get custom page variable
-        $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getJoinedBy($sort, $dir,$parameters);
+        $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getJoinedBy();
         $adapter = new DoctrineORMAdapter($query);
         //$adapter->setDistinct(false);
         $pagerfanta = $this->mypager($adapter, 10);
@@ -999,9 +1115,104 @@ class ChangementsController extends Controller {
         return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi_debugfanta.html.twig', array(
                     'pagerfanta' => $pagerfanta,
                     'entities' => $q,
-            'next_dir'=>$next_dir,
-             'search_form' => $searchForm->createView(),
         ));
     }
 
 }
+
+/*
+* // $past = date('Y-m-d', strtotime('-30days'));
+// $currenta = ($row->getField('endTime')->format('Y-m-d'));
+//$current = date('Y-m-d', strtotime('+30days'));
+$current = new \DateTime("2013-06");
+$past = new \DateTime("2013-05");
+//$current = new \DateTime($row->getField('endTime')->format('Y-m-d'));
+
+//$factory = new CalendR\Calendar;
+//$factory->getEventManager()->addProvider('myawesomeprovider', 'new MyAwesomeProvider');
+// $f=$this->get('booking_repository');
+// $month = $f->getMonth(2012, 6);
+*
+*
+*
+*
+*
+*
+*
+* /*
+$filters = new Filters();
+
+$form = $this->createForm(new FiltersType(), $filters);
+
+$session = $this->getRequest()->getSession();
+
+if ($session->get('dql') == null) {
+$session->set('dql', "SELECT a FROM ViciousAmateurBundle:Post a WHERE a.is_active = true");
+}
+
+if ($request->isMethod('POST')) {
+$form->bind($request);
+
+if ($form->isValid()) {
+$dql = "SELECT a FROM ViciousAmateurBundle:Post a WHERE a.is_active = true";
+$country = $filters->getCountry();
+$city = $filters->getCity();
+$gender = $filters->getGender();
+$sexualOrientation = $filters->getSexualOrientation();
+
+if (isset($country)) {
+$dql .= " AND a.country = '" . $filters->getCountry() . "'";
+}
+if (isset($city)) {
+$dql .= " AND a.city = '" . $filters->getCity() . "'";
+}
+if (isset($gender)) {
+$dql .= " AND a.gender = '" . $filters->getGender() . "'";
+}
+if (isset($sexualOrientation)) {
+$dql .= " AND a.sexual_orientation = '" . $filters->getSexualOrientation() . "'";
+}
+
+$session->set('dql', $dql);
+}
+}
+
+/*
+$filters = new Filters();
+
+$form = $this->createForm(new FiltersType(), $filters);
+
+$session = $this->getRequest()->getSession();
+
+if ($session->get('dql') == null) {
+$session->set('dql', "SELECT a FROM ViciousAmateurBundle:Post a WHERE a.is_active = true");
+}
+
+if ($request->isMethod('POST')) {
+$form->bind($request);
+
+if ($form->isValid()) {
+$dql = "SELECT a FROM ViciousAmateurBundle:Post a WHERE a.is_active = true";
+$country = $filters->getCountry();
+$city = $filters->getCity();
+$gender = $filters->getGender();
+$sexualOrientation = $filters->getSexualOrientation();
+
+if (isset($country)) {
+$dql .= " AND a.country = '" . $filters->getCountry() . "'";
+}
+if (isset($city)) {
+$dql .= " AND a.city = '" . $filters->getCity() . "'";
+}
+if (isset($gender)) {
+$dql .= " AND a.gender = '" . $filters->getGender() . "'";
+}
+if (isset($sexualOrientation)) {
+$dql .= " AND a.sexual_orientation = '" . $filters->getSexualOrientation() . "'";
+}
+
+$session->set('dql', $dql);
+}
+}
+
+*/

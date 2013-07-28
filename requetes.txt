@@ -1,0 +1,143 @@
+SELECT  c0_.id AS id0, c0_.nom AS nom1, c0_.date_debut AS date_debut2, c0_.date_fin AS date_fin3, c1_.nomprojet AS nomprojet4, c2_.nom_user AS nom_user5, GROUP_CONCAT( DISTINCT c3_.nom_user ) AS sclr6, GROUP_CONCAT( DISTINCT e4_.nom ) AS sclr7
+      FROM changements_main c0_
+      LEFT JOIN projet_main c1_ ON c0_.id_projet = c1_.id
+      LEFT JOIN chrono_user c2_ ON c0_.demandeur = c2_.id
+      INNER JOIN changements_users c5_ ON c0_.id = c5_.changements_id
+      LEFT JOIN chrono_user c3_ ON c3_.id = c5_.chronouser_id
+      LEFT JOIN changements_environnements c6_ ON c0_.id = c6_.changements_id
+      LEFT JOIN environnement_main e4_ ON e4_.id = c6_.environnements_id
+      GROUP BY c0_.id
+      ORDER BY sclr6 ASC
+      LIMIT 0 , 30
+
+
+
+SELECT 
+  DISTINCT c0_.id AS id0, 
+  c0_.nom AS nom1, 
+  c0_.date_debut AS date_debut2, 
+  c0_.date_fin AS date_fin3, 
+  c0_.date_comep AS date_comep4, 
+  c0_.date_vsr AS date_vsr5, 
+  c0_.description AS description6, 
+  c0_.ticket_ext AS ticket_ext7, 
+  c0_.ticket_int AS ticket_int8, 
+  c0_.astreinte AS astreinte9, 
+  p1_.id AS id10, 
+  p1_.nomprojet AS nomprojet11, 
+  c2_.id AS id12, 
+  c2_.nom_user AS nom_user13, 
+  c3_.id AS id14, 
+  c3_.nom AS nom15, 
+  c3_.description AS description16, 
+  c4_.id AS id17, 
+  c4_.name AS name18, 
+  c4_.md5 AS md519, 
+  c4_.path AS path20, 
+  c4_.OriginalFilename AS OriginalFilename21, 
+  c4_.updated_at AS updated_at22, 
+  c4_.created_at AS created_at23, 
+  e5_.id AS id24, 
+  e5_.nom AS nom25, 
+  e5_.description AS description26, 
+  c6_.id AS id27, 
+  c7_.id AS id28, 
+  c7_.nom_user AS nom_user29, 
+  c0_.id_projet AS id_projet30, 
+  c0_.demandeur AS demandeur31, 
+  c0_.id_status AS id_status32, 
+  c2_.id_group AS id_group33, 
+  c6_.user AS user34, 
+  c6_.changement_id AS changement_id35, 
+  c7_.id_group AS id_group36 
+FROM 
+  changements_main c0_ 
+  LEFT JOIN projet_main p1_ ON c0_.id_projet = p1_.id 
+  LEFT JOIN chrono_user c2_ ON c0_.demandeur = c2_.id 
+  LEFT JOIN changements_status c3_ ON c0_.id_status = c3_.id 
+  LEFT JOIN changements_documents c8_ ON c0_.id = c8_.changements_id 
+  LEFT JOIN changements_fichiers c4_ ON c4_.id = c8_.docchangements_id 
+  LEFT JOIN changements_environnements c9_ ON c0_.id = c9_.changements_id 
+  LEFT JOIN environnement_main e5_ ON e5_.id = c9_.environnements_id 
+  LEFT JOIN changements_comments c6_ ON c0_.id = c6_.changement_id 
+  LEFT JOIN changements_users c10_ ON c0_.id = c10_.changements_id 
+  LEFT JOIN chrono_user c7_ ON c7_.id = c10_.chronouser_id 
+ORDER BY 
+  c0_.id DESC, 
+  e5_.nom ASC, 
+  c7_.nom_user ASC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SELECT 
+  c0_.id AS id0, 
+  c0_.nom AS nom1, 
+  c0_.date_debut AS date_debut2, 
+  c0_.date_fin AS date_fin3, 
+  c0_.date_comep AS date_comep4, 
+  c0_.date_vsr AS date_vsr5, 
+  c0_.description AS description6, 
+  c0_.ticket_ext AS ticket_ext7, 
+  c0_.ticket_int AS ticket_int8, 
+  c0_.astreinte AS astreinte9, 
+  p1_.id AS id10, 
+  p1_.nomprojet AS nomprojet11, 
+  c2_.id AS id12, 
+  c2_.nom_user AS nom_user13, 
+  c3_.id AS id14, 
+  c3_.nom AS nom15, 
+  c3_.description AS description16, 
+  c4_.id AS id17, 
+  c4_.name AS name18, 
+  c4_.md5 AS md519, 
+  c4_.path AS path20, 
+  c4_.OriginalFilename AS OriginalFilename21, 
+  c4_.updated_at AS updated_at22, 
+  c4_.created_at AS created_at23, 
+  e5_.id AS id24, 
+  e5_.nom AS nom25, 
+  e5_.description AS description26, 
+  c6_.id AS id27, 
+  c7_.id AS id28, 
+  c7_.nom_user AS nom_user29, 
+  c0_.id_projet AS id_projet30, 
+  c0_.demandeur AS demandeur31, 
+  c0_.id_status AS id_status32, 
+  c2_.id_group AS id_group33, 
+  c6_.user AS user34, 
+  c6_.changement_id AS changement_id35, 
+  c7_.id_group AS id_group36 
+FROM 
+  changements_main c0_ 
+  LEFT JOIN projet_main p1_ ON c0_.id_projet = p1_.id 
+  LEFT JOIN chrono_user c2_ ON c0_.demandeur = c2_.id 
+  LEFT JOIN changements_status c3_ ON c0_.id_status = c3_.id 
+  LEFT JOIN changements_documents c8_ ON c0_.id = c8_.changements_id 
+  LEFT JOIN changements_fichiers c4_ ON c4_.id = c8_.docchangements_id 
+  LEFT JOIN changements_environnements c9_ ON c0_.id = c9_.changements_id 
+  LEFT JOIN environnement_main e5_ ON e5_.id = c9_.environnements_id 
+  LEFT JOIN changements_comments c6_ ON c0_.id = c6_.changement_id 
+  LEFT JOIN changements_users c10_ ON c0_.id = c10_.changements_id 
+  LEFT JOIN chrono_user c7_ ON c7_.id = c10_.chronouser_id 
+GROUP BY 
+  c0_.id 
+ORDER BY 
+  e5_.nom ASC, 
+  c7_.nom_user ASC 
+LIMIT 
+  10 OFFSET 0
+
+

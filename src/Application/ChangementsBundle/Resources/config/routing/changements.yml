@@ -8,6 +8,16 @@ changements_posttest:
     defaults: { _controller: "ApplicationChangementsBundle:Changements:indexposttest" }
     methods: POST|GET
 
+changements_posttestdebug:
+    pattern:  /debug
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:indexposttestdebug" }
+    methods: POST|GET
+
+changements_posttestdebugfanta:
+    pattern:  /debugfanta
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:indexposttestdebugfanta" }
+    methods: POST|GET
+
 
 changements_genemutest:
     pattern:  /genemu

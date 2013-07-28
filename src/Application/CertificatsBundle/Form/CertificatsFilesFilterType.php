@@ -26,13 +26,26 @@ class CertificatsFilesFilterType extends AbstractType {
                     'mapped' => false,'required'=>false,
               //      'data' => $this->getData()-> getTicketInt()
                 ))*/
-               
+              
+                ->add('name', 'genemu_jqueryautocomplete_text', array(
+                    'label' => 'Nom',
+                    'widget_addon' => array(
+                        'icon' => 'pencil',
+                        'type' => 'prepend'
+                    ),
+                     'configs' => array('minLength' => 2),
+                    'mapped' => false, 'required' => false,
+                    'route_name' => 'ajax_nom_certfiles',
+                    'class' => 'Application\CertificatsFilesBundle\Entity\CertificatsFiles',
+                ))
+
+               /*
                 ->add('name','text',array( 
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'
                         ),
-                    'mapped'=>false,'required'=>false))
+                    'mapped'=>false,'required'=>false))*/
                
                   /*   ->add('path','text',array( 
                     'widget_addon' => array(
@@ -80,14 +93,25 @@ class CertificatsFilesFilterType extends AbstractType {
                     'mapped' => false,'required'=>false,
               //      'data' => $this->getData()-> getTicketInt()
                 ))*/
-               
+                ->add('OriginalFilename', 'genemu_jqueryautocomplete_text', array(
+                    'label' => 'OriginalFilename',
+                    'widget_addon' => array(
+                        'icon' => 'pencil',
+                        'type' => 'prepend'
+                    ),
+                     'configs' => array('minLength' => 2),
+                    'mapped' => false, 'required' => false,
+                    'route_name' => 'ajax_nom_certfiles',
+                    'class' => 'Application\CertificatsFilesBundle\Entity\CertificatsFiles',
+                ))
+/*
                ->add('OriginalFilename', 'text', array(
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'
                     ),
                     'mapped' => false, 'required' => false))
-              
+              */
                 ->add('certificats','text',array( 
                     'label'=>'Nom du certificat',
                     'widget_addon' => array(

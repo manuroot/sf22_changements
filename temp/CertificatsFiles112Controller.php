@@ -88,7 +88,7 @@ class CertificatsFilesController extends Controller {
         ));
     }
 
-     public function indexAction(Request $request) {
+     public function index11Action(Request $request) {
 
         //  $entity = new Changements();
         $parameters = array();
@@ -372,17 +372,5 @@ class CertificatsFilesController extends Controller {
         $response->setContent($content);
         return $response;
     }
- public function NomAjaxAction(Request $request) {
-        $term = $request->get('term');
-        $em = $this->getDoctrine()->getManager();
-        $entity_ticket = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->findAjaxValue(array('OriginalFilename' => $term));
-        $json = array();
-        foreach ($entity_ticket->getQuery()->getResult() as $ticket) {
-            if (!in_array((string) $ticket->getOriginalFilename(), $json))
-                array_push($json, (string) $ticket->getOriginalFilename());
-        }
-        $response = new Response(json_encode($json));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
+
 }

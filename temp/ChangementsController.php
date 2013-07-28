@@ -32,6 +32,12 @@ use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 
+//use Doctrine\ORM\Tools\Pagination\CountOutputWalker;
+/*
+  use Pagerfanta\Pagerfanta;
+  use Pagerfanta\Adapter\ArrayAdapter;
+  use Pagerfanta\Adapter\DoctrineORMAdapter; */
+
 /* use Pagerfanta\Pagerfanta;
   use Pagerfanta\Adapter\DoctrineORMAdapter;
   use Pagerfanta\Exception\NotValidCurrentPageException; */
@@ -42,28 +48,94 @@ use Pagerfanta\Exception\NotValidCurrentPageException;
  */
 class ChangementsController extends Controller {
     /* ====================================================================
-     *
-     * CREATION DU PAGINATOR
-     *
+     * 
+     *  CREATION DU PAGINATOR
+     * 
       =================================================================== */
+
+    /* private function mypager($adapter = null, $max = 5, $page = 1) {
+      if (isset($adapter)) {
+      $pagerfanta = new Pagerfanta($adapter);
+      $pagerfanta->setMaxPerPage(5);
+
+      return $pagerfanta;
+      } else {
+      return null;
+      }
+      }
+     */
+    /* $paginator = new Paginator;
+
+      $count = $entityManager
+      ->createQuery('SELECT COUNT(c) FROM Entity\CompositeKey c')
+      ->getSingleScalarResult()
+      ;
+
+      $query = $entityManager
+      ->createQuery('SELECT c FROM Entity\CompositeKey c')
+      ->setHint('knp_paginator.count', $count)
+      ;
+      $pagination = $paginator->paginate($query, 1, 10, array('distinct' => false));
+     * 
+     */
 
     private function createpaginator($query, $num_perpage = 5) {
 
+        //  $paginator = new Paginator;
+
         $paginator = $this->get('knp_paginator');
+        //   $paginator->setUseOutputWalkers(true);
+
+        /* $query
+          ->setHint(OrderByWalker::HINT_PAGINATOR_SORT_ALIAS, 'a')
+          ->setHint(OrderByWalker::HINT_PAGINATOR_SORT_DIRECTION, 'desc')
+          ->setHint(OrderByWalker::HINT_PAGINATOR_SORT_FIELD, 'id')
+          ; */
+        //  $paginator->setUseOutputWalkers(true);
         //$paginator->setUseOutputWalkers(true);
         $pagename = 'page'; // Set custom page variable name
         $page = $this->get('request')->query->get($pagename, 1); // Get custom page variable
-        $em = $this->getDoctrine()->getManager();
-        $count_total = $em->getRepository('ApplicationChangementsBundle:Changements')->getSimpleCountedJoinedBy();
-        $total = $count_total[1];
-        $query->setHint('knp_paginator.count', $total);
+        /* $em = $this->getDoctrine()->getManager();
+          $count = $em
+          ->createQuery('SELECT COUNT(c) FROM Application\ChangementsBundle\Entity\Changements c')
+          ->getSingleScalarResult()
+          ; */
+        /* $_GET['sort'] = 'e.nomUser';
+          $_GET['direction'] = 'asc';
+         */
+        //    $request = $this->getRequest();
+        //   $session = $request->getSession();
+
+      //  $sort = $this->get('request')->query->get('sort');
+       /* if ($sort == 'e.nomUser' || $sort == 'g.nom') {
+//exit(1);
+            $_GET['sort'] = 'g.id';
+            $query
+                    ->addGroupBy('a.id')
+                    ->addOrderBy('g.nom')
+                //  ->addSelect('GroupConcat(g.nom)') ;
+                    //->distinct('GroupConcat(g.nom)');
+            // getJoinedBy
+                    ;
+        }*/
+        // $request->query->set('sort', 'a.id');
+        //  $request->query->set('dir', 'desc');
+        /*  $paginator->setParam('sort', 'e.nomUser');
+          $paginator->setParam('dir', 'asc'); */
         $pagination = $paginator->paginate(
-                $query, $page, $num_perpage, array(
+                $query->getQuery(), $page, $num_perpage, array(
             'pageParameterName' => $pagename,
             'distinct' => true,
             "sortDirectionParameterName" => "dir",
-            'sortFieldParameterName' => "sort")
+            'sortFieldParameterName' => "sort"
+                )
         );
+// pour le display, on gruge
+        //  $pagination->setParam('sort', 'g.nom');
+        //   $pagination->setParam('direction', 'asc');
+        //  $paginator->setParam('sort', 'e.nomUser');
+        //   $paginator->setParam('dir', 'asc');
+//$pagination->setParam('sort', 'DESC');
         $pagination->setTemplate('ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig');
         $pagination->setSortableTemplate('ApplicationChangementsBundle:pagination:sortable_link.html.twig');
         return $pagination;
@@ -74,7 +146,7 @@ class ChangementsController extends Controller {
      *
      */
     protected function filter() {
-        // $message = "filter datas";
+        //  $message = "filter datas";
         $message = "";
         $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
@@ -136,11 +208,14 @@ class ChangementsController extends Controller {
 
     public function indexposttestAction(Request $request) {
 
-        // $entity = new Changements();
         $parameters = array();
         $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $session = $request->getSession();
+
+        //  $sort = $this->get('request')->query->get('sort');
+        // if ($sort == 'e.nomUser' || $sort == 'g.nom') {
+        // $this->get('request')->query->set('sort','a.id');
         $session->set('buttonretour', 'changements_posttest');
         $searchForm = $this->createForm(new ChangementsFilterAmoiType());
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
@@ -158,15 +233,88 @@ class ChangementsController extends Controller {
                 $searchForm->bind($datas);
             }
         }
-        $query_changements = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll($parameters);
-        //$query_changements = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy($parameters);
-
-        $pagination = $this->createpaginator($query_changements, 10);
+        $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy($parameters);
+        $pagination = $this->createpaginator($query, 10);
         $count = $pagination->getTotalItemCount();
         return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi.html.twig', array(
                     'search_form' => $searchForm->createView(),
                     'pagination' => $pagination,
                     'total' => $count,
+        ));
+    }
+
+    public function indexposttestdebugAction(Request $request) {
+
+        $parameters = array();
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->getRequest();
+        $session = $request->getSession();
+
+        $sort = $this->get('request')->query->get('sort');
+
+        /* if ($sort == 'e.nomUser' || $sort == 'g.nom') {
+          $parameters['ungroup'] = 1;
+          //  exit(1);
+          } */
+        // var_dump($parameters);echo "<br><br>";
+        //    $parameters = array();
+        $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getJoinedBy();
+        // $pagination=$query->getResult();
+        //  $count=10;
+        $pagination = $this->createpaginator($query, 10);
+        /* $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy($parameters);
+          $paginator = $this->get('knp_paginator');
+          $count = $em
+          ->createQuery('SELECT COUNT(a) FROM Application\ChangementsBundle\Entity\Changements a')
+          ->getSingleScalarResult()
+          ;
+          $query->setHint('knp_paginator.count', $count);
+          $pagination = $paginator->paginate($query, 1, 10, array('distinct' => true)); */
+        // $count = $pagination->getTotalItemCount();
+        //   $count = $pagination->getTotalItemCount();
+        return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi_debug.html.twig', array(
+                    'pagination' => $pagination,
+                    'total' => $count,
+        ));
+    }
+
+    private function mypager($adapter = null, $max = 5, $page = 1) {
+        if (isset($adapter)) {
+            $pagerfanta = new Pagerfanta($adapter);
+            $pagerfanta->setMaxPerPage($max);
+
+            return $pagerfanta;
+        } else {
+            return null;
+        }
+    }
+
+    public function indexposttestdebugfantaAction(Request $request) {
+
+        $parameters = array();
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->getRequest();
+        $session = $request->getSession();
+
+        $sort = $this->get('request')->query->get('sort');
+
+        /* if ($sort == 'e.nomUser' || $sort == 'g.nom') {
+          $parameters['ungroup'] = 1;
+          //  exit(1);
+          } */
+        $page = $this->get('request')->query->get('page', 1); // Get custom page variable
+        $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getJoinedBy();
+        $adapter = new DoctrineORMAdapter($query);
+        $pagerfanta = $this->mypager($adapter, 10);
+        try {
+            $pagerfanta->setCurrentPage($page);
+            $q = $pagerfanta->getCurrentPageResults();
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+        return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi_debugfanta.html.twig', array(
+                    'pagerfanta' => $pagerfanta,
+                    'entities' => $q,
         ));
     }
 
@@ -205,7 +353,7 @@ class ChangementsController extends Controller {
         );
         $res2 = $data_sumbymonth->getScalarResult();
         $hbar_parmois = $data_month->getScalarResult();
-        // var_dump($res2);exit(1);
+        //   var_dump($res2);exit(1);
         $series_bymois = array();
         foreach ($res2 as $k => $v) {
             $series_bymois[(integer) ($v['mois']) - 1] = (integer) $v['nb'];
@@ -220,7 +368,7 @@ class ChangementsController extends Controller {
 
 
         $series = array(
-            // array("name" => "Data Serie Name", "data" => array(1, 2, 4, 7, 6,9))
+            //        array("name" => "Data Serie Name", "data" =>     array(1, 2, 4, 7, 6,9))
             array("name" => "operations", "data" => $series_bymois)
         );
 
@@ -244,11 +392,11 @@ class ChangementsController extends Controller {
                 "data" => $v
             ));
         }
-        // var_dump($applis);
-        // exit(1);
+        //  var_dump($applis);
+        //  exit(1);
 
         $ob1 = new Highchart();
-        $ob1->chart->renderTo('linechart1'); // The #id of the div where to render the chart
+        $ob1->chart->renderTo('linechart1');  // The #id of the div where to render the chart
         $ob1->chart->type('column');
         $ob1->title->text('Demandes ' . $current_year);
 //$categories = array('Jan', 'Feb', 'Mar', 'Apr', 'May');
@@ -324,7 +472,7 @@ class ChangementsController extends Controller {
             ),
         ));
 
-        // $ob4->plotOptions->series(array('stacking'=> 'normal'));
+        //  $ob4->plotOptions->series(array('stacking'=> 'normal'));
         $ob4->title->text($titre . ': Projets par mois');
         $ob4->legend->backgroundColor('#FFFCCE');
         $ob4->legend->reverse(true);
@@ -367,14 +515,23 @@ class ChangementsController extends Controller {
         $form = $this->createForm(new CalendarType());
         if ($request->getMethod() == 'POST') {
             $dataform = $request->get('changements_calendar_form');
-            // print_r($dataform);exit(1);
+            //     print_r($dataform);exit(1);
             $session->set('calendar_dates', $dataform);
             $current_year = $dataform['publishedAt']['year'];
             $current_month = $dataform['publishedAt']['month'];
+            /*  $next = date('Y-m-d', strtotime('+5days'));
+              $currenta = ($row->getField('dateDebut')->format('Y-m-d'));
+              $current = date('Y-m-d', strtotime($currenta)); */
+            //$current = new \DateTime($row->getField('endTime')->format('Y-m-d'));
+            //$current = date('Y-m-d', strtotime($row->getField('endTime')));
+            //$surround_months['next']month=date('MMMM');
+            //  $date=$current_year . '-' $current_month . '-01'; 
+            //$surround_months['previous']= $currenta = $date->format('Y-m-d'));
+            //$surround_months['previous']=;$next_month=date('MMMM');
             $form->bind($dataform);
         } elseif (isset($datas_session)) {
-            // echo "data set<br>";
-            // exit(1);
+            //   echo "data set<br>";
+            //    exit(1);
             $datas = $session->get('calendar_dates');
             $current_year = $datas['publishedAt']['year'];
             $current_month = $datas['publishedAt']['month'];
@@ -382,9 +539,9 @@ class ChangementsController extends Controller {
         }
         // pas de sesion
         else {
-            // echo "pas de session<br>";
+            //  echo "pas de session<br>";
             //print_r($datas_session);
-            // exit(1);
+            //    exit(1);
             $current_date = new \DateTime();
             // $next=
             //$current_yearmonth = $current_date->format('Y-m');
@@ -423,8 +580,8 @@ class ChangementsController extends Controller {
         $source->manipulateRow(
                 function ($row) {
                     // Don't show the row if the price is greater than $maxPrice
-                    // $past = date('Y-m-d');
-                    // $next = date('Y-m-d', strtotime('+5days'));
+                    //  $past = date('Y-m-d');
+                    //  $next = date('Y-m-d', strtotime('+5days'));
                     $currenta = $row->getField('idStatus.nom');
                     if ($currenta == 'en cours') {
                         $row->setColor('#dff0d8;');
@@ -432,26 +589,83 @@ class ChangementsController extends Controller {
                         $row->setColor('#fcf8e3');
                     }
 
+                    //$current = new \DateTime($row->getField('endTime')->format('Y-m-d'));
+                    //$current = date('Y-m-d', strtotime($row->getField('endTime')));
+                    /* if ($current < $past) {
+                      $row->setColor('#fddddd');
+                      } */
+                    //elseif ($current < $next) {
+                    /*  if ($current < $next) {
+                      $row->setColor('#fcf8e3');
+                      } */
 
+                    //    echo "current=$currenta<br>";
                     return $row;
                 }
         );
+        /*
+          $source->manipulateRow(
+          function ($row) {
+          // Don't show the row if the price is greater than $maxPrice
+          //  $past = date('Y-m-d');
+          $next = date('Y-m-d', strtotime('+5days'));
+          $currenta = ($row->getField('dateDebut')->format('Y-m-d'));
+          $current = date('Y-m-d', strtotime($currenta));
+          //$current = new \DateTime($row->getField('endTime')->format('Y-m-d'));
+          //$current = date('Y-m-d', strtotime($row->getField('endTime')));
+          if ($current < $past) {
+          $row->setColor('#fddddd');
+          }
+          //elseif ($current < $next) {
+          if ($current < $next) {
+          $row->setColor('#fcf8e3');
+          }
+
+          return $row;
+          }
+          ); */
+
         $grid = $this->container->get('grid');
         // Attach the source to the grid
         $grid->setSource($source);
 
         $grid->setId('changementsgrid');
+
+
+        //chiant si error
+        /*  $grid->addExport(new ExcelExport('Excel Export','changements.xls',array(),'Windows-1252'));
+          //$grid->addExport(new ExcelExport($title, $fileName, $params, $charset, $role));
+          $grid->addExport(new GridExport('CSV Export in French', 'export', array('delimiter' => ';'), 'Windows-1252'));
+          // $grid->addExport(new GridExport('CSV Export', 'export')); */
         $grid->setPersistence(false);
         $grid->setDefaultOrder('id', 'desc');
         // Set the selector of the number of items per page
         $grid->setLimits(array(15));
 
+        /*   $categoriesColumn = $grid->getColumn('idEnvironnement.nom:AtGroupConcat');
+          $categoryValues = array(
+          'production' => 'production',
+          'integration' => 'integration',
+          );
+          $categoriesColumn->setValues(
+          $categoryValues
+          );
+          $categoriesColumn->setOperators(
+          array("like","nlike","eq","neq")
+          );
+
+
+         */
+
+        /* $categoriesColumn->setOperators(
+          array("like")
+          ); */
 
         // Set the default page
         $grid->setPage($page);
         $grid->addMassAction(new DeleteMassAction());
         $grid->setActionsColumnSize(70);
-        // $grid->setDefaultFilters(array('idEnvironnement.nom:AtGroupConcat' => array('operator' => 'like')));
+        //   $grid->setDefaultFilters(array('idEnvironnement.nom:AtGroupConcat' => array('operator' => 'like')));
         $myRowActiona = new RowAction('Edit', 'changements_edit', false, '_self', array('class' => "btn btn-mini btn-warning"));
         $grid->addRowAction($myRowActiona);
         $myRowAction = new RowAction('Delete', 'changements_delete', true, '_self', array('class' => "btn btn-mini btn-danger"));
@@ -533,14 +747,14 @@ class ChangementsController extends Controller {
         // form data class
         $entity = new Changements();
         $flow = $this->get('application.form.flow.new.changement');
-        // $flow->reset();
+        //  $flow->reset();
         // must match the flow's service id
         $flow->bind($entity);
 
         // form of the current step
         $form = $flow->createForm();
 
-        // $form = $flow->createForm($entity);
+        //    $form = $flow->createForm($entity);
         if ($flow->isValid($form)) {
             $flow->saveCurrentStepData($form);
 
@@ -613,7 +827,7 @@ class ChangementsController extends Controller {
         $deleteForm = $this->createDeleteForm($id);
 
 
-        // return $this->render('ApplicationChangementsBundle:Changements:simple.html.twig', array());
+        //   return $this->render('ApplicationChangementsBundle:Changements:simple.html.twig', array());
         return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
@@ -657,10 +871,22 @@ class ChangementsController extends Controller {
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
+            /* $postData = $request->request->get('changements');
+              //$data = $editForm->getData();
+              var_dump($postData);
+              exit(1); */
+            /* if ($form->get('file')->getData() != NULL) {//user have uploaded a new file
+              $file = $form->get('file')->getData();//get 'UploadedFile' object
+              $news->setPath($file->getClientOriginalName());//change field that holds file's path in db to a temporary value,i.e original file name uploaded by user
+              } */
             $em->persist($entity);
             $em->flush();
             $session = $this->getRequest()->getSession();
             $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
+            /* $route_back = $session->get('buttonretour');
+              if (isset($route_back))
+              return $this->redirect($this->generateUrl($route_back, array('id' => $id)));
+              else */
             return $this->redirect($this->generateUrl('changements_posttest'));
         }
 
@@ -722,7 +948,7 @@ class ChangementsController extends Controller {
                 $fic = $document->generateFilename();
                 echo "$fic<br>";
                 exit(1);
-                // $document->upload();
+                //  $document->upload();    
                 $em->persist($document);
                 $em->flush();
             }
@@ -738,12 +964,18 @@ class ChangementsController extends Controller {
         //$mmonth = range(1, 12);
         $mmonth = array(1 => 'jan', 2 => 'fev');
         // mmonth = array_map( sprintf("%02d",'floatval', $nonFloats);.
-        // sprintf("%02d",
-        // $myears = array("2012", "2013");
+        //     sprintf("%02d",
+        //    $myears = array("2012", "2013");
         // $mmonth = array("Janvier", "Fevrier");
         $year = isset($values['annee']) ? $values['annee'] : 'annee';
         $month = isset($values['mois']) ? $values['mois'] : 'mois';
         return $this->createFormBuilder()
+                        /*    ->add('publishedAt', 'date', array(
+                          'widget' => 'choice',
+                          'empty_value' => array('year' => $year, 'month' => $month, 'day' => '1')
+                          )) */
+                        //   ->add('month', 'choice', array('label' => 'Mois', 'choices' => $mmonth,'data'=>$month))
+                        //   ->add('year', 'choice', array('label' => 'Année', 'choices' => $myears, 'data' => $year))
                         ->add('publishedAt', 'birthday', array(
                             'widget' => 'choice',
                             'format' => 'yyyy-MM-dd',
@@ -751,6 +983,9 @@ class ChangementsController extends Controller {
                             'years' => range(Date('Y'), 2008),
                             'label' => false,
                             'input' => 'string',
+                                //    'data'=>'2013-05-01',
+                                //   'data' => new \DateTime('2009-02-20')
+                                //'data'  => date_create()
                         ))
                         ->getForm()
         ;
@@ -771,14 +1006,14 @@ class ChangementsController extends Controller {
 
             if ($id_status == "en cours") {
                 $entity_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->findOneByDescription("closed");
-                // var_dump($id_status);
+                //    var_dump($id_status);
                 $entity->setIdStatus($entity_status);
                 $em->persist($entity);
                 $em->flush();
             }
             if ($id_status == "en preparation" || $id_status == "en attente") {
                 $entity_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->findOneByDescription("open");
-                // var_dump($id_status);
+                //    var_dump($id_status);
                 $entity->setIdStatus($entity_status);
                 $em->persist($entity);
                 $em->flush();
@@ -788,6 +1023,14 @@ class ChangementsController extends Controller {
                 $em->persist($entity);
                 $em->flush();
             }
+
+            //   $entity_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->find($id_status);
+            //  echo "id_status=$id_status<br>";exit(1);
+            // $status=new ChangementsStatus;
+            // ChangementsStatus;
+            /* $status=new ChangementsStatus;
+              $status=$entity->getIdStatus(); */
+            /* echo "description=$description"; */
             $array = array('mystatus' => "$id_status");
             $array = array($array);
             $response = new Response(json_encode($array));
@@ -878,7 +1121,7 @@ class ChangementsController extends Controller {
 
             $id_cert = $request->request->get('id_cert');
             if (isset($id_cert) && $id_cert != "create") {
-                // var_dump($id_cert);
+                //    var_dump($id_cert);
                 $cert = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->find($id_cert);
                 foreach ($cert->getIdapplis() as $appli) {
                     array_push($cert_app, $appli->getId());
@@ -888,10 +1131,10 @@ class ChangementsController extends Controller {
             foreach ($projet->getIdapplis() as $appli) {
                 //$applis[] = array($appli);
                 $applis['applis'][$appli->getId()] = $appli->getNomapplis();
-                // $applis[] = array($appli->getId(), $appli->getNomapplis());
+                //      $applis[] = array($appli->getId(), $appli->getNomapplis());
             }
 
-            // $appli=array(3,4);
+            //    $appli=array(3,4);
             $response = new Response(json_encode($applis));
             $response->headers->set('Content-Type', 'application/json');
 
@@ -918,90 +1161,125 @@ class ChangementsController extends Controller {
         }
     }
 
-    public function indexposttestdebugAction(Request $request) {
-
-        $parameters = array();
-        $em = $this->getDoctrine()->getManager();
-        $request = $this->getRequest();
-        $session = $request->getSession();
-
-        $sort = $this->get('request')->query->get('sort');
-        $query = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
-
-        // avec query->getQuery() only
-        $query->setFirstResult(0);
-        $query->setMaxResults(10);
-
-        $pagination = $this->createpaginator($query, 10);
-        return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi_debug.html.twig', array(
-                    'pagination' => $pagination,
-                    'total' => $count,
-        ));
-    }
-
-    private function mypager($adapter = null, $max = 5, $page = 1) {
-        if (isset($adapter)) {
-            $pagerfanta = new Pagerfanta($adapter);
-            $pagerfanta->setMaxPerPage($max);
-
-            return $pagerfanta;
-        } else {
-            return null;
-        }
-    }
-
-    public function indexposttestdebugfantaAction(Request $request) {
-
-        $parameters = array();
-        $em = $this->getDoctrine()->getManager();
-        $request = $this->getRequest();
-        $session = $request->getSession();
-
-        
-        $session->set('buttonretour', 'changements_posttest');
-        $searchForm = $this->createForm(new ChangementsFilterAmoiType());
-        if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
-            $session->remove('changementControllerFilternew');
-        } elseif ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
-            $alldatas = $request->request->all();
-            $datas = $alldatas["changements_searchfilter"];
-            $parameters = $datas;
-            $session->set('changementControllerFilternew', $datas);
-            $searchForm->bind($datas);
-        } else {
-            if ($session->has('changementControllerFilternew')) {
-                $datas = $session->get('changementControllerFilternew');
-                $parameters = $datas;
-                $searchForm->bind($datas);
-            }
-        }
-        $sort = $this->get('request')->query->get('sort', 'a.id');
-        $dir = $this->get('request')->query->get('dir', 'DESC');
-
-        $next_dir= ($dir == 'DESC') ? 'ASC' : 'DESC';
-//echo "sort=$sort, dir=$dir<br>";exit(1);
-
-        /* if ($sort == 'e.nomUser' || $sort == 'g.nom') {
-          $parameters['ungroup'] = 1;
-          //  exit(1);
-          } */
-        $page = $this->get('request')->query->get('page', 1); // Get custom page variable
-        $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getJoinedBy($sort, $dir,$parameters);
-        $adapter = new DoctrineORMAdapter($query);
-        //$adapter->setDistinct(false);
-        $pagerfanta = $this->mypager($adapter, 10);
-        try {
-            $pagerfanta->setCurrentPage($page);
-            $q = $pagerfanta->getCurrentPageResults();
-        } catch (NotValidCurrentPageException $e) {
-            throw new NotFoundHttpException();
-        }
-        return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi_debugfanta.html.twig', array(
-                    'pagerfanta' => $pagerfanta,
-                    'entities' => $q,
-            'next_dir'=>$next_dir,
-             'search_form' => $searchForm->createView(),
-        ));
-    }
-
 }
+
+/*
+     *     //     $past = date('Y-m-d', strtotime('-30days'));
+        //      $currenta = ($row->getField('endTime')->format('Y-m-d'));
+        //$current = date('Y-m-d', strtotime('+30days'));
+        $current = new \DateTime("2013-06");
+        $past = new \DateTime("2013-05");
+        //$current = new \DateTime($row->getField('endTime')->format('Y-m-d'));
+
+       
+//$factory = new CalendR\Calendar;
+//$factory->getEventManager()->addProvider('myawesomeprovider', 'new MyAwesomeProvider');
+        //  $f=$this->get('booking_repository');
+        //  $month = $f->getMonth(2012, 6);
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     *    /*    
+   $filters = new Filters();
+
+    $form = $this->createForm(new FiltersType(), $filters);
+
+    $session = $this->getRequest()->getSession();
+
+    if ($session->get('dql') == null) {
+        $session->set('dql', "SELECT a FROM ViciousAmateurBundle:Post a WHERE a.is_active = true");
+    }
+
+    if ($request->isMethod('POST')) {
+        $form->bind($request);
+
+        if ($form->isValid()) {
+            $dql = "SELECT a FROM ViciousAmateurBundle:Post a WHERE a.is_active = true";
+            $country = $filters->getCountry();
+            $city = $filters->getCity();
+            $gender = $filters->getGender();
+            $sexualOrientation = $filters->getSexualOrientation();
+
+            if (isset($country)) {
+                $dql .= " AND a.country = '" . $filters->getCountry() . "'";
+            }
+            if (isset($city)) {
+                $dql .= " AND a.city = '" . $filters->getCity() . "'";
+            }
+            if (isset($gender)) {
+                $dql .= " AND a.gender = '" . $filters->getGender() . "'";
+            }
+            if (isset($sexualOrientation)) {
+                $dql .= " AND a.sexual_orientation = '" . $filters->getSexualOrientation() . "'";
+            }
+
+            $session->set('dql', $dql);
+        }
+    }
+
+   /*    
+   $filters = new Filters();
+
+    $form = $this->createForm(new FiltersType(), $filters);
+
+    $session = $this->getRequest()->getSession();
+
+    if ($session->get('dql') == null) {
+        $session->set('dql', "SELECT a FROM ViciousAmateurBundle:Post a WHERE a.is_active = true");
+    }
+
+    if ($request->isMethod('POST')) {
+        $form->bind($request);
+
+        if ($form->isValid()) {
+            $dql = "SELECT a FROM ViciousAmateurBundle:Post a WHERE a.is_active = true";
+            $country = $filters->getCountry();
+            $city = $filters->getCity();
+            $gender = $filters->getGender();
+            $sexualOrientation = $filters->getSexualOrientation();
+
+            if (isset($country)) {
+                $dql .= " AND a.country = '" . $filters->getCountry() . "'";
+            }
+            if (isset($city)) {
+                $dql .= " AND a.city = '" . $filters->getCity() . "'";
+            }
+            if (isset($gender)) {
+                $dql .= " AND a.gender = '" . $filters->getGender() . "'";
+            }
+            if (isset($sexualOrientation)) {
+                $dql .= " AND a.sexual_orientation = '" . $filters->getSexualOrientation() . "'";
+            }
+
+            $session->set('dql', $dql);
+        }
+    }
+
+  */
+/*
+SELECT 
+  DISTINCT c0_.id AS id0, 
+  c1_.nom_user AS nom_user1 
+FROM 
+  changements_main c0_ 
+  LEFT JOIN projet_main p2_ ON c0_.id_projet = p2_.id 
+  LEFT JOIN chrono_user c3_ ON c0_.demandeur = c3_.id 
+  LEFT JOIN changements_status c4_ ON c0_.id_status = c4_.id 
+  LEFT JOIN changements_users c5_ ON c0_.id = c5_.changements_id 
+  LEFT JOIN chrono_user c1_ ON c1_.id = c5_.chronouser_id 
+  LEFT JOIN changements_documents c7_ ON c0_.id = c7_.changements_id 
+  LEFT JOIN changements_fichiers c6_ ON c6_.id = c7_.docchangements_id 
+  LEFT JOIN changements_environnements c9_ ON c0_.id = c9_.changements_id 
+  LEFT JOIN environnement_main e8_ ON e8_.id = c9_.environnements_id 
+  LEFT JOIN changements_comments c10_ ON c0_.id = c10_.changement_id 
+GROUP BY c0_.id
+ORDER BY 
+  c1_.nom_user DESC 
+LIMIT 
+  10 OFFSET 0
+
+*/
