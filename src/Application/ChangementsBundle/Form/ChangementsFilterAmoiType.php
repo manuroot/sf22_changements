@@ -23,7 +23,7 @@ class ChangementsFilterAmoiType extends AbstractType {
                         'icon' => 'pencil',
                         'type' => 'prepend'
                     ),
-                     'configs' => array('minLength' => 2),
+                    'configs' => array('minLength' => 2),
                     'mapped' => false, 'required' => false,
                     'route_name' => 'ajax_nom',
                     'class' => 'Application\ChangementsBundle\Entity\Changements',
@@ -123,7 +123,6 @@ class ChangementsFilterAmoiType extends AbstractType {
                   'type' => 'prepend'
                   ),
                   'mapped'=>false,'required'=>false)) */
-                
                 ->add('ticketInt', 'genemu_jqueryautocomplete_text', array(
                     'attr' => array('style' => 'width:120px'),
                     'label' => 'Ticket Interne',
@@ -131,9 +130,9 @@ class ChangementsFilterAmoiType extends AbstractType {
                         'icon' => 'tag',
                         'type' => 'prepend'
                     ),
-                     'configs' => array('minLength' => 2),
+                    'configs' => array('minLength' => 2),
                     'mapped' => false, 'required' => false,
-                     'route_name' => 'ajax_ticketint',
+                    'route_name' => 'ajax_ticketint',
                     'class' => 'Application\ChangementsBundle\Entity\Changements',
                 ))
                 ->add('ticketExt', 'genemu_jqueryautocomplete_text', array(
@@ -148,8 +147,31 @@ class ChangementsFilterAmoiType extends AbstractType {
                     'route_name' => 'ajax_ticketext',
                     'class' => 'Application\ChangementsBundle\Entity\Changements',
                 ))
-              
 
+                /*
+                 * de apy
+                 * 
+
+
+                  SELECT
+                  DISTINCT p0_.nomprojet AS nomprojet0
+                  FROM
+                  changements_main c1_
+                  LEFT JOIN projet_main p0_ ON c1_.id_projet = p0_.id
+                  LEFT JOIN chrono_user c2_ ON c1_.demandeur = c2_.id
+                  LEFT JOIN changements_status c3_ ON c1_.id_status = c3_.id
+                  LEFT JOIN changements_environnements c5_ ON c1_.id = c5_.changements_id
+                  LEFT JOIN environnement_main e4_ ON e4_.id = c5_.environnements_id
+                  GROUP BY
+                  c1_.id
+                  ORDER BY
+                  p0_.nomprojet ASC
+
+
+                  'query_builder' => function(SlotRepository $cr) use ($users) {
+                  return $cr->findAllFreeSlotByUsers($users);
+                  }
+                 */
                 /* ->add('ticketExt', 'genemu_jqueryautocompleter_entity', array(
                   'label'=>'Ticket Externe XX',
                   'widget_addon' => array(
@@ -187,10 +209,23 @@ class ChangementsFilterAmoiType extends AbstractType {
                     'label' => 'Environnements'
                 ))
                 ->add('idProjet', 'entity', array(
-                    'class' => 'ApplicationRelationsBundle:Projet',
+                     'class' => 'ApplicationRelationsBundle:Projet',
+                   // 'class' => 'ApplicationChangementsBundle:Changements',
                     'query_builder' => function(EntityRepository $em) {
                         return $em->createQueryBuilder('u')
                                 ->orderBy('u.nomprojet', 'ASC');
+                              //   ->select('b.id,b.nomprojet')
+                             //     ->leftJoin('a.idProjet', 'b')
+                         //      ->orderBy('b.nomprojet', 'ASC');
+                              /*  ->select('b.id')
+                                ->leftJoin('a.idProjet', 'b')
+                                ->leftJoin('a.demandeur', 'c')
+                                ->leftJoin('a.idStatus', 'd')
+                                ->leftJoin('a.picture', 'f')
+                                ->addGroupBy('a.id')
+                                ->add('orderBy', 'b.nomprojet DESC');*/
+                        // ->getQuery()
+                       // ->getArrayResult();
                     },
                     'property' => 'nomprojet',
                     'expanded' => false,
