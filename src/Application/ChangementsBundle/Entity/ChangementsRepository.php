@@ -31,7 +31,19 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         );
     }
 
-
+public function getProjetForRequeteBuilder(){
+      $query = $this->createQueryBuilder('a')
+             // $qb = $em->createQueryBuilder() ->select('u') ->from('User', 'u')
+             ->add('select','b')
+              
+                ->select('partial b.{id,nomprojet}')
+                ->leftJoin('a.idProjet', 'b')
+              ->groupBy('b.id')
+                ->add('orderBy', 'b.nomprojet ASC')
+                ;
+      return $query;
+    
+}
     public function myFindaIdAll($id) {
         $parameters = array();
         $values = array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f');

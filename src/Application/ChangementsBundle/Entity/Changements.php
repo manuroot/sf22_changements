@@ -110,7 +110,7 @@ class Changements extends AbstractEvent {
     /**
      * @var \Projet
      *
-     * @ORM\ManyToOne(targetEntity="Application\RelationsBundle\Entity\Projet")
+     * @ORM\ManyToOne(targetEntity="Application\RelationsBundle\Entity\Projet",inversedBy="idchangement")
      * @ORM\OrderBy({"nomprojet" = "ASC"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_projet", referencedColumnName="id",nullable=false)
@@ -134,12 +134,17 @@ class Changements extends AbstractEvent {
     /**
      * @var string
      * 
+     * coté proprietaire (inversedBy)
+     * 
      * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\Environnements",inversedBy="idchangements",cascade={"persist"})
      * @ORM\OrderBy({"nom" = "ASC"})
      * @ORM\JoinTable(name="changements_environnements")
      * @GRID\Column(field="idEnvironnement.nom:GroupConcat", filterable=false,size="100",title="Env", filter="select",selectFrom="query")
      */
     private $idEnvironnement;
+    
+    
+    // * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\Environnements",inversedBy="idchangements",cascade={"persist"})
     //* @GRID\Column(type="extended_text", field="idEnvironnement.nom:AtGroupConcat", title="Categories", filter="select", selectMulti="true", selectFrom="values")
     //  * @GRID\Column(type="extended_text", field="idEnvironnement.nom:AtGroupConcat", filterable=true,size="20",title="Env", filter="select",selectMulti="false",selectFrom="values")
     //title="Categories", filter="select", selectMulti="true", selectFrom="values")
@@ -148,6 +153,8 @@ class Changements extends AbstractEvent {
     // GRID\Column(title="Environnements", field="idEnvironnement.nom:concat_ws",  visible=true, sortable=true, filter="select",selectFrom="query")
 
     /**
+     * coté proprietaire (inversedBy)
+     * 
      *  @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\Applis", inversedBy="idprojets",cascade={"persist"})
      * @ORM\OrderBy({"nomapplis" = "ASC"})
      * @ORM\JoinTable(name="changements_applis")
@@ -155,6 +162,8 @@ class Changements extends AbstractEvent {
     private $idapplis;
 
     /**
+     * coté proprietaire (inversedBy)
+     * 
      * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\ChronoUser", inversedBy="idchangement",cascade={"persist"})
       * @ORM\OrderBy({"nomUser" = "ASC"})
       * @ORM\JoinTable(name="changements_users")
@@ -174,6 +183,8 @@ class Changements extends AbstractEvent {
     private $demandeur;
 
     /**
+     * 
+     * mapped:ok, coté proprietaire ??
      * @var \ChangementStatus
      *
      * @ORM\ManyToOne(targetEntity="ChangementsStatus")
@@ -183,7 +194,11 @@ class Changements extends AbstractEvent {
      */
     private $idStatus;
 
+    //  * @ORM\ManyToOne(targetEntity="ChangementsStatus", inversedBy="idchangements")
+    
     /**
+     * not proprietaire side (mappedby)
+     * 
      * @ORM\OneToMany(targetEntity="ChangementsComments", mappedBy="changement",cascade={"persist"})
      */
     private $comments;

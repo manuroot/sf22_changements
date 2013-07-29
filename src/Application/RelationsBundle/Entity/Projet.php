@@ -61,6 +61,12 @@ class Projet {
      */
      protected $picture;
 
+    
+      /**
+       *  @ORM\OneToMany(targetEntity="Application\ChangementsBundle\Entity\Changements",mappedBy="idProjet",cascade={"persist"})
+       */
+    protected $idchangement;
+                
     /**
      * Get id
      *
@@ -248,4 +254,37 @@ class Projet {
         }
 
     
+
+    /**
+     * Add idchangement
+     *
+     * @param \Application\ChangementsBundle\Entity\Changements $idchangement
+     * @return Projet
+     */
+    public function addIdchangement(\Application\ChangementsBundle\Entity\Changements $idchangement)
+    {
+        $this->idchangement[] = $idchangement;
+    
+        return $this;
+    }
+
+    /**
+     * Remove idchangement
+     *
+     * @param \Application\ChangementsBundle\Entity\Changements $idchangement
+     */
+    public function removeIdchangement(\Application\ChangementsBundle\Entity\Changements $idchangement)
+    {
+        $this->idchangement->removeElement($idchangement);
+    }
+
+    /**
+     * Get idchangement
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getIdchangement()
+    {
+        return $this->idchangement;
+    }
 }

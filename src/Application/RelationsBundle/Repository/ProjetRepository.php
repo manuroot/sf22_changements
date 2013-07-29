@@ -14,14 +14,23 @@ class ProjetRepository extends EntityRepository {
 
     public function myFindAll() {
         return $this->createQueryBuilder('a')
-                     ->select('a,b')
-                ->add('orderBy', 'a.id DESC')
-                ->leftJoin('a.picture', 'b')
+                        ->select('a,b')
+                        ->add('orderBy', 'a.id DESC')
+                        ->leftJoin('a.picture', 'b')
                         ->getQuery();
 
         //->getResult();
     }
 
-   
+    public function getProjetForRequeteBuilder() {
+        $query = $this->createQueryBuilder('a')
+                //  ->select('partial a.{id,nomprojet}')
+                ->select('a')
+                ->leftJoin('a.idchangement', 'b')
+                ->Where('b.id IS NOT NULL')
+                ->add('orderBy', 'a.nomprojet ASC')
+        ;
+        return $query;
+    }
 
 }

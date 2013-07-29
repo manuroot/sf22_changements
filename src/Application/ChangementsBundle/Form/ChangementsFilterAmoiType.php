@@ -10,13 +10,19 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormError;
 use Doctrine\ORM\QueryBuilder;
+use Application\ChangementsBundle\Entity\ChangementsRepository;
+use Application\ChangementsBundle\Entity\Changements;
+use Application\ChangementsBundle\Entity\ChangementsStatus;
+use Application\RelationsBundle\Entity\Projet;
+use Application\RelationsBundle\Repository\ProjetRepository;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class ChangementsFilterAmoiType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
 
-        
+        //  $q=$em_->getProjetForRequeteBuilder
         $builder
                 ->add('nom', 'genemu_jqueryautocomplete_text', array(
                     'label' => 'Nom',
@@ -27,7 +33,7 @@ class ChangementsFilterAmoiType extends AbstractType {
                     'configs' => array('minLength' => 2),
                     'mapped' => false, 'required' => false,
                     'route_name' => 'ajax_nom',
-                    'class' => 'Application\ChangementsBundle\Entity\Changements',
+                    'class' => 'Changements',
                 ))
 
                 /*       ->add('description', 'genemu_jqueryautocomplete_text', array(
@@ -134,7 +140,7 @@ class ChangementsFilterAmoiType extends AbstractType {
                     'configs' => array('minLength' => 2),
                     'mapped' => false, 'required' => false,
                     'route_name' => 'ajax_ticketint',
-                    'class' => 'Application\ChangementsBundle\Entity\Changements',
+                    'class' => 'Changements',
                 ))
                 ->add('ticketExt', 'genemu_jqueryautocomplete_text', array(
                     'attr' => array('style' => 'width:120px'),
@@ -146,7 +152,7 @@ class ChangementsFilterAmoiType extends AbstractType {
                     'configs' => array('minLength' => 2),
                     'mapped' => false, 'required' => false,
                     'route_name' => 'ajax_ticketext',
-                    'class' => 'Application\ChangementsBundle\Entity\Changements',
+                    'class' => 'Changements',
                 ))
 
                 /*
@@ -210,41 +216,77 @@ class ChangementsFilterAmoiType extends AbstractType {
                     'label' => 'Environnements'
                 ))
                 ->add('idProjet', 'entity', array(
-                    
-                    /*'class' => 'ApplicationRelationsBundle:Projet',
-                      'query_builder' => function(EntityRepository $em) {
-                      return $em->createQueryBuilder('a')
-                               ->orderBy('a.nomprojet', 'ASC')
-                              ;
-                              
-                      },*/
-                      
-                    'class' => 'ApplicationChangementsBundle:Changements',
-                    'query_builder' => function(EntityRepository $em) {
-                        return $em->createQueryBuilder('u') //-> SELECT * FROM changements a
-                              //  ->orderBy('u.nomprojet', 'ASC');
-                               ->select('distinct u.id,b.nomprojet')
-                                // -> LEFT JOIN projet su ON a.id = b.id
-                                 
-                                  ->leftJoin('u.idProjet', 'b')
-                                
-                             //  ->orderBy('b.nomprojet', 'ASC');
-                            /*
-                                ->leftJoin('a.demandeur', 'c')
-                                ->leftJoin('a.idStatus', 'd')
-                                ->leftJoin('a.picture', 'f')
-                                ->addGroupBy('a.id')
-                                ->add('orderBy', 'b.nomprojet DESC');*/
-                                ;
-                        // ->getQuery()
-                       // ->getArrayResult();
-                    },
+                    'label' => 'Projet',
                     'property' => 'nomprojet',
                     'expanded' => false,
                     'multiple' => true,
                     'required' => false,
-                    'label' => 'Projet'
+                    // working:
+                    'class' => 'ApplicationRelationsBundle:Projet',
+                    'query_builder' => function(EntityRepository $em) {
+                        return $em->getProjetForRequeteBuilder();
+                    },
                 ))
+                /*
+                  ->add('idProjet1', 'entity', array(
+                  'label' => 'Projet1',
+                  'property' => 'nomprojet',
+                  'expanded' => false,
+                  'multiple' => true,
+                  'required' => false,
+                  'mapped'=>false,
+                  // working:
+                  'class' => 'ApplicationChangementsBundle:Changements',
+                  'query_builder' => function(EntityRepository $em) {
+                  return $em->getProjetForRequeteBuilder();
+                  },
+                  )) */
+                /* 'class' => 'ApplicationRelationsBundle:Projet',
+                  'query_builder' => function(ProjetRepository $em) {
+                  return $em->getProjetForRequeteBuilder();
+                  }, */
+                // 'property' => 'idprojet',
+                //    'mapped' => false,
+                //    'property_path'=>'idprojet',
+                //    'mapped'=>false,
+                /*  'class' => 'ApplicationChangementsBundle:Changements',
+                  'choices'   => $this->em->getRepository('ApplicationsChangementsBundle:Changements')->getProjetForRequeteBuilder(),
+                 */
+                /* 'query_builder' => function(ChangementsRepository $em) {
+                  //   $query_r=$em->getProjetForRequeteBuilder()->getQuery()->getArrayResult();
+                  //  'query_builder' => function(EntityRepository $em) {
+                  return $em->getProjetForRequeteBuilder();
+                  }, */
+                //     'choices' => $query_r,
+                /*  return  $em->createQueryBuilder('a')
+                  ->select('distinct b.id,b.nomprojet')
+                  ->leftJoin('a.idProjet', 'b') */
+                //  ->groupBy('b.id')
+
+
+
+                /* 'class' => 'ApplicationChangementsBundle:Changements',
+                  'query_builder' => function(ChangementsRepository $em){
+                  return $em->getProjetForRequeteBuilder();
+                  }, */
+                /* 'class' => 'ApplicationChangementsBundle:Changements',
+                  'query_builder' => function(EntityRepository $em) {
+                  return $em->createQueryBuilder('u') //-> SELECT * FROM changements a
+                  //  ->orderBy('u.nomprojet', 'ASC');
+                  ->select('distinct u.id,b.nomprojet')
+                  // -> LEFT JOIN projet su ON a.id = b.id
+
+                  ->leftJoin('u.idProjet', 'b')
+
+                  //  ->orderBy('b.nomprojet', 'ASC');
+
+                  ;
+                  // ->getQuery()
+                  // ->getArrayResult();
+                  }, */
+
+                /* 'label' => 'Projet' */
+                //     ))
                 ->add('idStatus', 'filter_entity', array(
                     'label' => 'Status',
                     'class' => 'Application\ChangementsBundle\Entity\ChangementsStatus',
@@ -283,7 +325,9 @@ class ChangementsFilterAmoiType extends AbstractType {
                     'class' => 'ApplicationRelationsBundle:ChronoUser',
                     'query_builder' => function(EntityRepository $em) {
                         return $em->createQueryBuilder('u')
-                                ->orderBy('u.nomUser', 'ASC');
+                                ->leftJoin('u.idchangement', 'b')
+                                ->Where('b.id IS NOT NULL')
+                                  ->add('orderBy', 'u.nomUser ASC');
                     },
                     'empty_value' => '--- Choisir une option ---',
                     'property' => 'nomUser',
@@ -292,6 +336,22 @@ class ChangementsFilterAmoiType extends AbstractType {
                     'required' => false,
                     'label' => 'Utilisateurs'
         ));
+
+
+        /*
+          ->add('idusers', 'entity', array(
+          'class' => 'ApplicationRelationsBundle:ChronoUser',
+          'query_builder' => function(EntityRepository $em) {
+          return $em->createQueryBuilder('u')
+          ->orderBy('u.nomUser', 'ASC');
+          },
+          'empty_value' => '--- Choisir une option ---',
+          'property' => 'nomUser',
+          'multiple' => true,
+          //  'expanded'=>true,
+          'required' => false,
+          'label' => 'Utilisateurs'
+          )); */
         /* 'query_builder' => function(EntityRepository $er) use ($options) {
           return $er->createQueryBuilder('u')
           ->where('u.section = :id')
@@ -310,10 +370,10 @@ class ChangementsFilterAmoiType extends AbstractType {
       'csrf_protection' => false,
       'validation_groups' => array('filtering') // avoid NotBlank() constraint-related message
       ));
-      } 
+      }
      * 
      * SELECT DISTINCT p1_.id AS id0, p1_.nomprojet AS nomprojet1
-FROM changements_main c0_
-LEFT JOIN projet_main p1_ ON c0_.id_projet = p1_.id
+      FROM changements_main c0_
+      LEFT JOIN projet_main p1_ ON c0_.id_projet = p1_.id
      */
 }

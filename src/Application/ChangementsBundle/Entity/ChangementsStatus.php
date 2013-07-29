@@ -36,10 +36,10 @@ class ChangementsStatus
      */
     private $description;
     
-    /**
-    * @ORM\ManyToMany(targetEntity="Changements", mappedBy="idEnvironnement")
-    */
-    private $idchangements;
+    
+    // @ORM\ManyToMany(targetEntity="Changements", mappedBy="idEnvironnement")
+    
+   // private $idchangements;
 
     /**
      * Get id
@@ -109,39 +109,8 @@ class ChangementsStatus
      */
     public function __construct()
     {
-        $this->idchangements = new \Doctrine\Common\Collections\ArrayCollection();
+     
     }
     
-    /**
-     * Add idchangements
-     *
-     * @param \Application\ChangementsBundle\Entity\Changements $idchangements
-     * @return Environnements
-     */
-    public function addIdchangement(\Application\ChangementsBundle\Entity\Changements $idchangements)
-    {
-        $this->idchangements[] = $idchangements;
-    
-        return $this;
-    }
-
-    /**
-     * Remove idchangements
-     *
-     * @param \Application\ChangementsBundle\Entity\Changements $idchangements
-     */
-    public function removeIdchangement(\Application\ChangementsBundle\Entity\Changements $idchangements)
-    {
-        $this->idchangements->removeElement($idchangements);
-    }
-
-    /**
-     * Get idchangements
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getIdchangements()
-    {
-        return $this->idchangements;
-    }
+   
 }

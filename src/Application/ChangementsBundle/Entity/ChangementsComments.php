@@ -68,6 +68,8 @@ class ChangementsComments {
     protected $approved;
 
     /**
+     * coté proprietaire
+     * 
      * @ORM\ManyToOne(targetEntity="Changements", inversedBy="comments")
      * @ORM\JoinColumn(name="changement_id", referencedColumnName="id")
      */
