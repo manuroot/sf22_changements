@@ -16,6 +16,7 @@ class ChangementsFilterAmoiType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
 
+        
         $builder
                 ->add('nom', 'genemu_jqueryautocomplete_text', array(
                     'label' => 'Nom',
@@ -209,21 +210,32 @@ class ChangementsFilterAmoiType extends AbstractType {
                     'label' => 'Environnements'
                 ))
                 ->add('idProjet', 'entity', array(
-                     'class' => 'ApplicationRelationsBundle:Projet',
-                   // 'class' => 'ApplicationChangementsBundle:Changements',
+                    
+                    /*'class' => 'ApplicationRelationsBundle:Projet',
+                      'query_builder' => function(EntityRepository $em) {
+                      return $em->createQueryBuilder('a')
+                               ->orderBy('a.nomprojet', 'ASC')
+                              ;
+                              
+                      },*/
+                      
+                    'class' => 'ApplicationChangementsBundle:Changements',
                     'query_builder' => function(EntityRepository $em) {
-                        return $em->createQueryBuilder('u')
-                                ->orderBy('u.nomprojet', 'ASC');
-                              //   ->select('b.id,b.nomprojet')
-                             //     ->leftJoin('a.idProjet', 'b')
-                         //      ->orderBy('b.nomprojet', 'ASC');
-                              /*  ->select('b.id')
-                                ->leftJoin('a.idProjet', 'b')
+                        return $em->createQueryBuilder('u') //-> SELECT * FROM changements a
+                              //  ->orderBy('u.nomprojet', 'ASC');
+                               ->select('distinct u.id,b.nomprojet')
+                                // -> LEFT JOIN projet su ON a.id = b.id
+                                 
+                                  ->leftJoin('u.idProjet', 'b')
+                                
+                             //  ->orderBy('b.nomprojet', 'ASC');
+                            /*
                                 ->leftJoin('a.demandeur', 'c')
                                 ->leftJoin('a.idStatus', 'd')
                                 ->leftJoin('a.picture', 'f')
                                 ->addGroupBy('a.id')
                                 ->add('orderBy', 'b.nomprojet DESC');*/
+                                ;
                         // ->getQuery()
                        // ->getArrayResult();
                     },
@@ -298,5 +310,10 @@ class ChangementsFilterAmoiType extends AbstractType {
       'csrf_protection' => false,
       'validation_groups' => array('filtering') // avoid NotBlank() constraint-related message
       ));
-      } */
+      } 
+     * 
+     * SELECT DISTINCT p1_.id AS id0, p1_.nomprojet AS nomprojet1
+FROM changements_main c0_
+LEFT JOIN projet_main p1_ ON c0_.id_projet = p1_.id
+     */
 }
