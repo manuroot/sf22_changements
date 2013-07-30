@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormError;
@@ -19,10 +20,19 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class ChangementsFilterAmoiType extends AbstractType {
 
+    private $_em;
+
+    public function __construct(EntityManager $entityManager) {
+        $this->_em = $entityManager;
+        // $em = $this->getDoctrine()->getManager();
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
+        $em = $this->_em;
+        $choices_projets = $em->getRepository('ApplicationChangementsBundle:Changements')->getProjetsForRequeteBuilder();
+        $choices_demandeurs = $em->getRepository('ApplicationChangementsBundle:Changements')->getDemandeursForRequeteBuilder();
 
-        //  $q=$em_->getProjetForRequeteBuilder
         $builder
                 ->add('nom', 'genemu_jqueryautocomplete_text', array(
                     'label' => 'Nom',
@@ -35,23 +45,6 @@ class ChangementsFilterAmoiType extends AbstractType {
                     'route_name' => 'ajax_nom',
                     'class' => 'Changements',
                 ))
-
-                /*       ->add('description', 'genemu_jqueryautocomplete_text', array(
-                  'label' => 'Description',
-                  'widget_addon' => array(
-                  'icon' => 'pencil',
-                  'type' => 'prepend'
-                  ),
-                  'mapped' => false, 'required' => false,
-                  'route_name' => 'ajax_description',
-                  'class' => 'Application\ChangementsBundle\Entity\Changements',
-                  )) */
-                /* ->add('nom', 'text', array(
-                  'widget_addon' => array(
-                  'icon' => 'pencil',
-                  'type' => 'prepend'
-                  ),
-                  'mapped' => false, 'required' => false)) */
                 ->add('description', 'text', array(
                     'widget_addon' => array(
                         'icon' => 'pencil',
@@ -93,28 +86,6 @@ class ChangementsFilterAmoiType extends AbstractType {
                     ),
                     'mapped' => false, 'required' => false))
 
-                /*  ->add('ticketExt', 'genemu_jqueryautocompleter_entity', array(
-                  'label'=>'Ticket Externe XX',
-                  'widget_addon' => array(
-                  'icon' => 'pencil',
-                  'type' => 'prepend'
-                  ),
-                  'required' => false,
-                  'mapped'=>false
-                  'empty_value'=>false,
-                  'class' => 'Application\ChangementsBundle\Entity\Changements',
-                  'query_builder' => function(EntityRepository $em) {
-                  return $em->createQueryBuilder('u')
-                  ->where('u.ticketExt IS NOT NULL')
-                  ->orderBy('u.ticketExt', 'ASC');
-                  },
-                  'property' => 'ticketExt',
-                  // 'configs' => array(
-                  //  'minLength' => 2,
-                  //  ),
-                  )) */
-
-
 
                 /*  ->add('ticketExt','text',array('widget_addon' => array(
                   'icon' => 'tag',
@@ -155,50 +126,8 @@ class ChangementsFilterAmoiType extends AbstractType {
                     'class' => 'Changements',
                 ))
 
-                /*
-                 * de apy
-                 * 
 
 
-                  SELECT
-                  DISTINCT p0_.nomprojet AS nomprojet0
-                  FROM
-                  changements_main c1_
-                  LEFT JOIN projet_main p0_ ON c1_.id_projet = p0_.id
-                  LEFT JOIN chrono_user c2_ ON c1_.demandeur = c2_.id
-                  LEFT JOIN changements_status c3_ ON c1_.id_status = c3_.id
-                  LEFT JOIN changements_environnements c5_ ON c1_.id = c5_.changements_id
-                  LEFT JOIN environnement_main e4_ ON e4_.id = c5_.environnements_id
-                  GROUP BY
-                  c1_.id
-                  ORDER BY
-                  p0_.nomprojet ASC
-
-
-                  'query_builder' => function(SlotRepository $cr) use ($users) {
-                  return $cr->findAllFreeSlotByUsers($users);
-                  }
-                 */
-                /* ->add('ticketExt', 'genemu_jqueryautocompleter_entity', array(
-                  'label'=>'Ticket Externe XX',
-                  'widget_addon' => array(
-                  'icon' => 'pencil',
-                  'type' => 'prepend'
-                  ),
-                  'required' => false,
-                  'mapped'=>false,
-                  'empty_value'=>false,
-                  'class' => 'Application\ChangementsBundle\Entity\Changements',
-                  'query_builder' => function(EntityRepository $em) {
-                  return $em->createQueryBuilder('u')
-                  ->where('u.ticketExt IS NOT NULL')
-                  ->orderBy('u.ticketExt', 'ASC');
-                  },
-                  'property' => 'ticketExt',
-                  // 'configs' => array(
-                  //  'minLength' => 2,
-                  //  ),
-                  )) */
                 /*    ->add('ticketInt', 'text', array(
                   'attr' => array('style' => 'width:120px'),
                   'label' => 'Ticket Interne',
@@ -215,78 +144,43 @@ class ChangementsFilterAmoiType extends AbstractType {
                     'required' => false,
                     'label' => 'Environnements'
                 ))
-                ->add('idProjet', 'entity', array(
-                    'label' => 'Projet',
-                    'property' => 'nomprojet',
-                    'expanded' => false,
-                    'multiple' => true,
-                    'required' => false,
-                    // working:
-                    'class' => 'ApplicationRelationsBundle:Projet',
-                    'query_builder' => function(EntityRepository $em) {
-                        return $em->getProjetForRequeteBuilder();
-                    },
-                ))
-                /*
-                  ->add('idProjet1', 'entity', array(
-                  'label' => 'Projet1',
+                /* ->add('idProjet','choice',array(
+                  'choices' => $choices,
+                  'required' => false,
+                  'label' => 'Customer',
+                  'expanded' => false,
+                  'multiple' => true,
+                  'mapped'=>false,
+                  )) */
+                /*  ->add('idProjet', 'entity', array(
+                  'label' => 'Projet',
                   'property' => 'nomprojet',
                   'expanded' => false,
                   'multiple' => true,
                   'required' => false,
-                  'mapped'=>false,
                   // working:
-                  'class' => 'ApplicationChangementsBundle:Changements',
+                  'class' => 'ApplicationRelationsBundle:Projet',
                   'query_builder' => function(EntityRepository $em) {
                   return $em->getProjetForRequeteBuilder();
                   },
                   )) */
-                /* 'class' => 'ApplicationRelationsBundle:Projet',
-                  'query_builder' => function(ProjetRepository $em) {
-                  return $em->getProjetForRequeteBuilder();
-                  }, */
-                // 'property' => 'idprojet',
-                //    'mapped' => false,
-                //    'property_path'=>'idprojet',
-                //    'mapped'=>false,
-                /*  'class' => 'ApplicationChangementsBundle:Changements',
-                  'choices'   => $this->em->getRepository('ApplicationsChangementsBundle:Changements')->getProjetForRequeteBuilder(),
-                 */
-                /* 'query_builder' => function(ChangementsRepository $em) {
-                  //   $query_r=$em->getProjetForRequeteBuilder()->getQuery()->getArrayResult();
-                  //  'query_builder' => function(EntityRepository $em) {
-                  return $em->getProjetForRequeteBuilder();
-                  }, */
-                //     'choices' => $query_r,
-                /*  return  $em->createQueryBuilder('a')
-                  ->select('distinct b.id,b.nomprojet')
-                  ->leftJoin('a.idProjet', 'b') */
-                //  ->groupBy('b.id')
-
-
-
-                /* 'class' => 'ApplicationChangementsBundle:Changements',
-                  'query_builder' => function(ChangementsRepository $em){
-                  return $em->getProjetForRequeteBuilder();
-                  }, */
-                /* 'class' => 'ApplicationChangementsBundle:Changements',
+                /* ->add('idProjet', 'entity', array(
+                  'label' => 'Pklrojet',
+                  'property' => 'nomprojet',
+                  'expanded' => false,
+                  'multiple' => true,
+                  'required' => false,
+                  // working:
+                  'class' => 'ApplicationChangementsBundle:Changements',
                   'query_builder' => function(EntityRepository $em) {
-                  return $em->createQueryBuilder('u') //-> SELECT * FROM changements a
-                  //  ->orderBy('u.nomprojet', 'ASC');
-                  ->select('distinct u.id,b.nomprojet')
-                  // -> LEFT JOIN projet su ON a.id = b.id
-
-                  ->leftJoin('u.idProjet', 'b')
-
-                  //  ->orderBy('b.nomprojet', 'ASC');
-
-                  ;
-                  // ->getQuery()
-                  // ->getArrayResult();
-                  }, */
-
-                /* 'label' => 'Projet' */
-                //     ))
+                  return $em->createQueryBuilder('a')
+                  ->select('distinct b.id,b.nomprojet,')
+                  //  ->from('Application\ChangementsBundle\Entity\Changements', 'a')
+                  ->leftJoin('a.idProjet', 'b')
+                  ->groupBy('b.id')
+                  ->add('orderBy', 'b.nomprojet ASC');
+                  },
+                  )) */
                 ->add('idStatus', 'filter_entity', array(
                     'label' => 'Status',
                     'class' => 'Application\ChangementsBundle\Entity\ChangementsStatus',
@@ -296,18 +190,35 @@ class ChangementsFilterAmoiType extends AbstractType {
                     'required' => false,
                         /* 'empty_value' => '--- Choisir une option ---', */
                 ))
-                ->add('demandeur', 'entity', array(
-                    'class' => 'ApplicationRelationsBundle:ChronoUser',
-                    'query_builder' => function(EntityRepository $em) {
-                        return $em->createQueryBuilder('u')
-                                ->orderBy('u.nomUser', 'ASC');
-                    },
-                    'property' => 'nomUser',
-                    'multiple' => false,
+                /* ->add('demandeur', 'entity', array(
+                  'class' => 'ApplicationRelationsBundle:ChronoUser',
+                  'query_builder' => function(EntityRepository $em) {
+                  return $em->createQueryBuilder('u')
+                  ->orderBy('u.nomUser', 'ASC');
+                  },
+                  'property' => 'nomUser',
+                  'multiple' => false,
+                  'required' => false,
+                  'label' => 'Demandeur',
+                  'empty_value' => '--- Choisir une option ---'
+                  )) */
+                ->add('idProjet', 'choice', array(
+                    'choices' => $choices_projets,
+                    'required' => false,
+                    'label' => 'Projets',
+                    'expanded' => false,
+                    'multiple' => true,
+                    'mapped' => false,
+                ))
+                ->add('demandeur', 'choice', array(
+                    'choices' => $choices_demandeurs,
                     'required' => false,
                     'label' => 'Demandeur',
-                    'empty_value' => '--- Choisir une option ---'
+                    'expanded' => false,
+                    'multiple' => false,
+                    'mapped' => false,
                 ))
+
                 /*
                   ->add('demandeur', 'entity', array(
                   'class' => 'ApplicationRelationsBundle:ChronoUser',
@@ -324,10 +235,11 @@ class ChangementsFilterAmoiType extends AbstractType {
                 ->add('idusers', 'entity', array(
                     'class' => 'ApplicationRelationsBundle:ChronoUser',
                     'query_builder' => function(EntityRepository $em) {
+                        //return $em->createQueryBuilder('u')>orderBy('u.nomUser', 'ASC');
                         return $em->createQueryBuilder('u')
                                 ->leftJoin('u.idchangement', 'b')
                                 ->Where('b.id IS NOT NULL')
-                                  ->add('orderBy', 'u.nomUser ASC');
+                                ->add('orderBy', 'u.nomUser ASC');
                     },
                     'empty_value' => '--- Choisir une option ---',
                     'property' => 'nomUser',

@@ -146,7 +146,7 @@ class ChangementsController extends Controller {
         $request = $this->getRequest();
         $session = $request->getSession();
         $session->set('buttonretour', 'changements_posttest');
-        $searchForm = $this->createForm(new ChangementsFilterAmoiType());
+        $searchForm = $this->createForm(new ChangementsFilterAmoiType($em));
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
             $session->remove('changementControllerFilternew');
         } elseif ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
@@ -155,6 +155,7 @@ class ChangementsController extends Controller {
             $parameters = $datas;
             $session->set('changementControllerFilternew', $datas);
             $searchForm->bind($datas);
+           // print_r($datas);exit(1);
         } else {
             if ($session->has('changementControllerFilternew')) {
                 $datas = $session->get('changementControllerFilternew');
@@ -963,7 +964,7 @@ class ChangementsController extends Controller {
 
         
         $session->set('buttonretour', 'changements_posttest');
-        $searchForm = $this->createForm(new ChangementsFilterAmoiType());
+        $searchForm = $this->createForm(new ChangementsFilterAmoiType($em));
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
             $session->remove('changementControllerFilternew');
         } elseif ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
