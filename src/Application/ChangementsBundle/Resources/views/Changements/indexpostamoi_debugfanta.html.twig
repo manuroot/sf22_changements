@@ -24,7 +24,7 @@
 });
  </script>
 {% endif %}
-  
+  {{ form_javascript(search_form) }}
 {% endblock %}
 
 
@@ -58,7 +58,7 @@
        div.pagerfanta nav{ margin:auto;width:auto;}
      
         </style>
-        
+           {{ form_stylesheet(search_form) }}
 {% endblock %}
 
 {% block content_header '' %}
