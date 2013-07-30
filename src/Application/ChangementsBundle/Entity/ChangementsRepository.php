@@ -29,6 +29,10 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         );
     }
 
+    /*
+     * TODO: ajouter les filtres
+     * 
+     */
     public function getProjetsForRequeteBuilder() {
         $query = $this->createQueryBuilder('a')
                 ->select('distinct b.id,b.nomprojet')
