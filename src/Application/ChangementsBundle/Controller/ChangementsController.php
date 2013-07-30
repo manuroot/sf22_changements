@@ -84,6 +84,7 @@ class ChangementsController extends Controller {
         $request = $this->getRequest();
         $session = $request->getSession();
         $filterForm = $this->createForm(new ChangementsFilterType());
+        //createquerybuilder objet
         $filterBuilder = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
         // Reset filter
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
@@ -140,32 +141,29 @@ class ChangementsController extends Controller {
 
     public function indexposttestAction(Request $request) {
 
-        // $entity = new Changements();
-        $parameters = array();
         $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $session = $request->getSession();
         $session->set('buttonretour', 'changements_posttest');
-        $searchForm = $this->createForm(new ChangementsFilterAmoiType($em));
+        $datas=array();
+     
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
             $session->remove('changementControllerFilternew');
         } elseif ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
             $alldatas = $request->request->all();
             $datas = $alldatas["changements_searchfilter"];
-            $parameters = $datas;
             $session->set('changementControllerFilternew', $datas);
-            $searchForm->bind($datas);
-           // print_r($datas);exit(1);
         } else {
             if ($session->has('changementControllerFilternew')) {
-                $datas = $session->get('changementControllerFilternew');
-                $parameters = $datas;
-                $searchForm->bind($datas);
+               $datas = $session->get('changementControllerFilternew');
             }
         }
-        $query_changements = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll($parameters);
-        //$query_changements = $em->getRepository('ApplicationChangementsBundle:Changements')->getListBy($parameters);
-
+        // datas pour $em
+        $searchForm = $this->createForm(new ChangementsFilterAmoiType($em,$datas));
+        //$searchForm = $this->createForm(new ChangementsFilterAmoiType($em,$datas));
+        $searchForm->bind($datas);
+        $query = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll($datas);
+        $query_changements = $query->getQuery();
         $pagination = $this->createpaginator($query_changements, 10);
         $count = $pagination->getTotalItemCount();
         return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi.html.twig', array(
@@ -932,12 +930,12 @@ class ChangementsController extends Controller {
 
         $sort = $this->get('request')->query->get('sort');
         $query = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
-
+        $query_changements = $query->getQuery();
         // avec query->getQuery() only
-        $query->setFirstResult(0);
-        $query->setMaxResults(10);
+        $query_changements->setFirstResult(0);
+        $query_changements->setMaxResults(10);
 
-        $pagination = $this->createpaginator($query, 10);
+        $pagination = $this->createpaginator($query_changements, 10);
         return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi_debug.html.twig', array(
                     'pagination' => $pagination,
                     'total' => $count,
@@ -980,10 +978,12 @@ class ChangementsController extends Controller {
                 $searchForm->bind($datas);
             }
         }
+        // ajouter session + masquer parametres
         $sort = $this->get('request')->query->get('sort', 'a.id');
         $dir = $this->get('request')->query->get('dir', 'DESC');
 
         $next_dir= ($dir == 'DESC') ? 'ASC' : 'DESC';
+        $arrow[$sort]= $next_dir=="DESC" ? 'icon-arrow-up' : 'icon-arrow-down' ;
 //echo "sort=$sort, dir=$dir<br>";exit(1);
 
         /* if ($sort == 'e.nomUser' || $sort == 'g.nom') {
@@ -1006,6 +1006,7 @@ class ChangementsController extends Controller {
                     'entities' => $q,
             'next_dir'=>$next_dir,
              'search_form' => $searchForm->createView(),
+            'arrow'=>$arrow
         ));
     }
 

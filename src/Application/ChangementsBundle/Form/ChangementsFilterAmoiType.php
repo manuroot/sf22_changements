@@ -21,14 +21,20 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 class ChangementsFilterAmoiType extends AbstractType {
 
     private $_em;
+     // datas pour $em
+    private $_datas;
 
-    public function __construct(EntityManager $entityManager) {
+    public function __construct(EntityManager $entityManager,$datas=array()) {
         $this->_em = $entityManager;
+      //   $this->_datas = $datas;
+         //Array ( [nom] => [description] => [demandeur] => 
+         //[dateDebut] => [dateDebut_max] => [dateFin] => [dateFin_max] => [ticketExt] => [ticketInt] => [idEnvironnement] => Array ( [0] => 1 )
         // $em = $this->getDoctrine()->getManager();
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
+    // print_r($this->_datas);exit(1);
         $em = $this->_em;
         $choices_projets = $em->getRepository('ApplicationChangementsBundle:Changements')->getProjetsForRequeteBuilder();
         $choices_demandeurs = $em->getRepository('ApplicationChangementsBundle:Changements')->getDemandeursForRequeteBuilder();

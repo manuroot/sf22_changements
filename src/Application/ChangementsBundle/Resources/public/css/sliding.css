@@ -6,7 +6,7 @@
         Purpose of the stylesheet follows.
 */
 .mywarn{ background-color: #fe8a05;}
-  .page,.current,.next,.last{
+ /* .page,.current,.next,.last{
     display: inline-block;
     border: 1px solid blue;
     color: blue;
@@ -16,9 +16,9 @@
     .current {
     
       background-color: #d3d3d3;
-   /* color: red;*/
+   
   
-}
+}*/
 
 /*calendar big*/
 

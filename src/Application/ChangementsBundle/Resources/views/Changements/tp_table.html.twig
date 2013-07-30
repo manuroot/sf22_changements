@@ -38,11 +38,11 @@
                             
                             {% if entity.idStatus.description == 'closed' %} 
                             {# <tr class="closed">#}
-                            <tr>
+                            <tr class="myclosed">
                                  {# sinon: open prepare ou wait #}
                             {% else %}
                                    {% if entity.idStatus.description == 'prepare' or  entity.idStatus.description == 'wait'%} 
-                                     <tr class="warning">
+                                     <tr class="prepare">
                                          {# encours==open#}
                                        {% else %}
                                              <tr class="success">

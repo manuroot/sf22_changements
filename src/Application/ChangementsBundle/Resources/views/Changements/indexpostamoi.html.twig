@@ -1,4 +1,13 @@
 {% extends "ApplicationChangementsBundle::layout.html.twig" %}
+
+
+{# import "_self" as the form theme
+{% form_theme search_form _self %}
+ #}
+
+{% form_theme search_form with 'ApplicationChangementsBundle:Form:tpl_searchform.html.twig' %}
+
+
 {% macro icon_class( type ) %}
   {% set type_class_map = {
     like: 'icon-user'
@@ -37,6 +46,7 @@
    {{ form_javascript(search_form) }}
 {% endblock %}
 
+ 
 
   {% block stylesheets %}
 {{ parent() }}
@@ -65,6 +75,7 @@
 	padding-top: 130px; 
 	margin-left: 5px;
        }
+        tr.prepare{background-color:blue;}
         </style>
          {{ form_stylesheet(search_form) }}
 {% endblock %}

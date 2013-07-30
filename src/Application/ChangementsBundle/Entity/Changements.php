@@ -115,7 +115,7 @@ class Changements extends AbstractEvent {
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_projet", referencedColumnName="id",nullable=false)
      * })
-     * @GRID\Column(field="idProjet.nomprojet", title="Projet",size="20",filter="select",selectFrom="query")
+     * @GRID\Column(field="idProjet.nomprojet", title="Projet",size="20",filter="select",selectMulti="true",selectFrom="query")
 
      */
     private $idProjet;
@@ -139,11 +139,11 @@ class Changements extends AbstractEvent {
      * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\Environnements",inversedBy="idchangements",cascade={"persist"})
      * @ORM\OrderBy({"nom" = "ASC"})
      * @ORM\JoinTable(name="changements_environnements")
-     * @GRID\Column(field="idEnvironnement.nom:GroupConcat", filterable=false,size="100",title="Env", filter="select",selectFrom="query")
+     * @GRID\Column(type="array",field="idEnvironnement.nom:GroupConcat", filterable=true,size="100",title="Env", filter="select",selectMulti="true",selectFrom="values",values={"type1"="Production"})
      */
     private $idEnvironnement;
     
-    
+    //values={"type1"="Production"})
     // * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\Environnements",inversedBy="idchangements",cascade={"persist"})
     //* @GRID\Column(type="extended_text", field="idEnvironnement.nom:AtGroupConcat", title="Categories", filter="select", selectMulti="true", selectFrom="values")
     //  * @GRID\Column(type="extended_text", field="idEnvironnement.nom:AtGroupConcat", filterable=true,size="20",title="Env", filter="select",selectMulti="false",selectFrom="values")
@@ -178,7 +178,7 @@ class Changements extends AbstractEvent {
      *
      * @ORM\ManyToOne(targetEntity="Application\RelationsBundle\Entity\ChronoUser")
      * @ORM\JoinColumn(name="demandeur", referencedColumnName="id")
-     * @GRID\Column(field="demandeur.nomUser", title="Demandeur",size="20",filter="select",selectFrom="query")
+     * @GRID\Column(field="demandeur.nomUser", title="Demandeur",size="20",filter="select",selectMulti="true",selectFrom="query")
      */
     private $demandeur;
 
@@ -190,7 +190,7 @@ class Changements extends AbstractEvent {
      * @ORM\ManyToOne(targetEntity="ChangementsStatus")
      * @ORM\OrderBy({"nom" = "ASC"})
      * @ORM\JoinColumn(name="id_status", referencedColumnName="id",nullable=false)
-     * @GRID\Column(field="idStatus.nom", title="Status",size="10",filter="select",selectFrom="query")
+     * @GRID\Column(field="idStatus.nom", title="Status",size="10",filter="select",selectMulti="true",selectFrom="query")
      */
     private $idStatus;
 
@@ -205,7 +205,7 @@ class Changements extends AbstractEvent {
 
     /**
      * @ORM\Column(type="string", length=12, name="ticket_ext", nullable=true)
-     * @GRID\Column(type="text",field="ticketExt", title="TExt",size="12")
+     * @GRID\Column(type="text",field="ticketExt", title="Ticket_Ext",size="12")
      *
      * @Assert\Regex(
      *     pattern="/([1-9]\-[0-9]{5,10}|[0-9]{5,10})/",
@@ -219,7 +219,7 @@ class Changements extends AbstractEvent {
 
     /**
      * @ORM\Column(type="integer", length=5, name="ticket_int", nullable=true)
-     * @GRID\Column(type="text",field="ticketInt", title="TInt",size="10")
+     * @GRID\Column(type="text",field="ticketInt", title="Ticket_Int",size="10")
      *  * @Assert\Regex(
      * pattern="/^[0-9]{5,6}/",
      *     match=true,

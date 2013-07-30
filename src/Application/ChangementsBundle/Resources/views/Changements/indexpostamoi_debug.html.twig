@@ -1,4 +1,7 @@
 {% extends "ApplicationChangementsBundle::layout.html.twig" %}
+
+{# import "_self" as the form theme #}
+
 {% macro icon_class( type ) %}
   {% set type_class_map = {
     like: 'icon-user'
@@ -36,7 +39,6 @@
 {% endif %}
   
 {% endblock %}
-
 
   {% block stylesheets %}
 {{ parent() }}

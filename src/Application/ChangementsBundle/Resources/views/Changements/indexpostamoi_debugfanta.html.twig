@@ -1,4 +1,7 @@
 {% extends "ApplicationChangementsBundle::layout.html.twig" %}
+{% form_theme search_form with 'ApplicationChangementsBundle:Form:tpl_searchform.html.twig' %}
+
+
 {% macro icon_class( type ) %}
   {% set type_class_map = {
     like: 'icon-user'
@@ -8,21 +11,8 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {% javascripts 
-    '@ApplicationChangementsBundle/Resources/public/js/jquery.cookie.js'
-    '@ApplicationChangementsBundle/Resources/public/js/changementsown.js'
-    '@ApplicationChangementsBundle/Resources/public/js/jquery.colorbox.js'
-    '@ApplicationChangementsBundle/Resources/public/js/editme.js'
-
-      output='js/compiled/changementsown.js' filter='?yui_js' %}
-<script src="{{ asset_url }}"></script>
-{% endjavascripts %}
-{#
-<script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
-<script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/editme.js') }}"></script>
-#}
-
-    {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+<script type="text/javascript" src="{{ asset('js/compiled/changementsown.js') }}"></script>
+{% if is_granted("IS_AUTHENTICATED_FULLY") %}
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/changementsicons.js') }}"></script>
@@ -65,7 +55,8 @@
 	padding-top: 130px; 
 	margin-left: 5px;
        }
-       div.pagerfanta nav{ margin:auto;width:95%;}
+       div.pagerfanta nav{ margin:auto;width:auto;}
+     
         </style>
         
 {% endblock %}
@@ -104,32 +95,54 @@
        
                             <th style="min-width:30px"  class="sorted">
                             <a href="{{ path('changements_posttestdebugfanta', {'sort':'a.id','dir':next_dir}) }}">
-                            ID </a><i class=" icon-time"></i></th>
-                           
+                            ID </a> <i class=" icon-time"></i>
+                             {% if arrow['a.id'] is defined %}
+                                     <i class={{ arrow['a.id'] }}></i>
+                                     {% endif %}
+                            </th>
                             
                             <th style="min-width:150px"  class="sorted">
                             <a href="{{ path('changements_posttestdebugfanta', {'sort':'a.nom','dir':next_dir}) }}">
-                            Nom </a><i class=" icon-time"></i></th>
+                            Nom </a><i class=" icon-time"></i> 
+                            {% if arrow['a.nom'] is defined %}
+                            <i class={{ arrow['a.nom'] }}></i>
+                                  {% endif %}
+                                </th>
                                 
                                       
                                      
                             <th style="min-width:80px"  class="sorted">
                             <a href="{{ path('changements_posttestdebugfanta', {'sort':'a.dateDebut','dir':next_dir}) }}">
-                            Debut </a><i class=" icon-time"></i></th>
+                            Debut </a><i class=" icon-time"></i>
+                                 {% if arrow['a.dateDebut'] is defined %}
+                            <i class={{ arrow['a.dateDebut'] }}></i>
+                                  {% endif %}
+                                </th>
                            
                             <th style="min-width:80px"  class="sorted">
                             <a href="{{ path('changements_posttestdebugfanta', {'sort':'a.dateFin','dir':next_dir}) }}">
-                            Fin </a><i class=" icon-time"></i></th>
+                            Fin </a><i class=" icon-time"></i>
+                                 {% if arrow['a.dateFin'] is defined %}
+                            <i class={{ arrow['a.dateFin'] }}></i>
+                                  {% endif %}
+                                </th>
                          
                                 
                        <th style="min-width:100px"  class="sorted">
                             <a href="{{ path('changements_posttestdebugfanta', {'sort':'b.nomprojet','dir':next_dir}) }}">
-                            Projet </a><i class=" icon-time"></i></th>
+                            Projet </a><i class=" icon-time"></i>
+                            {% if arrow['b.nomprojet'] is defined %}
+                            <i class={{ arrow['b.nomprojet'] }}></i>
+                                  {% endif %}</th>
                        
                            
                              <th  class="sorted">
                             <a href="{{ path('changements_posttestdebugfanta', {'sort':'a.demandeur','dir':next_dir}) }}">
-                            D </a><i class=" icon-user"></i></th>
+                            D </a><i class=" icon-user"></i>
+                                  {% if arrow['a.demandeur'] is defined %}
+                            <i class={{ arrow['a.demandeur'] }}></i>
+                                  {% endif %}</th>
+                       
                     
                            
                               <th class="sorted">      <i class=" icon-book"></i></th>
@@ -139,21 +152,46 @@
                                
                        <th style="min-width:100px"  class="sorted">
                             <a href="{{ path('changements_posttestdebugfanta', {'sort':'e.nomUser','dir':next_dir}) }}">
-                            Users </a><i class=" icon-user"></i></th>
-                       
+                            Users </a><i class=" icon-user"></i>  
+                        {% if arrow['e.nomUser'] is defined %}
+                            <i class={{ arrow['e.nomUser'] }}></i>
+                                  {% endif %}</th>
+                           
+                           
                                   <th style="min-width:30px"class="sorted">
-                                      <a href="{{ path('changements_posttestdebugfanta', {'sort':'a.demandeur','dir':next_dir}) }}">
+                                      <a href="{{ path('changements_posttestdebugfanta', {'sort':'d.idStatus.nom','dir':next_dir}) }}">
                                       F</a>
-                                <i class=" icon-flag"></i></th>
+                                <i class=" icon-flag"></i>
+                                      {% if arrow['d.idStatus.nom'] is defined %}
+                            <i class={{ arrow['d.idStatus.nom'] }}></i>
+                                  {% endif %}</th>
+                        
                           
                            
-                            <th style="min-width:100px">T_in <i class=" icon-pencil"></i></th>
-                              <th style="min-width:50px">T_out <i class=" icon-pencil"></i></th>  
-                               
-                              
+                            <th style="min-width:100px"  class="sorted">
+                            <a href="{{ path('changements_posttestdebugfanta', {'sort':'a.ticketExt','dir':next_dir}) }}">
+                            T_Ext </a><i class=" icon-tag"></i>
+                                 {% if arrow['a.ticketExt'] is defined %}
+                            <i class={{ arrow['a.ticketExt'] }}></i>
+                                  {% endif %}</th>
+                                
+                                
+                                             
+                                  <th style="min-width:50px"  class="sorted">
+                            <a href="{{ path('changements_posttestdebugfanta', {'sort':'a.ticketInt','dir':next_dir}) }}">
+                            T_Int </a><i class=" icon-tag"></i>
+                             {% if arrow['a.ticketInt'] is defined %}
+                            <i class={{ arrow['a.ticketInt'] }}></i>
+                                  {% endif %}</th>
+                                      
+                                             
+                                 
                               <th style="min-width:80px"  class="sorted">
                             <a href="{{ path('changements_posttestdebugfanta', {'sort':'g.nom','dir':next_dir}) }}">
-                            Env </a><i class=" icon-time"></i></th>
+                            Env </a><i class=" icon-time"></i>
+                                   {% if arrow['g.nom'] is defined %}
+                            <i class={{ arrow['g.nom'] }}></i>
+                                  {% endif %}</th>
                      
                             {#
                             <th style="min-width:100px" {% if pagination.isSorted('e.nomUser') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Users', 'e.nomUser') }}
@@ -164,9 +202,18 @@
                     </thead>
                     <tbody>
     {% for entity in  pagerfanta.currentPageResults %}
-                     {# si datedebut existe #}   
-          {#   {% if entity.dateDebut %}#}
-                            
+                                 {% if entity.idStatus.description == 'closed' %} 
+                            {# <tr class="closed">#}
+                            <tr class="myclosed">
+                                 {# sinon: open prepare ou wait #}
+                            {% else %}
+                                   {% if entity.idStatus.description == 'prepare' or  entity.idStatus.description == 'wait'%} 
+                                     <tr class="prepare">
+                                         {# encours==open#}
+                                       {% else %}
+                                             <tr class="success">
+                                     {% endif %}
+                              {% endif %}
                       
                            <td>{{ entity.id }}</td>
                             <td><a href="{{ path('changements_show', { 'id': entity.id }) }}">{{ entity.nom }}</a></td>
@@ -228,11 +275,14 @@
                         </td>
                 </tr>
     {% endfor %}
-                 <tr><td colspan="16"><div class="pagerfanta">
-{{ pagerfanta(pagerfanta, 'default') }}
-          </div></td></tr>
  </tbody>
- </table>
+ </table>    
+         <div class="pagination" align="center">
+                        {#<div class="pagerfanta">#}
+{#{{ pagerfanta(pagerfanta, 'default') }}#}
+  {{ pagerfanta(pagerfanta, 'twitter_bootstrap') }}
+          </div>
+
       
 
 <br>

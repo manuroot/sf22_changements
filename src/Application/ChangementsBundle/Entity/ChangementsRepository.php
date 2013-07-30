@@ -33,6 +33,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
      * TODO: ajouter les filtres
      * 
      */
+
     public function getProjetsForRequeteBuilder() {
         $query = $this->createQueryBuilder('a')
                 ->select('distinct b.id,b.nomprojet')
@@ -42,34 +43,25 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
                 ->add('orderBy', 'b.nomprojet ASC');
 
         $choices = array();
-
-        //  print_r($results);exit(1);
-        $arr=$query->getQuery()->getArrayResult();
+        $arr = $query->getQuery()->getArrayResult();
         foreach ($arr as $result) {
             $choices[$result['id']] = $result['nomprojet'];
         }
-       // print_r($choices);exit(1);
         return $choices;
-
-        //return $query->getQuery()->getArrayResult();
     }
 
     public function getDemandeursForRequeteBuilder() {
         $query = $this->createQueryBuilder('a')
                 ->select('distinct b.id,b.nomUser')
-                // ->from('Application\ChangementsBundle\Entity\Changements', 'a')
                 ->leftJoin('a.demandeur', 'b')
                 ->groupBy('b.id')
                 ->add('orderBy', 'b.nomUser ASC');
         $choices = array();
-
-           $arr=$query->getQuery()->getArrayResult();
+        $arr = $query->getQuery()->getArrayResult();
         foreach ($arr as $result) {
             $choices[$result['id']] = $result['nomUser'];
         }
         return $choices;
-
-        //  return $query->getQuery()->getArrayResult();
     }
 
     public function getProjetForRequeteBuilderc() {
@@ -139,7 +131,8 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         }
         $query->add('orderBy', 'a.id DESC');
         //$query->add('orderBy', "$sort $dir");
-        return $query->getQuery();
+        return $query;
+        //->getQuery();
     }
 
     public function findAjaxValue($criteria) {
