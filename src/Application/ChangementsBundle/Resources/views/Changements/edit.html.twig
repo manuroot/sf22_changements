@@ -47,8 +47,8 @@ select#changements_idapplis,select#changements_idusers{height:200px;}
 {% endblock %}
 
 {% block javascripts %}
-{{ tinymce_init() }}
 {{ parent() }}
+{{ tinymce_init() }}
   {# <script type="text/javascript" src="{{ asset('select2/select2.js') }}"></script>
    <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>#}
 

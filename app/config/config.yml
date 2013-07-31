@@ -241,7 +241,7 @@ fos_js_routing:
 #==================================================
 
 stfalcon_tinymce:
-        include_jquery: true
+        include_jquery: false
         tinymce_jquery: true
         selector: ".tinymce"
         base_url: ~
