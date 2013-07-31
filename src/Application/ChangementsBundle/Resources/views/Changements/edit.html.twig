@@ -47,11 +47,12 @@ select#changements_idapplis,select#changements_idusers{height:200px;}
 {% endblock %}
 
 {% block javascripts %}
+{{ tinymce_init() }}
 {{ parent() }}
   {# <script type="text/javascript" src="{{ asset('select2/select2.js') }}"></script>
    <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>#}
 
-{{ tinymce_init() }}
+
    <script>
    
        /*
@@ -124,7 +125,7 @@ function addTagFormDeleteLink($tagFormLi) {
 {% block title %}EDITION OPERATION{% endblock %}
 {% block content %}
  
-
+ 
     <form action="{{ path('changements_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
           <table class="table-mybordered">
 

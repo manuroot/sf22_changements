@@ -54,9 +54,9 @@
 
     
 {% block javascripts %}
+    {{ tinymce_init() }}
 {{ parent() }}
       {{ form_javascript(form) }}           
-{{ tinymce_init() }}
 <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/datenew.js') }}"></script>
 
 {% endblock %}
