@@ -145,6 +145,7 @@ class ChangementsFilterType extends AbstractType {
                             // add the join if you need it and it not already added
                             //  $queryBuilder->leftJoin('a.idusers', 'e');
                             $user = $values['value'];
+                       //     print_r($values['fieldNames']);exit(1);
                             /*  $queryBuilder->andWhere('e.nomUser = :name')
                               ->setParameter('name', $values['value'] ); */
                            // $queryBuilder->select('partial e.{id,nomUser}')
@@ -186,6 +187,7 @@ class ChangementsFilterType extends AbstractType {
                     },
                     'apply_filter' => function (QueryBuilder $queryBuilder, Expr $expr, $field, array $values) {
                         if (!empty($values['value'])) {
+                            //fieldNames
                             // add the join if you need it and it not already added
                             //  $queryBuilder->leftJoin('a.idusers', 'e');
                            // $env = $values['value'];

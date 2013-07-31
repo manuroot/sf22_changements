@@ -4,7 +4,8 @@ $(document).ready(function() {
     
    /*  console.log("open test button");*/
   // ne pas prendre edit/update a. 
-  if ($(this).hasClass("open") || $(this).hasClass("closed")){
+  // $this is: td a class=
+ if ($(this).hasClass("open") || $(this).hasClass("closed") || $(this).hasClass("prepare")){
         var id=$(this).attr("data-id");
                console.log("id=" + id);
              var dataAjax = {id:id};
@@ -14,13 +15,13 @@ $(document).ready(function() {
        if( $(this).closest("tr").hasClass("success")){
                $(this).children().attr("src", img_path + "cadenas-sferme.png");
                  $(this).removeClass("open").addClass("closed");
-            $(this).closest("tr").removeClass("success");
+            $(this).closest("tr").removeClass("success").addClass("myclosed");
        }
        //cas open: prepare ==> open
-       else if ($(this).closest("tr").hasClass("warning")){
+       else if ($(this).closest("tr").hasClass("prepare")){
                $(this).children().attr("src", img_path + "cadenas-souvert.png");
               /*   $(this).removeClass("open").addClass("closed");*/
-            $(this).closest("tr").removeClass("warning").addClass("success");
+            $(this).closest("tr").removeClass("prepare").addClass("success");
        }
        
           
@@ -33,7 +34,7 @@ $(document).ready(function() {
 
       $(this).children().attr("src",img_path + "cadenas-bleu.png");
       $(this).removeClass("closed").addClass("open");
-      $(this).closest("tr").addClass("warning");
+      $(this).closest("tr").removeClass("myclosed").addClass("prepare");
  };
  remplirSelect(dataAjax);
   }

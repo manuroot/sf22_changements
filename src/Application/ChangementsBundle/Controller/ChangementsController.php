@@ -771,28 +771,32 @@ class ChangementsController extends Controller {
                 throw $this->createNotFoundException('Unable to find Changements entity.');
             }
             $id_status = $entity->getIdStatus();
-
-            if ($id_status == "en cours") {
+            $new_status=$id_status;
+            if ($id_status == "open") {
                 $entity_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->findOneByDescription("closed");
                 // var_dump($id_status);
+              
                 $entity->setIdStatus($entity_status);
+                $new_status="closed";
                 $em->persist($entity);
                 $em->flush();
             }
             if ($id_status == "en preparation" || $id_status == "en attente") {
                 $entity_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->findOneByDescription("open");
                 // var_dump($id_status);
+                $new_status="open";
                 $entity->setIdStatus($entity_status);
                 $em->persist($entity);
                 $em->flush();
-            } elseif ($id_status == "fermé") {
+            } elseif ($id_status == "closed") {
                 $entity_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->findOneByDescription("prepare");
                 $entity->setIdStatus($entity_status);
+                $new_status="prepare";
                 $em->persist($entity);
                 $em->flush();
             }
-            $array = array('mystatus' => "$id_status");
-            $array = array($array);
+            $array = array('mystatus' => "$id_status==>$new_status");
+          //  $array = array($array);
             $response = new Response(json_encode($array));
 
             $response->headers->set('Content-Type', 'application/json');
