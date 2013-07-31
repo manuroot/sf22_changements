@@ -26,7 +26,7 @@
             font-size:18px;
             color:red;
 }
-.hrsep {color: blue;background-color: blue;height: 3px; }
+.hrsep {color: blue;background-color: blue;height: 2px; }
 a.add_tag_link { color:whitesmoke;}
 
 .ui-autocomplete-category {
@@ -35,8 +35,9 @@ padding: .2em .4em;
 margin: .8em 0 .2em;
 line-height: 1.5;
 }
+
 .mytiny {width:380px;}
-.tinymce {width:750px;height:300px;}
+.tinymce {height:300px;}
 td.description {text-align:center;vertical-align:middle;}
 .lastcol {width:250px;}
 select#changements_idapplis,select#changements_idusers{height:200px;}
@@ -50,12 +51,13 @@ select#changements_idapplis,select#changements_idusers{height:200px;}
   {# <script type="text/javascript" src="{{ asset('select2/select2.js') }}"></script>
    <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>#}
 
-
+{{ tinymce_init() }}
    <script>
-  
+   
+       /*
 $(document).ready(function() {
- /*   $("#e1").select2();*/
-});
+    
+});*/
 // Récupère le div qui contient la collection de tags
 var collectionHolder = $('ul.tags');
 var mybutton_add = '<button class="btn btn-small btn-primary"><i class="icon-plus-sign"></i> Ajouter Fichier</button>';
@@ -113,7 +115,7 @@ function addTagFormDeleteLink($tagFormLi) {
         <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/datenew.js') }}"></script>
   
        {{ form_javascript(edit_form) }}
-   {{ tinymce_init() }}
+  
 {% endblock %}
        
  
@@ -121,6 +123,7 @@ function addTagFormDeleteLink($tagFormLi) {
 {% block content_header '' %}
 {% block title %}EDITION OPERATION{% endblock %}
 {% block content %}
+ 
 
     <form action="{{ path('changements_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
           <table class="table-mybordered">
@@ -189,7 +192,7 @@ function addTagFormDeleteLink($tagFormLi) {
                 <tr>
                     <td class="calendar" colspan="3"> {{ form_rest(edit_form) }} 
                                     <button type="submit" class="btn btn-large btn-warning">Modifier</button>
-                                    <a href="{{ path('changements_post') }}" class="btn btn-large btn-success">Retour</a>
+                                    <a href="{{ path('changements_posttest') }}" class="btn btn-large btn-success">Retour</a>
                                     </form>
 
 

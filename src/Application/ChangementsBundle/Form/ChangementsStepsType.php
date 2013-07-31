@@ -168,7 +168,14 @@ class ChangementsStepsType extends AbstractType {
                          'rows' => "15",
                         'class' => 'tinymce',
                         )))*/
-                     ->add('description', 'textarea')
+                    
+                   ->add('description', 'textarea', array(
+        'attr' => array(
+            'class' => 'tinymce',
+            'data-theme' => 'advanced' // simple, advanced, bbcode
+        )
+    ))
+                   /*  ->add('description', 'textarea')*/
                 /*, array(
         'attr' => array(
             //'placeholder'=>'Description du changement',

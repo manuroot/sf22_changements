@@ -128,7 +128,8 @@ class ChangementsController extends Controller {
         $request = $this->getRequest();
         $session = $request->getSession();
         $session->set('buttonretour', 'changements_post');
-        list($filterForm, $queryBuilder, $message) = $this->filter();
+        list($filterForm, $query, $message) = $this->filter();
+       $queryBuilder=$query->getQuery();
         if ($message)
             $session->getFlashBag()->add('warning', "$message");
         $pagination = $this->createpaginator($queryBuilder, 15);
