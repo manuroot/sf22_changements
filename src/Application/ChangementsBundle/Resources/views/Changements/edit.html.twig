@@ -47,14 +47,14 @@ select#changements_idapplis,select#changements_idusers{height:200px;}
 
 {% block javascripts %}
 {{ parent() }}
-   <script type="text/javascript" src="{{ asset('select2/select2.js') }}"></script>
-   <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
+  {# <script type="text/javascript" src="{{ asset('select2/select2.js') }}"></script>
+   <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>#}
 
-{{ tinymce_init() }}
+
    <script>
   
 $(document).ready(function() {
-    $("#e1").select2();
+ /*   $("#e1").select2();*/
 });
 // Récupère le div qui contient la collection de tags
 var collectionHolder = $('ul.tags');
@@ -113,7 +113,7 @@ function addTagFormDeleteLink($tagFormLi) {
         <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/datenew.js') }}"></script>
   
        {{ form_javascript(edit_form) }}
-   
+   {{ tinymce_init() }}
 {% endblock %}
        
  

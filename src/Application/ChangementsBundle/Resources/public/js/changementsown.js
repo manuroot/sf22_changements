@@ -13,7 +13,7 @@ var mydates=[
 mydates.forEach(function(entry) {
    /* console.log(entry);*/
 $( entry ).datepicker({
-minDate: "-1Y",
+minDate: "-5Y",
 maxDate: "+10Y",
 changeMonth: true,
 changeYear: true,

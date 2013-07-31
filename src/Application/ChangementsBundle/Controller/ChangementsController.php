@@ -57,10 +57,10 @@ class ChangementsController extends Controller {
       /* 
         $results = $query->getResult();
         $total = count($results);
-
-      // $count_total = $em->getRepository('ApplicationChangementsBundle:Changements')->getSimpleCountedJoinedBy();
-      //  $total = $count_total[1];
-        $query->setHint('knp_paginator.count', $total);*/
+*/
+      $count_total = $em->getRepository('ApplicationChangementsBundle:Changements')->getSimpleCountedJoinedBy();
+       $total = $count_total[1];
+        $query->setHint('knp_paginator.count', $total);
         $pagination = $paginator->paginate(
                 $query, $page, $num_perpage, array(
             'pageParameterName' => $pagename,

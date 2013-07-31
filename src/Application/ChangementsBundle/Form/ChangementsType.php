@@ -130,17 +130,14 @@ $builder
                     ),
                     'required' => false,
                 ))
-         
-                ->add('description', 'textarea', array(
+         ->add('description', 'textarea')
+              /*  ->add('description', 'textarea', array(
                     'attr' => array(
-                       
-                       /* 'style' => 'width:300px; height:300px',*/
-                         /*'height' => "400px",*/
-                        'class' => 'tinymce',
+                          'class' => 'tinymce',
                          'width'=>'300px',
                     // 'data-theme' => 'simple'
 // simple, advanced, bbcode
-                        )))
+                        )))*/
                 //   ->add('description')
                 /* ,'textarea',  array(
                   'widget' => 'textarea', */

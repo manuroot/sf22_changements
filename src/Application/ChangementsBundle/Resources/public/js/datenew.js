@@ -1,7 +1,9 @@
  $(document).ready(function() {
-    //$(function() {
+    
+     //$(function() {
       $( "#changements_dateDebut" ).datepicker({
-    maxDate: "+3M +10D",
+    maxDate: "+5Y",
+    minDate: "-5Y",
     changeMonth: true,
     changeYear: true,
     numberOfMonths: 1,
@@ -11,7 +13,8 @@
     }
     });
         $( "#changements_dateFin" ).datepicker({
-    maxDate: "+3M +10D",
+    maxDate: "+5Y",
+    minDate: "-5Y",
     changeMonth: true,
     changeYear: true,
     numberOfMonths: 1,
@@ -21,9 +24,10 @@
     }
     });
       $( "#changements_dateComep" ).datepicker({
-    maxDate: "+3M +10D",
+    maxDate: "+5Y",
+    minDate: "-5Y",
     changeMonth: true,
-    changeYeat: true,
+    changeYear: true,
     numberOfMonths: 1,
     dateFormat: "yy-mm-dd",
     onClose: function( selectedDate ) {
@@ -31,16 +35,17 @@
     }
     });
       $( "#changements_dateVsr" ).datepicker({
-    maxDate: "+3M +10D",
-    changeMonth: true,
-    changeYeat: true,
+     maxDate: "+5Y",
+    minDate: "-5Y",
+     changeMonth: true,
+    changeYear: true,
     numberOfMonths: 1,
     dateFormat: "yy-mm-dd",
     onClose: function( selectedDate ) {
     $( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
     }
     });
-  
+  /*
    $('.btn-add').click(function(event) {
         var collectionHolder = $('#' + $(this).attr('data-target'));
         var prototype = collectionHolder.attr('data-prototype');
@@ -49,7 +54,8 @@
         collectionHolder.append(form);
 
         return false;
-    });
+    });*/
+
     /*$('.btn-remove').live('click', function(event) {
         var name = $(this).attr('data-related');
         $('*[data-content="'+name+'"]').remove();
