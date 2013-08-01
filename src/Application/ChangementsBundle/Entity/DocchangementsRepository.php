@@ -18,90 +18,66 @@ class DocchangementsRepository extends EntityRepository {
 
         //->getResult();
     }
- public function myFindAll() {
-      //  return $this->createQueryBuilder('a')
-        /*                ->leftJoin('a.idchangement', 'b')
-                ->orderBy('a.id', 'DESC')
-                        //   ->leftJoin('a.demandeur', 'c')
-                        ->getQuery();
-    }*/
- 
+
+    public function myFindAll() {
         $query = $this->createQueryBuilder('a')
                 ->select('a,b')
                 ->add('orderBy', 'a.id DESC')
                 ->leftJoin('a.idchangement', 'b');
-                //  ->leftJoin($join, $alias, $conditionType)
-              
         ;
         return $query->getQuery();
+    }
 
-}
-
-  // TODO REGEX
+    // TODO REGEX
     public function getListBy($criteria) {
 
-        
-         $query = $this->createQueryBuilder('a')
+
+        $query = $this->createQueryBuilder('a')
                 ->select('a,b')
                 ->add('orderBy', 'a.id DESC')
                 ->leftJoin('a.idchangement', 'b');
-                 
-                 
-             $parameters = array();     
-       // print_r($criteria);exit(1);
-         $parameters_id = array();
-         if (isset($criteria['changements_nom']) && $criteria['changements_nom'] != "") {
-            //       var_dump($criteria['idEnvironnement']);exit(1);
-                $datas=array();
-        $query_ids = $this->createQueryBuilder('a')
-                ->select('partial a.{id},partial b.{id,nom}')
-                ->leftJoin('a.idchangement', 'b')
-                   ->Where('b.id IS NOT NULL')
-                   ->andWhere("b.nom LIKE :nom");
-               // ->groupBy('b.id')
-          $parameters_id['nom'] = '%' . $criteria['changements_nom'] . '%';
-        $query_ids->setParameters($parameters_id);
 
-  
-        foreach ($query_ids->getQuery()->getArrayResult() as $q) {
-           // array_push($datas,"'" . $q['id'] . "'");
-            array_push($datas, $q['id']);
-        }
-   // print_r($datas);exit(1);
-      //  $datas=array('1','2');
-         $query->andWhere('a.id IN (:ids)');
-       $parameters['ids'] = $datas;
-        }
-      
-           /*if (isset($criteria['idchangements']) && $criteria['idchangements'] != "") {
-          //   var_dump($criteria['idchangements']);exit(1);
-            $query->andWhere('b.id IN (:idchangements)');
-            $query->distinct('GroupConcat(b.nom) AS kak');
-            $parameters['idchangements'] = $criteria['idchangements'];
-        }*/
-        
-       
-       if (isset($criteria['idchangements']) && $criteria['idchangements'] != "") {
+
+        $parameters = array();
+        // print_r($criteria);exit(1);
+        $parameters_id = array();
+        if (isset($criteria['changements_nom']) && $criteria['changements_nom'] != "") {
             //       var_dump($criteria['idEnvironnement']);exit(1);
+            $datas = array();
+            $query_ids = $this->createQueryBuilder('a')
+                    ->select('partial a.{id},partial b.{id,nom}')
+                    ->leftJoin('a.idchangement', 'b')
+                    ->Where('b.id IS NOT NULL')
+                    ->andWhere("b.nom LIKE :nom");
+            // ->groupBy('b.id')
+            $parameters_id['nom'] = '%' . $criteria['changements_nom'] . '%';
+            $query_ids->setParameters($parameters_id);
+
+
+            foreach ($query_ids->getQuery()->getArrayResult() as $q) {
+                array_push($datas, $q['id']);
+            }
+            // print_r($datas);exit(1);
+            $query->andWhere('a.id IN (:ids)');
+            $parameters['ids'] = $datas;
+        }
+
+        if (isset($criteria['idchangements']) && $criteria['idchangements'] != "") {
             $query->andWhere('b.id IN (:idchangements)');
             $query->distinct('GroupConcat(b.nom) AS kak');
             $parameters['idchangements'] = $criteria['idchangements'];
         }
-        
-        
-       
-         
+
+
         if (isset($criteria['updatedAt']) && $criteria['updatedAt'] != "") {
             $query->andWhere('a.updatedAt > (:updatedAt)');
             $parameters['updatedAt'] = $criteria['updatedAt'];
         }
-           if (isset($criteria['updatedAt_max']) && $criteria['updatedAt_max'] != "") {
+        if (isset($criteria['updatedAt_max']) && $criteria['updatedAt_max'] != "") {
             $query->andWhere('a.updatedAt < (:updatedAt_max)');
             $parameters['updatedAt_max'] = $criteria['updatedAt_max'];
         }
-        
-        
-        
+
         // Supprimer les autres champs qui ne sont pas dans la classe
         foreach ($criteria as $field => $value) {
             if (!$this->getClassMetadata()->hasField($field)) {
@@ -112,80 +88,36 @@ class DocchangementsRepository extends EntityRepository {
         }
 
         //les like
-        $like_arrays = array('name', 'md5','OriginalFilename', 'path');
+        $like_arrays = array('name', 'md5', 'OriginalFilename', 'path');
         foreach ($like_arrays as $val) {
             //  echo "val=$val<br>";
             if (isset($criteria[$val]) && !preg_match('/^\s*$/', $criteria[$val])) {
-
-                //   if (isset($criteria[$val]) && ! preg_match('/[\s]+/',$criteria[$val])) {
-                //      echo "critere=" . $criteria["$val"] . "<br>";
                 $query->andWhere("a.$val LIKE :$val");
-
                 $parameters[$val] = '%' . $criteria[$val] . '%';
             }
         }
-
         $query->setParameters($parameters);
-
-
         return $query;
     }
-    
-    
-     public function findAjaxValue($criteria,$getids=null) {
+
+    public function findAjaxValue($criteria, $getids = null) {
         $parameters = array();
-        $datas=array();
+        $datas = array();
         $query = $this->createQueryBuilder('a');
-        
-         /*if (isset($getids)){
-             $query->select('partial a.{id},b.nom');
-        }else{*/
-              //$query->select('distinct b.id,b.nom');
-      // }
-                 $query->select('distinct b.nom,b.id');
-                 $query->leftJoin('a.idchangement', 'b')
-                   ->Where('b.id IS NOT NULL')
-                   ->andWhere("b.nom LIKE :nom")
+        $query->select('distinct b.nom,b.id');
+        $query->leftJoin('a.idchangement', 'b')
+                ->Where('b.id IS NOT NULL')
+                ->andWhere("b.nom LIKE :nom")
                 ->groupBy('b.nom')
                 ->add('orderBy', 'b.nom ASC');
-  
-          $parameters['nom'] = '%' . $criteria['nom'] . '%';
-        $query->setParameters($parameters);
 
-  
+        $parameters['nom'] = '%' . $criteria['nom'] . '%';
+        $query->setParameters($parameters);
         foreach ($query->getQuery()->getArrayResult() as $q) {
             array_push($datas, $q['nom']);
         }
-        
-       
-      //  print_r($datas);
-        //  exit(1);
-     
-      
-        // Supprimer champs qui ne sont pas dans la classe
-        /*foreach ($criteria as $field => $value) {
-            if (!$this->getClassMetadata()->hasField($field)) {
-                // Make sure we only use existing fields (avoid any injection)
-                unset($criteria[$field]);
-                // continue;
-            }
-        }*/
-        //les like
-      /*  $like_arrays = array('nom', 'description', 'ticketExt', 'ticketInt');
-        foreach ($like_arrays as $val) {
-            // echo "val=$val<br>";
-            if (isset($criteria[$val]) && !preg_match('/^\s*$/', $criteria[$val])) {
-                $query->andWhere("a.$val LIKE :$val");
-                $parameters[$val] = '%' . $criteria[$val] . '%';
-            }
-        }
-        $query->setParameters($parameters);
-        
-        
-         foreach ($query->getQuery()->getResult() as $q) {
-            if (!in_array((string) $qticket->getNom(), $json))
-                array_push($json, (string) $ticket->getNom());
-        }*/
-        return $datas ;
+
+        return $datas;
     }
+
 }
