@@ -98,18 +98,6 @@
 'g.nom': ['80px','icon-tag','Env'],
  } %}      
 
-                         
-                                      
-                                             
-       {#            
-         {% for key, value in items %}
-        {{ key }}
-         
-              <li>xxx: {{ value[0] }}</li>
-              <li>xxx: {{ value[1] }}</li>
-           
-    {% endfor %}
-              #}
         <div id="matable">
      <table class="table table-striped table-bordered table-hover">
   <thead>
@@ -129,57 +117,7 @@
          </th>
         {% endfor %}
       
-                         {#   <th style="min-width:30px"  class="sorted">
-                            <a href="{{ path('changements_posttestdebugfanta', {'sort':'a.id','dir':next_dir}) }}">
-                            ID </a> <i class=" icon-time"></i>
-                             {% if arrow['a.id'] is defined %}
-                                     <i class={{ arrow['a.id'] }}></i>
-                                     {% endif %}
-                            </th>
-                            
-                            <th style="min-width:150px"  class="sorted">
-                            <a href="{{ path('changements_posttestdebugfanta', {'sort':'a.nom','dir':next_dir}) }}">
-                            Nom </a><i class=" icon-time"></i> 
-                            {% if arrow['a.nom'] is defined %}
-                            <i class={{ arrow['a.nom'] }}></i>
-                                  {% endif %}
-                                </th>
-                                #}
-                                      
-                          {#           
-                            <th style="min-width:80px"  class="sorted">
-                            <a href="{{ path('changements_posttestdebugfanta', {'sort':'a.dateDebut','dir':next_dir}) }}">
-                            Debut </a><i class=" icon-time"></i>
-                                 {% if arrow['a.dateDebut'] is defined %}
-                            <i class={{ arrow['a.dateDebut'] }}></i>
-                                  {% endif %}
-                                </th>
-                           
-                            <th style="min-width:80px"  class="sorted">
-                            <a href="{{ path('changements_posttestdebugfanta', {'sort':'a.dateFin','dir':next_dir}) }}">
-                            Fin </a><i class=" icon-time"></i>
-                                 {% if arrow['a.dateFin'] is defined %}
-                            <i class={{ arrow['a.dateFin'] }}></i>
-                                  {% endif %}
-                                </th>
-                         #}
-                  {#              
-                       <th style="min-width:100px"  class="sorted">
-                            <a href="{{ path('changements_posttestdebugfanta', {'sort':'b.nomprojet','dir':next_dir}) }}">
-                            Projet </a><i class=" icon-time"></i>
-                            {% if arrow['b.nomprojet'] is defined %}
-                            <i class={{ arrow['b.nomprojet'] }}></i>
-                                  {% endif %}</th>
-                       
-                           
-                             <th  class="sorted">
-                            <a href="{{ path('changements_posttestdebugfanta', {'sort':'a.demandeur','dir':next_dir}) }}">
-                            D </a><i class=" icon-user"></i>
-                                  {% if arrow['a.demandeur'] is defined %}
-                            <i class={{ arrow['a.demandeur'] }}></i>
-                                  {% endif %}</th>
-                       
-                    #}
+                      
                            
                               <th class="sorted">      <i class=" icon-book"></i></th>
                                <th class="sorted">     <i class=" icon-pencil"></i></th>
@@ -194,53 +132,7 @@
                                      {% endif %}
                             </th>
                              {% endfor %}
-                      {#         
-                       <th style="min-width:100px"  class="sorted">
-                            <a href="{{ path('changements_posttestdebugfanta', {'sort':'e.nomUser','dir':next_dir}) }}">
-                            Users </a><i class=" icon-user"></i>  
-                        {% if arrow['e.nomUser'] is defined %}
-                            <i class={{ arrow['e.nomUser'] }}></i>
-                                  {% endif %}</th>
-                           
-                           
-                                  <th style="min-width:30px"class="sorted">
-                                      <a href="{{ path('changements_posttestdebugfanta', {'sort':'d.idStatus.nom','dir':next_dir}) }}">
-                                      F</a>
-                                <i class=" icon-flag"></i>
-                                      {% if arrow['d.idStatus.nom'] is defined %}
-                            <i class={{ arrow['d.idStatus.nom'] }}></i>
-                                  {% endif %}</th>
-                        
-                          
-                           
-                            <th style="min-width:100px"  class="sorted">
-                            <a href="{{ path('changements_posttestdebugfanta', {'sort':'a.ticketExt','dir':next_dir}) }}">
-                            T_Ext </a><i class=" icon-tag"></i>
-                                 {% if arrow['a.ticketExt'] is defined %}
-                            <i class={{ arrow['a.ticketExt'] }}></i>
-                                  {% endif %}</th>
-                                
-                                
-                                             
-                                  <th style="min-width:50px"  class="sorted">
-                            <a href="{{ path('changements_posttestdebugfanta', {'sort':'a.ticketInt','dir':next_dir}) }}">
-                            T_Int </a><i class=" icon-tag"></i>
-                             {% if arrow['a.ticketInt'] is defined %}
-                            <i class={{ arrow['a.ticketInt'] }}></i>
-                                  {% endif %}</th>
-                                      
-                                             
-                                 
-                              <th style="min-width:80px"  class="sorted">
-                            <a href="{{ path('changements_posttestdebugfanta', {'sort':'g.nom','dir':next_dir}) }}">
-                            Env </a><i class=" icon-time"></i>
-                                   {% if arrow['g.nom'] is defined %}
-                            <i class={{ arrow['g.nom'] }}></i>
-                                  {% endif %}</th>
-                     #}
-                            {#
-                            <th style="min-width:100px" {% if pagination.isSorted('e.nomUser') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Users', 'e.nomUser') }}
-                                <i class=" icon-user"></i><i class=" icon-user"></i></th>#}
+       
                            
                             <th colspan="4">Actions</th>
                         </tr>

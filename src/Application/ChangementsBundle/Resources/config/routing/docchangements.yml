@@ -2,6 +2,13 @@ docchangements:
     pattern:  /
     defaults: { _controller: "ApplicationChangementsBundle:Docchangements:index" }
 
+docchangements_fanta:
+    pattern:  /fanta
+    defaults: { _controller: "ApplicationChangementsBundle:Docchangements:indexfanta" }
+    methods: POST|GET
+
+
+
 docchangements_download:
     pattern:  /{id}/download/
     defaults: { _controller: "ApplicationChangementsBundle:Docchangements:download" }
@@ -33,3 +40,10 @@ docchangements_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "ApplicationChangementsBundle:Docchangements:delete" }
     requirements: { _method: post }
+
+ajax_changements_nom:
+    pattern:  /ajaxchgmtnom
+    methods: POST|GET
+    defaults: { _controller: "ApplicationChangementsBundle:Docchangements:DocNomAjax" }
+  
+  

@@ -4,6 +4,10 @@ namespace Application\ChangementsBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
+
+
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Application\ChangementsBundle\Entity\Changements;
@@ -23,19 +27,34 @@ class DocchangementsController extends Controller {
 
       /* ====================================================================
      * 
-     *  CREATION DU PAGINATOR
+     *  CREATION DU PAGINATOR / Pagerfanta
      * 
       =================================================================== */
+ private function mypager($adapter = null, $max = 5, $page = 1) {
+        if (isset($adapter)) {
+            $pagerfanta = new Pagerfanta($adapter);
+            $pagerfanta->setMaxPerPage($max);
 
-    private function createpaginator($query, $num_perpage = 5) {
+            return $pagerfanta;
+        } else {
+            return null;
+        }
+    }
+    private function createpaginator($query, $num_perpage = 5,$count=null) {
 
         $paginator = $this->get('knp_paginator');
         //$paginator->setUseOutputWalkers(true);
+         $query=$query->getQuery();
         $pagename = 'page'; // Set custom page variable name
         $page = $this->get('request')->query->get($pagename, 1); // Get custom page variable
 
-        $pagination = $paginator->paginate(
+        if (isset($count)){
+           $total = 10;
+       $query->setHint('knp_paginator.count', $total);
+        }
+          $pagination = $paginator->paginate(
                 $query, $page, $num_perpage, array('pageParameterName' => $pagename,
+                    'distinct'=>true,
             "sortDirectionParameterName" => "dir",
             'sortFieldParameterName' => "sort")
         );
@@ -67,12 +86,14 @@ class DocchangementsController extends Controller {
                 ));
     }
     
-    
- public function indexAction(Request $request) {
+     public function indexfantaAction(Request $request) {
 
-        //  $entity = new Changements();
+         //  $entity = new Changements();
+      $em = $this->getDoctrine()->getManager();
+   /*      $json = $em->getRepository('ApplicationChangementsBundle:Docchangements')->findAjaxValue(array('nom' => 'ab'));
+    exit(1);*/
         $parameters = array();
-        $em = $this->getDoctrine()->getManager();
+       
         $request = $this->getRequest();
         $session = $request->getSession();
         $session->set('buttonretour', 'docchangements');
@@ -94,11 +115,80 @@ class DocchangementsController extends Controller {
                 $searchForm->bind($datas);
             }
         }
+          // ajouter session + masquer parametres
+        $sort = $this->get('request')->query->get('sort', 'a.id');
+        $dir = $this->get('request')->query->get('dir', 'DESC');
+
+        $next_dir= ($dir == 'DESC') ? 'ASC' : 'DESC';
+        $arrow[$sort]= $next_dir=="DESC" ? 'icon-arrow-up' : 'icon-arrow-down' ;
+        $page = $this->get('request')->query->get('page', 1); // Get custom page variable
+        $query = $em->getRepository('ApplicationChangementsBundle:Docchangements')->getListBy($parameters);
+        $adapter = new DoctrineORMAdapter($query);
+        //$adapter->setDistinct(false);
+        $pagerfanta = $this->mypager($adapter, 10);
+        try {
+            $pagerfanta->setCurrentPage($page);
+            $q = $pagerfanta->getCurrentPageResults();
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+        
+         return $this->render('ApplicationChangementsBundle:Docchangements:indexfanta.html.twig', array(
+                   'pagerfanta' => $pagerfanta,
+                    'entities' => $q,
+            'next_dir'=>$next_dir,
+             'search_form' => $searchForm->createView(),
+            'arrow'=>$arrow
+        ));
+         
+        
+    }
+    
+    
+ public function indexAction(Request $request) {
+
+        //  $entity = new Changements();
+      $em = $this->getDoctrine()->getManager();
+   /*      $json = $em->getRepository('ApplicationChangementsBundle:Docchangements')->findAjaxValue(array('nom' => 'ab'));
+    exit(1);*/
+        $parameters = array();
+       
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        $session->set('buttonretour', 'docchangements');
+      
+        $searchForm = $this->createForm(new DocchangementsFilterType());
+     
+        if ($request->getMethod() === 'POST' && $request->get('submit-filter') === "reset") {
+            $session->remove('docchangementFilternew');
+        } elseif ($request->getMethod() === 'POST' && $request->get('submit-filter') === "filter") {
+            $alldatas = $request->request->all();
+            $datas = $alldatas["docchangements_searchfilter"];
+            $parameters = $datas;
+            $session->set('docchangementFilternew', $datas);
+            $searchForm->bind($datas);
+        } else {
+            if ($session->has('docchangementFilternew')) {
+                $datas = $session->get('docchangementFilternew');
+                $parameters = $datas;
+                $searchForm->bind($datas);
+            }
+        }
+          //  list($query,$count) = $em->getRepository('ApplicationChangementsBundle:Docchangements')->getListBy($parameters);
+        /*
+         * 
+         * Ajout du order pour manytomany !!
+         * 
+         * 
+         */
        $query = $em->getRepository('ApplicationChangementsBundle:Docchangements')->getListBy($parameters);
     $pagination = $this->createpaginator($query, 15);
+    $total = $pagination->getTotalItemCount();
+     //$pagination = $this->createpaginator($query, 15,$count);
         return $this->render('ApplicationChangementsBundle:Docchangements:index.html.twig', array(
                     'search_form' => $searchForm->createView(),
                     'pagination' => $pagination,
+                    'total' => $total,
         ));
     }
     
@@ -332,4 +422,20 @@ class DocchangementsController extends Controller {
         $response->setContent($content);
         return $response;
     }
-}
+public function DocNomAjaxAction(Request $request) {
+        $term = $request->get('term');
+        $em = $this->getDoctrine()->getManager();
+        $json = $em->getRepository('ApplicationChangementsBundle:Docchangements')->findAjaxValue(array('nom' => $term));
+        //$json = array();
+        /*foreach ($entity_ticket->getQuery()->getResult() as $ticket) {
+            if (!in_array((string) $ticket->getNom(), $json))
+                array_push($json, (string) $ticket->getNom());
+        }*/
+      //  $json=array("ok");
+        $response = new Response(json_encode($json));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+    
+    
+        }

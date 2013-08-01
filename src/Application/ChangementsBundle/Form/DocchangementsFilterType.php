@@ -63,6 +63,20 @@ class DocchangementsFilterType extends AbstractType {
                         'type' => 'prepend'
                     ),
                     'mapped' => false, 'required' => false))
+               
+               
+                  ->add('changements_nom', 'genemu_jqueryautocomplete_text', array(
+                    'label' => 'Changement(s LIKE)',
+                    'widget_addon' => array(
+                        'icon' => 'pencil',
+                        'type' => 'prepend'
+                    ),
+                    'configs' => array('minLength' => 2),
+                    'mapped' => false, 'required' => false,
+                    'route_name' => 'ajax_changements_nom',
+                    'class' => 'Docchangements',
+                ))
+               
                  ->add('idchangements', 'entity', array(
                     'class' => 'ApplicationChangementsBundle:Changements',
                      'query_builder' => function(EntityRepository $em) {
@@ -71,9 +85,9 @@ class DocchangementsFilterType extends AbstractType {
                     },
                     'property' => 'nom',
                     'expanded' => false,
-                    'multiple' => true,
+                    'multiple' => false,
                     'required' => false,
-                    'label' => 'Changements'
+                    'label' => 'Changement (=)'
                 ))
                ;
             
