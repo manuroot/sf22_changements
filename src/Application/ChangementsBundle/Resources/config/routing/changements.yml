@@ -118,4 +118,8 @@ ajax_ticketext:
     
 
     
-    
+
+templates1:
+    pattern:  /templates1
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:templates1" }
+    methods: POST|GET

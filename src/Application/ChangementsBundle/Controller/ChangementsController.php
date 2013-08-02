@@ -958,6 +958,15 @@ class ChangementsController extends Controller {
         }
     }
 
+    
+      public function templates1Action() {
+//return new Response('<html><body>Hello hjhjkhjk</body></html>');
+
+return $this->render('ApplicationChangementsBundle:templates:theme1.html.twig', array(
+                    ));
+      // return ("<h1>trerter</h1>");
+      }
+      
     public function indexfantaAction(Request $request) {
 
         $parameters = array();

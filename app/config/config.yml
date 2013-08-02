@@ -252,7 +252,7 @@ stfalcon_tinymce:
         tinymce_buttons:
             stfalcon: # Id of the first button
                 title: "About"
-                image: "asset[bundles/changementsbundle/images/add.png]"
+                image: "asset[bundles/applicationchangements/images/add.png]"
         theme:
             # Simple theme: same as default theme
             simple: ~
@@ -268,10 +268,11 @@ stfalcon_tinymce:
                      - "autoresize"
 
                  toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
-                 toolbar2: "print preview media | forecolor backcolor emoticons | stfalcon | example"
+                 toolbar2: "print preview media | forecolor backcolor emoticons | stfalcon | example | template | rj_insertcode"
                  image_advtab: true
                  templates:
-                     - {title: 'Test template 1', content: '<h1>Description</h1>Details'}
+                     #- {title: 'Test template 1', content: '<h1>Description</h1>Details'}
+                     - {title: 'Test template 1', url: "/templates1"}
                      - {title: 'Test template 2', content: 'Test 2'}
                  spellchecker_languages: "+French=fr,+English=en"
             # BBCode tag compatible theme (see http://www.bbcode.org/reference.php)
