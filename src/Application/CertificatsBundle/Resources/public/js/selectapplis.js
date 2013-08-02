@@ -51,9 +51,12 @@ $( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
 });*/
 
 
+ /*@param {type} dataAjax
+ * @returns {undefined} */
 function remplirSelect (dataAjax) {
    $.ajax({
-        url: "{{ path('certificatscenter_listbyprojet') }}", 
+        url: Routing.generate('certificatscenter_listbyprojet'),
+      /*  url: "{{ path('certificatscenter_listbyprojet') }}", */
         type: "POST", 
         data : dataAjax, 
         dataType: "json", 

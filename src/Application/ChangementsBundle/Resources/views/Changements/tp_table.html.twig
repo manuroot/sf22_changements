@@ -41,12 +41,14 @@
                             <tr class="myclosed">
                                  {# sinon: open prepare ou wait #}
                             {% else %}
+                                <tr>
+                                {#
                                    {% if entity.idStatus.description == 'prepare' or  entity.idStatus.description == 'wait'%} 
                                      <tr class="prepare">
                                          {# encours==open#}
-                                       {% else %}
+                                      {# {% else %}
                                              <tr class="success">
-                                     {% endif %}
+                                     {% endif %}#}
                               {% endif %}
                            <td>{{ entity.id }}</td>
                             <td><a href="{{ path('changements_show', { 'id': entity.id }) }}">{{ entity.nom }}</a></td>

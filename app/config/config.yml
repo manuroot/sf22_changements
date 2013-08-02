@@ -175,10 +175,10 @@ apy_data_grid:
     actions_columns_separator:  " "
     pagerfanta:
         enable:               true
-        #view_class: Pagerfanta\View\TwitterBootstrapView 
+        view_class: Pagerfanta\View\TwitterBootstrapView 
         #default    Pagerfanta\View\DefaultView
         #options:            #all options of pager fanta view constructor
-        view_class:           Pagerfanta\View\DefaultView
+        #view_class:           Pagerfanta\View\DefaultView
 #==================================================
 #  FOSUSER
 # pour les commandes fos:user:create
@@ -234,7 +234,7 @@ fos_user:
   
 
 fos_js_routing:
-     routes_to_expose: [ changements_updatexhtml_changement,certificatscenter_updatexhtml_certificats,serveurs_updatexhtml_status ]  
+     routes_to_expose: [ changements_updatexhtml_changement,certificatscenter_updatexhtml_certificats,serveurs_updatexhtml_status,certificatscenter_listbyprojet ]  
     
 #==================================================
 #  TINYMCE
@@ -251,8 +251,8 @@ stfalcon_tinymce:
         # Custom buttons
         tinymce_buttons:
             stfalcon: # Id of the first button
-                title: "Stfalcon"
-                #image: "http://stfalcon.com/favicon.ico"
+                title: "About"
+                image: "asset[bundles/changementsbundle/images/add.png]"
         theme:
             # Simple theme: same as default theme
             simple: ~

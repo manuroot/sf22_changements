@@ -23,7 +23,7 @@ use CalendR\Event\AbstractEvent;
  * @ORM\Table(name="changements_main")
  * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="Application\ChangementsBundle\Entity\ChangementsRepository")
- * @GRID\Source(columns="id,nom,ticketExt,ticketInt,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUser,idStatus.nom,idEnvironnement.nom:GroupConcat",groupBy={"id"})
+ * @GRID\Source(columns="id,nom,ticketExt,ticketInt,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUseridStatus.nom,idEnvironnement.nom:GroupConcat",groupBy={"id"})
  * @Vich\Uploadable
  */
 //* @GRID\Source(columns="id,nom,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUser,idusers.nomUser:GroupConcat,idEnvironnement.nom:GroupConcat",groupBy={"id"})
@@ -115,11 +115,11 @@ class Changements extends AbstractEvent {
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_projet", referencedColumnName="id",nullable=false)
      * })
-     * @GRID\Column(field="idProjet.nomprojet", title="Projet",size="20",filter="select",selectMulti="true",selectFrom="query")
+     * @GRID\Column(field="idProjet.nomprojet", title="Projet",size="20",filter="select",selectFrom="query")
 
      */
     private $idProjet;
-
+//selectMulti="false",
     /**
      * @var string
      * 
@@ -139,7 +139,7 @@ class Changements extends AbstractEvent {
      * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\Environnements",inversedBy="idchangements",cascade={"persist"})
      * @ORM\OrderBy({"nom" = "ASC"})
      * @ORM\JoinTable(name="changements_environnements")
-     * @GRID\Column(type="array",field="idEnvironnement.nom:GroupConcat", filterable=true,size="100",title="Env", filter="select",selectMulti="true",selectFrom="values",values={"type1"="Production"})
+     * @GRID\Column(field="idEnvironnement.nom:GroupConcat", filterable=true,size="100",title="Env", filter="select",selectFrom="query")
      */
     private $idEnvironnement;
     
@@ -167,6 +167,7 @@ class Changements extends AbstractEvent {
      * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\ChronoUser", inversedBy="idchangement",cascade={"persist"})
       * @ORM\OrderBy({"nomUser" = "ASC"})
       * @ORM\JoinTable(name="changements_users")
+     * @GRID\Column(title="Users",field="idusers.nomUser:GroupConcat", size="20",title="Users", filter="select")
      */
     private $idusers;
 
@@ -178,7 +179,7 @@ class Changements extends AbstractEvent {
      *
      * @ORM\ManyToOne(targetEntity="Application\RelationsBundle\Entity\ChronoUser")
      * @ORM\JoinColumn(name="demandeur", referencedColumnName="id")
-     * @GRID\Column(field="demandeur.nomUser", title="Demandeur",size="20",filter="select",selectMulti="true",selectFrom="query")
+     * @GRID\Column(field="demandeur.nomUser", title="Demandeur",size="20",filter="select",selectFrom="query")
      */
     private $demandeur;
 
@@ -190,7 +191,7 @@ class Changements extends AbstractEvent {
      * @ORM\ManyToOne(targetEntity="ChangementsStatus")
      * @ORM\OrderBy({"nom" = "ASC"})
      * @ORM\JoinColumn(name="id_status", referencedColumnName="id",nullable=false)
-     * @GRID\Column(field="idStatus.nom", title="Status",size="10",filter="select",selectMulti="true",selectFrom="query")
+     * @GRID\Column(field="idStatus.nom", title="Status",size="10",filter="select",selectFrom="query")
      */
     private $idStatus;
 

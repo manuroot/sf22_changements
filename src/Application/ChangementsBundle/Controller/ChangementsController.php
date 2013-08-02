@@ -958,7 +958,7 @@ class ChangementsController extends Controller {
         }
     }
 
-    public function indexposttestdebugfantaAction(Request $request) {
+    public function indexfantaAction(Request $request) {
 
         $parameters = array();
         $em = $this->getDoctrine()->getManager();

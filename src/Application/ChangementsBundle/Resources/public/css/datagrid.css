@@ -11,7 +11,20 @@ margin:auto;
 width:80%;
 text-align:center;
 }
-
+/*
+ .page,.current,.next,.last{
+    display: inline-block;
+    border: 1px solid blue;
+    color: blue;
+    margin-right: 0.2em;
+    padding: 0.25em 0.35em;
+   }
+    .current {
+    
+      background-color: #d3d3d3;
+   
+  
+}*/
 .grid table
 {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;

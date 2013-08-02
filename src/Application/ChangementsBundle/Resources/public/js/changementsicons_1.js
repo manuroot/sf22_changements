@@ -11,10 +11,8 @@ $(document).ready(function() {
              var dataAjax = {id:id};
              
        if ($(this).hasClass("open")){
-             $(this).removeClass("open").addClass("closed");
-               $(this).closest("tr").addClass("myclosed");
            //cas open: open ==> closed
-       /*if( $(this).closest("tr").hasClass("success")){
+       if( $(this).closest("tr").hasClass("success")){
                $(this).children().attr("src", img_path + "cadenas-sferme.png");
                  $(this).removeClass("open").addClass("closed");
             $(this).closest("tr").removeClass("success").addClass("myclosed");
@@ -22,21 +20,12 @@ $(document).ready(function() {
        //cas open: prepare ==> open
        else if ($(this).closest("tr").hasClass("prepare")){
                $(this).children().attr("src", img_path + "cadenas-souvert.png");
-                 $(this).closest("tr").removeClass("prepare").addClass("success");
-       }*/
+              /*   $(this).removeClass("open").addClass("closed");*/
+            $(this).closest("tr").removeClass("prepare").addClass("success");
+       }
        
           
- }
-  else if ($(this).hasClass("prepare")){
-   /*   console.log("closed test button");*/
-     /* var id=$(this).attr("data-id");
-             var dataAjax = {id:id};*/
-
-      $(this).children().attr("src",img_path + "cadenas-bleu.png");
-     /* $(this).removeClass("prepare").addClass("open");*/
-    /*  $(this).closest("tr").removeClass("myclosed");*/
-              /*.addClass("prepare");*/
- }
+ } 
  //cas closed: closed ==> prepare
  else if ($(this).hasClass("closed")){
    /*   console.log("closed test button");*/
@@ -44,9 +33,8 @@ $(document).ready(function() {
              var dataAjax = {id:id};*/
 
       $(this).children().attr("src",img_path + "cadenas-bleu.png");
-      $(this).removeClass("closed").addClass("prepare");
-      $(this).closest("tr").removeClass("myclosed");
-              /*.addClass("prepare");*/
+      $(this).removeClass("closed").addClass("open");
+      $(this).closest("tr").removeClass("myclosed").addClass("prepare");
  };
  remplirSelect(dataAjax);
   }

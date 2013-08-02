@@ -13,9 +13,9 @@ changements_posttestdebug:
     defaults: { _controller: "ApplicationChangementsBundle:Changements:indexposttestdebug" }
     methods: POST|GET
 
-changements_posttestdebugfanta:
-    pattern:  /debugfanta
-    defaults: { _controller: "ApplicationChangementsBundle:Changements:indexposttestdebugfanta" }
+changements_fanta:
+    pattern:  /fanta
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:indexfanta" }
     methods: POST|GET
 
 

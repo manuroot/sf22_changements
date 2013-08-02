@@ -78,7 +78,7 @@
     
 {% include 'ApplicationChangementsBundle:templates:container_search.html.twig' 
         with {
-            'form_path': 'changements_posttestdebugfanta',
+            'form_path': 'changements_fanta',
             'search_form': search_form,'box':"ShowHideBoxown",
              'new_path': 'changements_newflowstart',
             'new_text':"Ajouter une Opération",
@@ -109,7 +109,7 @@
          {% for key, value in itemsa %}
        
          <th style="min-width:{{ value[0] }}"  class="sorted">
-            <a href="{{ path('changements_posttestdebugfanta', {'sort':key,'dir':next_dir}) }}">
+            <a href="{{ path('changements_fanta', {'sort':key,'dir':next_dir}) }}">
             {{ value[2] }} </a> <i class=" {{ value[1] }}"></i>
             {% if arrow[key] is defined %}
             <i class={{ arrow[key] }}></i>
@@ -125,7 +125,7 @@
                                     {% for key, value in itemsb %}
        
          <th style="min-width:{{ value[0] }}"  class="sorted">
-                            <a href="{{ path('changements_posttestdebugfanta', {'sort':key,'dir':next_dir}) }}">
+                            <a href="{{ path('changements_fanta', {'sort':key,'dir':next_dir}) }}">
                             {{ value[2] }} </a> <i class=" {{ value[1] }}"></i>
                              {% if arrow[key] is defined %}
                                      <i class={{ arrow[key] }}></i>

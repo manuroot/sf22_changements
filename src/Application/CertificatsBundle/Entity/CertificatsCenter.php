@@ -24,7 +24,7 @@ use Application\CertificatsBundle\Entity\CertificatsFiles;
  * @ORM\Table(name="certificats_center")
  * @ORM\Entity(repositoryClass="Application\CertificatsBundle\Repository\CertificatsCenterRepository")
  * @ORM\HasLifecycleCallbacks()
- * @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,idEnvironnement.nom,typeCert.fileType",groupBy={"id"}) 
+ * @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,warningFile,project.nomprojet,idEnvironnement.nom,typeCert.fileType",groupBy={"id"}) 
  */
 
 
@@ -145,6 +145,8 @@ class CertificatsCenter
      * @var boolean
      *
      * @ORM\Column(name="warning_file", type="boolean", nullable=true)
+     * @GRID\Column(field="warningFile", title="W",size="10",filter="select",selectFrom="query")
+  
      */
     private $warningFile;
     
