@@ -13,6 +13,7 @@ $(document).ready(function() {
        if ($(this).hasClass("open")){
              $(this).removeClass("open").addClass("closed");
                $(this).closest("tr").addClass("myclosed");
+               $(this).children().attr("src",img_path + "cadenas-sferme.png");
            //cas open: open ==> closed
        /*if( $(this).closest("tr").hasClass("success")){
                $(this).children().attr("src", img_path + "cadenas-sferme.png");
@@ -31,8 +32,9 @@ $(document).ready(function() {
    /*   console.log("closed test button");*/
      /* var id=$(this).attr("data-id");
              var dataAjax = {id:id};*/
-
-      $(this).children().attr("src",img_path + "cadenas-bleu.png");
+   $(this).children().attr("src", img_path + "cadenas-souvert.png");
+      
+         $(this).removeClass("prepare").addClass("open");
      /* $(this).removeClass("prepare").addClass("open");*/
     /*  $(this).closest("tr").removeClass("myclosed");*/
               /*.addClass("prepare");*/

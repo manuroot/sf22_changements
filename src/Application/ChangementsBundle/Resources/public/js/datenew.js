@@ -7,7 +7,7 @@ $(document).ready(function() {
         changeMonth: true,
         changeYear: true,
         numberOfMonths: 1,
-        dateFormat: "yy-mm-dd",
+         dateFormat: "yy-mm-dd 08:00",
         onClose: function(selectedDate) {
             $("#form_bis").datepicker("option", "minDate", selectedDate);
         }
