@@ -78,7 +78,7 @@
     {% include 'CraueFormFlowBundle:FormFlow:stepField.html.twig' %}
 
     {{ form_errors(form) }}
- {% if flow.getCurrentStep() == 1 %}
+ {% if flow.getCurrentStepNumber() == 1 %}
           {{ form_row(form.description,{ 'attr': {'class': 'tinymce'} }) }}</td>
                            <td>     {{ form_rest(form) }}
                                 
