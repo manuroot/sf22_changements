@@ -977,7 +977,7 @@ class ChangementsController extends Controller {
         // avec query->getQuery() only
         $query_changements->setFirstResult(0);
         $query_changements->setMaxResults(10);
-
+        $count=10; //for test
         $pagination = $this->createpaginator($query_changements, 10);
         return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi_debug.html.twig', array(
                     'pagination' => $pagination,

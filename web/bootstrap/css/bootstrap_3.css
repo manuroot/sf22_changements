@@ -2026,11 +2026,10 @@ table {
 }
 
 .table-bordered {
-     border: 1px solid #6c6159;
-/*  border: #6c6159;*/
+  border: 1px solid #dddddd;
   border-collapse: separate;
   *border-collapse: collapse;
-/*  border-left: 0;*/
+  border-left: 0;
   -webkit-border-radius: 4px;
      -moz-border-radius: 4px;
           border-radius: 4px;
@@ -2093,10 +2092,6 @@ table {
   -webkit-border-bottom-right-radius: 0;
           border-bottom-right-radius: 0;
   -moz-border-radius-bottomright: 0;
-  -webkit-border-bottom-left-radius: 0;
-          border-bottom-left-radius: 0;
-  -moz-border-radius-bottomleft: 0;
-  
 }
 
 .table-bordered caption + thead tr:first-child th:first-child,
@@ -2104,10 +2099,6 @@ table {
 .table-bordered colgroup + thead tr:first-child th:first-child,
 .table-bordered colgroup + tbody tr:first-child td:first-child {
   -webkit-border-top-left-radius: 4px;
-          border-top-left-radius: 4px;
-  -moz-border-radius-topleft: 4px;
-  
-   -webkit-border-top-left-radius: 4px;
           border-top-left-radius: 4px;
   -moz-border-radius-topleft: 4px;
 }
@@ -2119,10 +2110,6 @@ table {
   -webkit-border-top-right-radius: 4px;
           border-top-right-radius: 4px;
   -moz-border-radius-topright: 4px;
-  
-  -webkit-border-top-left-radius: 4px;
-          border-top-left-radius: 4px;
-  -moz-border-radius-topleft: 4px;
 }
 
 .table-striped tbody > tr:nth-child(odd) > td,
@@ -6131,4 +6118,4 @@ a.badge:hover {
     font-size: 10px;
     }
 
-  
+    
