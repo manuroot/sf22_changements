@@ -259,7 +259,7 @@ $builder
                     'by_reference' => false,
                     'allow_delete' => true,
                        'prototype' => true,
-                      
+                      'label'=>false,
                    /*'attr' => array(
                 'class' => 'span5'
             )*/
