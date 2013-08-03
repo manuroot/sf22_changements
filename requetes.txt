@@ -1,3 +1,10 @@
+http://localhost/phpmyadmin4/index.php?token=7d5d60ff8700472a701f90d49fc76e94#PMAURL-41:tbl_import.php?db=sf22_changementsb&table=changements_main&server=1&target=&token=7d5d60ff8700472a701f90d49fc76e94
+
+id_projet,nom,date_debut,date_fin,description,ticket_ext,ticket_int,id_status,demandeur
+
+ALTER TABLE changements_main AUTO_INCREMENT = 1;
+SHOW TABLE STATUS LIKE 'changements_main'
+update changements_main set 'demandeur'=2 where demandeur is null
 #=====================================
 RECUP DES IDs
 #=====================================

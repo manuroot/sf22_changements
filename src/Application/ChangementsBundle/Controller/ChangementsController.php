@@ -165,7 +165,7 @@ class ChangementsController extends Controller {
         $searchForm->bind($datas);
         $query = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll($datas);
         $query_changements = $query->getQuery();
-        $pagination = $this->createpaginator($query_changements, 10);
+        $pagination = $this->createpaginator($query_changements, 20);
         $count = $pagination->getTotalItemCount();
         return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi.html.twig', array(
                     'search_form' => $searchForm->createView(),
@@ -1008,7 +1008,7 @@ return $this->render('ApplicationChangementsBundle:templates:theme1.html.twig', 
         $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getJoinedBy($sort, $dir,$parameters);
         $adapter = new DoctrineORMAdapter($query);
         //$adapter->setDistinct(false);
-        $pagerfanta = $this->mypager($adapter, 10);
+        $pagerfanta = $this->mypager($adapter, 20);
         try {
             $pagerfanta->setCurrentPage($page);
             $q = $pagerfanta->getCurrentPageResults();

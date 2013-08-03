@@ -66,7 +66,7 @@
         "egeloen/google-map-bundle": "*",
         "willdurand/geocoder": "*",
         "kriswallsmith/buzz": "*",
-        "stof/doctrine-extensions-bundle": "1.1.*@dev",
+        "stof/doctrine-extensions-bundle": "dev-master",
         "lexik/form-filter-bundle": "dev-master",
         "savvy/filternator-bundle": "dev-master",
         "jms/serializer-bundle": "0.12.*@dev",

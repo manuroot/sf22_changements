@@ -13,6 +13,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormError;
 use Lexik\Bundle\FormFilterBundle\Filter\ORM\Expr;
 use Doctrine\ORM\QueryBuilder;
+use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 
 class ChangementsFilterType extends AbstractType {
 
@@ -34,12 +35,12 @@ class ChangementsFilterType extends AbstractType {
         
            ->add('dateFin', 'filter_date_range', array(
                     'label' => 'Date début',
-                    'left_date' => array(
+                    'left_date_options' => array(
                                         'attr' => array('placeholder' => '> date Fin','style'=>'width:150px'),
                         'widget' => 'single_text'
                     /* 'time_widget' => 'single_text' */
                     ),
-                    'right_date' => array(
+                    'right_date_options' => array(
                                  'attr' => array('placeholder' => '< date Fin','style'=>'width:150px'),
                         'widget' => 'single_text'
                     /* 'time_widget' => 'single_text' */
@@ -47,12 +48,12 @@ class ChangementsFilterType extends AbstractType {
                 ))
                 ->add('dateDebut', 'filter_date_range', array(
                     'label' => 'Date début',
-                    'left_date' => array(
+                    'left_date_options' => array(
                              'attr' => array('placeholder' => '> date Début','style'=>'width:150px'),
                         'widget' => 'single_text'
                     /* 'time_widget' => 'single_text' */
                     ),
-                    'right_date' => array(
+                    'right_date_options' => array(
                             'attr' => array('placeholder' => '< date Début','style'=>'width:150px'),
                         'widget' => 'single_text'
                     /* 'time_widget' => 'single_text' */
@@ -140,26 +141,24 @@ class ChangementsFilterType extends AbstractType {
                         return $em->createQueryBuilder('u')
                                 ->orderBy('u.nomUser', 'ASC');
                     },
-                    'apply_filter' => function (QueryBuilder $queryBuilder, Expr $expr, $field, array $values) {
-                        if (!empty($values['value'])) {
-                            // add the join if you need it and it not already added
-                            //  $queryBuilder->leftJoin('a.idusers', 'e');
-                            $user = $values['value'];
-                       //     print_r($values['fieldNames']);exit(1);
-                            /*  $queryBuilder->andWhere('e.nomUser = :name')
-                              ->setParameter('name', $values['value'] ); */
-                           // $queryBuilder->select('partial e.{id,nomUser}')
-                                 $queryBuilder->andWhere('e.nomUser LIKE :name')
-                            ->setParameter('name', '%' . $values['value'] . '%');
-                            //   ->orderBy('e.nomUser', 'ASC')
-                            //$user = '%' . $user . '%';
-                            //  ->setParameter('name', 'fa');
-                            //  var_dump($values);
-                            //  echo "value=" . $values['idusers'];
-                            //  echo "value=" . $values['value'];
-                            //  exit(1);
+                            'apply_filter' => function (QueryInterface $filterQuery, $field, $values) {
+                                   if (!empty($values['value'])) {
+                                       $qb = $filterQuery->getQueryBuilder();
+                                       $qb->andWhere($filterQuery->getExpr()->eq($field, $values['value']));
+                               //      $queryBuilder->andWhere('e.nomUser LIKE :name')
+                           // ->setParameter('name', '%' . $values['value'] . '%');
+                   ;
                         }
                     },
+                            
+                 /* 'apply_filter' => function (QueryBuilder $queryBuilder, Expr $expr, $field, array $values) {
+                        if (!empty($values['value'])) {
+                               $user = $values['value'];
+                                     $queryBuilder->andWhere('e.nomUser LIKE :name')
+                            ->setParameter('name', '%' . $values['value'] . '%');
+                   
+                        }
+                    },*/
                     //   'property' => 'nomUser',
                      // 'multiple' => true,
                      /*'required' => false,
@@ -185,7 +184,16 @@ class ChangementsFilterType extends AbstractType {
                         return $em->createQueryBuilder('u')
                                 ->orderBy('u.nom', 'ASC');
                     },
-                    'apply_filter' => function (QueryBuilder $queryBuilder, Expr $expr, $field, array $values) {
+                             'apply_filter' => function (QueryInterface $filterQuery, $field, $values) {
+                                   if (!empty($values['value'])) {
+                                       $qb = $filterQuery->getQueryBuilder();
+                                       $qb->andWhere($filterQuery->getExpr()->eq($field, $values['value']));
+                               //      $queryBuilder->andWhere('e.nomUser LIKE :name')
+                           // ->setParameter('name', '%' . $values['value'] . '%');
+                   ;
+                        }
+                    },
+                    /*'apply_filter' => function (QueryBuilder $queryBuilder, Expr $expr, $field, array $values) {
                         if (!empty($values['value'])) {
                             //fieldNames
                             // add the join if you need it and it not already added
@@ -196,7 +204,7 @@ class ChangementsFilterType extends AbstractType {
                           //  ->setParameter('name', '%' . $values['value'] . '%');
                           //  ->setParameter('name', $values['value'] );
                         }
-                    },
+                    },*/
                     /* 'multiple' => true,*/
                       'required' => false,
                      'empty_value' => '--- Choisir une option ---', 

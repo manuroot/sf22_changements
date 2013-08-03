@@ -43,7 +43,7 @@ class User extends BaseUser
      * @ORM\ManyToOne(targetEntity="Application\RelationsBundle\Entity\EserviceGroup",inversedBy="users", cascade={"persist", "merge"}))
      * @ORM\OrderBy({"nomGroup" = "ASC"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_group", referencedColumnName="id",nullable=false)
+     *   @ORM\JoinColumn(name="id_group", referencedColumnName="id",nullable=true)
      * })
      * @ORM\OrderBy({"nom_group" = "ASC"})
     */

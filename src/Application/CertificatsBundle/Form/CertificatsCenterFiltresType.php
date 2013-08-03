@@ -63,13 +63,13 @@ class CertificatsCenterFiltresType extends AbstractType {
                 
                 ->add('endTime', 'filter_date_range', array(
                     'label' => 'Date début',
-                    'left_date' => array(
+                    'left_date_options' => array(
                              'attr' => array('placeholder' => '> date Fin',
                                  'style'=>'width:150px'),
                         'widget' => 'single_text'
                     /* 'time_widget' => 'single_text' */
                     ),
-                    'right_date' => array(
+                    'right_date_options' => array(
                             'attr' => array('placeholder' => '< date Fin','style'=>'width:150px'),
                         'widget' => 'single_text'
                     /* 'time_widget' => 'single_text' */
