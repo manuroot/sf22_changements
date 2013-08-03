@@ -24,24 +24,14 @@ $builder
                             'format' => 'yyyy-MMMM-dd',
                             'pattern' => '{{ year }}-{{ month }}-{{ day }}',
                             'years' => range($min_year,$max_year),
-      //  'days' => array(1),
-      //   'empty_value' => array('year' => 'Year', 'month' => 'Month', 'day' => false),
                             'label' => false,
                             'input' => 'string',
-     //  'data'=>'2013-10-02',
        'mapped'=>false
                   
                         ))
             ;
          
     }
-
-   /* public function setDefaultOptions(OptionsResolverInterface $resolver) {
-        $resolver->setDefaults(array(
-    //   'data_class' => 'Application\ChangementsBundle\Entity\Changements',
-     //       'cascade_validation' => true,
-        ));
-    }*/
 
     public function getName() {
         return 'changements_calendar_form';

@@ -272,8 +272,9 @@ stfalcon_tinymce:
                  image_advtab: true
                  templates:
                      #- {title: 'Test template 1', content: '<h1>Description</h1>Details'}
-                     - {title: 'Test template 1', url: "/templates1"}
-                     - {title: 'Test template 2', content: 'Test 2'}
+                     - {title: 'Generique', url: "/templates1"}
+                     - {title: 'Demande de service', url: templates2 }
+                     - {title: 'Demande sur incident', content: 'Test 2'}
                  spellchecker_languages: "+French=fr,+English=en"
             # BBCode tag compatible theme (see http://www.bbcode.org/reference.php)
             bbcode:

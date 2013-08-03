@@ -185,17 +185,43 @@ class ChangementsController extends Controller {
 
     public function indexchartsAction() {
 
+        $session = $this->getRequest()->getSession();
+        $request = $this->getRequest();
+         $myears = range(Date('Y') - 5, Date('Y') + 5);
+          $current_date = new \DateTime();
+        $datas_session = $session->get('form_charts');
+         $form=$this->smallCalendarForm();
+        if ($request->getMethod() == 'POST') {
+            $dataform = $request->get('form');
+          //  print_r($dataform);exit(1);
+            // print_r($dataform);exit(1);
+            
+            $session->set('form_charts',$myears[$dataform['year']]);
+           // $session->set('form_charts', $dataform);
+            $year = $myears[$dataform['year']];
+            $form->bind($dataform);
+        } elseif (isset($datas_session)) {
+            // echo "data set<br>";
+            // exit(1);
+            $datas = $session->get('form_charts');
+            $year = $myears[$datas['year']];
+             $form->bind($datas);
+        }
+        // pas de sesion
+        else {
+                $year = $current_date->format('Y');
+             $datas['year'] =$year;
+               $form->bind($datas);
+        }
         $em = $this->getDoctrine()->getManager();
-        $all_months = $em->getRepository('ApplicationChangementsBundle:Changements')->get_all_months();
-        $data_sumbymonth = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_allappli_bymonthyear();
-        $data_month = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_monthyear();
+     echo "year=$year<br>";
+    // exit(1);
+        $titre = "Demandes " . $year;
+    $all_months = $em->getRepository('ApplicationChangementsBundle:Changements')->get_all_months();
+        $data_sumbymonth = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_allappli_bymonthyear($year);
+        $data_month = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_monthyear($year);
 
-        $current_date = new \DateTime();
-        // $next=
-        //$current_yearmonth = $current_date->format('Y-m');
-        $current_year = $current_date->format('Y');
-        $titre = "Demandes " . $current_year;
-
+        
         $pie_options = array(
             'allowPointSelect' => true,
             'cursor' => 'pointer',
@@ -254,11 +280,11 @@ class ChangementsController extends Controller {
         $ob1 = new Highchart();
         $ob1->chart->renderTo('linechart1'); // The #id of the div where to render the chart
         $ob1->chart->type('column');
-        $ob1->title->text('Demandes ' . $current_year);
+        $ob1->title->text('Demandes ' . $year);
 //$categories = array('Jan', 'Feb', 'Mar', 'Apr', 'May');
         $categories = $all_months;
         $ob1->xAxis->categories($categories);
-        $ob1->xAxis->title(array('text' => "Année:" . $current_year . " Répartition mensuelle"));
+        $ob1->xAxis->title(array('text' => "Année:" . $year . " Répartition mensuelle"));
         $ob1->plotOptions->column(array(
             'stacking' => 'normal',
             'dataLabels' => array(
@@ -286,7 +312,7 @@ class ChangementsController extends Controller {
         //=====================================================
         // Par Projet
         //=====================================================
-        $data = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_year();
+        $data = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_year($year);
         // print_r($data);exit(1);
         $ob2 = new Highchart();
         $ob2->chart->type('column');
@@ -306,7 +332,7 @@ class ChangementsController extends Controller {
         //=====================================================
         // Par demandeur
         //=====================================================
-        $data_demandeur = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_demandeur_year();
+        $data_demandeur = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_demandeur_year($year);
         $ob5 = new Highchart();
         $ob5->chart->renderTo('linechart5');
         $ob5->title->text($titre . ': Demandeurs');
@@ -351,7 +377,9 @@ class ChangementsController extends Controller {
                     'chart1' => $ob1,
                     'chart2' => $ob2,
                     'chart5' => $ob5,
-                    'chart4' => $ob4
+                    'chart4' => $ob4,
+            'form'=>$form->createView(),
+            'year'=>$year,
         ));
     }
 
@@ -367,7 +395,6 @@ class ChangementsController extends Controller {
         $session = $this->getRequest()->getSession();
         $session->set('buttonretour', 'changements_calendar');
         $datas_session = $session->get('calendar_dates');
-        $surround_months = array();
         $form = $this->createForm(new CalendarType());
         if ($request->getMethod() == 'POST') {
             $dataform = $request->get('changements_calendar_form');
@@ -759,7 +786,18 @@ class ChangementsController extends Controller {
                         ->getForm()
         ;
     }
+ private function smallCalendarForm() {
 
+      $myears = range(Date('Y') - 5, Date('Y') + 5);
+      return $this->createFormBuilder()
+                ->add('year', 'choice', array(
+                'choices' => $myears,
+                'data' => $myears[5],
+            ))
+               ->add('Valider', 'submit')
+            ->getForm();
+       
+    }
     public function update_changement_statusAction() {
         $request = $this->get('request');
 
@@ -958,13 +996,14 @@ class ChangementsController extends Controller {
         }
     }
 
-    
+      public function templates2Action() {
+return $this->render('ApplicationChangementsBundle:templates:theme2.html.twig', array(
+                    ));
+       } 
+      
       public function templates1Action() {
-//return new Response('<html><body>Hello hjhjkhjk</body></html>');
-
 return $this->render('ApplicationChangementsBundle:templates:theme1.html.twig', array(
                     ));
-      // return ("<h1>trerter</h1>");
       }
       
     public function indexfantaAction(Request $request) {

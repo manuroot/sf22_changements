@@ -2217,6 +2217,13 @@ table th[class*="span"],
 
 
 
+
+.table-striped tbody > tr.myclosed:nth-child(odd) > td,
+.table-striped tbody > tr.myclosed:nth-child(odd) > th {
+/*  background-color: #f9f9f9;*/
+background-color: #f6f6f6;
+}
+
 .table-striped tbody > tr:nth-child(odd) > td,
 .table-striped tbody > tr:nth-child(odd) > th {
 /*  background-color: #f9f9f9;*/
