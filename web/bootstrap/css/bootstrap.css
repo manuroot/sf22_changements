@@ -2220,14 +2220,16 @@ table th[class*="span"],
 
 .table-striped tbody > tr.myclosed:nth-child(odd) > td,
 .table-striped tbody > tr.myclosed:nth-child(odd) > th {
-/*  background-color: #f9f9f9;*/
-background-color: #f6f6f6;
+/*  background-color: #f9f9f9;
+background-color: #f6f6f6;*/
+background-color: #f0f0f0;
 }
 
 .table-striped tbody > tr:nth-child(odd) > td,
 .table-striped tbody > tr:nth-child(odd) > th {
-/*  background-color: #f9f9f9;*/
-background-color: #f6f6f6;
+/*  background-color: #f9f9f9;
+background-color: #f6f6f6;*/
+background-color: #e6e6e6;
 
 
 }

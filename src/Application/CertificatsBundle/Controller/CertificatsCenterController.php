@@ -566,6 +566,7 @@ class CertificatsCenterController extends Controller {
      * 
      *  AJAX RECHERCHE
      * 
+     * A REVOIR
       =================================================================== */
 
     public function listByProjetAction() {
@@ -579,7 +580,7 @@ class CertificatsCenterController extends Controller {
 
             $id = $request->request->get('id_projet');
             $projet = $em->getRepository('ApplicationRelationsBundle:Projet')->find($id);
-
+           
             $id_cert = $request->request->get('id_cert');
             if (isset($id_cert) && $id_cert != "create") {
                 //    var_dump($id_cert);
