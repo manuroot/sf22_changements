@@ -33,6 +33,7 @@
             width:330px; height:150px;
 
         }
+        
         .boxlist {
             border: 1px solid #D4E0EE;
             background-color: #f1f1f1;
@@ -40,7 +41,7 @@
             
         }
         select#changements_idapplis,select#changements_idusers {
-        height:150px;
+        height:250px;
         }
      .table-mybordered  {background-color:whitesmoke;width:95%;}
       /*  .boxlist {
@@ -57,11 +58,8 @@
     
 {{ parent() }}
     {{ tinymce_init() }}
-      {{ form_javascript(form) }}      
-<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+      {{ form_javascript(form) }}           
 <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/datenew.js') }}"></script>
-<script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/listprojetapplis.js') }}"></script>
 
 {% endblock %}
 
@@ -69,13 +67,10 @@
 {% block title %}NOUVEAU CHANGEMENT{% endblock %}
 {% block content %}
 
-<div id="divchmgt" style="display: none;"></div>
-
   <form method="post" {{ form_enctype(form) }}>
             <table class="table-mybordered">
            <tbody>
-           <tr>
-                   <td style="vertical-align: top;"><div>
+           <tr><td><div>
             ETAPES:
     {% include 'CraueFormFlowBundle:FormFlow:stepList.html.twig' %}
            {% include 'CraueFormFlowBundle:FormFlow:stepField.html.twig' %}
@@ -86,7 +81,7 @@
 
    
  {% if flow.getCurrentStepNumber() == 1 %}
-            <td> {{ form_errors(form) }}
+            <td>
                            {{ form_row(form.nom) }}
 {{ form_row(form.ticketInt) }}
                     {{ form_row(form.ticketExt) }}
@@ -94,9 +89,8 @@
                    {{ form_row(form.dateDebut) }}
                     {{ form_row(form.dateFin) }}
                     
-                </td></tr><tr><td>&nbsp;</td><td style="align: center;" colspan="2">
+                </td></tr><tr><td>&nbsp;</td><td colspan="2">
           {{ form_row(form.description,{ 'attr': {'class': 'tinymce'} }) }}
-                            {{ form_errors(form.nom) }}
                         {{ form_rest(form) }}
                         </td></tr><tr><td>
                         

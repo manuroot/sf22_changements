@@ -574,16 +574,20 @@ class CertificatsCenterController extends Controller {
 
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
             $em = $this->getDoctrine()->getManager();
-            $id = '';
             $applis = array();
             $cert_app = array();
-
+           $applis['cert']=array();
+             $applis['applis']=array();
             $id = $request->request->get('id_projet');
-            $projet = $em->getRepository('ApplicationRelationsBundle:Projet')->find($id);
-           
-            $id_cert = $request->request->get('id_cert');
-            if (isset($id_cert) && $id_cert != "create") {
-                //    var_dump($id_cert);
+            
+             if (isset($id) && $id !="") {
+                //  echo "id ok:--$id--"; exit(1);
+                  $projet = $em->getRepository('ApplicationRelationsBundle:Projet')->find($id);
+                 $id_cert = $request->request->get('id_cert');
+            
+                 if (isset($id_cert) && $id_cert !="") {
+              //  echo "cert ok";exit(1);
+                //var_dump($id_cert);
                 $cert = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->find($id_cert);
                 foreach ($cert->getIdapplis() as $appli) {
                     array_push($cert_app, $appli->getId());
@@ -595,7 +599,7 @@ class CertificatsCenterController extends Controller {
                 $applis['applis'][$appli->getId()] = $appli->getNomapplis();
                 //      $applis[] = array($appli->getId(), $appli->getNomapplis());
             }
-
+             }
             //    $appli=array(3,4);
             $response = new Response(json_encode($applis));
             $response->headers->set('Content-Type', 'application/json');

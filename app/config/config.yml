@@ -234,7 +234,7 @@ fos_user:
   
 
 fos_js_routing:
-     routes_to_expose: [ changements_updatexhtml_changement,certificatscenter_updatexhtml_certificats,serveurs_updatexhtml_status,certificatscenter_listbyprojet ]  
+     routes_to_expose: [ changements_updatexhtml_changement,certificatscenter_updatexhtml_certificats,serveurs_updatexhtml_status,certificatscenter_listbyprojet,changements_listbyprojet ]  
     
 #==================================================
 #  TINYMCE
@@ -273,8 +273,8 @@ stfalcon_tinymce:
                  templates:
                      #- {title: 'Test template 1', content: '<h1>Description</h1>Details'}
                      - {title: 'Generique', url: "/templates1"}
-                     - {title: 'Demande de service', url: templates2 }
-                     - {title: 'Demande sur incident', content: 'Test 2'}
+                     - {title: 'Service', url: "/templates2" }
+                     - {title: 'Incident', content: 'Test 2'}
                  spellchecker_languages: "+French=fr,+English=en"
             # BBCode tag compatible theme (see http://www.bbcode.org/reference.php)
             bbcode:

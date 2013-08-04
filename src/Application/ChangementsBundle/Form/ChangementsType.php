@@ -360,6 +360,10 @@ $builder
         $resolver->setDefaults(array(
        'data_class' => 'Application\ChangementsBundle\Entity\Changements',
             'cascade_validation' => true,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            // a unique key to help generate the secret token
+            'intention'       => 'task_item',
         ));
     }
 

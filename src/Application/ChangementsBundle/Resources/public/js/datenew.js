@@ -45,22 +45,5 @@ $(document).ready(function() {
             $("#form_bis").datepicker("option", "minDate", selectedDate);
         }
     });
-    /*
-     $('.btn-add').click(function(event) {
-     var collectionHolder = $('#' + $(this).attr('data-target'));
-     var prototype = collectionHolder.attr('data-prototype');
-     var form = prototype.replace(/__name__/g, collectionHolder.children().length);
-     
-     collectionHolder.append(form);
-     
-     return false;
-     });*/
-
-    /*$('.btn-remove').live('click', function(event) {
-     var name = $(this).attr('data-related');
-     $('*[data-content="'+name+'"]').remove();
-     
-     return false;
-     });
-     */
+  
 }); //Eof:: ready

@@ -173,7 +173,8 @@ class ChangementsStepsType extends AbstractType {
         'attr' => array(
             'class' => 'tinymce',
             'data-theme' => 'advanced' // simple, advanced, bbcode
-        )
+        ),
+                     
     ))
                    /*  ->add('description', 'textarea')*/
                 /*, array(

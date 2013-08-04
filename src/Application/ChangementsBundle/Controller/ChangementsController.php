@@ -909,22 +909,22 @@ class ChangementsController extends Controller {
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
-
-    public function listByProjetAction() {
-        $request = $this->getRequest();
-
-        if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
+   /*  if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
             $em = $this->getDoctrine()->getManager();
-            $id = '';
             $applis = array();
             $cert_app = array();
-
+           $applis['cert']=array();
+             $applis['applis']=array();
             $id = $request->request->get('id_projet');
-            $projet = $em->getRepository('ApplicationRelationsBundle:Projet')->find($id);
-
-            $id_cert = $request->request->get('id_cert');
-            if (isset($id_cert) && $id_cert != "create") {
-                // var_dump($id_cert);
+            
+             if (isset($id) && $id !="") {
+                //  echo "id ok:--$id--"; exit(1);
+                  $projet = $em->getRepository('ApplicationRelationsBundle:Projet')->find($id);
+                 $id_cert = $request->request->get('id_cert');
+            
+                 if (isset($id_cert) && $id_cert !="") {
+              //  echo "cert ok";exit(1);
+                //var_dump($id_cert);
                 $cert = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->find($id_cert);
                 foreach ($cert->getIdapplis() as $appli) {
                     array_push($cert_app, $appli->getId());
@@ -934,9 +934,50 @@ class ChangementsController extends Controller {
             foreach ($projet->getIdapplis() as $appli) {
                 //$applis[] = array($appli);
                 $applis['applis'][$appli->getId()] = $appli->getNomapplis();
+                //      $applis[] = array($appli->getId(), $appli->getNomapplis());
+            }
+             }
+            //    $appli=array(3,4);
+            $response = new Response(json_encode($applis));
+            $response->headers->set('Content-Type', 'application/json');
+
+            return $response;
+        }
+ */
+    public function listByProjetAction() {
+        $request = $this->getRequest();
+
+        if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
+            $em = $this->getDoctrine()->getManager();
+           
+            $applis = array();
+            $applis['chgmnt']=array();
+            $changements_app = array();
+
+            $id = $request->request->get('id_projet',null);
+            // recup ts les projets
+             if (isset($id) && $id !="") {
+            $projet = $em->getRepository('ApplicationRelationsBundle:Projet')->find($id);
+            // 
+            $id_changement = $request->request->get('id_changement');
+            if (isset($id_changement) && $id_changement !="") {
+       
+                // var_dump($id_cert);
+                //recup du changement avec applis associées:
+                $changement = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id_changement);
+                foreach ($changement->getIdapplis() as $appli) {
+                    array_push($changements_app, $appli->getId());
+                }
+                $applis['chgmnt'] = $changements_app;
+            }
+            
+            // recup toutes les applis associées au projet selectionné:
+            foreach ($projet->getIdapplis() as $appli) {
+                //$applis[] = array($appli);
+                $applis['applis'][$appli->getId()] = $appli->getNomapplis();
                 // $applis[] = array($appli->getId(), $appli->getNomapplis());
             }
-
+        }
             // $appli=array(3,4);
             $response = new Response(json_encode($applis));
             $response->headers->set('Content-Type', 'application/json');

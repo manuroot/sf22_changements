@@ -29,9 +29,10 @@
 {% block content %}
 
 {% if action == 'edit' %}
-
+<div id="divcert" style="display: none;">{{ entity.id }}</div>
 <form   action="{{ path(path_form, { 'id': entity.id }) }}" method="post" {{ form_enctype(form) }}>
 {% else %}
+        <div id="divcert" style="display: none;"></div>
  <form  action="{{ path(path_form)}}" method="post" {{ form_enctype(form) }}>
 {% endif %}
 

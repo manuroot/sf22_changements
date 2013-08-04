@@ -21,6 +21,7 @@ $( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
 });
 });
 function remplirSelect (dataAjax) {
+console.log(dataAjax);
    $.ajax({
          url: Routing.generate('certificatscenter_listbyprojet'),
          type: "POST", 
@@ -78,13 +79,15 @@ $("#moncert_idapplis> option").remove();
 //Sur fin du chargement du document
 // on charge la bonne liste
 //Vid_cert = $("input#moncert_id").val();
+//var Vid_projet=0;
+
 Vid_projet = $("select#moncert_project").val();
-Vid_cert = $("form").attr('action');
-var parts = Vid_cert.split('/');
-  console.log("form=" + parts[2]);
+  Vid_cert = $("div#divcert").html();
+  console.log("Vid_projet=" + Vid_projet + "Vid_cert=" + Vid_cert);
+ 
 var dataAjax = {
     id_projet:Vid_projet,
-     id_cert: parts[2]
+     id_cert: Vid_cert
 };
 remplirSelect (dataAjax);
       
@@ -93,17 +96,19 @@ remplirSelect (dataAjax);
 // on recharge la bonne liste
 $("select#moncert_project").change(function(){
 //Vid_cert = $("input#moncert_id").val();
+//var Vid_projet=0;
     Vid_projet = $("select#moncert_project").val();
-    Vid_cert = $("form").attr('action');
+     Vid_cert = $("div#divcert").html();
+    console.log("Vid_projet=" + Vid_projet + "Vid_cert=" + Vid_cert);
+     /*Vid_cert = $("form").attr('action');
 var parts = Vid_cert.split('/');
-  console.log("form=" + parts[2]);
+  console.log("form=" + parts[2]);*/
 
     var dataAjax = {
         id_projet:Vid_projet,
-        id_cert: parts[2]
+        id_cert: Vid_cert
     };
-            
-    remplirSelect (dataAjax);
+     remplirSelect (dataAjax);
  
 }); //Eof:: sur changement de l'un des 'select'
 
