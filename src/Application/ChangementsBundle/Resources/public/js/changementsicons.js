@@ -1,74 +1,53 @@
 $(document).ready(function() {
- var img_path='bundles/applicationcertificats/images/';
- $("td > a").click(function(event) {
-    
-   /*  console.log("open test button");*/
-  // ne pas prendre edit/update a. 
-  // $this is: td a class=
- if ($(this).hasClass("open") || $(this).hasClass("closed") || $(this).hasClass("prepare")){
-        var id=$(this).attr("data-id");
-               console.log("id=" + id);
-             var dataAjax = {id:id};
-             
-       if ($(this).hasClass("open")){
-             $(this).removeClass("open").addClass("closed");
-               $(this).closest("tr").addClass("myclosed");
-               $(this).children().attr("src",img_path + "cadenas-sferme.png");
-           //cas open: open ==> closed
-       /*if( $(this).closest("tr").hasClass("success")){
-               $(this).children().attr("src", img_path + "cadenas-sferme.png");
-                 $(this).removeClass("open").addClass("closed");
-            $(this).closest("tr").removeClass("success").addClass("myclosed");
-       }
-       //cas open: prepare ==> open
-       else if ($(this).closest("tr").hasClass("prepare")){
-               $(this).children().attr("src", img_path + "cadenas-souvert.png");
-                 $(this).closest("tr").removeClass("prepare").addClass("success");
-       }*/
-       
-          
- }
-  else if ($(this).hasClass("prepare")){
-   /*   console.log("closed test button");*/
-     /* var id=$(this).attr("data-id");
-             var dataAjax = {id:id};*/
-   $(this).children().attr("src", img_path + "cadenas-souvert.png");
-      
-         $(this).removeClass("prepare").addClass("open");
-     /* $(this).removeClass("prepare").addClass("open");*/
-    /*  $(this).closest("tr").removeClass("myclosed");*/
-              /*.addClass("prepare");*/
- }
- //cas closed: closed ==> prepare
- else if ($(this).hasClass("closed")){
-   /*   console.log("closed test button");*/
-     /* var id=$(this).attr("data-id");
-             var dataAjax = {id:id};*/
+    var img_path = 'bundles/applicationcertificats/images/';
+    $("td > a").click(function(event) {
 
-      $(this).children().attr("src",img_path + "cadenas-bleu.png");
-      $(this).removeClass("closed").addClass("prepare");
-      $(this).closest("tr").removeClass("myclosed");
-              /*.addClass("prepare");*/
- };
- remplirSelect(dataAjax);
-  }
- 
+        /* * A modifier: change color only sur success !!*/
+        if ($(this).hasClass("open") || $(this).hasClass("closed") || $(this).hasClass("prepare")) {
+            var id = $(this).attr("data-id");
+            console.log("id=" + id);
+            var dataAjax = {id: id};
+
+            if ($(this).hasClass("open")) {
+                $(this).removeClass("open").addClass("closed");
+                $(this).closest("tr").addClass("myclosed");
+                $(this).children().attr("src", img_path + "cadenas-sferme.png");
+            }
+            else if ($(this).hasClass("prepare")) {
+                $(this).children().attr("src", img_path + "cadenas-souvert.png");
+                $(this).removeClass("prepare").addClass("open");
+            }
+            //cas closed: closed ==> prepare
+            else if ($(this).hasClass("closed")) {
+                /*   console.log("closed test button");*/
+                $(this).children().attr("src", img_path + "cadenas-bleu.png");
+                $(this).removeClass("closed").addClass("prepare");
+                $(this).closest("tr").removeClass("myclosed");
+                /*.addClass("prepare");*/
+            }
+            ;
+            remplirSelect(dataAjax);
+        }
+
     });
- function remplirSelect (dataAjax) {
-   $.ajax({
-        url: Routing.generate('changements_updatexhtml_changement'),
-       /*  url: "{{ path('changements_updatexhtml_changement') }}", */
-        type: "POST", 
-        data : dataAjax, 
-        dataType: "json", 
-        success: function(reponse){
-            // Sur Succès de la réponse AJAX
-         
+    function remplirSelect(dataAjax) {
+        $.ajax({
+            url: Routing.generate('changements_updatexhtml_changement'),
+            /*  url: "{{ path('changements_updatexhtml_changement') }}", */
+            type: "POST",
+            data: dataAjax,
+            dataType: "json",
+            /* ie8 ??*/
+            /*cache: false,*/
+            /*contentType: 'application/json',*/
+            success: function(reponse) {
+            },
+            error: function(e) {
+                console.log(e.message);
+            }
+        });  //Eof:: ajax 
 
-    } //Eof:: success
-});  //Eof:: ajax 
- 
-} //Eof:: fucntion remplirSelect
+    } //Eof:: fucntion remplirSelect
 
 }); //Eof:: ready
 
