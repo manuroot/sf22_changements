@@ -89,13 +89,13 @@
                            {# <td>{{ entity.idEnvironnement|join(', ') }}</td>#}
                             <td>
                                 <a class="editme" title="Opération: {{ entity.nom }}" href="{{ path('changements_showXhtml', { 'id': entity.id }) }}">
-                                    <img src="{{ asset('bundles/applicationchangements/images/detail.png') }}" alt="show" width="15" height="15" />
+                                    <img src="{{ asset('bundles/applicationchangements/images/detail.png') }}" alt="show" width="15px" height="15px" />
                                 </a>
                             </td>
                             
                         {% if is_granted("ROLE_USER") %}
                                <td><a href="{{ path('changements_edit', { 'id': entity.id }) }}">
-                                <img src="{{ asset('bundles/applicationchangements/images/edit.png') }}" alt="edit" width="15" height="15" />
+                                <img src="{{ asset('bundles/applicationchangements/images/edit.png') }}" alt="edit" width="15px" height="15px" />
                                 </a>
                             </td>
                             {# <td><a href="{{ path('changements_newfichier', { 'id': entity.id }) }}">
