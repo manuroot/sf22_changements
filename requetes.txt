@@ -1,13 +1,31 @@
 Erreur loadXML ==>
 sudo apt-get install php5-cli
 
+update `changements_main` set `id_projet`=3 where `nom` like '%cac%';
+update `changements_main` set `id_projet`=2 where `nom` like '%imars%';
+
+update `changements_main` set `id_projet`=3 where `nom` like '%CAC%';
+update `changements_main` set `id_projet`=2 where `nom` like '%IMARS%';
+
+
+update `changements_main` set `id_projet`=3 where `nom` like '%CAC%';
+update `changements_main` set `id_projet`=2 where `nom` like '%IMARS%';
 
 http://localhost/phpmyadmin4/index.php?token=7d5d60ff8700472a701f90d49fc76e94#PMAURL-41:tbl_import.php?db=sf22_changementsb&table=changements_main&server=1&target=&token=7d5d60ff8700472a701f90d49fc76e94
 
+date_debut,date_fin,date_comep,description,nom,id_projet,demandeur,id_status
+
+
+nomdate_debut,date_fin,date_comep,description,ticket_ext,ticket_int,nom
+id_projet,demandeur,id_status,date_debut,date_fin,date_comep,description,ticket_ext,ticket_int,nom
 id_projet,nom,date_debut,date_fin,date_comep,date_vsr,description,demandeur,id_status,ticket_ext,ticket_int,astreinte
 id_projet,nom,date_debut,date_fin,description,ticket_ext,ticket_int,id_status,demandeur
 
-ALTER TABLE changements_main AUTO_INCREMENT = 1;
+update `changements_main` set `demandeur``=2 where `demandeur`is NULL
+
+DELETE FROM `changements_main` WHERE `id` >187;
+ALTER TABLE changements_main AUTO_INCREMENT = 188;
+
 SHOW TABLE STATUS LIKE 'changements_main'
 update changements_main set 'demandeur'=2 where demandeur is null
 #=====================================

@@ -475,7 +475,7 @@ class ChangementsController extends Controller {
         $grid->setPersistence(false);
         $grid->setDefaultOrder('id', 'desc');
         // Set the selector of the number of items per page
-        $grid->setLimits(array(15));
+        $grid->setLimits(array(50));
 
 
         // Set the default page
