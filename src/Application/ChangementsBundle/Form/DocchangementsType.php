@@ -23,11 +23,13 @@ class DocchangementsType extends AbstractType {
         $builder
               //  ->add('file',null,array('label' => 'MAJ Fichier'))
                      ->add('name',null,array('label' => 'Nom'))
-                
-            
-            //    ->add('name','text',array('label' => 'Nom',required=>false,'mapped'=>false))
+             //    ->add('name','text',array('label' => 'Nom',required=>false,'mapped'=>false))
                 ->add('idchangement', 'entity', array(
                     'class' => 'ApplicationChangementsBundle:Changements',
+                    'query_builder' => function(EntityRepository $em) {
+                        return $em->createQueryBuilder('u')
+                                ->orderBy('u.nom', 'ASC');
+                    },
                     'property' => 'nom',
                     'multiple' => true,
                     'required' => false,
