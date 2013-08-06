@@ -47,20 +47,40 @@ class ChangementsController extends Controller {
      *
       =================================================================== */
 
-    private function createpaginator($query, $num_perpage = 5) {
+    private function createpaginator($query, $num_perpage = 5, $session_page = null) {
 
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        $page_session = $$session_page;
         $paginator = $this->get('knp_paginator');
-        //$paginator->setUseOutputWalkers(true);
         $pagename = 'page'; // Set custom page variable name
-        $page = $this->get('request')->query->get($pagename, 1); // Get custom page variable
-        $em = $this->getDoctrine()->getManager();
-      /* 
-        $results = $query->getResult();
-        $total = count($results);
-*/
-   /*   $count_total = $em->getRepository('ApplicationChangementsBundle:Changements')->getSimpleCountedJoinedBy();
-       $total = $count_total[1];
-        $query->setHint('knp_paginator.count', $total);*/
+        // si session page
+        $page_number = $this->get('request')->query->get($pagename);
+        if ($page_number) {
+            if ($session_page)
+                $session->set($page_session, $page_number);
+        }
+        else {
+            if ($session_page == null) {
+                $page = 1;
+            } else {
+                if ($session->has($page_session)) {
+                    $page = $session->get($page_session);
+                } else {
+                    $page = 1;
+                }
+            }
+        }
+
+        $page = $this->get('request')->query->get($pagename, $page); // Get custom page variable
+        //$em = $this->getDoctrine()->getManager();
+        /*
+          $results = $query->getResult();
+          $total = count($results);
+         */
+        /*   $count_total = $em->getRepository('ApplicationChangementsBundle:Changements')->getSimpleCountedJoinedBy();
+          $total = $count_total[1];
+          $query->setHint('knp_paginator.count', $total); */
         $pagination = $paginator->paginate(
                 $query, $page, $num_perpage, array(
             'pageParameterName' => $pagename,
@@ -68,6 +88,8 @@ class ChangementsController extends Controller {
             "sortDirectionParameterName" => "dir",
             'sortFieldParameterName' => "sort")
         );
+        // $total=$pagination->getTotalItemCount();
+
         $pagination->setTemplate('ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig');
         $pagination->setSortableTemplate('ApplicationChangementsBundle:pagination:sortable_link.html.twig');
         return $pagination;
@@ -129,7 +151,7 @@ class ChangementsController extends Controller {
         $session = $request->getSession();
         $session->set('buttonretour', 'changements_post');
         list($filterForm, $query, $message) = $this->filter();
-       $queryBuilder=$query->getQuery();
+        $queryBuilder = $query->getQuery();
         if ($message)
             $session->getFlashBag()->add('warning', "$message");
         $pagination = $this->createpaginator($queryBuilder, 15);
@@ -146,8 +168,18 @@ class ChangementsController extends Controller {
         $request = $this->getRequest();
         $session = $request->getSession();
         $session->set('buttonretour', 'changements_posttest');
-        $datas=array();
-     
+        $datas = array();
+        /* $page = $request->query->get('page');
+          if (isset($page)){
+          $session->set('page_chgmts_a', $page);
+          //exit(1);
+          }
+          elseif ($session->has('page_chgmts_a')) {
+          $page = $session->get('page_chgmts_a');
+          }
+          else {
+          $page=1;
+          } */
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
             $session->remove('changementControllerFilternew');
         } elseif ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
@@ -156,21 +188,23 @@ class ChangementsController extends Controller {
             $session->set('changementControllerFilternew', $datas);
         } else {
             if ($session->has('changementControllerFilternew')) {
-               $datas = $session->get('changementControllerFilternew');
+                $datas = $session->get('changementControllerFilternew');
             }
         }
         // datas pour $em
-        $searchForm = $this->createForm(new ChangementsFilterAmoiType($em,$datas));
+        $searchForm = $this->createForm(new ChangementsFilterAmoiType($em, $datas));
         //$searchForm = $this->createForm(new ChangementsFilterAmoiType($em,$datas));
         $searchForm->bind($datas);
         $query = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll($datas);
         $query_changements = $query->getQuery();
         $pagination = $this->createpaginator($query_changements, 20);
+        //$pagination = $this->createpaginator($query_changements, 20, 'page_chgmts_a');
         $count = $pagination->getTotalItemCount();
         return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi.html.twig', array(
                     'search_form' => $searchForm->createView(),
                     'pagination' => $pagination,
                     'total' => $count,
+                    
         ));
     }
 
@@ -187,17 +221,17 @@ class ChangementsController extends Controller {
 
         $session = $this->getRequest()->getSession();
         $request = $this->getRequest();
-         $myears = range(Date('Y') - 5, Date('Y') + 5);
-          $current_date = new \DateTime();
+        $myears = range(Date('Y') - 5, Date('Y') + 5);
+        $current_date = new \DateTime();
         $datas_session = $session->get('form_charts');
-         $form=$this->smallCalendarForm();
+        $form = $this->smallCalendarForm();
         if ($request->getMethod() == 'POST') {
             $dataform = $request->get('form');
-          //  print_r($dataform);exit(1);
+            //  print_r($dataform);exit(1);
             // print_r($dataform);exit(1);
-            
-            $session->set('form_charts',$myears[$dataform['year']]);
-           // $session->set('form_charts', $dataform);
+
+            $session->set('form_charts', $myears[$dataform['year']]);
+            // $session->set('form_charts', $dataform);
             $year = $myears[$dataform['year']];
             $form->bind($dataform);
         } elseif (isset($datas_session)) {
@@ -205,23 +239,23 @@ class ChangementsController extends Controller {
             // exit(1);
             $datas = $session->get('form_charts');
             $year = $myears[$datas['year']];
-             $form->bind($datas);
+            $form->bind($datas);
         }
         // pas de sesion
         else {
-                $year = $current_date->format('Y');
-             $datas['form_charts']['year'] =$year;
-               $form->bind($datas);
+            $year = $current_date->format('Y');
+            $datas['form_charts']['year'] = $year;
+            $form->bind($datas);
         }
         $em = $this->getDoctrine()->getManager();
-    // echo "year=$year<br>";
-    // exit(1);
+        // echo "year=$year<br>";
+        // exit(1);
         $titre = "Demandes " . $year;
-    $all_months = $em->getRepository('ApplicationChangementsBundle:Changements')->get_all_months();
+        $all_months = $em->getRepository('ApplicationChangementsBundle:Changements')->get_all_months();
         $data_sumbymonth = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_allappli_bymonthyear($year);
         $data_month = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_appli_monthyear($year);
 
-        
+
         $pie_options = array(
             'allowPointSelect' => true,
             'cursor' => 'pointer',
@@ -378,8 +412,8 @@ class ChangementsController extends Controller {
                     'chart2' => $ob2,
                     'chart5' => $ob5,
                     'chart4' => $ob4,
-            'form'=>$form->createView(),
-            'year'=>$year,
+                    'form' => $form->createView(),
+                    'year' => $year,
         ));
     }
 
@@ -563,6 +597,7 @@ class ChangementsController extends Controller {
     public function newflowAction() {
         // form data class
         $entity = new Changements();
+        $status = "ok";
         $flow = $this->get('application.form.flow.new.changement');
         // $flow->reset();
         // must match the flow's service id
@@ -591,12 +626,15 @@ class ChangementsController extends Controller {
 
                 return $this->redirect($this->generateUrl('changements_post')); // redirect when done
             }
+        } else {
+            $status = "NOK";
         }
 
         return $this->render('ApplicationChangementsBundle:Changements:newflow.html.twig', array(
                     'form' => $form->createView(),
                     'flow' => $flow,
                     'entity' => $entity,
+                    'status' => $status,
         ));
     }
 
@@ -786,18 +824,19 @@ class ChangementsController extends Controller {
                         ->getForm()
         ;
     }
- private function smallCalendarForm() {
 
-      $myears = range(Date('Y') - 5, Date('Y') + 5);
-      return $this->createFormBuilder()
-                ->add('year', 'choice', array(
-                'choices' => $myears,
-                'data' => 2013,
-            ))
-               ->add('Valider', 'submit')
-            ->getForm();
-       
+    private function smallCalendarForm() {
+
+        $myears = range(Date('Y') - 5, Date('Y') + 5);
+        return $this->createFormBuilder()
+                        ->add('year', 'choice', array(
+                            'choices' => $myears,
+                            'data' => 2013,
+                        ))
+                        ->add('Valider', 'submit')
+                        ->getForm();
     }
+
     public function update_changement_statusAction() {
         $request = $this->get('request');
 
@@ -810,32 +849,32 @@ class ChangementsController extends Controller {
                 throw $this->createNotFoundException('Unable to find Changements entity.');
             }
             $id_status = $entity->getIdStatus();
-            $new_status=$id_status;
+            $new_status = $id_status;
             if ($id_status == "open") {
                 $entity_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->findOneByDescription("closed");
                 // var_dump($id_status);
-              
+
                 $entity->setIdStatus($entity_status);
-                $new_status="closed";
+                $new_status = "closed";
                 $em->persist($entity);
                 $em->flush();
             }
             if ($id_status == "en preparation" || $id_status == "en attente") {
                 $entity_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->findOneByDescription("open");
                 // var_dump($id_status);
-                $new_status="open";
+                $new_status = "open";
                 $entity->setIdStatus($entity_status);
                 $em->persist($entity);
                 $em->flush();
             } elseif ($id_status == "closed") {
                 $entity_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->findOneByDescription("prepare");
                 $entity->setIdStatus($entity_status);
-                $new_status="prepare";
+                $new_status = "prepare";
                 $em->persist($entity);
                 $em->flush();
             }
             $array = array('mystatus' => "$id_status==>$new_status");
-          //  $array = array($array);
+            //  $array = array($array);
             $response = new Response(json_encode($array));
 
             $response->headers->set('Content-Type', 'application/json');
@@ -909,75 +948,77 @@ class ChangementsController extends Controller {
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
-   /*  if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
-            $em = $this->getDoctrine()->getManager();
-            $applis = array();
-            $cert_app = array();
-           $applis['cert']=array();
-             $applis['applis']=array();
-            $id = $request->request->get('id_projet');
-            
-             if (isset($id) && $id !="") {
-                //  echo "id ok:--$id--"; exit(1);
-                  $projet = $em->getRepository('ApplicationRelationsBundle:Projet')->find($id);
-                 $id_cert = $request->request->get('id_cert');
-            
-                 if (isset($id_cert) && $id_cert !="") {
-              //  echo "cert ok";exit(1);
-                //var_dump($id_cert);
-                $cert = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->find($id_cert);
-                foreach ($cert->getIdapplis() as $appli) {
-                    array_push($cert_app, $appli->getId());
-                }
-                $applis['cert'] = $cert_app;
-            }
-            foreach ($projet->getIdapplis() as $appli) {
-                //$applis[] = array($appli);
-                $applis['applis'][$appli->getId()] = $appli->getNomapplis();
-                //      $applis[] = array($appli->getId(), $appli->getNomapplis());
-            }
-             }
-            //    $appli=array(3,4);
-            $response = new Response(json_encode($applis));
-            $response->headers->set('Content-Type', 'application/json');
 
-            return $response;
-        }
- */
+    /*  if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
+      $em = $this->getDoctrine()->getManager();
+      $applis = array();
+      $cert_app = array();
+      $applis['cert']=array();
+      $applis['applis']=array();
+      $id = $request->request->get('id_projet');
+
+      if (isset($id) && $id !="") {
+      //  echo "id ok:--$id--"; exit(1);
+      $projet = $em->getRepository('ApplicationRelationsBundle:Projet')->find($id);
+      $id_cert = $request->request->get('id_cert');
+
+      if (isset($id_cert) && $id_cert !="") {
+      //  echo "cert ok";exit(1);
+      //var_dump($id_cert);
+      $cert = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->find($id_cert);
+      foreach ($cert->getIdapplis() as $appli) {
+      array_push($cert_app, $appli->getId());
+      }
+      $applis['cert'] = $cert_app;
+      }
+      foreach ($projet->getIdapplis() as $appli) {
+      //$applis[] = array($appli);
+      $applis['applis'][$appli->getId()] = $appli->getNomapplis();
+      //      $applis[] = array($appli->getId(), $appli->getNomapplis());
+      }
+      }
+      //    $appli=array(3,4);
+      $response = new Response(json_encode($applis));
+      $response->headers->set('Content-Type', 'application/json');
+
+      return $response;
+      }
+     */
+
     public function listByProjetAction() {
         $request = $this->getRequest();
 
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
             $em = $this->getDoctrine()->getManager();
-           
+
             $applis = array();
-            $applis['chgmnt']=array();
+            $applis['chgmnt'] = array();
             $changements_app = array();
 
-            $id = $request->request->get('id_projet',null);
+            $id = $request->request->get('id_projet', null);
             // recup ts les projets
-             if (isset($id) && $id !="") {
-            $projet = $em->getRepository('ApplicationRelationsBundle:Projet')->find($id);
-            // 
-            $id_changement = $request->request->get('id_changement');
-            if (isset($id_changement) && $id_changement !="") {
-       
-                // var_dump($id_cert);
-                //recup du changement avec applis associées:
-                $changement = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id_changement);
-                foreach ($changement->getIdapplis() as $appli) {
-                    array_push($changements_app, $appli->getId());
+            if (isset($id) && $id != "") {
+                $projet = $em->getRepository('ApplicationRelationsBundle:Projet')->find($id);
+                // 
+                $id_changement = $request->request->get('id_changement');
+                if (isset($id_changement) && $id_changement != "") {
+
+                    // var_dump($id_cert);
+                    //recup du changement avec applis associées:
+                    $changement = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id_changement);
+                    foreach ($changement->getIdapplis() as $appli) {
+                        array_push($changements_app, $appli->getId());
+                    }
+                    $applis['chgmnt'] = $changements_app;
                 }
-                $applis['chgmnt'] = $changements_app;
+
+                // recup toutes les applis associées au projet selectionné:
+                foreach ($projet->getIdapplis() as $appli) {
+                    //$applis[] = array($appli);
+                    $applis['applis'][$appli->getId()] = $appli->getNomapplis();
+                    // $applis[] = array($appli->getId(), $appli->getNomapplis());
+                }
             }
-            
-            // recup toutes les applis associées au projet selectionné:
-            foreach ($projet->getIdapplis() as $appli) {
-                //$applis[] = array($appli);
-                $applis['applis'][$appli->getId()] = $appli->getNomapplis();
-                // $applis[] = array($appli->getId(), $appli->getNomapplis());
-            }
-        }
             // $appli=array(3,4);
             $response = new Response(json_encode($applis));
             $response->headers->set('Content-Type', 'application/json');
@@ -1018,7 +1059,7 @@ class ChangementsController extends Controller {
         // avec query->getQuery() only
         $query_changements->setFirstResult(0);
         $query_changements->setMaxResults(10);
-        $count=10; //for test
+        $count = 10; //for test
         $pagination = $this->createpaginator($query_changements, 10);
         return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi_debug.html.twig', array(
                     'pagination' => $pagination,
@@ -1037,16 +1078,65 @@ class ChangementsController extends Controller {
         }
     }
 
-      public function templates2Action() {
-return $this->render('ApplicationChangementsBundle:templates:theme2.html.twig', array(
-                    ));
-       } 
-      
-      public function templates1Action() {
-return $this->render('ApplicationChangementsBundle:templates:theme1.html.twig', array(
-                    ));
-      }
-      
+    public function templates2Action() {
+        return $this->render('ApplicationChangementsBundle:templates:theme2.html.twig', array(
+        ));
+    }
+
+    public function templates1Action() {
+        return $this->render('ApplicationChangementsBundle:templates:theme1.html.twig', array(
+        ));
+    }
+
+    private function OrderfantaAction() {
+
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        //------------------------------------------
+        // PAGE SESSION
+        //------------------------------------------
+        $page = $request->query->get('page');
+        if (isset($page)) {
+            $session->set('chgmtsfanta_page', $page);
+            //exit(1);
+        } elseif ($session->has('chgmtsfanta_page')) {
+            $page = $session->get('chgmtsfanta_page');
+        } else {
+            $page = 1;
+        }
+
+        //------------------------------------------
+        // ORDER SORT SESSION
+        //------------------------------------------
+        // ajouter session + masquer parametres
+        $sort = $this->get('request')->query->get('sort');
+        if (isset($sort)) {
+            $session->set('chgmtsfanta_sort', $sort);
+            //exit(1);
+        } elseif ($session->has('chgmtsfanta_sort')) {
+            $sort = $session->get('chgmtsfanta_sort');
+        } else {
+            $sort = 'a.id';
+        }
+
+        //------------------------------------------
+        // ORDER SORT SESSION
+        //------------------------------------------
+
+        $dir = $this->get('request')->query->get('dir');
+        if (isset($dir)) {
+            $session->set('chgmtsfanta_dir', $dir);
+            //exit(1);
+        } elseif ($session->has('chgmtsfanta_dir')) {
+            $dir = $session->get('chgmtsfanta_dir');
+        } else {
+            $dir = 'DESC';
+        }
+
+
+        return array($page, $dir, $sort);
+    }
+
     public function indexfantaAction(Request $request) {
 
         $parameters = array();
@@ -1054,38 +1144,55 @@ return $this->render('ApplicationChangementsBundle:templates:theme1.html.twig', 
         $request = $this->getRequest();
         $session = $request->getSession();
 
-        
+
         $session->set('buttonretour', 'changements_posttest');
         $searchForm = $this->createForm(new ChangementsFilterAmoiType($em));
+        //-----------------------------------------
+        // On efface les sessions
+        //------------------------------------------
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
             $session->remove('changementControllerFilternew');
-        } elseif ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
+            $session->remove('chgmtsfanta_page');
+            $session->remove('chgmtsfanta_sort');
+            $session->remove('chgmtsfanta_dir');
+            $page=1;$dir='DESC';$sort='a.id';
+           
+        }
+        //-----------------------------------------
+        // On recupere les vars de post ==> session filter
+        //------------------------------------------
+        elseif ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
             $alldatas = $request->request->all();
             $datas = $alldatas["changements_searchfilter"];
             $parameters = $datas;
             $session->set('changementControllerFilternew', $datas);
             $searchForm->bind($datas);
-        } else {
-            if ($session->has('changementControllerFilternew')) {
+            $page=1;$dir='DESC';$sort='a.id';
+        }
+        //-----------------------------------------
+        // On recupere les vars de session filter
+        //------------------------------------------
+        elseif ($session->has('changementControllerFilternew')) {
                 $datas = $session->get('changementControllerFilternew');
                 $parameters = $datas;
                 $searchForm->bind($datas);
+                // $page=1;$dir='DESC';$sort='a.id';
+                list($page, $dir, $sort) = $this->OrderfantaAction();
             }
-        }
-        // ajouter session + masquer parametres
-        $sort = $this->get('request')->query->get('sort', 'a.id');
-        $dir = $this->get('request')->query->get('dir', 'DESC');
+            else {
+                 list($page, $dir, $sort) = $this->OrderfantaAction();
+                //$page=1;$dir='DESC';$sort='a.id';
+            }
+        
 
-        $next_dir= ($dir == 'DESC') ? 'ASC' : 'DESC';
-        $arrow[$sort]= $next_dir=="DESC" ? 'icon-arrow-up' : 'icon-arrow-down' ;
-//echo "sort=$sort, dir=$dir<br>";exit(1);
-
-        /* if ($sort == 'e.nomUser' || $sort == 'g.nom') {
-          $parameters['ungroup'] = 1;
-          //  exit(1);
-          } */
-        $page = $this->get('request')->query->get('page', 1); // Get custom page variable
-        $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getJoinedBy($sort, $dir,$parameters);
+         
+        //-----------------------------------------
+        // On recupere les vars de session page,dir,order
+        //------------------------------------------
+        //list($page, $dir, $sort) = $this->OrderfantaAction();
+        $next_dir = ($dir == 'DESC') ? 'ASC' : 'DESC';
+        $arrow[$sort] = $next_dir == "DESC" ? 'icon-arrow-up' : 'icon-arrow-down';
+        $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getJoinedBy($sort, $dir, $parameters);
         $adapter = new DoctrineORMAdapter($query);
         //$adapter->setDistinct(false);
         $pagerfanta = $this->mypager($adapter, 20);
@@ -1098,9 +1205,9 @@ return $this->render('ApplicationChangementsBundle:templates:theme1.html.twig', 
         return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi_debugfanta.html.twig', array(
                     'pagerfanta' => $pagerfanta,
                     'entities' => $q,
-            'next_dir'=>$next_dir,
-             'search_form' => $searchForm->createView(),
-            'arrow'=>$arrow
+                    'next_dir' => $next_dir,
+                    'search_form' => $searchForm->createView(),
+                    'arrow' => $arrow
         ));
     }
 

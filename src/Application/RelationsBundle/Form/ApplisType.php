@@ -5,6 +5,7 @@ namespace Application\RelationsBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\ORM\EntityRepository;
 
 class ApplisType extends AbstractType {
 
@@ -27,7 +28,7 @@ class ApplisType extends AbstractType {
 
         $builder->add('idprojets', 'entity', array(
             'class' => 'Application\RelationsBundle\Entity\Projet',
-            'query_builder' => function(EntityRepository $em) {
+           'query_builder' => function(EntityRepository $em) {
                         return $em->createQueryBuilder('u')
                                 ->orderBy('u.nomprojet', 'ASC');
                     },

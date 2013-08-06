@@ -9,7 +9,7 @@ use Application\RelationsBundle\Entity\Projet;
  * Applis
  *
  * @ORM\Table(name="applis_main")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Application\RelationsBundle\Repository\ApplisRepository")
  */
 class Applis {
 

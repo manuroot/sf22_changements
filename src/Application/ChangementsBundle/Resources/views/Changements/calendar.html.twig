@@ -23,7 +23,7 @@
 
      td {
          background-color: #bcbcbc;
-        font-size: 12px;
+        font-size: 11px;
     }
     td.calendar{
         margin-top:5px;
@@ -89,6 +89,8 @@ div.controls {
    
 margin:auto;width:300px; }
 
+/*
+span.label.label-warning{ vertical-align:top;}*/
     </style>
  {% endblock %}
 
@@ -127,26 +129,20 @@ Opérations: Calendrier
 
 
 {% block content %}
-  {% set foo = ['#C9BE62',
-        '#ADA96E',
-        '#B1FB17',
-        '#79BAEC',
-        '#736F6E',
-        '#6D7B8D',
-'#ADA96E',
-        '#B1FB17',
-        '#79BAEC',
-        '#736F6E',
-        '#6D7B8D','#ADA96E',
-        '#B1FB17',
-        '#79BAEC',
-        '#736F6E',
-        '#6D7B8D','#ADA96E',
-        '#B1FB17',
-        '#79BAEC',
-        '#736F6E',
-        '#6D7B8D']
+  {% set foo = ['#C9BE62','#ADA96E','#B1FB17','#79BAEC','#736F6E','#6D7B8D','#ADA96E',
+'#B1FB17','#79BAEC','#736F6E','#6D7B8D','#ADA96E','#B1FB17','#79BAEC','#736F6E',
+'#6D7B8D','#ADA96E','#B1FB17','#79BAEC','#736F6E','#6D7B8D','#C9BE62','#ADA96E','#B1FB17',
+'#79BAEC','#736F6E','#6D7B8D','#ADA96E',
+'#B1FB17','#79BAEC','#736F6E','#6D7B8D','#ADA96E','#B1FB17','#79BAEC','#736F6E',
+'#6D7B8D','#ADA96E','#B1FB17','#79BAEC','#736F6E','#6D7B8D','#C9BE62','#ADA96E',
+'#B1FB17','#79BAEC','#736F6E','#6D7B8D','#ADA96E',
+'#B1FB17','#79BAEC','#736F6E','#6D7B8D','#ADA96E','#B1FB17','#79BAEC','#736F6E',
+'#6D7B8D','#ADA96E','#B1FB17','#79BAEC','#736F6E','#6D7B8D','#C9BE62','#ADA96E','#B1FB17',
+'#79BAEC','#736F6E','#6D7B8D','#ADA96E',
+'#B1FB17','#79BAEC','#736F6E','#6D7B8D','#ADA96E','#B1FB17','#79BAEC','#736F6E',
+'#6D7B8D','#ADA96E','#B1FB17','#79BAEC','#736F6E','#6D7B8D']
  %}
+
 {% for type, flashMessages in app.session.flashbag.all() %}
     {% for flashMessage in flashMessages %}
 <div class="alert alert-{{ type }}">
@@ -189,39 +185,41 @@ Opérations: Calendrier
         <tbody>
             <tr class="single">
     {% for week in month %}
-                    <td class="title"> Semaine-{{ week }}</td>
-            {% for day in week %}
-                    <td class="datas">
-                         {#% if month.includes(day) %#}
-                    {% if month.contains(day.begin) %}
-      <span class="label label-warning"> {{ day.begin.format('d') }} </span><br>
-         {% for event in evenement.find(month) %}
-        {# {% for event in evenement.find(day) %}#}
-      {% if day.containsEvent(event) %}
-     
-      {% set mycolor=foo[loop.index0] %}
-       <div class="event" style="background-color: {{ mycolor }}">
-               <a class="calendar editme" title="Opération: {{ event }}" href="{{ path('changements_showXhtml', { 'id': event.uid }) }}">
- {{ event }}</a>
-       
-            </div>
-                  
-     
-      {% elseif week.containsEvent(event) %}
-      
-          <div class="noevent">&nbsp;   </div>
-                                {% else %}
-                               {% endif %}
+        <td class="title"> Semaine-{{ week }}</td>
+        {% for day in week %}
+            <td class="datas">
+            {#% if month.includes(day) %#}
+            {% if month.contains(day.begin) %}
+                <span class="label label-warning"> {{ day.begin.format('d') }} </span>
+                {% for event in evenement.find(month) %}
+                    {# {% for event in evenement.find(day) %}#}
+                    {% if day.containsEvent(event) %}
+                
+                
+                        {% set mycolor=foo[loop.index0] %}
+                        <div class="event" style="background-color: {{ mycolor }}">
+                           {% set  toto = event.nom %} 
+                           {% if toto|length > 25 %}
+                               {% set  toto = toto|slice(0, 25) ~ '..' %} 
+                            {% endif %}
+                               <a class="calendar editme" title="Opération: {{ event }}" href="{{ path('changements_showXhtml', { 'id': event.uid }) }}">
+                        {{ toto }}
+                        </a>
+                        </div>
+   
+                   {% elseif week.containsEvent(event) %}
+                      <div class="noevent">&nbsp;   </div>
+                  {#{% else %}#}
+                  {% endif %}
+                {% endfor %}
+           {% else %}
+                &nbsp;
+           {% endif %}
+           </td>
         {% endfor %}
-                    {% else %}
-                                &nbsp;
-                    {% endif %}
-                            </td>
-            {% endfor %}
-                        </tr>
-    {% endfor %}
-
-                </table>
+</tr>
+{% endfor %}
+</table>
  
 {% endblock %}
     

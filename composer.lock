@@ -1838,12 +1838,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSDiExtraBundle.git",
-                "reference": "609c33115438873ab5ae10aeee8e22ec43c76be5"
+                "reference": "81954bf90728cb2a0501eae6ead77fcd1ef8c146"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSDiExtraBundle/zipball/609c33115438873ab5ae10aeee8e22ec43c76be5",
-                "reference": "609c33115438873ab5ae10aeee8e22ec43c76be5",
+                "url": "https://api.github.com/repos/schmittjoh/JMSDiExtraBundle/zipball/81954bf90728cb2a0501eae6ead77fcd1ef8c146",
+                "reference": "81954bf90728cb2a0501eae6ead77fcd1ef8c146",
                 "shasum": ""
             },
             "require": {
@@ -1886,7 +1886,7 @@
                 {
                     "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -1896,7 +1896,7 @@
                 "annotations",
                 "dependency injection"
             ],
-            "time": "2013-06-15 07:08:09"
+            "time": "2013-08-06 07:00:52"
         },
         {
             "name": "jms/metadata",
@@ -1992,12 +1992,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSSecurityExtraBundle.git",
-                "reference": "5152f529004ba94a805f101a65c06c0d4de8a33e"
+                "reference": "aefac81c3814bf77e6b2d8027dc2f0039e185dea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSSecurityExtraBundle/zipball/5152f529004ba94a805f101a65c06c0d4de8a33e",
-                "reference": "5152f529004ba94a805f101a65c06c0d4de8a33e",
+                "url": "https://api.github.com/repos/schmittjoh/JMSSecurityExtraBundle/zipball/aefac81c3814bf77e6b2d8027dc2f0039e185dea",
+                "reference": "aefac81c3814bf77e6b2d8027dc2f0039e185dea",
                 "shasum": ""
             },
             "require": {
@@ -2041,7 +2041,7 @@
                 {
                     "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -2054,7 +2054,7 @@
                 "secure",
                 "security"
             ],
-            "time": "2013-06-09 13:11:23"
+            "time": "2013-08-06 07:00:17"
         },
         {
             "name": "jms/serializer",
@@ -3581,12 +3581,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataAdminBundle.git",
-                "reference": "574baaaa7edebba2ec3b841cc5754d573ca24b36"
+                "reference": "fe43e9945101d2f88a9d1e22f61972d9afea8094"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/574baaaa7edebba2ec3b841cc5754d573ca24b36",
-                "reference": "574baaaa7edebba2ec3b841cc5754d573ca24b36",
+                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/fe43e9945101d2f88a9d1e22f61972d9afea8094",
+                "reference": "fe43e9945101d2f88a9d1e22f61972d9afea8094",
                 "shasum": ""
             },
             "require": {
@@ -3647,7 +3647,7 @@
                 "bootstrap",
                 "sonata"
             ],
-            "time": "2013-08-05 16:11:37"
+            "time": "2013-08-06 10:12:08"
         },
         {
             "name": "sonata-project/block-bundle",
