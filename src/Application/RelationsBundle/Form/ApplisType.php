@@ -27,6 +27,10 @@ class ApplisType extends AbstractType {
 
         $builder->add('idprojets', 'entity', array(
             'class' => 'Application\RelationsBundle\Entity\Projet',
+            'query_builder' => function(EntityRepository $em) {
+                        return $em->createQueryBuilder('u')
+                                ->orderBy('u.nomprojet', 'ASC');
+                    },
             'property' => 'nomprojet',
             'multiple' => true,
             'required' => true,

@@ -210,11 +210,11 @@ class ChangementsController extends Controller {
         // pas de sesion
         else {
                 $year = $current_date->format('Y');
-             $datas['year'] =$year;
+             $datas['form_charts']['year'] =$year;
                $form->bind($datas);
         }
         $em = $this->getDoctrine()->getManager();
-     echo "year=$year<br>";
+    // echo "year=$year<br>";
     // exit(1);
         $titre = "Demandes " . $year;
     $all_months = $em->getRepository('ApplicationChangementsBundle:Changements')->get_all_months();
@@ -792,7 +792,7 @@ class ChangementsController extends Controller {
       return $this->createFormBuilder()
                 ->add('year', 'choice', array(
                 'choices' => $myears,
-                'data' => $myears[5],
+                'data' => 2013,
             ))
                ->add('Valider', 'submit')
             ->getForm();
