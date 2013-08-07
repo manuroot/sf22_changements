@@ -3,9 +3,19 @@
 namespace Application\RelationsBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Application\RelationsBundle\Entity\Documentbb;
 use Application\RelationsBundle\Form\DocumentbbType;
+
+
+
+
+use Symfony\Component\HttpFoundation\Session\Session;
+
+
+
 
 /**
  * Documentbb controller.
@@ -37,7 +47,7 @@ class DocumentbbController extends Controller {
         //$em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $session = $request->getSession();
-        $session->set('buttonretour', 'serveurs');
+        $session->set('buttonretour', 'projets_documents');
         $em = $this->getDoctrine()->getManager();
         $entites = $em->getRepository('ApplicationRelationsBundle:Documentbb')->myFindAll();
         $pagination = $this->createpaginator($entites, 15);
@@ -205,6 +215,7 @@ class DocumentbbController extends Controller {
 
     public function downloadAction($id) {
 
+        
         $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('ApplicationRelationsBundle:Documentbb')->find($id);
         
@@ -222,10 +233,9 @@ class DocumentbbController extends Controller {
         $realname = $entity->getOriginalFilename();
         if (!isset($realname))
             $realname = $filename;
-        $path = $this->get('kernel')->getRootDir() . "/../" . $entity->getDownloadDir();
-        if (!file_exists($path . $filename)) {
-            // $session->getFlashBag()->add('error', "Le fichier $path/$filename n 'existe pas (code 1)");
-            $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas (code 1)");
+        $path = $this->get('kernel')->getRootDir() . "/../web/uploads/projets/";
+         if (!file_exists($path . $filename)) {
+          $session->getFlashBag()->add('error', "Le fichier --$filename-- n 'existe pas (code 1a)");
             return $this->redirect($this->generateUrl($url));
         }
 

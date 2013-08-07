@@ -182,6 +182,9 @@ class ProjetController extends Controller {
                 throw $this->createNotFoundException('Unable to find Projet entity.');
             }
 
+            $session = $this->getRequest()->getSession();
+            $session->getFlashBag()->add('warning', "Fichier (id=$id) supprimé");
+
             $em->remove($entity);
             $em->flush();
         }

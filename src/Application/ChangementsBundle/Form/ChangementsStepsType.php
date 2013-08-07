@@ -137,6 +137,21 @@ class ChangementsStepsType extends AbstractType {
                     ),
                 ))
                     
+                    ->add('idKind', 'entity', array(
+                            'class' => 'ApplicationChangementsBundle:KindChangements',
+                            'query_builder' => function(EntityRepository $em) {
+                                return $em->createQueryBuilder('u')
+                                        ->orderBy('u.nom', 'ASC');
+                            },
+                            'property' => 'nom',
+                            'multiple' => false,
+                            'required' => true,
+                            'label' => 'Type',
+                            'empty_value' => '--- Choisir une option ---'
+                        ))
+                                    
+                    
+                    
                      /*   ->add('dateDebut', 'date', array(
                             'label' => 'Date début',
                             'widget' => 'single_text',

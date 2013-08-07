@@ -183,7 +183,21 @@ $builder
                     'required' => true,
                     'label' => 'Projet',
                     'empty_value' => '--- Choisir une option ---'
+                ))
+                            
+                  ->add('idKind', 'entity', array(
+                    'class' => 'ApplicationChangementsBundle:KindChangements',
+                    'query_builder' => function(EntityRepository $em) {
+                        return $em->createQueryBuilder('u')
+                                ->orderBy('u.nom', 'ASC');
+                    },
+                    'property' => 'nom',
+                    'multiple' => false,
+                    'required' => false,
+                    'label' => 'Type',
+                    'empty_value' => '--- Choisir une option ---'
                 ));
+                    
                             
                   $builder->add('astreinte', 'checkbox', array('label' => 'Astreinte','required' => false));
                   

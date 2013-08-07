@@ -95,6 +95,7 @@ width:150px;
                 <th{% if pagination.isSorted('a.path') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom Physique', 'a.path') }}
                                            <i class="icon-user"></i></th>
      
+                <th>Lien</th>
                     <th{% if pagination.isSorted('a.md5') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'md5', 'a.md5') }}</th>
              
                   <th{% if pagination.isSorted('a.updatedAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date Update', 'a.updatedAt') }}</th>
@@ -114,11 +115,26 @@ width:150px;
             <tr>
                 <td><a href="{{ path('projets_documents_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.name }}</td>
+                
+                
+                
+                {%  if (entity.path is defined) and entity.path is not empty %}
+                            <td>  --{{ entity.path }}--</td>
+                            <td>
+                          <a class="fichier" href="{{ path('download_filesprojet_route', { 'id': entity.id }) }}">
+                             <i class="icon-download-alt"></i></a></td>
+                           {#<a href="{{ path('download_simple_route', { 'filename': fic.path }) }}">{{ fic.path }}</a>#}
+                            {% else %} 
+                             <td>pas de path: contacter Administrateur</td>
+                            <td>&nbsp;</td>
+                            {% endif %}
+                {#        
+                
                 <td>{% if entity.path %}
                  <a href="{{ path('download_simple_route', { 'filename': entity.path }) }}">{{ entity.path }}</a>
                  {% endif %}
                  </td>
-            
+            #}
           
                   <td>{{ entity.md5 }}</td>
            <td>{% if entity.updatedAt is not empty %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>

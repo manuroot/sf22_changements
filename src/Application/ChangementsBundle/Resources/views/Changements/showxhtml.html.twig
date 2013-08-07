@@ -158,6 +158,11 @@ $(document).ready(function() {
             <td class="viewlabel">Nom</td>
             <td>{{ entity.nom }}</td>
         </tr>
+        <tr>
+                <td class="viewlabel">Type</td>
+                <td>{{ entity.idKind }}</td>
+            </tr>
+            
          <tr>
             <td class="viewlabel">Astreinte</td>
             <td>{{ entity.astreinte }}</td>
@@ -288,9 +293,17 @@ $(document).ready(function() {
                 <tr> 
                     <td>{{ fic.id }}</td>
                     <td>{{ fic.name }}</td>
-                    <td>{{ fic.OriginalFilename }}</td>
+                    <td>
+                    {% if fic.OriginalFilename ==  fic.name %}
+                            IDEM-NOM
+                        {% else %}
+                        {{ fic.OriginalFilename }}
+                        {%endif %}
+                        </td>
+                   {# <td>{{ fic.OriginalFilename }}</td>#}
                     <td>{{ fic.updatedAt|date('Y-m-d H') ~ 'h' }}</td>
-                    <td><a class="fichier" href="{{ path('docchangements_download', { 'id': fic.id }) }}">{{ fic.path }}</a></td>
+                    <td><a class="fichier" href="{{ path('docchangements_download', { 'id': fic.id }) }}">
+                             <i class="icon-download-alt"></i></a></td>
                     
                   {#  <td><a class="fichier" href="{{ path('download_route', { 'filename': fic.path }) }}">{{ fic.path }}</a></td>
 #}

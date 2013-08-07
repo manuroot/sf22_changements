@@ -12,13 +12,8 @@
     
 {% block content %}
 
-{% for type, flashMessages in app.session.flashbag.all() %}
-    {% for flashMessage in flashMessages %}
-        <div class="alert alert-{{ type }}">
-            {{ flashMessage|trans }}
-        </div>
-    {% endfor %}
-{% endfor %}
+
+{% include 'ApplicationRelationsBundle:Template:flash.html.twig' %}
  
    {% if is_granted("ROLE_ADMIN") %}
 <a href="{{ path('projets_new') }}" class="btn btn-medium btn-primary">Ajouter Projet</a>

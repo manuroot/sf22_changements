@@ -83,6 +83,7 @@ class Documentbb {
      */
     protected $createdAt;
     
+       protected $disk_path = 'uploads/projets';
     
     
      /**
@@ -130,7 +131,7 @@ class Documentbb {
      * Set disk path
      * 
      */
-    public function setDiskPath($disk_path='uploads/documents') {
+    public function setDiskPath($disk_path='uploads/projets') {
         $this->disk_path=$disk_path;
         
     }
@@ -167,6 +168,11 @@ class Documentbb {
            return $this->disk_path;
     }
 
+     public function getDownloadDir() {
+        // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
+        // le document/image dans la vue.
+           return $this->disk_path ;
+    }
     /**
      * Avant le persist et l'update (fichier deja uploadé)
      * 
@@ -315,7 +321,8 @@ class Documentbb {
      */
     public function removeUpload() {
         if ($file = $this->getAbsolutePath()) {
-            unlink($file);
+            if (file_exists($file))
+                unlink($file);
         }
     }
 

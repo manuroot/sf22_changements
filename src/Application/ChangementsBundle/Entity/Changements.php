@@ -107,6 +107,18 @@ class Changements extends AbstractEvent {
      */
     private $description;
 
+        /**
+     * @var \Projet
+     *
+     * @ORM\ManyToOne(targetEntity="Application\ChangementsBundle\Entity\KindChangements")
+     * @ORM\OrderBy({"nom" = "ASC"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_kind", referencedColumnName="id",nullable=true)
+     * })
+     */
+    private $idKind;
+    
+    
     /**
      * @var \Projet
      *
@@ -765,4 +777,27 @@ class Changements extends AbstractEvent {
         return $this->astreinte;
     }
     
+
+    /**
+     * Set idKind
+     *
+     * @param \Application\ChangementsBundle\Entity\KindChangements $idKind
+     * @return Changements
+     */
+    public function setIdKind(\Application\ChangementsBundle\Entity\KindChangements $idKind)
+    {
+        $this->idKind = $idKind;
+    
+        return $this;
+    }
+
+    /**
+     * Get idKind
+     *
+     * @return \Application\ChangementsBundle\Entity\KindChangements 
+     */
+    public function getIdKind()
+    {
+        return $this->idKind;
+    }
 }

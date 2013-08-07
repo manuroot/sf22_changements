@@ -80,24 +80,31 @@
            {% include 'CraueFormFlowBundle:FormFlow:stepField.html.twig' %}
                    </div>
             </td>
-               
-   
-
+        
    
  {% if flow.getCurrentStepNumber() == 1 %}
             <td> {{ form_errors(form) }}
-                           {{ form_row(form.nom) }}
-{{ form_row(form.ticketInt) }}
-                    {{ form_row(form.ticketExt) }}
-                    </td><td>
-                   {{ form_row(form.dateDebut) }}
-                    {{ form_row(form.dateFin) }}
-                    
-                </td></tr><tr><td>&nbsp;</td><td style="align: center;" colspan="2">
-          {{ form_row(form.description,{ 'attr': {'class': 'tinymce'} }) }}
-                            {{ form_errors(form.nom) }}
-                        {{ form_rest(form) }}
-                        </td></tr><tr><td>
+                {{ form_row(form.nom) }}
+                {{ form_row(form.ticketInt) }}
+                {{ form_row(form.ticketExt) }}
+             </td>
+             <td>
+                {{ form_row(form.idKind) }}
+                {{ form_row(form.dateDebut) }}
+                {{ form_row(form.dateFin) }}
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td style="align: center;" colspan="2">
+                {{ form_row(form.description,{ 'attr': {'class': 'tinymce'} }) }}
+                {{ form_errors(form.nom) }}
+                {{ form_rest(form) }}
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
                         
                                 
  {% endif %}

@@ -23,7 +23,11 @@ projets_documents_update:
     pattern:  /{id}/update
     defaults: { _controller: "ApplicationRelationsBundle:Documentbb:update" }
     requirements: { _method: post|put }
-
+   
+download_filesprojet_route:
+    pattern:  /{id}/download/
+    defaults: { _controller: "ApplicationRelationsBundle:Documentbb:download" }
+  
 projets_documents_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "ApplicationRelationsBundle:Documentbb:delete" }

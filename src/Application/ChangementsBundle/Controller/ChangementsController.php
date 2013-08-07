@@ -50,31 +50,25 @@ class ChangementsController extends Controller {
     private function createpaginator($query, $num_perpage = 5, $session_page = null) {
 
         $request = $this->getRequest();
-        $session = $request->getSession();
-        $page_session = $$session_page;
-        $paginator = $this->get('knp_paginator');
-        $pagename = 'page'; // Set custom page variable name
-        // si session page
-        $page_number = $this->get('request')->query->get($pagename);
-        if ($page_number) {
-            if ($session_page)
-                $session->set($page_session, $page_number);
-        }
+       // $session = $request->getSession();
+         $pagename = 'page'; // Set custom page variable name
+         $page = $request->query->get($pagename,1);
+        // $page=1;
+        /*f (!isset($session_page)){
+            if ($page_number) {$page = $page_number;}
+         }
         else {
-            if ($session_page == null) {
-                $page = 1;
-            } else {
-                if ($session->has($page_session)) {
-                    $page = $session->get($page_session);
-                } else {
-                    $page = 1;
-                }
-            }
-        }
-        $page = $this->get('request')->query->get($pagename, $page); // Get custom page variable
-         /*   $count_total = $em->getRepository('ApplicationChangementsBundle:Changements')->getSimpleCountedJoinedBy();
-          $total = $count_total[1];
-          $query->setHint('knp_paginator.count', $total); */
+              $page_session = $$session_page;
+            if ($page_number) {  
+                $session->set($$session_page, $page_number);
+                $page = $page_number;
+             }
+             elseif ($session->has($$session_page)) {
+                    $page = $session->get($$session_page);
+            } 
+        }*/
+     //   $page_session = $$session_page;
+        $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
                 $query, $page, $num_perpage, array(
             'pageParameterName' => $pagename,
@@ -215,8 +209,8 @@ class ChangementsController extends Controller {
         $searchForm->bind($datas);
         $query = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll($datas);
         $query_changements = $query->getQuery();
-        $pagination = $this->createpaginator($query_changements, 20);
-        //$pagination = $this->createpaginator($query_changements, 20, 'page_chgmts_a');
+        //$pagination = $this->createpaginator($query_changements, 20);
+        $pagination = $this->createpaginator($query_changements, 20, 'page_chgmts_a');
         $count = $pagination->getTotalItemCount();
         return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi.html.twig', array(
                     'search_form' => $searchForm->createView(),
@@ -1219,7 +1213,22 @@ class ChangementsController extends Controller {
         $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getJoinedBy($sort, $dir, $parameters);
         $adapter = new DoctrineORMAdapter($query);
         //$adapter->setDistinct(false);
+        
+        // sur changement categories avec filtres la page n'est peut etre
+        // plus dispo (avec les sessions) !!!!!!!!!!
+        // A debugger
         $pagerfanta = $this->mypager($adapter, 20);
+      //  print_r($page);exit(1);
+        
+      /* $pagerfanta->setCurrentPage($page);
+        $q = $pagerfanta->getCurrentPageResults();
+        if (count($q) == 0){
+            $pagerfanta->setCurrentPage($page);
+             $q = $pagerfanta->getCurrentPageResults();
+             
+        }
+           */ 
+       //print_r($q);exit(1);
         try {
             $pagerfanta->setCurrentPage($page);
             $q = $pagerfanta->getCurrentPageResults();

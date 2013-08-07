@@ -58,7 +58,8 @@
         </tbody>
 </table>
 
-
+{# TROP COUTEUX !! #}
+{#
 <h3><center>Liste des Changements</center></h3>
 <table class="table table-striped table-bordered table-hover">
     <thead>
@@ -72,24 +73,29 @@
        {% endfor %}
         </tbody>
 </table>
-
+#}
 
 <h3><center>Liste des Fichiers associés</center></h3>
                     <table class="table table-striped  table-bordered table-hover">
                         <thead>
-                            <tr class="title"><th>id</th><th>Nom</th><th>Path</th></tr>
+                            <tr class="title"><th>id</th><th>Nom</th><th>Path</th><th>Lien</th></tr>
                         </thead>
                {% for fic in entity.picture %}
                         <tr> 
                             <td>{{ fic.id }}</td>
                             <td>{{ fic.name }}</td>
-                         <td>  
-                            {%  if (fic.path is not null) %}
-                            <a href="{{ path('download_simple_route', { 'filename': fic.path }) }}">{{ fic.path }}</a>
-                            {% else %} pas de path: contacter Administrateur
+                        
+                            {%  if (fic.path is defined) and fic.path is not empty %}
+                            <td>  --{{ fic.path }}--</td>
+                            <td>
+                          <a class="fichier" href="{{ path('download_filesprojet_route', { 'id': fic.id }) }}">
+                             <i class="icon-download-alt"></i></a></td>
+                           {#<a href="{{ path('download_simple_route', { 'filename': fic.path }) }}">{{ fic.path }}</a>#}
+                            {% else %} 
+                             <td>pas de path: contacter Administrateur</td>
+                            <td>&nbsp;</td>
                             {% endif %}
-                         </td>
-
+                   
                         </tr>
        {% endfor %}
                         </tbody>

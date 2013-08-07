@@ -392,6 +392,7 @@ class DocchangementsController extends Controller {
      //   $path = $entity->getUploadRootDir();
         $filename=$entity->getPath();
         $realname=$entity->getOriginalFilename();
+        // si existe pas, tant pis on prend le nom physique
         if (!isset($realname))
             $realname=$filename;
         $path = $this->get('kernel')->getRootDir() . "/../web/uploads/documents/";
