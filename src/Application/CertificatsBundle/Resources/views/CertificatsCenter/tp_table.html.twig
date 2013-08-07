@@ -4,10 +4,12 @@
 <tr class="title">
     <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
     <th{% if pagination.isSorted('a.fileName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Filename', 'a.fileName') }}</th>
-    <th{% if pagination.isSorted('b.nomprojet') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Projet', 'b.nomprojet') }}</th>
+    <th style="min-width:70px" {% if pagination.isSorted('b.nomprojet') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Projet', 'b.nomprojet') }}
+    <i class=" icon-white icon-pencil"></i>
+    </th>
     <th{% if pagination.isSorted('c.fileType') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Type', 'c.fileType') }}</th>
     <th{% if pagination.isSorted('a.cnName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'CN', 'a.cnName') }}</th>
-    <th{% if pagination.isSorted('a.endTime') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Fin', 'a.endTime') }}</th>
+    <th style="min-width:70px" {% if pagination.isSorted('a.endTime') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Fin', 'a.endTime') }}</th>
     <th{% if pagination.isSorted('a.warningFile') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'W', 'a.warningFile') }}
     <th{% if pagination.isSorted('a.serverName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Serveur', 'a.serverName') }}</th>
     <th{% if pagination.isSorted('a.port') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Port', 'a.port') }}</th>
