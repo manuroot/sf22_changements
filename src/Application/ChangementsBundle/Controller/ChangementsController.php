@@ -71,14 +71,8 @@ class ChangementsController extends Controller {
                 }
             }
         }
-
         $page = $this->get('request')->query->get($pagename, $page); // Get custom page variable
-        //$em = $this->getDoctrine()->getManager();
-        /*
-          $results = $query->getResult();
-          $total = count($results);
-         */
-        /*   $count_total = $em->getRepository('ApplicationChangementsBundle:Changements')->getSimpleCountedJoinedBy();
+         /*   $count_total = $em->getRepository('ApplicationChangementsBundle:Changements')->getSimpleCountedJoinedBy();
           $total = $count_total[1];
           $query->setHint('knp_paginator.count', $total); */
         $pagination = $paginator->paginate(
@@ -161,7 +155,25 @@ class ChangementsController extends Controller {
                     'date_warning' => $date_warning,
         ));
     }
-
+/*
+ * $page=1;$dir='DESC';$sort='a.id';
+        }
+        //-----------------------------------------
+        // On recupere les vars de session filter
+        //------------------------------------------
+        elseif ($session->has('changementControllerFilternew')) {
+                $datas = $session->get('changementControllerFilternew');
+                $parameters = $datas;
+                $searchForm->bind($datas);
+                // $page=1;$dir='DESC';$sort='a.id';
+                list($page, $dir, $sort) = $this->OrderfantaAction();
+            }
+            else {
+                 list($page, $dir, $sort) = $this->OrderfantaAction();
+                //$page=1;$dir='DESC';$sort='a.id';
+            }
+        
+ */
     public function indexposttestAction(Request $request) {
 
         $em = $this->getDoctrine()->getManager();
@@ -182,10 +194,16 @@ class ChangementsController extends Controller {
           } */
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
             $session->remove('changementControllerFilternew');
+          /*   $session->remove('chgmts_page');
+            $session->remove('chgmtsf_sort');
+            $session->remove('chgmts_dir');*/
+           
+            
         } elseif ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
             $alldatas = $request->request->all();
             $datas = $alldatas["changements_searchfilter"];
             $session->set('changementControllerFilternew', $datas);
+            // $page=1;$dir='DESC';$sort='a.id';
         } else {
             if ($session->has('changementControllerFilternew')) {
                 $datas = $session->get('changementControllerFilternew');
@@ -730,7 +748,13 @@ class ChangementsController extends Controller {
             $em->flush();
             $session = $this->getRequest()->getSession();
             $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
-            return $this->redirect($this->generateUrl('changements_posttest'));
+             
+        // ajoute des messages flash
+           $btn_retour=$session->get('buttonretour');
+           if ($btn_retour == 'changements_fanta' || $btn_retour == 'changements_posttest' )
+            return $this->redirect($this->generateUrl($btn_retour));
+           else
+            return $this->redirect($this->generateUrl('changements_posttest'));   
         }
 
         return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
@@ -1145,7 +1169,7 @@ class ChangementsController extends Controller {
         $session = $request->getSession();
 
 
-        $session->set('buttonretour', 'changements_posttest');
+        $session->set('buttonretour', 'changements_fanta');
         $searchForm = $this->createForm(new ChangementsFilterAmoiType($em));
         //-----------------------------------------
         // On efface les sessions
