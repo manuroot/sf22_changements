@@ -50,24 +50,24 @@ class ChangementsController extends Controller {
     private function createpaginator($query, $num_perpage = 5, $session_page = null) {
 
         $request = $this->getRequest();
-       // $session = $request->getSession();
-         $pagename = 'page'; // Set custom page variable name
-         $page = $request->query->get($pagename,1);
+        // $session = $request->getSession();
+        $pagename = 'page'; // Set custom page variable name
+        $page = $request->query->get($pagename, 1);
         // $page=1;
-        /*f (!isset($session_page)){
-            if ($page_number) {$page = $page_number;}
-         }
-        else {
-              $page_session = $$session_page;
-            if ($page_number) {  
-                $session->set($$session_page, $page_number);
-                $page = $page_number;
-             }
-             elseif ($session->has($$session_page)) {
-                    $page = $session->get($$session_page);
-            } 
-        }*/
-     //   $page_session = $$session_page;
+        /* f (!isset($session_page)){
+          if ($page_number) {$page = $page_number;}
+          }
+          else {
+          $page_session = $$session_page;
+          if ($page_number) {
+          $session->set($$session_page, $page_number);
+          $page = $page_number;
+          }
+          elseif ($session->has($$session_page)) {
+          $page = $session->get($$session_page);
+          }
+          } */
+        //   $page_session = $$session_page;
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
                 $query, $page, $num_perpage, array(
@@ -149,25 +149,27 @@ class ChangementsController extends Controller {
                     'date_warning' => $date_warning,
         ));
     }
-/*
- * $page=1;$dir='DESC';$sort='a.id';
-        }
-        //-----------------------------------------
-        // On recupere les vars de session filter
-        //------------------------------------------
-        elseif ($session->has('changementControllerFilternew')) {
-                $datas = $session->get('changementControllerFilternew');
-                $parameters = $datas;
-                $searchForm->bind($datas);
-                // $page=1;$dir='DESC';$sort='a.id';
-                list($page, $dir, $sort) = $this->OrderfantaAction();
-            }
-            else {
-                 list($page, $dir, $sort) = $this->OrderfantaAction();
-                //$page=1;$dir='DESC';$sort='a.id';
-            }
-        
- */
+
+    /*
+     * $page=1;$dir='DESC';$sort='a.id';
+      }
+      //-----------------------------------------
+      // On recupere les vars de session filter
+      //------------------------------------------
+      elseif ($session->has('changementControllerFilternew')) {
+      $datas = $session->get('changementControllerFilternew');
+      $parameters = $datas;
+      $searchForm->bind($datas);
+      // $page=1;$dir='DESC';$sort='a.id';
+      list($page, $dir, $sort) = $this->OrderfantaAction();
+      }
+      else {
+      list($page, $dir, $sort) = $this->OrderfantaAction();
+      //$page=1;$dir='DESC';$sort='a.id';
+      }
+
+     */
+
     public function indexposttestAction(Request $request) {
 
         $em = $this->getDoctrine()->getManager();
@@ -188,11 +190,9 @@ class ChangementsController extends Controller {
           } */
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
             $session->remove('changementControllerFilternew');
-          /*   $session->remove('chgmts_page');
-            $session->remove('chgmtsf_sort');
-            $session->remove('chgmts_dir');*/
-           
-            
+            /*   $session->remove('chgmts_page');
+              $session->remove('chgmtsf_sort');
+              $session->remove('chgmts_dir'); */
         } elseif ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
             $alldatas = $request->request->all();
             $datas = $alldatas["changements_searchfilter"];
@@ -216,7 +216,6 @@ class ChangementsController extends Controller {
                     'search_form' => $searchForm->createView(),
                     'pagination' => $pagination,
                     'total' => $count,
-                    
         ));
     }
 
@@ -250,6 +249,7 @@ class ChangementsController extends Controller {
             // echo "data set<br>";
             // exit(1);
             $datas = $session->get('form_charts');
+            //print_r(datas);exit(1);
             $year = $myears[$datas['year']];
             $form->bind($datas);
         }
@@ -742,13 +742,13 @@ class ChangementsController extends Controller {
             $em->flush();
             $session = $this->getRequest()->getSession();
             $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
-             
-        // ajoute des messages flash
-           $btn_retour=$session->get('buttonretour');
-           if ($btn_retour == 'changements_fanta' || $btn_retour == 'changements_posttest' )
-            return $this->redirect($this->generateUrl($btn_retour));
-           else
-            return $this->redirect($this->generateUrl('changements_posttest'));   
+
+            // ajoute des messages flash
+            $btn_retour = $session->get('buttonretour');
+            if ($btn_retour == 'changements_fanta' || $btn_retour == 'changements_posttest')
+                return $this->redirect($this->generateUrl($btn_retour));
+            else
+                return $this->redirect($this->generateUrl('changements_posttest'));
         }
 
         return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
@@ -1114,7 +1114,9 @@ class ChangementsController extends Controller {
         // PAGE SESSION
         //------------------------------------------
         $page = $request->query->get('page');
-        if (isset($page)) {
+        /*if (! preg_match("/[0-9]+/", $page)) 
+                $page=1;*/
+        if (isset($page) &&  preg_match("/^[0-9]+$/", $page)) {
             $session->set('chgmtsfanta_page', $page);
             //exit(1);
         } elseif ($session->has('chgmtsfanta_page')) {
@@ -1161,10 +1163,12 @@ class ChangementsController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $session = $request->getSession();
-
-
+        //$nb_pages=0;
+        //$nbResults=0;
         $session->set('buttonretour', 'changements_fanta');
         $searchForm = $this->createForm(new ChangementsFilterAmoiType($em));
+        
+      
         //-----------------------------------------
         // On efface les sessions
         //------------------------------------------
@@ -1173,8 +1177,9 @@ class ChangementsController extends Controller {
             $session->remove('chgmtsfanta_page');
             $session->remove('chgmtsfanta_sort');
             $session->remove('chgmtsfanta_dir');
-            $page=1;$dir='DESC';$sort='a.id';
-           
+            $page = 1;
+            $dir = 'DESC';
+            $sort = 'a.id';
         }
         //-----------------------------------------
         // On recupere les vars de post ==> session filter
@@ -1185,25 +1190,26 @@ class ChangementsController extends Controller {
             $parameters = $datas;
             $session->set('changementControllerFilternew', $datas);
             $searchForm->bind($datas);
-            $page=1;$dir='DESC';$sort='a.id';
+            $page = 1;
+            $dir = 'DESC';
+            $sort = 'a.id';
         }
         //-----------------------------------------
         // On recupere les vars de session filter
         //------------------------------------------
         elseif ($session->has('changementControllerFilternew')) {
-                $datas = $session->get('changementControllerFilternew');
-                $parameters = $datas;
-                $searchForm->bind($datas);
-                // $page=1;$dir='DESC';$sort='a.id';
-                list($page, $dir, $sort) = $this->OrderfantaAction();
-            }
-            else {
-                 list($page, $dir, $sort) = $this->OrderfantaAction();
-                //$page=1;$dir='DESC';$sort='a.id';
-            }
-        
+            $datas = $session->get('changementControllerFilternew');
+            $parameters = $datas;
+            $searchForm->bind($datas);
+            // $page=1;$dir='DESC';$sort='a.id';
+            list($page, $dir, $sort) = $this->OrderfantaAction();
+        } else {
+            list($page, $dir, $sort) = $this->OrderfantaAction();
+            //$page=1;$dir='DESC';$sort='a.id';
+        }
 
-         
+
+
         //-----------------------------------------
         // On recupere les vars de session page,dir,order
         //------------------------------------------
@@ -1213,34 +1219,49 @@ class ChangementsController extends Controller {
         $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getJoinedBy($sort, $dir, $parameters);
         $adapter = new DoctrineORMAdapter($query);
         //$adapter->setDistinct(false);
-        
         // sur changement categories avec filtres la page n'est peut etre
         // plus dispo (avec les sessions) !!!!!!!!!!
         // A debugger
         $pagerfanta = $this->mypager($adapter, 20);
-      //  print_r($page);exit(1);
-        
-      /* $pagerfanta->setCurrentPage($page);
-        $q = $pagerfanta->getCurrentPageResults();
-        if (count($q) == 0){
-            $pagerfanta->setCurrentPage($page);
-             $q = $pagerfanta->getCurrentPageResults();
-             
+        $nb_pages = $pagerfanta->getNbPages();
+        if ($page > $nb_pages) {
+            $session = $this->getRequest()->getSession();
+            //$session->getFlashBag()->add('warning', "Enregistrement  update successfull");
+            $session->getFlashBag()->add('warning', "Page $page n'exite pas: goto Page1");
+            $page = 1;
         }
-           */ 
-       //print_r($q);exit(1);
+        //  print_r($page);exit(1);
+
+        /* $pagerfanta->setCurrentPage($page);
+          $q = $pagerfanta->getCurrentPageResults();
+          if (count($q) == 0){
+          $pagerfanta->setCurrentPage($page);
+          $q = $pagerfanta->getCurrentPageResults();
+
+          }
+         */
+        //print_r($q);exit(1);
         try {
             $pagerfanta->setCurrentPage($page);
+             $nbResults = $pagerfanta->getNbResults();
             $q = $pagerfanta->getCurrentPageResults();
+           
+            /* $pagerfanta->hasPreviousPage();
+              $pagerfanta->getPreviousPage();
+              $pagerfanta->hasNextPage();
+              $pagerfanta->getNextPage(); */
         } catch (NotValidCurrentPageException $e) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException("Page missing");
+            // throw $this->createNotFoundException('Unable to find entity.');
         }
         return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi_debugfanta.html.twig', array(
                     'pagerfanta' => $pagerfanta,
                     'entities' => $q,
                     'next_dir' => $next_dir,
                     'search_form' => $searchForm->createView(),
-                    'arrow' => $arrow
+                    'arrow' => $arrow,
+                    'nb_pages' => $nb_pages,
+                    'nbResults' => $nbResults,
         ));
     }
 
