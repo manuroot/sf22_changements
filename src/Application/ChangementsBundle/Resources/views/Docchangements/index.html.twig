@@ -78,10 +78,11 @@ Fichiers sur les Opérations  ({{ total }})
                 <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
                 <th{% if pagination.isSorted('a.name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Description', 'a.name') }}</th>
                 <th{% if pagination.isSorted('a.OriginalFilename') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom Origine', 'a.OriginalFilename') }}</th>
-                <th{% if pagination.isSorted('a.md5') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'md5', 'a.md5') }}</th>
-                <th{% if pagination.isSorted('a.updatedAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date Update', 'a.updatedAt') }}</th>
+              {#  <th{% if pagination.isSorted('a.md5') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'md5', 'a.md5') }}</th>
+              #}
+                    <th style="min-width:100px" {% if pagination.isSorted('a.updatedAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date Update', 'a.updatedAt') }}</th>
                 <th{% if pagination.isSorted('b.idchangement.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Changements', 'b.idchangement.nom') }}</th>
-                <th>Changements</th>
+              
                 <th colspan="3">Actions</th>
             </tr>
       <tbody>
@@ -98,8 +99,9 @@ Fichiers sur les Opérations  ({{ total }})
                 error
                  {% endif %}
                  </td>
-            <td>{{ entity.md5 }}</td>
-            <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+         {#  <td>{{ entity.md5 }}</td>#}
+           {#  <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>#}
+            <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d') }}{% endif %}</td>
             <td>{{ entity.idchangement|join('<br> ')|raw }}</td>
             <td>
                     <a href="{{ path('docchangements_show', { 'id': entity.id }) }}">
