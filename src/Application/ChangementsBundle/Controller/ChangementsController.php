@@ -232,34 +232,41 @@ class ChangementsController extends Controller {
 
         $session = $this->getRequest()->getSession();
         $request = $this->getRequest();
-        $myears = range(Date('Y') - 5, Date('Y') + 5);
+        $em = $this->getDoctrine()->getManager();
+        $myears = $em->getRepository('ApplicationChangementsBundle:Changements')-> GetYears();
+        $datas=array();
+       // $myears = range(Date('Y') - 5, Date('Y') + 5);
         $current_date = new \DateTime();
-        $datas_session = $session->get('form_charts');
-        $form = $this->smallCalendarForm();
+        //$datas_session = $session->get('form_charts');
+        $form = $this->smallCalendarForm($myears);
         if ($request->getMethod() == 'POST') {
             $dataform = $request->get('form');
-            //  print_r($dataform);exit(1);
-            // print_r($dataform);exit(1);
-
+          //   print_r($dataform);exit(1);
             $session->set('form_charts', $myears[$dataform['year']]);
-            // $session->set('form_charts', $dataform);
             $year = $myears[$dataform['year']];
             $form->bind($dataform);
-        } elseif (isset($datas_session)) {
-            // echo "data set<br>";
-            // exit(1);
-            $datas = $session->get('form_charts');
-            //print_r(datas);exit(1);
-            $year = $myears[$datas['year']];
-            $form->bind($datas);
         }
-        // pas de sesion
+        // pas de post
         else {
-            $year = $current_date->format('Y');
-            $datas['form_charts']['year'] = $year;
-            $form->bind($datas);
+          
+           $current_date = new \DateTime();
+           $current_year = $current_date->format('Y');
+           if (count($myears) > 0){
+               $key = array_search($current_year, $myears);
+               if ($key){
+                 /*  echo "key=$key<br>";
+                   exit(1);*/
+                    $form->bind(array('year' => $key)); 
+                    //$form->bind(array('year'=> array_keys ($myears, $current_year)));
+                $year = $current_year;
+           }
+           else{   $year = $myears[0];
+           }    
         }
-        $em = $this->getDoctrine()->getManager();
+        }
+           
+           // $form->bind($datas);
+      
         // echo "year=$year<br>";
         // exit(1);
         $titre = "Demandes " . $year;
@@ -437,11 +444,12 @@ class ChangementsController extends Controller {
     }
 
     public function calendarAction(Request $request) {
-
+  
+        $em = $this->getDoctrine()->getManager();
         $session = $this->getRequest()->getSession();
         $session->set('buttonretour', 'changements_calendar');
         $datas_session = $session->get('calendar_dates');
-        $form = $this->createForm(new CalendarType());
+        $form = $this->createForm(new CalendarType($em));
         if ($request->getMethod() == 'POST') {
             $dataform = $request->get('changements_calendar_form');
             // print_r($dataform);exit(1);
@@ -819,39 +827,22 @@ class ChangementsController extends Controller {
         ));
     }
 
-    private function createCalendarForm($values = array()) {
+   
 
-        $myears = range(Date('Y') - 5, Date('Y') + 5);
-        //$mmonth = range(1, 12);
-        $mmonth = array(1 => 'jan', 2 => 'fev');
-        // mmonth = array_map( sprintf("%02d",'floatval', $nonFloats);.
-        // sprintf("%02d",
-        // $myears = array("2012", "2013");
-        // $mmonth = array("Janvier", "Fevrier");
-        $year = isset($values['annee']) ? $values['annee'] : 'annee';
-        $month = isset($values['mois']) ? $values['mois'] : 'mois';
-        return $this->createFormBuilder()
-                        ->add('publishedAt', 'birthday', array(
-                            'widget' => 'choice',
-                            'format' => 'yyyy-MM-dd',
-                            'pattern' => '{{ year }}-{{ month }}-{{ day }}',
-                            'years' => range(Date('Y'), 2008),
-                            'label' => false,
-                            'input' => 'string',
-                        ))
-                        ->getForm()
-        ;
-    }
+    private function smallCalendarForm($myears=null) {
 
-    private function smallCalendarForm() {
-
-        $myears = range(Date('Y') - 5, Date('Y') + 5);
-        return $this->createFormBuilder()
+        if (!isset($myears)){
+           $current_date = new \DateTime();
+           $myears = $current_date->format('Y');
+      
+        }
+          return $this->createFormBuilder()
                         ->add('year', 'choice', array(
+                            'label'=>false,
                             'choices' => $myears,
-                            'data' => 2013,
+                           // 'data' => 2013,
                         ))
-                        ->add('Valider', 'submit')
+                      //  ->add('Valider', 'submit')
                         ->getForm();
     }
 
@@ -1114,9 +1105,9 @@ class ChangementsController extends Controller {
         // PAGE SESSION
         //------------------------------------------
         $page = $request->query->get('page');
-        /*if (! preg_match("/[0-9]+/", $page)) 
-                $page=1;*/
-        if (isset($page) &&  preg_match("/^[0-9]+$/", $page)) {
+        /* if (! preg_match("/[0-9]+/", $page)) 
+          $page=1; */
+        if (isset($page) && preg_match("/^[0-9]+$/", $page)) {
             $session->set('chgmtsfanta_page', $page);
             //exit(1);
         } elseif ($session->has('chgmtsfanta_page')) {
@@ -1167,8 +1158,8 @@ class ChangementsController extends Controller {
         //$nbResults=0;
         $session->set('buttonretour', 'changements_fanta');
         $searchForm = $this->createForm(new ChangementsFilterAmoiType($em));
-        
-      
+
+
         //-----------------------------------------
         // On efface les sessions
         //------------------------------------------
@@ -1185,10 +1176,14 @@ class ChangementsController extends Controller {
         // On recupere les vars de post ==> session filter
         //------------------------------------------
         elseif ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
+            $session->remove('chgmtsfanta_page');
+            $session->remove('chgmtsfanta_sort');
+            $session->remove('chgmtsfanta_dir');
             $alldatas = $request->request->all();
             $datas = $alldatas["changements_searchfilter"];
             $parameters = $datas;
             $session->set('changementControllerFilternew', $datas);
+            
             $searchForm->bind($datas);
             $page = 1;
             $dir = 'DESC';
@@ -1208,7 +1203,9 @@ class ChangementsController extends Controller {
             //$page=1;$dir='DESC';$sort='a.id';
         }
 
-
+        if (!$page) {
+            $page = 1;
+        }
 
         //-----------------------------------------
         // On recupere les vars de session page,dir,order
@@ -1241,17 +1238,13 @@ class ChangementsController extends Controller {
           }
          */
         //print_r($q);exit(1);
+
         try {
             $pagerfanta->setCurrentPage($page);
-             $nbResults = $pagerfanta->getNbResults();
+            $nbResults = $pagerfanta->getNbResults();
             $q = $pagerfanta->getCurrentPageResults();
-           
-            /* $pagerfanta->hasPreviousPage();
-              $pagerfanta->getPreviousPage();
-              $pagerfanta->hasNextPage();
-              $pagerfanta->getNextPage(); */
         } catch (NotValidCurrentPageException $e) {
-            throw new NotFoundHttpException("Page missing");
+            throw new NotFoundHttpException();
             // throw $this->createNotFoundException('Unable to find entity.');
         }
         return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi_debugfanta.html.twig', array(

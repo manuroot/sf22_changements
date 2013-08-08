@@ -350,6 +350,32 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         }
         return $year;
       }
+      
+      public function GetYears() {
+       
+      $result=array();
+        $query = $this->createQueryBuilder('a')
+                ->select('YEAR(a.dateDebut) as year,count(a.id) as nb')
+              
+                 ->groupby('year')->orderBy('year');
+        $arr=$query->getQuery()->getArrayResult();
+        
+        foreach ($arr as $k=>$v){
+            if ($v['year']){
+                if (isset($v['nb']) && $v['nb']>0){
+                 if (isset($v['year']) && preg_match("/^2[0-9]{3}$/", $v['year'])) {
+                 array_push($result, $v['year']);
+                 }
+            }
+            }
+        }
+      ///  print_r($result);exit(1);
+        return $result;
+    }
+    
+    
+    
+    
     public function sum_allappli_bymonthyear($year = null) {
         $c_year=$this->mydate($year);
         /*$current_date = new \DateTime();
@@ -424,6 +450,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         if (!empty($criteria)) {
             $query = $this->getListBy($criteria);
         }
+        
         $query->add('orderBy', "$sort $dir");
         return $query->getQuery();
     }

@@ -1,0 +1,36 @@
+<form  class="form" action="{{ path(tpl_path) }}" method="POST" {{ form_enctype(search_form) }}>
+   <table class="table-mybordered">
+
+    <tr><td class="calendar">
+    {{ form_row(search_form.nom) }}
+      <br/>
+    {{ form_row(search_form.description) }}
+   <br>
+    {{ form_row(search_form.demandeur) }}
+  
+     {{ form_row(search_form.idusers) }}
+   
+    </td>
+    <td class="calendar"> 
+    {{ form_row(search_form.dateDebut) }}
+    <br><br>
+    {{ form_row(search_form.dateDebut_max) }}
+    <br><br>
+    {{ form_row(search_form.dateFin) }}
+    <br><br>
+    {{ form_row(search_form.dateFin_max) }}
+    <br><br>
+    {{ form_row(search_form.ticketExt) }}
+           <br><br>
+    {{ form_row(search_form.ticketInt) }}
+     </td>
+    <td class="calendar">
+    {{ form_rest(search_form) }}</td>
+    </tr>
+    <tr><td class="calendar" colspan="3">
+       <button id="filter" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="filter" >
+          <i class="icon-search"></i>  Filtrer</button>
+    </tr>
+    </tbody>
+    </table>
+ </form>

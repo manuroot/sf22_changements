@@ -37,8 +37,12 @@ Opérations {{ year }}
 {% block content %}
 
 {% include 'ApplicationChangementsBundle:templates:flash.html.twig' %}
-{{ form(form) }}
-
+<form  class="form" action="{{ path('changements_charts') }}" method="POST" {{ form_enctype(form) }}>
+    {{ form_rest(form) }}
+  <button id="filter" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="filter" >
+   <i class="icon-search"></i> Valider</button>
+                           
+   </form>        
  
  <div id="linechart1" style="min-width:380px;width:370px;height:380px; padding:5px;margin: 10px auto;float:left;"></div>
  <div id="linechart2" style="min-width:380px;width:370px;height:380px; padding:5px;margin: 10px auto;float:left;"></div>
