@@ -432,14 +432,14 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
           return $query;
          */
         $parameters = array();
-        $values = array('DISTINCT a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,partial h.{id}');
+        $values = array('DISTINCT a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},partial f.{id},partial h.{id}');
         $query = $this->createQueryBuilder('a')
                 ->select($values)
                 ->leftJoin('a.idProjet', 'b')
                 ->leftJoin('a.demandeur', 'c')
                 ->leftJoin('a.idStatus', 'd')
                 ->leftJoin('a.picture', 'f')
-                ->addSelect('g')
+                ->addSelect('partial g.{id,nom}')
                 ->leftJoin('a.idEnvironnement', 'g')
                 ->leftJoin('a.comments', 'h')
                 ->addSelect('partial e.{id,nomUser}')

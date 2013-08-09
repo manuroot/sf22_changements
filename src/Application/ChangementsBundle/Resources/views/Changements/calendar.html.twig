@@ -202,7 +202,7 @@ Opérations: Calendrier
                            {% if toto|length > 25 %}
                                {% set  toto = toto|slice(0, 25) ~ '..' %} 
                             {% endif %}
-                               <a class="calendar editme" title="Opération: {{ event }}" href="{{ path('changements_showXhtml', { 'id': event.uid }) }}">
+                               <a class="calendar editme" title="Opération: {{ event.nom }} - Demandeur: {{ event.demandeur }}" href="{{ path('changements_showXhtml', { 'id': event.uid }) }}">
                         {{ toto }}
                         </a>
                         </div>

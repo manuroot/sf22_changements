@@ -1,3 +1,18 @@
+/etc/php5/apache2/conf.d/apc.ini
+extension=apc.so
+
+; /etc/php5/apache2/php.ini
+;;;;;;;;;;;;;;;;;;;
+; Module Settings ;
+;;;;;;;;;;;;;;;;;;;
+[APC]
+apc.enabled=1
+apc.shm_size=300M
+apc.stat=1
+[Date]
+
+
+
 Erreur loadXML ==>
 sudo apt-get install php5-cli
 

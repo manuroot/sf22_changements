@@ -76,16 +76,16 @@
                                             <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-white  icon-th"></i>
                                                 Changements<b class="caret"></b> </a>
                                             <ul class="dropdown-menu">
-                                                  <li><a href="{{ path('changements_posttest') }}"><i class="icon-camera"></i> {{ 'Opérations v1'|trans }}</a></li>
+                                                  <li><a href="{{ path('changements_posttest') }}"><i class="icon-th-list"></i> {{ 'Opérations v1'|trans }}</a></li>
                                                 {#
                                                 <li><a href="{{ path('changements_posttestdebug') }}"><i class="icon-camera"></i> {{ 'Opérations v1debug'|trans }}</a></li>
                                                 #}
-                                                 <li><a href="{{ path('changements_fanta') }}"><i class="icon-camera"></i> {{ 'Opérations fanta'|trans }}</a></li>
-                                                 <li><a href="{{ path('changements_post') }}"><i class="icon-camera"></i> {{ 'Opérations v2'|trans }}</a></li>
+                                                 <li><a href="{{ path('changements_fanta') }}"><i class="icon-th-list"></i> {{ 'Opérations fanta'|trans }}</a></li>
+                                                 <li><a href="{{ path('changements_post') }}"><i class="icon-th-list"></i> {{ 'Opérations v2'|trans }}</a></li>
                                                   <li><a href="{{ path('changements_charts') }}"><i class="icon-camera"></i> {{ 'Graphiques'|trans }}</a></li>
                                                 <li><a href="{{ path('changements_calendar') }}"><i class="icon-time"></i> {{ 'Calendrier'|trans }}</a></li>
-                                                <li><a href="{{ path('changements_apy') }}"><i class="icon-camera"></i> {{ 'Opérations DataGrid'|trans }}</a></li>
-                                                <li><a href="{{ path('docchangements') }}"><i class="icon-camera"></i> {{ 'Fichiers'|trans }}</a></li>
+                                                <li><a href="{{ path('changements_apy') }}"><i class="icon-th-list"></i> {{ 'Opérations DataGrid'|trans }}</a></li>
+                                                <li><a href="{{ path('docchangements') }}"><i class="icon-briefcase"></i> {{ 'Fichiers'|trans }}</a></li>
     
 
 
@@ -101,13 +101,13 @@
                                                                             <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-white  icon-fire"></i>
                                                                                 Certificats<b class="caret"></b> </a>
                                                                             <ul class="dropdown-menu">
-                                                                                <li><a href="{{ path('certificatscenter') }}"><i class="icon-fire"></i> {{ 'Certificats'|trans }}</a></li>
-                                                                                <li><a href="{{ path('certificatscenter_viewapy') }}"><i class="icon-plus-sign"></i> {{ 'Certificats-APY'|trans }}</a></li>
+                                                                                <li><a href="{{ path('certificatscenter') }}"><i class="icon-th-list"></i> {{ 'Certificats'|trans }}</a></li>
+                                                                                <li><a href="{{ path('certificatscenter_viewapy') }}"><i class="icon-th-list"></i> {{ 'Certificats-APY'|trans }}</a></li>
                                                              {% if is_granted("IS_AUTHENTICATED_FULLY") %}
                                                                                 <li><a href="{{ path('certificatscenter_new') }}"><i class="icon-camera"></i> {{ 'Nouveau Certificat'|trans }}</a></li>
                                                                                 <li><a href="{{ path('certificatscenter_check') }}"><i class="icon-camera"></i> {{ 'Vérifier Certificat'|trans }}</a></li>
                                                           
-                                                             <li><a href="{{ path('certificats_documents') }}"><i class="icon-camera"></i> {{ 'Fichiers-Certificats'|trans }}</a></li>
+                                                             <li><a href="{{ path('certificats_documents') }}"><i class="icon-briefcase"></i> {{ 'Fichiers-Certificats'|trans }}</a></li>
                                                             {% endif %}
                                                                                     
                                                                             </ul>
@@ -122,9 +122,9 @@
                                             <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-white  icon-th"></i>
                                                 Serveurs<b class="caret"></b> </a>
                                             <ul class="dropdown-menu">
-                                                <li><a href="{{ path('serveurs') }}"><i class="icon-camera"></i> {{ 'Serveurs'|trans }}</a></li>
-                                                      <li><a href="{{ path('serveurs_sites') }}"><i class="icon-camera"></i> {{ 'Serveurs-Sites'|trans }}</a></li> 
-                                                      <li><a href="{{ path('serveurs_zones') }}"><i class="icon-camera"></i> {{ 'Serveurs-Zones'|trans }}</a></li>
+                                                <li><a href="{{ path('serveurs') }}"><i class="icon-th-list"></i> {{ 'Serveurs'|trans }}</a></li>
+                                                      <li><a href="{{ path('serveurs_sites') }}"><i class="icon-th-list"></i> {{ 'Serveurs-Sites'|trans }}</a></li> 
+                                                      <li><a href="{{ path('serveurs_zones') }}"><i class="icon-th-list"></i> {{ 'Serveurs-Zones'|trans }}</a></li>
                                                       
                                             </ul>
                                  </li>
@@ -136,8 +136,8 @@
                                             <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-white  icon-wrench"></i>
                                                 Projets<b class="caret"></b> </a>
                                             <ul class="dropdown-menu">
-                                                  <li><a href="{{ path('projets') }}"><i class="icon-camera"></i> {{ 'Projets'|trans }}</a></li>
-                                                  <li><a href="{{ path('projets_documents') }}"><i class="icon-camera"></i> {{ 'projets_documents'|trans }}</a></li>
+                                                  <li><a href="{{ path('projets') }}"><i class="icon-th-list"></i> {{ 'Projets'|trans }}</a></li>
+                                                  <li><a href="{{ path('projets_documents') }}"><i class="icon-briefcase"></i> {{ 'projets_documents'|trans }}</a></li>
           
                                             </ul>
                                  </li>
