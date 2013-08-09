@@ -153,7 +153,14 @@
                             <td><a href="{{ path('changements_show', { 'id': entity.id }) }}">{{ entity.nom }}</a></td>
                               {#<td>{% if entity.dateDebut %}{{ entity.dateDebut|date('Y-m-d H') ~ 'h' }}{% endif %}</td>#}
                               <td>{{ entity.dateDebut|date('Y-m-d') }}</td>
-                            <td>{{ entity.dateFin|date('Y-m-d') }}</td>
+                              <td>
+                                {% if entity.dateFin  %}
+                                      {{ entity.dateFin|date('Y-m-d') }}
+                                      {% else %}
+                                      ---
+                                    {% endif %}
+                            </td>
+                           
                             <td>{{ entity.idProjet.nomprojet }}</td>
                             <td>{{ entity.demandeur.nomUser }}</td>
                             <td>{{ entity.picture|length }}</td>

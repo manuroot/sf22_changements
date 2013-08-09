@@ -240,6 +240,8 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
             }
         }
 
+
+
         $query->setParameters($parameters);
 
 
@@ -247,27 +249,13 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         //->getQuery();
     }
 
-    public function getEventsQueryBuilder(\DateTime $begin, \DateTime $end, array $options = array()) {
-        $qb = $this->createQueryBuilder('e');
-
-        return QueryHelper::addEventQuery($qb, 'e.dateDebut', 'e.dateFin', $begin, $end)
-                        ->getQuery()
-                        ->getResult();
-        ;
-    }
-
-    public function getEvents(\DateTime $begin, \DateTime $end, array $options = array()) {
-        // echo "getEvents query";exit(1);
-        return $this->getEventsQueryBuilder($begin, $end, $options);
-    }
-
     public function sum_appli_year($year = null) {
 
-           $c_year=$this->mydate($year);
-      /*  $current_date = new \DateTime();
-        if (!isset($year)) {
-            $year = $current_date->format('Y');
-        }*/
+        $c_year = $this->mydate($year);
+        /*  $current_date = new \DateTime();
+          if (!isset($year)) {
+          $year = $current_date->format('Y');
+          } */
         $query = $this->createQueryBuilder('a')
                 ->select('count(a.id) as nb,b.nomprojet,MONTH(a.dateDebut) as mois')
                 ->leftJoin('a.idProjet', 'b')
@@ -298,12 +286,12 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
 
     public function sum_demandeur_year($year = null) {
 
-          $c_year=$this->mydate($year);
-      
-      /*  $current_date = new \DateTime();
-        if (!isset($year)) {
-            $year = $current_date->format('Y');
-        }*/
+        $c_year = $this->mydate($year);
+
+        /*  $current_date = new \DateTime();
+          if (!isset($year)) {
+          $year = $current_date->format('Y');
+          } */
         $query = $this->createQueryBuilder('a')
                 ->select('count(a.id) as nb,b.nomUser,MONTH(a.dateDebut) as mois')
                 ->leftJoin('a.demandeur', 'b')
@@ -342,46 +330,41 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         }
     }
 
-    
-      private function mydate($year = null) {
+    private function mydate($year = null) {
         $current_date = new \DateTime();
         if (!isset($year)) {
             $year = $current_date->format('Y');
         }
         return $year;
-      }
-      
-      public function GetYears() {
-       
-      $result=array();
+    }
+
+    public function GetYears() {
+
+        $result = array();
         $query = $this->createQueryBuilder('a')
-                ->select('YEAR(a.dateDebut) as year,count(a.id) as nb')
-              
-                 ->groupby('year')->orderBy('year');
-        $arr=$query->getQuery()->getArrayResult();
-        
-        foreach ($arr as $k=>$v){
-            if ($v['year']){
-                if (isset($v['nb']) && $v['nb']>0){
-                 if (isset($v['year']) && preg_match("/^2[0-9]{3}$/", $v['year'])) {
-                 array_push($result, $v['year']);
-                 }
-            }
+                        ->select('YEAR(a.dateDebut) as year,count(a.id) as nb')
+                        ->groupby('year')->orderBy('year');
+        $arr = $query->getQuery()->getArrayResult();
+
+        foreach ($arr as $k => $v) {
+            if ($v['year']) {
+                if (isset($v['nb']) && $v['nb'] > 0) {
+                    if (isset($v['year']) && preg_match("/^2[0-9]{3}$/", $v['year'])) {
+                        array_push($result, $v['year']);
+                    }
+                }
             }
         }
-      ///  print_r($result);exit(1);
+        ///  print_r($result);exit(1);
         return $result;
     }
-    
-    
-    
-    
+
     public function sum_allappli_bymonthyear($year = null) {
-        $c_year=$this->mydate($year);
-        /*$current_date = new \DateTime();
-        if (!isset($year)) {
-            $year = $current_date->format('Y');
-        }*/
+        $c_year = $this->mydate($year);
+        /* $current_date = new \DateTime();
+          if (!isset($year)) {
+          $year = $current_date->format('Y');
+          } */
         $query = $this->createQueryBuilder('a')
                 //->select('MONTH(a.dateDebut) as mois,sum(b.nomprojet) as projet,count(a.id) as nb')
                 ->select('MONTH(a.dateDebut) as mois,count(a.id) as nb')
@@ -397,12 +380,12 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
 
     public function sum_appli_monthyear($year = null) {
 
-          $c_year=$this->mydate($year);
-      
-        /*$current_date = new \DateTime();
-        if (!isset($year)) {
-            $year = $current_date->format('Y');
-        }*/
+        $c_year = $this->mydate($year);
+
+        /* $current_date = new \DateTime();
+          if (!isset($year)) {
+          $year = $current_date->format('Y');
+          } */
         $query = $this->createQueryBuilder('a')
                 ->select('MONTH(a.dateDebut) as mois,b.nomprojet as projet,count(a.id) as nb')
                 //->select('count(a.id) as nb,a.dateDebut,b.nomprojet,MONTH(a.dateDebut) as mois')
@@ -416,21 +399,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
     }
 
     public function getJoinedBy($sort = 'a.id', $dir = 'DESC', $criteria = array()) {
-        /*
-          $query = $query = $this->_em->createQuery("
-          SELECT  DISTINCT a,b,c,d,f,g,h,partial e.{id,nomUser} FROM ApplicationChangementsBundle:Changements a
-          LEFT JOIN a.idProjet b
-          LEFT JOIN a.demandeur c
-          LEFT JOIN a.idStatus d
-          LEFT JOIN a.idusers e
-          LEFT JOIN a.picture f
-          LEFT JOIN a.idEnvironnement g
-          LEFT JOIN a.comments h
-          ORDER BY $sort $dir"
-          );
 
-          return $query;
-         */
         $parameters = array();
         $values = array('DISTINCT a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},partial f.{id},partial h.{id}');
         $query = $this->createQueryBuilder('a')
@@ -450,7 +419,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         if (!empty($criteria)) {
             $query = $this->getListBy($criteria);
         }
-        
+
         $query->add('orderBy', "$sort $dir");
         return $query->getQuery();
     }
@@ -472,6 +441,43 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
           "
         );
         return $query->getSingleResult();
+    }
+
+    public function getEventsQueryBuilder(\DateTime $begin, \DateTime $end, array $options = array()) {
+                 
+        $parameters = array();
+        $values = array('DISTINCT e,partial f.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description}');
+        $query = $this->createQueryBuilder('e')
+                ->select($values)
+                ->leftJoin('e.idProjet', 'f')
+                 ->leftJoin('e.demandeur', 'c')
+                ->leftJoin('e.idStatus', 'd');
+
+        if (isset($options['idStatus']) && $options['idStatus'] != "") {
+            // var_dump($criteria['idEnvironnement']);exit(1);
+            $query->andWhere('d.id IN (:idStatus)');
+            // $query->distinct('GroupConcat(d.nom) AS status');
+            $parameters['idStatus'] = $options['idStatus'];
+        }
+
+        $query->setParameters($parameters);
+        /*
+          $query = $this->createQueryBuilder('e');
+         */
+
+        //    $this->query = $query;
+        /*  if (!empty($options)) {
+          $query = $this->getListBy($options);
+          } */
+        return QueryHelper::addEventQuery($query, 'e.dateDebut', 'e.dateFin', $begin, $end)
+                        ->getQuery()
+                        ->getResult();
+        ;
+    }
+
+    public function getEvents(\DateTime $begin, \DateTime $end, array $options = array()) {
+        // echo "getEvents query";exit(1);
+        return $this->getEventsQueryBuilder($begin, $end, $options);
     }
 
 }

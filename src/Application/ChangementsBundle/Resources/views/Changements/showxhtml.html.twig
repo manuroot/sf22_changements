@@ -158,6 +158,18 @@ $(document).ready(function() {
             <td class="viewlabel">Nom</td>
             <td>{{ entity.nom }}</td>
         </tr>
+         <tr>
+            <td class="viewlabel">Date Demande</td>
+             <td>
+            {% if entity.dateDemande is not null %}
+               {{ entity.dateDemande|date('Y-m-d') }}
+                    {% else %}
+                    --
+            {% endif %}
+            </td>
+           
+        </tr>
+        
         <tr>
                 <td class="viewlabel">Type</td>
                 <td>{{ entity.idKind }}</td>
@@ -172,16 +184,22 @@ $(document).ready(function() {
             <td>{{ entity.demandeur }}</td>
         </tr>
         <tr>
-            <td class="viewlabel">Datedebut</td>
+            <td class="viewlabel">Date Début</td>
 
             <td>{{ entity.dateDebut|date('Y-m-d H:i:s') }}</td>
         </tr>
         <tr>
-            <td class="viewlabel">Datefin</td>
-            <td class="single">{{ entity.dateFin|date('Y-m-d H:i:s') }}</td>
+            <td class="viewlabel">Date de Fin</td>
+             <td>
+            {% if entity.dateFin is not null %}
+               {{ entity.dateFin|date('Y-m-d H:i:s') }}
+                    {% else %}
+                    ---
+            {% endif %}
+            </td>
         </tr>
         <tr>
-            <td class="viewlabel">Datecomep</td>
+            <td class="viewlabel">Date du COMEP</td>
             <td>
             {% if entity.dateComep is not null %}
                {{ entity.dateComep|date('Y-m-d H:i:s') }}
@@ -191,7 +209,7 @@ $(document).ready(function() {
             </td>
             </tr>
             <tr>
-                 <td class="viewlabel">Datevsr</td>
+                 <td class="viewlabel">Date de VSR</td>
             <td>
             {% if entity.dateVsr is not null %}
                {{ entity.dateVsr|date('Y-m-d H:i:s') }}

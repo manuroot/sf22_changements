@@ -65,13 +65,20 @@
     padding: 0px 0px;
   
 }
-div.event {
+div.event,div.eventrun {
     /*width:97%;*/
     padding-left:4px;
     margin-bottom:2px;
    /* border-bottom:1px solid;
     border-top:1px solid;*/
             
+}
+div.eventrun {
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  border:1px solid red;
+  font-weight:bold;
 }
 div.noevent {
   /*  width:98%;*/
@@ -87,7 +94,7 @@ div.noevent {
 div.controls {
     padding-top:20px;
    
-margin:auto;width:300px; }
+margin:auto;width:500px; }
 
 /*
 span.label.label-warning{ vertical-align:top;}*/
@@ -157,9 +164,10 @@ Opérations: Calendrier
            <tr><td class="calendar" colspan="8">
                  <form action="{{ path('changements_calendar') }}" method="post" {{ form_enctype(form) }}>
   <div class="controls">
-                          {{ form_widget(form.publishedAt.year,{'attr': { 'style': 'font-size:14px;height:30px;width:100px' } }) }}
+          {{ form_widget(form.idStatus,{'attr': { 'style': 'font-size:14px;height:30px;' } }) }}   
+                  {{ form_widget(form.publishedAt.year,{'attr': { 'style': 'font-size:14px;height:30px;width:100px' } }) }}
                   {{ form_widget(form.publishedAt.month,{'attr': { 'style': 'font-size:14px;height:30px;width:100px' } }) }}
-                    
+               
                        {{ form_widget(form.publishedAt.day,{'attr': { 'style': 'display:none' } }) }}
                  {#    {{ form_row(form.publishedAt) }}#}
                      {{ form_rest(form) }}
@@ -197,7 +205,11 @@ Opérations: Calendrier
                 
                 
                         {% set mycolor=foo[loop.index0] %}
-                        <div class="event" style="background-color: {{ mycolor }}">
+                {% if event.dateFin is null %}  {% set  eventclass = "eventrun" %} 
+                {% else %}{% set  eventclass = "event run" %} 
+                {% endif %}
+                
+                        <div class="{{ eventclass }}" style="background-color: {{ mycolor }}">
                            {% set  toto = event.nom %} 
                            {% if toto|length > 25 %}
                                {% set  toto = toto|slice(0, 25) ~ '..' %} 

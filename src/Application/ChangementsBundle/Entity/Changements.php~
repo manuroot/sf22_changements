@@ -67,6 +67,13 @@ class Changements extends AbstractEvent {
      */
     private $nom;
 
+     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_demande", type="date", nullable=false)
+     */
+    private $dateDemande;
+    
     /**
      * @var \DateTime
      *
@@ -260,7 +267,7 @@ class Changements extends AbstractEvent {
      */
     private $astreinte;
     
-    
+      
 //protected $avatar;
 
 
@@ -486,6 +493,8 @@ class Changements extends AbstractEvent {
         $this->idapplis = new ArrayCollection();
         $this->picture = new ArrayCollection();
         $this->idEnvironnement = new ArrayCollection();
+        
+      $this->dateDemande = new \DateTime('now');
          $this->astreinte = false;
         //   $this->idapplis = new \Doctrine\Common\Collections\ArrayCollection();
         /*         $this->uid = $uid;

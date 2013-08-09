@@ -45,5 +45,5 @@ $(document).ready(function() {
             $("#form_bis").datepicker("option", "minDate", selectedDate);
         }
     });
-  
+ /* select id="changements_idStatus"*/
 }); //Eof:: ready

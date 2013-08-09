@@ -58,12 +58,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Abhoryo/APYDataGridBundle.git",
-                "reference": "f9119e69978da2a55eb1fe9c86277d4b65663774"
+                "reference": "38a95ceff94af99e51ace8abb1b0955547443de3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Abhoryo/APYDataGridBundle/zipball/f9119e69978da2a55eb1fe9c86277d4b65663774",
-                "reference": "f9119e69978da2a55eb1fe9c86277d4b65663774",
+                "url": "https://api.github.com/repos/Abhoryo/APYDataGridBundle/zipball/38a95ceff94af99e51ace8abb1b0955547443de3",
+                "reference": "38a95ceff94af99e51ace8abb1b0955547443de3",
                 "shasum": ""
             },
             "require": {
@@ -108,7 +108,7 @@
                 "datagrid",
                 "symfony"
             ],
-            "time": "2013-08-05 12:49:05"
+            "time": "2013-08-08 09:54:17"
         },
         {
             "name": "beberlei/DoctrineExtensions",
@@ -1133,12 +1133,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSCommentBundle.git",
-                "reference": "54708b1981e3a11185c4b6d21133889d92c671e4"
+                "reference": "c575ba03116c026b86a668dd5ffe560a420af9fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSCommentBundle/zipball/54708b1981e3a11185c4b6d21133889d92c671e4",
-                "reference": "54708b1981e3a11185c4b6d21133889d92c671e4",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSCommentBundle/zipball/c575ba03116c026b86a668dd5ffe560a420af9fd",
+                "reference": "c575ba03116c026b86a668dd5ffe560a420af9fd",
                 "shasum": ""
             },
             "require": {
@@ -1198,7 +1198,7 @@
                 "forum",
                 "threads"
             ],
-            "time": "2013-07-29 01:10:56"
+            "time": "2013-08-09 02:33:49"
         },
         {
             "name": "friendsofsymfony/jsrouting-bundle",
@@ -1530,12 +1530,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/genemu/GenemuFormBundle.git",
-                "reference": "3c92eafeffc2f03be4137d20733d367b64023493"
+                "reference": "b97b827f83234316aada59776af7fb7693c6d7a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/genemu/GenemuFormBundle/zipball/3c92eafeffc2f03be4137d20733d367b64023493",
-                "reference": "3c92eafeffc2f03be4137d20733d367b64023493",
+                "url": "https://api.github.com/repos/genemu/GenemuFormBundle/zipball/b97b827f83234316aada59776af7fb7693c6d7a3",
+                "reference": "b97b827f83234316aada59776af7fb7693c6d7a3",
                 "shasum": ""
             },
             "require": {
@@ -1592,7 +1592,7 @@
                 "extra form",
                 "form"
             ],
-            "time": "2013-07-31 22:40:36"
+            "time": "2013-08-07 14:53:04"
         },
         {
             "name": "imagine/imagine",
@@ -3030,12 +3030,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/marcaube/ObHighchartsBundle.git",
-                "reference": "7d89837509e35887ca3832b479910b718d55c636"
+                "reference": "176171be62631ee597c8bf22000c2488b51339d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marcaube/ObHighchartsBundle/zipball/7d89837509e35887ca3832b479910b718d55c636",
-                "reference": "7d89837509e35887ca3832b479910b718d55c636",
+                "url": "https://api.github.com/repos/marcaube/ObHighchartsBundle/zipball/176171be62631ee597c8bf22000c2488b51339d4",
+                "reference": "176171be62631ee597c8bf22000c2488b51339d4",
                 "shasum": ""
             },
             "require": {
@@ -3068,7 +3068,7 @@
                 "marcaube",
                 "ob"
             ],
-            "time": "2013-07-11 17:32:48"
+            "time": "2013-08-06 18:47:32"
         },
         {
             "name": "oneup/uploader-bundle",
@@ -3077,12 +3077,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/1up-lab/OneupUploaderBundle.git",
-                "reference": "1819ca7236b823cd03fe55b383313b1aef5f37b8"
+                "reference": "156f67be4e81d80c5da18050b14bf91dfaa6c7cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/1up-lab/OneupUploaderBundle/zipball/1819ca7236b823cd03fe55b383313b1aef5f37b8",
-                "reference": "1819ca7236b823cd03fe55b383313b1aef5f37b8",
+                "url": "https://api.github.com/repos/1up-lab/OneupUploaderBundle/zipball/156f67be4e81d80c5da18050b14bf91dfaa6c7cf",
+                "reference": "156f67be4e81d80c5da18050b14bf91dfaa6c7cf",
                 "shasum": ""
             },
             "require": {
@@ -3138,7 +3138,7 @@
                 "plupload",
                 "upload"
             ],
-            "time": "2013-07-25 18:55:44"
+            "time": "2013-08-09 14:55:24"
         },
         {
             "name": "pagerfanta/pagerfanta",
@@ -3435,17 +3435,17 @@
         },
         {
             "name": "sensio/distribution-bundle",
-            "version": "v2.3.2",
+            "version": "v2.3.3",
             "target-dir": "Sensio/Bundle/DistributionBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
-                "reference": "v2.3.2"
+                "reference": "v2.3.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/v2.3.2",
-                "reference": "v2.3.2",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/v2.3.3",
+                "reference": "v2.3.3",
                 "shasum": ""
             },
             "require": {
@@ -3477,21 +3477,21 @@
                 "configuration",
                 "distribution"
             ],
-            "time": "2013-07-17 06:24:17"
+            "time": "2013-07-24 08:45:20"
         },
         {
             "name": "sensio/framework-extra-bundle",
-            "version": "v2.3.2",
+            "version": "v2.3.3",
             "target-dir": "Sensio/Bundle/FrameworkExtraBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioFrameworkExtraBundle.git",
-                "reference": "v2.3.2"
+                "reference": "v2.3.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/v2.3.2",
-                "reference": "v2.3.2",
+                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/v2.3.3",
+                "reference": "v2.3.3",
                 "shasum": ""
             },
             "require": {
@@ -3524,21 +3524,21 @@
                 "annotations",
                 "controllers"
             ],
-            "time": "2013-07-09 09:29:53"
+            "time": "2013-07-24 08:49:53"
         },
         {
             "name": "sensio/generator-bundle",
-            "version": "v2.3.2",
+            "version": "v2.3.3",
             "target-dir": "Sensio/Bundle/GeneratorBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioGeneratorBundle.git",
-                "reference": "v2.3.2"
+                "reference": "v2.3.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioGeneratorBundle/zipball/v2.3.2",
-                "reference": "v2.3.2",
+                "url": "https://api.github.com/repos/sensiolabs/SensioGeneratorBundle/zipball/v2.3.3",
+                "reference": "v2.3.3",
                 "shasum": ""
             },
             "require": {
@@ -3572,7 +3572,7 @@
                 }
             ],
             "description": "This bundle generates code for you",
-            "time": "2013-07-04 12:20:59"
+            "time": "2013-07-24 09:19:19"
         },
         {
             "name": "sonata-project/admin-bundle",
@@ -3581,17 +3581,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataAdminBundle.git",
-                "reference": "fe43e9945101d2f88a9d1e22f61972d9afea8094"
+                "reference": "d3ff4050ab7cd11ff6c7229004ca01f90c08d17e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/fe43e9945101d2f88a9d1e22f61972d9afea8094",
-                "reference": "fe43e9945101d2f88a9d1e22f61972d9afea8094",
+                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/d3ff4050ab7cd11ff6c7229004ca01f90c08d17e",
+                "reference": "d3ff4050ab7cd11ff6c7229004ca01f90c08d17e",
                 "shasum": ""
             },
             "require": {
                 "doctrine/common": "~2.2",
                 "knplabs/knp-menu-bundle": "~1.1",
+                "sensio/generator-bundle": "~2.3",
                 "sonata-project/block-bundle": "~2.2,>=2.2.1",
                 "sonata-project/exporter": "1.*",
                 "sonata-project/jquery-bundle": "1.8.*",
@@ -3647,7 +3648,7 @@
                 "bootstrap",
                 "sonata"
             ],
-            "time": "2013-08-06 10:12:08"
+            "time": "2013-08-09 15:53:42"
         },
         {
             "name": "sonata-project/block-bundle",
@@ -3834,12 +3835,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataDoctrineORMAdminBundle.git",
-                "reference": "2.2.3"
+                "reference": "db213672ced36a9d31acaab0c2e7b37deeb51319"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataDoctrineORMAdminBundle/zipball/2.2.3",
-                "reference": "2.2.3",
+                "url": "https://api.github.com/repos/sonata-project/SonataDoctrineORMAdminBundle/zipball/db213672ced36a9d31acaab0c2e7b37deeb51319",
+                "reference": "db213672ced36a9d31acaab0c2e7b37deeb51319",
                 "shasum": ""
             },
             "require": {
@@ -3882,7 +3883,7 @@
                 "generator",
                 "sonata"
             ],
-            "time": "2013-08-05 09:50:19"
+            "time": "2013-08-09 16:40:31"
         },
         {
             "name": "sonata-project/easy-extends-bundle",
@@ -4282,12 +4283,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataMediaBundle.git",
-                "reference": "5512dd1ff6428f164cf60d0bc65724ffea67b672"
+                "reference": "ed3041103b2b8902c1a3ad58a719f83f44d048b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataMediaBundle/zipball/5512dd1ff6428f164cf60d0bc65724ffea67b672",
-                "reference": "5512dd1ff6428f164cf60d0bc65724ffea67b672",
+                "url": "https://api.github.com/repos/sonata-project/SonataMediaBundle/zipball/ed3041103b2b8902c1a3ad58a719f83f44d048b0",
+                "reference": "ed3041103b2b8902c1a3ad58a719f83f44d048b0",
                 "shasum": ""
             },
             "require": {
@@ -4334,7 +4335,7 @@
                 },
                 {
                     "name": "Sonata Community",
-                    "homepage": "https://github.com/sonata-project/EoMediaBundle/contributors"
+                    "homepage": "https://github.com/sonata-project/SonataMediaBundle/contributors"
                 }
             ],
             "description": "Symfony SonataMediaBundle",
@@ -4349,7 +4350,7 @@
                 "vimeo",
                 "youtube"
             ],
-            "time": "2013-08-03 09:59:46"
+            "time": "2013-08-09 14:37:14"
         },
         {
             "name": "sonata-project/news-bundle",
@@ -4358,22 +4359,22 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataNewsBundle.git",
-                "reference": "f0f8b4d60fef7193e758391f01769899726783c9"
+                "reference": "2.3.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataNewsBundle/zipball/f0f8b4d60fef7193e758391f01769899726783c9",
-                "reference": "f0f8b4d60fef7193e758391f01769899726783c9",
+                "url": "https://api.github.com/repos/sonata-project/SonataNewsBundle/zipball/2.3.1",
+                "reference": "2.3.1",
                 "shasum": ""
             },
             "require": {
                 "sonata-project/admin-bundle": "2.2.*@dev",
-                "sonata-project/easy-extends-bundle": "2.1.*",
-                "sonata-project/formatter-bundle": "2.3.*@dev",
-                "sonata-project/intl-bundle": "2.2.*@dev",
+                "sonata-project/easy-extends-bundle": "~2.1",
+                "sonata-project/formatter-bundle": "~2.3",
+                "sonata-project/intl-bundle": "~2.1.",
                 "sonata-project/media-bundle": "2.2.*@dev",
                 "sonata-project/user-bundle": "2.2.*@dev",
-                "symfony/symfony": ">=2.3,<2.4-dev"
+                "symfony/symfony": "~2.3"
             },
             "require-dev": {
                 "doctrine/orm": "*",
@@ -4383,7 +4384,7 @@
             },
             "suggest": {
                 "sonata-project/doctrine-orm-admin-bundle": "2.2.*@dev",
-                "sonata-project/notification-bundle": "2.*"
+                "sonata-project/notification-bundle": "~2.*"
             },
             "type": "symfony-bundle",
             "extra": {
@@ -4419,7 +4420,7 @@
                 "post",
                 "sonata"
             ],
-            "time": "2013-07-27 22:05:28"
+            "time": "2013-08-07 14:15:52"
         },
         {
             "name": "sonata-project/notification-bundle",
@@ -4428,12 +4429,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataNotificationBundle.git",
-                "reference": "0914c60b96035ff9feb72edd623bdc0ef0c4bab4"
+                "reference": "27616d26ccf5bdf5f61ef512cd24e7bd7a998c90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataNotificationBundle/zipball/0914c60b96035ff9feb72edd623bdc0ef0c4bab4",
-                "reference": "0914c60b96035ff9feb72edd623bdc0ef0c4bab4",
+                "url": "https://api.github.com/repos/sonata-project/SonataNotificationBundle/zipball/27616d26ccf5bdf5f61ef512cd24e7bd7a998c90",
+                "reference": "27616d26ccf5bdf5f61ef512cd24e7bd7a998c90",
                 "shasum": ""
             },
             "require": {
@@ -4486,7 +4487,7 @@
                 "page",
                 "sonata"
             ],
-            "time": "2013-08-05 10:34:26"
+            "time": "2013-08-08 16:36:32"
         },
         {
             "name": "sonata-project/user-bundle",
@@ -4894,17 +4895,17 @@
         },
         {
             "name": "symfony/swiftmailer-bundle",
-            "version": "v2.3.2",
+            "version": "v2.3.3",
             "target-dir": "Symfony/Bundle/SwiftmailerBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/SwiftmailerBundle.git",
-                "reference": "v2.3.2"
+                "reference": "v2.3.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/SwiftmailerBundle/zipball/v2.3.2",
-                "reference": "v2.3.2",
+                "url": "https://api.github.com/repos/symfony/SwiftmailerBundle/zipball/v2.3.3",
+                "reference": "v2.3.3",
                 "shasum": ""
             },
             "require": {
@@ -4945,20 +4946,20 @@
             ],
             "description": "Symfony SwiftmailerBundle",
             "homepage": "http://symfony.com",
-            "time": "2013-05-15 08:38:58"
+            "time": "2013-08-05 08:18:16"
         },
         {
             "name": "symfony/symfony",
-            "version": "v2.3.2",
+            "version": "v2.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "v2.3.2"
+                "reference": "v2.3.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/v2.3.2",
-                "reference": "v2.3.2",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/v2.3.3",
+                "reference": "v2.3.3",
                 "shasum": ""
             },
             "require": {
@@ -5053,7 +5054,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2013-07-17 06:22:21"
+            "time": "2013-08-07 17:11:16"
         },
         {
             "name": "twig/extensions",
@@ -5185,12 +5186,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dustin10/VichUploaderBundle.git",
-                "reference": "813e3919be1e985b15db1e591b67a9e4665ba2e8"
+                "reference": "16d63218fe9efc39c807a6a1516714c541295a39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dustin10/VichUploaderBundle/zipball/813e3919be1e985b15db1e591b67a9e4665ba2e8",
-                "reference": "813e3919be1e985b15db1e591b67a9e4665ba2e8",
+                "url": "https://api.github.com/repos/dustin10/VichUploaderBundle/zipball/16d63218fe9efc39c807a6a1516714c541295a39",
+                "reference": "16d63218fe9efc39c807a6a1516714c541295a39",
                 "shasum": ""
             },
             "require": {
@@ -5234,7 +5235,7 @@
                 "file uploads",
                 "upload"
             ],
-            "time": "2013-06-14 23:41:58"
+            "time": "2013-08-07 16:13:51"
         },
         {
             "name": "white-october/pagerfanta-bundle",
@@ -5287,16 +5288,16 @@
         },
         {
             "name": "willdurand/geocoder",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/willdurand/Geocoder.git",
-                "reference": "2.0.0"
+                "reference": "2.0.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/willdurand/Geocoder/zipball/2.0.0",
-                "reference": "2.0.0",
+                "url": "https://api.github.com/repos/willdurand/Geocoder/zipball/2.0.1",
+                "reference": "2.0.1",
                 "shasum": ""
             },
             "require": {
@@ -5306,7 +5307,7 @@
                 "geoip/geoip": "~1.13",
                 "guzzle/guzzle": "@stable",
                 "kriswallsmith/buzz": "@stable",
-                "zendframework/zendframework": "~2.1"
+                "zendframework/zend-http": "~2.1"
             },
             "suggest": {
                 "ext-curl": "Enabling the curl extension allows you to use the CurlHttpAdapter.",
@@ -5346,7 +5347,7 @@
                 "geocoding",
                 "geoip"
             ],
-            "time": "2013-07-08 21:13:51"
+            "time": "2013-08-08 11:50:49"
         },
         {
             "name": "yohang/calendr",

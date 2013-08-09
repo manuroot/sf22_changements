@@ -52,6 +52,18 @@
             <td class="title" class="title">Nom</td>
             <td>{{ entity.nom }}</td>
         </tr>
+         <tr>
+            <td class="title">Date Demande</td>
+             <td>
+            {% if entity.dateDemande is not null %}
+               {{ entity.dateDemande|date('Y-m-d') }}
+                    {% else %}
+                    --
+            {% endif %}
+            </td>
+           
+        </tr>
+        
         <tr>
                 <td class="viewlabel">Type</td>
                 <td>{{ entity.idKind }}</td>

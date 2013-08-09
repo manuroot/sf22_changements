@@ -1,0 +1,30 @@
+
+{# Labels #}
+
+{#
+{% block form_label %}
+    {{ parent() }}
+
+    {% if required %}
+        <span class="required" title="This field is required">*</span>
+    {% endif %}
+{% endblock %}
+      #}  
+        
+{% block form_label %}
+{% spaceless %}
+    {% if label is not sameas(false) %}
+      
+        {% if required %}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+    <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }} *</label>
+
+            {% else %}
+  {% set label_attr = label_attr ~ ' required' %}
+    <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}</label>
+        {% endif %}
+    
+    
+    {% endif %}
+{% endspaceless %}
+{% endblock form_label %}

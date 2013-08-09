@@ -446,17 +446,24 @@ class ChangementsController extends Controller {
     public function calendarAction(Request $request) {
   
         $em = $this->getDoctrine()->getManager();
+        $parameters=array();
         $session = $this->getRequest()->getSession();
         $session->set('buttonretour', 'changements_calendar');
         $datas_session = $session->get('calendar_dates');
         $form = $this->createForm(new CalendarType($em));
         if ($request->getMethod() == 'POST') {
             $dataform = $request->get('changements_calendar_form');
+            $parameters=$dataform;
             // print_r($dataform);exit(1);
             $session->set('calendar_dates', $dataform);
             $current_year = $dataform['publishedAt']['year'];
             $current_month = $dataform['publishedAt']['month'];
             $form->bind($dataform);
+            
+            
+         
+            
+            
         } elseif (isset($datas_session)) {
             // echo "data set<br>";
             // exit(1);
@@ -483,7 +490,7 @@ class ChangementsController extends Controller {
         }
 
         $month = $this->get('calendr')->getMonth($current_year, $current_month);
-        $eventCollection = $this->get('calendr')->getEvents($month);
+        $eventCollection = $this->get('calendr')->getEvents($month,$parameters);
         return $this->render('ApplicationChangementsBundle:Changements:calendar.html.twig', array(
                     'month' => $month,
                     'evenement' => $eventCollection,

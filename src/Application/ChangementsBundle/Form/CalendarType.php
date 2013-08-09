@@ -58,6 +58,15 @@ $builder
        'mapped'=>false
                   
                         ))
+        ->add('idStatus', 'filter_entity', array(
+                    'label' => 'Status',
+                    'class' => 'Application\ChangementsBundle\Entity\ChangementsStatus',
+                    'property' => 'nom',
+                    'expanded' => false,
+                    'multiple' => false,
+                    'required' => false,
+                     'empty_value' => '--- Choisir une option ---', 
+                ))
             ;
          
     }

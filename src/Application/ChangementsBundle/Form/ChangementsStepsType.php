@@ -42,6 +42,7 @@ class ChangementsStepsType extends AbstractType {
                   'icon' => 'pencil',
                   'type' => 'prepend'
                   ),
+                         'label'=> "Nom",
             'class' => 'Application\ChangementsBundle\Entity\Changements',
             'property' => 'nom',
                          'empty_data'=>false,
@@ -135,6 +136,7 @@ class ChangementsStepsType extends AbstractType {
                         'icon' => 'time',
                         'type' => 'prepend'
                     ),
+                         'required'=>false,
                 ))
                     
                     ->add('idKind', 'entity', array(
@@ -189,6 +191,7 @@ class ChangementsStepsType extends AbstractType {
             'class' => 'tinymce',
             'data-theme' => 'advanced' // simple, advanced, bbcode
         ),
+                         'required' => false,
                      
     ))
                    /*  ->add('description', 'textarea')*/

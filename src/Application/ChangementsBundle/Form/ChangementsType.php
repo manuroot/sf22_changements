@@ -111,6 +111,7 @@ $builder
                         'icon' => 'time',
                         'type' => 'prepend'
                     ),
+                    'required' => false,
                 ))
                 ->add('dateComep', 'date', array(
                     'label' => 'Date Comep',
@@ -135,7 +136,8 @@ $builder
         'attr' => array(
             'class' => 'tinymce',
             'data-theme' => 'advanced' // simple, advanced, bbcode
-        )
+        ),
+              'required' => false,
     ))
        //  ->add('description', 'textarea')
               /*  ->add('description', 'textarea', array(

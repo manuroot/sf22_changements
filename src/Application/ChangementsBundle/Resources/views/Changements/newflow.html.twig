@@ -1,7 +1,7 @@
 {% extends "ApplicationChangementsBundle::layout.html.twig" %}
 
 
-{% form_theme form with 'ApplicationCertificatsBundle:Form:tpl_searchform.html.twig' %}
+{% form_theme form with 'ApplicationChangementsBundle:Form:tpl_searchform.html.twig' %}
 
 
 {% block stylesheets %}
@@ -41,7 +41,8 @@
         select#changements_idapplis,select#changements_idusers {
         height:150px;
         }
-     .table-mybordered  {background-color:whitesmoke;width:95%;}
+     .table-mybordered  {background-color:whitesmoke;width:95%;padding:5px;}
+     .table-mybordered td {padding:15px;}
       /*  .boxlist {
             border: 1px solid #D4E0EE;
             background-color: #f1f1f1;

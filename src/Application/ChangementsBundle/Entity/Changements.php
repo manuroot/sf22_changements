@@ -67,6 +67,13 @@ class Changements extends AbstractEvent {
      */
     private $nom;
 
+     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_demande", type="date", nullable=false)
+     */
+    private $dateDemande;
+    
     /**
      * @var \DateTime
      *
@@ -78,7 +85,7 @@ class Changements extends AbstractEvent {
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_fin", type="datetime", nullable=false)
+     * @ORM\Column(name="date_fin", type="datetime", nullable=true)
      * @GRID\Column(title="Fin", size="30",format="Y-m-d",type="datetime")
      * 
      */
@@ -260,7 +267,7 @@ class Changements extends AbstractEvent {
      */
     private $astreinte;
     
-    
+      
 //protected $avatar;
 
 
@@ -486,6 +493,8 @@ class Changements extends AbstractEvent {
         $this->idapplis = new ArrayCollection();
         $this->picture = new ArrayCollection();
         $this->idEnvironnement = new ArrayCollection();
+        
+      $this->dateDemande = new \DateTime('now');
          $this->astreinte = false;
         //   $this->idapplis = new \Doctrine\Common\Collections\ArrayCollection();
         /*         $this->uid = $uid;
@@ -679,6 +688,9 @@ class Changements extends AbstractEvent {
     }
 
     public function getEnd() {
+        if (!isset($this->dateFin))
+              return $this->dateDebut;
+            else
         return $this->dateFin;
     }
 
@@ -799,5 +811,28 @@ class Changements extends AbstractEvent {
     public function getIdKind()
     {
         return $this->idKind;
+    }
+
+    /**
+     * Set dateDemande
+     *
+     * @param \DateTime $dateDemande
+     * @return Changements
+     */
+    public function setDateDemande($dateDemande)
+    {
+        $this->dateDemande = $dateDemande;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateDemande
+     *
+     * @return \DateTime 
+     */
+    public function getDateDemande()
+    {
+        return $this->dateDemande;
     }
 }
