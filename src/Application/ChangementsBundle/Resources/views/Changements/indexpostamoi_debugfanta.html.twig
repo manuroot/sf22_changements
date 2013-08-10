@@ -36,8 +36,8 @@
         th.sorted{color: rgb(0, 136, 204);
     text-decoration: none;}
 .ui-autocomplete { max-height: 200px; overflow-y: scroll; overflow-x: hidden;}
-            .table {
-                font-size: 11px;
+          td{
+                font-size: 12px;
                 /* border-collapse: separate;*/
                 /*  font-family: 'Times New Roman',Times,serif;*/
             }
@@ -163,7 +163,14 @@
                            
                             <td>{{ entity.idProjet.nomprojet }}</td>
                             <td>{{ entity.demandeur.nomUser }}</td>
-                            <td>{{ entity.picture|length }}</td>
+                            <td>
+                                {% if entity.picture|length > 0  %}
+                                     <img src="{{ asset('bundles/applicationchangements/images/wordx.gif') }}" alt="show" width="12px" height="12px"/>
+                                    {% else %}
+                                      -
+                                      {% endif %}
+                                   {# {{ entity.picture|length }}#}
+                                </td>
                             <td>{{ entity.comments|length }}</td>
                             <td>
                                   {{ entity.idusers|join(', ') }}   

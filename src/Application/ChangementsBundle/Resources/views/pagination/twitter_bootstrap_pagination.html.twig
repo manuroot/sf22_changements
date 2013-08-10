@@ -19,8 +19,8 @@
 
 {% if pageCount > 1 %}
 <div class="pagination" align="center">
-    <ul>
-
+   {# <ul>#}
+<ul class="pagination">
     {% if previous is defined %}
         <li>
             <a href="{{ path(route, query|merge({(pageParameterName): previous})) }}">&laquo;&nbsp;Previous</a>

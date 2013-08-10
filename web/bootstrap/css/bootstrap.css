@@ -1,12 +1,12 @@
 /*!
- * Bootstrap v2.2.2
- *
- * Copyright 2012 Twitter, Inc
- * Licensed under the Apache License v2.0
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Designed and built with all the love in the world @twitter by @mdo and @fat.
- */
+* Bootstrap v2.2.2
+*
+* Copyright 2012 Twitter, Inc
+* Licensed under the Apache License v2.0
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Designed and built with all the love in the world @twitter by @mdo and @fat.
+*/
 
 
 
@@ -176,7 +176,7 @@ textarea {
   img {
     max-width: 100% !important;
   }
-  @page  {
+  @page {
     margin: 0.5cm;
   }
   p,
@@ -2221,14 +2221,14 @@ table th[class*="span"],
 
 .table-striped tbody > tr.myclosed:nth-child(odd) > td,
 .table-striped tbody > tr.myclosed:nth-child(odd) > th {
-/*  background-color: #f9f9f9;
+/* background-color: #f9f9f9;
 background-color: #f6f6f6;*/
 background-color: #f0f0f0;
 }
 
 .table-striped tbody > tr:nth-child(odd) > td,
 .table-striped tbody > tr:nth-child(odd) > th {
-/*  background-color: #f9f9f9;
+/* background-color: #f9f9f9;
 background-color: #f6f6f6;*/
 background-color: #e6e6e6;
 
@@ -2284,9 +2284,9 @@ tr.success_search{
 }
 /*
 .tableasearch {
-    -moz-border-radius: 10px;
+-moz-border-radius: 10px;
 -webkit-border-radius: 10px;
-border-radius: 10px; 
+border-radius: 10px;
 }*/
 .tablesearch{
     border:5px;
@@ -2303,11 +2303,10 @@ border-radius: 10px;
 /*
 
 .table tbody tr.success td {
-  
-   background-color: #c7fec5;
+background-color: #c7fec5;
 }
 .tablesearch tbody tr.success_search{
-    background-color: whitesmoke;
+background-color: whitesmoke;
 }*/
 
 
@@ -2346,7 +2345,7 @@ border-radius: 10px;
 }
 
 .icon-glass {
-  background-position: 0      0;
+  background-position: 0 0;
 }
 
 .icon-music {
@@ -6110,7 +6109,7 @@ a.badge:hover {
 
 /*
 .table tbody tr.normal > td {
-  background-color: whitesmoke;
+background-color: whitesmoke;
 }*/
 
 .tablesearch {

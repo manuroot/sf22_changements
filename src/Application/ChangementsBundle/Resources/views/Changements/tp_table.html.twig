@@ -63,7 +63,14 @@
                             </td>
                             <td>{{ entity.idProjet.nomprojet }}</td>
                             <td>{{ entity.demandeur.nomUser }}</td>
-                            <td>{{ entity.picture|length }}</td>
+                            <td>
+                                {% if entity.picture|length > 0  %}
+                                     <img src="{{ asset('bundles/applicationchangements/images/wordx.gif') }}" alt="show" width="12px" height="12px"/>
+                                    {% else %}
+                                      -
+                                      {% endif %}
+                                   {# {{ entity.picture|length }}#}
+                                </td>
                             <td>{{ entity.comments|length }}</td>
                             <td>
                                 {{ entity.idusers|join(', ') }}   

@@ -1363,6 +1363,100 @@ table th[class^="col-"] {
   border-color: #f8e5be;
 }
 
+
+/*ADDDDDDDDD*/
+
+
+.table-striped tbody > tr.myclosed:nth-child(odd) > td,
+.table-striped tbody > tr.myclosed:nth-child(odd) > th {
+/*  background-color: #f9f9f9;
+background-color: #f6f6f6;*/
+background-color: #f0f0f0;
+}
+
+.table-striped tbody > tr:nth-child(odd) > td,
+.table-striped tbody > tr:nth-child(odd) > th {
+/*  background-color: #f9f9f9;
+background-color: #f6f6f6;*/
+background-color: #e6e6e6;
+
+
+}
+tr.success_search{
+    background-color: whitesmoke;
+}
+.table tbody tr.closed td, .table tbody tr.myclosed td,.table tbody tr td {
+  background-color: white;
+}
+
+.table tbody tr.success td {
+  background-color: #dff0d8;
+}
+.table tbody tr.prepare td {
+  background-color: #EDF3FE;
+}
+.table-hover tbody tr.prepare:hover td {
+  background-color: #7ba8bb;
+}
+.table tbody tr.error td {
+  background-color: #f2dede;
+}
+
+.table tbody tr.warning td {
+  background-color: #fcf8e3;
+}
+
+.table tbody tr.info td {
+  background-color: #d9edf7;
+}
+
+.table-hover tbody tr.success:hover td {
+  background-color: #d0e9c6;
+}
+.table-hover tbody tr.closed:hover td {
+  background-color: #fe7070;
+}
+.table-hover tbody tr.myclosed:hover td {
+  background-color: #fe7070;
+}
+.table-hover tbody tr.error:hover td {
+  background-color: #ebcccc;
+}
+
+.table-hover tbody tr.warning:hover td {
+  background-color: #faf2cc;
+}
+
+.table-hover tbody tr.info:hover td {
+  background-color: #c4e3f3;
+}
+/*
+.tableasearch {
+    -moz-border-radius: 10px;
+-webkit-border-radius: 10px;
+border-radius: 10px; 
+}*/
+.tablesearch{
+    border:5px;
+    border-color: red;
+}
+
+.tablesearch tbody tr td, .tablesearch tbody tr.success_search {
+    background-color: #dcdcdc;
+    
+       /*background-color: whitesmoke;*/
+}
+
+
+/*
+
+.table tbody tr.success td {
+  
+   background-color: #c7fec5;
+}
+.tablesearch tbody tr.success_search{
+    background-color: whitesmoke;
+}*/
 fieldset {
   padding: 0;
   margin: 0;
