@@ -31,6 +31,7 @@ use Application\CentralBundle\Model\MesFiltresBundle;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /* use Pagerfanta\Pagerfanta;
   use Pagerfanta\Adapter\DoctrineORMAdapter;
@@ -1166,8 +1167,7 @@ class ChangementsController extends Controller {
         //$nbResults=0;
         $session->set('buttonretour', 'changements_fanta');
         $searchForm = $this->createForm(new ChangementsFilterAmoiType($em));
-
-
+  
         //-----------------------------------------
         // On efface les sessions
         //------------------------------------------
@@ -1235,21 +1235,11 @@ class ChangementsController extends Controller {
             $session->getFlashBag()->add('warning', "Page $page n'exite pas: goto Page1");
             $page = 1;
         }
-        //  print_r($page);exit(1);
-
-        /* $pagerfanta->setCurrentPage($page);
-          $q = $pagerfanta->getCurrentPageResults();
-          if (count($q) == 0){
-          $pagerfanta->setCurrentPage($page);
-          $q = $pagerfanta->getCurrentPageResults();
-
-          }
-         */
-        //print_r($q);exit(1);
-
+      
         try {
             $pagerfanta->setCurrentPage($page);
-            $nbResults = $pagerfanta->getNbResults();
+            //$nbResults = $pagerfanta->getNbResults();
+            $nbResults=317;
             $q = $pagerfanta->getCurrentPageResults();
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();

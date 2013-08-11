@@ -219,7 +219,7 @@
                                             <a href="{{ path('changements_posttest') }}" class="btn btn-large btn-success">Retour</a>
                                             </form>
 
-
+{% if is_granted('ROLE_SUPER_ADMIN')  %}
                                             <form action="{{ path('changements_delete', { 'id': entity.id }) }}" method="post">
                                      {{ form_errors(delete_form) }}
                                      {{ form_row(delete_form.id) }}
@@ -227,9 +227,10 @@
                                                     <div style="text-align:right">
                                                         <button type="submit" class="btn btn-medium btn-danger" onclick="if (!confirm('Are you sure?')) {
                return false;
-           }">Supprimer Projet</button>
+           }">Supprimer Opération</button>
                                                     </div>
                                                 </form>
+{% endif %}
                                             </td>
                                         </tr>
                                         </tbody>
