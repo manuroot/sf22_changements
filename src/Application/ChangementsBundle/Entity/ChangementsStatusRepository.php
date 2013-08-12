@@ -4,7 +4,6 @@ namespace Application\ChangementsBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 
-
 //use CalendR\Extension\Doctrine2\EventRepository as EventRepositoryTrait;
 /**
  * NotesRepository
@@ -14,6 +13,19 @@ use Doctrine\ORM\EntityRepository;
  */
 class ChangementsStatusRepository extends EntityRepository {
 
-    
+    public function GetNomStatus() {
+
+        $result = array();
+        $query = $this->createQueryBuilder('a')
+                ->select('partial a.{id,nom}');
+        $arr = $query->getQuery()->getArrayResult();
+        foreach ($arr as $k => $v) {
+            array_push($result, $v['nom']);
+        }
+
+        ///  print_r($result);exit(1);
+        return $result;
+    }
+
 }
 

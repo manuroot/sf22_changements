@@ -14,6 +14,7 @@ use Application\ChangementsBundle\Form\CalendarType;
 use Application\ChangementsBundle\Form\ChangementsFilterType;
 use Application\ChangementsBundle\Form\ChangementsFilterAmoiType;
 use Application\ChangementsBundle\Entity\GridExport;
+
 use APY\DataGridBundle\Grid\Source\Entity;
 use APY\DataGridBundle\Grid\Grid;
 use APY\DataGridBundle\Grid\Column\ActionsColumn;
@@ -22,12 +23,14 @@ use APY\DataGridBundle\Grid\Action\DeleteMassAction;
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Column\TextColumn;
 use APY\DataGridBundle\Grid\Column\DateColumn;
+use APY\DataGridBundle\Grid\Export\CSVExport;
 use APY\DataGridBundle\Grid\Export\ExcelExport;
+
 use Ob\HighchartsBundle\Highcharts\Highchart;
 use Doctrine\ORM\Tools\Pagination\CountOutputWalker;
 use Application\ChangementsBundle\Entity\ChangementsStatus;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Application\CentralBundle\Model\MesFiltresBundle;
+//use Application\CentralBundle\Model\MesFiltresBundle;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
@@ -234,40 +237,39 @@ class ChangementsController extends Controller {
         $session = $this->getRequest()->getSession();
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
-        $myears = $em->getRepository('ApplicationChangementsBundle:Changements')-> GetYears();
-        $datas=array();
-       // $myears = range(Date('Y') - 5, Date('Y') + 5);
+        $myears = $em->getRepository('ApplicationChangementsBundle:Changements')->GetYears();
+        $datas = array();
+        // $myears = range(Date('Y') - 5, Date('Y') + 5);
         $current_date = new \DateTime();
         //$datas_session = $session->get('form_charts');
         $form = $this->smallCalendarForm($myears);
         if ($request->getMethod() == 'POST') {
             $dataform = $request->get('form');
-          //   print_r($dataform);exit(1);
+            //   print_r($dataform);exit(1);
             $session->set('form_charts', $myears[$dataform['year']]);
             $year = $myears[$dataform['year']];
             $form->bind($dataform);
         }
         // pas de post
         else {
-          
-           $current_date = new \DateTime();
-           $current_year = $current_date->format('Y');
-           if (count($myears) > 0){
-               $key = array_search($current_year, $myears);
-               if ($key){
-                 /*  echo "key=$key<br>";
-                   exit(1);*/
-                    $form->bind(array('year' => $key)); 
+
+            $current_date = new \DateTime();
+            $current_year = $current_date->format('Y');
+            if (count($myears) > 0) {
+                $key = array_search($current_year, $myears);
+                if ($key) {
+                    /*  echo "key=$key<br>";
+                      exit(1); */
+                    $form->bind(array('year' => $key));
                     //$form->bind(array('year'=> array_keys ($myears, $current_year)));
-                $year = $current_year;
-           }
-           else{   $year = $myears[0];
-           }    
+                    $year = $current_year;
+                } else {
+                    $year = $myears[0];
+                }
+            }
         }
-        }
-           
-           // $form->bind($datas);
-      
+
+        // $form->bind($datas);
         // echo "year=$year<br>";
         // exit(1);
         $titre = "Demandes " . $year;
@@ -445,26 +447,21 @@ class ChangementsController extends Controller {
     }
 
     public function calendarAction(Request $request) {
-  
+
         $em = $this->getDoctrine()->getManager();
-        $parameters=array();
+        $parameters = array();
         $session = $this->getRequest()->getSession();
         $session->set('buttonretour', 'changements_calendar');
         $datas_session = $session->get('calendar_dates');
         $form = $this->createForm(new CalendarType($em));
         if ($request->getMethod() == 'POST') {
             $dataform = $request->get('changements_calendar_form');
-            $parameters=$dataform;
+            $parameters = $dataform;
             // print_r($dataform);exit(1);
             $session->set('calendar_dates', $dataform);
             $current_year = $dataform['publishedAt']['year'];
             $current_month = $dataform['publishedAt']['month'];
             $form->bind($dataform);
-            
-            
-         
-            
-            
         } elseif (isset($datas_session)) {
             // echo "data set<br>";
             // exit(1);
@@ -491,7 +488,7 @@ class ChangementsController extends Controller {
         }
 
         $month = $this->get('calendr')->getMonth($current_year, $current_month);
-        $eventCollection = $this->get('calendr')->getEvents($month,$parameters);
+        $eventCollection = $this->get('calendr')->getEvents($month, $parameters);
         return $this->render('ApplicationChangementsBundle:Changements:calendar.html.twig', array(
                     'month' => $month,
                     'evenement' => $eventCollection,
@@ -519,10 +516,10 @@ class ChangementsController extends Controller {
                     // $past = date('Y-m-d');
                     // $next = date('Y-m-d', strtotime('+5days'));
                     $currenta = $row->getField('idStatus.nom');
-                    if ($currenta == 'en cours') {
+                    if ($currenta == 'open') {
                         $row->setColor('#dff0d8;');
                     } elseif ($currenta == 'en preparation') {
-                        $row->setColor('#fcf8e3');
+                        $row->setColor('#EDF3FE');
                     }
 
 
@@ -534,6 +531,9 @@ class ChangementsController extends Controller {
         $grid->setSource($source);
 
         $grid->setId('changementsgrid');
+        $grid->addExport(new CSVExport('CSV Export','Operations',array('delimiter' => ';'), 'Windows-1252'));
+        $grid->addExport(new ExcelExport('Excel Export','Operations',array('delimiter' => ';'), 'Windows-1252'));
+    
         $grid->setPersistence(false);
         $grid->setDefaultOrder('id', 'desc');
         // Set the selector of the number of items per page
@@ -835,22 +835,19 @@ class ChangementsController extends Controller {
         ));
     }
 
-   
+    private function smallCalendarForm($myears = null) {
 
-    private function smallCalendarForm($myears=null) {
-
-        if (!isset($myears)){
-           $current_date = new \DateTime();
-           $myears = $current_date->format('Y');
-      
+        if (!isset($myears)) {
+            $current_date = new \DateTime();
+            $myears = $current_date->format('Y');
         }
-          return $this->createFormBuilder()
+        return $this->createFormBuilder()
                         ->add('year', 'choice', array(
-                            'label'=>false,
+                            'label' => false,
                             'choices' => $myears,
-                           // 'data' => 2013,
+                                // 'data' => 2013,
                         ))
-                      //  ->add('Valider', 'submit')
+                        //  ->add('Valider', 'submit')
                         ->getForm();
     }
 
@@ -1161,38 +1158,52 @@ class ChangementsController extends Controller {
 
         $parameters = array();
         $em = $this->getDoctrine()->getManager();
+        /*
+        $query_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->GetNomStatus();
+        print_r($query_status);
+        exit(1);
+        */
+
         $request = $this->getRequest();
         $session = $request->getSession();
-        //$nb_pages=0;
-        //$nbResults=0;
         $session->set('buttonretour', 'changements_fanta');
         $searchForm = $this->createForm(new ChangementsFilterAmoiType($em));
-  
+
         //-----------------------------------------
-        // On efface les sessions
+        // On efface les sessions si post 
         //------------------------------------------
-        if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
+        if ($request->getMethod() == 'POST') {
+            $session->remove('chgmtsfanta_page');
+            $session->remove('chgmtsfanta_sort');
+            $session->remove('chgmtsfanta_dir');
             $session->remove('changementControllerFilternew');
-            $session->remove('chgmtsfanta_page');
-            $session->remove('chgmtsfanta_sort');
-            $session->remove('chgmtsfanta_dir');
-            $page = 1;
-            $dir = 'DESC';
-            $sort = 'a.id';
-        }
-        //-----------------------------------------
-        // On recupere les vars de post ==> session filter
-        //------------------------------------------
-        elseif ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
-            $session->remove('chgmtsfanta_page');
-            $session->remove('chgmtsfanta_sort');
-            $session->remove('chgmtsfanta_dir');
-            $alldatas = $request->request->all();
-            $datas = $alldatas["changements_searchfilter"];
-            $parameters = $datas;
-            $session->set('changementControllerFilternew', $datas);
-            
-            $searchForm->bind($datas);
+            if ($request->get('submit-filter') == "reset") {
+                $session->getFlashBag()->add('warning', "Filtres de recherche reinitialisée");
+            }
+            //-----------------------------------------
+            // On recupere les vars de post ==> session filter
+            //------------------------------------------
+            elseif ($request->get('submit-filter') == "filter") {
+                $session->remove('changementControllerFilternew');
+                $alldatas = $request->request->all();
+                $datas = $alldatas["changements_searchfilter"];
+                //print_r($datas);exit(1);
+                $parameters = $datas;
+                $session->set('changementControllerFilternew', $datas);
+                $searchForm->bind($datas);
+            }
+            //-----------------------------------------
+            // On recupere les vars de post ==> session filter
+            //------------------------------------------
+            /* elseif ($request->get('submit-open') == "open") {
+              $alldatas = $request->request->all();
+              $datas = $alldatas["changements_searchfilter"];
+              $parameters = $datas;
+              $session->set('changementControllerFilternew', $datas);
+
+              $searchForm->bind($datas);
+
+              } */
             $page = 1;
             $dir = 'DESC';
             $sort = 'a.id';
@@ -1235,11 +1246,11 @@ class ChangementsController extends Controller {
             $session->getFlashBag()->add('warning', "Page $page n'exite pas: goto Page1");
             $page = 1;
         }
-      
+
         try {
             $pagerfanta->setCurrentPage($page);
             $nbResults = $pagerfanta->getNbResults();
-           // $nbResults=317;
+            // $nbResults=317;
             $q = $pagerfanta->getCurrentPageResults();
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();

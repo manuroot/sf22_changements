@@ -23,12 +23,13 @@ use CalendR\Event\AbstractEvent;
  * @ORM\Table(name="changements_main")
  * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="Application\ChangementsBundle\Entity\ChangementsRepository")
- * @GRID\Source(columns="id,nom,ticketExt,ticketInt,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUseridStatus.nom,idEnvironnement.nom:GroupConcat",groupBy={"id"})
+ * @GRID\Source(columns="id,nom,ticketExt,ticketInt,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUseridStatus.nom,idStatus.nom,idEnvironnement.nom")
  * @Vich\Uploadable
  */
 //* @GRID\Source(columns="id,nom,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUser,idusers.nomUser:GroupConcat,idEnvironnement.nom:GroupConcat",groupBy={"id"})
 // @GRID\Source(columns="id,nom,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUser,idEnvironnement.nom:concat_ws",groupBy={"id"})
 // @GRID\Source(columns="id,nom,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUser,idusers.nomUser:GroupConcat,idEnvironnement.nom:GroupConcat",groupBy={"id"})
+ //* @GRID\Source(columns="id,nom,ticketExt,ticketInt,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUseridStatus.nom,idStatus.nom,idEnvironnement.nom:GroupConcat",groupBy={"id"})
 
 class Changements extends AbstractEvent {
 
@@ -158,11 +159,12 @@ class Changements extends AbstractEvent {
      * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\Environnements",inversedBy="idchangements",cascade={"persist"})
      * @ORM\OrderBy({"nom" = "ASC"})
      * @ORM\JoinTable(name="changements_environnements")
-     * @GRID\Column(field="idEnvironnement.nom:GroupConcat", filterable=true,size="100",title="Env", filter="select",selectFrom="query")
+     * @GRID\Column(field="idEnvironnement.nom", filterable=true,size="100",title="Env", filter="select",selectFrom="query")
      */
     private $idEnvironnement;
     
     //values={"type1"="Production"})
+    //* @GRID\Column(field="idEnvironnement.nom:GroupConcat", filterable=true,size="100",title="Env", filter="select",selectFrom="query")
     // * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\Environnements",inversedBy="idchangements",cascade={"persist"})
     //* @GRID\Column(type="extended_text", field="idEnvironnement.nom:AtGroupConcat", title="Categories", filter="select", selectMulti="true", selectFrom="values")
     //  * @GRID\Column(type="extended_text", field="idEnvironnement.nom:AtGroupConcat", filterable=true,size="20",title="Env", filter="select",selectMulti="false",selectFrom="values")
