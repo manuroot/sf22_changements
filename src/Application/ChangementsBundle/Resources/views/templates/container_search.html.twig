@@ -1,12 +1,12 @@
-  <div id="ShowHideContainer">
+<div id="ShowHideContainer">
 
-            <form id="target" class="form-horizontal" action="{{ path(form_path) }}" method="POST" {{ form_enctype(search_form) }}>
-                <a id="ShowHideButton">
-                    <button id="show" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
-                        <i class="icon-search"></i>  Afficher Filtres</button>
-                </a>
-                <button type="submit" id="reset" name="submit-filter" class="btn btn-medium btn-warning" value="reset" >
-                    <i class="icon-minus-sign"></i> Effacer Filtres</button>
+    <form id="target" class="form-horizontal" action="{{ path(form_path) }}" method="POST" {{ form_enctype(search_form) }}>
+        <a id="ShowHideButton">
+            <button id="show" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
+                <i class="icon-search"></i>  Afficher Filtres</button>
+        </a>
+        <button type="submit" id="reset" name="submit-filter" class="btn btn-medium btn-warning" value="reset" >
+            <i class="icon-minus-sign"></i> Effacer Filtres</button>
                     {#
                     <button type="submit" id="reset" name="submit-open" class="btn btn-medium btn-warning" value="open" >
                       <img src="{{ asset('bundles/applicationchangements/images/cadenas-souvert.png') }}" alt="show" width="15px" height="15px"/>
@@ -21,17 +21,20 @@
                       </button>
                     
                                 #}      
-                                    
-                    
-                    
+
+
+
           {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                <a href="{{ path(new_path) }}" class=" ajoutchange btn btn-medium btn-primary">
-                    <i class=" icon-plus"></i> {{ new_text }}
-                </a>
+        <a href="{{ path(new_path) }}" class=" ajoutchange btn btn-medium btn-primary">
+            <i class=" icon-plus"></i> {{ new_text }}
+        </a>
         {% endif %}
 
-            </form>
-<div id="{{ box }}" class="hidden">
+    </form>
+   {# <form  class="form-horizontal" action="{{ path(form_path) }}" method="POST" {{ form_enctype(status_form) }}>
+     {{ form_row(status_form.idStatus) }}
+        </form>    #}
+        <div id="{{ box }}" class="hidden">
             {% include include_html_search with {'tpl_path':form_path } %}
-                </div>
             </div>
+        </div>

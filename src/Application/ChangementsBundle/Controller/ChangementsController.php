@@ -12,6 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Application\ChangementsBundle\Form\ChangementsType;
 use Application\ChangementsBundle\Form\CalendarType;
 use Application\ChangementsBundle\Form\ChangementsFilterType;
+use Application\ChangementsBundle\Form\ChangementsStatusType;
 use Application\ChangementsBundle\Form\ChangementsFilterAmoiType;
 use Application\ChangementsBundle\Entity\GridExport;
 
@@ -1168,7 +1169,7 @@ class ChangementsController extends Controller {
         $session = $request->getSession();
         $session->set('buttonretour', 'changements_fanta');
         $searchForm = $this->createForm(new ChangementsFilterAmoiType($em));
-
+        $statusForm = $this->createForm(new ChangementsStatusType());
         //-----------------------------------------
         // On efface les sessions si post 
         //------------------------------------------
@@ -1261,9 +1262,11 @@ class ChangementsController extends Controller {
                     'entities' => $q,
                     'next_dir' => $next_dir,
                     'search_form' => $searchForm->createView(),
+                    'status_form' => $statusForm->createView(),
                     'arrow' => $arrow,
                     'nb_pages' => $nb_pages,
                     'nbResults' => $nbResults,
+            
         ));
     }
 
