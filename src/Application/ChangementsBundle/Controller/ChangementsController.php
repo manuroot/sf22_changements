@@ -1238,8 +1238,8 @@ class ChangementsController extends Controller {
       
         try {
             $pagerfanta->setCurrentPage($page);
-            //$nbResults = $pagerfanta->getNbResults();
-            $nbResults=317;
+            $nbResults = $pagerfanta->getNbResults();
+           // $nbResults=317;
             $q = $pagerfanta->getCurrentPageResults();
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
