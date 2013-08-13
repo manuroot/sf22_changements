@@ -1,3 +1,9 @@
+{#
+<form  class="form-horizontal" action="{{ path(form_path) }}" method="POST" {{ form_enctype(status_form) }}>
+     {{ form_row(status_form.idStatus) }}
+          {{ form_rest(status_form) }}
+        </form>   
+#}
 <div id="ShowHideContainer">
 
     <form id="target" class="form-horizontal" action="{{ path(form_path) }}" method="POST" {{ form_enctype(search_form) }}>
@@ -31,9 +37,7 @@
         {% endif %}
 
     </form>
-   {# <form  class="form-horizontal" action="{{ path(form_path) }}" method="POST" {{ form_enctype(status_form) }}>
-     {{ form_row(status_form.idStatus) }}
-        </form>    #}
+  
         <div id="{{ box }}" class="hidden">
             {% include include_html_search with {'tpl_path':form_path } %}
             </div>

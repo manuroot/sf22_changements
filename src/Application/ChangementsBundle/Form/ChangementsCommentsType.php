@@ -14,7 +14,7 @@ class ChangementsCommentsType extends AbstractType {
            $builder
            ->add('user',null,array( 'disabled' => true,'label'=>'Utilisateur'))
            /* ->add('comment',null,array('label'=>'Activité'))*/
-                        ->add('comment', 'textarea', array(
+               ->add('comment', 'textarea', array(
                        'label'=>'Activité',
                     'attr' => array(
                         /*'width' => "400px",*/

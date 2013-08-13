@@ -56,7 +56,13 @@
 	margin-left: 5px;
        }
        div.pagerfanta nav{ margin:auto;width:auto;}
-     
+    div.toto label input, div.toto label {
+    float: left;
+}
+
+div.toto label input {
+    clear: left;
+}
         </style>
            {{ form_stylesheet(search_form) }}
 {% endblock %}

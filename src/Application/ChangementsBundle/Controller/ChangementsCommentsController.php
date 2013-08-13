@@ -179,17 +179,7 @@ class ChangementsCommentsController extends Controller {
 
         $comments = $em->getRepository('ApplicationChangementsBundle:ChangementsComments')
                 ->getCommentsForChangement($id);
-
-
-
-
-        /*  $comments = $em->getRepository('ApplicationEpostBundle:EpostComments')
-          ->getCommentsForPost($entity->getId());
-         */
-
         $paginationa = $this->createpaginator($comments, 5);
-
-
         if ($user_id != 0) {
             $current_user = $em->getRepository('ApplicationSonataUserBundle:User')->find($user_id);
 

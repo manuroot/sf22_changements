@@ -581,18 +581,15 @@ class ChangementsController extends Controller {
         // ajoute des messages flash
         $session->set('buttonretour', 'changements_showXhtml');
         $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindaIdAll($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Changements entity.');
         }
-
-
-
-        $deleteForm = $this->createDeleteForm($id);
-
+        
+       $deleteForm = $this->createDeleteForm($id);
         return $this->render('ApplicationChangementsBundle:Changements:showxhtml.html.twig', array(
                     'entity' => $entity,
                     'delete_form' => $deleteForm->createView(),));
+        
     }
 
     /**
@@ -1188,7 +1185,7 @@ class ChangementsController extends Controller {
                 $session->remove('changementControllerFilternew');
                 $alldatas = $request->request->all();
                 $datas = $alldatas["changements_searchfilter"];
-                //print_r($datas);exit(1);
+             // print_r($datas);exit(1);
                 $parameters = $datas;
                 $session->set('changementControllerFilternew', $datas);
                 $searchForm->bind($datas);

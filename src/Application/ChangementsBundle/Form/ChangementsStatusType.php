@@ -25,15 +25,21 @@ class ChangementsStatusType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
  
-        $builder
-        
-                ->add('idStatus', 'filter_entity', array(
+      
+         /*   $builder->add('inlineCheckboxes', 'choice', array(
+    'multiple' => true,
+    'expanded' => true,
+    'choices' => array(1, 2, 3),
+    'attr' => array('inline' => true)
+    ))*/
+               $builder->add('idStatus', 'entity', array(
                     'label' => 'Status',
                     'class' => 'Application\ChangementsBundle\Entity\ChangementsStatus',
                     'property' => 'nom',
                     'expanded' => true,
-                    'multiple' => false,
+                    'multiple' => true,
                     'required' => false,
+                    'attr'      => array('class' => 'toto'),
                         /* 'empty_value' => '--- Choisir une option ---', */
                 ));
             

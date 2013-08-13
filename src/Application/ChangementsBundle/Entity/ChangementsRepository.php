@@ -78,7 +78,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
 
     public function myFindaIdAll($id) {
         $parameters = array();
-        $values = array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f');
+        $values = array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,h');
 
         $query = $this->createQueryBuilder('a')
                 ->select($values)

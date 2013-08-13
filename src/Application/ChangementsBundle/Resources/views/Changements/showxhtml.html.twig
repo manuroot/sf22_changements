@@ -83,7 +83,9 @@ a.mytab {
     padding:5px;
     background-color: #d6d6d6;
 }
-
+td.comment {
+    font-size: 11px;
+}
 .view td:hover {
     background-color: rgb(204, 204, 204);
 }
@@ -128,7 +130,8 @@ $(document).ready(function() {
   
   <ul>
     <li><a href="#tabs-1" class="mytab"> <i class="icon-pencil"></i>  Données Principales</a></li>
-    <li><a href="#tabs-2" class="mytab" ><i class="icon-book"></i>  Fichiers</a></li>
+    <li><a href="#tabs-2" class="mytab" ><i class="icon-book"></i>  Fichiers ({{ entity.picture|length }})</a></li>
+    <li><a href="#tabs-3" class="mytab" ><i class="icon-pencil"></i>  Activites({{ entity.comments|length }})</a></li>
 {#
  
       
@@ -294,7 +297,7 @@ $(document).ready(function() {
   <div id="tabs-2">
 
 
-            <h3><center>Fichiers de la demande</center></h3>
+       
         <table class="view table-bordered">
 
  <thead>
@@ -334,6 +337,32 @@ $(document).ready(function() {
 
    
   </div>
+ 
+    <div id="tabs-3">
+
+  <table class="table table-striped table-bordered">
+  
+      
+        <tbody>
+    {#      
+        <table class="view table-bordered">#}
+        {% for comment in entity.comments %}
+        <thead>
+        <tr class="title"><td class="myth">
+        <i class="icon-user"></i> {{ comment.user }}
+        <i class="icon-time"></i> {{ comment.created|date('l, F j, Y') }}
+        </td></tr> 
+        </thead>
+        <tr>
+            <td class="comment"> <p>{{ comment.comment|raw }}</p></td>
+        </tr>
+       {% endfor %}
+     </tbody>
+        </table>       
+
+   
+  </div>
+ 
  
  
       </div>        
