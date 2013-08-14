@@ -9,6 +9,7 @@ use Application\RelationsBundle\Entity\Projet;
 use Application\RelationsBundle\Form\ProjetType;
 use Symfony\Component\HttpFoundation\Session\Session;
 
+
 use Application\CertificatsBundle\Entity\CertificatsCenter;
 
 
@@ -26,7 +27,7 @@ class ProjetController extends Controller {
 
     /**
      * Lists all CertificatsProjet entities.
-     *
+     * a completer
      */
     public function indexAction() {
         $em = $this->getDoctrine()->getManager();
@@ -34,8 +35,8 @@ class ProjetController extends Controller {
         $session = $request->getSession();
         $session->set('buttonretour', 'projets');
     
-        $entities = $em->getRepository('ApplicationRelationsBundle:Projet')->findAll();
-      //  $entities = $em->getRepository('ApplicationRelationsBundle:Projet')->myFindAll();
+       // $entities = $em->getRepository('ApplicationRelationsBundle:Projet')->findAll();
+        $entities = $em->getRepository('ApplicationRelationsBundle:Projet')->myFindAll();
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
                 $entities, $this->get('request')->query->get('page', 1)/* page number */, 15/* limit per page */
@@ -46,6 +47,8 @@ class ProjetController extends Controller {
         ));
     }
 
+    
+    
     /**
      * Finds and displays a CertificatsProjet entity.
      *
@@ -56,6 +59,7 @@ class ProjetController extends Controller {
         $session = $request->getSession();
         $session->set('buttonretour', 'projets_show');
     
+        
         $entity = $em->getRepository('ApplicationRelationsBundle:Projet')->find($id);
         $changements = $em->getRepository('ApplicationChangementsBundle:Changements')->findByIdProjet($id);
         $applis = $entity->getIdapplis();
@@ -63,13 +67,17 @@ class ProjetController extends Controller {
             throw $this->createNotFoundException('Unable to find CertificatsProjet entity.');
         }
         // find a group of products based on an arbitrary column value
-        $repo_certs = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter');
+        /*foreach ($certificats as $k=>$v)
+        {echo "ll=";
+            print_r($k);print_r($v);}*/
+      //  exit(1);
+             $repo_certs = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter');
         //trop gourmand !!!! ==>
-       // $certificats = $repo_certs->findByProject($id);
-        
-        $certificats = $repo_certs->myFindaAll($id);
-        
-        
+        //$certificats = $repo_certs->findByProject($id);
+        // id du projet ???
+          $certificats = $repo_certs->myFindaAll($id);
+      // $certificats = $repo_certs->myFindAll();
+    
         $deleteForm = $this->createDeleteForm($id);
         return $this->render('ApplicationRelationsBundle:Projet:show.html.twig', array(
                     'entity' => $entity,

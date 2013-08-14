@@ -81,7 +81,7 @@ class CertificatsFiles {
     
     
     private $temp;
-    protected $disk_path = 'uploads/documents/certificats';
+    protected $disk_path = 'uploads/certificats';
 
     //protected $disk_path='uploads/documents/certificats';
     /**
@@ -101,7 +101,7 @@ class CertificatsFiles {
      * Set disk path
      * 
      */
-    public function setDiskPath($disk_path='uploads/documents/certificats') {
+    public function setDiskPath($disk_path='uploads/certificats') {
         $this->disk_path=$disk_path;
         
     }

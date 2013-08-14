@@ -46,10 +46,15 @@
 <h3><center>Applications</center></h3>
 <table class="table table-striped table-bordered table-hover">
     <thead>
-        <tr class="title"><th>Nom</th><th>Description</th></tr>
+        <tr class="title">
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Description</th>
+        </tr>
   </thead>
         {% for appli in applis %}
         <tr>
+              <td>{{ appli.id }}</td>
             <td>{{ appli.nomapplis }}</td>
             <td>{{ appli.description }}</td>
         </tr>
@@ -78,15 +83,22 @@
 <h3><center>Fichiers</center></h3>
                     <table class="table table-striped  table-bordered table-hover">
                         <thead>
-                            <tr class="title"><th>id</th><th>Nom</th><th>Path</th><th>Lien</th></tr>
+                            <tr class="title">
+                                <th>id</th>
+                                <th>Nom</th>
+                                  <th>Date Création</th>
+                                  <th>Path</th>
+                              <th>Lien</th>
+                            </tr>
                         </thead>
                {% for fic in entity.picture %}
                         <tr> 
                             <td>{{ fic.id }}</td>
                             <td>{{ fic.name }}</td>
-                        
+                             <td>{{ fic.createdAt|date('Y-m-d') }}</td>
                             {%  if (fic.path is defined) and fic.path is not empty %}
                             <td>  --{{ fic.path }}--</td>
+                           
                             <td>
                           <a class="fichier" href="{{ path('download_filesprojet_route', { 'id': fic.id }) }}">
                              <i class="icon-download-alt"></i></a></td>
@@ -101,10 +113,12 @@
                         </tbody>
                     </table>
  
-        <h3><center>Liste des Certificats de ce projet</center></h3>
+    
+<h3><center>Certificats</center></h3>
 <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr class="title">
+              <th>Id</th>
             <th>Nom</th>
             <th>Type</th>
               <th>CN-NameType</th>
@@ -112,21 +126,22 @@
             <th>Date Fin</th>
         </tr>
   </thead>
-        {% for certificat in certificats %}
+        {% for cert in certificats %}
         <tr>
-            <td>{{ certificat.fileName }}</td>
-           <td>{{ certificat.typeCert.FileType }}</td>
+             <td>{{ cert.id }}</td>
+            <td>{{ cert.fileName }}</td>
+           <td>{{ cert.typeCert.FileType }}</td>
             
         
-            <td>{{ certificat.cnName }}</td>
-           {% if certificat.startDate %}
-                 <td>   {{ certificat.startDate|date('Y-m-d') }}{% endif %}</td>
+            <td>{{ cert.cnName }}</td>
+           {% if cert.startDate %}
+                 <td>   {{ cert.startDate|date('Y-m-d') }}{% endif %}</td>
                     
                     
-            {% if certificat.endTime %}
+            {% if cert.endTime %}
 
               
-           <td>    {{ certificat.endTime|date('Y-m-d') }}</td>
+           <td>    {{ cert.endTime|date('Y-m-d') }}</td>
            
 {% endif %}
         </tr>

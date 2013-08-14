@@ -7,8 +7,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Application\ChangementsBundle\Entity\Changements;
-//use Application\CentralBundle\Model\DocchangementsBase;
 
+//use Application\CentralBundle\Model\DocchangementsBase;
 
 /**
  * Projet
@@ -17,18 +17,16 @@ use Application\ChangementsBundle\Entity\Changements;
  * @ORM\Entity(repositoryClass="Application\ChangementsBundle\Entity\DocchangementsRepository")
  * @ORM\HasLifecycleCallbacks
  */
-
-class Docchangements   {
+class Docchangements {
 //class Docchangements  extends DocchangementsBase {
 // * @Orm\MappedSuperclass
 
-/**
-* @ORM\Id
-* @ORM\Column(type="integer")
-* @ORM\GeneratedValue(strategy="AUTO")
-*/
-protected $id;
-    
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -43,15 +41,13 @@ protected $id;
      */
     protected $md5;
 
-    
-    
     /**
      * @Assert\File(maxSize="5M",
      *    notFoundMessage = "Le fichier n'a pas été trouvé sur le disque",
      *    uploadErrorMessage = "Erreur dans l'upload du fichier"
      * )
      */
-     protected $file;
+    protected $file;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
@@ -65,7 +61,6 @@ protected $id;
     // nom origine du fichier
     protected $OriginalFilename;
 
-    
     /**
      * Date/Time of the update
      *
@@ -73,9 +68,9 @@ protected $id;
      * @ORM\Column(name="updated_at", type="datetime")
      */
     protected $updatedAt;
-  
     protected $temp;
-        /**
+
+    /**
      *
      * @var ArrayCollection Projet $idchangements
      *
@@ -85,29 +80,24 @@ protected $id;
      */
     protected $idchangement;
 
-   /**
+    /**
      * Date/Time of the update
      *
      * @var \Datetime
      * @ORM\Column(name="created_at", type="datetime")
      */
     protected $createdAt;
-    
-    
+    protected $disk_path = 'uploads/documents';
 
-     protected $disk_path = 'uploads/documents';
-
-    
     /**
      * Constructor
      */
     public function __construct() {
-     //   parent::__construct();
+        //   parent::__construct();
         $this->idchangement = new ArrayCollection();
-           $this->createdAt = new \DateTime();
+        $this->createdAt = new \DateTime();
     }
 
-   
     /**
      * Add idchangement
      *
@@ -160,12 +150,7 @@ protected $id;
         return $this->idchangement;
     }
 
-
-    
-    
-    
-    
-     /**
+    /**
      * Get id
      *
      * @return UploadedFile
@@ -197,24 +182,23 @@ protected $id;
 
         return $this;
     }
-  /**
+
+    /**
      * Set disk path
      * 
      */
-    public function setDiskPath($disk_path='uploads/documents') {
-        $this->disk_path=$disk_path;
-        
+    public function setDiskPath($disk_path = 'uploads/documents') {
+        $this->disk_path = $disk_path;
     }
-    
+
     /**
      * Get disk path
      * 
      */
     public function getDiskPath() {
         return $this->disk_path;
-        
     }
-    
+
     public function __toString() {
         return $this->getName();    // this will not look good if SonataAdminBundle uses this ;)
     }
@@ -235,7 +219,7 @@ protected $id;
     public function getUploadDir() {
         // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
         // le document/image dans la vue.
-           return $this->disk_path;
+        return $this->disk_path;
     }
 
     /**
@@ -252,8 +236,8 @@ protected $id;
             // faites ce que vous voulez pour générer un nom unique
             // a remettre apres
             //  $this->path=$this->generateNewFilename();
-            
-             $ext = null;
+
+            $ext = null;
             $this->OriginalFilename = $this->getFile()->getClientOriginalName();
             $fic = $this->OriginalFilename;
             $info = pathinfo($fic);
@@ -267,25 +251,25 @@ protected $id;
                 $ext = "bin";
             }
             $this->path = sha1(uniqid(mt_rand(), true)) . '.' . $ext;
-            
-       
+
+
             // recup nom origne
-         
-            if (!$this->name || $this->name =="")
+
+            if (!$this->name || $this->name == "")
                 $this->name = $this->OriginalFilename;
             $this->md5 = md5_file($this->file);
-               $this->updatedAt = new \DateTime();
-              // echo "here";exit(1);
+            $this->updatedAt = new \DateTime();
+            // echo "here";exit(1);
         }
         // check du md5
-          if (!$this->md5 && (file_exists($this->getUploadDir() . '/' . $this->path))){
-             $this->md5 = md5_file($this->getUploadDir() . '/' . $this->path);
+        if (!$this->md5 && (file_exists($this->getUploadDir() . '/' . $this->path))) {
+            $this->md5 = md5_file($this->getUploadDir() . '/' . $this->path);
         }
         // check du nom
-         if (!$this->name || $this->name =="TOTO" ){
-              $this->name = $this->OriginalFilename;
-         }
-    //    echo "here";exit(1);
+        if (!$this->name || $this->name == "TOTO") {
+            $this->name = $this->OriginalFilename;
+        }
+        //    echo "here";exit(1);
     }
 
     /**
@@ -310,7 +294,7 @@ protected $id;
             // clear the temp image path
             $this->temp = null;
         }
-       // unset($this->file);
+        // unset($this->file);
         // clean up the file property as you won't need it anymore
         $this->file = null;
     }
@@ -386,7 +370,8 @@ protected $id;
      */
     public function removeUpload() {
         if ($file = $this->getAbsolutePath()) {
-            unlink($file);
+            if (file_exists($file))
+                unlink($file);
         }
     }
 
@@ -415,9 +400,9 @@ protected $id;
      */
     public function setName($name) {
         // $this->name = $name;
-        if (isset($name) && $name !="")
+        if (isset($name) && $name != "")
             $this->name = $name;
-        else 
+        else
             $this->name = "TOTO";
         return $this;
     }
@@ -477,9 +462,6 @@ protected $id;
         return $this->path;
     }
 
-    
-
-  
     /**
      * Set updatedAt
      *
@@ -487,7 +469,7 @@ protected $id;
      * @return Docchangements
      */
     public function setUpdatedAt($updatedAt) {
-       $this->updatedAt = $updatedAt;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
@@ -501,7 +483,6 @@ protected $id;
         return $this->updatedAt;
     }
 
-    
     /**
      * Set CreatedAt
      *
@@ -509,7 +490,7 @@ protected $id;
      * @return Docchangements
      */
     public function setCreatedAt($createdAt) {
-       $this->createdAt = $createdAt;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -522,6 +503,7 @@ protected $id;
     public function getCreatedAt() {
         return $this->createdAt;
     }
+
     /**
      * Set md5
      *

@@ -15,40 +15,40 @@ class CertificatsCenterRepository extends EntityRepository {
     public function myFindAll() {
         return $this->createQueryBuilder('a')
                         ->getQuery();
+        //->getResult();
+    }
+
+    public function myFindxxAll() {
+        return $this->createQueryBuilder('a')
+                        ->select('a,b')
+                        ->add('orderBy', 'a.id DESC')
+                        ->leftJoin('a.project', 'b')
+                        ->getQuery();
 
         //->getResult();
     }
 
-    public function myFindaAll($id=null) {
-       
-      //  $id=2;
-        $query=$this->createQueryBuilder('a')
-                ->select(array('a,b,c,d,e,f'))
-                
-                        ->leftJoin('a.project', 'b')
-                        ->leftJoin('a.typeCert', 'c')
-                ->leftJoin('a.demandeur', 'd')
-                 ->leftJoin('a.idEnvironnement', 'e')
-                ->leftJoin('a.fichier', 'f')
-                        ->orderBy('a.id', 'DESC') ;
-        if (isset($id)){
-               $query->andwhere('b.id = :myid');
-             $query->setParameter('myid', $id);
-        }
-                return $query;
-  //   return $query->getQuery()->getSingleResult();
-    }
-    
-    /*public function myFindaAll() {
-        return $this->createQueryBuilder('a')
-                ->select(array('a,b,c'))
-               
-                        ->leftJoin('a.project', 'b')
-                        ->leftJoin('a.typeCert', 'c')
-                        ->orderBy('a.id', 'DESC') ;
-                        //->getQuery();
-    }*/
+    public function myFindaAll($id = null) {
+        /* return $this->createQueryBuilder('a')
+          ->select('a')
+          ->getQuery()->getResult()
+          ; */
 
-     
+        $query = $this->createQueryBuilder('a')
+                ->select(array('a,b,c,d,e,f'))
+                ->leftJoin('a.project', 'b')
+                ->leftJoin('a.typeCert', 'c')
+                ->leftJoin('a.demandeur', 'd')
+                ->leftJoin('a.idEnvironnement', 'e')
+                ->leftJoin('a.fichier', 'f')
+                ->orderBy('a.fileName', 'ASC');
+        if (isset($id)) {
+            $query->andwhere('b.id = :myid');
+            $query->setParameter('myid', $id);
+        }
+        ;
+        // return $query->getQuery();
+        return $query->getQuery()->getResult();
+    }
 
 }

@@ -15,7 +15,7 @@ class ProjetRepository extends EntityRepository {
     public function myFindAll() {
         return $this->createQueryBuilder('a')
                         ->select('a,b')
-                        ->add('orderBy', 'a.id DESC')
+                        ->add('orderBy', 'a.nomprojet ASC')
                         ->leftJoin('a.picture', 'b')
                         ->getQuery();
 
