@@ -11,7 +11,8 @@
                                 <i class=" icon-time"></i></th>
                             <th{% if pagination.isSorted('a.dateFin') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Fin', 'a.dateFin') }}
                                 <i class=" icon-time"></i></th>
-                            <th{% if pagination.isSorted('b.nomprojet') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Projet', 'b.nomprojet') }}</th>
+                            <th{% if pagination.isSorted('b.nomprojet') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Projet', 'b.nomprojet') }}
+                              <i class=" icon-tag"></i></th>
                             <th{% if pagination.isSorted('c.nomUser') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'D', 'c.nomUser') }}
                                 <i class=" icon-user"></i></th>
                             <th><i class=" icon-book"></i></th>
@@ -33,22 +34,17 @@
                     </thead>
                     <tbody>
     {% for entity in pagination %}
-                     {# si datedebut existe #}   
-          {#   {% if entity.dateDebut %}#}
-                            
-                            {% if entity.idStatus.description == 'closed' %} 
+                        {% if entity.idStatus.description == 'closed' %} 
                             {# <tr class="closed">#}
                             <tr class="myclosed">
                                  {# sinon: open prepare ou wait #}
                             {% else %}
-                                <tr>
-                                {#
                                    {% if entity.idStatus.description == 'prepare' or  entity.idStatus.description == 'wait'%} 
                                      <tr class="prepare">
-                                         {# encours==open#}
-                                      {# {% else %}
+                                
+                                       {% else %}
                                              <tr class="success">
-                                     {% endif %}#}
+                                     {% endif %}
                               {% endif %}
                            <td>{{ entity.id }}</td>
                             <td><a href="{{ path('changements_show', { 'id': entity.id }) }}">{{ entity.nom }}</a></td>

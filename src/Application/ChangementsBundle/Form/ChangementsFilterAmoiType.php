@@ -126,7 +126,7 @@ class ChangementsFilterAmoiType extends AbstractType {
                         'icon' => 'tag',
                         'type' => 'prepend'
                     ),
-                    'configs' => array('minLength' => 2),
+                    'configs' => array('minLength' => 3),
                     'mapped' => false, 'required' => false,
                     'route_name' => 'ajax_ticketext',
                     'class' => 'Changements',

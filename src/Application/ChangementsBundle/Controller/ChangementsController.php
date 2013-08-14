@@ -508,22 +508,14 @@ class ChangementsController extends Controller {
         // ajoute des messages flash
         $session->set('buttonretour', 'changements_apy');
         $source = new Entity('ApplicationChangementsBundle:Changements');
-
-
-
         $source->manipulateRow(
                 function ($row) {
-                    // Don't show the row if the price is greater than $maxPrice
-                    // $past = date('Y-m-d');
-                    // $next = date('Y-m-d', strtotime('+5days'));
                     $currenta = $row->getField('idStatus.nom');
                     if ($currenta == 'open') {
                         $row->setColor('#dff0d8;');
                     } elseif ($currenta == 'en preparation') {
                         $row->setColor('#EDF3FE');
                     }
-
-
                     return $row;
                 }
         );
@@ -546,7 +538,7 @@ class ChangementsController extends Controller {
         $grid->addMassAction(new DeleteMassAction());
         $grid->setActionsColumnSize(70);
         // $grid->setDefaultFilters(array('idEnvironnement.nom:AtGroupConcat' => array('operator' => 'like')));
-        $myRowActiona = new RowAction('Edit', 'changements_edit', false, '_self', array('class' => "btn btn-mini btn-warning"));
+       $myRowActiona = new RowAction('Edit', 'changements_edit', false, '_self', array('class' => "btn btn-mini btn-warning"));
         $grid->addRowAction($myRowActiona);
         $myRowAction = new RowAction('Delete', 'changements_delete', true, '_self', array('class' => "btn btn-mini btn-danger"));
         //$myRowAction = new RowAction('Delete', 'certificatscenter_delete', true, '_self',array('class' => 'deleteme'));
@@ -1254,7 +1246,7 @@ class ChangementsController extends Controller {
             throw new NotFoundHttpException();
             // throw $this->createNotFoundException('Unable to find entity.');
         }
-        return $this->render('ApplicationChangementsBundle:Changements:indexpostamoi_debugfanta.html.twig', array(
+        return $this->render('ApplicationChangementsBundle:Changements:indexfanta.html.twig', array(
                     'pagerfanta' => $pagerfanta,
                     'entities' => $q,
                     'next_dir' => $next_dir,
