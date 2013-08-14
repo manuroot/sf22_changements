@@ -47,8 +47,10 @@ class CertificatsCenterRepository extends EntityRepository {
             $query->setParameter('myid', $id);
         }
         ;
-        // return $query->getQuery();
-        return $query->getQuery()->getResult();
+         return $query;
+        //->getQuery();
+        
+        //return $query->getQuery()->getResult();
     }
 
 }

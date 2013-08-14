@@ -72,6 +72,7 @@ class CertificatsCenterController extends Controller {
             "sortDirectionParameterName" => "dir",
             'sortFieldParameterName' => "sort")
         );
+        // $pagination->setSortableTemplate('ApplicationRelationsBundle:pagination:sortable_link.html.twig');
         $pagination->setTemplate('ApplicationCertificatsBundle:pagination:twitter_bootstrap_pagination.html.twig');
         return $pagination;
     }
@@ -139,7 +140,8 @@ class CertificatsCenterController extends Controller {
         $request = $this->getRequest();
         $session = $request->getSession();
         $session->set('buttonretour', 'certificatscenter');
-        list($filterForm, $queryBuilder, $message) = $this->filter();
+        list($filterForm, $query, $message) = $this->filter();
+        $queryBuilder = $query->getQuery();
         if ($message)
             $session->getFlashBag()->add('warning', "$message");
         $pagination = $this->createpaginator($queryBuilder, 15);

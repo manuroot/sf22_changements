@@ -23,8 +23,9 @@ class ApplisController extends Controller {
         $entities = $em->getRepository('ApplicationRelationsBundle:Applis')->findAll();
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-                $entities, $this->get('request')->query->get('page', 1)/* page number */, 10/* limit per page */
+                $entities, $this->get('request')->query->get('page', 1)/* page number */, 20/* limit per page */
         );
+        $pagination->setSortableTemplate('ApplicationRelationsBundle:pagination:sortable_link.html.twig');
         $pagination->setTemplate('ApplicationRelationsBundle:pagination:sliding.html.twig');
         return $this->render('ApplicationRelationsBundle:Applis:index.html.twig', array(
                     'pagination' => $pagination,

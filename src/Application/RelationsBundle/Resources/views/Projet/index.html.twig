@@ -28,14 +28,19 @@
                             <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
                             <th{% if pagination.isSorted('a.nomprojet') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom', 'a.nomprojet') }}
                               <i class="icon-pencil"></i></th>
-                           <th{% if pagination.isSorted('a.description') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom Projet', 'a.description') }}
+                           <th{% if pagination.isSorted('a.description') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Description', 'a.description') }}
                                  <i class="icon-pencil"></i> </th>
                          <th><i class=" icon-book"></i></th>
-                {% if is_granted("ROLE_ADMIN") %}
+                         {% if is_granted("ROLE_ADMIN") %}
+          <th colspan="2" style="width:40px"><i class="icon-wrench"></i></th>
+    {% else %}
+          <th style="min-width:10px">  <i class="icon-wrench"></i></th>
+      {% endif %}
+              {#  {% if is_granted("ROLE_ADMIN") %}
                 <th colspan="3">Actions</th>
                 {% else %}
                 <th>Actions</th>
-                {% endif %}
+                {% endif %}#}
              </tr>
     </thead>
 

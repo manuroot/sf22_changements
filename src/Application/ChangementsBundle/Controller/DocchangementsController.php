@@ -182,7 +182,7 @@ class DocchangementsController extends Controller {
          * 
          */
        $query = $em->getRepository('ApplicationChangementsBundle:Docchangements')->getListBy($parameters);
-    $pagination = $this->createpaginator($query, 15);
+    $pagination = $this->createpaginator($query, 25);
     $total = $pagination->getTotalItemCount();
      //$pagination = $this->createpaginator($query, 15,$count);
         return $this->render('ApplicationChangementsBundle:Docchangements:index.html.twig', array(
@@ -423,16 +423,14 @@ class DocchangementsController extends Controller {
         $response->setContent($content);
         return $response;
     }
-public function DocNomAjaxAction(Request $request) {
+    
+    
+public function DocChangementsNomAjaxAction(Request $request) {
         $term = $request->get('term');
+       // $alldatas = $request->request->all();
+      //  print_r($alldatas);
         $em = $this->getDoctrine()->getManager();
         $json = $em->getRepository('ApplicationChangementsBundle:Docchangements')->findAjaxValue(array('nom' => $term));
-        //$json = array();
-        /*foreach ($entity_ticket->getQuery()->getResult() as $ticket) {
-            if (!in_array((string) $ticket->getNom(), $json))
-                array_push($json, (string) $ticket->getNom());
-        }*/
-      //  $json=array("ok");
         $response = new Response(json_encode($json));
         $response->headers->set('Content-Type', 'application/json');
         return $response;

@@ -42,8 +42,12 @@ docchangements_delete:
     requirements: { _method: post }
 
 ajax_changements_nom:
-    pattern:  /ajaxchgmtnom
+    pattern:  /{champs}/ajaxdocument
     methods: POST|GET
-    defaults: { _controller: "ApplicationChangementsBundle:Docchangements:DocNomAjax" }
-  
+    defaults: { _controller: "ApplicationChangementsBundle:Docchangements:DocChangementsNomAjax",champs:nom }
+
+ajax_document_nomorigine:
+    pattern:  /{champs}/ajaxdocument
+    methods: POST|GET
+    defaults: { _controller: "ApplicationChangementsBundle:Docchangements:DocChangementsNomAjax",champs:nomorigine }
   

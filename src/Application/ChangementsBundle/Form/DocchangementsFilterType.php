@@ -57,13 +57,26 @@ class DocchangementsFilterType extends AbstractType {
                      ))
                 
          
-                ->add('OriginalFilename', 'text', array(
+               /* ->add('OriginalFilename', 'genemu_jqueryautocomplete_text', array(
+                    'label' => 'OriginalFilename',
+                    'widget_addon' => array(
+                        'icon' => 'pencil',
+                        'type' => 'prepend'
+                    ),
+                    'configs' => array('minLength' => 2),
+                    'mapped' => false, 'required' => false,
+                    'route_name' => 'ajax_document_nomorigine',
+                    'class' => 'Docchangements',
+                ))*/
+               
+               
+               ->add('OriginalFilename', 'text', array(
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'
                     ),
                     'mapped' => false, 'required' => false))
-               
+             
                
                   ->add('changements_nom', 'genemu_jqueryautocomplete_text', array(
                     'label' => 'Changement(s LIKE)',

@@ -75,14 +75,7 @@ width:150px;
 label,.mondiv { color:#02195e; font-size: 12px;
     font-weight: normal;
     line-height: 20px;}
-  
-  /*label {
-                color:#02195e;
-          
-    
-}*/
-
-    </style>
+</style>
 {% endblock %}
 
 {% block content_header '' %}
@@ -92,6 +85,7 @@ LISTE DES {{ parent() }}  ({{ total }})
 {% block content %}
 
 {% include 'ApplicationCertificatsBundle:templates:flash.html.twig' %}
+
 {% include 'ApplicationCertificatsBundle:templates:container_search.html.twig' 
         with {
             'form_path': 'certificatscenter',

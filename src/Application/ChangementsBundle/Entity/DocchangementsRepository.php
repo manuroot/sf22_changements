@@ -120,4 +120,27 @@ class DocchangementsRepository extends EntityRepository {
         return $datas;
     }
 
+     /* public function findAjaxValue($criteria) {
+        $parameters = array();
+        $query = $this->createQueryBuilder('a');
+        // Supprimer champs qui ne sont pas dans la classe
+        foreach ($criteria as $field => $value) {
+            if (!$this->getClassMetadata()->hasField($field)) {
+                // Make sure we only use existing fields (avoid any injection)
+                unset($criteria[$field]);
+                // continue;
+            }
+        }
+        //les like
+        $like_arrays = array('nom', 'description', 'ticketExt', 'ticketInt');
+        foreach ($like_arrays as $val) {
+            // echo "val=$val<br>";
+            if (isset($criteria[$val]) && !preg_match('/^\s*$/', $criteria[$val])) {
+                $query->andWhere("a.$val LIKE :$val");
+                $parameters[$val] = '%' . $criteria[$val] . '%';
+            }
+        }
+        $query->setParameters($parameters);
+        return $query;
+    }*/
 }

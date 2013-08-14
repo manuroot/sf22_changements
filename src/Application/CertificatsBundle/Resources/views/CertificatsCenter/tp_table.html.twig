@@ -5,7 +5,7 @@
     <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
     <th{% if pagination.isSorted('a.fileName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Filename', 'a.fileName') }}</th>
     <th style="min-width:70px" {% if pagination.isSorted('b.nomprojet') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Projet', 'b.nomprojet') }}
-    <i class=" icon-white icon-pencil"></i>
+    <i class="icon-pencil"></i>
     </th>
     <th{% if pagination.isSorted('c.fileType') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Type', 'c.fileType') }}</th>
     <th{% if pagination.isSorted('a.cnName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'CN', 'a.cnName') }}</th>
@@ -17,7 +17,7 @@
     <th{% if pagination.isSorted('e.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Env', 'e.nom') }}</th>
     <th>F</th>
     <th{% if pagination.isSorted('d.nomUser') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'U', 'd.nomUser') }}
-        <i class=" icon-white icon-user"></i>
+        <i class="icon-user"></i>
     </th>
     {% if is_granted("ROLE_ADMIN") %}
         <th colspan="3"><center>Actions</center></th>

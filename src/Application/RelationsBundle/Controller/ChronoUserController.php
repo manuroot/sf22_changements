@@ -10,6 +10,7 @@ use Pagerfanta\Exception\NotValidCurrentPageException;
 use Application\RelationsBundle\Entity\ChronoUser;
 use Application\RelationsBundle\Form\ChronoUserType;
 use JMS\SecurityExtraBundle\Annotation\Secure;
+
 /**
  * ChronoUser controller.
  *
@@ -22,18 +23,17 @@ class ChronoUserController extends Controller {
      */
     public function indexAction() {
 
-
         $em = $this->getDoctrine()->getManager();
         $query = $em->getRepository('ApplicationRelationsBundle:ChronoUser')->myFindAll();
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
                 $query, $this->get('request')->query->get('page', 1)/* page number */, 20/* limit per page */
         );
+        $pagination->setSortableTemplate('ApplicationRelationsBundle:pagination:sortable_link.html.twig');
         $pagination->setTemplate('ApplicationRelationsBundle:pagination:sliding.html.twig');
-        //$pagination->setTemplate('ApplicationMyNotesBundle:pagination:sliding.html.twig');
         return $this->render('ApplicationRelationsBundle:ChronoUser:index.html.twig', array(
                     'pagination' => $pagination,
-                ));
+        ));
     }
 
     /**
@@ -48,9 +48,7 @@ class ChronoUserController extends Controller {
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find ChronoUser entity.');
         }
-
         $deleteForm = $this->createDeleteForm($id);
-
         return $this->render('ApplicationRelationsBundle:ChronoUser:show.html.twig', array(
                     'entity' => $entity,
                     'delete_form' => $deleteForm->createView(),));
@@ -58,7 +56,7 @@ class ChronoUserController extends Controller {
 
     /**
      * Displays a form to create a new ChronoUser entity.
-       * @Secure(roles="ROLE_ADMIN")
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function newAction() {
         $entity = new ChronoUser();
@@ -67,7 +65,7 @@ class ChronoUserController extends Controller {
         return $this->render('ApplicationRelationsBundle:ChronoUser:new.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),
-                ));
+        ));
     }
 
     /**
@@ -95,7 +93,7 @@ class ChronoUserController extends Controller {
         return $this->render('ApplicationRelationsBundle:ChronoUser:new.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),
-                ));
+        ));
     }
 
     /**
@@ -118,7 +116,7 @@ class ChronoUserController extends Controller {
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
-                ));
+        ));
     }
 
     /**
@@ -153,7 +151,7 @@ class ChronoUserController extends Controller {
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
-                ));
+        ));
     }
 
     /**
@@ -167,19 +165,15 @@ class ChronoUserController extends Controller {
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('ApplicationRelationsBundle:ChronoUser')->find($id);
-
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find ChronoUser entity.');
             }
-
             $em->remove($entity);
             $em->flush();
-               $session = $this->getRequest()->getSession();
+            $session = $this->getRequest()->getSession();
             // ajoute des messages flash
             $session->getFlashBag()->add('warning', "Enregistrement $id supprimé avec succès");
-       
         }
-
         return $this->redirect($this->generateUrl('chronouser'));
     }
 

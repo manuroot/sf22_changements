@@ -8,10 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Application\RelationsBundle\Entity\Documentbb;
 use Application\RelationsBundle\Form\DocumentbbType;
-
-
-
-
 use Symfony\Component\HttpFoundation\Session\Session;
 
 
@@ -57,8 +53,6 @@ class DocumentbbController extends Controller {
                     'total' => $count,
         ));
     }
-
-    
    
 
     /**

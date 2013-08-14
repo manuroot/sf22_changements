@@ -10,6 +10,12 @@ tr.title {
     /*#bbbbbb;*/
     font-size: 12px;
 }
+/*
+tr.title {
+    background-color: #AAAAAA;;
+  
+    font-size: 12px;
+}*/
 
 tr.warningdate-left {
     background-color: #2e9500;
@@ -121,14 +127,14 @@ h2 {
     font-size: 2em;
     text-shadow: 2px 2px 4px rgb(187, 187, 187);
 }
-
+/*
 th{
     background: none repeat scroll 0% 0% rgb(0, 0, 0);
     font-size: 12px;
     padding: 5px;
     color: rgb(255, 255, 255);
 }
-
+*/
  
  
 .ui-tabs .ui-tabs-panel {
