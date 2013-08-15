@@ -30,7 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Changements
  *
  * @ORM\Table(name="changements_comments")
- * @ORM\Entity(repositoryClass="Application\ChangementsBundle\Entity\ChangementsCommentsRepository")
+ * @ORM\Entity(repositoryClass="Application\ChangementsBundle\Repository\ChangementsCommentsRepository")
  */
 
 class ChangementsComments {
@@ -85,6 +85,15 @@ class ChangementsComments {
      */
     protected $updated;
 
+    
+      /**
+     * @var \ChronoUser
+     *
+     * @ORM\ManyToOne(targetEntity="Application\ChangementsBundle\Entity\ChangementsCommentsCategorie")
+     * @ORM\JoinColumn(name="categorie", referencedColumnName="id",nullable=true))
+     */
+    private $categorie;
+    
     public function __construct()
     {
         $this->setCreated(new \DateTime());
@@ -253,5 +262,26 @@ class ChangementsComments {
             return $this->user;
             
         //    }
+    }
+    
+    /**
+     *  Set demandeur
+     *
+     * @param \Application\ChangementsBundle\Entity\ChangementsCommentsCategorie $categorie
+     * @return Changements
+     */
+    public function setCategorie(\Application\ChangementsBundle\Entity\ChangementsCommentsCategorie $categorie = null) {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * Get idProject
+     *
+     * @return \Application\ChangementsBundle\Entity\ChangementsCommentsCategorie 
+     */
+    public function getCategorie() {
+        return $this->categorie;
     }
 }

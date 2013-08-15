@@ -27,35 +27,37 @@ class CertificatsFilesRepository extends EntityRepository {
         return $query;
         //  return $query->getQuery();
     }
- // TODO REGEX
+
+    // TODO REGEX
     public function getListBy($criteria) {
 
-         $query = $this->createQueryBuilder('a')
-                ->select('a,b')
+        $query = $this->createQueryBuilder('a')
+                ->select('a,b,c')
                 ->add('orderBy', 'a.id DESC')
-                ->leftJoin('a.certificats', 'b');
+                ->leftJoin('a.certificats', 'b')
+                ->leftJoin('b.project', 'c');
         $parameters = array();
 
-       /* if (isset($criteria['certificats']) && $criteria['certificats'] != "") {
-            //       var_dump($criteria['idEnvironnement']);exit(1);
-            $query->andWhere('b.id IN (:idchangements)');
-            $query->distinct('GroupConcat(b.nom) AS kak');
-            $parameters['certificats'] = $criteria['certificats'];
-        }*/
-       
-        
-     
+        /* if (isset($criteria['certificats']) && $criteria['certificats'] != "") {
+          //       var_dump($criteria['idEnvironnement']);exit(1);
+          $query->andWhere('b.id IN (:idchangements)');
+          $query->distinct('GroupConcat(b.nom) AS kak');
+          $parameters['certificats'] = $criteria['certificats'];
+          } */
+
+
+
         if (isset($criteria['updatedAt']) && $criteria['updatedAt'] != "") {
             $query->andWhere('a.updatedAt > (:updatedAt)');
             $parameters['updatedAt'] = $criteria['updatedAt'];
         }
-           if (isset($criteria['updatedAt_max']) && $criteria['updatedAt_max'] != "") {
+        if (isset($criteria['updatedAt_max']) && $criteria['updatedAt_max'] != "") {
             $query->andWhere('a.updatedAt < (:updatedAt_max)');
             $parameters['updatedAt_max'] = $criteria['updatedAt_max'];
         }
-        
-        
-        
+
+
+
         // Supprimer les autres champs qui ne sont pas dans la classe
         foreach ($criteria as $field => $value) {
             if (!$this->getClassMetadata()->hasField($field)) {
@@ -66,7 +68,7 @@ class CertificatsFilesRepository extends EntityRepository {
         }
 
         //les like
-        $like_arrays = array('name', 'md5','OriginalFilename', 'path','certificats');
+        $like_arrays = array('name', 'md5', 'OriginalFilename', 'path', 'certificats');
         foreach ($like_arrays as $val) {
             //  echo "val=$val<br>";
             if (isset($criteria[$val]) && !preg_match('/^\s*$/', $criteria[$val])) {
@@ -84,7 +86,8 @@ class CertificatsFilesRepository extends EntityRepository {
 
         return $query;
     }
-     public function findAjaxValue($criteria) {
+
+    public function findAjaxValue($criteria) {
         $parameters = array();
         $query = $this->createQueryBuilder('a');
         // Supprimer champs qui ne sont pas dans la classe
@@ -96,7 +99,7 @@ class CertificatsFilesRepository extends EntityRepository {
             }
         }
         //les like
-        $like_arrays = array('name','OriginalFilename');
+        $like_arrays = array('name', 'OriginalFilename');
         foreach ($like_arrays as $val) {
             //  echo "val=$val<br>";
             if (isset($criteria[$val]) && !preg_match('/^\s*$/', $criteria[$val])) {
@@ -107,4 +110,5 @@ class CertificatsFilesRepository extends EntityRepository {
         $query->setParameters($parameters);
         return $query;
     }
+
 }

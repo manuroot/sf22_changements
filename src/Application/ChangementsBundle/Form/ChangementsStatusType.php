@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormError;
 use Doctrine\ORM\QueryBuilder;
-use Application\ChangementsBundle\Entity\ChangementsRepository;
+use Application\ChangementsBundle\Repository\ChangementsRepository;
 use Application\ChangementsBundle\Entity\Changements;
 use Application\ChangementsBundle\Entity\ChangementsStatus;
 use Application\RelationsBundle\Entity\Projet;
@@ -49,15 +49,5 @@ class ChangementsStatusType extends AbstractType {
         return 'changements_searchstatus';
     }
 
-    /* public function setDefaultOptions(OptionsResolverInterface $resolver) {
-      $resolver->setDefaults(array(
-      'csrf_protection' => false,
-      'validation_groups' => array('filtering') // avoid NotBlank() constraint-related message
-      ));
-      }
-     * 
-     * SELECT DISTINCT p1_.id AS id0, p1_.nomprojet AS nomprojet1
-      FROM changements_main c0_
-      LEFT JOIN projet_main p1_ ON c0_.id_projet = p1_.id
-     */
+   
 }

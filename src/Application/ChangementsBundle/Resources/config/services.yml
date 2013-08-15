@@ -6,7 +6,7 @@ services:
             - { name: form.type, alias: changements }
 
    booking_repository:
-        class:           Application\ChangementsBundle\Entity\ChangementsRepository
+        class:           Application\ChangementsBundle\Repository\ChangementsRepository
         factory_service: doctrine.orm.default_entity_manager
         factory_method:  getRepository
         arguments:       ['ApplicationChangementsBundle:Changements']

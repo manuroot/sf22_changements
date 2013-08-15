@@ -22,7 +22,7 @@ use CalendR\Event\AbstractEvent;
  *
  * @ORM\Table(name="changements_main")
  * @ORM\HasLifecycleCallbacks
- * @ORM\Entity(repositoryClass="Application\ChangementsBundle\Entity\ChangementsRepository")
+ * @ORM\Entity(repositoryClass="Application\ChangementsBundle\Repository\ChangementsRepository")
  * @GRID\Source(columns="id,nom,ticketExt,ticketInt,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUseridStatus.nom,idStatus.nom,idEnvironnement.nom")
  * @Vich\Uploadable
  */

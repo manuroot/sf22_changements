@@ -72,7 +72,8 @@ class CertificatsCenterController extends Controller {
             "sortDirectionParameterName" => "dir",
             'sortFieldParameterName' => "sort")
         );
-        // $pagination->setSortableTemplate('ApplicationRelationsBundle:pagination:sortable_link.html.twig');
+          $pagination->setSortableTemplate('ApplicationCertificatsBundle:pagination:sortable_link.html.twig');
+          // $pagination->setSortableTemplate('ApplicationRelationsBundle:pagination:sortable_link.html.twig');
         $pagination->setTemplate('ApplicationCertificatsBundle:pagination:twitter_bootstrap_pagination.html.twig');
         return $pagination;
     }

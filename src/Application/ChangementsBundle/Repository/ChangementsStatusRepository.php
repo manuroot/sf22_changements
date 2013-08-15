@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\ChangementsBundle\Entity;
+namespace Application\ChangementsBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 

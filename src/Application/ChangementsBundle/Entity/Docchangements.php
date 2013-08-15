@@ -14,7 +14,7 @@ use Application\ChangementsBundle\Entity\Changements;
  * Projet
 
  * @ORM\Table(name="changements_fichiers")
- * @ORM\Entity(repositoryClass="Application\ChangementsBundle\Entity\DocchangementsRepository")
+ * @ORM\Entity(repositoryClass="Application\ChangementsBundle\Repository\DocchangementsRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Docchangements {

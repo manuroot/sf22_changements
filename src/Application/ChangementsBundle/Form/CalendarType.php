@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormError;
 use Doctrine\ORM\QueryBuilder;
-use Application\ChangementsBundle\Entity\ChangementsRepository;
+use Application\ChangementsBundle\Repository\ChangementsRepository;
 use Application\ChangementsBundle\Entity\Changements;
 use Application\ChangementsBundle\Entity\ChangementsStatus;
 use Application\RelationsBundle\Entity\Projet;

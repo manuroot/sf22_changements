@@ -22,6 +22,16 @@ class ChangementsCommentsType extends AbstractType {
                        
 // simple, advanced, bbcode
                         )))
+                    ->add('categorie', 'entity', array(
+                    'label' => 'Categorie',
+                    'class' => 'Application\ChangementsBundle\Entity\ChangementsCommentsCategorie',
+                    'property' => 'nom',
+                    'expanded' => false,
+                    'multiple' => false,
+                    'required' => true,
+                     'empty_value' => '--- Choisir une option ---',
+                       
+                ))
           //  ->add('approved')
          //   ->add('created')
         //    ->add('updated')
