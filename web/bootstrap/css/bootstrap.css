@@ -1994,19 +1994,24 @@ table {
 
 .table th,
 .table td {
-  padding: 4px;
+ /* padding: 4px;*/
  /* padding: 8px;*/
   line-height: 20px;
   text-align: left;
   vertical-align: top;
   border-top: 1px solid #dddddd;
 }
-
+.table td { padding: 4px;}
 .table th {
   font-weight: bold;
+  padding-left:4px;
+  padding-right:4px;
+ padding-top: 12px;
+ padding-bottom: 12px;
 }
 
 .table thead th {
+    
   vertical-align: bottom;
 }
 
@@ -4829,6 +4834,7 @@ input[type="submit"].btn.btn-mini {
 .navbar-inverse .nav .active > a:focus {
   color: #ffffff;
   background-color: #111111;
+  /*background-color: #111111*/
 }
 
 .navbar-inverse .navbar-link {
@@ -4847,7 +4853,8 @@ input[type="submit"].btn.btn-mini {
 .navbar-inverse .nav li.dropdown.open > .dropdown-toggle,
 .navbar-inverse .nav li.dropdown.active > .dropdown-toggle,
 .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle {
-  color: #ffffff;
+  /*color: #ffffff;*/
+  color: #00ffff;
   background-color: #111111;
 }
 

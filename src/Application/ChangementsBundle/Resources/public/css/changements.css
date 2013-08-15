@@ -5,12 +5,16 @@
 tr.single {
     background-color: #bbbbbb;
 } 
+
 tr.title {
     background-color: #AAAAAA;;
-    /*#bbbbbb;*/
     font-size: 12px;
 }
-
+/*
+tr.title {
+    background-color: #e4e4e4;
+}
+*/
 tr.warningdate-left {
     background-color: #2e9500;
     /*  font-size:14px;*/
@@ -116,7 +120,7 @@ width:98%;
 
 tr.title th {
    
-    line-height: 30px;
+    line-height: 20px;
   
 }
 select {
