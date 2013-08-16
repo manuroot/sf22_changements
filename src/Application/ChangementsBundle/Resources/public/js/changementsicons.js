@@ -10,20 +10,21 @@ $(document).ready(function() {
 
             if ($(this).hasClass("open")) {
                 $(this).removeClass("open").addClass("closed");
-                $(this).closest("tr").addClass("myclosed");
+                $(this).closest("tr").removeClass("success").addClass("myclosed");
                 $(this).children().attr("src", img_path + "cadenas-sferme.png");
             }
             else if ($(this).hasClass("prepare")) {
                 $(this).children().attr("src", img_path + "cadenas-souvert.png");
-                $(this).removeClass("prepare").addClass("open");
+                  $(this).closest("tr").removeClass("prepare").addClass("success");
+                  $(this).removeClass("prepare").addClass("open");
+                
             }
             //cas closed: closed ==> prepare
             else if ($(this).hasClass("closed")) {
                 /*   console.log("closed test button");*/
                 $(this).children().attr("src", img_path + "cadenas-bleu.png");
                 $(this).removeClass("closed").addClass("prepare");
-                $(this).closest("tr").removeClass("myclosed");
-                /*.addClass("prepare");*/
+                 $(this).closest("tr").removeClass("myclosed").addClass("prepare");
             }
             ;
             remplirSelect(dataAjax);

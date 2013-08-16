@@ -10,7 +10,7 @@ $(document).ready(function() {
 
             if ($(this).hasClass("open")) {
                 $(this).removeClass("open").addClass("closed");
-                $(this).closest("tr").addClass("myclosed");
+                $(this).closest("tr").removeClass("success").addClass("myclosed");
                 $(this).children().attr("src", img_path + "cadenas-sferme.png");
             }
             else if ($(this).hasClass("prepare")) {
