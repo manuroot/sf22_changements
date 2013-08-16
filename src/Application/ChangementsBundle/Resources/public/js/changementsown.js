@@ -77,14 +77,14 @@ $('#target').submit(function() {
         {
            /*  console.log("hidebox? box=1 status status="+boxVisible());*/
              hideBox();
-             $(this).children().first().html('<i class="icon-search"></i>  Afficher Filtres');
+             $(this).children().first().html('<i class="icon-search icon-mesfiltres"></i>  Afficher Filtres');
              
         }
         else
         {
            /*  console.log("box=1 status status="+boxVisible());*/
             showBoxEffect();
-              $(this).children().first().html('<i class="icon-search"></i>  Masquer Filtres');
+              $(this).children().first().html('<i class="icon-search icon-mesfiltres"></i>  Masquer Filtres');
         }
     });
 
@@ -101,7 +101,7 @@ $('#target').submit(function() {
         if (!boxVisible()){
       /* console.log("initbox box=1 doit montrer la box");*/
             showBox();
-             $('#ShowHideButton').children().first().html('<i class="icon-search"></i>  Masquer Filtres');
+             $('#ShowHideButton').children().first().html('<i class="icon-search icon-mesfiltres"></i>  Masquer Filtres');
         }
         }
         else if ( $.cookie('Boxchangementown')==0)
@@ -110,7 +110,7 @@ $('#target').submit(function() {
              if (boxVisible()){
              
              hideBox();
-              $('#ShowHideButton').children().first().html('<i class="icon-search"></i>  Afficher Filtres');
+              $('#ShowHideButton').children().first().html('<i class="icon-search icon-mesfiltres"></i>  Afficher Filtres');
              }
         }
          if ( $.cookie('Boxfilterown')==1){

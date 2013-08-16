@@ -66,6 +66,15 @@ div.toto label input {
 th i{
 color: #333333;
 font-size:14px; }
+ .montext {
+      /*   color: #fff;*/
+       /* text-shadow: 5px 5px 1px red;*/
+       padding-bottom:4px;
+       padding-top:4px;
+       padding-left:5px;
+    font-size: 1.5em;
+    float: right;
+      }
         </style>
            {{ form_stylesheet(search_form) }}
 {% endblock %}
@@ -73,7 +82,12 @@ font-size:14px; }
 {% block content_header '' %}
 
 {% block title %}
-        PLANNING DES OPERATIONS ({{ nbResults }}) 
+    <span class="icon-stack">
+  <i class="icon-check-empty icon-stack-base"></i>
+  <i class="icon-table"></i>
+</span>    PLANNING DES OPERATIONS 
+ <a class="btn btn-medium btn-info" href="#">
+  <i class="icon-info-sign icon-2x"></i> <div class="montext">{{ nbResults }}</div></a> 
 {% endblock %}
 
 {% block content %}
@@ -103,7 +117,7 @@ font-size:14px; }
 'b.nomprojet': ['100px','icon-tag','Projet'],'a.demandeur': ['30px','icon-user','D'],
  } %}
         
-{% set itemsb = { 'e.nomUser': ['100px','icon-user','Users'],'d.nom':['30px','icon-flag','F'],
+{% set itemsb = { 'e.nomUser': ['100px','icon-group','Users'],'d.nom':['30px','icon-flag','F'],
 'a.ticketExt': ['100px','icon-tag','T_Ext'],'a.ticketInt': ['70px','icon-tag',' T_Int'],
 'g.nom': ['80px','icon-tag','Env'],
  } %}      
@@ -225,7 +239,7 @@ font-size:14px; }
                             
                         <td>
                             <a href="{{ path('changements_comment_show', { 'id': entity.id }) }}">
-                                <i class="icon-comments icon-1x"style="color:black"></i>
+                                <i class="icon-pencil" style="color:black"></i>
                             </a>
                         </td>
                 </tr>

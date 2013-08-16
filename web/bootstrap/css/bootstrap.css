@@ -8,8 +8,32 @@
 * Designed and built with all the love in the world @twitter by @mdo and @fat.
 */
 
+.myelement {
+    position: relative;
+}
+ 
+/*replace the content value with the
+corresponding value from the list below*/
+ 
+.myelement:before {
+    content: "\f000";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+/*--adjust as necessary--*/
+    color: #000;
+    font-size: 18px;
+    padding-right: 0.5em;
+    position: absolute;
+    top: 10px;
+    left: 0;
+}
 
-
+.icon-mesfiltres {
+    color:#222222;
+    padding-right:5px;
+}
 article,
 aside,
 details,
@@ -231,6 +255,7 @@ body {
   line-height: 20px;
   color: #333333;
   background-color: #ffffff;
+
 }
 /*
 a {
@@ -2328,7 +2353,6 @@ background-color: whitesmoke;
 }*/
 
 
-
 /*
 [class^="icon-"],
 [class*=" icon-"] {
@@ -2343,7 +2367,7 @@ background-color: whitesmoke;
   background-position: 14px 14px;
   background-repeat: no-repeat;
 }
-/*
+*/
 /* White icons with optional class, or on hover/active states of certain elements */
 /*
 .icon-white,
@@ -2360,8 +2384,8 @@ background-color: whitesmoke;
 .dropdown-submenu:hover > a > [class^="icon-"],
 .dropdown-submenu:hover > a > [class*=" icon-"] {
   background-image: url("../img/glyphicons-halflings-white.png");
-}*/
-
+}
+*/
 .icon-glass {
   background-position: 0 0;
 }
@@ -2404,6 +2428,7 @@ background-color: whitesmoke;
 
 .icon-th {
   background-position: -240px 0;
+ 
 }
 
 .icon-th-list {

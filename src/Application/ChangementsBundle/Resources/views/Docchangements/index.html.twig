@@ -52,7 +52,13 @@
 
         
 {% block title %}
-Fichiers sur les Opérations  ({{ total }})
+ <span class="icon-stack">
+  <i class="icon-check-empty icon-stack-base"></i>
+  <i class="icon-archive"></i>
+</span>  
+Fichiers sur les Opérations  
+<a class="btn btn-small btn-info" href="#">
+  <i class="icon-info-sign icon-2x"></i> {{ total }}</a> 
 {% endblock %}
 
 

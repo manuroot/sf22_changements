@@ -82,6 +82,22 @@ assetic:
             node: /usr/bin/node
             node_paths: [/opt/less/lib, /usr/lib/node_modules]
             apply_to: "\.less$"
+#    assets:
+#        fontawesome_css:
+#          inputs:
+#            - css/less/font-awesome.less
+#          filters:
+#            - less
+#            - cssrewrite
+#          output: css/cpfontawesome.css
+#        fontawesome_IE7_css:
+#          inputs:
+#            - css/less/font-awesome-ie7.less
+#          filters:
+#            - less
+#            - cssrewrite
+#          output: css/cpfontawesome_IE7.css
+
 #==================================================
 #  DOCTRINE
 #==================================================
