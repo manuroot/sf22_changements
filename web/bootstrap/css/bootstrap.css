@@ -1986,7 +1986,7 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-
+ 
 .table {
   width: 100%;
   margin-bottom: 20px;
@@ -2001,7 +2001,11 @@ table {
   vertical-align: top;
   border-top: 1px solid #dddddd;
 }
-.table td { padding: 4px;}
+.table td { padding-left: 4px;
+           padding-right: 4px;
+           padding-top: 8px;
+           padding-bottom: 8px;
+}
 .table th {
   font-weight: bold;
   padding-left:4px;
@@ -2254,8 +2258,8 @@ tr.success_search{
 }
 
 .table tbody tr.success td {
-  background-color: #d0e9c6;
-   /*background-color: #dff0d8;*/
+ /* background-color: #d0e9c6;*/
+   background-color: #dff0d8;
 }
 .table tbody tr.prepare td {
      background-color: #ACDBF4;
