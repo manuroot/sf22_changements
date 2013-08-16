@@ -16,7 +16,7 @@
                 output='css/compiled/main.css' filter='?yui_css' %}
 <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
 {% endstylesheets %}
-
+<link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}" type="text/css" />
 {# filter='?yui_css' en dev #}
         {% endblock %}
 
@@ -29,7 +29,7 @@
                    
                 </div>
                 <div id="content">
-        <center><h1>   {% block title %}CERTIFICATS{% endblock %}</h1></center>
+        <center><h1>   {% block title %}CERTIFICATS{% endblock %}<i class="icon-key"></i></h1></center>
                 {% block content %}
                 {% endblock %}
                 </div>

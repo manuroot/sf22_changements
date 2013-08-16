@@ -63,6 +63,9 @@
 div.toto label input {
     clear: left;
 }
+th i{
+color: #333333;
+font-size:14px; }
         </style>
            {{ form_stylesheet(search_form) }}
 {% endblock %}
@@ -222,7 +225,7 @@ div.toto label input {
                             
                         <td>
                             <a href="{{ path('changements_comment_show', { 'id': entity.id }) }}">
-                                <i class="icon-pencil"></i>
+                                <i class="icon-comments icon-1x"style="color:black"></i>
                             </a>
                         </td>
                 </tr>
