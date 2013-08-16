@@ -6,7 +6,11 @@
           {% block stylesheets %}
            <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-responsive.css') }}" type="text/css" />
         <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.css') }}" type="text/css" />
-     
+         
+<link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}" type="text/css" />
+        <!--[if IE 7]>
+        <link rel="stylesheet" href="{{ asset('css/font-awesome-ie7.css') }}">
+        <![endif]--> 
      
              {% stylesheets 
                 '@ApplicationCertificatsBundle/Resources/public/css/certificatscenter.css' 
@@ -129,9 +133,9 @@ $(document).ready(function() {
 
   
   <ul>
-    <li><a href="#tabs-1" class="mytab"> <i class="icon-pencil"></i>  Données Principales</a></li>
-    <li><a href="#tabs-2" class="mytab" ><i class="icon-book"></i>  Fichiers ({{ entity.picture|length }})</a></li>
-    <li><a href="#tabs-3" class="mytab" ><i class="icon-pencil"></i>  Activites({{ entity.comments|length }})</a></li>
+    <li><a href="#tabs-1" class="mytab"> <i class="icon-user icon-mesfiltres"></i>  Données Principales</a></li>
+    <li><a href="#tabs-2" class="mytab" ><i class="icon-book icon-mesfiltres"></i>  Fichiers ({{ entity.picture|length }})</a></li>
+    <li><a href="#tabs-3" class="mytab" ><i class="icon-pencil icon-mesfiltres"></i>  Activites({{ entity.comments|length }})</a></li>
 {#
  
       
