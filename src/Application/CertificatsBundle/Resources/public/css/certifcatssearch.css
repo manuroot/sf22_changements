@@ -6,7 +6,7 @@ tr.single {
     background-color: #bbbbbb;
 } 
 tr.title {
-    background-color: #AAAAAA;;
+      background-color: lightgrey;
     /*#bbbbbb;*/
     font-size: 12px;
 }
