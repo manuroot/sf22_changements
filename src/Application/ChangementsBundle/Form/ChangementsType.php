@@ -132,6 +132,16 @@ $builder
                     'required' => false,
                 ))
         
+         ->add('dateDemande', 'date', array(
+                    'label' => 'Date Demande',
+                    'widget' => 'single_text',
+                    'widget_addon' => array(
+                        'icon' => 'time',
+                        'type' => 'prepend'
+                    ),
+                    'required' => true,
+                ))
+        
         ->add('description', 'textarea', array(
         'attr' => array(
             'class' => 'tinymce',

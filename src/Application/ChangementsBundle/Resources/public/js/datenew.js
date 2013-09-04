@@ -1,5 +1,15 @@
 $(document).ready(function() {
-
+ $("#changements_dateDemande").datepicker({
+        maxDate: "+5Y",
+        minDate: "-5Y",
+        changeMonth: true,
+        changeYear: true,
+        numberOfMonths: 1,
+        dateFormat: "yy-mm-dd",
+        onClose: function(selectedDate) {
+            $("#form_bis").datepicker("option", "minDate", selectedDate);
+        }
+    });
     //$(function() {
     $("#changements_dateDebut").datepicker({
         minDate: "-5Y",

@@ -1,10 +1,15 @@
+changements_fanta:
+    pattern:  /
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:indexfanta" }
+    methods: POST|GET
+
 changements_post:
     pattern:  /operations
     defaults: { _controller: "ApplicationChangementsBundle:Changements:indexpost" }
     methods: POST|GET
 
 changements_posttest:
-    pattern:  /
+    pattern:  /changements
     defaults: { _controller: "ApplicationChangementsBundle:Changements:indexposttest" }
     methods: POST|GET
 
@@ -13,10 +18,7 @@ changements_posttestdebug:
     defaults: { _controller: "ApplicationChangementsBundle:Changements:indexposttestdebug" }
     methods: POST|GET
 
-changements_fanta:
-    pattern:  /fanta
-    defaults: { _controller: "ApplicationChangementsBundle:Changements:indexfanta" }
-    methods: POST|GET
+
 
 
 changements_genemutest:

@@ -115,7 +115,16 @@ class ChangementsStepsType extends AbstractType {
                                 'type' => 'prepend'
                             ),))
                                
-                                    
+                                   
+                     ->add('dateDemande', 'date', array(
+                            'label' => 'Date Demande',
+                            'widget' => 'single_text',
+                            'widget_addon' => array(
+                                'icon' => 'time',
+                                'type' => 'prepend'
+                            ),
+                            'required' => true,
+                        ))
         
                       ->add('dateDebut', 'datetime', array(
                     'label' => 'Date début',

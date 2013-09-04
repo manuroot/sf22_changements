@@ -81,15 +81,19 @@
                                             <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-white  icon-th"></i>
                                                 Changements<b class="caret"></b> </a>
                                             <ul class="dropdown-menu">
+                                                       <li><a href="{{ path('changements_fanta') }}"><i class="icon-th-list"></i> {{ 'Opérations fanta'|trans }}</a></li>
+                                                          <li><a href="{{ path('changements_apy') }}"><i class="icon-th-list"></i> {{ 'Opérations DataGrid'|trans }}</a></li>
                                                   <li><a href="{{ path('changements_posttest') }}"><i class="icon-th-list"></i> {{ 'Opérations v1'|trans }}</a></li>
                                                 {#
                                                 <li><a href="{{ path('changements_posttestdebug') }}"><i class="icon-camera"></i> {{ 'Opérations v1debug'|trans }}</a></li>
                                                 #}
-                                                 <li><a href="{{ path('changements_fanta') }}"><i class="icon-th-list"></i> {{ 'Opérations fanta'|trans }}</a></li>
+                                          
+                                             {# 
                                                  <li><a href="{{ path('changements_post') }}"><i class="icon-th-list"></i> {{ 'Opérations v2'|trans }}</a></li>
-                                                  <li><a href="{{ path('changements_charts') }}"><i class="icon-camera"></i> {{ 'Graphiques'|trans }}</a></li>
-                                                <li><a href="{{ path('changements_calendar') }}"><i class="icon-time"></i> {{ 'Calendrier'|trans }}</a></li>
-                                                <li><a href="{{ path('changements_apy') }}"><i class="icon-th-list"></i> {{ 'Opérations DataGrid'|trans }}</a></li>
+                                            #}
+                                                <li><a href="{{ path('changements_charts') }}"><i class="icon-camera"></i> {{ 'Graphiques'|trans }}</a></li>
+                                                <li><a href="{{ path('changements_calendar') }}"><i class="icon-calendar"></i> {{ 'Calendrier'|trans }}</a></li>
+                                             
                                                 <li><a href="{{ path('docchangements') }}"><i class="icon-briefcase"></i> {{ 'Fichiers'|trans }}</a></li>
     
 
