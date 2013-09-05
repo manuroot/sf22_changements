@@ -479,5 +479,26 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         // echo "getEvents query";exit(1);
         return $this->getEventsQueryBuilder($begin, $end, $options);
     }
-
+   public function getMyDate($date) {
+           $myarr=array();
+      //     echo "date=$date";exit(1);
+        $qb = $this->createQueryBuilder('a')
+        ->select('a.dateDebut,a.nom')
+        ->where('a.dateDebut LIKE :mydate')
+        ->setParameter('mydate', "%" . $date . "%" );
+       // return $qb->getQuery()->getResult();
+        
+        foreach ($qb->getQuery()->getResult() as $d) {
+            /*$year = $d['createdAt']->format('Y');
+             $month = $d['createdAt']->format('m');
+             $day = $d['createdAt']->format('d');*/
+              $value=$d['dateDebut']->format('m\/d\/Y');
+              $name=$d['nom'];
+          //  if (! array_key_exists($key, $myarr))
+                 array_push($myarr,array('date'=>"$value",'title'=>$name));
+        }
+        return ($myarr);
+     //   print_r($myarr);
+      
+    }
 }

@@ -18,6 +18,11 @@ changements_posttestdebug:
     defaults: { _controller: "ApplicationChangementsBundle:Changements:indexposttestdebug" }
     methods: POST|GET
 
+changements_minicalendar:
+    pattern:  /minicalendar
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:CalendarEvents" }
+    options:
+        expose: true
 
 
 

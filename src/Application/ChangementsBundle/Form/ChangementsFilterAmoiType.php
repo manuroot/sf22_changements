@@ -52,6 +52,7 @@ class ChangementsFilterAmoiType extends AbstractType {
                     'class' => 'Changements',
                 ))
                 ->add('description', 'text', array(
+                    'label'=>'Description',
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'

@@ -1258,5 +1258,37 @@ class ChangementsController extends Controller {
             
         ));
     }
+  // TODO:
+    public function CalendarEventsAction() {
 
+          
+          $request = $this->getRequest();
+          $session = $this->getRequest()->getSession();
+        if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
+            $month = $request->request->get('month');
+            if ($month < 10)
+                $month = "0" . $month;
+            $year = $request->request->get('year');
+            $date = $year . '-' . $month;
+           // $session_event=$date;
+             $current_session_events = $session->get($date);
+         if (!isset($current_session_events)){
+            // echo "year=$year month=$month<br>";exit(1); 
+            $em = $this->getDoctrine()->getManager();
+            // recuperation des parametres
+            $events_date = $em->getRepository('ApplicationChangementsBundle:Changements')->getMyDate($date);
+              $session->set($date, $events_date); 
+            //  print_r($events_date); 
+              
+       }else {
+            $events_date= $current_session_events;
+          //   print_r($events_date); 
+       }
+             //  print_r($events_date); 
+            $response = new Response(json_encode($events_date));
+            $response->headers->set('Content-Type', 'application/json');
+      return $response;
+        }
+        // return new Response();
+    }
 }
