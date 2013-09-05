@@ -12,7 +12,7 @@
 {% block javascripts %}
     {{ parent() }}
 <script type="text/javascript" src="{{ asset('js/compiled/changementsown.js') }}"></script>
-{% if is_granted("IS_AUTHENTICATED_FULLY") %}
+{#{% if is_granted("IS_AUTHENTICATED_FULLY") %}#}
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/changementsfanta.js') }}"></script>
@@ -23,7 +23,7 @@
         }
     });
     </script>
-{% endif %}
+{#{% endif %}#}
   {{ form_javascript(search_form) }}
 {% endblock %}
 

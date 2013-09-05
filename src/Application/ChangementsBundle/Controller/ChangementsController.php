@@ -1260,8 +1260,7 @@ class ChangementsController extends Controller {
     }
   // TODO:
     public function CalendarEventsAction() {
-
-          
+       
           $request = $this->getRequest();
           $session = $this->getRequest()->getSession();
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
