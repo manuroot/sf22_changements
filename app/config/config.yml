@@ -250,7 +250,7 @@ fos_user:
   
 
 fos_js_routing:
-     routes_to_expose: [ changements_updatexhtml_changement,certificatscenter_updatexhtml_certificats,serveurs_updatexhtml_status,certificatscenter_listbyprojet,changements_listbyprojet ]  
+     routes_to_expose: [ changements_updatexhtml_changement,certificatscenter_updatexhtml_certificats,serveurs_updatexhtml_status,certificatscenter_listbyprojet,changements_listbyprojet,changements_minicalendar ]  
     
 #==================================================
 #  TINYMCE
