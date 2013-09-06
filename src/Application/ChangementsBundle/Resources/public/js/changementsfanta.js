@@ -168,6 +168,11 @@ $(document).ready(function() {
                 placeholder: "-- Choisir Environnement(s) --",
                 allowClear: true
             });
+            
+             $("#changements_searchfilter_idusers").select2({
+                placeholder: "-- Choisir User(s) --",
+                allowClear: true
+            });
          $("#changements_searchfilter_demandeur").select2(); 
          
 }); //Eof:: ready
