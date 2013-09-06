@@ -41,7 +41,7 @@ class CertificatsCenterRepository extends EntityRepository {
                 ->leftJoin('a.demandeur', 'd')
                 ->leftJoin('a.idEnvironnement', 'e')
                 ->leftJoin('a.fichier', 'f')
-                ->orderBy('a.fileName', 'ASC');
+                ->orderBy('a.id', 'DESC');
         if (isset($id)) {
             $query->andwhere('b.id = :myid');
             $query->setParameter('myid', $id);
