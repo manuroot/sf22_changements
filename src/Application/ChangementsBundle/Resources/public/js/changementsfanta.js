@@ -160,9 +160,14 @@ $(document).ready(function() {
             escapeMarkup: function(m) { return m; }
         });
         
-        $("#changements_searchfilter_idEnvironnement").select2({
-                placeholder: "Choisir Environnement(s)",
+        $("#changements_searchfilter_idProjet").select2({
+                placeholder: "-- Choisir Projet(s) --",
+                allowClear: true
+            });
+             $("#changements_searchfilter_idEnvironnement").select2({
+                placeholder: "-- Choisir Environnement(s) --",
                 allowClear: true
             });
          $("#changements_searchfilter_demandeur").select2(); 
+         
 }); //Eof:: ready
