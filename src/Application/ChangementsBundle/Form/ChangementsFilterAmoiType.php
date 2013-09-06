@@ -149,7 +149,8 @@ class ChangementsFilterAmoiType extends AbstractType {
                     'expanded' => false,
                     'multiple' => true,
                     'required' => false,
-                    'label' => 'Environnements'
+                    'label' => 'Environnements',
+                   /* 'empty_value' => '--- Options ---', */
                 ))
                 /* ->add('idProjet','choice',array(
                   'choices' => $choices,
