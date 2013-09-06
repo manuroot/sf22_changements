@@ -397,6 +397,17 @@ class ChangementsController extends Controller {
         $ob5->plotOptions->pie($pie_options);
         $ob5->series(array(array('type' => 'pie', 'name' => 'Browser share', 'data' => $data_demandeur)));
 
+         //=====================================================
+        // Par Group sur une année
+        //=====================================================
+        $data_groupe = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_group_year($year);
+        $ob6 = new Highchart();
+        $ob6->chart->renderTo('linechart6');
+        $ob6->title->text($titre . ': Services');
+        $ob6->tooltip->pointFormat('{series.name}: <b>{point.percentage:.1f}%</b>');
+        $ob6->plotOptions->pie($pie_options);
+        $ob6->series(array(array('type' => 'pie', 'name' => 'Browser share', 'data' => $data_groupe)));
+
         //=====================================================
         // Par Projet et par mois sur une année
         //=====================================================
@@ -435,6 +446,7 @@ class ChangementsController extends Controller {
                     'chart2' => $ob2,
                     'chart5' => $ob5,
                     'chart4' => $ob4,
+                    'chart6' => $ob6,
                     'form' => $form->createView(),
                     'year' => $year,
         ));

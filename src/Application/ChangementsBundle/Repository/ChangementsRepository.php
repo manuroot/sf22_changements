@@ -316,6 +316,42 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         return $datas;
     }
 
+    
+     public function sum_group_year($year = null) {
+
+        $c_year = $this->mydate($year);
+
+        /*  $current_date = new \DateTime();
+          if (!isset($year)) {
+          $year = $current_date->format('Y');
+          } */
+        $query = $this->createQueryBuilder('a')
+                ->select('count(a.id) as nb,c.nomGroup,MONTH(a.dateDebut) as mois')
+                ->leftJoin('a.demandeur', 'b')
+                ->leftJoin('b.idgroup', 'c')
+                ->andWhere('a.dateDebut LIKE :date')
+                ->groupby('c.nomGroup');
+        $parameters['date'] = '%' . $c_year . '-%';
+        // echo "year=" . $parameters['date'] . "<br>";
+        $query->setParameters($parameters);
+
+        $qa = $this->createQueryBuilder('a')->select('COUNT(a.id)')
+                ->where('a.dateDebut LIKE :madate')
+                ->setParameter('madate', '%' . $c_year . '-%')
+                ->getQuery()
+                ->getSingleScalarResult();
+        $datas = array();
+        foreach ($query->getQuery()->getScalarResult() as $valeur) {
+            // echo $valeur['nomprojet'] . "--" . $valeur['mois'] . "<br>";
+            array_push($datas, array($valeur['nomGroup'], round(($valeur['nb'] / $qa) * 100)));
+        }
+        
+        /* print_r($datas);
+          exit(1);*/
+        return $datas;
+    }
+    
+    
     public function getNbTopicParForums() {
         $qb = $this->createQueryBuilder('f')
                 ->join('f.topics', 't')
