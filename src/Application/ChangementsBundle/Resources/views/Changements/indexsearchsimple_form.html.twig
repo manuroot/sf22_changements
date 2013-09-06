@@ -5,10 +5,10 @@
     {{ form_row(search_form.nom) }}
       <br/>
     {{ form_row(search_form.description) }}
-   <br>
-    {{ form_row(search_form.demandeur) }}
   
      {{ form_row(search_form.idusers) }}
+   
+    {{ form_row(search_form.demandeur) }}
    
     </td>
     <td class="calendar"> 
@@ -23,10 +23,14 @@
     {{ form_row(search_form.dateFin_max) }}
     <br><br>
     {{ form_row(search_form.ticketExt) }}
-           <br><br>
-    {{ form_row(search_form.ticketInt) }}
+        
      </td>
     <td class="calendar">
+         {{ form_row(search_form.idEnvironnement) }}
+         {{ form_row(search_form.idProjet) }}
+              {{ form_row(search_form.idStatus) }}
+             
+    {{ form_row(search_form.ticketInt) }}
     {{ form_rest(search_form) }}</td>
     </tr>
     <tr><td class="calendar" colspan="3">

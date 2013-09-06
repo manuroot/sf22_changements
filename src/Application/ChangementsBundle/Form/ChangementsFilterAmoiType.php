@@ -254,13 +254,14 @@ class ChangementsFilterAmoiType extends AbstractType {
                     },
                     'empty_value' => '--- Choisir une option ---',
                     'property' => 'nomUser',
+                    // Ajout pour select2
+                    'expanded' => false,
                     'multiple' => true,
                     //  'expanded'=>true,
                     'required' => false,
                     'label' => 'Utilisateurs'
         ));
-
-
+ 
         /*
           ->add('idusers', 'entity', array(
           'class' => 'ApplicationRelationsBundle:ChronoUser',
