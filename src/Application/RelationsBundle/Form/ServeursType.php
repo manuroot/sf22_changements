@@ -16,7 +16,15 @@ class ServeursType extends AbstractType {
                         'icon' => 'pencil',
                         'type' => 'prepend'
             )))
-                ->add('description', null, array(
+                ->add('description','textarea',array(
+                    'label' => 'Description',
+                     'required' => false,
+                    'widget_addon' => array(
+                        'icon' => 'lock',
+                        'type' => 'prepend'
+                    ),))
+                
+                /*->add('description', null, array(
                     'attr' => array(
                         'placeholder' => 'ex: 12345 (5 a 10 car.)'
                     ),
@@ -24,7 +32,7 @@ class ServeursType extends AbstractType {
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'
-            )))
+            )))*/
                 ->add('ip_in', null, array(
                     'attr' => array(
                         'placeholder' => 'ex: 192.168.1.12'

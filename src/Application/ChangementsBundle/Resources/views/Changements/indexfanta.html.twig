@@ -16,6 +16,9 @@
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/changementsfanta.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('select2/select2.js') }}"></script>
+   <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
+
 <script>
     $(function() {
         if ($.cookie('Boxchangementown') == 1) {
@@ -31,7 +34,8 @@
   {% block stylesheets %}
 {{ parent() }}
     <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
-    <style>
+       <link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
+       <style>
 
             th.sorted{color: rgb(0, 136, 204);
                       text-decoration: none;}
@@ -52,6 +56,11 @@
                             font-weight: normal;
                             line-height: 20px;}
 
+            /* select#changements_searchfilter_idStatus{
+               }*/
+             .select2-choice {
+     width:167px;
+}
             div#mybutton {
 
                 padding-top: 130px; 
@@ -231,7 +240,7 @@
                                                             <td>
                                   {{ entity.idusers|join(', ') }}   
                                                                 </td>
-                                                                <td>
+                                                                 <td style="min-width:45px"> 
                                 {% if entity.idStatus.description == 'open' %}
                                                                         <a class="open" data-id="{{entity.id}}"  href="#{{ entity.id }}">
                                                                             <img src="{{ asset('bundles/applicationchangements/images/cadenas-souvert.png') }}" alt="show" width="15px" height="15px"/>

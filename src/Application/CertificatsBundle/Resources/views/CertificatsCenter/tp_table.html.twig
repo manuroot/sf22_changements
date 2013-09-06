@@ -53,11 +53,11 @@
                     <td>
                                 {% if entity.warningFile == 0 %}
                                     <a class="open" data-id="{{entity.id}}" href="#{{ entity.id }}">
-                                        <img src="{{ asset('bundles/applicationcertificats/images/cadenas-souvert.png') }}" alt="show" width="15" height="15"/>
+                                        <img src="{{ asset('bundles/applicationcertificats/images/cadenas-souvert.png') }}" alt="show" width="15px" height="15px"/>
                                     </a>
                                       {% else %}
                                     <a class="closed" data-id="{{entity.id}}" href="#{{ entity.id }}">
-                                        <img src="{{ asset('bundles/applicationcertificats/images/cadenas-sferme.png') }}" alt="show" width="15" height="15" />
+                                        <img src="{{ asset('bundles/applicationcertificats/images/cadenas-sferme.png') }}" alt="show" width="15px" height="15px" />
                                     </a>
                                {% endif %}
                             </td> 
@@ -79,10 +79,10 @@
             <td>{{ entity.demandeur }}</td>
            <!-- <td>{{ entity.way }}</td>-->
            <!-- <td>{{ entity.statusFile }}</td>-->
-             <td>
+            <td style="min-width:18px"> 
                                      <a title="Opération: {{ entity.fileName }}" href="{{ path('certificatscenter_show', { 'id': entity.id }) }}">
                                 {#<a class="editme" title="Opération: {{ entity.fileName }}" href="{{ path('certificatscenter_show', { 'id': entity.id }) }}">#}
-                                    <img src="{{ asset('bundles/applicationcertificats/images/detail.png') }}" alt="show" width="15" height="15" />
+                                    <img src="{{ asset('bundles/applicationcertificats/images/detail.png') }}" alt="show" width="15px" height="15px" />
                                 </a>
                             </td>     
                        {#
@@ -93,16 +93,16 @@
                 </td>
                 #}
                    {% if is_granted("ROLE_ADMIN") %}
-                       <td>
+                      <td style="min-width:18px"> 
                     <a href="{{ path('certificatscenter_edit', { 'id': entity.id }) }}">
-                        <img src="{{ asset('bundles/applicationcertificats/images/edit.png') }}" alt="edit" width="15" height="15" />
+                        <img src="{{ asset('bundles/applicationcertificats/images/edit.png') }}" alt="edit" width="15px" height="15px" />
                     </a>
                 </td>
-                <td>
+                <td style="min-width:18px"> 
 
 
                     <a href="{{ path('certificatscenter_delete', { 'id': entity.id }) }}">
-                        <img src="{{ asset('bundles/applicationcertificats/images/delete.png') }}" alt="delete" width="15" height="15" />
+                        <img src="{{ asset('bundles/applicationcertificats/images/delete.png') }}" alt="delete" width="15px" height="15px" />
                     </a>
                 </td>
 

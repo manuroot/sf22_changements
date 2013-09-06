@@ -188,14 +188,16 @@ class ChangementsFilterAmoiType extends AbstractType {
                   ->add('orderBy', 'b.nomprojet ASC');
                   },
                   )) */
-                ->add('idStatus', 'filter_entity', array(
+                   /*->add('idStatus', 'filter_entity', array(*/
+                ->add('idStatus', 'entity', array(
                     'label' => 'Status',
                     'class' => 'Application\ChangementsBundle\Entity\ChangementsStatus',
                     'property' => 'nom',
                     'expanded' => false,
-                    'multiple' => true,
+                   'multiple'=> false,
+                  /*  'multiple' => true,*/
                     'required' => false,
-                        /* 'empty_value' => '--- Choisir une option ---', */
+                    'empty_value' => '--- Options ---', 
                 ))
                 /* ->add('demandeur', 'entity', array(
                   'class' => 'ApplicationRelationsBundle:ChronoUser',
@@ -224,6 +226,7 @@ class ChangementsFilterAmoiType extends AbstractType {
                     'expanded' => false,
                     'multiple' => false,
                     'mapped' => false,
+                     'empty_value' => '--- Options ---', 
                 ))
 
                 /*

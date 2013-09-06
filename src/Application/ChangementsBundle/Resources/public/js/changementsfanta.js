@@ -1,5 +1,6 @@
 $(document).ready(function() {
     var img_path = 'bundles/applicationcertificats/images/';
+    var img_s_path = 'bundles/applicationchangements/images/';
     $("td > a").click(function(event) {
 
         /* * A modifier: change color only sur success !!*/
@@ -148,4 +149,17 @@ $(document).ready(function() {
             }
             return [true];
         }
+        
+          function format(state) {
+            if (!state.id) return state.text; // optgroup
+            return "<img class='flag' src='" + img_s_path + state.id.toLowerCase() + ".png'/> " + state.text;
+        }
+        $("#changements_searchfilter_idStatus").select2({
+            formatResult: format,
+            formatSelection: format,
+            escapeMarkup: function(m) { return m; }
+        });
+        
+        
+          $("#changements_searchfilter_demandeur").select2(); 
 }); //Eof:: ready
