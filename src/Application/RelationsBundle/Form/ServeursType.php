@@ -23,6 +23,14 @@ class ServeursType extends AbstractType {
                         'icon' => 'lock',
                         'type' => 'prepend'
                     ),))
+                   ->add('idProjet', 'entity', array(
+                    'class' => 'ApplicationRelationsBundle:Projet',
+                    'property' => 'nomprojet',
+                    'expanded' => false,
+                    'multiple' => true,
+                    'required' => false,
+                    'label' => 'Projets'
+                ))
                 
                 /*->add('description', null, array(
                     'attr' => array(

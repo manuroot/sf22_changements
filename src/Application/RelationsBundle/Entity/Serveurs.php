@@ -144,10 +144,26 @@ class Serveurs {
      */
     private $updatedDate;  
     
+   
+    
+     /**
+     * @var \Projet
+     *
+     * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\Projet",inversedBy="idchangement")
+     * @ORM\JoinTable(name="serveurs_projets")
+     * @ORM\OrderBy({"nomprojet" = "ASC"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_projet", referencedColumnName="id",nullable=false)
+     * })
+     */
+    private $idProjet;
+    
+    
       public function __construct()
   {
     $this->addedDate = new \DateTime('now');
     $this->updatedDate = new \DateTime('now');
+    $this->idProjet = new ArrayCollection();
     $this->warning = false;
     
   }
@@ -441,5 +457,36 @@ class Serveurs {
     public function getWarning()
     {
         return $this->warning;
+    }
+    
+    /**
+     *  Add IdProjet
+     *
+     * @param \Application\RelationsBundle\Entity\Serveurs $idProjet
+     * @return Serveur
+     */
+    public function addIdProjet(\Application\RelationsBundle\Entity\Environnements $idProjet) {
+        $this->idProjet[] = $idProjet;
+
+        return $this;
+    }
+
+    /**
+     * Remove IdProjet
+     *
+     * @param \Application\RelationsBundle\Entity\Serveurs $IdProjet
+     */
+    public function removeIdProjet(\Application\RelationsBundle\Entity\Environnements $idProjet) {
+        $this->idProjet->removeElement($idProjet);
+    }
+
+    /**
+     * Get IdProjet
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+
+     */
+    public function getIdProjet() {
+        return $this->idProjet;
     }
 }

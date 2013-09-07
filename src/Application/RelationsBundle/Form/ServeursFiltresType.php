@@ -95,6 +95,17 @@ class ServeursFiltresType extends AbstractType {
                     'expanded' => false,
                     'multiple' => false,
                 ))
+                ->add('idProjet', 'filter_entity', array(
+                    'label' => 'Projet',
+                    'class' => 'Application\RelationsBundle\Entity\Projet',
+                    'query_builder' => function(EntityRepository $em) {
+                        return $em->createQueryBuilder('u')
+                                ->orderBy('u.nomprojet', 'ASC');
+                    },
+                    'property' => 'nomprojet',
+                    'expanded' => false,
+                    'multiple' => false,
+                ))
         ;
     }
 

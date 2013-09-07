@@ -44,6 +44,16 @@
              
     
 }
+.montext {
+                /*   color: #fff;*/
+                /* text-shadow: 5px 5px 1px red;*/
+                padding-bottom:4px;
+                padding-top:4px;
+                padding-left:5px;
+                font-size: 1.5em;
+                float: right;
+                position: relative;
+            }
 </style>
 {{ form_stylesheet(search_form) }}
 {% endblock %}
@@ -58,7 +68,10 @@
 </span>  
 Fichiers sur les Opérations  
 <a class="btn btn-small btn-info" href="#">
-  <i class="icon-info-sign icon-2x"></i> {{ total }}</a> 
+  <i class="icon-info-sign icon-2x"></i>     
+  <div class="montext">{{ total }}
+  </div></a>
+
 {% endblock %}
 
 

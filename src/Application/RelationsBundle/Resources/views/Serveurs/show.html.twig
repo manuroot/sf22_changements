@@ -10,6 +10,8 @@
 {% block title %}DETAILS SERVEUR:  {{ entity.nom }} {% endblock %}
 {% block content %}
       
+{% include 'ApplicationCertificatsBundle:templates:flash.html.twig' %}
+
      <br><br>
      
 <table class="view table-bordered">
@@ -69,6 +71,11 @@
             
                 </tr>
         
+<tr><td class="viewlabel">Projets</td>
+   <td>   {{ entity.idProjet|join(', ') }}   </td>
+   </tr>
+   {# <td>{% for proj in idProjet %} {{ appli.nomapplis }}{% endfor %}</td></tr>#}
+
        
                 </tbody>
             </table>

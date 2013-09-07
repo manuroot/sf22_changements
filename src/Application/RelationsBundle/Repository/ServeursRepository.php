@@ -15,10 +15,11 @@ class ServeursRepository extends EntityRepository
     
       public function myFindAll($id=null) {
         $query=$this->createQueryBuilder('a')
-                  ->select('a,b,c,d')
+                  ->select('a,b,c,d,e')
                         ->leftJoin('a.idzone', 'b')
                         ->leftJoin('a.idsite', 'c')
                         ->leftJoin('a.id_env', 'd')
+                ->leftJoin('a.idProjet', 'e')
                /*    ->addSelect('g')
                 //->addSelect('g')
                 ->distinct('GroupConcat(g.nom) AS kak')

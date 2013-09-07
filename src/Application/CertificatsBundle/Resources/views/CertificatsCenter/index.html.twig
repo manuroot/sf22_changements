@@ -66,7 +66,18 @@ tr.title th {
 }
 
 tr.danger {background:red;}
-
+.montext {
+                /*   color: #fff;*/
+                /* text-shadow: 5px 5px 1px red;*/
+                padding-bottom:4px;
+                padding-top:4px;
+                padding-left:5px;
+                font-size: 1.5em;
+                float: right;
+                position: relative;
+            }
+             a.btn.btn-medium.btn-info {
+            width:80px;}
 select {
 width:180px;}
 select.pattern-selector {
@@ -79,9 +90,24 @@ label,.mondiv { color:#02195e; font-size: 12px;
 {% endblock %}
 
 {% block content_header '' %}
+
+
+{% block title %}
+       
+        <span class="icon-stack">
+            <i class="icon-check-empty icon-stack-base"></i>
+            <i class="icon-table"></i>
+        </span>    LISTE DES {{ parent() }} 
+        <a class="btn btn-medium btn-info" href="#">
+           
+               <i class="icon-info-sign icon-2x"></i> <div class="montext">  {{ total }}</div></a> 
+           {# <i class="icon-info-sign icon-2x"></i> <div class="montext"> {{ pagination.getTotalItemCount }}</div></a> #}
+{% endblock %}
+       {# 
 {% block title %}
 LISTE DES {{ parent() }}  ({{ total }})
 {% endblock %}
+#}
 {% block content %}
 
 {% include 'ApplicationCertificatsBundle:templates:flash.html.twig' %}
