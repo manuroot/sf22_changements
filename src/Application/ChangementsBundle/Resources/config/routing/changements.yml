@@ -93,10 +93,13 @@ changements_upload:
     pattern:  /upload
     defaults: { _controller: "ApplicationChangementsBundle:Changements:upload" }
  
+changements_newchangement:
+    pattern:  /newchangement
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:new" }
+
 changements_newflowstart:
     pattern:  /newflowstart
     defaults: { _controller: "ApplicationChangementsBundle:Changements:newflowstart" }
-   
 changements_newflow:
     pattern:  /newflow
     defaults: { _controller: "ApplicationChangementsBundle:Changements:newflow" }

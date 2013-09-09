@@ -14,11 +14,12 @@ class CertificatsFilesRepository extends EntityRepository {
 
     public function myFindAll($id = null) {
         //$values = array('a,partial b.{id,fileName,project}');
-        $values = array('a,b,c');
+        $values = array('a,b,c,d');
         $query = $this->createQueryBuilder('a')
                 ->select($values)
                 ->leftJoin('a.certificats', 'b')
                 ->leftJoin('b.project', 'c')
+                ->leftJoin('b.typeCert', 'd')
                 ->orderBy('a.id', 'DESC');
         if (isset($id)) {
             $query->andwhere('b.id = :myid');
@@ -31,11 +32,13 @@ class CertificatsFilesRepository extends EntityRepository {
     // TODO REGEX
     public function getListBy($criteria) {
 
+       //  var_dump($criteria);exit(1);
         $query = $this->createQueryBuilder('a')
-                ->select('a,b,c')
+                ->select('a,b,c,d')
                 ->add('orderBy', 'a.id DESC')
                 ->leftJoin('a.certificats', 'b')
-                ->leftJoin('b.project', 'c');
+                ->leftJoin('b.project', 'c')
+                 ->leftJoin('b.typeCert', 'd');
         $parameters = array();
 
         /* if (isset($criteria['certificats']) && $criteria['certificats'] != "") {
@@ -57,6 +60,18 @@ class CertificatsFilesRepository extends EntityRepository {
         }
 
 
+        if (isset($criteria['project']) && $criteria['project'] != "") {
+          //  var_dump($criteria['project']);exit(1);
+            $query->andWhere('c.id IN (:project)');
+            //  $query->distinct('GroupConcat(d.nomprojet) AS projet');
+            $parameters['project'] = $criteria['project'];
+        }
+   if (isset($criteria['typeCert']) && $criteria['typeCert'] != "") {
+          //  var_dump($criteria['project']);exit(1);
+            $query->andWhere('d.id IN (:typeCert)');
+            //  $query->distinct('GroupConcat(d.nomprojet) AS projet');
+            $parameters['typeCert'] = $criteria['typeCert'];
+        }
 
         // Supprimer les autres champs qui ne sont pas dans la classe
         foreach ($criteria as $field => $value) {
@@ -66,6 +81,7 @@ class CertificatsFilesRepository extends EntityRepository {
                 //  continue;
             }
         }
+
 
         //les like
         $like_arrays = array('name', 'md5', 'OriginalFilename', 'path', 'certificats');
@@ -109,6 +125,10 @@ class CertificatsFilesRepository extends EntityRepository {
         }
         $query->setParameters($parameters);
         return $query;
+    }
+
+     public function findTypeFile() {
+     
     }
 
 }

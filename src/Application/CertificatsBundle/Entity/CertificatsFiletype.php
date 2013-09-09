@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\RelationsBundle\Entity;
+namespace Application\CertificatsBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="certificats_filetype")
  * @ORM\Entity
  */
-class Filetype
+class CertificatsFiletype
 {
     /**
      * @var integer

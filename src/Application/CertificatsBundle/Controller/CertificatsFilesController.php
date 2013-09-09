@@ -88,6 +88,7 @@ class CertificatsFilesController extends Controller {
         ));
     }
 
+    
      public function indexAction(Request $request) {
 
         //  $entity = new Changements();
@@ -97,13 +98,19 @@ class CertificatsFilesController extends Controller {
         $session = $request->getSession();
         $session->set('buttonretour', 'certificats_documents');
       
-        $searchForm = $this->createForm(new CertificatsFilesFilterType());
+        $searchForm = $this->createForm(new CertificatsFilesFilterType($em));
      
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
             $session->remove('certificatsfiles_filter');
         } elseif ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
             $alldatas = $request->request->all();
             $datas = $alldatas["certificatsfiles_searchfilter"];
+            
+            
+              //  print_r($datas);exit(1);
+     
+            
+            
             $parameters = $datas;
             $session->set('certificatsfiles_filter', $datas);
             $searchForm->bind($datas);
@@ -116,11 +123,32 @@ class CertificatsFilesController extends Controller {
         }
        $query = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->getListBy($parameters);
     $pagination = $this->createpaginator($query, 15);
+      $total = $pagination->getTotalItemCount();
           return $this->render('ApplicationCertificatsBundle:CertificatsFiles:index.html.twig', array(
                     'search_form' => $searchForm->createView(),
                     'pagination' => $pagination,
+                    'total'=>$total
         ));
     }
+    
+    /*
+     * 
+     *  if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
+            $session->remove('certificatsfiles_filter');
+        } elseif ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
+            $alldatas = $request->request->all();
+            $datas = $alldatas["certificatsfiles_searchfilter"];
+            
+            
+              //  print_r($datas);exit(1);
+     
+            
+            
+            $parameters = $datas;
+     */
+    
+    
+    
     /**
      * Creates a new CertificatsFiles entity.
      *
@@ -131,6 +159,11 @@ class CertificatsFilesController extends Controller {
         $form->bind($request);
 
         if ($form->isValid()) {
+            // recup des champs du formluaire
+            
+            //verif si creation d'une entree
+            
+            //verif si associé a entree existante
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();

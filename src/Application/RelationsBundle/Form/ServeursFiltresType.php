@@ -96,7 +96,7 @@ class ServeursFiltresType extends AbstractType {
                     'expanded' => false,
                     'multiple' => false,
                 ))
-                ->add('idProjet', 'entity', array(
+               /* ->add('idProjet', 'entity', array(
                     'label' => 'Projet',
                     'class' => 'Application\RelationsBundle\Entity\Projet',
                     'query_builder' => function(EntityRepository $em) {
@@ -107,7 +107,7 @@ class ServeursFiltresType extends AbstractType {
                     'expanded' => false,
                     'multiple' => false,
                     'required'=>false,
-                ))
+                ))*/
         ;
                     
            /* ->add('idProjet', 'filter_entity', array(

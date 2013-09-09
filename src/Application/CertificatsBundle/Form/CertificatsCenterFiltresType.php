@@ -153,7 +153,7 @@ class CertificatsCenterFiltresType extends AbstractType {
                         'type' => 'prepend'
                     ),))
                 ->add('typeCert', 'filter_entity', array(
-                    'class' => 'Application\RelationsBundle\Entity\Filetype',
+                    'class' => 'Application\CertificatsBundle\Entity\CertificatsFiletype',
                     'query_builder' => function(EntityRepository $em) {
                         return $em->createQueryBuilder('u')
                                 ->orderBy('u.fileType', 'ASC');
@@ -163,7 +163,7 @@ class CertificatsCenterFiltresType extends AbstractType {
                     'multiple' => false,
         ));
       /*  $builder->add('typeCert', 'entity', array(
-            'class' => 'Application\RelationsBundle\Entity\Filetype',
+            'class' => 'Application\CertificatsBundle\Entity\CertificatsFiletype',
             'query_builder' => function(EntityRepository $em) {
                 return $em->createQueryBuilder('u')
                                 ->orderBy('u.fileType', 'ASC');

@@ -53,4 +53,35 @@ class CertificatsCenterRepository extends EntityRepository {
         //return $query->getQuery()->getResult();
     }
 
+     public function getProjetsForRequeteBuilder() {
+        $query = $this->createQueryBuilder('a')
+                ->select('distinct b.id,b.nomprojet')
+                //   ->from('Application\ChangementsBundle\Entity\Changements', 'a')
+                ->leftJoin('a.project', 'b')
+                ->groupBy('b.id')
+                ->add('orderBy', 'b.nomprojet ASC');
+
+        $choices = array();
+        $arr = $query->getQuery()->getArrayResult();
+        foreach ($arr as $result) {
+            $choices[$result['id']] = $result['nomprojet'];
+        }
+        return $choices;
+    }
+    //$typeCert
+ public function getTypeCertForRequeteBuilder() {
+        $query = $this->createQueryBuilder('a')
+                ->select('distinct b.id,b.fileType')
+                //   ->from('Application\ChangementsBundle\Entity\Changements', 'a')
+                ->leftJoin('a.typeCert', 'b')
+                ->groupBy('b.id')
+                ->add('orderBy', 'b.fileType ASC');
+
+        $choices = array();
+        $arr = $query->getQuery()->getArrayResult();
+        foreach ($arr as $result) {
+            $choices[$result['id']] = $result['fileType'];
+        }
+        return $choices;
+    }
 }

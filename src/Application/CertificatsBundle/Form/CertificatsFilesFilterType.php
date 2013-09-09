@@ -8,10 +8,43 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
 
+use Doctrine\ORM\EntityManager;
+
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormError;
+use Doctrine\ORM\QueryBuilder;
+/*
+use Application\ChangementsBundle\Repository\ChangementsRepository;
+use Application\ChangementsBundle\Entity\Changements;
+use Application\ChangementsBundle\Entity\ChangementsStatus;
+use Application\RelationsBundle\Entity\Projet;
+ * */
+use Application\RelationsBundle\Repository\ProjetRepository;
+use Application\CertificatsBundle\Repository\CertificatsCenterRepository;
+use Symfony\Bridge\Doctrine\RegistryInterface;
+
 
 class CertificatsFilesFilterType extends AbstractType {
 
+     private $_em;
+     // datas pour $em
+    private $_datas;
+
+    public function __construct(EntityManager $entityManager,$datas=array()) {
+        $this->_em = $entityManager;
+      //   $this->_datas = $datas;
+         //Array ( [nom] => [description] => [demandeur] => 
+         //[dateDebut] => [dateDebut_max] => [dateFin] => [dateFin_max] => [ticketExt] => [ticketInt] => [idEnvironnement] => Array ( [0] => 1 )
+        // $em = $this->getDoctrine()->getManager();
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options) {
+        
+          // print_r($this->_datas);exit(1);
+        $em = $this->_em;
+        $choices_projets = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->getProjetsForRequeteBuilder();
+        $choices_typecert = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->getTypeCertForRequeteBuilder();
        $builder
                
                /*  ->add('name', 'genemu_jqueryautocomplete_text', array(
@@ -39,6 +72,25 @@ class CertificatsFilesFilterType extends AbstractType {
                     'class' => 'Application\CertificatsFilesBundle\Entity\CertificatsFiles',
                 ))
 
+               ->add('project', 'choice', array(
+                    'choices' => $choices_projets,
+                    'required' => false,
+                    'label' => 'Projets',
+                    'expanded' => false,
+                    'multiple' => true,
+                    'mapped' => false,
+                    'empty_value' => '--- Options ---', 
+                ))
+               
+               ->add('typeCert', 'choice', array(
+                    'choices' => $choices_typecert,
+                    'required' => false,
+                    'label' => 'Type',
+                    'expanded' => false,
+                    'multiple' => true,
+                    'mapped' => false,
+                    'empty_value' => '--- Options ---', 
+                ))
                /*
                 ->add('name','text',array( 
                     'widget_addon' => array(

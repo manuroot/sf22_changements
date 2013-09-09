@@ -3,5 +3,12 @@ services:
         class: Application\CertificatsBundle\Twig\CertificatsExtension
         tags:
             - { name: twig.extension }  
-            
+ 
+   application.relations.admin.filetype:
+      class: Application\RelationsBundle\Admin\FiletypeAdmin
+      tags:
+        - { name: sonata.admin, manager_type: orm, group: Projets, label: Liste des Types }
+      arguments: [null, Application\CertificatsBundle\Entity\CertificatsFiletype, ApplicationCertificatsBundle:FiletypeAdmin]   
+ 
+        
    

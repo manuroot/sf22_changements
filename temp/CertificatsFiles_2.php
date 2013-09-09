@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Application\CertificatsBundle\Entity\CertificatsCenter;
-/*use Symfony\Component\HttpFoundation\File\File;*/
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\ExecutionContextInterface;
@@ -18,6 +18,7 @@ use Symfony\Component\Validator\ExecutionContextInterface;
  *
  * @ORM\Table(name="certificats_files")
  * @ORM\Entity(repositoryClass="Application\CertificatsBundle\Repository\CertificatsFilesRepository")
+ * @Assert\Callback(methods={"isAuthorValid"})
  * @GRID\Source(columns="id,md5,path,OriginalFilename,$certificats",groupBy={"id"}) 
   * @ORM\HasLifecycleCallbacks
  */
@@ -38,15 +39,9 @@ class CertificatsFiles {
     private $md5;
 
     /**
-     * 
-     * @Assert\File(maxSize="5M",
-     *    notFoundMessage = "Le fichier n'a pas été trouvé sur le disque",
-     *    uploadErrorMessage = "Erreur dans l'upload du fichier"
-     * )
+     *  @Assert\File( maxSize="10M")
      */
     private $file;
-    
-    
     private $ok_extensions = array("crt", "der","pem", "cer", "p12", "pkcs12", "p7", "p7b");
 
     /**
@@ -143,9 +138,7 @@ class CertificatsFiles {
     }
 
     public function __toString() {
-      //  return $this->getName();    // this will not look good if SonataAdminBundle uses this ;)
-    return $this->getOriginalFilename();
-        
+        return $this->getName();    // this will not look good if SonataAdminBundle uses this ;)
     }
 
     public function getAbsolutePath() {
@@ -186,58 +179,13 @@ class CertificatsFiles {
         }
     }
 
-    
-     /**
-     * Avant le persist et l'update (fichier deja uploadé)
-     * 
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    public function preUpload() {
-        $this->updatedAt = new \DateTime();
-        // si upload de fichier (temp file)
-        if (null !== $this->file) {
-
-            // faites ce que vous voulez pour générer un nom unique
-            // a remettre apres
-            //  $this->path=$this->generateNewFilename();
-
-            $ext = null;
-            $this->OriginalFilename = $this->getFile()->getClientOriginalName();
-            $fic = $this->OriginalFilename;
-            $info = pathinfo($fic);
-            if (isset($info)) {
-                $ext = $info['extension'];
-            }
-            if (!isset($ext)) {
-                $ext = $this->file->guessExtension();
-            }
-            if (!isset($ext)) {
-                $ext = "bin";
-            }
-            $this->path = sha1(uniqid(mt_rand(), true)) . '.' . $ext;
-
-
-            $this->md5 = md5_file($this->file);
-            $this->updatedAt = new \DateTime();
-            // echo "here";exit(1);
-        }
-        // check du md5
-        if (!$this->md5 && (file_exists($this->getUploadDir() . '/' . $this->path))) {
-            $this->md5 = md5_file($this->getUploadDir() . '/' . $this->path);
-        }
-        
-        
-        //    echo "here";exit(1);
-    }
-
     /**
      * Avant le persist et l'update (fichier deja uploadé)
      * 
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
-    public function OldpreUpload() {
+    public function preUpload() {
 
         // si upload de fichier (temp file)
         if (null !== $this->file) {

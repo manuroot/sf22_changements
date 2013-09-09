@@ -134,7 +134,7 @@ class CertificatsCenterType extends AbstractType {
         
       //  ->add('fichier','file');
         /*,'entity', array(
-            'class' => 'Application\RelationsBundle\Entity\Filetype',
+            'class' => 'Application\CertificatsBundle\Entity\CertificatsFiletype',
              'property' => 'FileType',
             'multiple' => false,
             'required' => true,
@@ -167,7 +167,7 @@ class CertificatsCenterType extends AbstractType {
             'widget' => 'single_text'
         ));*/
         $builder->add('typeCert', 'entity', array(
-            'class' => 'Application\RelationsBundle\Entity\Filetype',
+            'class' => 'Application\CertificatsBundle\Entity\CertificatsFiletype',
             'query_builder' => function(EntityRepository $em) {
                 return $em->createQueryBuilder('u')
                                 ->orderBy('u.fileType', 'ASC');

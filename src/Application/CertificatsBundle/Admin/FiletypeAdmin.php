@@ -2,7 +2,7 @@
 
 // src/Tutorial/BlogBundle/Admin/PostAdmin.php
 
-namespace Application\RelationsBundle\Admin;
+namespace Application\CertificatsBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Form\FormMapper;

@@ -49,9 +49,20 @@ label,.mondiv { color:#02195e; font-size: 12px;
 {% endblock %}
 
 {% block content_header '' %}
-{% block title %}FICHIERS-CERTIFICATS{% endblock %}
+ 
+{% block title %}
+ <span class="icon-stack">
+  <i class="icon-check-empty icon-stack-base"></i>
+  <i class="icon-archive"></i>
+</span>  
+FICHIERS-CERTIFICATS 
+<a class="btn btn-small btn-info" href="#">
+  <i class="icon-info-sign icon-2x"></i>     
+  <div class="montext">{{ total }}
+  </div></a>
 
-    
+{% endblock %}
+
 {% block content %}
 
 {% include 'ApplicationCertificatsBundle:templates:flash.html.twig' %}
@@ -70,11 +81,14 @@ label,.mondiv { color:#02195e; font-size: 12px;
         <tr class="title">
      <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
      <th{% if pagination.isSorted('a.OriginalFilename') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom Origine', 'a.OriginalFilename') }}</th>
+    {#
      <th{% if pagination.isSorted('a.md5') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'md5', 'a.md5') }}</th>
-     <th{% if pagination.isSorted('a.updatedAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date MAJ', 'a.updatedAt') }}</th>
+    #}
+         <th{% if pagination.isSorted('a.updatedAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date MAJ', 'a.updatedAt') }}</th>
      <th{% if pagination.isSorted('a.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date Creation', 'a.createdAt') }}</th>
-     <th{% if pagination.isSorted('b.project') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Projet', 'b.project.nomprojet') }}</th>
-     <th{% if pagination.isSorted('b.fileName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Certificats', 'b.fileName') }}</th>
+     <th{% if pagination.isSorted('c.nomprojet') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Projet', 'c.nomprojet') }}</th>
+       <th{% if pagination.isSorted('d.fileType') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Type', 'd.fileType') }}</th>
+       <th{% if pagination.isSorted('b.fileName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Certificats', 'b.fileName') }}</th>
      {% if is_granted("ROLE_ADMIN") %}
                 <th colspan="4">Actions</th>
                 {% else %}
@@ -98,10 +112,11 @@ label,.mondiv { color:#02195e; font-size: 12px;
                  {% endif %}
                  </td>
           {# <td>{{ entity.OriginalFilename }}</td>createdAt#}
-            <td>{{ entity.md5 }}</td>
+         {#   <td>{{ entity.md5 }}</td>#}
              <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
              <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
                <td>{% if entity.certificats %}{{ entity.certificats.project }}{% endif %}</td>
+               <td>{% if entity.certificats %}{{ entity.certificats.typeCert }}{% endif %}</td>
              <td>{{ entity.certificats }}</td>
             <td>
                <a href="{{ path('certificats_documents_show', { 'id': entity.id }) }}">

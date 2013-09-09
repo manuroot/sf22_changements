@@ -15,7 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Application\RelationsBundle\Entity\Projet;
 use Application\RelationsBundle\Entity\Applis;
-use Application\RelationsBundle\Entity\FileType;
+use Application\CertificatsBundle\Entity\CertificatsFiletype;
 use Symfony\Component\HttpFoundation\File\File;
 use Application\CertificatsBundle\Entity\CertificatsFiles;
 /**
@@ -195,7 +195,7 @@ class CertificatsCenter
     /**
      * @var \Filetype
      *
-     * @ORM\ManyToOne(targetEntity="\Application\RelationsBundle\Entity\Filetype")
+     * @ORM\ManyToOne(targetEntity="\Application\CertificatsBundle\Entity\CertificatsFiletype")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="type_cert", referencedColumnName="id")
      * })
@@ -577,10 +577,10 @@ class CertificatsCenter
     /**
      * Set typeCert
      *
-     * @param \Application\RelationsBundle\Entity\Filetype $typeCert
+     * @param \Application\CertificatsBundle\Entity\CertificatsFiletype $typeCert
      * @return CertificatsCenter
      */
-    public function setTypeCert(\Application\RelationsBundle\Entity\Filetype $typeCert = null)
+    public function setTypeCert(\Application\CertificatsBundle\Entity\CertificatsFiletype $typeCert = null)
     {
         $this->typeCert = $typeCert;
     
@@ -590,7 +590,7 @@ class CertificatsCenter
     /**
      * Get typeCert
      *
-     * @return \Application\RelationsBundle\Entity\Filetype 
+     * @return \Application\CertificatsBundle\Entity\CertificatsFiletype
      */
     public function getTypeCert()
     {

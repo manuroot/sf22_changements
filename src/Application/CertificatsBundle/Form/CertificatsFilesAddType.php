@@ -14,7 +14,26 @@ class CertificatsFilesAddType extends AbstractType {
     $builder->add('file', new CertificatsFilesType(),array(
               'label'=>'Fichier',
               'required'=>false))
-               
+            
+            
+           ->add('typeCert', 'entity', array(
+            'class' => 'Application\CertificatsBundle\Entity\CertificatsFiletype',
+            'query_builder' => function(EntityRepository $em) {
+                return $em->createQueryBuilder('u')
+                                ->orderBy('u.fileType', 'ASC');
+            },
+            'property' => 'FileType',
+            'multiple' => false,
+            'required' => false,
+            'label' => 'Type',
+            'mapped'=>false,
+            'empty_value' => '--- Choisir une option ---'
+        ))
+              ->add('creer_demande', 'checkbox', array(
+                    'attr' => array('checked' => 'checked'),
+                  'label'=> "Créer automatiquement une entrée",
+                   'mapped'=>false,
+        ))
                 ->add('certificats', 'entity', array(
                     //'class' => 'Application\CertificatsBundle\Entity\CertificatsProjet',
                     'class' => 'ApplicationCertificatsBundle:CertificatsCenter',

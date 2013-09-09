@@ -9,7 +9,7 @@ services:
       class: Application\RelationsBundle\Admin\FiletypeAdmin
       tags:
         - { name: sonata.admin, manager_type: orm, group: Projets, label: Liste des Types }
-      arguments: [null, Application\RelationsBundle\Entity\Filetype, ApplicationRelationsBundle:FiletypeAdmin]   
+      arguments: [null, Application\CertificatsBundle\Entity\CertificatsFiletype, ApplicationCertificatsBundle:FiletypeAdmin]   
  
         
    
