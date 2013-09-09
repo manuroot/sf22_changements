@@ -151,7 +151,8 @@ $('#target').submit(function() {
     {
         var options = { };
       /*var options = { percent: 0 };*/
-      var effet="explode";
+   /*  var effet="explode";*/
+      var effet="slide";
        ShowHideBox.hide(effet, options, 800).addClass('hidden');
   $.cookie('Boxchangementown', 0, {expires: 365});
     }

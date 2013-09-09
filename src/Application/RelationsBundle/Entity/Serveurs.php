@@ -144,17 +144,15 @@ class Serveurs {
      */
     private $updatedDate;  
     
-   
     
      /**
      * @var \Projet
      *
-     * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\Projet",inversedBy="idchangement")
-     * @ORM\JoinTable(name="serveurs_projets")
-     * @ORM\OrderBy({"nomprojet" = "ASC"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_projet", referencedColumnName="id",nullable=false)
-     * })
+     * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\Projet")
+     * @ORM\JoinTable(name="serveurs_projets",
+     *      joinColumns={@ORM\JoinColumn(name="id_serveur", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="id_projet", referencedColumnName="id")}
+     *      )
      */
     private $idProjet;
     

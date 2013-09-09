@@ -184,6 +184,7 @@ $builder
                     'label' => 'Status',
                  //   'empty_value' => '--- Choisir une option ---'
                 ))
+        
                 ->add('idProjet', 'entity', array(
                     'class' => 'ApplicationRelationsBundle:Projet',
                     'query_builder' => function(EntityRepository $em) {

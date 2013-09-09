@@ -78,7 +78,17 @@ class CertificatsCenterType extends AbstractType {
         */
         
         
-         ->add('startDate', 'date', array(
+        ->add('addedDate', 'datetime', array(
+            'label' => 'Date d\'ajout',
+            'widget' => 'single_text',
+            'input' => 'datetime',
+            'format' => 'yyyy-MM-dd',
+            'widget_addon' => array(
+                'icon' => 'time',
+                'type' => 'prepend'
+            ),
+        ))
+        ->add('startDate', 'date', array(
                     'label' => 'Date début',
                     'widget' => 'single_text',
                     'input' => 'datetime',
@@ -88,16 +98,7 @@ class CertificatsCenterType extends AbstractType {
                         'type' => 'prepend'
                     ),
                 ));
-        $builder->add('addedDate', 'datetime', array(
-            'label' => 'Date d\'ajout',
-            'widget' => 'single_text',
-            'input' => 'datetime',
-            'format' => 'yyyy-MM-dd',
-            'widget_addon' => array(
-                'icon' => 'time',
-                'type' => 'prepend'
-            ),
-        ));
+       
         $builder->add('endTime', 'datetime', array(
             'label' => 'Date de fin',
             'widget' => 'single_text',

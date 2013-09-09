@@ -16,6 +16,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\Extension\Type\TextFilterType as TextFilterType;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
+use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormError;
@@ -95,7 +96,7 @@ class ServeursFiltresType extends AbstractType {
                     'expanded' => false,
                     'multiple' => false,
                 ))
-                ->add('idProjet', 'filter_entity', array(
+                ->add('idProjet', 'entity', array(
                     'label' => 'Projet',
                     'class' => 'Application\RelationsBundle\Entity\Projet',
                     'query_builder' => function(EntityRepository $em) {
@@ -105,8 +106,31 @@ class ServeursFiltresType extends AbstractType {
                     'property' => 'nomprojet',
                     'expanded' => false,
                     'multiple' => false,
+                    'required'=>false,
                 ))
         ;
+                    
+           /* ->add('idProjet', 'filter_entity', array(
+                 'label' => 'Projet',
+                    'class' => 'Application\RelationsBundle\Entity\Projet',
+           'apply_filter' => function(QueryInterface $filterQuery, $field, $values) {
+                if (!empty($values['value'])) {
+                    $qb = $filterQuery->getQueryBuilder();
+               
+                    $qb->leftJoin('u.idProjet', 'e');
+                    $qb->andWhere($filterQuery->getExpr()->in('e.nomprojet', $values['value']));
+                    
+                }
+            },
+        ));*/
+                    /* $builder->add('my_number_field', 'filter_number', array(
+            'apply_filter' => function(QueryInterface $filterQuery, $field, $values) {
+                if (!empty($values['value'])) {
+                    $qb = $filterQuery->getQueryBuilder();
+                    $qb->andWhere($filterQuery->getExpr()->eq($field, $values['value']));
+                }
+            },
+        ));*/
     }
 
     public function getName() {

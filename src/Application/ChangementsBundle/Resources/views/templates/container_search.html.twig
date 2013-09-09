@@ -39,11 +39,13 @@
     </form>
   
         <div id="{{ box }}" class="hidden">
-          <div id="myform">
-              {% include include_html_search with {'tpl_path':form_path } %}
-            </div>
-           <div id="minidatepicker"></div>
+          {% include include_html_search with {'tpl_path':form_path } %}
+                             
+            <div id="minidatepicker"></div>
+            
+           
              
             </div>
-    <br class="clear" />
+   
         </div>
+ <br class="clear" />

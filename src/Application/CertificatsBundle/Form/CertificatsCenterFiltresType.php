@@ -89,7 +89,7 @@ class CertificatsCenterFiltresType extends AbstractType {
                     'multiple' => false,
                 ))
                   
-                   ->add('idEnvironnement', 'filter_entity', array(
+                   ->add('idEnvironnement', 'entity', array(
                        'label'=>'Environnements',
                     'class' => 'Application\RelationsBundle\Entity\Environnements',
                      'query_builder' => function(EntityRepository $em) {
@@ -99,6 +99,9 @@ class CertificatsCenterFiltresType extends AbstractType {
                     'property' => 'nom',
                     'expanded' => false,
                     'multiple' => false,
+                    
+                                'required' => false,
+                     'empty_value' => '--- Choisir une option ---', 
                 ))
                     
                  ->add('demandeur', 'filter_entity', array(
