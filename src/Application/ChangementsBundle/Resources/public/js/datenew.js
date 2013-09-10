@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    var img_s_path = '/bundles/applicationchangements/images/';
+  
  $("#changements_dateDemande").datepicker({
         maxDate: "+5Y",
         minDate: "-5Y",
@@ -55,14 +57,38 @@ $(document).ready(function() {
             $("#form_bis").datepicker("option", "minDate", selectedDate);
         }
     });
+    
+      function format(state) {
+            if (!state.id) return state.text; // optgroup
+            return "<img class='flag' src='" + img_s_path + state.id.toLowerCase() + ".png'/> " + state.text;
+        }
+        $("#changements_idStatus").select2({
+             placeholder: "-- Choisir Statut(s) --",
+                allowClear: true,
+            formatResult: format,
+            formatSelection: format,
+            escapeMarkup: function(m) { return m; }
+        });
+        
+        
      $("select#changements_idapplis").select2({
                 placeholder: "-- Choisir Application(s) --",
                 allowClear: true
             });
-             $("#changements_searchfilter_demandeur").select2(); 
+             $("select#changements_idusers").select2({
+                placeholder: "-- Choisir User(s) --",
+                allowClear: true
+            });
+        
+               $("#changements_demandeur").select2(); 
+                $("#changements_searchfilter_idProjet").select2({
+                placeholder: "-- Choisir Projet(s) --",
+                allowClear: true
+            });
+           
+           
               $("#changements_idProjet").select2({
                 placeholder: "-- Choisir Projet(s) --",
                 allowClear: true
             });
- /* select id="changements_idStatus"*/
 }); //Eof:: ready
