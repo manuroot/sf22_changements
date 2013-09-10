@@ -39,7 +39,28 @@
         .tinymce {height:300px;}
         td.description {text-align:center;vertical-align:middle;}
         .lastcol {width:250px;}
-        select#changements_idapplis,select#changements_idusers{height:200px;}
+        select option:hover {
+                background-color: #b6d1fd;
+            }
+            
+            /* #s2id_autogen2.select2-input.select2-default {*/
+            div#s2id_changements_idapplis, div#s2id_changements_idusers,
+             div#s2id_changements_searchfilter_idProjet,
+             div#s2id_changements_searchfilter_idusers {
+           
+            min-width:167px;
+            }
+            select#changements_searchfilter_idusers{
+                height:150px;}
+            label,.mondiv { color:#02195e; font-size: 12px;
+                            font-weight: normal;
+                            line-height: 20px;}
+
+            /* select#changements_searchfilter_idStatus{
+               }*/
+             .select2-choice {
+     width:167px;
+}
     </style>
 {#  {{ form_stylesheet(form) }}#}
 
@@ -51,8 +72,10 @@
   {# <script type="text/javascript" src="{{ asset('select2/select2.js') }}"></script>
    <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>#}
 
-
+ <script type="text/javascript" src="{{ asset('select2/select2.js') }}"></script>
+   <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
     <script>
+        
 
         /*
          $(document).ready(function() {
@@ -129,7 +152,7 @@
 
 
 {% block content_header '' %}
-{% block title %}EDITION OPERATION{% endblock %}
+{% block title %}CREATION OPERATION{% endblock %}
 {% block content %}
 
 
@@ -138,7 +161,7 @@
        <form action="{{ path('changements_create') }}" method="post" {{ form_enctype(form) }}>
             <table class="table-mybordered">
 
-                <tr><td class="calendar file">
+               <tr><td class="calendar file">
                         <div> {{ form_row(form.nom) }}</div>
                          <br/> <br/>
                         <div> {{ form_row(form.dateDemande) }} </div>
@@ -151,10 +174,11 @@
                         <br/> <br/>
                         <div> {{ form_row(form.dateVsr) }}</div>
                         
-                        <br/> <br/>
-                        <div> {{ form_row(form.idKind) }}</div>
                        
-                       </td>
+                 
+             {#    {% do form.picture.setRendered() %} #} 
+
+                    </td>
 
 
                     <td class="calendar mytiny">
@@ -166,9 +190,7 @@
                             <br>
                             <div class="boxlist">{{ form_row(form.astreinte) }}</div>
                             <br>
-                                 {{ form_row(form.ticketExt) }}
-                            <br/> <br/>
-                        {{ form_row(form.ticketInt) }}
+                          
                         </td>
 
                         <td class="calendar lastcol">
@@ -177,6 +199,12 @@
                                       {{ form_row(form.demandeur) }}
 
                                       {{ form_row(form.idusers) }}
+                                
+                       
+                        {{ form_row(form.idKind) }}
+                              {{ form_row(form.ticketExt) }}
+                            <br/> <br/>
+                        {{ form_row(form.ticketInt) }}
                             </td>
                         </tr>
                         <tr>  <td class="calendar description" colspan="3">
@@ -202,8 +230,7 @@
 
 
                                         </td>
-                                    </tr>     
-                                    <tr>
+                                    </tr>                                 <tr>
                                         <td class="calendar" colspan="3"> {{ form_rest(form) }} 
                                             <button type="submit" class="btn btn-large btn-warning">Modifier</button>
                                             <a href="{{ path('changements_posttest') }}" class="btn btn-large btn-success">Retour</a>

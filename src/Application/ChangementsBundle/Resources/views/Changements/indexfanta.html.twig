@@ -36,7 +36,10 @@
     <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
        <link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
        <style>
-
+ div#second{ float:left;}
+    
+    td.central {min-width:350px;}
+   
              div#showHideBoxown{width:100%;min-height:300px;}
             th.sorted{color: rgb(0, 136, 204);
                       text-decoration: none;}
@@ -54,7 +57,8 @@
             
             /* #s2id_autogen2.select2-input.select2-default {*/
             div#s2id_changements_searchfilter_idEnvironnement,
-             div#s2id_changements_searchfilter_idProjet,
+             div#s2id_changements_searchfilter_idProjet,div#s2id_changements_searchfilter_idStatus,
+             id#s2id_autogen1,
              div#s2id_changements_searchfilter_idusers {
            
             min-width:167px;
@@ -111,8 +115,8 @@
             
                div#minidatepicker {
                  font-size: 110%;
-                  margin-left:5px;
-                  padding-left:5px;
+                 /* margin-left:5px;*/
+                  padding-right:30px;
                   margin-bottom:20px;
                   width:250px;
                   height:250px;float:right;

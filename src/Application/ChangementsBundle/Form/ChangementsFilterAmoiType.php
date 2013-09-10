@@ -60,6 +60,7 @@ class ChangementsFilterAmoiType extends AbstractType {
                     'mapped' => false, 'required' => false))
                 ->add('dateDebut', 'text', array(
                     'attr' => array(
+                          'style' => 'width:120px',
                         'placeholder' => '> date debut'),
                     'widget_addon' => array(
                         'icon' => 'time',
@@ -69,6 +70,7 @@ class ChangementsFilterAmoiType extends AbstractType {
                 ))
                 ->add('dateDebut_max', 'text', array(
                     'attr' => array(
+                          'style' => 'width:120px',
                         'placeholder' => '< date debut'),
                     'widget_addon' => array(
                         'icon' => 'time',
@@ -77,15 +79,21 @@ class ChangementsFilterAmoiType extends AbstractType {
                     'mapped' => false, 'required' => false
                 ))
                 ->add('dateFin', 'text', array(
-                    'attr' => array(
-                        'placeholder' => '> date Fin'),
+                     
+                    'attr' => array(  
+                        'style' => 'width:120px',
+                        'placeholder' => '> date Fin'
+                        ),
+                  
                     'widget_addon' => array(
                         'icon' => 'time',
                         'type' => 'prepend'
                     ),
                     'mapped' => false, 'required' => false))
                 ->add('dateFin_max', 'text', array(
+                    
                     'attr' => array(
+                          'style' => 'width:120px',
                         'placeholder' => '< date Fin'),
                     'widget_addon' => array(
                         'icon' => 'time',
@@ -144,6 +152,7 @@ class ChangementsFilterAmoiType extends AbstractType {
                   ),
                   'mapped' => false, 'required' => false)) */
                 ->add('idEnvironnement', 'entity', array(
+                    
                     'class' => 'ApplicationRelationsBundle:Environnements',
                     'property' => 'nom',
                     'expanded' => false,
@@ -195,8 +204,7 @@ class ChangementsFilterAmoiType extends AbstractType {
                     'class' => 'Application\ChangementsBundle\Entity\ChangementsStatus',
                     'property' => 'nom',
                     'expanded' => false,
-                   'multiple'=> false,
-                  /*  'multiple' => true,*/
+                   'multiple'=> true,
                     'required' => false,
                     'empty_value' => '--- Options ---', 
                 ))

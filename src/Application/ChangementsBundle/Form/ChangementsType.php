@@ -345,11 +345,12 @@ $builder
                 ->add('idEnvironnement', 'entity', array(
                     'class' => 'ApplicationRelationsBundle:Environnements',
                     'property' => 'nom',
-                    'expanded' => 'true',
+                    'expanded' => false,
                     'multiple' => true,
                     'required' => true,
                     'label' => 'Environnements'
                 ))
+                     
                 ->add('demandeur', 'entity', array(
                     'class' => 'ApplicationRelationsBundle:ChronoUser',
                     'query_builder' => function(EntityRepository $em) {

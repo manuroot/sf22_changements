@@ -55,5 +55,14 @@ $(document).ready(function() {
             $("#form_bis").datepicker("option", "minDate", selectedDate);
         }
     });
+     $("select#changements_idapplis").select2({
+                placeholder: "-- Choisir Application(s) --",
+                allowClear: true
+            });
+             $("#changements_searchfilter_demandeur").select2(); 
+              $("#changements_idProjet").select2({
+                placeholder: "-- Choisir Projet(s) --",
+                allowClear: true
+            });
  /* select id="changements_idStatus"*/
 }); //Eof:: ready

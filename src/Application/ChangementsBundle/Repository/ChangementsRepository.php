@@ -455,8 +455,15 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         if (!empty($criteria)) {
             $query = $this->getListBy($criteria);
         }
-
-        $query->add('orderBy', "$sort $dir");
+//if (! isset($sort)){
+          //  $query->groupBy('a.idStatus');
+           // $query->add('orderBy', "a.idStatus $dir");
+      //        }
+          $query->add('orderBy', "$sort $dir");
+        
+      
+       // }
+        
         return $query->getQuery();
     }
 
