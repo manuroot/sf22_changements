@@ -64,7 +64,7 @@ class Changements extends AbstractEvent {
      *  Au maximum {{ limit }} caracteres"
      * )
      *
-     * @GRID\Column(field="nom", title="Nom",size="55")
+     * @GRID\Column(field="nom", title="Nom",size="80")
      */
     private $nom;
 
@@ -159,7 +159,7 @@ class Changements extends AbstractEvent {
      * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\Environnements",inversedBy="idchangements",cascade={"persist"})
      * @ORM\OrderBy({"nom" = "ASC"})
      * @ORM\JoinTable(name="changements_environnements")
-     * @GRID\Column(field="idEnvironnement.nom", filterable=true,size="100",title="Env", filter="select",selectFrom="query")
+     * @GRID\Column(field="idEnvironnement.nom", filterable=true,size="30",title="Env", filter="select",selectFrom="query")
      */
     private $idEnvironnement;
     

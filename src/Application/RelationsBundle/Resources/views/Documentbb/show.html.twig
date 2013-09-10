@@ -30,8 +30,16 @@
                 <td>{{ entity.name }}</td>
             </tr>
             <tr>
+                <th>md5</th>
+                <td>{{ entity.md5 }}</td>
+            </tr>
+            <tr>
                 <th>Path</th>
                 <td>{{ entity.path }}</td>
+            </tr>
+             <tr>
+                <th>Projet</th>
+                <td>{{ entity.idprojet|join('<br> ')|raw }}</td>
             </tr>
             
                <tr>

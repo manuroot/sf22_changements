@@ -323,7 +323,8 @@ a:hover {
 .navbar-static-top .container,
 .navbar-fixed-top .container,
 .navbar-fixed-bottom .container {
-  width: 940px;
+  /*width: 940px;*/
+  width: 1250px;
 }
 
 .span12 {
@@ -2026,10 +2027,10 @@ table {
   vertical-align: top;
   border-top: 1px solid #dddddd;
 }
-.table td { padding-left: 4px;
-           padding-right: 4px;
-           padding-top: 8px;
-           padding-bottom: 8px;
+.table td { padding-left: 3px;
+           padding-right: 3px;
+           padding-top: 3px;
+           padding-bottom: 3px;
 }
 .table th {
   font-weight: bold;
