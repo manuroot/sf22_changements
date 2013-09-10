@@ -199,7 +199,7 @@
 
 {% set itemsb = { 'e.nomUser': ['80px','icon-group','Users'],'d.nom':['30px','icon-flag','F'],
 'a.ticketExt': ['80px','icon-tag','T_Ext'],'a.ticketInt': ['70px','icon-tag',' T_Int'],
-'g.nom': ['80px','icon-tag','Env'],
+'g.nom': ['40px','icon-tag','Env'],
  } %}      
 
         <div id="matable">
@@ -298,7 +298,7 @@
                                                                     <td> {{ entity.ticketInt }}   </td>
 
 
-                                                                    <td style="min-width:100px"> 
+                                                                    <td> 
                                 {% for envir in entity.idEnvironnement %}
                                     {{ envir }} <br>
                                     {% endfor %}
