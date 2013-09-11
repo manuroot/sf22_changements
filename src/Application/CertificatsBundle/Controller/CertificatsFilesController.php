@@ -11,6 +11,9 @@ use Application\CertificatsBundle\Form\CertificatsFilesAddType;
 use Application\CertificatsBundle\Form\CertificatsFilesFilterType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Application\CertificatsBundle\Entity\CertificatsCenter;
+use Application\CertificatsBundle\Entity\CertificatsActions;
+use Application\CertificatsBundle\Form\CertificatsCenterType;
 
 /* use APY\DataGridBundle\Grid\Source\Entity;
   use APY\DataGridBundle\Grid\Grid;
@@ -88,8 +91,7 @@ class CertificatsFilesController extends Controller {
         ));
     }
 
-    
-     public function indexAction(Request $request) {
+    public function indexAction(Request $request) {
 
         //  $entity = new Changements();
         $parameters = array();
@@ -97,20 +99,20 @@ class CertificatsFilesController extends Controller {
         $request = $this->getRequest();
         $session = $request->getSession();
         $session->set('buttonretour', 'certificats_documents');
-      
+
         $searchForm = $this->createForm(new CertificatsFilesFilterType($em));
-     
+
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
             $session->remove('certificatsfiles_filter');
         } elseif ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
             $alldatas = $request->request->all();
             $datas = $alldatas["certificatsfiles_searchfilter"];
-            
-            
-              //  print_r($datas);exit(1);
-     
-            
-            
+
+
+            //  print_r($datas);exit(1);
+
+
+
             $parameters = $datas;
             $session->set('certificatsfiles_filter', $datas);
             $searchForm->bind($datas);
@@ -121,59 +123,182 @@ class CertificatsFilesController extends Controller {
                 $searchForm->bind($datas);
             }
         }
-       $query = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->getListBy($parameters);
-    $pagination = $this->createpaginator($query, 15);
-      $total = $pagination->getTotalItemCount();
-          return $this->render('ApplicationCertificatsBundle:CertificatsFiles:index.html.twig', array(
+        $query = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->getListBy($parameters);
+        $pagination = $this->createpaginator($query, 15);
+        $total = $pagination->getTotalItemCount();
+        return $this->render('ApplicationCertificatsBundle:CertificatsFiles:index.html.twig', array(
                     'search_form' => $searchForm->createView(),
                     'pagination' => $pagination,
-                    'total'=>$total
+                    'total' => $total
         ));
     }
-    
+
     /*
      * 
      *  if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
-            $session->remove('certificatsfiles_filter');
-        } elseif ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
-            $alldatas = $request->request->all();
-            $datas = $alldatas["certificatsfiles_searchfilter"];
-            
-            
-              //  print_r($datas);exit(1);
-     
-            
-            
-            $parameters = $datas;
+      $session->remove('certificatsfiles_filter');
+      } elseif ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
+      $alldatas = $request->request->all();
+      $datas = $alldatas["certificatsfiles_searchfilter"];
+
+
+      //  print_r($datas);exit(1);
+
+
+
+      $parameters = $datas;
+     * 
+     * 
+     * 
+     *  if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
+      $alldatas = $request->request->all();
+      $datas = $alldatas["certificats_filter"];
+      $filterForm->bind($datas);
+      if ($filterForm->isValid()) {
      */
-    
-    
-    
+
+    private function LierCertificat($datas) {
+
+
+        $em = $this->getDoctrine()->getManager();
+        $entity_typecert = $em->getRepository('ApplicationCertificatsBundle:CertificatsFileType')->find($data['typeCert']);
+
+        $entity = new CertificatsCenter();
+        $entity->setPort('80');
+        $entity->setTypeCert($entity_typecert);
+    }
+
     /**
      * Creates a new CertificatsFiles entity.
      *
+     * Array ( [name] => [typeCert] => [creer_demande] => 1 
+     * [certificats] => [_token] => ccddaa2110a6e1919f8715870f8ae661dc506d92 ) 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
      */
     public function createAction(Request $request) {
-        $entity = new CertificatsFiles();
-        $form = $this->createForm(new CertificatsFilesAddType(), $entity);
+        $entity_fichier = new CertificatsFiles();
+        $form = $this->createForm(new CertificatsFilesAddType(), $entity_fichier);
+
+        if ($request->getMethod() == 'POST') {
+            $alldatas = $request->request->all();
+            $datas = $alldatas["fichier_certificat"];
+
+
+            /* print_r($datas);
+              exit(1); */
+            $form->bind($request);
+
+            if ($form->isValid()) {
+                // recup des champs du formluaire
+                //verif si creation d'une entree
+                //verif si associé a entree existante
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($entity_fichier);
+                $em->flush();
+
+                // creer unde demande avec ce fichier
+                if ($datas['creer_demande'] == 1) {
+
+                    $em = $this->getDoctrine()->getManager();
+                    $entity_typecert = $em->getRepository('ApplicationCertificatsBundle:CertificatsFileType')->find($datas['typeCert']);
+                    $entity_file = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->find($entity_fichier->getId());
+
+                    $entity_certificat = new CertificatsCenter();
+                    $entity_certificat->setPort('80');
+                    $entity_certificat->setFileName('temp');
+                    $entity_certificat->setTypeCert($entity_typecert);
+                    $entity_certificat->setFichier($entity_file);
+                    $form = $this->createForm(new CertificatsCenterType(), $entity_certificat);
+
+                    $session = $this->getRequest()->getSession();
+                    $myretour = $session->get('buttonretour');
+                    if (!isset($myretour)) {
+                        $myretour = 'certificatscenter';
+                    }
+                    return $this->render('ApplicationCertificatsBundle:CertificatsCenter:new.html.twig', array(
+                                'entity' => $entity_certificat,
+                                'form' => $form->createView(),
+                                'btnretour' => $myretour,
+                        'fichier' => $entity_file,
+                               
+                    ));
+                }
+                return $this->redirect($this->generateUrl('certificats_documents_show', array('id' => $entity_fichier->getId())));
+            }
+        }
+        return $this->render('ApplicationCertificatsBundle:CertificatsFiles:new.html.twig', array(
+                    'entity' => $entity_fichier,
+                    'form' => $form->createView(),
+        ));
+    }
+
+    /** ===================================================================
+     * 
+     *  CREATE ENREGISTREMENT $ID
+     * 
+     * @Secure(roles="ROLE_USER")
+     * 
+     * 
+     * $data['moncert']=
+     * 
+     * Array ( [fileName] => gjhghj 
+     * [cnName] => ghjgjh [serviceName] => gjhg 
+     * [serverName] => gjhjh [port] => 80 [way] => op 
+     * [statusFile] => 1 [description] => 123123 [addedDate] => 2013-09-11 
+     * [startDate] => 2013-09-09 [endTime] => 2013-09-16 [typeCert] => 10 [demandeur] => 16 
+     * [project] => 12 [idEnvironnement] => 2 [idapplis] => Array ( [0] => 31 )
+     *  [_token] => ccddaa2110a6e1919f8715870f8ae661dc506d92 ) 
+      =================================================================== */
+    private function createCertificatAction($datas = array()) {
+        $entity = new CertificatsCenter();
+        $form = $this->createForm(new CertificatsCenterType(), $entity);
+        $session = $this->getRequest()->getSession();
+        $myretour = $session->get('buttonretour');
+
         $form->bind($request);
 
         if ($form->isValid()) {
-            // recup des champs du formluaire
-            
-            //verif si creation d'une entree
-            
-            //verif si associé a entree existante
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('certificats_documents_show', array('id' => $entity->getId())));
+            // creating the ACL
+            $aclProvider = $this->get('security.acl.provider');
+            $objectIdentity = ObjectIdentity::fromDomainObject($entity);
+            $acl = $aclProvider->createAcl($objectIdentity);
+
+            // retrieving the security identity of the currently logged-in user
+            $securityContext = $this->get('security.context');
+            $user = $securityContext->getToken()->getUser();
+            $securityIdentity = UserSecurityIdentity::fromAccount($user);
+            /*  $builder = new MaskBuilder();
+              $builder
+              ->add('view')
+              ->add('edit')
+              ->add('delete')
+              ->add('undelete')
+              ;
+              $mask = $builder->get(); // int(29) */
+            // grant owner access
+            $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
+            $aclProvider->updateAcl($acl);
+            $session = $this->getRequest()->getSession();
+            // ajoute des messages flash
+            $id = $entity->getId();
+            $session->getFlashBag()->add('warning', "Enregistrement $id ajout successfull");
+            return $this->redirect($this->generateUrl('certificatscenter'));
+            //return $this->redirect($this->generateUrl('certificatscenter_show', array('id' => $entity->getId())));
         }
 
-        return $this->render('ApplicationCertificatsBundle:CertificatsFiles:new.html.twig', array(
+        return $this->render('ApplicationCertificatsBundle:CertificatsCenter:new.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),
+                    'btnretour' => $myretour,
         ));
     }
 
@@ -183,7 +308,7 @@ class CertificatsFilesController extends Controller {
      */
     public function newAction() {
         $entity = new CertificatsFiles();
-        $form = $this->createForm(new CertificatsFilesAddType(), $entity);
+        $form = $this->createForm(new CertificatsFilesAddType(array('port' => 80)), $entity);
 
 
         return $this->render('ApplicationCertificatsBundle:CertificatsFiles:new.html.twig', array(
@@ -204,7 +329,7 @@ class CertificatsFilesController extends Controller {
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find CertificatsFiles entity.');
         }
-     $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($id);
         $openssl = new MyOpenSsl();
         //   $x509=$openssl->View_Cert($name);
         $filename = $entity->getPath();
@@ -257,7 +382,7 @@ class CertificatsFilesController extends Controller {
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new CertificatsFilesType(), $entity);
+        $editForm = $this->createForm(new CertificatsFilesAddType(), $entity);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
@@ -405,7 +530,8 @@ class CertificatsFilesController extends Controller {
         $response->setContent($content);
         return $response;
     }
- public function NomAjaxAction(Request $request) {
+
+    public function NomAjaxAction(Request $request) {
         $term = $request->get('term');
         $em = $this->getDoctrine()->getManager();
         $entity_ticket = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->findAjaxValue(array('OriginalFilename' => $term));
@@ -418,4 +544,6 @@ class CertificatsFilesController extends Controller {
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
+
 }
+

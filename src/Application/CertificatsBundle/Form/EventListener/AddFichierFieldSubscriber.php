@@ -25,10 +25,14 @@ class AddFichierFieldSubscriber implements EventSubscriberInterface
         // check if the product object is "new"
         // If you didn't pass any data to the form, the data is "null".
         // This should be considered a new "Product"
+        
+        
         if (!$data || !$data->getId()) {
+            //creation
              $form->add('file','file',array('label'=>'Fichier (*)','required'=>true,));
          
         }else {
+            // update
                    $form->add('file','file',array('label'=>'Fichier','required'=>false));
         }
     }

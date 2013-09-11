@@ -6,16 +6,19 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
+use Application\CertificatsBundle\Form\EventListener\AddFichierFieldSubscriber;
 
 class CertificatsFilesType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder
-                ->add('file', 'file', array('label' => 'Uploader Fichier'))
+        
+         $builder->addEventSubscriber(new AddFichierFieldSubscriber())
+       /* $builder
+                ->add('file', 'file', array('label' => 'Uploader Fichier'))*/
                /* ->add('creer_demande', 'checkbox', array(
                     'attr' => array('checked' => 'checked'),
         ))*/
-                ;
+              
         //  ->add('name')
         //  ->add('name','text',array('label' => 'Description du Fichier'))
         ;

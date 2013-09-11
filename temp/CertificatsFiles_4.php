@@ -8,101 +8,87 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Application\CertificatsBundle\Entity\CertificatsCenter;
-
+/*use Symfony\Component\HttpFoundation\File\File;*/
+use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\ExecutionContextInterface;
 
 /**
- * Projet
-
+ * Certificats_Files
+ *
  * @ORM\Table(name="certificats_files")
  * @ORM\Entity(repositoryClass="Application\CertificatsBundle\Repository\CertificatsFilesRepository")
  * @GRID\Source(columns="id,md5,path,OriginalFilename,$certificats",groupBy={"id"}) 
   * @ORM\HasLifecycleCallbacks
  */
-
 class CertificatsFiles {
-//class Docchangements  extends DocchangementsBase {
-// * @Orm\MappedSuperclass
 
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    // champs supplemanetaire de saisie
-    protected $name;
+    private $id;
 
     /**
      * champs supplemanetaire md5
      * 
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    protected $md5;
+    private $md5;
 
     /**
+     * 
      * @Assert\File(maxSize="5M",
      *    notFoundMessage = "Le fichier n'a pas été trouvé sur le disque",
      *    uploadErrorMessage = "Erreur dans l'upload du fichier"
      * )
      */
-    protected $file;
+    private $file;
+    
+    
+    private $ok_extensions = array("crt", "der","pem", "cer", "p12", "pkcs12", "p7", "p7b");
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
+    private $path;
     // champs pour nom local aletatoire
-    protected $path;
-
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     // nom origine du fichier
-    protected $OriginalFilename;
+    private $OriginalFilename;
 
     /**
-     * Date/Time of the update
-     *
-     * @var \Datetime
-     * @ORM\Column(name="updated_at", type="datetime")
-     */
-    protected $updatedAt;
-
-     /**
-     * Date/Time of the update
-     *
-     * @var \Datetime
-     * @ORM\Column(name="created_at", type="datetime")
-     */
-    protected $createdAt;
-    
-    
-   /**
      * @ORM\OneToOne(targetEntity = "CertificatsCenter", mappedBy = "fichier")
      */
     protected $certificats;
-    
-    
-    protected $temp;
-    private $ok_extensions = array("crt", "der","pem", "cer", "p12", "pkcs12", "p7", "p7b");
-
-   
-    protected $disk_path = 'uploads/certificats';
 
     /**
-     * Constructor
+     * Date/Time of the update
+     *
+     * @var \Datetime
+     * @ORM\Column(name="created_at", type="datetime",nullable=true)
      */
-    public function __construct() {
-        //   parent::__construct();
-      //  $this->idchangement = new ArrayCollection();
-        $this->createdAt = new \DateTime();
-    }
+    private $createdAt;
 
-  
-   
+
+    //Assert\NotBlank
+
+    /**
+     * Date/Time of the update
+     *
+     * @var \Datetime
+     * @ORM\Column(name="updated_at", type="datetime",nullable=true)
+     */
+    private $updatedAt;
+    
+    
+    private $temp;
+    protected $disk_path = 'uploads/certificats';
+
+    //protected $disk_path='uploads/documents/certificats';
     /**
      * Get id
      *
@@ -115,6 +101,24 @@ class CertificatsFiles {
         return $this->file;
     }
 
+    
+    /**
+     * Set disk path
+     * 
+     */
+    public function setDiskPath($disk_path='uploads/certificats') {
+        $this->disk_path=$disk_path;
+        
+    }
+    
+    /**
+     * Get disk path
+     * 
+     */
+    public function getDiskPath() {
+        return $this->disk_path;
+        
+    }
     /**
      * Set file
      *
@@ -123,6 +127,8 @@ class CertificatsFiles {
      * @return Document
      */
     public function setFile(UploadedFile $file = null) {
+
+
         $this->file = $file;
         // check if we have an old image path
         if (isset($this->path)) {
@@ -136,24 +142,10 @@ class CertificatsFiles {
         return $this;
     }
 
-    /**
-     * Set disk path
-     * 
-     */
-    public function setDiskPath($disk_path = 'uploads/certificats') {
-        $this->disk_path = $disk_path;
-    }
-
-    /**
-     * Get disk path
-     * 
-     */
-    public function getDiskPath() {
-        return $this->disk_path;
-    }
-
     public function __toString() {
-        return $this->getName();    // this will not look good if SonataAdminBundle uses this ;)
+      //  return $this->getName();    // this will not look good if SonataAdminBundle uses this ;)
+    return $this->getOriginalFilename();
+        
     }
 
     public function getAbsolutePath() {
@@ -164,7 +156,7 @@ class CertificatsFiles {
         return null === $this->path ? null : $this->getUploadDir() . '/' . $this->path;
     }
 
-    public function getUploadRootDir() {
+    protected function getUploadRootDir() {
         // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
         return __DIR__ . '/../../../../web/' . $this->getUploadDir();
     }
@@ -175,13 +167,27 @@ class CertificatsFiles {
         return $this->disk_path;
     }
 
-    
     public function getDownloadDir() {
         // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
         // le document/image dans la vue.
         return 'web/' . $this->disk_path . '/';
     }
     /**
+     * @ORM\PrePersist()
+     */
+    public function preTestFic() {
+
+        if (null !== $this->file) {
+            $this->createdAt = new \DateTime();
+        }
+        // si pa de fichier physique
+        if (null == $this->path && null == $this->file) {
+            return;
+        }
+    }
+
+    
+     /**
      * Avant le persist et l'update (fichier deja uploadé)
      * 
      * @ORM\PrePersist()
@@ -212,10 +218,6 @@ class CertificatsFiles {
             $this->path = sha1(uniqid(mt_rand(), true)) . '.' . $ext;
 
 
-            // recup nom origne
-
-            if (!$this->name || $this->name == "")
-                $this->name = $this->OriginalFilename;
             $this->md5 = md5_file($this->file);
             $this->updatedAt = new \DateTime();
             // echo "here";exit(1);
@@ -224,11 +226,40 @@ class CertificatsFiles {
         if (!$this->md5 && (file_exists($this->getUploadDir() . '/' . $this->path))) {
             $this->md5 = md5_file($this->getUploadDir() . '/' . $this->path);
         }
-        // check du nom
-        if (!$this->name || $this->name == "TOTO") {
-            $this->name = $this->OriginalFilename;
-        }
+        
+        
         //    echo "here";exit(1);
+    }
+
+    /**
+     * Avant le persist et l'update (fichier deja uploadé)
+     * 
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function OldpreUpload() {
+
+        // si upload de fichier (temp file)
+        if (null !== $this->file) {
+            // recup nom origne
+              $ext=$this->getExtension();
+             $this->OriginalFilename = $this->getFile()->getClientOriginalName();
+            $this->path = sha1(uniqid(mt_rand(), true)) . '.' . $ext;
+            $this->md5 = md5_file($this->file);
+            // date fichier uploadé
+            $this->updatedAt = new \DateTime();
+            //   $this->createdAt = new \DateTime();
+        }
+        // check du md5 si fichier existe deja
+        //   $this->isAuthorized();
+        if ($this->path) {
+            if (!$this->md5 && (file_exists($this->getUploadDir() . '/' . $this->path))) {
+                $this->md5 = md5_file($this->getUploadDir() . '/' . $this->path);
+            }
+        }
+        if (!$this->createdAt) {
+            $this->createdAt = new \DateTime();
+        }
     }
 
     /**
@@ -258,6 +289,7 @@ class CertificatsFiles {
         $this->file = null;
     }
 
+ 
     /**
      * Generates a non-random-filename
      *
@@ -281,9 +313,9 @@ class CertificatsFiles {
             $filename = $name . '-' . $i . $ext;
             $i++;
         }
-      /*  echo "ext=$ext<br>";
+        echo "ext=$ext<br>";
         echo "new name=$filename<br>";
-        exit(1);*/
+        exit(1);
 
 
         return array($filename, $ext,);
@@ -311,11 +343,11 @@ class CertificatsFiles {
         }
         else
             $name = $filename;
-/*
-        echo "ext=$ext<br>name=$name<br>";
-        echo "new name=$filename<br>";
-        exit(1);
-*/
+
+        /*  echo "ext=$ext<br>name=$name<br>";
+          echo "new name=$filename<br>";
+          exit(1); */
+
 
         return ($filename);
     }
@@ -329,8 +361,7 @@ class CertificatsFiles {
      */
     public function removeUpload() {
         if ($file = $this->getAbsolutePath()) {
-            if (file_exists($file))
-                unlink($file);
+            unlink($file);
         }
     }
 
@@ -349,21 +380,6 @@ class CertificatsFiles {
      */
     public function getId() {
         return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return Document
-     */
-    public function setName($name) {
-        // $this->name = $name;
-        if (isset($name) && $name != "")
-            $this->name = $name;
-        else
-            $this->name = "TOTO";
-        return $this;
     }
 
     /**
@@ -392,15 +408,6 @@ class CertificatsFiles {
     }
 
     /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName() {
-        return $this->name;
-    }
-
-    /**
      * Set path
      *
      * @param string $path
@@ -422,6 +429,35 @@ class CertificatsFiles {
     }
 
     /**
+     * Constructor
+     */
+    public function __construct() {
+        $this->disk_path=$this->setDiskPath();
+        $this->idchangement = new ArrayCollection();
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt() {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $createdAt
+     * @return Docchangements
+     */
+    public function setCreatedAt($createdAt) {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
      * Set updatedAt
      *
      * @param \DateTime $updatedAt
@@ -440,27 +476,6 @@ class CertificatsFiles {
      */
     public function getUpdatedAt() {
         return $this->updatedAt;
-    }
-
-    /**
-     * Set CreatedAt
-     *
-     * @param \DateTime $CreatedAt
-     * @return Docchangements
-     */
-    public function setCreatedAt($createdAt) {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get CreatedAt
-     *
-     * @return \DateTime 
-     */
-    public function getCreatedAt() {
-        return $this->createdAt;
     }
 
     /**
@@ -505,8 +520,6 @@ class CertificatsFiles {
         return $this->certificats;
     }
 
-    
-    /*
     private function getExtension(){
      
 // nom origine du fichier uploadé
@@ -609,6 +622,4 @@ class CertificatsFiles {
 
         return $destination;
     }
-}
-*/
 }

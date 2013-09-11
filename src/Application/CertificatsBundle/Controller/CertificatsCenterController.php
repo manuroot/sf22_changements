@@ -257,7 +257,10 @@ class CertificatsCenterController extends Controller {
       =================================================================== */
     public function newAction() {
         $entity = new CertificatsCenter();
+       // $data['moncert']['port']='80';
+       //  $entity->setPort('80');
         $form = $this->createForm(new CertificatsCenterType(), $entity);
+       
         $session = $this->getRequest()->getSession();
         $myretour = $session->get('buttonretour');
         if (!isset($myretour)) {
@@ -276,15 +279,24 @@ class CertificatsCenterController extends Controller {
      *  CREATE ENREGISTREMENT $ID
      * 
      * @Secure(roles="ROLE_USER")
+     * 
+     * Formulaire: moncert
       =================================================================== */
     public function createAction(Request $request) {
         $entity = new CertificatsCenter();
         $form = $this->createForm(new CertificatsCenterType(), $entity);
         $session = $this->getRequest()->getSession();
         $myretour = $session->get('buttonretour');
-
+   
+        $alldatas = $request->request->all();
+        $datas = $alldatas["moncert"];
+        print_r($datas);exit(1);
+        
+     
+                   
         $form->bind($request);
-
+    
+         
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);

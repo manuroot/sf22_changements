@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Filetype
  *
  * @ORM\Table(name="certificats_filetype")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Application\CertificatsBundle\Repository\CertificatsFileTypeRepository")
  */
 class CertificatsFiletype
 {
