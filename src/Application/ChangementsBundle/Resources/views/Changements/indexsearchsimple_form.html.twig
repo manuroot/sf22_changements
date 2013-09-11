@@ -7,7 +7,7 @@
     {{ form_row(search_form.description) }}
   
      {{ form_row(search_form.idusers) }}
-   
+        {#<input id="changements_searchfilter_idusers_cl" class="btn-info" type="button" value="Clear"></input>#}
     {{ form_row(search_form.demandeur) }}
    
     </td>
@@ -30,9 +30,13 @@
      </td>
     <td class="calendar">
          {{ form_row(search_form.idEnvironnement) }}
-         {{ form_row(search_form.idProjet) }}
-              {{ form_row(search_form.idStatus) }}
-             
+        {#         <input id="changements_searchfilter_idEnvironnement_cl" class="btn-info" type="button" value="Clear"></input>
+        #}
+ {{ form_row(search_form.idProjet) }}
+          {#      <input id="changements_searchfilter_idProjet_cl" class="btn-info" type="button" value="Clear"></input>
+           #}   {{ form_row(search_form.idStatus) }}
+         {#   <input id="changements_searchfilter_idStatus_cl" class="btn-info" type="button" value="Clear"></input>
+             #}
    
     {{ form_rest(search_form) }}</td>
     </tr>

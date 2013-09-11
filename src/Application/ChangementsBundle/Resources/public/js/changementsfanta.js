@@ -155,24 +155,45 @@ $(document).ready(function() {
             return "<img class='flag' src='" + img_s_path + state.id.toLowerCase() + ".png'/> " + state.text;
         }
         $("#changements_searchfilter_idStatus").select2({
+             placeholder: "-- Choisir Statut(s) --",
+                allowClear: true,
             formatResult: format,
             formatSelection: format,
             escapeMarkup: function(m) { return m; }
         });
-        
+        $("#changements_searchfilter_idStatus_cl").click(function() { $("#changements_searchfilter_idStatus").select2("val", ""); });
+        /*
+         $("#changements_searchfilter_idStatus").on("change", function() { $("##changements_searchfilter_idStatus_val").html($("#changements_searchfilter_idStatus").val());});
+ 
+$("#changements_searchfilter_idStatus").select2("container").find("ul.select2-choices").sortable({
+containment: 'parent',
+start: function() { $("#changements_searchfilter_idStatus").select2("onSortStart"); },
+update: function() { $("#changements_searchfilter_idStatus").select2("onSortEnd"); }
+});*/
+
+
+
+
         $("#changements_searchfilter_idProjet").select2({
                 placeholder: "-- Choisir Projet(s) --",
                 allowClear: true
             });
-             $("#changements_searchfilter_idEnvironnement").select2({
+        $("#changements_searchfilter_idProjet_cl").click(function() { $("#changements_searchfilter_idProjet").select2("val", ""); });
+      
+        
+        $("#changements_searchfilter_idEnvironnement").select2({
                 placeholder: "-- Choisir Environnement(s) --",
                 allowClear: true
             });
-            
+              $("#changements_searchfilter_idEnvironnement_cl").click(function() { $("#changements_searchfilter_idEnvironnement").select2("val", ""); });
+      
+      
              $("#changements_searchfilter_idusers").select2({
                 placeholder: "-- Choisir User(s) --",
                 allowClear: true
             });
+              $("#changements_searchfilter_idusers_cl").click(function() { $("#changements_searchfilter_idusers").select2("val", ""); });
+      
          $("#changements_searchfilter_demandeur").select2(); 
          
 }); //Eof:: ready

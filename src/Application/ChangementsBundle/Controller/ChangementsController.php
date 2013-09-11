@@ -1275,11 +1275,21 @@ class ChangementsController extends Controller {
        
           $request = $this->getRequest();
           $session = $this->getRequest()->getSession();
+            $current_date = new \DateTime();
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
             $month = $request->request->get('month');
-            if ($month < 10)
-                $month = "0" . $month;
-            $year = $request->request->get('year');
+            if (! isset($month)){
+                 $month = $current_date->format('m');
+            }
+            else {
+                 if ($month < 10)
+                        $month = "0" . $month;
+           
+            }
+             $year = $request->request->get('year');
+             if (! isset($year)){
+                $year = $current_date->format('Y');
+             }
             $date = $year . '-' . $month;
            // $session_event=$date;
              $current_session_events = $session->get($date);
