@@ -282,11 +282,11 @@
                                                                 </td>
                                                                  <td style="min-width:45px"> 
                                 {% if entity.idStatus.description == 'open' %}
-                                                                        <a class="open" data-id="{{entity.id}}"  href="#{{ entity.id }}">
-                                                                            <img src="{{ asset('bundles/applicationchangements/images/cadenas-souvert.png') }}" alt="show" width="15px" height="15px"/>
-                                                                        </a>
+                                                       <a class="open" data-id="{{entity.id}}"  href="#{{ entity.id }}">
+                                                       <img src="{{ asset('bundles/applicationchangements/images/cadenas-souvert.png') }}" alt="show" width="15px" height="15px"/>
+                                                       </a>
                                 {% elseif   entity.idStatus.description == 'closed' %}
-                                                                        <a class="closed" data-id="{{entity.id}}"  href="#{{ entity.id }}">
+                                                            <a class="closed" data-id="{{entity.id}}"  href="#{{ entity.id }}">
                                                                             <img src="{{ asset('bundles/applicationchangements/images/cadenas-sferme.png') }}" alt="show" width="15px" height="15px" />
                                                                         </a>
                                {% else %}

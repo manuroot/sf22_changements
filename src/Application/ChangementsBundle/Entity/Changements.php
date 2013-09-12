@@ -182,6 +182,19 @@ class Changements extends AbstractEvent {
      */
     private $idapplis;
 
+      /**
+     * coté proprietaire (inversedBy)
+     * 
+     * @ORM\ManyToMany(targetEntity="Application\Sonata\UserBundle\Entity\User",cascade={"persist"})
+      * @ORM\JoinTable(name="changements_favoris",
+     * joinColumns={@ORM\JoinColumn(name="changements_id", referencedColumnName="id")},
+     *   inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     * )
+     * @GRID\Column(title="Favoris",field="idusers.nomUser:GroupConcat", size="20",title="Users", filter="select")
+     */
+    private $idfavoris;
+    
+    
     /**
      * coté proprietaire (inversedBy)
      * 
@@ -836,5 +849,37 @@ class Changements extends AbstractEvent {
     public function getDateDemande()
     {
         return $this->dateDemande;
+    }
+    
+    
+    
+     /**
+     * Add idusers
+     *
+     * @param \Application\RelationsBundle\Entity\ChronoUser $idusers
+     * @return Changements
+     */
+    public function addIfavoris(\Application\Sonata\UserBundle\Entity\User $idfavoris) {
+        $this->idfavoris[] = $idfavoris;
+
+        return $this;
+    }
+
+    /**
+     * Remove idusers
+     *
+     * @param \Application\RelationsBundle\Entity\ChronoUser $idusers
+     */
+    public function removeIdfavoris(\Application\Sonata\UserBundle\Entity\User $idfavoris) {
+        $this->idfavoris->removeElement($idfavoris);
+    }
+
+    /**
+     * Get idusers
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getIdfavoris() {
+        return $this->idfavoris;
     }
 }

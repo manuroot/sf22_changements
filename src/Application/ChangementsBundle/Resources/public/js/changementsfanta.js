@@ -5,7 +5,15 @@ $(document).ready(function() {
 
         /* * A modifier: change color only sur success !!*/
         if ($(this).hasClass("open") || $(this).hasClass("closed") || $(this).hasClass("prepare")) {
-            var id = $(this).attr("data-id");
+          
+          var checkstr =  confirm('Modifier le status de la demande?');
+            if(checkstr == true){
+            // do your code
+           
+            /*else{
+                return false;
+            }*/
+          var id = $(this).attr("data-id");
             console.log("id=" + id);
             var dataAjax = {id: id};
 
@@ -30,7 +38,7 @@ $(document).ready(function() {
             ;
             remplirSelect(dataAjax);
         }
-
+        }
     });
     function remplirSelect(dataAjax) {
         $.ajax({
