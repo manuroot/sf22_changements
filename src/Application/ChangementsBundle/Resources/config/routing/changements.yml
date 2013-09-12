@@ -3,6 +3,11 @@ changements_fanta:
     defaults: { _controller: "ApplicationChangementsBundle:Changements:indexfanta" }
     methods: POST|GET
 
+changements_myfanta:
+    pattern:  /favoris
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:indexmyfanta" }
+    methods: POST|GET
+    
 changements_post:
     pattern:  /operations
     defaults: { _controller: "ApplicationChangementsBundle:Changements:indexpost" }

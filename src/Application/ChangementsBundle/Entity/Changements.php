@@ -508,7 +508,7 @@ class Changements extends AbstractEvent {
         $this->idapplis = new ArrayCollection();
         $this->picture = new ArrayCollection();
         $this->idEnvironnement = new ArrayCollection();
-        
+        $this->idfavoris = new ArrayCollection();
       $this->dateDemande = new \DateTime('now');
          $this->astreinte = false;
         //   $this->idapplis = new \Doctrine\Common\Collections\ArrayCollection();

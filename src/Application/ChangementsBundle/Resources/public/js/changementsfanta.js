@@ -1,19 +1,49 @@
 $(document).ready(function() {
-    var img_path = 'bundles/applicationcertificats/images/';
+    var img_path = 'bundles/applicationchangements/images/';
     var img_s_path = 'bundles/applicationchangements/images/';
     $("td > a").click(function(event) {
 
+  if ($(this).hasClass("favoris")) {
+    var id = $(this).attr("data-id");
+      var name = $(this).attr("data-name");
+      var message="";
+      var new_status=0;
+      var img_favori="";
+            var status = $(this).attr("data-status");
+  console.log("favoris id=" + id);
+  if (status == 1 ) { 
+      message="Supprimer de "; 
+      img_favori="star-off.png";
+      
+  }
+  else { message="Ajouter a ";    img_favori="star-on.png"; 
+  new_status=1;}
+ 
+  var checkstr =  confirm(message + " vos favoris: \nstatus=" + status + "\nid=" + id + "\nnom=" + name);
+            if(checkstr === true){
+                 $(this).children().attr("src", img_path + img_favori);
+                 $(this).attr('data-status',new_status)
+                 /*$(this).data('data-status',new_status);*/
+                 var dataAjax = {id: id};
+            return true;
+            }
+           
+            else{
+                return false;
+            }
+  }
         /* * A modifier: change color only sur success !!*/
         if ($(this).hasClass("open") || $(this).hasClass("closed") || $(this).hasClass("prepare")) {
-          
-          var checkstr =  confirm('Modifier le status de la demande?');
-            if(checkstr == true){
+           var id = $(this).attr("data-id");
+           var name = $(this).attr("data-name");
+          var checkstr =  confirm("Modifier le status de la demande: \nid=" + id + "\nnom=" + name);
+            if(checkstr === true){
             // do your code
            
             /*else{
                 return false;
             }*/
-          var id = $(this).attr("data-id");
+         /* var id = $(this).attr("data-id");*/
             console.log("id=" + id);
             var dataAjax = {id: id};
 

@@ -1,5 +1,10 @@
 services:
   
+   application_epost_twig_extension:
+        class: Application\ChangementsBundle\Twig\Extensions\ApplicationChangementsExtension
+        tags:
+            - { name: twig.extension }
+         
    application.form.new.changement:
         class: Application\ChangementsBundle\Form\ChangementsStepsType
         tags:

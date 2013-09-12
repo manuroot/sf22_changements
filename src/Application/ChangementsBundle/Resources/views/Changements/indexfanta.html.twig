@@ -72,9 +72,9 @@
 
             /* select#changements_searchfilter_idStatus{
                }*/
-             .select2-choice {
-     width:167px;
-}
+            .select2-choice {
+                    width:167px;
+            }
             div#mybutton {
 
                 padding-top: 130px; 
@@ -177,7 +177,11 @@
 {#{% set date_right_warning= '+15days' %}#}
 
 {% include 'ApplicationChangementsBundle:templates:flash.html.twig' %}
-
+        {#
+<div id="dialog" title="Basic dialog">
+    <p>This is an animated dialog which is useful for displaying information. 
+        The dialog window can be moved, resized and closed with the 'x' icon.</p>
+</div>#}
 
 {% include 'ApplicationChangementsBundle:templates:container_search.html.twig' 
         with {
@@ -194,6 +198,7 @@
 
 {#{% set mabar = {'foo': 'bar'} %}#}
 {% set itemsa = { 'a.id': ['50px','icon-time','ID'],'a.nom':['80px','icon-user','Nom'],
+'g.id':['40px','icon-star','Fav.'],
 'a.dateDebut': ['80px','icon-time','Debut'],'a.dateFin': ['80px','icon-time','Fin'],
 'b.nomprojet': ['80px','icon-tag','Projet'],'a.demandeur': ['30px','icon-user','D'],
  } %}
@@ -257,6 +262,69 @@
                                                 <td>{{ entity.id }}</td>
                                                 <td><a href="{{ path('changements_show', { 'id': entity.id }) }}">{{ entity.nom }}</a></td>
                               {#<td>{% if entity.dateDebut %}{{ entity.dateDebut|date('Y-m-d H') ~ 'h' }}{% endif %}</td>#}
+             
+                                           <td>         
+            {% if not is_granted("ROLE_USER") %}   
+      <img src="{{ asset('bundles/applicationchangements/images/star-off.png') }}" alt="show" width="15px" height="15px" />
+    {% else %}                                           
+    {#  {% if user_id in entity.idfavoris|keys %}
+      ok
+<ul>
+    {% for user in users if user.active %}
+        <li>{{ user.username }}</li>
+    {% endfor %}
+</ul>             
+  #}
+      {% set myfavori = 0 %}
+  {% for favoris in entity.idfavoris  if myfavori==0 %}
+     {% if favoris.id ==  user_id %}
+       {% set myfavori = 1 %}
+     {# {{ loop.last }}#}
+    {#  {% set loop.index0 = loop.last %}#}
+      {% endif %}
+              
+                    {% endfor %}
+                
+                {% if myfavori == 0 %}
+                      <a class="favoris" data-id="{{entity.id}}" data-name="{{entity.nom}}" data-status="{{ myfavori }}" href="#here">
+                 <img src="{{ asset('bundles/applicationchangements/images/star-off.png') }}" alt="show" width="15px" height="15px" />
+                        </a>
+   
+                {% else %}
+                        <a class="favoris"  data-id="{{entity.id}}" data-name="{{entity.nom}}" data-status="{{ myfavori }}" href="#here">
+                 <img src="{{ asset('bundles/applicationchangements/images/star-on.png') }}" alt="show" width="15px" height="15px" />
+                        </a>
+   
+                {% endif %}
+              {#  
+                {% for key, user in entity.idfavoris %}
+        <li>{{ key }}: {{ user.username|e }}  {{ user.id|e }}</li>
+    {% endfor %}
+#}
+       {#   {% set myarr = entity.idfavoris['id'] %}#}
+
+                {#
+{% for favoris in entity.idfavoris %}    
+    {% if favoris.id is in_array(array_keys(someOtherArray)) %}
+       {{ myVar }} exists within someOtherArray.
+    {% else %}
+       {{ myVar }} doesn't exist within someOtherArray.
+    {% endif %}
+{% endfor %}
+#}
+           {% endif %}
+    {#
+                {% endif %}
+                 {% for myVar in someArray %}    
+    {% if myVar is in_array(array_keys(someOtherArray)) %}
+       {{ myVar }} exists within someOtherArray.
+    {% else %}
+       {{ myVar }} doesn't exist within someOtherArray.
+    {% endif %}
+{% endfor %}
+#}
+                                               </td>
+                                                    
                                                     <td>{{ entity.dateDebut|date('Y-m-d') }}</td>
                                                     <td>
                                 {% if entity.dateFin  %}
@@ -282,17 +350,23 @@
                                                                 </td>
                                                                  <td style="min-width:45px"> 
                                 {% if entity.idStatus.description == 'open' %}
-                                                       <a class="open" data-id="{{entity.id}}"  href="#{{ entity.id }}">
+                                                       <a class="open" data-name="{{entity.nom}}" data-id="{{entity.id}}"  href="#{{ entity.id }}">
                                                        <img src="{{ asset('bundles/applicationchangements/images/cadenas-souvert.png') }}" alt="show" width="15px" height="15px"/>
                                                        </a>
                                 {% elseif   entity.idStatus.description == 'closed' %}
-                                                            <a class="closed" data-id="{{entity.id}}"  href="#{{ entity.id }}">
+                                                            <a class="closed" data-name="{{entity.nom}}" data-id="{{entity.id}}"  href="#{{ entity.id }}">
                                                                             <img src="{{ asset('bundles/applicationchangements/images/cadenas-sferme.png') }}" alt="show" width="15px" height="15px" />
                                                                         </a>
-                               {% else %}
-                                                                        <a class="open" data-id="{{entity.id}}"  href="#{{ entity.id }}">
+                              {% elseif   entity.idStatus.description == 'REPORTE' %}
+                                                                        <a class="open" data-name="{{entity.nom}}" data-id="{{entity.id}}"  href="#{{ entity.id }}">
+                                                                           <img src="{{ asset('bundles/applicationchangements/images/cadenas-sreport.png') }}" alt="show" width="15px" height="15px" />
+                                                                         </a>
+                                                                         
+                                                                         {% else %}
+                                                                        <a class="open" data-name="{{entity.nom}}" data-id="{{entity.id}}"  href="#{{ entity.id }}">
                                                                            <img src="{{ asset('bundles/applicationchangements/images/cadenas-sbleu.png') }}" alt="show" width="15px" height="15px" />
                                                                          </a>
+                                                                         
                                {% endif %}
                                                                     </td> 
                                                                     <td> {{ entity.ticketExt }}   </td>
@@ -305,6 +379,7 @@
                                     {% endfor %}
                                                                         </td>
                                                                         
+                                                                               
                                                                               <td style="min-width:18px"> 
                                                                             <a class="editme" title="Opération: {{ entity.nom }}" href="{{ path('changements_showXhtml', { 'id': entity.id }) }}">
                                                                                 <img src="{{ asset('bundles/applicationchangements/images/detail.png') }}" alt="show" width="15px" height="15px" />

@@ -15,7 +15,6 @@ use Application\ChangementsBundle\Form\ChangementsFilterType;
 use Application\ChangementsBundle\Form\ChangementsStatusType;
 use Application\ChangementsBundle\Form\ChangementsFilterAmoiType;
 use Application\ChangementsBundle\Entity\GridExport;
-
 use APY\DataGridBundle\Grid\Source\Entity;
 use APY\DataGridBundle\Grid\Grid;
 use APY\DataGridBundle\Grid\Column\ActionsColumn;
@@ -26,7 +25,6 @@ use APY\DataGridBundle\Grid\Column\TextColumn;
 use APY\DataGridBundle\Grid\Column\DateColumn;
 use APY\DataGridBundle\Grid\Export\CSVExport;
 use APY\DataGridBundle\Grid\Export\ExcelExport;
-
 use Ob\HighchartsBundle\Highcharts\Highchart;
 use Doctrine\ORM\Tools\Pagination\CountOutputWalker;
 use Application\ChangementsBundle\Entity\ChangementsStatus;
@@ -46,6 +44,33 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  */
 class ChangementsController extends Controller {
+    /* ====================================================================
+     *
+     * SECURITY
+     *
+      =================================================================== */
+
+    private function getuserid() {
+
+        $em = $this->getDoctrine()->getManager();
+        $user_security = $this->container->get('security.context');
+        // authenticated REMEMBERED, FULLY will imply REMEMBERED (NON anonymous)
+        if ($user_security->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $this->get('security.context')->getToken()->getUser();
+            $user_id = $user->getId();
+            $group = $user->getIdgroup();
+            if (isset($group)) {
+                $group_id = $group->getId();
+            } else {
+                $group_id = 0;
+            }
+        } else {
+            $user_id = 0;
+            $group_id = 0;
+        }
+        return array($user_id, $group_id);
+    }
+
     /* ====================================================================
      *
      * CREATION DU PAGINATOR
@@ -397,7 +422,7 @@ class ChangementsController extends Controller {
         $ob5->plotOptions->pie($pie_options);
         $ob5->series(array(array('type' => 'pie', 'name' => 'Browser share', 'data' => $data_demandeur)));
 
-         //=====================================================
+        //=====================================================
         // Par Group sur une année
         //=====================================================
         $data_groupe = $em->getRepository('ApplicationChangementsBundle:Changements')->sum_group_year($year);
@@ -536,9 +561,9 @@ class ChangementsController extends Controller {
         $grid->setSource($source);
 
         $grid->setId('changementsgrid');
-        $grid->addExport(new CSVExport('CSV Export','Operations',array('delimiter' => ';'), 'Windows-1252'));
-        $grid->addExport(new ExcelExport('Excel Export','Operations',array('delimiter' => ';'), 'Windows-1252'));
-    
+        $grid->addExport(new CSVExport('CSV Export', 'Operations', array('delimiter' => ';'), 'Windows-1252'));
+        $grid->addExport(new ExcelExport('Excel Export', 'Operations', array('delimiter' => ';'), 'Windows-1252'));
+
         $grid->setPersistence(false);
         $grid->setDefaultOrder('id', 'desc');
         // Set the selector of the number of items per page
@@ -550,7 +575,7 @@ class ChangementsController extends Controller {
         $grid->addMassAction(new DeleteMassAction());
         $grid->setActionsColumnSize(70);
         // $grid->setDefaultFilters(array('idEnvironnement.nom:AtGroupConcat' => array('operator' => 'like')));
-       $myRowActiona = new RowAction('Edit', 'changements_edit', false, '_self', array('class' => "btn btn-mini btn-warning"));
+        $myRowActiona = new RowAction('Edit', 'changements_edit', false, '_self', array('class' => "btn btn-mini btn-warning"));
         $grid->addRowAction($myRowActiona);
         $myRowAction = new RowAction('Delete', 'changements_delete', true, '_self', array('class' => "btn btn-mini btn-danger"));
         //$myRowAction = new RowAction('Delete', 'certificatscenter_delete', true, '_self',array('class' => 'deleteme'));
@@ -588,12 +613,11 @@ class ChangementsController extends Controller {
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Changements entity.');
         }
-        
-       $deleteForm = $this->createDeleteForm($id);
+
+        $deleteForm = $this->createDeleteForm($id);
         return $this->render('ApplicationChangementsBundle:Changements:showxhtml.html.twig', array(
                     'entity' => $entity,
                     'delete_form' => $deleteForm->createView(),));
-        
     }
 
     /**
@@ -1160,11 +1184,15 @@ class ChangementsController extends Controller {
 
         $parameters = array();
         $em = $this->getDoctrine()->getManager();
+        // Pour les favoris
+        list($user_id, $group_id) = $this->getuserid();
+        
+        
         /*
-        $query_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->GetNomStatus();
-        print_r($query_status);
-        exit(1);
-        */
+          $query_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->GetNomStatus();
+          print_r($query_status);
+          exit(1);
+         */
 
         $request = $this->getRequest();
         $session = $request->getSession();
@@ -1189,7 +1217,7 @@ class ChangementsController extends Controller {
                 $session->remove('changementControllerFilternew');
                 $alldatas = $request->request->all();
                 $datas = $alldatas["changements_searchfilter"];
-             // print_r($datas);exit(1);
+                // print_r($datas);exit(1);
                 $parameters = $datas;
                 $session->set('changementControllerFilternew', $datas);
                 $searchForm->bind($datas);
@@ -1228,6 +1256,14 @@ class ChangementsController extends Controller {
             $page = 1;
         }
 
+           list($user_id, $group_id) = $this->getuserid();
+         /* if (isset($user_id)){
+               $parameters['user_favoris']=$user_id;
+           }    */
+          // echo "user_id=$user_id";
+           
+           
+        //   exit(1);
         //-----------------------------------------
         // On recupere les vars de session page,dir,order
         //------------------------------------------
@@ -1267,49 +1303,172 @@ class ChangementsController extends Controller {
                     'arrow' => $arrow,
                     'nb_pages' => $nb_pages,
                     'nbResults' => $nbResults,
-            
+                    'user_id' => $user_id,
         ));
     }
-  // TODO:
+ public function indexmyfantaAction(Request $request) {
+
+        $parameters = array();
+        $em = $this->getDoctrine()->getManager();
+        // Pour les favoris
+        list($user_id, $group_id) = $this->getuserid();
+        
+        
+        /*
+          $query_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->GetNomStatus();
+          print_r($query_status);
+          exit(1);
+         */
+
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        $session->set('buttonretour', 'changements_fanta');
+        $searchForm = $this->createForm(new ChangementsFilterAmoiType($em));
+        $statusForm = $this->createForm(new ChangementsStatusType());
+        //-----------------------------------------
+        // On efface les sessions si post 
+        //------------------------------------------
+        if ($request->getMethod() == 'POST') {
+            $session->remove('chgmtsfanta_page');
+            $session->remove('chgmtsfanta_sort');
+            $session->remove('chgmtsfanta_dir');
+            $session->remove('changementControllerFilternew');
+            if ($request->get('submit-filter') == "reset") {
+                $session->getFlashBag()->add('warning', "Filtres de recherche reinitialisée");
+            }
+            //-----------------------------------------
+            // On recupere les vars de post ==> session filter
+            //------------------------------------------
+            elseif ($request->get('submit-filter') == "filter") {
+                $session->remove('changementControllerFilternew');
+                $alldatas = $request->request->all();
+                $datas = $alldatas["changements_searchfilter"];
+                // print_r($datas);exit(1);
+                $parameters = $datas;
+                $session->set('changementControllerFilternew', $datas);
+                $searchForm->bind($datas);
+            }
+            //-----------------------------------------
+            // On recupere les vars de post ==> session filter
+            //------------------------------------------
+            /* elseif ($request->get('submit-open') == "open") {
+              $alldatas = $request->request->all();
+              $datas = $alldatas["changements_searchfilter"];
+              $parameters = $datas;
+              $session->set('changementControllerFilternew', $datas);
+
+              $searchForm->bind($datas);
+
+              } */
+            $page = 1;
+            $dir = 'DESC';
+            $sort = 'a.id';
+        }
+        //-----------------------------------------
+        // On recupere les vars de session filter
+        //------------------------------------------
+        elseif ($session->has('changementControllerFilternew')) {
+            $datas = $session->get('changementControllerFilternew');
+            $parameters = $datas;
+            $searchForm->bind($datas);
+            // $page=1;$dir='DESC';$sort='a.id';
+            list($page, $dir, $sort) = $this->OrderfantaAction();
+        } else {
+            list($page, $dir, $sort) = $this->OrderfantaAction();
+            //$page=1;$dir='DESC';$sort='a.id';
+        }
+
+        if (!$page) {
+            $page = 1;
+        }
+
+           list($user_id, $group_id) = $this->getuserid();
+           if (isset($user_id)){
+               $parameters['user_favoris']=$user_id;
+          // echo "user_id=$user_id";
+           
+           }
+        //   exit(1);
+        //-----------------------------------------
+        // On recupere les vars de session page,dir,order
+        //------------------------------------------
+        //list($page, $dir, $sort) = $this->OrderfantaAction();
+        $next_dir = ($dir == 'DESC') ? 'ASC' : 'DESC';
+        $arrow[$sort] = $next_dir == "DESC" ? 'icon-arrow-up' : 'icon-arrow-down';
+        $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getJoinedBy($sort, $dir, $parameters);
+        $adapter = new DoctrineORMAdapter($query);
+        //$adapter->setDistinct(false);
+        // sur changement categories avec filtres la page n'est peut etre
+        // plus dispo (avec les sessions) !!!!!!!!!!
+        // A debugger
+        $pagerfanta = $this->mypager($adapter, 20);
+        $nb_pages = $pagerfanta->getNbPages();
+        if ($page > $nb_pages) {
+            $session = $this->getRequest()->getSession();
+            //$session->getFlashBag()->add('warning', "Enregistrement  update successfull");
+            $session->getFlashBag()->add('warning', "Page $page n'exite pas: goto Page1");
+            $page = 1;
+        }
+
+        try {
+            $pagerfanta->setCurrentPage($page);
+            $nbResults = $pagerfanta->getNbResults();
+            // $nbResults=317;
+            $q = $pagerfanta->getCurrentPageResults();
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+            // throw $this->createNotFoundException('Unable to find entity.');
+        }
+        return $this->render('ApplicationChangementsBundle:Changements:indexfanta.html.twig', array(
+                    'pagerfanta' => $pagerfanta,
+                    'entities' => $q,
+                    'next_dir' => $next_dir,
+                    'search_form' => $searchForm->createView(),
+                    'status_form' => $statusForm->createView(),
+                    'arrow' => $arrow,
+                    'nb_pages' => $nb_pages,
+                    'nbResults' => $nbResults,
+                    'user_id' => $user_id,
+        ));
+    }
+    // TODO:
     public function CalendarEventsAction() {
-       
-          $request = $this->getRequest();
-          $session = $this->getRequest()->getSession();
-            $current_date = new \DateTime();
+
+        $request = $this->getRequest();
+        $session = $this->getRequest()->getSession();
+        $current_date = new \DateTime();
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
             $month = $request->request->get('month');
-            if (! isset($month)){
-                 $month = $current_date->format('m');
+            if (!isset($month)) {
+                $month = $current_date->format('m');
+            } else {
+                if ($month < 10)
+                    $month = "0" . $month;
             }
-            else {
-                 if ($month < 10)
-                        $month = "0" . $month;
-           
-            }
-             $year = $request->request->get('year');
-             if (! isset($year)){
+            $year = $request->request->get('year');
+            if (!isset($year)) {
                 $year = $current_date->format('Y');
-             }
+            }
             $date = $year . '-' . $month;
-           // $session_event=$date;
-             $current_session_events = $session->get($date);
-         if (!isset($current_session_events)){
-            // echo "year=$year month=$month<br>";exit(1); 
-            $em = $this->getDoctrine()->getManager();
-            // recuperation des parametres
-            $events_date = $em->getRepository('ApplicationChangementsBundle:Changements')->getMyDate($date);
-              $session->set($date, $events_date); 
+            // $session_event=$date;
+            $current_session_events = $session->get($date);
+            if (!isset($current_session_events)) {
+                // echo "year=$year month=$month<br>";exit(1); 
+                $em = $this->getDoctrine()->getManager();
+                // recuperation des parametres
+                $events_date = $em->getRepository('ApplicationChangementsBundle:Changements')->getMyDate($date);
+                $session->set($date, $events_date);
+                //  print_r($events_date); 
+            } else {
+                $events_date = $current_session_events;
+                //   print_r($events_date); 
+            }
             //  print_r($events_date); 
-              
-       }else {
-            $events_date= $current_session_events;
-          //   print_r($events_date); 
-       }
-             //  print_r($events_date); 
             $response = new Response(json_encode($events_date));
             $response->headers->set('Content-Type', 'application/json');
-      return $response;
+            return $response;
         }
         // return new Response();
     }
+
 }

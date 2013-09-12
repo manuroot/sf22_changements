@@ -172,6 +172,15 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
             //  $query->distinct('GroupConcat(g.nom) AS kak');
             $parameters['idEnv'] = $criteria['idEnvironnement'];
         }
+        if (isset($criteria['user_favoris']) && $criteria['user_favoris'] != "") {
+            // var_dump($criteria['idEnvironnement']);exit(1);
+            $query->andWhere('i.id IN (:idFavoris)');
+            //  $query->distinct('GroupConcat(g.nom) AS kak');
+            $parameters['idFavoris'] = $criteria['user_favoris'];
+        }
+        
+        
+        
         if (isset($criteria['demandeur']) && $criteria['demandeur'] != "") {
             // var_dump($criteria['idEnvironnement']);exit(1);
             $query->andWhere('c.id = (:idUser)');
@@ -446,8 +455,11 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
                 ->leftJoin('a.picture', 'f')
                 ->addSelect('partial g.{id,nom}')
                 ->leftJoin('a.idEnvironnement', 'g')
+                ->addSelect('partial i.{id,username}')
+                 ->leftJoin('a.idfavoris', 'i')
                 ->leftJoin('a.comments', 'h')
-                ->addSelect('partial e.{id,nomUser}')
+                  ->addSelect('partial e.{id,nomUser}')
+                //->addSelect('partial e.{id,nomUser}')
                 ->leftJoin('a.idusers', 'e');
 
 
