@@ -118,7 +118,7 @@ $(document).ready(function() {
             /*altField: '#date_due',
             altFormat: 'yy-mm-dd',*/
              showWeek: true,
-            firstDay: 1,
+        firstDay: 1,
         
             
             beforeShowDay: editDays,

@@ -183,12 +183,9 @@ class CertificatsFilesController extends Controller {
     public function createAction(Request $request) {
         $entity_fichier = new CertificatsFiles();
         $form = $this->createForm(new CertificatsFilesAddType(), $entity_fichier);
-
         if ($request->getMethod() == 'POST') {
             $alldatas = $request->request->all();
             $datas = $alldatas["fichier_certificat"];
-
-
             /* print_r($datas);
               exit(1); */
             $form->bind($request);
@@ -254,53 +251,7 @@ class CertificatsFilesController extends Controller {
      * [project] => 12 [idEnvironnement] => 2 [idapplis] => Array ( [0] => 31 )
      *  [_token] => ccddaa2110a6e1919f8715870f8ae661dc506d92 ) 
       =================================================================== */
-    private function createCertificatAction($datas = array()) {
-        $entity = new CertificatsCenter();
-        $form = $this->createForm(new CertificatsCenterType(), $entity);
-        $session = $this->getRequest()->getSession();
-        $myretour = $session->get('buttonretour');
-
-        $form->bind($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            // creating the ACL
-            $aclProvider = $this->get('security.acl.provider');
-            $objectIdentity = ObjectIdentity::fromDomainObject($entity);
-            $acl = $aclProvider->createAcl($objectIdentity);
-
-            // retrieving the security identity of the currently logged-in user
-            $securityContext = $this->get('security.context');
-            $user = $securityContext->getToken()->getUser();
-            $securityIdentity = UserSecurityIdentity::fromAccount($user);
-            /*  $builder = new MaskBuilder();
-              $builder
-              ->add('view')
-              ->add('edit')
-              ->add('delete')
-              ->add('undelete')
-              ;
-              $mask = $builder->get(); // int(29) */
-            // grant owner access
-            $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
-            $aclProvider->updateAcl($acl);
-            $session = $this->getRequest()->getSession();
-            // ajoute des messages flash
-            $id = $entity->getId();
-            $session->getFlashBag()->add('warning', "Enregistrement $id ajout successfull");
-            return $this->redirect($this->generateUrl('certificatscenter'));
-            //return $this->redirect($this->generateUrl('certificatscenter_show', array('id' => $entity->getId())));
-        }
-
-        return $this->render('ApplicationCertificatsBundle:CertificatsCenter:new.html.twig', array(
-                    'entity' => $entity,
-                    'form' => $form->createView(),
-                    'btnretour' => $myretour,
-        ));
-    }
+  
 
     /**
      * Displays a form to create a new CertificatsFiles entity.
