@@ -402,7 +402,10 @@ class DocchangementsController extends Controller {
          //if (!file_exists($path . $filename)) {
         if (!file_exists($path . $filename)) {
             $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas (code 1)");
-            return $this->redirect($this->generateUrl($url));
+             return $this->render('ApplicationChangementsBundle:errors:errorsxhtml.html.twig', array(
+                    'message' => "Le fichier n'existe pas<br>Contacter l'administrateur"
+                  ));
+            //return $this->redirect($this->generateUrl('changements_fanta'));
         }
 
         try {

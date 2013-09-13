@@ -860,18 +860,29 @@ class Changements extends AbstractEvent {
      * @return Changements
      */
     public function addIfavoris(\Application\Sonata\UserBundle\Entity\User $idfavoris) {
-        $this->idfavoris[] = $idfavoris;
+         if (!$this->idfavoris->contains($idfavoris)) {
+         
+        $this->idfavoris->add($idfavoris);
 
-        return $this;
+        
+    }
+       /* $this->idfavoris[] = $idfavoris;
+
+        return $this;*/
     }
 
     /**
      * Remove idusers
      *
-     * @param \Application\RelationsBundle\Entity\ChronoUser $idusers
+     * @param \Application\RelationsBundle\Entity\ChronoUser $idfavoris
      */
     public function removeIdfavoris(\Application\Sonata\UserBundle\Entity\User $idfavoris) {
+        if (!$this->idfavoris->contains($idfavoris)) {
+            return;
+        }
         $this->idfavoris->removeElement($idfavoris);
+        
+    
     }
 
     /**
@@ -882,4 +893,25 @@ class Changements extends AbstractEvent {
     public function getIdfavoris() {
         return $this->idfavoris;
     }
+   
+     public function checkIdfavoris(\Application\Sonata\UserBundle\Entity\User $idfavoris) {
+         if (!$this->idfavoris->contains($idfavoris)) 
+            return false;
+         else 
+             return true;
+    }
+
+ public function setIdfavoris($users)
+    {
+        if ($users instanceof ArrayCollection || is_array($users)) {
+            foreach ($users as $item) {
+                $this->addIdfavoris($item);
+            }
+        } elseif ($users instanceof \Application\Sonata\UserBundle\Entity\User) {
+            $this->addIdfavoris($users);
+        } else {
+            throw new \Exception("$users must be an instance of User or ArrayCollection");
+        }
+    }
+   
 }

@@ -161,13 +161,7 @@ $( "#datepicker" ).datepicker();
 '#6D7B8D','#ADA96E','#B1FB17','#79BAEC','#736F6E','#6D7B8D']
  %}
 
-{% for type, flashMessages in app.session.flashbag.all() %}
-    {% for flashMessage in flashMessages %}
-<div class="alert alert-{{ type }}">
-            {{ flashMessage|trans }}
-    </div>
-    {% endfor %}
-{% endfor %}
+{% include 'ApplicationChangementsBundle:templates:flash.html.twig' %}
 
     <table class="table-mybordered">
 

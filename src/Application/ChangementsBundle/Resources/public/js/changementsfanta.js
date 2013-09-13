@@ -2,20 +2,31 @@ $(document).ready(function() {
     var img_path = '/bundles/applicationchangements/images/';
     var img_s_path = 'bundles/applicationchangements/images/';
 
-$.fn.extend({
-    hasClasses: function (selectors) {
-        var self = this;
-        for (i in selectors) {
-            if ($(self).hasClass(selectors[i])) 
-                return true;
+    $.fn.extend({
+        hasClasses: function(selectors) {
+            var self = this;
+            for (i in selectors) {
+                if ($(self).hasClass(selectors[i]))
+                    return true;
+            }
+            return false;
         }
-        return false;
-    }
-});
+    });
 
 
-    $("td > a").click(function(event) {
-       if ($(this).hasClass("favoris")) {
+/* $('a.favoris').tooltip();*/
+/* $("a.favoris").popover({placement:'bottom', trigger:'hover'});*/
+ $("a.favoris").popover({delay: { show: 300, hide: 300}, placement:'bottom', trigger:'hover'});
+ $("a.tooltip_comments,a.tooltip_edit,a.tooltip_show").popover(
+         {html: true,delay: { show: 300, hide: 300}, placement:'left', trigger:'hover'}
+ );
+ 
+    /*========================================================
+     *  Ajout de favoris
+     ========================================================*/
+
+    $("td > a.favoris").click(function(event) {
+        if ($(this).hasClass("favoris")) {
             var id = $(this).attr("data-id");
             var name = $(this).attr("data-name");
             var message = "";
@@ -36,42 +47,88 @@ $.fn.extend({
                 new_status = 1;
             }
 
-              var checkstr =  confirm(message + " vos favoris: \nstatus=" + status + "\nid=" + id + "\nnom=" + name);
-             if (checkstr === true) {
-                $(this).children().attr("src", img_path + img_favori);
-                $(this).attr('data-status', new_status);
-                /*$(this).data('data-status',new_status);*/
+            var checkstr = confirm(message + " vos favoris: \nstatus=" + status + "\nid=" + id + "\nnom=" + name);
+            if (checkstr === true) {
+                 /*$(this).data('data-status',new_status);*/
                 var dataAjax = {id: id};
-                return true;
+              //  return true;
+                changerfavoris(dataAjax, $(this));
+            }
             }
             else {
                 return false;
             }
             /*});*/
-        }
+        
+    });
+
+    /*========================================================
+     *  Changement de status
+     ========================================================*/
+
+    $("td > a.okstatus").click(function(event) {
         /* * A modifier: change color only sur success !!*/
-        if ($(this).hasClasses(['open', 'closed', 'prepare'])){
-        /*if ($(this).hasClass("open") || $(this).hasClass("closed") || $(this).hasClass("prepare")) {*/
-            id = $(this).attr("data-id");
-            name = $(this).attr("data-name");
-            checkstr = confirm("Modifier le status de la demande: \nid=" + id + "\nnom=" + name);
+        if ($(this).hasClasses(['open', 'closed', 'prepare'])) {
+            /*if ($(this).hasClass("open") || $(this).hasClass("closed") || $(this).hasClass("prepare")) {*/
+            var id = $(this).attr("data-id");
+            var name = $(this).attr("data-name");
+            var checkstr = confirm("Modifier le status de la demande: \nid=" + id + "\nnom=" + name);
             if (checkstr === true) {
                 console.log("id=" + id);
                 dataAjax = {id: id};
 
-                remplirSelect(dataAjax,$(this));
+                remplirSelect(dataAjax, $(this));
             }
         }
     });
-    
-     function changerfavoris(dataAjax,obj) {
+
+    /*========================================================
+     *  Fonction: ajout au favoris
+     ========================================================*/
+
+    function changerfavoris(dataAjax, obj) {
         $.ajax({
-            url: Routing.generate('changements_updatexhtml_changement'),
+            url: Routing.generate('changements_updatexhtml_favoris'),
             /*  url: "{{ path('changements_updatexhtml_changement') }}", */
             type: "POST",
             data: dataAjax,
             dataType: "json",
-              success: function(reponse) {
+            success: function(reponse) {
+                var img_favori = "";
+                var status = obj.attr("data-status");
+                var id = obj.attr("data-id");
+                   console.log("status:" + status);
+                if (status === 1) {
+                message = "Supprimer de ";
+                img_favori = "star-off.png";
+                  new_status = 0;
+
+            }
+           
+            else {
+                message = "Ajouter a ";
+                img_favori = "star-on.png";
+                new_status = 1;
+            }
+             if (reponse['mystatus'] ===  "removed"){
+                 img_favori = "star-off.png";
+                 //$(this).closest("tr").parent().find("id^=id");
+                 var mytr=obj.closest('tr');
+                 //var mytr=obj.closest("tr").parent();
+                // var id_parent=mytr.attr("id");
+              
+                 if (mytr.attr("id") === id){
+                        mytr.remove();
+                           console.log("remove tr parent=" + mytr.attr("id"));
+        
+                 }
+            }
+            else {img_favori = "star-on.png";}
+            
+                console.log("reponse:" + reponse['mystatus']);
+               obj.children().attr("src", img_path + img_favori);
+                obj.attr('data-status', new_status);
+           
             },
             error: function(e) {
                 console.log(e.message);
@@ -80,7 +137,11 @@ $.fn.extend({
 
     } //Eof:: fucntion remplirSelect
 
-    function remplirSelect(dataAjax,obj) {
+  /*========================================================
+     *  Fonction: Modif du status
+     ========================================================*/
+
+    function remplirSelect(dataAjax, obj) {
         $.ajax({
             url: Routing.generate('changements_updatexhtml_changement'),
             /*  url: "{{ path('changements_updatexhtml_changement') }}", */
@@ -91,7 +152,7 @@ $.fn.extend({
             /*cache: false,*/
             /*contentType: 'application/json',*/
             success: function(reponse) {
-            
+
                 if (obj.hasClass("open")) {
                     obj.removeClass("open").addClass("closed");
                     obj.closest("tr").removeClass("success").addClass("myclosed");
@@ -176,6 +237,11 @@ $.fn.extend({
      window.location.href = '/go-to-page?date='+dateText;
      }
      }); */
+    
+     /*========================================================
+     *  Calendrier
+     ========================================================*/
+
     $("#minidatepicker").datepicker({
         changeMonth: true,
         changeYear: true,
@@ -215,6 +281,10 @@ $.fn.extend({
         return [true];
     }
 
+  /*========================================================
+     *  Fonctions: select2 pour formulaire
+     ========================================================*/
+
     function format(state) {
         if (!state.id)
             return state.text; // optgroup
@@ -232,17 +302,7 @@ $.fn.extend({
     $("#changements_searchfilter_idStatus_cl").click(function() {
         $("#changements_searchfilter_idStatus").select2("val", "");
     });
-    /*
-     $("#changements_searchfilter_idStatus").on("change", function() { $("##changements_searchfilter_idStatus_val").html($("#changements_searchfilter_idStatus").val());});
-     
-     $("#changements_searchfilter_idStatus").select2("container").find("ul.select2-choices").sortable({
-     containment: 'parent',
-     start: function() { $("#changements_searchfilter_idStatus").select2("onSortStart"); },
-     update: function() { $("#changements_searchfilter_idStatus").select2("onSortEnd"); }
-     });*/
-
-
-
+   
 
     $("#changements_searchfilter_idProjet").select2({
         placeholder: "-- Choisir Projet(s) --",

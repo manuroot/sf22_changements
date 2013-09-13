@@ -243,13 +243,13 @@
          {% set text_edit= "<p>Editer cet enregistrement (id=" ~ entity.id  ~ ")" %}
         {% set text_show= "<p>Afficher les détails de cet enregistrement (id=" ~ entity.id  ~ ")" %}
         {% if entity.idStatus.description == 'closed' %} 
-            <tr class="myclosed">
+            <tr class="myclosed" id="{{ entity.id }}">
         {# sinon: open prepare ou wait #}
         {% else %}
             {% if entity.idStatus.description == 'prepare' or  entity.idStatus.description == 'wait'%} 
-                <tr class="prepare">
+                <tr class="prepare" id="{{ entity.id }}">
             {% else %}
-                <tr class="success">
+                <tr class="success" id="{{ entity.id }}">
             {% endif %}
         {% endif %}
 

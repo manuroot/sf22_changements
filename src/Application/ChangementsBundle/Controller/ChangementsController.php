@@ -590,15 +590,11 @@ class ChangementsController extends Controller {
      */
     public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindaIdAll($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Changements entity.');
         }
-
         $deleteForm = $this->createDeleteForm($id);
-
         return $this->render('ApplicationChangementsBundle:Changements:show.html.twig', array(
                     'entity' => $entity,
                     'delete_form' => $deleteForm->createView(),));
@@ -613,7 +609,6 @@ class ChangementsController extends Controller {
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Changements entity.');
         }
-
         $deleteForm = $this->createDeleteForm($id);
         return $this->render('ApplicationChangementsBundle:Changements:showxhtml.html.twig', array(
                     'entity' => $entity,
@@ -636,6 +631,11 @@ class ChangementsController extends Controller {
         ));
     }
 
+     /**
+     * Displays a form to create a new Changements entity.
+     *
+     * @Secure(roles="ROLE_USER")
+     */
     public function newflowstartAction() {
         // form data class
         $entity = new Changements();
@@ -647,6 +647,11 @@ class ChangementsController extends Controller {
     /**
      * Displays a form to create a new Changements entity.
      *
+     */
+     /**
+     * Displays a form to create a new Changements entity.
+     *
+     * @Secure(roles="ROLE_USER")
      */
     public function newflowAction() {
         // form data class
@@ -748,6 +753,11 @@ class ChangementsController extends Controller {
      * Displays a form to create a new Docchangements entity.
      *
      */
+     /**
+     * 
+     *
+     * @Secure(roles="ROLE_USER")
+     */
     public function newFichierAction($id) {
 
         $em = $this->getDoctrine()->getManager();
@@ -803,7 +813,7 @@ class ChangementsController extends Controller {
     /**
      * Deletes a Changements entity.
      *
-     * @Secure(roles="ROLE_USER")
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function deleteAction(Request $request, $id) {
         $form = $this->createDeleteForm($id);
@@ -877,6 +887,19 @@ class ChangementsController extends Controller {
                         ->getForm();
     }
 
+    
+    /*
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * A REVOIR
+     * 
+     * 
+     */
     public function update_changement_statusAction() {
         $request = $this->get('request');
 
@@ -923,6 +946,49 @@ class ChangementsController extends Controller {
         }
     }
 
+      public function update_changement_favorisAction() {
+        $request = $this->get('request');
+
+        if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
+
+            $id = $request->request->get('id');
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Changements entity.');
+            }
+            list($user_id, $group_id) = $this->getuserid();
+           if (! isset($user_id)){
+             throw $this->createNotFoundException('Unable to find Changements entity.');
+          // echo "user_id=$user_id";
+           
+           }
+             $entity_user = $em->getRepository('ApplicationSonataUserBundle:User')->find($user_id);
+     $array = array('mystatus' => $stat);
+            
+            //$entity->getIdfavoris();
+       $stat=$entity->checkIdfavoris($entity_user);
+       // si true==> present
+       if ($stat==true){
+            $entity->removeIdfavoris($entity_user);
+             $array['mystatus']="removed";
+    
+       }
+       else {
+           
+       //si false absent
+             $entity->addIfavoris($entity_user);
+             $array['mystatus']="added";
+       }
+       $em->persist($entity);
+       $em->flush();
+      
+            $response = new Response(json_encode($array));
+
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+    }
     public function GetTicketExtAjaxAction($field, $term) {
 
         $em = $this->getDoctrine()->getManager();
@@ -1419,7 +1485,7 @@ class ChangementsController extends Controller {
             throw new NotFoundHttpException();
             // throw $this->createNotFoundException('Unable to find entity.');
         }
-        return $this->render('ApplicationChangementsBundle:Changements:indexfanta.html.twig', array(
+        return $this->render('ApplicationChangementsBundle:Changements:indexmyfanta.html.twig', array(
                     'pagerfanta' => $pagerfanta,
                     'entities' => $q,
                     'next_dir' => $next_dir,

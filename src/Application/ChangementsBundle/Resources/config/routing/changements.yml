@@ -62,11 +62,17 @@ changements_showXhtml:
     defaults: { _controller: "ApplicationChangementsBundle:Changements:showXhtml" }
 
 changements_updatexhtml_changement:
-    pattern:  /updatexhtml
+    pattern:  /updatexhtml/
     defaults: { _controller: "ApplicationChangementsBundle:Changements:update_changement_status" }
     options:
         expose: true
-    
+ 
+changements_updatexhtml_favoris:
+    pattern:  /updatefavorisxhtml/
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:update_changement_favoris" }
+    options:
+        expose: true
+        
 changements_new:
     pattern:  /new
     defaults: { _controller: "ApplicationChangementsBundle:Changements:new" }
