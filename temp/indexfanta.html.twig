@@ -153,9 +153,6 @@
            
             i.icon-info-sign icon-2x {
               padding-left:1px;}
-  
-           a.favoris:hover, a.open img:hover, a.closed img:hover {border:2px;border-color:#666666;padding-left:5px;}
-           
         </style>
         
            {{ form_stylesheet(search_form) }}
@@ -234,6 +231,8 @@
                                      {% endif %}
                         </th>
                              {% endfor %}
+
+
                         <th colspan="4">Actions</th>
                         </tr>
                </thead>
@@ -256,13 +255,23 @@
     {% if not is_granted("ROLE_USER") %}   
         <img src="{{ asset('bundles/applicationchangements/images/star-off.png') }}" alt="show" width="15px" height="15px" />
     {% else %}                                           
+    {#  {% if user_id in entity.idfavoris|keys %}
+      ok
+<ul>
+    {% for user in users if user.active %}
+        <li>{{ user.username }}</li>
+    {% endfor %}
+</ul>             
+  #}
       {% set myfavori = 0 %}
-      {% for favoris in entity.idfavoris  if myfavori==0 %}
-          {% if favoris.id ==  user_id %}
-            {% set myfavori = 1 %}
-         {# {% set c_favoris = "star-off.png" %}#}
-         {% endif %}
-     {% endfor %}
+  {% for favoris in entity.idfavoris  if myfavori==0 %}
+     {% if favoris.id ==  user_id %}
+       {% set myfavori = 1 %}
+     {# {{ loop.last }}#}
+    {#  {% set loop.index0 = loop.last %}#}
+      {% endif %}
+              
+                    {% endfor %}
                 <a class="favoris" data-id="{{entity.id}}" data-name="{{entity.nom}}" data-status="{{ myfavori }}" href="#here">
                 {% if myfavori == 0 %}
                  <img src="{{ asset('bundles/applicationchangements/images/star-off.png') }}" alt="show" width="15px" height="15px" />
@@ -270,74 +279,94 @@
                   <img src="{{ asset('bundles/applicationchangements/images/star-on.png') }}" alt="show" width="15px" height="15px" />
                 {% endif %}
         </a>
-          
-     {% endif %}
-    </td>
-    <td>{{ entity.dateDebut|date('Y-m-d') }}</td>
-    <td>
-        {% if entity.dateFin  %}
-            {{ entity.dateFin|date('Y-m-d') }}
-        {% else %}
-          ---
-        {% endif %}
-    </td>
-    <td>{{ entity.idProjet.nomprojet }}</td>
-    <td>{{ entity.demandeur.nomUser }}</td>
-    <td>
-        {% if entity.picture|length > 0  %}
-            <img src="{{ asset('bundles/applicationchangements/images/wordx.gif') }}" alt="show" width="12px" height="12px"/>x {{  entity.picture|length }}
-        {% else %}
-            -
-        {% endif %}
-    </td>
-   
-    <td>{{ entity.comments|length }}</td>
-    
-    <td>
-           {{ entity.idusers|join(', ') }}   
-    </td>
-    <td style="min-width:45px"> 
-        {% if entity.idStatus.description != 'closed' %}
-            {% set c_status = "open" %}
-        {% else %}                                                                        
-            {% set c_status = "closed" %}
-        {% endif %}
-        
-         {% set c_img =  entity.idStatus.id ~ '.png' %}                                   
+              {#  
+                {% for key, user in entity.idfavoris %}
+        <li>{{ key }}: {{ user.username|e }}  {{ user.id|e }}</li>
+    {% endfor %}
+#}
+       {#   {% set myarr = entity.idfavoris['id'] %}#}
+
+                {#
+{% for favoris in entity.idfavoris %}    
+    {% if favoris.id is in_array(array_keys(someOtherArray)) %}
+       {{ myVar }} exists within someOtherArray.
+    {% else %}
+       {{ myVar }} doesn't exist within someOtherArray.
+    {% endif %}
+{% endfor %}
+#}
+           {% endif %}
+    {#
+                {% endif %}
+                 {% for myVar in someArray %}    
+    {% if myVar is in_array(array_keys(someOtherArray)) %}
+       {{ myVar }} exists within someOtherArray.
+    {% else %}
+       {{ myVar }} doesn't exist within someOtherArray.
+    {% endif %}
+{% endfor %}
+#}
+                </td>
+                <td>{{ entity.dateDebut|date('Y-m-d') }}</td>
+                <td>
+                    {% if entity.dateFin  %}
+                        {{ entity.dateFin|date('Y-m-d') }}
+                    {% else %}
+                        ---
+                    {% endif %}
+               </td>
+
+               <td>{{ entity.idProjet.nomprojet }}</td>
+               <td>{{ entity.demandeur.nomUser }}</td>
+               <td>
+               {% if entity.picture|length > 0  %}
+                    <img src="{{ asset('bundles/applicationchangements/images/wordx.gif') }}" alt="show" width="12px" height="12px"/>x {{  entity.picture|length }}
+               {% else %}
+                -
+               {% endif %}
+               </td>
+               <td>{{ entity.comments|length }}</td>
+               <td>
+               {{ entity.idusers|join(', ') }}   
+               </td>
+               <td style="min-width:45px"> 
+                  {% if entity.idStatus.description != 'closed' %}
+                      {% set c_status = "open" %}
+                  {% else %}                                                                        
+                      {% set c_status = "closed" %}
+                  {% endif %}
+            
+                 {% set c_img =  entity.idStatus.id ~ '.png' %}                                   
                   <a class="{{ c_status }}" data-name="{{entity.nom}}" data-id="{{entity.id}}"  href="#{{ entity.id }}">
                   <img src="{{ asset('bundles/applicationchangements/images/') }}{{ c_img }}" alt="show" width="15px" height="15px"/>
                   </a>
-   </td> 
-   <td> {{ entity.ticketExt }}   </td>
-   <td> {{ entity.ticketInt }}   </td>
-   <td> 
-      {% for envir in entity.idEnvironnement %}
-         {{ envir }} <br>
-      {% endfor %}
-   </td>
-   <td style="min-width:18px"> 
-    <a class="editme" title="Opération: {{ entity.nom }}" href="{{ path('changements_showXhtml', { 'id': entity.id }) }}">
-    <img src="{{ asset('bundles/applicationchangements/images/detail.png') }}" alt="show" width="15px" height="15px" />
-    </a>
-   </td>
+                  </td> 
+                  <td> {{ entity.ticketExt }}   </td>
+                  <td> {{ entity.ticketInt }}   </td>
+                  <td> 
+                      {% for envir in entity.idEnvironnement %}
+                          {{ envir }} <br>
+                      {% endfor %}
+                  </td>
+                  <td style="min-width:18px"> 
+                     <a class="editme" title="Opération: {{ entity.nom }}" href="{{ path('changements_showXhtml', { 'id': entity.id }) }}">
+                     <img src="{{ asset('bundles/applicationchangements/images/detail.png') }}" alt="show" width="15px" height="15px" />
+                     </a>
+                   </td>
 
-   {% if is_granted("ROLE_USER") %}
-   <td style="min-width:18px">
-       <a href="{{ path('changements_edit', { 'id': entity.id }) }}">
-        <img src="{{ asset('bundles/applicationchangements/images/edit.png') }}" alt="edit" width="15px" height="15px" />
-    </a>
-   </td>
-  {% endif %}
-   <td>
-     <a href="{{ path('changements_comment_show', { 'id': entity.id }) }}">
-     <i class="icon-pencil" style="color:black"></i>
-     </a>
-  </td>
-{#------------------------------------------------------------
-===========END TR===========================================
-------------------------------------------------------------#}
-</tr>
-{% endfor %}
+                  {% if is_granted("ROLE_USER") %}
+                  <td style="min-width:18px"> <a href="{{ path('changements_edit', { 'id': entity.id }) }}">
+                  <img src="{{ asset('bundles/applicationchangements/images/edit.png') }}" alt="edit" width="15px" height="15px" />
+                  </a>
+                  </td>
+                  {% endif %}
+                  <td>
+                    <a href="{{ path('changements_comment_show', { 'id': entity.id }) }}">
+                    <i class="icon-pencil" style="color:black"></i>
+                    </a>
+                    </td>
+                 </tr>
+                        {% endfor %}
             </tbody>
             </table>    
             </div>

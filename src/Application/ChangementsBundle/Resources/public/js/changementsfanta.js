@@ -2,43 +2,20 @@ $(document).ready(function() {
     var img_path = '/bundles/applicationchangements/images/';
     var img_s_path = 'bundles/applicationchangements/images/';
 
- /*   function checkdiag() {
-            bootbox.dialog({
-  message: "I am a custom dialog",
-  title: "Custom title",
-  buttons: {
-    success: {
-      label: "Success!",
-      className: "btn-success",
-      callback: function() {
-        Example.show("great success");
-      }
-    },
-    danger: {
-      label: "Danger!",
-      className: "btn-danger",
-      callback: function() {
-        Example.show("uh oh, look out!");
-      }
-    },
-    main: {
-      label: "Click ME!",
-      className: "btn-primary",
-      callback: function() {
-        Example.show("Primary button");
-      }
+$.fn.extend({
+    hasClasses: function (selectors) {
+        var self = this;
+        for (i in selectors) {
+            if ($(self).hasClass(selectors[i])) 
+                return true;
+        }
+        return false;
     }
-  }
 });
-   
 
-    }
-    bootbox.confirm("Are you sure?", function(result) {
-  
-});*/
+
     $("td > a").click(function(event) {
-
-        if ($(this).hasClass("favoris")) {
+       if ($(this).hasClass("favoris")) {
             var id = $(this).attr("data-id");
             var name = $(this).attr("data-name");
             var message = "";
@@ -59,69 +36,51 @@ $(document).ready(function() {
                 new_status = 1;
             }
 
-            /*    bootbox.confirm("Are you sure?", function(result) {
-             Example.show("Confirm result: "+result);
-             }); */
-             var checkstr =  confirm(message + " vos favoris: \nstatus=" + status + "\nid=" + id + "\nnom=" + name);
-           /* var checkstr = false;*/
-          /*  bootbox.confirm("Are you sure?", function(result) {*/
-               /* console.log("result=" + result);*/
-              /*  checkstr = result;*/
-      
-            
-           /* console.log("result main=" + checkstr);*/
-            if (checkstr === true) {
+              var checkstr =  confirm(message + " vos favoris: \nstatus=" + status + "\nid=" + id + "\nnom=" + name);
+             if (checkstr === true) {
                 $(this).children().attr("src", img_path + img_favori);
                 $(this).attr('data-status', new_status);
                 /*$(this).data('data-status',new_status);*/
                 var dataAjax = {id: id};
                 return true;
             }
-
             else {
                 return false;
             }
             /*});*/
         }
         /* * A modifier: change color only sur success !!*/
-        if ($(this).hasClass("open") || $(this).hasClass("closed") || $(this).hasClass("prepare")) {
-            var id = $(this).attr("data-id");
-            var name = $(this).attr("data-name");
-            var checkstr = confirm("Modifier le status de la demande: \nid=" + id + "\nnom=" + name);
+        if ($(this).hasClasses(['open', 'closed', 'prepare'])){
+        /*if ($(this).hasClass("open") || $(this).hasClass("closed") || $(this).hasClass("prepare")) {*/
+            id = $(this).attr("data-id");
+            name = $(this).attr("data-name");
+            checkstr = confirm("Modifier le status de la demande: \nid=" + id + "\nnom=" + name);
             if (checkstr === true) {
-                // do your code
-
-                /*else{
-                 return false;
-                 }*/
-                /* var id = $(this).attr("data-id");*/
                 console.log("id=" + id);
-                var dataAjax = {id: id};
+                dataAjax = {id: id};
 
-                if ($(this).hasClass("open")) {
-                    $(this).removeClass("open").addClass("closed");
-                    $(this).closest("tr").removeClass("success").addClass("myclosed");
-                    $(this).children().attr("src", img_path + "cadenas-sferme.png");
-                }
-                else if ($(this).hasClass("prepare")) {
-                    $(this).children().attr("src", img_path + "cadenas-souvert.png");
-                    $(this).removeClass("prepare").addClass("open");
-                    $(this).closest("tr").removeClass("prepare").addClass("success");
-                }
-                //cas closed: closed ==> prepare
-                else if ($(this).hasClass("closed")) {
-                    /*   console.log("closed test button");*/
-                    $(this).children().attr("src", img_path + "cadenas-sbleu.png");
-                    $(this).removeClass("closed").addClass("prepare");
-                    $(this).closest("tr").removeClass("myclosed").addClass("prepare");
-                    /*.addClass("prepare");*/
-                }
-                ;
-                remplirSelect(dataAjax);
+                remplirSelect(dataAjax,$(this));
             }
         }
     });
-    function remplirSelect(dataAjax) {
+    
+     function changerfavoris(dataAjax,obj) {
+        $.ajax({
+            url: Routing.generate('changements_updatexhtml_changement'),
+            /*  url: "{{ path('changements_updatexhtml_changement') }}", */
+            type: "POST",
+            data: dataAjax,
+            dataType: "json",
+              success: function(reponse) {
+            },
+            error: function(e) {
+                console.log(e.message);
+            }
+        });  //Eof:: ajax 
+
+    } //Eof:: fucntion remplirSelect
+
+    function remplirSelect(dataAjax,obj) {
         $.ajax({
             url: Routing.generate('changements_updatexhtml_changement'),
             /*  url: "{{ path('changements_updatexhtml_changement') }}", */
@@ -132,6 +91,26 @@ $(document).ready(function() {
             /*cache: false,*/
             /*contentType: 'application/json',*/
             success: function(reponse) {
+            
+                if (obj.hasClass("open")) {
+                    obj.removeClass("open").addClass("closed");
+                    obj.closest("tr").removeClass("success").addClass("myclosed");
+                    obj.children().attr("src", img_path + "cadenas-sferme.png");
+                }
+                else if (obj.hasClass("prepare")) {
+                    obj.children().attr("src", img_path + "cadenas-souvert.png");
+                    obj.removeClass("prepare").addClass("open");
+                    obj.closest("tr").removeClass("prepare").addClass("success");
+                }
+                //cas closed: closed ==> prepare
+                else if (obj.hasClass("closed")) {
+                    /*   console.log("closed test button");*/
+                    obj.children().attr("src", img_path + "cadenas-sbleu.png");
+                    obj.removeClass("closed").addClass("prepare");
+                    obj.closest("tr").removeClass("myclosed").addClass("prepare");
+                    /*.addClass("prepare");*/
+                }
+                ;
             },
             error: function(e) {
                 console.log(e.message);
