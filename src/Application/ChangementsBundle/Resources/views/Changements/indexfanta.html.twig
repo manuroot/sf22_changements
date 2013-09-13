@@ -177,7 +177,20 @@
 {#{% set date_right_warning= '+15days' %}#}
 
 {% include 'ApplicationChangementsBundle:templates:flash.html.twig' %}
-        {#
+    
+<div id="myModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- dialog body -->
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        Hello world!
+      </div>
+      <!-- dialog buttons -->
+      <div class="modal-footer"><button type="button" class="btn btn-primary">OK</button></div>
+    </div>
+  </div>
+</div>    {#
 <div id="dialog" title="Basic dialog">
     <p>This is an animated dialog which is useful for displaying information. 
         The dialog window can be moved, resized and closed with the 'x' icon.</p>
