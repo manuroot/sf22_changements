@@ -18,6 +18,7 @@
 <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/changementsfanta.js') }}"></script>
   <script type="text/javascript" src="{{ asset('select2/select2.js') }}"></script>
    <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
+     <script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>
 
 <script>
     $(function() {
@@ -35,13 +36,32 @@
 {{ parent() }}
     <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
        <link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
+        <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
        <style>
  /*div#second{ float:left;}*/
-  div.txtfirst{ width:170px;float:left;}
+  /*div.txtfirst{ width:auto;float:left;
+  margin:4px;border-color:red;}
+    div.txtsecond{ float:left;border-width:10px;margin:4px;border-color:red;}*/
+    div.txtfirst{ width:170px;float:left;}
     div.txtsecond{ float:left;}
+    
+    
+  .ui-pnotify-history-container {
+    position: absolute;
+    top: 0px;
+    right: 150px;
+    width: 100px;
+    }
     td.central {min-width:350px;}
   
-             div#showHideBoxown{width:100%;min-height:300px;}
+    
+             div#showhideboxown{
+                 width:100%;
+                 height:400px;min-height:300px;
+                 /*border-width: 4px;margin:4px;border-color:red;
+             background-color:blue;*/
+             }
+             /* .aa{width:400px; background-color:blue;}*/
             th.sorted{color: rgb(0, 136, 204);
                       text-decoration: none;}
             .ui-autocomplete { max-height: 200px; overflow-y: scroll; overflow-x: hidden;}
@@ -55,6 +75,7 @@
             select option:hover {
                 background-color: #b6d1fd;
             }
+            tr.edition {background-color: moccasin;}
             
             /* #s2id_autogen2.select2-input.select2-default {*/
             div#s2id_changements_searchfilter_idEnvironnement,
@@ -109,7 +130,7 @@
                 background-color: gray;
             }
             form.form {
-             width:500px;
+             /*width:500px;*/
             margin-left:0px;
             float:left;
             }
@@ -148,6 +169,7 @@
             }
 
             .clear { clear:both; }
+            a.btn,button.btn {padding-bottom:5px;margin-bottom:10px;;}
             a.btn.btn-medium.btn-info {
             width:80px;}
            
@@ -155,7 +177,9 @@
               padding-left:1px;}
   
            a.favoris:hover, a.open img:hover, a.closed img:hover {border:2px;border-color:#666666;padding-left:5px;}
-           
+           .modal-backdrop, .modal-backdrop.fade.in {
+    opacity: 0.3;
+}
         </style>
         
            {{ form_stylesheet(search_form) }}
@@ -180,11 +204,13 @@
 {#{% set date_right_warning= '+15days' %}#}
 
 {% include 'ApplicationChangementsBundle:templates:flash.html.twig' %}
+      
+  
 {% include 'ApplicationChangementsBundle:templates:container_search.html.twig' 
         with {
             'form_path': 'changements_fanta',
             'status_form':status_form,
-            'search_form': search_form,'box':"ShowHideBoxown",
+            'search_form': search_form,'box':"showhideboxown",
             'new_flow_path': 'changements_newflowstart',
             'new_path': 'changements_newchangement',
             'new_text':"Ajouter une Opération",
@@ -192,15 +218,21 @@
         }
 %}
 
- {% set itemsa = { 'a.id': ['50px','icon-time','ID'],'a.nom':['80px','icon-user','Nom'],
-'i.id':['40px','icon-star','Fav.'],
-'a.dateDebut': ['80px','icon-time','Debut'],'a.dateFin': ['80px','icon-time','Fin'],
-'b.nomprojet': ['80px','icon-tag','Projet'],'a.demandeur': ['30px','icon-user','D'],
- } %}
-
-{% set itemsb = { 'e.nomUser': ['80px','icon-group','Users'],'d.nom':['30px','icon-flag','F'],
-'a.ticketExt': ['80px','icon-tag','T_Ext'],'a.ticketInt': ['70px','icon-tag',' T_Int'],
-'g.nom': ['40px','icon-tag','Env'],
+ {% set itemsa = { 
+        'a.id': ['50px','icon-time','ID'],
+        'a.nom':['80px','icon-user','Nom'],
+        'i.id':['40px','icon-star','Fav.'],
+        'a.dateDebut': ['80px','icon-time','Debut'],
+        'a.dateFin': ['80px','icon-time','Fin'],
+        'b.nomprojet': ['80px','icon-tag','Projet'],
+        'a.demandeur': ['30px','icon-user','D'],
+        'fichiers': ['30px','icon-book','D','1'],
+        'commentaires': ['20px','icon-pencil','C','1'],
+        'e.nomUser': ['80px','icon-group','Users'],
+        'd.nom':['30px','icon-flag','F'],
+        'a.ticketExt': ['80px','icon-tag','T_Ext'],
+        'a.ticketInt': ['70px','icon-tag',' T_Int'],
+        'g.nom': ['40px','icon-tag','Env'],
  } %}      
 
         <div id="matable">
@@ -209,31 +241,17 @@
                     <tr class="title">
                 <script>var menuDownUrl = "{{ asset('bundles/applicationcertificats/images/') }}";</script>
 
-
-
          {% for key, value in itemsa %}
-
-                <th style="min-width:{{ value[0] }}"  class="sorted">
-                    <a href="{{ path('changements_fanta', {'sort':key,'dir':next_dir}) }}">
-            {{ value[2] }} </a> <i class=" {{ value[1] }}"></i>
-            {% if arrow[key] is defined %}
+                 <th style="min-width:{{ value[0] }}"  class="sorted">
+                    {% if value[3] is not defined %}
+                        <a href="{{ path('changements_fanta', {'sort':key,'dir':next_dir}) }}">{{ value[2] }} </a> 
+                    {% endif %}
+                    <i class=" {{ value[1] }}"></i>
+                    {% if arrow[key] is defined %}
                         <i class={{ arrow[key] }}></i>
-            {% endif %}
-                    </th>
+                    {% endif %}
+                 </th>
         {% endfor %}
-                    <th style="min-width:30px" class="sorted">      <i class=" icon-book"></i></th>
-                    <th class="sorted">     <i class=" icon-pencil"></i></th>
-
-                                    {% for key, value in itemsb %}
-
-                    <th style="min-width:{{ value[0] }}"  class="sorted">
-                        <a href="{{ path('changements_fanta', {'sort':key,'dir':next_dir}) }}">
-                            {{ value[2] }} </a> <i class=" {{ value[1] }}"></i>
-                             {% if arrow[key] is defined %}
-                            <i class={{ arrow[key] }}></i>
-                                     {% endif %}
-                        </th>
-                             {% endfor %}
                         <th colspan="4">Actions</th>
                         </tr>
                </thead>
@@ -269,7 +287,7 @@
         {#<a href="#" id="pop" class="btn btn-info" rel="popover" data-content="C'est tout simple à faire !"
 data-original-title="Test du Popover">
 Cliquez sur moi pour le Popover</a>#}
-                <a class="favoris" rel="tooltip" data-placement="bottom" data-content="Ajouter a vos favoris" data-original-title="Information" data-toggle="tooltip" data-id="{{entity.id}}" data-name="{{entity.nom}}" data-status="{{ myfavori }}" href="#here">
+                <a class="favoris" rel="tooltip" data-placement="bottom" data-content="Ajouter/supprimer cet enregistrement de vos favoris" data-original-title="Information" data-toggle="tooltip" data-id="{{entity.id}}" data-name="{{entity.nom}}" data-status="{{ myfavori }}" href="#here">
                 {% if myfavori == 0 %}
                  <img src="{{ asset('bundles/applicationchangements/images/star-off.png') }}" alt="show" width="15px" height="15px" />
                 {% else %}
@@ -280,13 +298,7 @@ Cliquez sur moi pour le Popover</a>#}
      {% endif %}
     </td>
     <td>{{ entity.dateDebut|date('Y-m-d') }}</td>
-    <td>
-        {% if entity.dateFin  %}
-            {{ entity.dateFin|date('Y-m-d') }}
-        {% else %}
-          ---
-        {% endif %}
-    </td>
+    <td>{% if entity.dateFin  %}{{ entity.dateFin|date('Y-m-d') }}{% else %}---{% endif %}</td>
     <td>{{ entity.idProjet.nomprojet }}</td>
     <td>{{ entity.demandeur.nomUser }}</td>
     <td>
@@ -298,10 +310,7 @@ Cliquez sur moi pour le Popover</a>#}
     </td>
    
     <td>{{ entity.comments|length }}</td>
-    
-    <td>
-           {{ entity.idusers|join(', ') }}   
-    </td>
+    <td>{{ entity.idusers|join(', ') }}</td>
     <td style="min-width:45px"> 
         {% if entity.idStatus.description != 'closed' %}
             {% set c_status = "open" %}
@@ -320,11 +329,7 @@ Cliquez sur moi pour le Popover</a>#}
    </td> 
    <td> {{ entity.ticketExt }}   </td>
    <td> {{ entity.ticketInt }}   </td>
-   <td> 
-      {% for envir in entity.idEnvironnement %}
-         {{ envir }} <br>
-      {% endfor %}
-   </td>
+   <td>{% for envir in entity.idEnvironnement %}{{ envir }} <br>{% endfor %}</td>
    <td style="min-width:18px"> 
      
     <a class="tooltip_show editme" rel="tooltip" data-content="{{ text_show }}" data-original-title="Information" data-toggle="tooltip" href="{{ path('changements_showXhtml', { 'id': entity.id }) }}">

@@ -13,14 +13,37 @@ $(document).ready(function() {
         }
     });
 
+    /*   bootbox.setDefaults({
+     locale: "fr",
+     show: true,
+     backdrop: true,
+     closeButton: true,
+     animate: true,
+     className: "my-modal"
+     });
+     
+     $(".confirm-delete").click(function(e) {
+     e.preventDefault();
+     var id = $(this).data('id')
+     bootbox.dialog("Remove this product?", [{
+     "label" : "No",
+     "icon"  : "icon-remove"
+     }, {
+     "label" : "Yes",
+     "icon"  : "icon-ok icon-white",
+     "callback": function() {
+     deleteRecord(id);
+     }
+     }]);
+     });    */
 
-/* $('a.favoris').tooltip();*/
-/* $("a.favoris").popover({placement:'bottom', trigger:'hover'});*/
- $("a.favoris").popover({delay: { show: 300, hide: 300}, placement:'bottom', trigger:'hover'});
- $("a.tooltip_comments,a.tooltip_edit,a.tooltip_show").popover(
-         {html: true,delay: { show: 300, hide: 300}, placement:'left', trigger:'hover'}
- );
- 
+    /* $('a.favoris').tooltip();*/
+    /* $("a.favoris").popover({placement:'bottom', trigger:'hover'});*/
+    $("a.favoris").popover({delay: {show: 300, hide: 300}, placement: 'bottom', trigger: 'hover'});
+    $("a.tooltip_comments,a.tooltip_edit,a.tooltip_show").popover(
+            {html: true, delay: {show: 300, hide: 300}, placement: 'left', trigger: 'hover'}
+    );
+
     /*========================================================
      *  Ajout de favoris
      ========================================================*/
@@ -28,14 +51,16 @@ $(document).ready(function() {
     $("td > a.favoris").click(function(event) {
         if ($(this).hasClass("favoris")) {
             var id = $(this).attr("data-id");
+            /*$(this).closest("tr>td").data().css( "color", "red" );*/
             var name = $(this).attr("data-name");
             var message = "";
             var new_status = 0;
             var img_favori = "";
             var modal_res = "";
+            var obj = $(this);
             var status = $(this).attr("data-status");
-            console.log("favoris id=" + id);
-            if (status === 1) {
+            console.log("favoris id=" + id + "status=" + status);
+            if (status == 1) {
                 message = "Supprimer de ";
                 img_favori = "star-off.png";
 
@@ -46,20 +71,29 @@ $(document).ready(function() {
                 img_favori = "star-on.png";
                 new_status = 1;
             }
+            var mess = "<i class='icon-question icon-2x'></i><br><h3>" + message + " vos favoris: </h3><p>status=" + status + "</p><p>id=" + id + "</p><p>nom=" + name + "</p>";
+            bootbox.confirm(mess, function(checkstr) {
+                console.log("confirm result=" + checkstr);
+                /*Example.show("Confirm result: "+result);*/
 
-            var checkstr = confirm(message + " vos favoris: \nstatus=" + status + "\nid=" + id + "\nnom=" + name);
-            if (checkstr === true) {
-                 /*$(this).data('data-status',new_status);*/
-                var dataAjax = {id: id};
-              //  return true;
-                changerfavoris(dataAjax, $(this));
-            }
-            }
-            else {
-                return false;
-            }
-            /*});*/
-        
+
+                // var checkstr = confirm(message + " vos favoris: \nstatus=" + status + "\nid=" + id + "\nnom=" + name);
+                if (checkstr === true) {
+                    /*$(this).data('data-status',new_status);*/
+                    var dataAjax = {id: id};
+
+                    changerfavoris(dataAjax, obj);
+                }
+
+            });
+            return true;
+        }
+        /* pas de class favoris*/
+        else {
+            return false;
+        }
+        /*});*/
+
     });
 
     /*========================================================
@@ -72,16 +106,29 @@ $(document).ready(function() {
             /*if ($(this).hasClass("open") || $(this).hasClass("closed") || $(this).hasClass("prepare")) {*/
             var id = $(this).attr("data-id");
             var name = $(this).attr("data-name");
-            var checkstr = confirm("Modifier le status de la demande: \nid=" + id + "\nnom=" + name);
-            if (checkstr === true) {
-                console.log("id=" + id);
-                dataAjax = {id: id};
+            var obj = $(this);
+            origin_mess = "<i class='icon-question icon-2x'></i><br><h3>Modifier le status de la demande ?</h3>";
+            var mess = origin_mess + "<p>id=" + id + "</p><p>nom=" + name + "</p>";
 
-                remplirSelect(dataAjax, $(this));
-            }
+            bootbox.confirm(mess, function(checkstr) {
+                console.log("confirm result=" + checkstr);
+
+                // var checkstr = confirm("Modifier le status de la demande: \nid=" + id + "\nnom=" + name);
+                if (checkstr === true) {
+                    console.log("id=" + id);
+                    dataAjax = {id: id};
+
+                    remplirSelect(dataAjax, obj);
+                }
+            });
+            return true;
         }
+
     });
 
+    function removeTableRow(trId) {
+        $('tr#' + trId).remove();
+    }
     /*========================================================
      *  Fonction: ajout au favoris
      ========================================================*/
@@ -97,47 +144,69 @@ $(document).ready(function() {
                 var img_favori = "";
                 var status = obj.attr("data-status");
                 var id = obj.attr("data-id");
-                   console.log("status:" + status);
-                if (status === 1) {
-                message = "Supprimer de ";
-                img_favori = "star-off.png";
-                  new_status = 0;
+                console.log("before id =" + id + " status = " + status);
+                if (status == 1) {
+                    message = "Enregistrement: " + id + " supprimé de vos favoris";
+                    img_favori = "star-off.png";
+                    new_status = 0;
 
-            }
-           
-            else {
-                message = "Ajouter a ";
-                img_favori = "star-on.png";
-                new_status = 1;
-            }
-             if (reponse['mystatus'] ===  "removed"){
-                 img_favori = "star-off.png";
-                 //$(this).closest("tr").parent().find("id^=id");
-                 var mytr=obj.closest('tr');
-                 //var mytr=obj.closest("tr").parent();
-                // var id_parent=mytr.attr("id");
-              
-                 if (mytr.attr("id") === id){
-                        mytr.remove();
-                           console.log("remove tr parent=" + mytr.attr("id"));
-        
-                 }
-            }
-            else {img_favori = "star-on.png";}
-            
+                }
+
+                else {
+                    message = "Enregistrement: " + id + " ajouté de vos favoris";
+                    img_favori = "star-on.png";
+                    new_status = 1;
+                }
+                if (reponse['mystatus'] === "removed") {
+                    img_favori = "star-off.png";
+                    //$(this).closest("tr").parent().find("id^=id");
+                    // var mytr = $("div#matable").find("tr#" + id);
+                    var mytr = obj.closest("tr#" + id);
+                    // var mytr=obj.closest("tr").parent();
+                    // var id_parent=mytr.attr("id");
+
+                    /*if (mytr.attr("id") === id) {*/
+                    // $("tr#" + id).remove();
+                    // mytr.remove();
+
+                    mytr.fadeTo(600, 0, function() {
+                        $(this).remove();
+                    });
+                    // $("#mytable tr:eq(id)").remove();*/
+
+                    console.log("remove tr id=" + id);
+
+                    // }
+                }
+                else {
+                    img_favori = "star-on.png";
+                }
+
                 console.log("reponse:" + reponse['mystatus']);
-               obj.children().attr("src", img_path + img_favori);
+                console.log("src=" + img_path + img_favori);
+                obj.children().attr("src", img_path + img_favori);
                 obj.attr('data-status', new_status);
-           
+                $.pnotify({
+                    title: 'Modification Favoris',
+                    text: message,
+                    animation: 'show',
+                    nonblock_opacity: 0.2,
+                    type: 'success',
+                    icon: 'icon-flag',
+                    width: '350px',
+                    opacity: .9
+                });
+
+
             },
             error: function(e) {
                 console.log(e.message);
             }
         });  //Eof:: ajax 
-
+//return;
     } //Eof:: fucntion remplirSelect
 
-  /*========================================================
+    /*========================================================
      *  Fonction: Modif du status
      ========================================================*/
 
@@ -153,15 +222,21 @@ $(document).ready(function() {
             /*contentType: 'application/json',*/
             success: function(reponse) {
 
+                var status="";
+              
+                var id = obj.attr("data-id");       
+                  var txtid="id=" + id + " "; 
                 if (obj.hasClass("open")) {
                     obj.removeClass("open").addClass("closed");
                     obj.closest("tr").removeClass("success").addClass("myclosed");
                     obj.children().attr("src", img_path + "cadenas-sferme.png");
+                    status = "open ==> closed";
                 }
                 else if (obj.hasClass("prepare")) {
                     obj.children().attr("src", img_path + "cadenas-souvert.png");
                     obj.removeClass("prepare").addClass("open");
                     obj.closest("tr").removeClass("prepare").addClass("success");
+                    status = "prepare ==> open";
                 }
                 //cas closed: closed ==> prepare
                 else if (obj.hasClass("closed")) {
@@ -170,8 +245,21 @@ $(document).ready(function() {
                     obj.removeClass("closed").addClass("prepare");
                     obj.closest("tr").removeClass("myclosed").addClass("prepare");
                     /*.addClass("prepare");*/
+                    status = "closed ==> prepare";
                 }
                 ;
+                var message= txtid + status;
+            $.pnotify({
+                    title: 'Modification Status',
+                    text: message,
+                    animation: 'show',
+                    nonblock_opacity: 0.2,
+                    type: 'success',
+                    icon: 'icon-flag',
+                    width: '350px',
+                    opacity: .9
+                });
+
             },
             error: function(e) {
                 console.log(e.message);
@@ -237,8 +325,8 @@ $(document).ready(function() {
      window.location.href = '/go-to-page?date='+dateText;
      }
      }); */
-    
-     /*========================================================
+
+    /*========================================================
      *  Calendrier
      ========================================================*/
 
@@ -281,7 +369,7 @@ $(document).ready(function() {
         return [true];
     }
 
-  /*========================================================
+    /*========================================================
      *  Fonctions: select2 pour formulaire
      ========================================================*/
 
@@ -302,7 +390,7 @@ $(document).ready(function() {
     $("#changements_searchfilter_idStatus_cl").click(function() {
         $("#changements_searchfilter_idStatus").select2("val", "");
     });
-   
+
 
     $("#changements_searchfilter_idProjet").select2({
         placeholder: "-- Choisir Projet(s) --",

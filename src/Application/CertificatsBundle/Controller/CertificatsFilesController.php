@@ -282,7 +282,6 @@ class CertificatsFilesController extends Controller {
         }
         $deleteForm = $this->createDeleteForm($id);
         $openssl = new MyOpenSsl();
-        //   $x509=$openssl->View_Cert($name);
         $filename = $entity->getPath();
         $path = $this->get('kernel')->getRootDir() . "/../" . $entity->getDownloadDir();
         $fic = $path . $filename;

@@ -5,7 +5,7 @@
         </form>   
 #}
 <div id="ShowHideContainer">
-<div>
+
     <form id="target" class="form-horizontal" action="{{ path(form_path) }}" method="POST" {{ form_enctype(search_form) }}>
         <a id="ShowHideButton">
             <button id="show" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
@@ -42,15 +42,17 @@
         {% endif %}
 
     </form>
-  </div>
+
+         </div>   
+        {#<div id="showhideboxown" class="hidden">#}
         <div id="{{ box }}" class="hidden">
+        <div class="first">
           {% include include_html_search with {'tpl_path':form_path } %}
-                             
-            <div id="minidatepicker"></div>
+            </div>                 
+            <div class="second" id="minidatepicker"></div>
             
            
              
-            </div>
-   
-        </div>
+          </div>
+
  <br class="clear" />

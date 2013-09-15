@@ -229,12 +229,22 @@ class CertificatsCenterController extends Controller {
         $session = $this->getRequest()->getSession();
         $myretour = $session->get('buttonretour');
         $em = $this->getDoctrine()->getManager();
+        $cmd_x509 = null;
         $entity = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->find($id);
         $applis = $entity->getIdapplis();
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find CertificatsCenter entity.');
         }
-
+        $fichier=$entity->getFichier(); 
+        if ($fichier) {
+        $openssl = new MyOpenSsl();
+        $filename = $fichier->getPath();
+        $path = $this->get('kernel')->getRootDir() . "/../" . $fichier->getDownloadDir();
+        $fic = $path . $filename;
+        if (file_exists($fic)) {
+            $cmd_x509 = $openssl->View_Cert($fic);
+        }
+        }
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST')
             $html = 'ApplicationCertificatsBundle:CertificatsCenter:showxhtml.html.twig';
         else
@@ -246,9 +256,28 @@ class CertificatsCenterController extends Controller {
                     'btnretour' => $myretour,
                     'delete_form' => $deleteForm->createView(),
                     'applis' => $applis,
+                    'cmd_x509' => $cmd_x509,
                 ));
     }
-
+/*
+ *  $entity = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->find($id);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find CertificatsFiles entity.');
+        }
+        $deleteForm = $this->createDeleteForm($id);
+        $openssl = new MyOpenSsl();
+        $filename = $entity->getPath();
+        $path = $this->get('kernel')->getRootDir() . "/../" . $entity->getDownloadDir();
+        $fic = $path . $filename;
+        if (file_exists($fic)) {
+            $cmd_x509 = $openssl->View_Cert($fic);
+        }
+        return $this->render('ApplicationCertificatsBundle:CertificatsFiles:show.html.twig', array(
+                    'entity' => $entity,
+                    'cmd_x509' => $cmd_x509,
+                    'delete_form' => $deleteForm->createView(),));
+    }
+ */
     /** ===================================================================
      * 
      *  NEW ENREGISTREMENT 
@@ -290,7 +319,7 @@ class CertificatsCenterController extends Controller {
    
         $alldatas = $request->request->all();
         $datas = $alldatas["moncert"];
-        print_r($datas);exit(1);
+       // print_r($datas);exit(1);
         
      
                    

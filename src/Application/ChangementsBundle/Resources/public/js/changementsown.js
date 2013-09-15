@@ -57,7 +57,7 @@ $(document).ready(function() {
     });
 
 
-    var ShowHideBox = $('#ShowHideBoxown');
+    var ShowHideBox = $('#showhideboxown');
     //var  ShowHideButton = $('#ShowHideButton');
     initBox();
 //ShowHideBoxown.hide();
@@ -113,6 +113,7 @@ $(document).ready(function() {
             if (boxVisible()) {
 
                 hideBox();
+                
                 $('#ShowHideButton').children().first().html('<i class="icon-search icon-mesfiltres"></i>  Afficher Filtres');
             }
         }
@@ -154,9 +155,19 @@ $(document).ready(function() {
     {
         var options = {};
         /*var options = { percent: 0 };*/
-        /*  var effet="explode";*/
-        var effet = "slide";
-        ShowHideBox.hide(effet, options, 800).addClass('hidden');
+        var effet="slide";
+       /* var effet = "slide";*/
+        /*ShowHideBox.hide(effet, options, 800);*/
+        ShowHideBox.hide( "slide", { direction: "left" }, "slow", function(){
+            $(this).addClass('hidden');
+        });
+                //.addClass('hidden');
+        /*ShowHideBox.hide( "drop", { direction: "left" }, "slow" ).addClass('hidden');
+        */
+     /*   ShowHideBox.delay(2000).fadeOut(1000, function () {
+   $(this).addClass('hidden');
+ });*/
+       /* ShowHideBox.addClass('hidden');*/
         $.cookie('Boxchangementown', 0, {expires: 365});
     }
     // callback function to bring a hidden box back

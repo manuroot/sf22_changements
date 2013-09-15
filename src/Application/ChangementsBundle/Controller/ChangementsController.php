@@ -1275,6 +1275,8 @@ class ChangementsController extends Controller {
             $session->remove('changementControllerFilternew');
             if ($request->get('submit-filter') == "reset") {
                 $session->getFlashBag()->add('warning', "Filtres de recherche reinitialisée");
+            $session->remove('date_calendar');
+            
             }
             //-----------------------------------------
             // On recupere les vars de post ==> session filter
@@ -1503,6 +1505,13 @@ class ChangementsController extends Controller {
         $request = $this->getRequest();
         $session = $this->getRequest()->getSession();
         $current_date = new \DateTime();
+      /*
+       $current_session_events = $session->get('date_calendar');
+      if (!isset($current_session_events)) {
+            $session->set('date_calendar',array());
+      } */
+        
+        
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
             $month = $request->request->get('month');
             if (!isset($month)) {
@@ -1516,20 +1525,29 @@ class ChangementsController extends Controller {
                 $year = $current_date->format('Y');
             }
             $date = $year . '-' . $month;
+              $em = $this->getDoctrine()->getManager();
+             
             // $session_event=$date;
-            $current_session_events = $session->get($date);
+           
+           //   $events_date = $em->getRepository('ApplicationChangementsBundle:Changements')->getMyDate($date);
+            //   $events_date = $current_session_events;
+              //  $session->set($date, $events_date);
+              $current_session_events = $session->get($date);
             if (!isset($current_session_events)) {
                 // echo "year=$year month=$month<br>";exit(1); 
                 $em = $this->getDoctrine()->getManager();
                 // recuperation des parametres
                 $events_date = $em->getRepository('ApplicationChangementsBundle:Changements')->getMyDate($date);
+              //  $session->set($date, $events_date);
                 $session->set($date, $events_date);
+                
                 //  print_r($events_date); 
             } else {
                 $events_date = $current_session_events;
                 //   print_r($events_date); 
             }
-            //  print_r($events_date); 
+             //print_r($events_date); 
+            // exit(1);
             $response = new Response(json_encode($events_date));
             $response->headers->set('Content-Type', 'application/json');
             return $response;

@@ -536,9 +536,10 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
     }
    public function getMyDate($date) {
            $myarr=array();
+           $s_arr=array();
       //     echo "date=$date";exit(1);
         $qb = $this->createQueryBuilder('a')
-        ->select('a.dateDebut,a.nom')
+        ->select('a.id,a.dateDebut,a.nom')
         ->where('a.dateDebut LIKE :mydate')
         ->setParameter('mydate', "%" . $date . "%" );
        // return $qb->getQuery()->getResult();
@@ -549,11 +550,34 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
              $day = $d['createdAt']->format('d');*/
               $value=$d['dateDebut']->format('m\/d\/Y');
               $name=$d['nom'];
-          //  if (! array_key_exists($key, $myarr))
-                 array_push($myarr,array('date'=>"$value",'title'=>$name));
+              $id=$d['id'];
+              
+              
+       if (array_key_exists("$value", $s_arr)){
+            $s_arr["$value"] .= "id=$id : $name";
+        }else {
+           //echo "pas fdddfd"; 
+           $s_arr["$value"] = "id=$id : $name" . "\n";
+           
         }
+        
+        //  array_push($myarr,array('date'=>"$value",'title'=>"gfddfgdf " . $name));
+                //array_key_exists($key, $myarr))
+             /* if (in_array($value, $myarr[]['date'])) {
+              }
+              else
+              {
+                 array_push($myarr,array('date'=>"$value",'title'=> $name));
+        }}*/
+        }
+         foreach ($s_arr as $key=>$value) {
+             array_push($myarr,array('date'=>$key,'title'=>$value));
+         }
+      //  $myarr=array($s_arr);    
+        //return ($myarr);
+   //     print_r($myarr);
         return ($myarr);
-     //   print_r($myarr);
+    // print_r($myarr);
       
     }
 }
