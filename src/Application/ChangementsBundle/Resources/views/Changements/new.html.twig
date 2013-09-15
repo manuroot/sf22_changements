@@ -155,6 +155,10 @@
 {% block title %}CREATION OPERATION{% endblock %}
 {% block content %}
 
+  {% set btnretour = app.session.get('buttonretour') %}
+{% if btnretour is not defined %}
+{% set btnretour = 'changements_fanta' %}
+{% endif %}
 
 <div id="divchmgt" style="display: none;">{{ entity.id }}</div>
 
@@ -233,7 +237,7 @@
                                     </tr>                                 <tr>
                                         <td class="calendar" colspan="3"> {{ form_rest(form) }} 
                                             <button type="submit" class="btn btn-large btn-warning">Modifier</button>
-                                            <a href="{{ path('changements_fanta') }}" class="btn btn-large btn-success">Retour</a>
+                                            <a href="{{ path(btnretour) }}" class="btn btn-large btn-success">Retour</a>
                                             </form>
 
 

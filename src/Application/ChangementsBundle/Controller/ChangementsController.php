@@ -739,8 +739,12 @@ class ChangementsController extends Controller {
 
         $editForm = $this->createForm(new ChangementsType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
-
-
+         $session = $this->getRequest()->getSession();
+           
+         $btn_retour = $session->get('buttonretour');
+        if (!isset($btn_retour)){
+             $session->set('buttonretour','changements_fanta');
+        }
         // return $this->render('ApplicationChangementsBundle:Changements:simple.html.twig', array());
         return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
                     'entity' => $entity,
@@ -797,10 +801,10 @@ class ChangementsController extends Controller {
 
             // ajoute des messages flash
             $btn_retour = $session->get('buttonretour');
-            if ($btn_retour == 'changements_fanta' || $btn_retour == 'changements_posttest')
+            if ($btn_retour == 'changements_fanta' || $btn_retour == 'changements_myfanta')
                 return $this->redirect($this->generateUrl($btn_retour));
             else
-                return $this->redirect($this->generateUrl('changements_posttest'));
+                return $this->redirect($this->generateUrl('changements_fanta'));
         }
 
         return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
@@ -1390,7 +1394,7 @@ class ChangementsController extends Controller {
 
         $request = $this->getRequest();
         $session = $request->getSession();
-        $session->set('buttonretour', 'changements_fanta');
+        $session->set('buttonretour', 'changements_myfanta');
         $searchForm = $this->createForm(new ChangementsFilterAmoiType($em));
         $statusForm = $this->createForm(new ChangementsStatusType());
         //-----------------------------------------

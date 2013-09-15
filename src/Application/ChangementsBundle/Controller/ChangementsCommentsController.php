@@ -162,14 +162,24 @@ class ChangementsCommentsController extends Controller {
                 ));
     }
 
-    public function showAction($id) {
+    public function showAction(Request $request,$id) {
 
         $em = $this->getDoctrine()->getManager();
         list($user_id, $group_id) = $this->getuserid();
 
+           $session = $request->getSession();
+     
+        
+ $btn_retour = $session->get('buttonretour');
+        if (!isset($btn_retour)){
+             $session->set('buttonretour','changements_fanta');
+        }     
+        
+        
         $validation = 1;
         // recup du changement:
-        $em = $this->getDoctrine()->getManager();
+       // $em = $this->getDoctrine()->getManager();
+        
        $changement = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
        //$criteria=array('comments'=>0,'byid'=>$id);
         if (!$changement) {

@@ -24,10 +24,16 @@ CHANGEMENT: {{ entity.nom }}
 {% endblock %}
 
 {% block content %}
-     <br>  
+  {% set btnretour = app.session.get('buttonretour') %}
+{% if btnretour is not defined %}
+{% set btnretour = 'changements_fanta' %}
+{% endif %}
+
+
+<br>  
 {#{ path }#}
              
- <a href="{{ path('changements_fanta') }}" class="btn btn-medium btn-success">Retour</a>
+ <a href="{{ path(btnretour) }}" class="btn btn-medium btn-success">Retour</a>
 
      
 <table class="table table-striped table-bordered table-hover">
