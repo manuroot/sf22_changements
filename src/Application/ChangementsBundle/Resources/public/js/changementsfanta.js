@@ -363,7 +363,7 @@ $(document).ready(function() {
              */
             /*    if (t == date.toString()) {     */
           if (new Date(eventsDays[i]).toString() === date.toString()) {
-                return [true, 'free-day', "XXX " + eventsTitle[i]];
+                return [true, 'free-day', eventsTitle[i]];
                 /*a class="ui-state-default" href="#">
       3
     </a>*/
