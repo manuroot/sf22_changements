@@ -1546,10 +1546,11 @@ class ChangementsController extends Controller {
             $em = $this->getDoctrine()->getManager();
 
             // $session_event=$date;
-            //   $events_date = $em->getRepository('ApplicationChangementsBundle:Changements')->getMyDate($date);
+               $events_date = $em->getRepository('ApplicationChangementsBundle:Changements')->getMyDate($date);
             //   $events_date = $current_session_events;
             //  $session->set($date, $events_date);
-            $current_session_events = $session->get($date);
+            /*$current_session_events = $session->get($date);
+            
             if (!isset($current_session_events)) {
                 // echo "year=$year month=$month<br>";exit(1); 
                 $em = $this->getDoctrine()->getManager();
@@ -1562,7 +1563,10 @@ class ChangementsController extends Controller {
             } else {
                 $events_date = $current_session_events;
                 //   print_r($events_date); 
-            }
+            }*/
+            
+            
+            
             //print_r($events_date); 
             // exit(1);
             $response = new Response(json_encode($events_date));
