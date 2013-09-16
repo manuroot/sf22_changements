@@ -59,6 +59,7 @@ class CertificatsCenterController extends Controller {
      *  CREATION DU PAGINATOR
      * 
       =================================================================== */
+    
     private function createpaginator($query, $num_perpage = 5) {
 
         $paginator = $this->get('knp_paginator');
@@ -221,10 +222,19 @@ class CertificatsCenterController extends Controller {
      * 
      *  SHOW ENREGISTREMENT $ID
      * 
-     * @Secure(roles="ROLE_USER")
-     * 
-      =================================================================== */
-    public function showAction(Request $request, $id) {
+     * =================================================================== */
+ 
+     /**
+      *  @Secure(roles="ROLE_USER")
+      * 
+      * @param \Symfony\Component\HttpFoundation\Request $request
+      * @param type $id
+      * @return type
+      * @throws type
+      * 
+      */
+    
+     public function showAction(Request $request, $id) {
         $session = $this->getRequest()->getSession();
         $myretour = $session->get('buttonretour');
         $em = $this->getDoctrine()->getManager();
@@ -277,13 +287,16 @@ class CertificatsCenterController extends Controller {
                     'delete_form' => $deleteForm->createView(),));
     }
  */
-    /** 
+    /** ===================================================================
      * 
      *  NEW ENREGISTREMENT 
      * 
      * @Secure(roles="ROLE_USER")
      * 
-      =================================================================== */
+     * @return type
+     * 
+     */
+    
     public function newAction() {
         $entity = new CertificatsCenter();
        // $data['moncert']['port']='80';
@@ -303,11 +316,12 @@ class CertificatsCenterController extends Controller {
                 ));
     }
 
-    /** 
+    /** ===================================================================
      * 
      *  CREATE ENREGISTREMENT $ID
      * 
      * @Secure(roles="ROLE_USER")
+     * 
      * 
      * Formulaire: moncert
       =================================================================== */
@@ -366,12 +380,20 @@ class CertificatsCenterController extends Controller {
                 ));
     }
 
-    /** 
+    /** ===================================================================
      * 
      *  UPDATE ENREGISTREMENT $ID
      * 
      * @Secure(roles="ROLE_USER")
-      =================================================================== */
+     * 
+     * @param type $id
+     * @return type
+     * @throws AccessDeniedException
+     * @throws type
+     * 
+     */
+   
+   
     public function editAction($id) {
 
         $em = $this->getDoctrine()->getManager();
@@ -431,7 +453,14 @@ class CertificatsCenterController extends Controller {
      *  UPDATE ENREGISTREMENT $ID
      * 
      * @Secure(roles="ROLE_USER")
-      =================================================================== */
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param type $id
+     * @return type
+     * @throws type
+     * 
+     */
+   
     public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
@@ -490,7 +519,13 @@ class CertificatsCenterController extends Controller {
      *  DELETE ENREGISTREMENT $ID
      * 
      * @Secure(roles="ROLE_ADMIN")
-      =================================================================== */
+     * 
+     * @param type $id
+     * @return type
+     * @throws NotFoundHttpException
+     * 
+     */
+    
     
     public function deleteAction($id) {
 
@@ -523,6 +558,8 @@ class CertificatsCenterController extends Controller {
     //==============================================
     // SUPPRIMER CERTS AUTOGENERATION
     // not working
+    // 
+    // 
     //==============================================
 
     public function deleteActionaa(Request $request, $id) {

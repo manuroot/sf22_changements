@@ -554,10 +554,10 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
               
               
        if (array_key_exists("$value", $s_arr)){
-            $s_arr["$value"] .= "id=$id : $name";
+            $s_arr["$value"] .= "EX:id=$id : $name\n";
         }else {
            //echo "pas fdddfd"; 
-           $s_arr["$value"] = "id=$id : $name" . "\n";
+           $s_arr["$value"] = "NOEX:id=$id : $name" . "\n";
            
         }
         

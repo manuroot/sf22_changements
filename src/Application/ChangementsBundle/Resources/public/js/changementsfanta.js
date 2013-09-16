@@ -390,6 +390,26 @@ $(document).ready(function() {
             return m;
         }
     });
+  
+  
+    $('.alert').each(function(){
+        var html = $(this).html();
+     $.pnotify({
+                    title: 'Flash Message',
+                    text: html,
+                    animation: 'show',
+                    nonblock_opacity: 0.2,
+                    type: 'success',
+                    icon: 'icon-flag',
+                    width: '350px',
+                    opacity: .9
+                }); 
+    });
+
+
+
+    
+                
     $("#changements_searchfilter_idStatus_cl").click(function() {
         $("#changements_searchfilter_idStatus").select2("val", "");
     });
