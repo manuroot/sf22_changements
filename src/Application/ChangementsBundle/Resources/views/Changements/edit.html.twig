@@ -2,24 +2,8 @@
 
 {% form_theme edit_form with 'ApplicationChangementsBundle:Form:tpl_form.html.twig' %}
 
-{#
-{% use 'form_div_layout.html.twig' with form_label as base_form_label %}
-
-{% block form_label %}
-    {{ block('base_form_label') }}
-
-    {% if required %}
-        <span class="required" title="This field is required">*</span>
-    {% endif %}
-{% endblock %}
-#}
 {% block stylesheets %}
  {{ parent() }}
-{#
- <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
-          <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/changements.css') }}" type="text/css" media="all"/>
-          <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>
- #}
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
 

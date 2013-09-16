@@ -604,7 +604,7 @@ class ChangementsController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $session = $this->getRequest()->getSession();
         // ajoute des messages flash
-        $session->set('buttonretour', 'changements_showXhtml');
+        // $session->set('buttonretour', 'changements_showXhtml');
         $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindaIdAll($id);
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Changements entity.');
@@ -631,7 +631,7 @@ class ChangementsController extends Controller {
         ));
     }
 
-     /**
+    /**
      * Displays a form to create a new Changements entity.
      *
      * @Secure(roles="ROLE_USER")
@@ -648,7 +648,8 @@ class ChangementsController extends Controller {
      * Displays a form to create a new Changements entity.
      *
      */
-     /**
+
+    /**
      * Displays a form to create a new Changements entity.
      *
      * @Secure(roles="ROLE_USER")
@@ -682,8 +683,11 @@ class ChangementsController extends Controller {
                 $id = $entity->getId();
                 $session = $this->getRequest()->getSession();
                 $session->getFlashBag()->add('warning', "Enregistrement $id ajouté avec succès");
-
-                return $this->redirect($this->generateUrl('changements_post')); // redirect when done
+                $btn_retour = $session->get('buttonretour');
+                if (!isset($btn_retour)) {
+                    $session->set('buttonretour', 'changements_fanta');
+                }
+                return $this->redirect($this->generateUrl($btn_retour)); // redirect when done
             }
         } else {
             $status = "NOK";
@@ -713,7 +717,15 @@ class ChangementsController extends Controller {
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('changements_show', array('id' => $entity->getId())));
+            $id = $entity->getId();
+            $session = $request->getSession();
+            $session->getFlashBag()->add('warning', "Enregistrement $id ajouté aux opérations");
+            // ajoute des messages flash
+            $btn_retour = $session->get('buttonretour');
+            if ($btn_retour == 'changements_fanta' || $btn_retour == 'changements_myfanta')
+                return $this->redirect($this->generateUrl($btn_retour));
+            else
+                return $this->redirect($this->generateUrl('changements_fanta'));
         }
 
         return $this->render('ApplicationChangementsBundle:Changements:new.html.twig', array(
@@ -739,14 +751,11 @@ class ChangementsController extends Controller {
 
         $editForm = $this->createForm(new ChangementsType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
-         $session = $this->getRequest()->getSession();
-           
-         $btn_retour = $session->get('buttonretour');
-        if (!isset($btn_retour)){
-             $session->set('buttonretour','changements_fanta');
-        }
-        // return $this->render('ApplicationChangementsBundle:Changements:simple.html.twig', array());
-        return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
+        $session = $this->getRequest()->getSession();
+        $btn_retour = $session->get('buttonretour');
+        if ($btn_retour != 'changements_fanta' && $btn_retour == 'changements_myfanta')
+            $session->set('buttonretour','changements_fanta');
+          return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
@@ -757,7 +766,8 @@ class ChangementsController extends Controller {
      * Displays a form to create a new Docchangements entity.
      *
      */
-     /**
+
+    /**
      * 
      *
      * @Secure(roles="ROLE_USER")
@@ -891,7 +901,6 @@ class ChangementsController extends Controller {
                         ->getForm();
     }
 
-    
     /*
      * 
      * 
@@ -904,6 +913,7 @@ class ChangementsController extends Controller {
      * 
      * 
      */
+
     public function update_changement_statusAction() {
         $request = $this->get('request');
 
@@ -950,7 +960,7 @@ class ChangementsController extends Controller {
         }
     }
 
-      public function update_changement_favorisAction() {
+    public function update_changement_favorisAction() {
         $request = $this->get('request');
 
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
@@ -962,37 +972,35 @@ class ChangementsController extends Controller {
                 throw $this->createNotFoundException('Unable to find Changements entity.');
             }
             list($user_id, $group_id) = $this->getuserid();
-           if (! isset($user_id)){
-             throw $this->createNotFoundException('Unable to find Changements entity.');
-          // echo "user_id=$user_id";
-           
-           }
-             $entity_user = $em->getRepository('ApplicationSonataUserBundle:User')->find($user_id);
-     $array = array('mystatus' => $stat);
-            
+            if (!isset($user_id)) {
+                throw $this->createNotFoundException('Unable to find Changements entity.');
+                // echo "user_id=$user_id";
+            }
+            $entity_user = $em->getRepository('ApplicationSonataUserBundle:User')->find($user_id);
+            $array = array('mystatus' => $stat);
+
             //$entity->getIdfavoris();
-       $stat=$entity->checkIdfavoris($entity_user);
-       // si true==> present
-       if ($stat==true){
-            $entity->removeIdfavoris($entity_user);
-             $array['mystatus']="removed";
-    
-       }
-       else {
-           
-       //si false absent
-             $entity->addIfavoris($entity_user);
-             $array['mystatus']="added";
-       }
-       $em->persist($entity);
-       $em->flush();
-      
+            $stat = $entity->checkIdfavoris($entity_user);
+            // si true==> present
+            if ($stat == true) {
+                $entity->removeIdfavoris($entity_user);
+                $array['mystatus'] = "removed";
+            } else {
+
+                //si false absent
+                $entity->addIfavoris($entity_user);
+                $array['mystatus'] = "added";
+            }
+            $em->persist($entity);
+            $em->flush();
+
             $response = new Response(json_encode($array));
 
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
     }
+
     public function GetTicketExtAjaxAction($field, $term) {
 
         $em = $this->getDoctrine()->getManager();
@@ -1256,8 +1264,8 @@ class ChangementsController extends Controller {
         $em = $this->getDoctrine()->getManager();
         // Pour les favoris
         list($user_id, $group_id) = $this->getuserid();
-        
-        
+
+
         /*
           $query_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->GetNomStatus();
           print_r($query_status);
@@ -1279,8 +1287,7 @@ class ChangementsController extends Controller {
             $session->remove('changementControllerFilternew');
             if ($request->get('submit-filter') == "reset") {
                 $session->getFlashBag()->add('warning', "Filtres de recherche reinitialisée");
-            $session->remove('date_calendar');
-            
+                $session->remove('date_calendar');
             }
             //-----------------------------------------
             // On recupere les vars de post ==> session filter
@@ -1328,13 +1335,11 @@ class ChangementsController extends Controller {
             $page = 1;
         }
 
-           list($user_id, $group_id) = $this->getuserid();
-         /* if (isset($user_id)){
-               $parameters['user_favoris']=$user_id;
-           }    */
-          // echo "user_id=$user_id";
-           
-           
+        list($user_id, $group_id) = $this->getuserid();
+        /* if (isset($user_id)){
+          $parameters['user_favoris']=$user_id;
+          } */
+        // echo "user_id=$user_id";
         //   exit(1);
         //-----------------------------------------
         // On recupere les vars de session page,dir,order
@@ -1378,14 +1383,15 @@ class ChangementsController extends Controller {
                     'user_id' => $user_id,
         ));
     }
- public function indexmyfantaAction(Request $request) {
+
+    public function indexmyfantaAction(Request $request) {
 
         $parameters = array();
         $em = $this->getDoctrine()->getManager();
         // Pour les favoris
         list($user_id, $group_id) = $this->getuserid();
-        
-        
+
+
         /*
           $query_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->GetNomStatus();
           print_r($query_status);
@@ -1454,12 +1460,11 @@ class ChangementsController extends Controller {
             $page = 1;
         }
 
-           list($user_id, $group_id) = $this->getuserid();
-           if (isset($user_id)){
-               $parameters['user_favoris']=$user_id;
-          // echo "user_id=$user_id";
-           
-           }
+        list($user_id, $group_id) = $this->getuserid();
+        if (isset($user_id)) {
+            $parameters['user_favoris'] = $user_id;
+            // echo "user_id=$user_id";
+        }
         //   exit(1);
         //-----------------------------------------
         // On recupere les vars de session page,dir,order
@@ -1503,19 +1508,20 @@ class ChangementsController extends Controller {
                     'user_id' => $user_id,
         ));
     }
+
     // TODO:
     public function CalendarEventsAction() {
 
         $request = $this->getRequest();
         $session = $this->getRequest()->getSession();
         $current_date = new \DateTime();
-      /*
-       $current_session_events = $session->get('date_calendar');
-      if (!isset($current_session_events)) {
-            $session->set('date_calendar',array());
-      } */
-        
-        
+        /*
+          $current_session_events = $session->get('date_calendar');
+          if (!isset($current_session_events)) {
+          $session->set('date_calendar',array());
+          } */
+
+
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
             $month = $request->request->get('month');
             if (!isset($month)) {
@@ -1529,28 +1535,27 @@ class ChangementsController extends Controller {
                 $year = $current_date->format('Y');
             }
             $date = $year . '-' . $month;
-              $em = $this->getDoctrine()->getManager();
-             
+            $em = $this->getDoctrine()->getManager();
+
             // $session_event=$date;
-           
-           //   $events_date = $em->getRepository('ApplicationChangementsBundle:Changements')->getMyDate($date);
+            //   $events_date = $em->getRepository('ApplicationChangementsBundle:Changements')->getMyDate($date);
             //   $events_date = $current_session_events;
-              //  $session->set($date, $events_date);
-              $current_session_events = $session->get($date);
+            //  $session->set($date, $events_date);
+            $current_session_events = $session->get($date);
             if (!isset($current_session_events)) {
                 // echo "year=$year month=$month<br>";exit(1); 
                 $em = $this->getDoctrine()->getManager();
                 // recuperation des parametres
                 $events_date = $em->getRepository('ApplicationChangementsBundle:Changements')->getMyDate($date);
-              //  $session->set($date, $events_date);
+                //  $session->set($date, $events_date);
                 $session->set($date, $events_date);
-                
+
                 //  print_r($events_date); 
             } else {
                 $events_date = $current_session_events;
                 //   print_r($events_date); 
             }
-             //print_r($events_date); 
+            //print_r($events_date); 
             // exit(1);
             $response = new Response(json_encode($events_date));
             $response->headers->set('Content-Type', 'application/json');
