@@ -28,16 +28,14 @@ use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
 use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 use JMS\SecurityExtraBundle\Annotation\Secure;
+//use APY\DataGridBundle\Grid\Export\PHPExcelPDFExport;
+//use APY\DataGridBundle\Grid\Export\ExcelExport;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use APY\DataGridBundle\Grid\Export\CSVExport;
 use APY\DataGridBundle\Grid\Export\ExcelExport;
 use Application\CertificatsBundle\Model\MyOpenSsl;
 use Application\CentralBundle\Model\MesFiltres;
 use Application\CertificatsBundle\Entity\CertificatsFiles;
-
-//use APY\DataGridBundle\Grid\Export\PHPExcelPDFExport;
-//use APY\DataGridBundle\Grid\Export\ExcelExport;
-
 /**
  * CertificatsCenter controller.
  *
@@ -224,6 +222,7 @@ class CertificatsCenterController extends Controller {
      *  SHOW ENREGISTREMENT $ID
      * 
      * @Secure(roles="ROLE_USER")
+     * 
       =================================================================== */
     public function showAction(Request $request, $id) {
         $session = $this->getRequest()->getSession();
@@ -278,11 +277,12 @@ class CertificatsCenterController extends Controller {
                     'delete_form' => $deleteForm->createView(),));
     }
  */
-    /** ===================================================================
+    /** 
      * 
      *  NEW ENREGISTREMENT 
      * 
      * @Secure(roles="ROLE_USER")
+     * 
       =================================================================== */
     public function newAction() {
         $entity = new CertificatsCenter();
@@ -303,7 +303,7 @@ class CertificatsCenterController extends Controller {
                 ));
     }
 
-    /** ===================================================================
+    /** 
      * 
      *  CREATE ENREGISTREMENT $ID
      * 
@@ -366,7 +366,7 @@ class CertificatsCenterController extends Controller {
                 ));
     }
 
-    /** ===================================================================
+    /** 
      * 
      *  UPDATE ENREGISTREMENT $ID
      * 

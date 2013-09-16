@@ -484,6 +484,10 @@ class ChangementsController extends Controller {
         ));
     }
 
+    //==============================================
+    // VIEW CALENDRIER
+    //==============================================
+    
     public function calendarAction(Request $request) {
 
         $em = $this->getDoctrine()->getManager();
@@ -536,8 +540,8 @@ class ChangementsController extends Controller {
         ));
     }
 
-//==============================================
-    // VIEW ALL ACTEURS
+    //==============================================
+    // VIEW APY
     //==============================================
     public function indexapyAction($page = 1) {
 
@@ -754,8 +758,8 @@ class ChangementsController extends Controller {
         $session = $this->getRequest()->getSession();
         $btn_retour = $session->get('buttonretour');
         if ($btn_retour != 'changements_fanta' && $btn_retour == 'changements_myfanta')
-            $session->set('buttonretour','changements_fanta');
-          return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
+            $session->set('buttonretour', 'changements_fanta');
+        return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
@@ -1509,7 +1513,11 @@ class ChangementsController extends Controller {
         ));
     }
 
-    // TODO:
+    //==============================================
+    // RECUP XHTML DES OPERATIONS LIEES A UNE DATE
+    // de type: year,month
+    //==============================================
+    
     public function CalendarEventsAction() {
 
         $request = $this->getRequest();
