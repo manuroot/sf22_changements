@@ -71,7 +71,7 @@ $(document).ready(function() {
                 img_favori = "star-on.png";
                 new_status = 1;
             }
-            var mess = "<i class='icon-question icon-2x'></i><br><h3>" + message + " vos favoris: </h3><p>status=" + status + "</p><p>id=" + id + "</p><p>nom=" + name + "</p>";
+            var mess = "<i class='icon-wrench icon-2x'></i><br><h3>" + message + " vos favoris: </h3><p>status=" + status + "</p><p>id=" + id + "</p><p>nom=" + name + "</p>";
             bootbox.confirm(mess, function(checkstr) {
                 console.log("confirm result=" + checkstr);
                 /*Example.show("Confirm result: "+result);*/
@@ -107,7 +107,7 @@ $(document).ready(function() {
             var id = $(this).attr("data-id");
             var name = $(this).attr("data-name");
             var obj = $(this);
-            origin_mess = "<i class='icon-question icon-2x'></i><br><h3>Modifier le status de la demande ?</h3>";
+            origin_mess = "<i class='icon-wrench icon-2x'></i><br><h3>Modifier le status de la demande ?</h3>";
             var mess = origin_mess + "<p>id=" + id + "</p><p>nom=" + name + "</p>";
 
             bootbox.confirm(mess, function(checkstr) {
