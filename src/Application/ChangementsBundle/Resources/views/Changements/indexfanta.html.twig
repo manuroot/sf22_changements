@@ -287,10 +287,13 @@
         {#<a href="#" id="pop" class="btn btn-info" rel="popover" data-content="C'est tout simple à faire !"
 data-original-title="Test du Popover">
 Cliquez sur moi pour le Popover</a>#}
-                <a class="favoris" rel="tooltip" data-placement="bottom" data-content="Ajouter/supprimer cet enregistrement de vos favoris" data-original-title="Information" data-toggle="tooltip" data-id="{{entity.id}}" data-name="{{entity.nom}}" data-status="{{ myfavori }}" href="#here">
                 {% if myfavori == 0 %}
+           <a class="favoris" rel="tooltip" data-placement="bottom" data-content="Ajouter cet enregistrement de vos favoris" data-original-title="Information" data-toggle="tooltip" data-id="{{entity.id}}" data-name="{{entity.nom}}" data-status="{{ myfavori }}" href="#here">
+             
                  <img src="{{ asset('bundles/applicationchangements/images/star-off.png') }}" alt="show" width="15px" height="15px" />
                 {% else %}
+                    <a class="favoris" rel="tooltip" data-placement="bottom" data-content="Supprimer cet enregistrement de vos favoris" data-original-title="Information" data-toggle="tooltip" data-id="{{entity.id}}" data-name="{{entity.nom}}" data-status="{{ myfavori }}" href="#here">
+             
                   <img src="{{ asset('bundles/applicationchangements/images/star-on.png') }}" alt="show" width="15px" height="15px" />
                 {% endif %}
         </a>
