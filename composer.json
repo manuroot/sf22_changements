@@ -52,7 +52,7 @@
         "kitpages/data-grid-bundle": "dev-master",
         "pagerfanta/pagerfanta": "dev-master",
         "white-october/pagerfanta-bundle": "dev-master",
-        "twitter/bootstrap": "dev-master",
+        "twitter/bootstrap": "v2.3.2",
         "craue/formflow-bundle": "dev-master",
         "knplabs/knp-paginator-bundle": "dev-master",
         "free-agent/workflow-bundle": "dev-master",
