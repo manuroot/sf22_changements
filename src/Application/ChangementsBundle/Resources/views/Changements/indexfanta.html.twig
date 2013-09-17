@@ -9,9 +9,18 @@
   {{ type_class_map[type] }}
 {% endmacro %}
 
+
 {% block javascripts %}
     {{ parent() }}
-<script type="text/javascript" src="{{ asset('js/compiled/changementsown.js') }}"></script>
+    {% javascripts 
+    '@ApplicationChangementsBundle/Resources/public/js/jquery.cookie.js'
+    '@ApplicationChangementsBundle/Resources/public/js/changementsown.js'
+    '@ApplicationChangementsBundle/Resources/public/js/jquery.colorbox.js'
+    '@ApplicationChangementsBundle/Resources/public/js/editme.js'
+
+      output='js/compiled/changementsown.js' filter='?yui_js' %}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
 {#{% if is_granted("IS_AUTHENTICATED_FULLY") %}#}
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
@@ -77,16 +86,21 @@
             }
             tr.edition {background-color: moccasin;}
             
-            /* #s2id_autogen2.select2-input.select2-default {*/
+              /* #s2id_autogen2.select2-input.select2-default {*/
+            select#changements_searchfilter_idEnvironnement,
+            select#changements_searchfilter_idProjet,
+            select#changements_searchfilter_idusers, 
+            select#changements_searchfilter_idStatus,
             div#s2id_changements_searchfilter_idEnvironnement,
              div#s2id_changements_searchfilter_idProjet,div#s2id_changements_searchfilter_idStatus,
              id#s2id_autogen1,
              div#s2id_changements_searchfilter_idusers {
            
-            min-width:167px;max-width:200px;
+           width:200px;
+        /*   min-width:167px;max-width:200px;*/
             }
-            select#changements_searchfilter_idusers{
-                height:150px;}
+          /*  select#changements_searchfilter_idusers{
+                height:150px;}*/
             label,.mondiv { color:#02195e; font-size: 12px;
                             font-weight: normal;
                             line-height: 20px;}
@@ -133,6 +147,7 @@
              /*width:500px;*/
             margin-left:0px;
             float:left;
+           /* height:250px;*/
             }
             
                div#minidatepicker {

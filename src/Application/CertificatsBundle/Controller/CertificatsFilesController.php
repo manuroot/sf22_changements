@@ -207,7 +207,12 @@ class CertificatsFilesController extends Controller {
 
                     $entity_certificat = new CertificatsCenter();
                     $entity_certificat->setPort('80');
-                    $entity_certificat->setFileName('temp');
+                    $name_certificat=$entity_file->getName();
+                    if (isset($name_certificat))
+                        $entity_certificat->setFileName($name_certificat);
+                    else
+                        $entity_certificat->setFileName('');
+                    
                     $entity_certificat->setTypeCert($entity_typecert);
                     $entity_certificat->setFichier($entity_file);
                     $form = $this->createForm(new CertificatsCenterType(), $entity_certificat);
@@ -228,6 +233,7 @@ class CertificatsFilesController extends Controller {
                 return $this->redirect($this->generateUrl('certificats_documents_show', array('id' => $entity_fichier->getId())));
             }
         }
+        
         return $this->render('ApplicationCertificatsBundle:CertificatsFiles:new.html.twig', array(
                     'entity' => $entity_fichier,
                     'form' => $form->createView(),

@@ -5,7 +5,35 @@
 <link rel="stylesheet" href="{{ asset('bundles/whiteoctoberpagerfanta/css/pagerfantaDefault.css') }}" type="text/css" media="all" />
   <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/certifcatssearch.css') }}" type="text/css" media="all"/>
   <style>
+          div.filesform {
+    width: 70%;
+    min-width: 400px;
+    background-color: gainsboro;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 1px 1px 1px rgb(153, 153, 153);
+    border-width: 1px;
+    border-style: solid;
+    border-spacing: 1px;
+    border-color: black -moz-use-text-color;
+    -moz-border-top-colors: black;
+    -moz-border-right-colors: black;
+    -moz-border-bottom-colors: black;
+    -moz-border-left-colors: black;
+    border-image: none;
+    border-collapse: separate;
+    border-radius: 6px 6px 6px 6px;
+    margin-bottom: 50px;
+    text-align: left;
+    padding:20px;
+    min-height: 350px;
+}
+           div.first{ float:left;padding:10px;}
+    div.second{ float:left;padding:10px;margin-left:50px;}
+    div.buttons{ padding:10px;padding-bottom:20px;position: relative;float:left;width:100%;}
+    
   table.view {min:700px;}</style>
+      
 {% endblock %}
 
 {% block title %}CertificatsFiles creation{% endblock %}
@@ -23,21 +51,37 @@
 
  <br><br>
    
+ 
+  <div class="filesform">
   <form action="{{ path('certificats_documents_create') }}" method="post" {{ form_enctype(form) }}>
    
-         <table class="table-mybordered">
+       <div class="first"> 
 
-            <tr><td class="calendar">
-                        <div>
-        {{ form_widget(form) }}
+            
+                        
+
+                                 <div>
+    {{ form_row(form.name) }}
+      {{ form_row(form.file) }}
+                            </div>
+           </div>
+                            <div class="second"> 
+    {{ form_errors(form.creer_demande) }}
+    {{ form_label(form.creer_demande) }}
+    {{ form_widget(form.creer_demande) }}
+                                     {{ form_rest(form) }}
                                 </div>
-        <p>
-              <button type="submit" class="btn btn-medium btn-warning">Ajouter</button>
-        </p>
-        </table>
-    </form>
-
- <a href="{{ path('certificats_documents') }}" class="btn btn-medium btn-success">Retour</a>
+       
+                                 
+         <div class="buttons">                     
+       
+              <button type="submit" class="btn btn-large btn-warning">Ajouter</button>
+         <br class="clear" />
+         </div>
+        </form></div>
+   
+         
+ <a href="{{ path('certificats_documents') }}" class="btn btn-large btn-success">Retour</a>
                                    
        
 {% endblock %}

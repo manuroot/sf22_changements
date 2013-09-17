@@ -36,7 +36,7 @@ class CertificatsFilesAddType extends AbstractType {
                     'property' => 'FileType',
                     'multiple' => false,
                     'required' => false,
-                    'label' => 'Type',
+                    'label' => 'Type de fichier',
                     'mapped' => false,
                     'empty_value' => '--- Choisir une option ---'
                 ))
@@ -46,7 +46,7 @@ class CertificatsFilesAddType extends AbstractType {
                     'mapped' => false,
                     'required'=>false
                 ))
-                ->add('certificats', 'entity', array(
+               /* ->add('certificats', 'entity', array(
                     //'class' => 'Application\CertificatsBundle\Entity\CertificatsProjet',
                     'class' => 'ApplicationCertificatsBundle:CertificatsCenter',
                     'query_builder' => function(EntityRepository $em) {
@@ -58,7 +58,8 @@ class CertificatsFilesAddType extends AbstractType {
                     'required' => false,
                     'label' => 'Certificat',
                     'empty_value' => '--- Choisir une option ---'
-        ));
+        ));*/
+                            ;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver) {

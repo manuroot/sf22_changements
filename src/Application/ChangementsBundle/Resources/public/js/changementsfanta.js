@@ -341,6 +341,9 @@ $(document).ready(function() {
          altFormat: 'yy-mm-dd',*/
         showWeek: true, firstDay: 1,
         beforeShowDay: editDays,
+        /*onSelect: function(dateText, inst) {
+            alert(dateText);
+        },*/
         /* onSelect: function(dateText, inst) {
          var url = Routing.generate('epost_index');
          window.location.href = url + '/' + dateText;

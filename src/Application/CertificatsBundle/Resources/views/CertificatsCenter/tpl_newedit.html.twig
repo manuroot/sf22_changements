@@ -82,7 +82,8 @@
     {{ form_widget(form.description) }}                            </td>
                             <td class="calendar">
                                 <div class="fichier">
-                                    {% if fichier is not null %}                
+                                    {% if fichier is not null %}   
+                                        <input type="hidden"  name="myfile"  value="{{ fichier.id }}">
                                         Actuel: <br>
                                   <strong>  {{ fichier.OriginalFilename }}
                                         <br>

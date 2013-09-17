@@ -17,19 +17,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {% javascripts 
-    '@ApplicationChangementsBundle/Resources/public/js/jquery.cookie.js'
-    '@ApplicationChangementsBundle/Resources/public/js/changementsown.js'
-    '@ApplicationChangementsBundle/Resources/public/js/jquery.colorbox.js'
-    '@ApplicationChangementsBundle/Resources/public/js/editme.js'
-
-      output='js/compiled/changementsown.js' filter='?yui_js' %}
-<script src="{{ asset_url }}"></script>
-{% endjavascripts %}
-{#
-<script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
-<script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/editme.js') }}"></script>
-#}
+    <script type="text/javascript" src="{{ asset('js/compiled/changementsown.js') }}"></script>
 
     {% if is_granted("IS_AUTHENTICATED_FULLY") %}
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>

@@ -152,6 +152,8 @@ class ChangementsFilterAmoiType extends AbstractType {
                   ),
                   'mapped' => false, 'required' => false)) */
                 ->add('idEnvironnement', 'entity', array(
+                    'attr' => array(
+                          'style' => 'height:30px' ),
                     
                     'class' => 'ApplicationRelationsBundle:Environnements',
                     'property' => 'nom',
@@ -200,6 +202,8 @@ class ChangementsFilterAmoiType extends AbstractType {
                   )) */
                    /*->add('idStatus', 'filter_entity', array(*/
                 ->add('idStatus', 'entity', array(
+                     'attr' => array(
+                          'style' => 'height:30px' ),
                     'label' => 'Status',
                     'class' => 'Application\ChangementsBundle\Entity\ChangementsStatus',
                     'property' => 'nom',
@@ -221,6 +225,8 @@ class ChangementsFilterAmoiType extends AbstractType {
                   'empty_value' => '--- Choisir une option ---'
                   )) */
                 ->add('idProjet', 'choice', array(
+                     'attr' => array(
+                          'style' => 'height:30px' ),
                     'choices' => $choices_projets,
                     'required' => false,
                     'label' => 'Projets',
@@ -252,6 +258,8 @@ class ChangementsFilterAmoiType extends AbstractType {
                   'empty_value' => '--- Choisir une option ---'
                   )) */
                 ->add('idusers', 'entity', array(
+                     'attr' => array(
+                          'style' => 'height:27px' ),
                     'class' => 'ApplicationRelationsBundle:ChronoUser',
                     'query_builder' => function(EntityRepository $em) {
                         //return $em->createQueryBuilder('u')>orderBy('u.nomUser', 'ASC');
