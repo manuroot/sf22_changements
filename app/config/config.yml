@@ -62,9 +62,9 @@ assetic:
     #bundles:        [ ]
     bundles:        [ ApplicationChangementsBundle,ApplicationCertificatsBundle,ApplicationRelationsBundle ]
     #bundles:        [ ApplicationChangementsBundle,SonataNewsBundle ]
-    java: /usr/bin/java
+    #java: /usr/bin/java
     #java: "C:\ProgramFiles\Java\jre6\bin\java.exe"
-    #java: "C:\\Program Files\\Java\\jre6\\bin\\java.exe"
+    java: "C:\\Program Files\\Java\\jre6\\bin\\java.exe"
     filters:
         cssrewrite: ~
        # cssembed:
@@ -251,7 +251,7 @@ fos_user:
   
 
 fos_js_routing:
-     routes_to_expose: [ changements_updatexhtml_changement,certificatscenter_updatexhtml_certificats,serveurs_updatexhtml_status,certificatscenter_listbyprojet,changements_listbyprojet,changements_minicalendar ]  
+     routes_to_expose: [ changements_fanta,changements_updatexhtml_changement,certificatscenter_updatexhtml_certificats,serveurs_updatexhtml_status,certificatscenter_listbyprojet,changements_listbyprojet,changements_minicalendar ]  
     
 #==================================================
 #  TINYMCE

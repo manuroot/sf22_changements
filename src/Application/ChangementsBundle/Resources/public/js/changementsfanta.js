@@ -341,11 +341,12 @@ $(document).ready(function() {
          altFormat: 'yy-mm-dd',*/
         showWeek: true, firstDay: 1,
         beforeShowDay: editDays,
+        onSelect: postmonth,
         /*onSelect: function(dateText, inst) {
             alert(dateText);
         },*/
         /* onSelect: function(dateText, inst) {
-         var url = Routing.generate('epost_index');
+         var url = Routing.generate('changements_fanta');
          window.location.href = url + '/' + dateText;
          
          },*/
@@ -357,6 +358,22 @@ $(document).ready(function() {
 
     });
 
+  function postmonth(date) {
+  /*var dataAjax = {
+            'year': year,
+            'month': month
+        };*/
+
+        $.ajax({
+            async: false,
+            url: Routing.generate('changements_fanta'),
+            /*url: "{{ path('epost_calendar') }}",*/
+            type: "POST",
+            dataType: "json",
+            data: date
+         });
+         }
+        
     function editDays(date) {
         /* console.log("edit days");*/
         for (var i = 0; i < eventsDays.length; i++) {
