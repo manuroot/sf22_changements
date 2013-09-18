@@ -1285,6 +1285,11 @@ class ChangementsController extends Controller {
         // On efface les sessions si post 
         //------------------------------------------
         if ($request->getMethod() == 'POST') {
+              /*$alldatas = $request->request->all();
+               $datas = $alldatas["changements_searchfilter"];
+                print_r($alldatas);exit(1);*/
+                
+                
             $session->remove('chgmtsfanta_page');
             $session->remove('chgmtsfanta_sort');
             $session->remove('chgmtsfanta_dir');

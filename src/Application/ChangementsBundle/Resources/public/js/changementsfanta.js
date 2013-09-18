@@ -360,10 +360,12 @@ $(document).ready(function() {
 
   function postmonth(date) {
       
-      alert('Form is submitting');
+      /*alert('Form is submitting');*/
       //$("#changements_searchfilter_dateDebut").html(date.toString());
       $("input#changements_searchfilter_dateDebut").val(date);
-      $(".form").submit();
+      $("input#changements_searchfilter_dateDebut_max").val(date);
+      $( "button#filter" ).trigger( "click" );
+    /*  $(".form").submit();*/
   
   /*var dataAjax = {
             'year': year,
