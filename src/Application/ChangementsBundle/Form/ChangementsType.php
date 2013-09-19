@@ -20,7 +20,7 @@ $builder
           ->add('nom', null, array(
               'label'=>'Nom',
               'attr' => array(
-                           'placeholder' => '5 a 30 car.'
+                           'placeholder' => '5 a 40 car.'
                                     ),
                     'widget_addon' => array(
                         'icon' => 'pencil',

@@ -1268,8 +1268,10 @@ class ChangementsController extends Controller {
         $em = $this->getDoctrine()->getManager();
         // Pour les favoris
         list($user_id, $group_id) = $this->getuserid();
-
-
+      /*
+        $t_entity = $em->getRepository('ApplicationChangementsBundle:Changements')->getStatusForRequeteBuilder();
+        print_r($t_entity);exit(1);
+*/
         /*
           $query_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->GetNomStatus();
           print_r($query_status);
@@ -1344,7 +1346,7 @@ class ChangementsController extends Controller {
             $page = 1;
         }
 
-        list($user_id, $group_id) = $this->getuserid();
+       // list($user_id, $group_id) = $this->getuserid();
         /* if (isset($user_id)){
           $parameters['user_favoris']=$user_id;
           } */

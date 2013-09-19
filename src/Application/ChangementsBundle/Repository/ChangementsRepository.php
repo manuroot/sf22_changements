@@ -30,6 +30,23 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
     }
 
     /*
+     * SELECT  count(id),`id_status` FROM `changements_main` group by id_status
+     */
+
+    public function getStatusForRequeteBuilder() {
+        $qb = $this->createQueryBuilder('a')
+                ->select('count(a.id) as nb,b.nom as status')
+                ->leftjoin('a.idStatus', 'b')
+                ->groupBy('b.nom');
+
+        $status = $qb->getQuery()
+                ->getScalarResult();
+
+        return $status;
+   
+    }
+
+    /*
      * TODO: ajouter les filtres
      * 
      */
@@ -178,9 +195,9 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
             //  $query->distinct('GroupConcat(g.nom) AS kak');
             $parameters['idFavoris'] = $criteria['user_favoris'];
         }
-        
-        
-        
+
+
+
         if (isset($criteria['demandeur']) && $criteria['demandeur'] != "") {
             // var_dump($criteria['idEnvironnement']);exit(1);
             $query->andWhere('c.id = (:idUser)');
@@ -206,27 +223,26 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
             //   $query->distinct('GroupConcat(e.nomUser)');
             $parameters['idUsers'] = $criteria['idusers'];
         }
-        
-        
-        
-        if ($criteria['dateDebut_max'] == $criteria['dateDebut'] &&  $criteria['dateDebut'] != "") {
-               $query->andWhere('a.dateDebut LIKE :datedebut');
+
+
+
+        if ($criteria['dateDebut_max'] == $criteria['dateDebut'] && $criteria['dateDebut'] != "") {
+            $query->andWhere('a.dateDebut LIKE :datedebut');
             $parameters['datedebut'] = '%' . $criteria['dateDebut'] . '%';
-            
+
             /*  ->where('a.dateDebut LIKE :madate')
-                ->setParameter('madate', '%' . $criteria['dateDebut'] . '-%')*/
-        }else{
-            
-        if (isset($criteria['dateDebut']) && $criteria['dateDebut'] != "") {
-            $query->andWhere('a.dateDebut >= (:datedebut)');
-            $parameters['datedebut'] = $criteria['dateDebut'];
-        }
-        
-        if (isset($criteria['dateDebut_max']) && $criteria['dateDebut_max'] != "") {
-            $query->andWhere('a.dateDebut <= (:datedebut_max)');
-            $parameters['datedebut_max'] = $criteria['dateDebut_max'];
-        }
-        
+              ->setParameter('madate', '%' . $criteria['dateDebut'] . '-%') */
+        } else {
+
+            if (isset($criteria['dateDebut']) && $criteria['dateDebut'] != "") {
+                $query->andWhere('a.dateDebut >= (:datedebut)');
+                $parameters['datedebut'] = $criteria['dateDebut'];
+            }
+
+            if (isset($criteria['dateDebut_max']) && $criteria['dateDebut_max'] != "") {
+                $query->andWhere('a.dateDebut <= (:datedebut_max)');
+                $parameters['datedebut_max'] = $criteria['dateDebut_max'];
+            }
         }
         if (isset($criteria['dateFin']) && $criteria['dateFin'] != "") {
             $query->andWhere('a.dateFin >= (:dateFin)');
@@ -236,7 +252,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
             $query->andWhere('a.dateFin <= (:dateFin_max)');
             $parameters['dateFin_max'] = $criteria['dateFin_max'];
         }
-        
+
         if (isset($criteria['byid'])) {
             $query->andWhere('a.id = :myid');
             // ->groupby('a.name');
@@ -340,8 +356,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         return $datas;
     }
 
-    
-     public function sum_group_year($year = null) {
+    public function sum_group_year($year = null) {
 
         $c_year = $this->mydate($year);
 
@@ -369,13 +384,12 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
             // echo $valeur['nomprojet'] . "--" . $valeur['mois'] . "<br>";
             array_push($datas, array($valeur['nomGroup'], round(($valeur['nb'] / $qa) * 100)));
         }
-        
+
         /* print_r($datas);
-          exit(1);*/
+          exit(1); */
         return $datas;
     }
-    
-    
+
     public function getNbTopicParForums() {
         $qb = $this->createQueryBuilder('f')
                 ->join('f.topics', 't')
@@ -471,9 +485,9 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
                 ->addSelect('partial g.{id,nom}')
                 ->leftJoin('a.idEnvironnement', 'g')
                 ->addSelect('partial i.{id,username}')
-                 ->leftJoin('a.idfavoris', 'i')
+                ->leftJoin('a.idfavoris', 'i')
                 ->leftJoin('a.comments', 'h')
-                  ->addSelect('partial e.{id,nomUser}')
+                ->addSelect('partial e.{id,nomUser}')
                 //->addSelect('partial e.{id,nomUser}')
                 ->leftJoin('a.idusers', 'e');
 
@@ -483,14 +497,14 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
             $query = $this->getListBy($criteria);
         }
 //if (! isset($sort)){
-          //  $query->groupBy('a.idStatus');
-           // $query->add('orderBy', "a.idStatus $dir");
-      //        }
-          $query->add('orderBy', "$sort $dir");
-        
-      
-       // }
-        
+        //  $query->groupBy('a.idStatus');
+        // $query->add('orderBy', "a.idStatus $dir");
+        //        }
+        $query->add('orderBy', "$sort $dir");
+
+
+        // }
+
         return $query->getQuery();
     }
 
@@ -514,13 +528,13 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
     }
 
     public function getEventsQueryBuilder(\DateTime $begin, \DateTime $end, array $options = array()) {
-                 
+
         $parameters = array();
         $values = array('DISTINCT e,partial f.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description}');
         $query = $this->createQueryBuilder('e')
                 ->select($values)
                 ->leftJoin('e.idProjet', 'f')
-                 ->leftJoin('e.demandeur', 'c')
+                ->leftJoin('e.demandeur', 'c')
                 ->leftJoin('e.idStatus', 'd');
 
         if (isset($options['idStatus']) && $options['idStatus'] != "") {
@@ -549,50 +563,50 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         // echo "getEvents query";exit(1);
         return $this->getEventsQueryBuilder($begin, $end, $options);
     }
-   public function getMyDate($date) {
-           $myarr=array();
-           $s_arr=array();
-      //     echo "date=$date";exit(1);
+
+    public function getMyDate($date) {
+        $myarr = array();
+        $s_arr = array();
+        //     echo "date=$date";exit(1);
         $qb = $this->createQueryBuilder('a')
-        ->select('a.id,a.dateDebut,a.nom')
-        ->where('a.dateDebut LIKE :mydate')
-        ->setParameter('mydate', "%" . $date . "%" );
-       // return $qb->getQuery()->getResult();
-        
+                ->select('a.id,a.dateDebut,a.nom')
+                ->where('a.dateDebut LIKE :mydate')
+                ->setParameter('mydate', "%" . $date . "%");
+        // return $qb->getQuery()->getResult();
+
         foreach ($qb->getQuery()->getResult() as $d) {
-            /*$year = $d['createdAt']->format('Y');
-             $month = $d['createdAt']->format('m');
-             $day = $d['createdAt']->format('d');*/
-              $value=$d['dateDebut']->format('m\/d\/Y');
-              $name=$d['nom'];
-              $id=$d['id'];
-              
-              
-       if (array_key_exists("$value", $s_arr)){
-            $s_arr["$value"] .= "id=$id : $name\n";
-        }else {
-           //echo "pas fdddfd"; 
-           $s_arr["$value"] = "id=$id : $name" . "\n";
-           
-        }
-        
-        //  array_push($myarr,array('date'=>"$value",'title'=>"gfddfgdf " . $name));
-                //array_key_exists($key, $myarr))
-             /* if (in_array($value, $myarr[]['date'])) {
+            /* $year = $d['createdAt']->format('Y');
+              $month = $d['createdAt']->format('m');
+              $day = $d['createdAt']->format('d'); */
+            $value = $d['dateDebut']->format('m\/d\/Y');
+            $name = $d['nom'];
+            $id = $d['id'];
+
+
+            if (array_key_exists("$value", $s_arr)) {
+                $s_arr["$value"] .= "id=$id : $name\n";
+            } else {
+                //echo "pas fdddfd"; 
+                $s_arr["$value"] = "id=$id : $name" . "\n";
+            }
+
+            //  array_push($myarr,array('date'=>"$value",'title'=>"gfddfgdf " . $name));
+            //array_key_exists($key, $myarr))
+            /* if (in_array($value, $myarr[]['date'])) {
               }
               else
               {
-                 array_push($myarr,array('date'=>"$value",'title'=> $name));
-        }}*/
+              array_push($myarr,array('date'=>"$value",'title'=> $name));
+              }} */
         }
-         foreach ($s_arr as $key=>$value) {
-             array_push($myarr,array('date'=>$key,'title'=>$value));
-         }
-      //  $myarr=array($s_arr);    
+        foreach ($s_arr as $key => $value) {
+            array_push($myarr, array('date' => $key, 'title' => $value));
+        }
+        //  $myarr=array($s_arr);    
         //return ($myarr);
-   //     print_r($myarr);
+        //     print_r($myarr);
         return ($myarr);
-    // print_r($myarr);
-      
+        // print_r($myarr);
     }
+
 }

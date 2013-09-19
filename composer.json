@@ -75,7 +75,8 @@
         "knplabs/knp-markdown-bundle": "1.2.*@dev",
         "adesigns/calendar-bundle": "dev-master",
         "friendsofsymfony/jsrouting-bundle": "1.1.*@dev",
-         "oneup/uploader-bundle": "dev-master"
+         "oneup/uploader-bundle": "dev-master",
+         "punkave/symfony2-file-uploader-bundle": "1.0.*@dev"
         
 
 
