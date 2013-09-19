@@ -39,6 +39,22 @@ $(document).ready(function() {
 
     /* $('a.favoris').tooltip();*/
     /* $("a.favoris").popover({placement:'bottom', trigger:'hover'});*/
+    
+      $("#mytitleb").popover({ 
+    html : true,
+    delay: {show: 300, hide: 300}, 
+   placement: 'bottom',
+  trigger: 'hover',
+    title: function() {
+      return $("#popover-head").html();
+    },
+    content: function() {
+        
+      return $("#popover-content").html();
+    }
+  });
+     
+     
     $("a.favoris").popover({delay: {show: 300, hide: 300}, placement: 'bottom', trigger: 'hover'});
     $("a.tooltip_comments,a.tooltip_edit,a.tooltip_show").popover(
             {html: true, delay: {show: 300, hide: 300}, placement: 'left', trigger: 'hover'}
@@ -99,7 +115,14 @@ $(document).ready(function() {
     /*========================================================
      *  Changement de status
      ========================================================*/
-
+/*
+    $('.show-details').popover({
+  placement: function(tip, ele) {
+    var width = $(window).width();
+    return width >= 975 ? 'left' : ( width < 600 ? 'top' : 'right' );
+  }
+});
+*/
     $("td > a.okstatus").click(function(event) {
         /* * A modifier: change color only sur success !!*/
         if ($(this).hasClasses(['open', 'closed', 'prepare'])) {

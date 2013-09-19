@@ -45,24 +45,47 @@
 
 
   {% block stylesheets %}
-    {{ parent() }}
+    
+
+{{ parent() }}
     <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
     <link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
     <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/indexfanta.css') }}" type="text/css" media="all"/>
+    
+<style>
+   .popover {
+	max-width: 300px;
+        min-width:150px;
+	width: auto;
+}
+div.etat { position:relative;float:right;margin-right:10px;}
+     
+        </style>   
     {{ form_stylesheet(search_form) }}
 {% endblock %}
 
 {% block content_header '' %}
 
 {% block title %}
-       
+               
         <span class="icon-stack">
             <i class="icon-check-empty icon-stack-base"></i>
             <i class="icon-table"></i>
         </span>    PLANNING DES OPERATIONS 
-        <a class="btn btn-medium btn-info disabled" href="#">
+    
+        <a id="mytitleb" class="mytitleb btn btn-medium btn-info" href="#">
             <i class="icon-info-sign icon-2x"></i> <div class="montext">{{ nbResults }}</div></a> 
+          
+        <div id="popover-head" class="hide">Opérations:</div>
+<div id="popover-content" class="hide mycontent" > 
+    <h4>
+      {% for key, value in nb_status %}
+   
+          <img src="{{ asset('bundles/applicationchangements/images/') }}{{ key }}.png" alt="show" width="20px" height="20px"/><div class="etat">{{ value }}</div>
+        <br/>{% endfor %}</h4>
+    </div>  
+      
 {% endblock %}
 
 {% block content %}

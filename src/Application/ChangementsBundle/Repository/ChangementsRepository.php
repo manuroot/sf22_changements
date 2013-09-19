@@ -31,19 +31,40 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
 
     /*
      * SELECT  count(id),`id_status` FROM `changements_main` group by id_status
+     * query return:
+     * Array ( 
+     * [0] => Array ( [nb] => 319 [status] => closed ) 
+     * [1] => Array ( [nb] => 19 [status] => en preparation ) 
+     * [2] => Array ( [nb] => 4 [status] => open ) 
+     * [3] => Array ( [nb] => 1 [status] => REPORTE ) ) 
+     * 
+     * f() return 
+     * Array ( [closed] => 319 [en preparation] => 19 [open] => 4 [REPORTE] => 1 )
      */
 
     public function getStatusForRequeteBuilder() {
-        $qb = $this->createQueryBuilder('a')
-                ->select('count(a.id) as nb,b.nom as status')
+        $query = $this->createQueryBuilder('a')
+                //->select('count(a.id) as nb,b.nom as status')
+                 ->select('count(a.id) as nb,b.id as status')
                 ->leftjoin('a.idStatus', 'b')
-                ->groupBy('b.nom');
+                //->groupBy('b.nom');
+        ->groupBy('b.id');
+        $arr = $query->getQuery()->getArrayResult();
+        //$arr = $query->getQuery()->getScalarResult();
+        /* print_r($arr);
+          print_r($arr1);
+          exit(1); */
+        $choices = array();
 
-        $status = $qb->getQuery()
-                ->getScalarResult();
 
-        return $status;
-   
+        // print_r($arr);exit(1);
+        foreach ($arr as $result) {
+            $choices[$result['status']] = $result['nb'];
+        }
+       /* print_r($choices);
+        exit(1);*/
+        return $choices;
+        // return $status;
     }
 
     /*
