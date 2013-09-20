@@ -79,7 +79,7 @@ class ChangementsFilterAmoiType extends AbstractType {
                     'mapped' => false, 'required' => false
                 ))
                 ->add('dateFin', 'text', array(
-                     
+                   
                     'attr' => array(  
                         'style' => 'width:120px',
                         'placeholder' => '> date Fin'

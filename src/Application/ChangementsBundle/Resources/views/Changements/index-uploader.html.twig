@@ -9,7 +9,14 @@
 <script type="text/javascript" src="js/jquery.ui.widget.js"></script>
 <script type="text/javascript" src="js/jquery.iframe-transport.js"></script>
 <script type="text/javascript" src="js/jquery.fileupload.js"></script>
-
+{% javascripts 
+    '@MyBundle/Resources/public/js/jquery-1.7.2.min.js'
+    '@MyBundle/Resources/public/js/jquery-ui-1.8.22.custom.min.js'
+    '@MyBundle/Resources/public/js/underscore-min.js'
+    '@PunkAveFileUploaderBundle/Resources/public/js/jquery.fileupload.js'
+    '@PunkAveFileUploaderBundle/Resources/public/js/FileUploader.js' %}
+    <script src="{{ asset_url }}"></script>
+{% endjavascripts %}
     <script type="text/javascript">
 $(document).ready(function()
 {
@@ -19,7 +26,7 @@ $(document).ready(function()
 {% endblock %}
 
 
-  {% block stylesheets %}
+{% block stylesheets %}
     
 
 {{ parent() }}
@@ -35,45 +42,39 @@ $(document).ready(function()
 
 {% block content %}
       
-      {{ oneup_uploader_endpoint('gallery') }}
       
-      
- <div class="row fileupload-buttonbar">
-            <div class="col-lg-7">
-                <!-- The fileinput-button span is used to style the file input field as button -->
-                <span class="btn btn-success fileinput-button">
-                    <i class="glyphicon glyphicon-plus"></i>
-                    <span>Add files...</span>
-                    <input type="file" name="files[]" multiple>
-                </span>
-                <button type="submit" class="btn btn-primary start">
-                    <i class="glyphicon glyphicon-upload"></i>
-                    <span>Start upload</span>
-                </button>
-                <button type="reset" class="btn btn-warning cancel">
-                    <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span>Cancel upload</span>
-                </button>
-                <button type="button" class="btn btn-danger delete">
-                    <i class="glyphicon glyphicon-trash"></i>
-                    <span>Delete</span>
-                </button>
-                <input type="checkbox" class="toggle">
-                <!-- The loading indicator is shown during file processing -->
-                <span class="fileupload-loading"></span>
-            </div>
-            <!-- The global progress information -->
-            <div class="col-lg-5 fileupload-progress fade">
-                <!-- The global progress bar -->
-                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                    <div class="progress-bar progress-bar-success" style="width:0%;"></div>
-                </div>
-                <!-- The extended global progress information -->
-                <div class="progress-extended">&nbsp;</div>
-            </div>
-        </div>
+{# Underscore templates for the uploader #}
+{% include "PunkAveFileUploaderBundle:Default:templates.html.twig" %}
 
 
+     <form action="{{ path('changements_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+   
+<form class="edit-form" action="{{ path('edit', { id: posting.id, editId: editId }) }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
 
+    {# Hydrated by javascript #}
+    <div class="file-uploader"></div>
 
+    <button class="btn btn-primary" type="submit">{{ isNew ? "Save New Listing" : "Save Changes" }}</button> 
+    <a class="btn" href="{{ cancel }}">Cancel</a>
+    {% if not isNew %}
+        <a class="btn btn-danger" href="{{ path('delete', { id: posting.id } ) }}">Delete</a>
+    {% endif %}
+
+</form>
+
+<script type="text/javascript">
+
+// Enable the file uploader
+
+$(function() {
+    new PunkAveFileUploader({ 
+        'uploadUrl': {{ path('upload', { editId: editId }) | json_encode | raw }},
+        'viewUrl': {{ '/uploads/tmp/attachments/' ~ editId | json_encode | raw }},
+        'el': '.file-uploader',
+        'existingFiles': {{ existingFiles | json_encode | raw }},
+        'delaySubmitWhileUploading': '.edit-form'
+    });
+});
+</script>
 {% endblock %}

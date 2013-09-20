@@ -58,34 +58,31 @@ class AppKernel extends Kernel {
             new Application\ChangementsBundle\ApplicationChangementsBundle(),
             new Application\RelationsBundle\ApplicationRelationsBundle(),
             //new Ivory\GoogleMapBundle\IvoryGoogleMapBundle(),
-     
             //====================================================
             // FORM FILTER
             //====================================================
             new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle(),
             new Savvy\FilterNatorBundle\SavvyFilterNatorBundle(),
-             //====================================================
+            //====================================================
             // FOSCOMMENT
             //====================================================
-            
-               new FOS\RestBundle\FOSRestBundle(),
-        //new FOS\CommentBundle\FOSCommentBundle(),
-        new JMS\SerializerBundle\JMSSerializerBundle($this),
-             //====================================================
+
+            new FOS\RestBundle\FOSRestBundle(),
+            //new FOS\CommentBundle\FOSCommentBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle($this),
+            //====================================================
             // HIGHCHARTS ET CALENDARS
             //====================================================
-          //  new ADesigns\CalendarBundle\ADesignsCalendarBundle(),
+            //  new ADesigns\CalendarBundle\ADesignsCalendarBundle(),
             new Ob\HighchartsBundle\ObHighchartsBundle(),
-              new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
-                new Oneup\UploaderBundle\OneupUploaderBundle()
-           
-         
-,
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+            new Oneup\UploaderBundle\OneupUploaderBundle(),
+            new PunkAve\FileUploaderBundle\PunkAveFileUploaderBundle(),
             new Application\CentralBundle\ApplicationCentralBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
-          //  $bundles[] = new Acme\DemoBundle\AcmeDemoBundle();
+            //  $bundles[] = new Acme\DemoBundle\AcmeDemoBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();

@@ -91,6 +91,12 @@ changements_edit:
     pattern:  /{id}/edit
     defaults: { _controller: "ApplicationChangementsBundle:Changements:edit" }
 
+
+changements_edit:
+    pattern:  /{id}/edituploader
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:editupload" }
+    
+    
 changements_newfichier:
     pattern:  /{id}/newfichier
     defaults: { _controller: "ApplicationChangementsBundle:Changements:newFichier" }

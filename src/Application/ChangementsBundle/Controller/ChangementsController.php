@@ -765,6 +765,34 @@ class ChangementsController extends Controller {
                     'delete_form' => $deleteForm->createView(),
         ));
     }
+    
+    
+  
+    public function edituploadAction($id) {
+        $em = $this->getDoctrine()->getManager();
+
+        // $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
+        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindaIdAll($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Changements entity.');
+        }
+
+        $editForm = $this->createForm(new ChangementsType(), $entity);
+        $deleteForm = $this->createDeleteForm($id);
+        $session = $this->getRequest()->getSession();
+        $btn_retour = $session->get('buttonretour');
+        if ($btn_retour != 'changements_fanta' && $btn_retour == 'changements_myfanta')
+            $session->set('buttonretour', 'changements_fanta');
+        return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
+                    'entity' => $entity,
+                    'form' => $editForm->createView(),
+                  
+        ));
+    }
+    
+    
+    
  /**
      * Displays a form to edit an existing Changements entity.
      *
