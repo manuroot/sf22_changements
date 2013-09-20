@@ -13,6 +13,11 @@ changements_post:
     defaults: { _controller: "ApplicationChangementsBundle:Changements:indexpost" }
     methods: POST|GET
 
+changements_uploader:
+    pattern:  /uploader
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:oneuploader" }
+    
+    
 changements_posttest:
     pattern:  /changements
     defaults: { _controller: "ApplicationChangementsBundle:Changements:indexposttest" }

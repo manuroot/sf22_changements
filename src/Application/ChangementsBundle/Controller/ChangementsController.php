@@ -765,6 +765,33 @@ class ChangementsController extends Controller {
                     'delete_form' => $deleteForm->createView(),
         ));
     }
+ /**
+     * Displays a form to edit an existing Changements entity.
+     *
+     * @Secure(roles="ROLE_USER")
+     */
+    public function editfileuploadAction($id) {
+        $em = $this->getDoctrine()->getManager();
+
+        // $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
+        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindaIdAll($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Changements entity.');
+        }
+
+        $editForm = $this->createForm(new ChangementsType(), $entity);
+        $deleteForm = $this->createDeleteForm($id);
+        $session = $this->getRequest()->getSession();
+        $btn_retour = $session->get('buttonretour');
+        if ($btn_retour != 'changements_fanta' && $btn_retour == 'changements_myfanta')
+            $session->set('buttonretour', 'changements_fanta');
+        return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
+        ));
+    }
 
     /**
      * Displays a form to create a new Docchangements entity.
@@ -1211,6 +1238,11 @@ class ChangementsController extends Controller {
         ));
     }
 
+     //==============================================
+    //          ORDER
+    // 
+    //==============================================
+  
     private function OrderfantaAction() {
 
         $request = $this->getRequest();
@@ -1261,7 +1293,13 @@ class ChangementsController extends Controller {
 
         return array($page, $dir, $sort);
     }
-
+    
+    
+    //==============================================
+    //          INDEX FAVORIS
+    // 
+    //==============================================
+  
     public function indexfantaAction(Request $request) {
 
         $parameters = array();
@@ -1396,6 +1434,11 @@ class ChangementsController extends Controller {
         ));
     }
 
+    //==============================================
+    //          INDEX FAVORIS
+    // 
+    //==============================================
+  
     public function indexmyfantaAction(Request $request) {
 
         $parameters = array();
@@ -1584,4 +1627,9 @@ class ChangementsController extends Controller {
         // return new Response();
     }
 
+       public function oneuploaderAction() {
+ return $this->render('ApplicationChangementsBundle:Changements:index-uploader.html.twig', array(
+       ));
+       }
+   
 }

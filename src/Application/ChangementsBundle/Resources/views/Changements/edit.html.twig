@@ -25,7 +25,7 @@
         }
         .hrsep {color: blue;background-color: blue;height: 2px; }
         a.add_tag_link { color:whitesmoke;}
-
+        a.myleft{float:right;margin-right:10px;margin-bottom:20px;}
         .ui-autocomplete-category {
             font-weight: bold;
             padding: .2em .4em;
@@ -91,6 +91,7 @@
  //var $addTagLink = $('<hr><a href="#" class="add_tag_link"><button id="show" type="submit" name="submit-filter" class="btn btn-small btn-primary"><i class="icon-plus-sign"></i>Ajouter Fichier</button></a>');
         var $newLinkLi = $('<li></li>').append($addTagLink);
 
+                   
         jQuery(document).ready(function() {
             // ajoute l'ancre « ajouter un tag » et li à la balise ul
 
@@ -236,23 +237,30 @@
                 <tr>
                     <td class="calendar" colspan="3"> {{ form_rest(edit_form) }} 
                         <button type="submit" class="btn btn-large btn-warning">Modifier</button>
-                        <a href="{{ path(btnretour) }}" class="btn btn-large btn-success">Retour</a>
+                        <a href="{{ path(btnretour) }}" class="myleft btn btn-large btn-success">Retour</a>
                 </form>
 
-                    {% if is_granted('ROLE_SUPER_ADMIN')  %}
+                    
+                </td>
+                </tr>
+                {% if is_granted('ROLE_SUPER_ADMIN')  %}
+                <tr>
+                 <td class="calendar" colspan="3"> 
+                   
                     <form action="{{ path('changements_delete', { 'id': entity.id }) }}" method="post">
                     {{ form_errors(delete_form) }}
                     {{ form_row(delete_form.id) }}
                     {{ form_rest(delete_form) }}
-                    <div style="text-align:right">
+                    <div style="text-align:right;margin-bottom:10px;">
                         <button type="submit" class="btn btn-medium btn-danger" onclick="if (!confirm('Are you sure?')) {
                         return false;
                         }">Supprimer Opération</button>
                     </div>
                     </form>
-                {% endif %}
-                </td>
+              
+                         </td>
             </tr>
+              {% endif %}
 </tbody>
 </table>
 
