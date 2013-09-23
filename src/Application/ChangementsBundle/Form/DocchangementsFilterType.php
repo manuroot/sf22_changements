@@ -20,6 +20,7 @@ class DocchangementsFilterType extends AbstractType {
                         'icon' => 'pencil',
                         'type' => 'prepend'
                         ),
+                    'label'=>'Nom',
                     'mapped'=>false,'required'=>false))
                
                   /*   ->add('path','text',array( 
@@ -30,6 +31,7 @@ class DocchangementsFilterType extends AbstractType {
                     'mapped'=>false,'required'=>false))
                     */
                   ->add('md5','text',array( 
+                      'label'=>'Md5',
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'
@@ -37,6 +39,7 @@ class DocchangementsFilterType extends AbstractType {
                     'mapped'=>false,'required'=>false))
                
                  ->add('updatedAt','text',array( 
+                     'label'=>'Date Update Min',
                       'attr' => array(
             'placeholder'=>'> updatedAt'),
                      'widget_addon' => array(
@@ -47,6 +50,7 @@ class DocchangementsFilterType extends AbstractType {
                      ))
                 
                      ->add('updatedAt_max','text',array( 
+                          'label'=>'Date Update Max',
                       'attr' => array(
             'placeholder'=>'< updatedAt'),
                      'widget_addon' => array(
@@ -71,6 +75,7 @@ class DocchangementsFilterType extends AbstractType {
                
                
                ->add('OriginalFilename', 'text', array(
+                   'label'=>'Nom d\'origine',
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'

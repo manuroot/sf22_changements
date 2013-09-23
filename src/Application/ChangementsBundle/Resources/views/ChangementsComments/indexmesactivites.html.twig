@@ -3,7 +3,8 @@
   {% block stylesheets %}
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/datagrid.css') }}" type="text/css" media="all" /> 
-<style>/*
+   <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
+   <style>/*
 table {
     max-width: 98%;*/
    /* background-color: red;*/
@@ -66,6 +67,7 @@ td {
 
 {% block javascripts %}
 {{ parent() }}
+        <script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>
 <script type="text/javascript">
 
 $(document).ready(function() {
@@ -90,6 +92,19 @@ var mesdates=[
     }
     });
 });
+ $('.alert').each(function(){
+        var html = $(this).html();
+     $.pnotify({
+                    title: 'Flash Message',
+                    text: html,
+                    animation: 'show',
+                    nonblock_opacity: 0.2,
+                    type: 'success',
+                    icon: 'icon-flag',
+                    width: '350px',
+                    opacity: .9
+                }); 
+    });
 });
 </script>
 
@@ -106,17 +121,7 @@ var mesdates=[
 {% block content %}
  
 {% include 'ApplicationChangementsBundle:templates:flash.html.twig' %}
-{#
-{% for type, flashMessages in app.session.flashbag.all() %}
-    {% for flashMessage in flashMessages %}
-<div class="alert alert-{{ type }}">
-            {{ flashMessage|trans }}
-    </div>
-    {% endfor %}
-{% endfor %}
-#}
- {#{ date('-30days')|date('Y-m-d') }#}
- 
+  
 <br> <br> 
 
 {#

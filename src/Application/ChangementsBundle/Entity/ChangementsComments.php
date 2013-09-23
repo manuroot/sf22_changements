@@ -30,9 +30,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Changements
  *
  * @ORM\Table(name="changements_comments")
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="Application\ChangementsBundle\Repository\ChangementsCommentsRepository")
- * @GRID\Source(columns="id,user.username,changement.nomUser.username,changement.id,changement.idProjet.nomprojet,changement.demandeur.nomUser,created,updated,approved",groupBy={"id"})
- 
+ * @GRID\Source(columns="id,user.username,changement.nomUser.username,changement.id,
+ changement.idProjet.nomprojet,changement.demandeur.nomUser,created,updated,categorie.nom,approved",groupBy={"id"})
  */
 
 class ChangementsComments {
@@ -42,7 +43,7 @@ class ChangementsComments {
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
        * @GRID\Column(field="id", title="Id",size="10")
-        */
+         */
     protected $id;
 
    
@@ -101,7 +102,8 @@ class ChangementsComments {
      *
      * @ORM\ManyToOne(targetEntity="Application\ChangementsBundle\Entity\ChangementsCommentsCategorie")
      * @ORM\JoinColumn(name="categorie", referencedColumnName="id",nullable=true))
-     */
+     * @GRID\Column(field="categorie.nom",title="Catégorie",size="80",filter="select",selectFrom="query")
+ */
     private $categorie;
     
     public function __construct()
@@ -111,8 +113,9 @@ class ChangementsComments {
         $this->setApproved(true);
     }
 
-    /**
-     * @ORM\preUpdate
+   /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
      */
     public function setUpdatedValue()
     {

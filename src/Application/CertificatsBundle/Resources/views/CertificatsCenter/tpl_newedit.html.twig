@@ -5,6 +5,92 @@
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/applicationcertificats/js/datenew.js') }}"></script>
+<script type="text/javascript" src="{{ asset('jquery/fileupload/jquery.iframe-transport.js') }}"></script>
+<script type="text/javascript" src="{{ asset('jquery/jquery.ui.widget.js') }}"></script>
+<script type="text/javascript" src="{{ asset('jquery/fileupload/jquery.fileupload.js') }}"></script>
+<script>
+
+    $(function () {
+        
+         $('#moncert_fichier_file').fileupload({
+        dataType: 'json',
+         url: Routing.generate('certificatscenter_listbyprojet'),
+        done: function (e, data) {
+            $.each(data.result.files, function (index, file) {
+                $('<p/>').text(file.name).appendTo(document.body);
+            });
+        },
+    
+     progressall: function (e, data) {
+        var progress = parseInt(data.loaded / data.total * 100, 10);
+        $('#progress .bar').css(
+            'width',
+            progress + '%'
+        );
+    }
+    });
+    
+    $('#hhmoncert_fichier_file').fileupload({
+        dataType: 'json',
+         url: Routing.generate('certificatscenter_listbyprojet'),
+         add: function (e, data) {
+            data.context = $('<button/>').text('Upload')
+                .appendTo(document.body)
+                .click(function () {
+                    data.context = $('<p/>').text('Uploading...').replaceAll($(this));
+                    data.submit();
+                });
+        },
+        done: function (e, data) {
+            $.each(data.result.files, function (index, file) {
+                $('<p/>').text(file.name).appendTo(document.body);
+            });
+        },
+    
+     progressall: function (e, data) {
+        var progress = parseInt(data.loaded / data.total * 100, 10);
+        $('#progress .bar').css(
+            'width',
+            progress + '%'
+        );
+    }
+    });
+
+   $('#xxmoncert_fichier_file').fileupload({
+        dataType: 'json',
+         url: Routing.generate('certificatscenter_listbyprojet'),
+        add: function (e, data) {
+            data.context = $('<button/>').text('Upload')
+                .appendTo(document.body)
+                .click(function () {
+                    data.context = $('<p/>').text('Uploading...').replaceAll($(this));
+                    data.submit();
+                });
+        },
+        done: function (e, data) {
+            data.context.text('Upload finished.');
+        }
+    });
+   
+    $('#11moncert_fichier_file').fileupload({
+        dataType: 'json',
+        add: function (e, data) {
+            data.context = $('<button/>').text('Upload')
+                .appendTo(document.body)
+                .click(function () {
+                    data.context = $('<p/>').text('Uploading...').replaceAll($(this));
+                    data.submit();
+                });
+        },
+        done: function (e, data) {
+            data.context.text('Upload finished.');
+        }
+    });
+
+});
+
+
+</script>
 {% endblock %}
 
 
@@ -12,13 +98,19 @@
 {{ parent() }} 
 <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/sliding.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/certifcatssearch.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.fileupload-ui.css') }}" type="text/css" media="all"/>  
 <style>
     select[multiple], select[size] {height: 250px;}
     textarea {width:400px;height:200px;}
     tr.single {background-color: #f1f1f1;}
     div.fichier{
         padding:5px;background-color:whitesmoke;color:#0033cc;}
-</style> 
+.bar {
+    height: 18px;
+    background: green;
+}
+ 
+    </style> 
 {% endblock %}
 
 
@@ -27,7 +119,7 @@
 {% block title %}{{ titre }}  CERTIFICAT {% endblock %}
 
 {% block content %}
-
+ 
 {% if action == 'edit' %}
 <div id="divcert" style="display: none;">{{ entity.id }}</div>
 <form   action="{{ path(path_form, { 'id': entity.id }) }}" method="post" {{ form_enctype(form) }}>
@@ -82,8 +174,40 @@
     {{ form_widget(form.description) }}                            </td>
                             <td class="calendar">
                                 <div class="fichier">
-                                    {% if fichier is not null %}   
-                                        <input type="hidden"  name="myfile"  value="{{ fichier.id }}">
+                                  
+                                        
+                                        
+             <span class="btn btn-success fileinput-button">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>Add files...</span>
+                      {% if fichier.id  %}   
+                      <input type="hidden"  name="myfile"  value="{{ fichier.id }}">
+                </span>
+                <button type="submit" class="btn btn-primary start">
+                    <i class="glyphicon glyphicon-upload"></i>
+                    <span>Start upload</span>
+                </button>
+                             {#       <span class="btn btn-success fileinput-button">
+        <i class="icon-plus"></i>
+        <span>Add files...</span>
+        <!-- The file input field used as target for the file upload widget -->
+       
+         <input type="hidden"  name="myfile"  value="{{ fichier.id }}">
+    </span>
+#}
+                  <br>
+    <br>
+    <!-- The global progress bar -->
+    <div id="progress" class="progress">
+        <div class="progress-bar progress-bar-success"></div>
+    </div>
+    <!-- The container for the uploaded files -->
+    <div id="files" class="files"></div>                  
+                                       
+                                       {# <input type="hidden"  name="myfile"  value="{{ fichier.id }}" data-url="{{ 'certificatscenter_listbyprojet' }}">
+                                 #}       
+                                    
+  
                                         Actuel: <br>
                                   <strong>  {{ fichier.OriginalFilename }}
                                         <br>
@@ -96,6 +220,9 @@
                                         
        {{ form_widget(form.fichier) }}  
                                         </div>
+                                      <div id="progress">
+    <div class="bar" style="width: 0%;"></div>
+</div>
  <div>{{ form_rest(form) }}
                                     </div>
                                 </td>

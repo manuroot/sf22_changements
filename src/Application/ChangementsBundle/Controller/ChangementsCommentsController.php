@@ -264,6 +264,12 @@ class ChangementsCommentsController extends Controller {
     //          TODO: EDITION D UN COMMENTAIRE
     //==============================================
 
+     /**
+     * Edits an existing Changements entity.
+     *
+     * @Secure(roles="ROLE_USER")
+     */
+    
     public function editAction(Request $request,$id) {
 
         $em = $this->getDoctrine()->getManager();
@@ -276,17 +282,20 @@ class ChangementsCommentsController extends Controller {
         }
        //$current_user = $em->getRepository('ApplicationSonataUserBundle:User')->find($user_id);
        $comment_entity = $em->getRepository('ApplicationChangementsBundle:ChangementsComments')->find($id);
-       if (!$comment_entity) {
+      if (!$comment_entity) {
             throw $this->createNotFoundException('Unable to find ChangementsComment entity.');
         }
          $form = $this->createForm(new ChangementsCommentsType(), $comment_entity);
-
-            return $this->render('ApplicationChangementsBundle:ChangementsComments:show.html.twig', array(
-                        'form' => $form->createView(),
-                        
+        return $this->render('ApplicationChangementsBundle:ChangementsComments:edit.html.twig', array(
+                        'edit_form' => $form->createView(),
+                        'entity'=>$comment_entity,
                     ));
        
     }
+
+     //==============================================
+    //          TODO: EDITION D UN COMMENTAIRE
+    //==============================================
 
       /**
      * Edits an existing Changements entity.
@@ -295,19 +304,27 @@ class ChangementsCommentsController extends Controller {
      */
     public function updateAction(Request $request, $id) {
          $em = $this->getDoctrine()->getManager();
-         $comment_entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
-         if (!$$comment_entity) {
+         $comment_entity = $em->getRepository('ApplicationChangementsBundle:ChangementsComments')->find($id);
+         if (!$comment_entity) {
             throw $this->createNotFoundException('Unable to find ChangementsComment entity.');
         }
         $form = $this->createForm(new ChangementsCommentsType(), $comment_entity);
         $form->bind($request);
         if ($form->isValid()) {
+            $em->persist($comment_entity);
+            $em->flush();
             $session = $this->getRequest()->getSession();
-            $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
+            $session->getFlashBag()->add('warning', "Commentaires (id=$id) update successfull");
             // ajoute des messages flash
          
          return $this->redirect($this->generateUrl('changements_comment_mesactivites'));
     }
+    // si form pas valide, on retourne a l'edition
+     return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
+                    'entity' => $comment_entity,
+                    'edit_form' => $form->createView(),
+                    
+        ));
     
     }
     
