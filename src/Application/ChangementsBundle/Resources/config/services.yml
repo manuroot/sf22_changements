@@ -10,6 +10,11 @@ services:
         tags:
             - { name: form.type, alias: changements }
 
+   changement.common.manager:
+    class:  Application\ChangementsBundle\Manager\ChangementsManager
+    arguments: 
+        entityManager: "@doctrine.orm.entity_manager"
+        
    booking_repository:
         class:           Application\ChangementsBundle\Repository\ChangementsRepository
         factory_service: doctrine.orm.default_entity_manager

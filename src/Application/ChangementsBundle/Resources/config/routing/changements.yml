@@ -1,3 +1,8 @@
+ 
+#---------------------------------------------------------------
+# Changements Indexes: fanta par defaut
+#--------------------------------------------------------------- 
+
 changements_fanta:
     pattern:  /
     defaults: { _controller: "ApplicationChangementsBundle:Changements:indexfanta" }
@@ -13,11 +18,7 @@ changements_post:
     defaults: { _controller: "ApplicationChangementsBundle:Changements:indexpost" }
     methods: POST|GET
 
-changements_uploader:
-    pattern:  /uploader
-    defaults: { _controller: "ApplicationChangementsBundle:Changements:oneuploader" }
-    
-    
+
 changements_posttest:
     pattern:  /changements
     defaults: { _controller: "ApplicationChangementsBundle:Changements:indexposttest" }
@@ -28,19 +29,18 @@ changements_posttestdebug:
     defaults: { _controller: "ApplicationChangementsBundle:Changements:indexposttestdebug" }
     methods: POST|GET
 
-changements_minicalendar:
-    pattern:  /minicalendar
-    defaults: { _controller: "ApplicationChangementsBundle:Changements:CalendarEvents" }
-    options:
-        expose: true
-
-
-
+changements_apy:
+    pattern:  /indexapy
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:indexapy" }
+    
 changements_genemutest:
     pattern:  /genemu
     defaults: { _controller: "ApplicationChangementsBundle:Changements:indexgenemu" }
    
-    
+ 
+#---------------------------------------------------------------
+# Changements: Graphs, dashboard et calendrier
+#---------------------------------------------------------------    
 
 changements_charts:
     pattern:  /charts
@@ -54,33 +54,16 @@ changements_calendar:
     pattern:  /calendar
     defaults: { _controller: "ApplicationChangementsBundle:Changements:calendar" }
 
-changements_apy:
-    pattern:  /indexapy
-    defaults: { _controller: "ApplicationChangementsBundle:Changements:indexapy" }
+#---------------------------------------------------------------
+# Changements operations: show, create, delete, edit, update
+#---------------------------------------------------------------    
+
     
 changements_show:
     pattern:  /{id}/show
     defaults: { _controller: "ApplicationChangementsBundle:Changements:show" }
+       
 
-changements_showXhtml:
-    pattern:  /{id}/showxhtml
-    defaults: { _controller: "ApplicationChangementsBundle:Changements:showXhtml" }
-
-changements_updatexhtml_changement:
-    pattern:  /updatexhtml/
-    defaults: { _controller: "ApplicationChangementsBundle:Changements:update_changement_status" }
-    options:
-        expose: true
- 
-changements_updatexhtml_favoris:
-    pattern:  /updatefavorisxhtml/
-    defaults: { _controller: "ApplicationChangementsBundle:Changements:update_changement_favoris" }
-    options:
-        expose: true
-        
-changements_new:
-    pattern:  /new
-    defaults: { _controller: "ApplicationChangementsBundle:Changements:new" }
 
 changements_create:
     pattern:  /create
@@ -91,30 +74,23 @@ changements_edit:
     pattern:  /{id}/edit
     defaults: { _controller: "ApplicationChangementsBundle:Changements:edit" }
 
-
-changements_edit:
-    pattern:  /{id}/edituploader
-    defaults: { _controller: "ApplicationChangementsBundle:Changements:editupload" }
-    
-    
-changements_newfichier:
-    pattern:  /{id}/newfichier
-    defaults: { _controller: "ApplicationChangementsBundle:Changements:newFichier" }
-
-
-changements_update:
-    pattern:  /{id}/update
-    defaults: { _controller: "ApplicationChangementsBundle:Changements:update" }
-    requirements: { _method: post }
-
 changements_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "ApplicationChangementsBundle:Changements:delete" }
     requirements: { _method: post }
-changements_upload:
-    pattern:  /upload
-    defaults: { _controller: "ApplicationChangementsBundle:Changements:upload" }
+   
+changements_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:update" }
+    requirements: { _method: post }
  
+#---------------------------------------------------------------
+# Nouveau changement par flow/normal
+#--------------------------------------------------------------- 
+changements_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:new" }
+    
 changements_newchangement:
     pattern:  /newchangement
     defaults: { _controller: "ApplicationChangementsBundle:Changements:new" }
@@ -122,36 +98,14 @@ changements_newchangement:
 changements_newflowstart:
     pattern:  /newflowstart
     defaults: { _controller: "ApplicationChangementsBundle:Changements:newflowstart" }
+    
 changements_newflow:
     pattern:  /newflow
     defaults: { _controller: "ApplicationChangementsBundle:Changements:newflow" }
 
-
-ajax_nom:
-    pattern:  /ajaxnom
-    methods: POST|GET
-    defaults: { _controller: "ApplicationChangementsBundle:Changements:NomAjax" }
-  
-  
-ajax_ticketint:
-    pattern:  /ajaxticketint
-    methods: POST|GET
-    defaults: { _controller: "ApplicationChangementsBundle:Changements:TicketIntAjax" }
-    
-ajax_description:
-    pattern:  /ajaxdescription
-    methods: POST|GET
-    defaults: { _controller: "ApplicationChangementsBundle:Changements:DescriptionAjax" }
-    
-ajax_ticketext:
-    pattern:  /ajaxticketext
-    methods: POST|GET
-    defaults: { _controller: "ApplicationChangementsBundle:Changements:TicketExtAjax" }
-    
-changements_listbyprojet:
-    pattern:  /changementsprj
-    defaults: { _controller: ApplicationChangementsBundle:Changements:listByProjet }
-    
+#---------------------------------------------------------------
+# Templates pour editor
+#---------------------------------------------------------------
 templates3:
     pattern:  /templates2
     defaults: { _controller: "ApplicationChangementsBundle:Changements:templates2" }

@@ -1,0 +1,139 @@
+{% extends "ApplicationChangementsBundle::layout.html.twig" %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+  
+  <script type="text/javascript" src="{{ asset('bootstrap/js/underscore-min.js') }}"></script>
+ {# <script type="text/javascript" src="{{ asset('jquery/jquery.fileupload-jquery-ui.js') }}"></script>#}
+      <script type="text/javascript" src="{{ asset('jquery/fileupload/jquery.fileupload.js') }}"></script>
+      <script type="text/javascript" src="{{ asset('jquery/jquery.ui.widget.js') }}"></script>
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+
+{#
+<script type="text/javascript" src="js/jquery.ui.widget.js"></script>
+/home/manuroot/Téléchargements/underscore-min.js
+'@PunkAveFileUploaderBundle/Resources/public/js/jquery.fileupload.js'#}
+{% javascripts 
+
+'@PunkAveFileUploaderBundle/Resources/public/js/jquery.iframe-transport.js'
+    
+    '@PunkAveFileUploaderBundle/Resources/public/js/FileUploader.js' %}
+    <script src="{{ asset_url }}"></script>
+    <script type="text/javascript">
+
+// Enable the file uploader
+
+$(function() {
+    
+
+    new PunkAveFileUploader({ 
+        'uploadUrl': {{ path('changements_uploadpunkave', { editId: editId }) | json_encode | raw }},
+        'viewUrl': "{{ '/uploads/tmp/attachments/' ~ editId | json_encode | raw }}",
+        'el': '.file-uploader',
+        'existingFiles': {{ existingFiles | json_encode | raw }},
+        'delaySubmitWhileUploading': '.edit-form',
+         'doneCallback': function(e, data) {
+            alert(data.textStatus);
+        }
+    });
+});
+</script>
+{% endjavascripts %}
+    {#
+    {% javascripts 
+    '@MyBundle/Resources/public/js/jquery-1.7.2.min.js'
+    '@MyBundle/Resources/public/js/jquery-ui-1.8.22.custom.min.js'
+    '@MyBundle/Resources/public/js/underscore-min.js'
+    '@PunkAveFileUploaderBundle/Resources/public/js/jquery.fileupload.js'
+    '@PunkAveFileUploaderBundle/Resources/public/js/FileUploader.js' %}
+    <script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+    #}
+
+{% endblock %}
+
+
+{% block stylesheets %}
+    
+
+{{ parent() }}
+ <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.fileupload-ui.css') }}" type="text/css" media="all"/>    
+{% endblock %}
+
+{% block content_header '' %}
+
+{% block title %}
+       
+      DOWNLOAD FICHIERS
+{% endblock %}
+
+{% block content %}
+      
+      
+{# Underscore templates for the uploader #}
+{% include "ApplicationChangementsBundle:Default:templates.html.twig" %}
+{#{% set isNew = true %}#}
+  
+    
+{#
+ <form lass="edit-form"  action="{{ path('changements_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(form) }}>
+ #}
+<form class="edit-form" action="{{ path('changements_punkaveupdate', { id: entity.id, editId: editId }) }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+
+    {# Hydrated by javascript #}
+  <br><br>
+{# 
+  <div class="row fileupload-buttonbar">
+            <div class="col-lg-7">
+                <!-- The fileinput-button span is used to style the file input field as button -->
+                <span class="btn btn-success fileinput-button">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>Add files...</span>
+                    <input type="file" name="files[]" multiple>
+                </span>
+                <button type="submit" class="btn btn-primary start">
+                    <i class="glyphicon glyphicon-upload"></i>
+                    <span>Start upload</span>
+                </button>
+                <button type="reset" class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Cancel upload</span>
+                </button>
+                <button type="button" class="btn btn-danger delete">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Delete</span>
+                </button>
+                <input type="checkbox" class="toggle">
+                <!-- The loading indicator is shown during file processing -->
+                <span class="fileupload-loading"></span>
+            </div>
+            <!-- The global progress information -->
+            <div class="col-lg-5 fileupload-progress fade">
+                <!-- The global progress bar -->
+                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+                </div>
+                <!-- The extended global progress information -->
+                <div class="progress-extended">&nbsp;</div>
+            </div>
+            
+        </div> 
+  #}
+  
+  <div class="file-uploader"></div>
+
+    <button class="btn btn-primary" type="submit">{{ isNew ? "Save New Listing" : "Save Changes" }}</button> 
+   
+                        
+    <a class="btn" href="{{ path('changements_fanta') }}">Cancel</a>
+    {% if not isNew %}
+        <a class="btn btn-danger" href="{{ path('delete', { id: entity.id } ) }}">Delete</a>
+    {% endif %}
+
+</form>
+   {#'existingFiles': {{ existingFiles | json_encode | raw }},#}
+
+{% endblock %}

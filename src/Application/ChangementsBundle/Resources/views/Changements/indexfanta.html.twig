@@ -238,6 +238,13 @@ Cliquez sur moi pour le Popover</a>#}
         <img src="{{ asset('bundles/applicationchangements/images/edit.png') }}" alt="edit" width="15px" height="15px" />
     </a>
    </td>
+   {#
+   <td style="min-width:18px">
+       <a href="{{ path('changements_filesedit', { 'id': entity.id }) }}">
+        <img src="{{ asset('bundles/applicationchangements/images/add.png') }}" alt="edit" width="15px" height="15px" />
+    </a>
+   </td>
+#}
   {% endif %}
    <td>
   <a class="tooltip_comments"  rel="tooltip" data-content="{{ text_comment }}" data-original-title="Information" data-toggle="tooltip"

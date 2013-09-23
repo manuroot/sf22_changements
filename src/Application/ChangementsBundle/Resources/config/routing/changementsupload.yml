@@ -1,0 +1,42 @@
+changements_filesedit:
+    pattern:  /{id}/filesedit
+    defaults: { _controller: "ApplicationChangementsBundle:ChangementsUpload:editentityfiles" }
+   
+changements_filesupdate:
+    pattern:  /{id}/filesupdate
+    defaults: { _controller: "ApplicationChangementsdBundle:ChangementsUpload:updateentityfiles" }
+    requirements: { _method: post }
+
+#---------------------------------------------------------------
+# Upload de fichiers
+#---------------------------------------------------------------
+
+changements_editpunkave:
+    pattern:  /{id}/edituploader
+    defaults: { _controller: "ApplicationChangementsBundle:ChangementsUpload:editpunkave" }
+    
+changements_uploadpunkave:
+    pattern:  /{editId}/punkaveuploader
+    defaults: { _controller: "ApplicationChangementsBundle:ChangementsUpload:punkvalidateupload" }
+    
+    
+changements_newfichier:
+    pattern:  /{id}/newfichier
+    defaults: { _controller: "ApplicationChangementsBundle:ChangementsUpload:newFichier" }
+
+
+    
+changements_punkaveupdate:
+    pattern:  /{id}/punkaveupdate
+    defaults: { _controller: "ApplicationChangementsBundle:ChangementsUpload:punkaveupdate" }
+    requirements: { _method: post }
+    
+changements_oneupuploader:
+    pattern:  /oneupuploader
+    defaults: { _controller: "ApplicationChangementsBundle:ChangementsUpload:oneupuploader" }
+    
+      
+changements_upload:
+    pattern:  /upload
+    defaults: { _controller: "ApplicationChangementsBundle:ChangementsUpload:upload" }
+ 

@@ -31,6 +31,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="changements_comments")
  * @ORM\Entity(repositoryClass="Application\ChangementsBundle\Repository\ChangementsCommentsRepository")
+ * @GRID\Source(columns="id,user.username,changement.nomUser.username,changement.id,changement.idProjet,changement.demandeur,created,updated,approved",groupBy={"id"})
+ 
  */
 
 class ChangementsComments {
@@ -39,7 +41,8 @@ class ChangementsComments {
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     */
+       * @GRID\Column(field="id", title="Id",size="10")
+        */
     protected $id;
 
    
@@ -51,6 +54,7 @@ class ChangementsComments {
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user", referencedColumnName="id")
      * })
+      * @GRID\Column(field="user.username", title="Owner",size="20",filter="select",selectFrom="query")
      */
     private $user;
     
@@ -72,16 +76,22 @@ class ChangementsComments {
      * 
      * @ORM\ManyToOne(targetEntity="Changements", inversedBy="comments")
      * @ORM\JoinColumn(name="changement_id", referencedColumnName="id")
+     * @GRID\Column(field="changement.id", title="Changement",size="20",filter="select",selectFrom="query")
+      * @GRID\Column(field="changement.idProjet", title="Projet",size="20",selectFrom="source")
+   
+     * @GRID\Column(field="changement.demandeur.nomUser", title="Demanndeur",size="20",filter="select",selectFrom="query")
      */
     protected $changement;
 
     /**
      * @ORM\Column(type="datetime")
+     * @GRID\Column(title="Création",format="Y-m-d",size="60",type="datetime")
      */
     protected $created;
 
     /**
      * @ORM\Column(type="datetime")
+     * @GRID\Column(title="Maj",format="Y-m-d",size="60",type="datetime")
      */
     protected $updated;
 

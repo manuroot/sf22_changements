@@ -45,10 +45,10 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
     public function getStatusForRequeteBuilder() {
         $query = $this->createQueryBuilder('a')
                 //->select('count(a.id) as nb,b.nom as status')
-                 ->select('count(a.id) as nb,b.id as status')
+                ->select('count(a.id) as nb,b.id as status')
                 ->leftjoin('a.idStatus', 'b')
                 //->groupBy('b.nom');
-        ->groupBy('b.id');
+                ->groupBy('b.id');
         $arr = $query->getQuery()->getArrayResult();
         //$arr = $query->getQuery()->getScalarResult();
         /* print_r($arr);
@@ -61,8 +61,8 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         foreach ($arr as $result) {
             $choices[$result['status']] = $result['nb'];
         }
-       /* print_r($choices);
-        exit(1);*/
+        /* print_r($choices);
+          exit(1); */
         return $choices;
         // return $status;
     }
@@ -202,74 +202,92 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
 
         // $query = $this->myFindsimpleAll();
         $query = $this->query;
+       // echo "<br>Avant<br>";
+       // print_r($criteria);
+        foreach ($criteria as $key=>$val) {
+            if ($val ==null)
+        unset($criteria[$key]);
+        }
+       /* echo "<br>Apres<br>";
+        print_r($criteria);exit(1);*/
         $parameters = array();
         //return $query;
-        if (isset($criteria['idEnvironnement']) && $criteria['idEnvironnement'] != "") {
+        
+        if (isset($criteria['idEnvironnement'])) {
             // var_dump($criteria['idEnvironnement']);exit(1);
             $query->andWhere('g.id IN (:idEnv)');
             //  $query->distinct('GroupConcat(g.nom) AS kak');
             $parameters['idEnv'] = $criteria['idEnvironnement'];
         }
-        if (isset($criteria['user_favoris']) && $criteria['user_favoris'] != "") {
+        if (isset($criteria['user_favoris'])) {
             // var_dump($criteria['idEnvironnement']);exit(1);
             $query->andWhere('i.id IN (:idFavoris)');
             //  $query->distinct('GroupConcat(g.nom) AS kak');
             $parameters['idFavoris'] = $criteria['user_favoris'];
         }
 
-
-
-        if (isset($criteria['demandeur']) && $criteria['demandeur'] != "") {
+        if (isset($criteria['demandeur'])) {
             // var_dump($criteria['idEnvironnement']);exit(1);
             $query->andWhere('c.id = (:idUser)');
             $parameters['idUser'] = $criteria['demandeur'];
         }
 
-        if (isset($criteria['idProjet']) && $criteria['idProjet'] != "") {
+        if (isset($criteria['idProjet'])) {
             // var_dump($criteria['idEnvironnement']);exit(1);
             $query->andWhere('b.id IN (:idProjet)');
             //  $query->distinct('GroupConcat(d.nomprojet) AS projet');
             $parameters['idProjet'] = $criteria['idProjet'];
         }
-        if (isset($criteria['idStatus']) && $criteria['idStatus'] != "") {
+        if (isset($criteria['idStatus'])) {
             // var_dump($criteria['idEnvironnement']);exit(1);
             $query->andWhere('d.id IN (:idStatus)');
             // $query->distinct('GroupConcat(d.nom) AS status');
             $parameters['idStatus'] = $criteria['idStatus'];
         }
 
-        if (isset($criteria['idusers']) && $criteria['idusers'] != "") {
+        if (isset($criteria['idusers'])) {
             // var_dump($criteria['idEnvironnement']);exit(1);
             $query->andWhere('e.id IN (:idUsers)');
             //   $query->distinct('GroupConcat(e.nomUser)');
             $parameters['idUsers'] = $criteria['idusers'];
         }
 
-
-
-        if ($criteria['dateDebut_max'] == $criteria['dateDebut'] && $criteria['dateDebut'] != "") {
-            $query->andWhere('a.dateDebut LIKE :datedebut');
-            $parameters['datedebut'] = '%' . $criteria['dateDebut'] . '%';
-
-            /*  ->where('a.dateDebut LIKE :madate')
-              ->setParameter('madate', '%' . $criteria['dateDebut'] . '-%') */
-        } else {
-
-            if (isset($criteria['dateDebut']) && $criteria['dateDebut'] != "") {
-                $query->andWhere('a.dateDebut >= (:datedebut)');
-                $parameters['datedebut'] = $criteria['dateDebut'];
-            }
-
-            if (isset($criteria['dateDebut_max']) && $criteria['dateDebut_max'] != "") {
-                $query->andWhere('a.dateDebut <= (:datedebut_max)');
-                $parameters['datedebut_max'] = $criteria['dateDebut_max'];
-            }
+         if (isset($criteria['dateDebut']) &&   isset($criteria['dateDebut_max'])) {
+             
+              if ($criteria['dateDebut'] == $criteria['dateDebut_max']) {
+          $query->andWhere('a.dateDebut LIKE :datedebut');
+          $parameters['datedebut'] = '%' . $criteria['dateDebut'] . '%';
+                     
+              }
+              else {
+                   $query->andWhere('a.dateDebut >= (:datedebut)');
+            $parameters['datedebut'] = $criteria['dateDebut'];
+            $query->andWhere('a.dateDebut <= (:datedebut_max)');
+            $parameters['datedebut_max'] = $criteria['dateDebut_max'];
+              }
+              }
+    else {
+        if (isset($criteria['dateDebut'])) {
+    
+            //print_r($criteria['dateDebut']);exit(1);
+            // $date_debut=$criteria['dateDebut']->format('Y-m-d');
+            $query->andWhere('a.dateDebut >= (:datedebut)');
+            $parameters['datedebut'] = $criteria['dateDebut'];
         }
-        if (isset($criteria['dateFin']) && $criteria['dateFin'] != "") {
+        if (isset($criteria['dateDebut_max'])) {
+            //  print_r($criteria['dateDebut_max']);exit(1);
+            // $date_debut_max=$criteria['dateDebut']->format('Y-m-d');
+            //   $date_debut_max->modify('+1 day');
+            $query->andWhere('a.dateDebut <= (:datedebut_max)');
+            $parameters['datedebut_max'] = $criteria['dateDebut_max'];
+        }
+    }
+        
+        if (isset($criteria['dateFin'])) {
             $query->andWhere('a.dateFin >= (:dateFin)');
             $parameters['dateFin'] = $criteria['dateFin'];
         }
-        if (isset($criteria['dateFin_max']) && $criteria['dateFin_max'] != "") {
+        if (isset($criteria['dateFin_max'])) {
             $query->andWhere('a.dateFin <= (:dateFin_max)');
             $parameters['dateFin_max'] = $criteria['dateFin_max'];
         }

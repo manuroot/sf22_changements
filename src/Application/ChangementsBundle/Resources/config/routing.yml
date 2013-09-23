@@ -1,6 +1,15 @@
 _changements:
     resource: "@ApplicationChangementsBundle/Resources/config/routing/changements.yml"
     prefix:   /
+
+    
+_changements_ajax_operations:
+    resource: "@ApplicationChangementsBundle/Resources/config/routing/changementsajax.yml"
+    prefix:   /
+    
+_changements_fichiers:
+    resource: "@ApplicationChangementsBundle/Resources/config/routing/changementsupload.yml"
+    prefix:   /
     
 _changements_comments:
     resource: "@ApplicationChangementsBundle/Resources/config/routing/changementscomments.yml"

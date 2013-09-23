@@ -5,9 +5,13 @@ changements_comment_create:
         _method:  POST
         changement_id: \d+
         
-
     
 changements_comment_show:
     pattern:  /{id}/commentshow
     defaults: { _controller: ApplicationChangementsBundle:ChangementsComments:show }
+  
+changements_comment_mesactivites:
+    pattern:  /mesactivites
+    defaults: { _controller: "ApplicationChangementsBundle:ChangementsComments:indexMesActivitesApy" }
+    
   

@@ -13,6 +13,19 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+
+use APY\DataGridBundle\Grid\Source\Entity;
+use APY\DataGridBundle\Grid\Grid;
+use APY\DataGridBundle\Grid\Column\ActionsColumn;
+use APY\DataGridBundle\Grid\Action\MassAction;
+use APY\DataGridBundle\Grid\Action\DeleteMassAction;
+use APY\DataGridBundle\Grid\Action\RowAction;
+use APY\DataGridBundle\Grid\Column\TextColumn;
+use APY\DataGridBundle\Grid\Column\DateColumn;
+use APY\DataGridBundle\Grid\Export\CSVExport;
+use APY\DataGridBundle\Grid\Export\ExcelExport;
+use Ob\HighchartsBundle\Highcharts\Highchart;
+
 /**
  * Eproduit controller.
  *
@@ -69,77 +82,7 @@ class ChangementsCommentsController extends Controller {
         return array($user_id, $group_id);
     }
 
-    /*
-     * blic function getMyPager(array $criteria, $ret = 'getquery') {
-
-      $parameters = array();
-      $query = $this->createQueryBuilder('a')
-      ->select('a,b,c,d,e,f')
-      ->add('orderBy', 'a.id DESC')
-      ->leftJoin('a.proprietaire', 'b')
-      //  ->leftJoin($join, $alias, $conditionType)
-      ->leftJoin('a.categorie', 'c')
-      ->leftJoin('a.idStatus', 'd')
-      ->leftJoin('a.globalnote', 'e')
-      ->leftJoin('a.imageMedia', 'f')
-      ;
-      if (isset($criteria['author'])) {
-      //  print_r($criteria);exit(1);
-      $query->andwhere('a.proprietaire = :proprietaire');
-      $parameters['proprietaire'] = $criteria['author'];
-      }
-
-
-      if (isset($criteria['non-author'])) {
-      //  print_r($criteria);exit(1);
-      $query->andWhere('a.proprietaire <> :user_id');
-      $parameters['user_id'] = $criteria['non-author'];
-      }
-
-
-
-      if (isset($criteria['alltags'])) {
-      $query->addSelect('t');
-      $query->leftJoin('a.tags', 't');
-      }
-      if (isset($criteria['year'])) {
-      // echo "year=" . $criteria['year'] . "<br>";exit(1);
-      $query->andWhere('a.createdAt LIKE :year');
-      $parameters['year'] = '%' . $criteria['year'] . '%';
-      }
-      if (isset($criteria['date'])) {
-      // echo "year=" . $criteria['year'] . "<br>";exit(1);
-      $query->andWhere('a.createdAt LIKE :date');
-      $parameters['date'] = '%' . $criteria['date'] . '%';
-      }
-      if (isset($criteria['tag'])) {
-      $query->addSelect('t');
-      $query->leftJoin('a.tags', 't');
-      $query->andWhere('t.id = :tag');
-      //   ->groupby('a.name');
-      $parameters['tag'] = (string) $criteria['tag'];
-      //       $parameters['tag'] = 'tag1';
-      }
-      if (isset($criteria['comments'])) {
-      $query->addSelect('v');
-      $query->leftJoin('v.comments', 'v');
-      }
-      if (isset($criteria['byid'])) {
-      $query->andWhere('a.id = :myid');
-      //   ->groupby('a.name');
-      $parameters['myid'] = (string) $criteria['byid'];
-      }
-      $query->setParameters($parameters);
-      // ??
-      $query->groupby('a.name');
-      //>getQuery();
-      //  print_r($query->getQuery());
-      //  exit(1);
-      if ($ret == 'query')
-      return $query;
-
-     */
-
+  
     public function newAction($changement_id) {
 
         $em = $this->getDoctrine()->getManager();
@@ -164,6 +107,35 @@ class ChangementsCommentsController extends Controller {
         ));
     }
 
+     // VIEW APY
+    //==============================================
+    public function indexMesActivitesApyAction($page = 1) {
+
+        $session = $this->getRequest()->getSession();
+        // ajoute des messages flash
+        $session->set('buttonretour', 'changements_apy');
+        $source = new Entity('ApplicationChangementsBundle:ChangementsComments');
+        $grid = $this->container->get('grid');
+        // Attach the source to the grid
+        $grid->setSource($source);
+
+        $grid->setId('changementsgrid');
+        //$grid->addExport(new CSVExport('CSV Export', 'Operations', array('delimiter' => ';'), 'Windows-1252'));
+        //$grid->addExport(new ExcelExport('Excel Export', 'Operations', array('delimiter' => ';'), 'Windows-1252'));
+
+        $grid->setPersistence(false);
+        $grid->setDefaultOrder('id', 'desc');
+        // Set the selector of the number of items per page
+        $grid->setLimits(array(50));
+
+
+        // Set the default page
+        $grid->setPage($page);
+            // Return the response of the grid to the template
+        return $grid->getGridResponse('ApplicationChangementsBundle:ChangementsComments:indexmesactivites.html.twig');
+    }
+    
+    
     public function showAction(Request $request, $id) {
 
         $em = $this->getDoctrine()->getManager();
@@ -255,7 +227,20 @@ class ChangementsCommentsController extends Controller {
         }
         // $produit = $this->getComments($produit_id);
     }
+ public function editAction(Request $request) {
 
+       $em = $this->getDoctrine()->getManager();
+        $user = $this->get('security.context')->getToken()->getUser();
+        $user_security = $this->container->get('security.context');
+        if ($user_security->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user_id = $user->getId();
+        } else {
+            throw $this->createNotFoundException('User not connected.');
+        }
+        $current_user = $em->getRepository('ApplicationSonataUserBundle:User')->find($user_id);
+   
+       
+    }
     protected function getChangement($changement_id) {
         $em = $this->getDoctrine()->getManager();
         $changements = $em->getRepository('ApplicationChangementsBundle:Changements')->find($changement_id);

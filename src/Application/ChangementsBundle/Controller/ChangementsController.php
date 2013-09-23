@@ -10,11 +10,12 @@ use Application\ChangementsBundle\Entity\Changements;
 use Application\RelationsBundle\Entity\Document;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Application\ChangementsBundle\Form\ChangementsType;
+use Application\ChangementsBundle\Form\ChangementsFilesForEntityType;
 use Application\ChangementsBundle\Form\CalendarType;
 use Application\ChangementsBundle\Form\ChangementsFilterType;
 use Application\ChangementsBundle\Form\ChangementsStatusType;
 use Application\ChangementsBundle\Form\ChangementsFilterAmoiType;
-use Application\ChangementsBundle\Entity\GridExport;
+//use Application\ChangementsBundle\Entity\GridExport;
 use APY\DataGridBundle\Grid\Source\Entity;
 use APY\DataGridBundle\Grid\Grid;
 use APY\DataGridBundle\Grid\Column\ActionsColumn;
@@ -26,8 +27,8 @@ use APY\DataGridBundle\Grid\Column\DateColumn;
 use APY\DataGridBundle\Grid\Export\CSVExport;
 use APY\DataGridBundle\Grid\Export\ExcelExport;
 use Ob\HighchartsBundle\Highcharts\Highchart;
-use Doctrine\ORM\Tools\Pagination\CountOutputWalker;
-use Application\ChangementsBundle\Entity\ChangementsStatus;
+//use Doctrine\ORM\Tools\Pagination\CountOutputWalker;
+//use Application\ChangementsBundle\Entity\ChangementsStatus;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 //use Application\CentralBundle\Model\MesFiltresBundle;
 use Pagerfanta\Pagerfanta;
@@ -52,7 +53,7 @@ class ChangementsController extends Controller {
 
     private function getuserid() {
 
-        $em = $this->getDoctrine()->getManager();
+        //$em = $this->getDoctrine()->getManager();
         $user_security = $this->container->get('security.context');
         // authenticated REMEMBERED, FULLY will imply REMEMBERED (NON anonymous)
         if ($user_security->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -83,21 +84,6 @@ class ChangementsController extends Controller {
         // $session = $request->getSession();
         $pagename = 'page'; // Set custom page variable name
         $page = $request->query->get($pagename, 1);
-        // $page=1;
-        /* f (!isset($session_page)){
-          if ($page_number) {$page = $page_number;}
-          }
-          else {
-          $page_session = $$session_page;
-          if ($page_number) {
-          $session->set($$session_page, $page_number);
-          $page = $page_number;
-          }
-          elseif ($session->has($$session_page)) {
-          $page = $session->get($$session_page);
-          }
-          } */
-        //   $page_session = $$session_page;
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
                 $query, $page, $num_perpage, array(
@@ -107,7 +93,6 @@ class ChangementsController extends Controller {
             'sortFieldParameterName' => "sort")
         );
         // $total=$pagination->getTotalItemCount();
-
         $pagination->setTemplate('ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig');
         $pagination->setSortableTemplate('ApplicationChangementsBundle:pagination:sortable_link.html.twig');
         return $pagination;
@@ -487,7 +472,7 @@ class ChangementsController extends Controller {
     //==============================================
     // VIEW CALENDRIER
     //==============================================
-    
+
     public function calendarAction(Request $request) {
 
         $em = $this->getDoctrine()->getManager();
@@ -606,9 +591,6 @@ class ChangementsController extends Controller {
 
     public function showXhtmlAction($id) {
         $em = $this->getDoctrine()->getManager();
-        $session = $this->getRequest()->getSession();
-        // ajoute des messages flash
-        // $session->set('buttonretour', 'changements_showXhtml');
         $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindaIdAll($id);
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Changements entity.');
@@ -744,15 +726,10 @@ class ChangementsController extends Controller {
      * @Secure(roles="ROLE_USER")
      */
     public function editAction($id) {
-        $em = $this->getDoctrine()->getManager();
 
-        // $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
-        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindaIdAll($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Changements entity.');
+        if (!$entity = $this->get('changement.common.manager')->loadChangement($id)) {
+            throw new NotFoundHttpException($this->get('translator')->trans('Ce changement n\'existe pas.'));
         }
-
         $editForm = $this->createForm(new ChangementsType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
         $session = $this->getRequest()->getSession();
@@ -765,62 +742,8 @@ class ChangementsController extends Controller {
                     'delete_form' => $deleteForm->createView(),
         ));
     }
-    
-    
+
   
-    public function edituploadAction($id) {
-        $em = $this->getDoctrine()->getManager();
-
-        // $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
-        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindaIdAll($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Changements entity.');
-        }
-
-        $editForm = $this->createForm(new ChangementsType(), $entity);
-        $deleteForm = $this->createDeleteForm($id);
-        $session = $this->getRequest()->getSession();
-        $btn_retour = $session->get('buttonretour');
-        if ($btn_retour != 'changements_fanta' && $btn_retour == 'changements_myfanta')
-            $session->set('buttonretour', 'changements_fanta');
-        return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
-                    'entity' => $entity,
-                    'form' => $editForm->createView(),
-                  
-        ));
-    }
-    
-    
-    
- /**
-     * Displays a form to edit an existing Changements entity.
-     *
-     * @Secure(roles="ROLE_USER")
-     */
-    public function editfileuploadAction($id) {
-        $em = $this->getDoctrine()->getManager();
-
-        // $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
-        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindaIdAll($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Changements entity.');
-        }
-
-        $editForm = $this->createForm(new ChangementsType(), $entity);
-        $deleteForm = $this->createDeleteForm($id);
-        $session = $this->getRequest()->getSession();
-        $btn_retour = $session->get('buttonretour');
-        if ($btn_retour != 'changements_fanta' && $btn_retour == 'changements_myfanta')
-            $session->set('buttonretour', 'changements_fanta');
-        return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
-                    'entity' => $entity,
-                    'edit_form' => $editForm->createView(),
-                    'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
     /**
      * Displays a form to create a new Docchangements entity.
      *
@@ -846,25 +769,23 @@ class ChangementsController extends Controller {
         ));
     }
 
+   
+
     /**
      * Edits an existing Changements entity.
      *
      * @Secure(roles="ROLE_USER")
      */
     public function updateAction(Request $request, $id) {
-        $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Changements entity.');
+        if (!$entity = $this->get('changement.common.manager')->loadChangement($id)) {
+            throw new NotFoundHttpException($this->get('translator')->trans('This desk does not exist.'));
         }
-
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createForm(new ChangementsType(), $entity);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
-            $em->persist($entity);
-            $em->flush();
+            $this->get('changement.common.manager')->saveChangement($entity);
             $session = $this->getRequest()->getSession();
             $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
 
@@ -883,6 +804,7 @@ class ChangementsController extends Controller {
         ));
     }
 
+//updateentityfiles
     /**
      * Deletes a Changements entity.
      *
@@ -1036,8 +958,7 @@ class ChangementsController extends Controller {
                 // echo "user_id=$user_id";
             }
             $entity_user = $em->getRepository('ApplicationSonataUserBundle:User')->find($user_id);
-            $array = array('mystatus' => $stat);
-
+            // $array = array('mystatus' => $stat);
             //$entity->getIdfavoris();
             $stat = $entity->checkIdfavoris($entity_user);
             // si true==> present
@@ -1266,11 +1187,11 @@ class ChangementsController extends Controller {
         ));
     }
 
-     //==============================================
+    //==============================================
     //          ORDER
     // 
     //==============================================
-  
+
     private function OrderfantaAction() {
 
         $request = $this->getRequest();
@@ -1321,29 +1242,19 @@ class ChangementsController extends Controller {
 
         return array($page, $dir, $sort);
     }
-    
-    
+
     //==============================================
     //          INDEX FAVORIS
     // 
     //==============================================
-  
+
     public function indexfantaAction(Request $request) {
 
         $parameters = array();
         $em = $this->getDoctrine()->getManager();
         // Pour les favoris
         list($user_id, $group_id) = $this->getuserid();
-     
         $changements_nb_status = $em->getRepository('ApplicationChangementsBundle:Changements')->getStatusForRequeteBuilder();
-        //print_r($t_entity);exit(1);
-
-        /*
-          $query_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->GetNomStatus();
-          print_r($query_status);
-          exit(1);
-         */
-
         $request = $this->getRequest();
         $session = $request->getSession();
         $session->set('buttonretour', 'changements_fanta');
@@ -1353,11 +1264,11 @@ class ChangementsController extends Controller {
         // On efface les sessions si post 
         //------------------------------------------
         if ($request->getMethod() == 'POST') {
-              /*$alldatas = $request->request->all();
-               $datas = $alldatas["changements_searchfilter"];
-                print_r($alldatas);exit(1);*/
-                
-                
+            /* $alldatas = $request->request->all();
+              $datas = $alldatas["changements_searchfilter"];
+              print_r($alldatas);exit(1); */
+
+
             $session->remove('chgmtsfanta_page');
             $session->remove('chgmtsfanta_sort');
             $session->remove('chgmtsfanta_dir');
@@ -1411,13 +1322,6 @@ class ChangementsController extends Controller {
         if (!$page) {
             $page = 1;
         }
-
-       // list($user_id, $group_id) = $this->getuserid();
-        /* if (isset($user_id)){
-          $parameters['user_favoris']=$user_id;
-          } */
-        // echo "user_id=$user_id";
-        //   exit(1);
         //-----------------------------------------
         // On recupere les vars de session page,dir,order
         //------------------------------------------
@@ -1466,7 +1370,7 @@ class ChangementsController extends Controller {
     //          INDEX FAVORIS
     // 
     //==============================================
-  
+
     public function indexmyfantaAction(Request $request) {
 
         $parameters = array();
@@ -1596,7 +1500,7 @@ class ChangementsController extends Controller {
     // RECUP XHTML DES OPERATIONS LIEES A UNE DATE
     // de type: year,month
     //==============================================
-    
+
     public function CalendarEventsAction() {
 
         $request = $this->getRequest();
@@ -1625,27 +1529,27 @@ class ChangementsController extends Controller {
             $em = $this->getDoctrine()->getManager();
 
             // $session_event=$date;
-               $events_date = $em->getRepository('ApplicationChangementsBundle:Changements')->getMyDate($date);
+            $events_date = $em->getRepository('ApplicationChangementsBundle:Changements')->getMyDate($date);
             //   $events_date = $current_session_events;
             //  $session->set($date, $events_date);
-            /*$current_session_events = $session->get($date);
-            
-            if (!isset($current_session_events)) {
-                // echo "year=$year month=$month<br>";exit(1); 
-                $em = $this->getDoctrine()->getManager();
-                // recuperation des parametres
-                $events_date = $em->getRepository('ApplicationChangementsBundle:Changements')->getMyDate($date);
-                //  $session->set($date, $events_date);
-                $session->set($date, $events_date);
+            /* $current_session_events = $session->get($date);
 
-                //  print_r($events_date); 
-            } else {
-                $events_date = $current_session_events;
-                //   print_r($events_date); 
-            }*/
-            
-            
-            
+              if (!isset($current_session_events)) {
+              // echo "year=$year month=$month<br>";exit(1);
+              $em = $this->getDoctrine()->getManager();
+              // recuperation des parametres
+              $events_date = $em->getRepository('ApplicationChangementsBundle:Changements')->getMyDate($date);
+              //  $session->set($date, $events_date);
+              $session->set($date, $events_date);
+
+              //  print_r($events_date);
+              } else {
+              $events_date = $current_session_events;
+              //   print_r($events_date);
+              } */
+
+
+
             //print_r($events_date); 
             // exit(1);
             $response = new Response(json_encode($events_date));
@@ -1655,9 +1559,6 @@ class ChangementsController extends Controller {
         // return new Response();
     }
 
-       public function oneuploaderAction() {
- return $this->render('ApplicationChangementsBundle:Changements:index-uploader.html.twig', array(
-       ));
-       }
-   
+
 }
+
