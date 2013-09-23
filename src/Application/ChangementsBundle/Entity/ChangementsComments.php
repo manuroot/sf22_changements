@@ -31,7 +31,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="changements_comments")
  * @ORM\Entity(repositoryClass="Application\ChangementsBundle\Repository\ChangementsCommentsRepository")
- * @GRID\Source(columns="id,user.username,changement.nomUser.username,changement.id,changement.idProjet,changement.demandeur,created,updated,approved",groupBy={"id"})
+ * @GRID\Source(columns="id,user.username,changement.nomUser.username,changement.id,changement.idProjet.nomprojet,changement.demandeur.nomUser,created,updated,approved",groupBy={"id"})
  
  */
 
@@ -77,9 +77,9 @@ class ChangementsComments {
      * @ORM\ManyToOne(targetEntity="Changements", inversedBy="comments")
      * @ORM\JoinColumn(name="changement_id", referencedColumnName="id")
      * @GRID\Column(field="changement.id", title="Changement",size="20",filter="select",selectFrom="query")
-      * @GRID\Column(field="changement.idProjet", title="Projet",size="20",selectFrom="source")
+    * @GRID\Column(field="changement.idProjet.nomprojet", type="text",title="Projet",size="20",filter="select",selectFrom="query"))
    
-     * @GRID\Column(field="changement.demandeur.nomUser", title="Demanndeur",size="20",filter="select",selectFrom="query")
+     * @GRID\Column(field="changement.demandeur.nomUser", title="Demandeur",size="20",filter="select",selectFrom="query")
      */
     protected $changement;
 
