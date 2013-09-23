@@ -246,46 +246,12 @@ var mesdates=[
 
   
 &nbsp;&nbsp;
-<a href="{{ path('changements_show',{ 'id': row.getPrimaryFieldValue() }) }}" class=" icon-search"></a>
+<a href="{{ path('changements_comment_myshow',{ 'id': row.getPrimaryFieldValue() }) }}" class=" icon-search"></a>
 
 </center>
 {% endblock %}
 
 
-
-{#% block grid_column_endTime_cell %}
-{% set toto=800 %}
-
-  {% if date(value) < date('-30days') %}
-<font color="red">{{ value }}</font>
-{% else %}
-{{ value }}
-{% endif %}
-{% endblock grid_column_endTime_cell %#}
-{#
-{% block grid_column_endTime_cell %}
-{% set {{ row.field('endTime') }} = "1999-01-01" %}
-{% endblock grid_column_endTime_cell %}
-#}
-{#
-{% block grid_column_endTime_cell %}
-{% if row.field('dateDebut') < date('-5days') %}
-{{ row.field('endTime') }} = "1999-01-01" 
-
-{% endif %}
-{% endblock grid_column_endTime_cell %}
-#}
-
-{% block grid_column_idStatus_nom_cell %}
-{% if row.field('idStatus.nom') == 'open' or row.field('idStatus.nom') == 'en attente' %}
-  <img src="{{ asset('bundles/applicationchangements/images/cadenas-souvert.png') }}" alt="show" width="15" height="15" />
- {% elseif  row.field('idStatus.nom') == 'en preparation' %}
-  <img src="{{ asset('bundles/applicationchangements/images/cadenas-sbleu.png') }}" alt="show" width="15" height="15" />
-  {% else %}
- <img src="{{ asset('bundles/applicationchangements/images/cadenas-sferme.png') }}" alt="show" width="15" height="15" />
-{% endif %}
-
-{% endblock grid_column_idStatus_nom_cell %}
 
 {% block grid_column_type_filter %}
 

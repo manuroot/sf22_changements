@@ -44,5 +44,19 @@ public function getCommentsForChangement($changementId)
         return $qb->getQuery()
                   ->getResult();
     }
+    
+    
+       public function myFindaIdAll($id) {
+      
+         $query = $this->createQueryBuilder('a')
+               ->select('a,b')
+               ->leftJoin('a.changement','b');
+            
+         $query->add('orderBy', 'a.id DESC')
+                ->andwhere('a.id = :myid');
+        $query->setParameter('myid', $id);
+               return $query->getQuery()->getSingleResult();
+    }
+
 }
 

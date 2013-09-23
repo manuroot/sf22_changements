@@ -9,9 +9,26 @@ changements_comment_create:
 changements_comment_show:
     pattern:  /{id}/commentshow
     defaults: { _controller: ApplicationChangementsBundle:ChangementsComments:show }
+
+changements_comment_myshow:
+    pattern:  /{id}/mycommentshow
+    defaults: { _controller: ApplicationChangementsBundle:ChangementsComments:showmycomment }
+  
   
 changements_comment_mesactivites:
     pattern:  /mesactivites
     defaults: { _controller: "ApplicationChangementsBundle:ChangementsComments:indexMesActivitesApy" }
     
+changements_comments_delete:
+    pattern:  /{id}/mycommentdelete
+    defaults: { _controller: "ApplicationChangementsBundle:ChangementsComments:delete" }
+
   
+changements_comments_edit:
+    pattern:  /{id}/mycommentedit
+    defaults: { _controller: "ApplicationChangementsBundle:ChangementsComments:edit" }
+
+
+changements_comments_update:
+    pattern:  /{id}/mycommentupdate
+    defaults: { _controller: "ApplicationChangementsBundle:ChangementsComments:update" }

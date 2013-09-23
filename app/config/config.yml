@@ -62,9 +62,9 @@ assetic:
     #bundles:        [ ]
     bundles:        [ ApplicationChangementsBundle,ApplicationCertificatsBundle,ApplicationRelationsBundle ]
     #bundles:        [ ApplicationChangementsBundle,SonataNewsBundle ]
-    java: /usr/bin/java
+    #java: /usr/bin/java
     #java: "C:\ProgramFiles\Java\jre6\bin\java.exe"
-    #java: "C:\\Program Files\\Java\\jre6\\bin\\java.exe"
+    java: "C:\\Program Files\\Java\\jre6\\bin\\java.exe"
     filters:
         cssrewrite: ~
        # cssembed:

@@ -25,11 +25,11 @@ use Application\ChangementsBundle\Form\DocchangementsFilterType;
  */
 class DocchangementsController extends Controller {
 
-      /* ====================================================================
-     * 
-     *  CREATION DU PAGINATOR / Pagerfanta
-     * 
-      =================================================================== */
+     // ====================================================================
+    // 
+    //  CREATION DU PAGINATOR / Pagerfanta
+    // 
+    //  =================================================================== 
  private function mypager($adapter = null, $max = 5, $page = 1) {
         if (isset($adapter)) {
             $pagerfanta = new Pagerfanta($adapter);
@@ -86,6 +86,11 @@ class DocchangementsController extends Controller {
                 ));
     }
     
+       //==============================================
+    //          INDEX FANTA
+    // 
+    //==============================================
+
      public function indexfantaAction(Request $request) {
 
          //  $entity = new Changements();

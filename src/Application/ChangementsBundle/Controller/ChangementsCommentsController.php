@@ -12,8 +12,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
-
 use APY\DataGridBundle\Grid\Source\Entity;
 use APY\DataGridBundle\Grid\Grid;
 use APY\DataGridBundle\Grid\Column\ActionsColumn;
@@ -32,6 +30,10 @@ use Ob\HighchartsBundle\Highcharts\Highchart;
  */
 class ChangementsCommentsController extends Controller {
 
+    //==============================================
+    //          PAGINATOR
+    //          
+    //==============================================
     //$defaut_paginator=array('pagename'=>'page1','sort'=>'sort1','sortfield'=>'sort1');
     private function createpaginator($query, $num_perpage = 5, $defaut_paginator = null) {
 
@@ -60,6 +62,10 @@ class ChangementsCommentsController extends Controller {
         return $pagination;
     }
 
+    //==============================================
+    //          TEST USER ID
+    //==============================================
+
     private function getuserid() {
 
 
@@ -82,7 +88,10 @@ class ChangementsCommentsController extends Controller {
         return array($user_id, $group_id);
     }
 
-  
+    //==============================================
+    //          NEW COMMENTAIRE
+    //==============================================
+
     public function newAction($changement_id) {
 
         $em = $this->getDoctrine()->getManager();
@@ -104,11 +113,13 @@ class ChangementsCommentsController extends Controller {
                     'comment' => $comment,
                     'form' => $formview,
                     'validation' => $validation,
-        ));
+                ));
     }
 
-     // VIEW APY
     //==============================================
+    //          INDEX APY MES COMMENTS
+    //==============================================
+
     public function indexMesActivitesApyAction($page = 1) {
 
         $session = $this->getRequest()->getSession();
@@ -128,14 +139,43 @@ class ChangementsCommentsController extends Controller {
         // Set the selector of the number of items per page
         $grid->setLimits(array(50));
 
+        $grid->setActionsColumnSize(70);
+        // $grid->setDefaultFilters(array('idEnvironnement.nom:AtGroupConcat' => array('operator' => 'like')));
+        $myRowActiona = new RowAction('Edit', 'changements_comments_edit', false, '_self', array('class' => "btn btn-mini btn-warning"));
+        $grid->addRowAction($myRowActiona);
+        $myRowAction = new RowAction('Delete', 'changements_comments_delete', true, '_self', array('class' => "btn btn-mini btn-danger"));
+        //$myRowAction = new RowAction('Delete', 'certificatscenter_delete', true, '_self',array('class' => 'deleteme'));
+        $grid->addRowAction($myRowAction);
+
 
         // Set the default page
         $grid->setPage($page);
-            // Return the response of the grid to the template
+        // Return the response of the grid to the template
         return $grid->getGridResponse('ApplicationChangementsBundle:ChangementsComments:indexmesactivites.html.twig');
     }
-    
-    
+
+    //==============================================
+    //          SHOW COMMENTAIRE ID
+    //==============================================
+
+
+    public function showmycommentAction(Request $request, $id) {
+
+        $em = $this->getDoctrine()->getManager();
+        list($user_id, $group_id) = $this->getuserid();
+        $comment = $em->getRepository('ApplicationChangementsBundle:ChangementsComments')->find($id);
+        //$comment = $em->getRepository('ApplicationChangementsBundle:ChangementsComments')->myFindaIdAll($id);
+        // print_r($comment);exit(1);
+        return $this->render('ApplicationChangementsBundle:ChangementsComments:showmycomment.html.twig', array(
+                    'comment' => $comment,
+                ));
+    }
+
+    //==============================================
+    //          SHOW COMMENTAIRE A PARTIR D UN 
+    //          CHANGEMENT ID
+    //==============================================
+
     public function showAction(Request $request, $id) {
 
         $em = $this->getDoctrine()->getManager();
@@ -144,8 +184,7 @@ class ChangementsCommentsController extends Controller {
         $session = $request->getSession();
         $btn_retour = $session->get('buttonretour');
         if ($btn_retour != 'changements_fanta' && $btn_retour != 'changements_myfanta')
-             $session->set('buttonretour','changements_fanta');
-
+            $session->set('buttonretour', 'changements_fanta');
         $validation = 1;
         // recup du changement:
         $changement = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
@@ -153,8 +192,6 @@ class ChangementsCommentsController extends Controller {
         if (!$changement) {
             throw $this->createNotFoundException('Unable to find Changement.');
         }
-
-
         $comments = $em->getRepository('ApplicationChangementsBundle:ChangementsComments')
                 ->getCommentsForChangement($id);
         $paginationa = $this->createpaginator($comments, 5);
@@ -172,7 +209,7 @@ class ChangementsCommentsController extends Controller {
                         'paginationa' => $paginationa,
                         'form' => $form->createView(),
                         'validation' => $validation,
-            ));
+                    ));
         } else {
             // throw $this->createNotFoundException('User not connected.');
             $validation = 0;
@@ -180,13 +217,15 @@ class ChangementsCommentsController extends Controller {
                         'entity' => $changement,
                         'paginationa' => $paginationa,
                         'validation' => $validation,
-            ));
+                    ));
         }
     }
 
+    //==============================================
+    //          CREER COMMENTAIRE
+    //==============================================
+
     public function createAction(Request $request, $changement_id) {
-
-
 
         $em = $this->getDoctrine()->getManager();
         $user = $this->get('security.context')->getToken()->getUser();
@@ -199,13 +238,6 @@ class ChangementsCommentsController extends Controller {
             throw $this->createNotFoundException('User not connected.');
         }
         $current_user = $em->getRepository('ApplicationSonataUserBundle:User')->find($user_id);
-
-        /*  $comment = new ChangementsComments();
-          $comment->setChangement($changement);
-          $comment->setUser($current_user);
-          $form   = $this->createForm(new ChangementsCommentsType(), $comment);
-         */
-
         $changement = $this->getChangement($changement_id);
         $comment = new ChangementsComments();
         $comment->setChangement($changement);
@@ -222,14 +254,19 @@ class ChangementsCommentsController extends Controller {
             $em->persist($comment);
             $em->flush();
             return $this->redirect($this->generateUrl('changements_comment_show', array(
-                                'id' => $comment->getChangement()->getId()))
+                'id' => $comment->getChangement()->getId()))
             );
         }
         // $produit = $this->getComments($produit_id);
     }
- public function editAction(Request $request) {
 
-       $em = $this->getDoctrine()->getManager();
+    //==============================================
+    //          TODO: EDITION D UN COMMENTAIRE
+    //==============================================
+
+    public function editAction(Request $request,$id) {
+
+        $em = $this->getDoctrine()->getManager();
         $user = $this->get('security.context')->getToken()->getUser();
         $user_security = $this->container->get('security.context');
         if ($user_security->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -237,10 +274,70 @@ class ChangementsCommentsController extends Controller {
         } else {
             throw $this->createNotFoundException('User not connected.');
         }
-        $current_user = $em->getRepository('ApplicationSonataUserBundle:User')->find($user_id);
-   
+       //$current_user = $em->getRepository('ApplicationSonataUserBundle:User')->find($user_id);
+       $comment_entity = $em->getRepository('ApplicationChangementsBundle:ChangementsComments')->find($id);
+       if (!$comment_entity) {
+            throw $this->createNotFoundException('Unable to find ChangementsComment entity.');
+        }
+         $form = $this->createForm(new ChangementsCommentsType(), $comment_entity);
+
+            return $this->render('ApplicationChangementsBundle:ChangementsComments:show.html.twig', array(
+                        'form' => $form->createView(),
+                        
+                    ));
        
     }
+
+      /**
+     * Edits an existing Changements entity.
+     *
+     * @Secure(roles="ROLE_USER")
+     */
+    public function updateAction(Request $request, $id) {
+         $em = $this->getDoctrine()->getManager();
+         $comment_entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
+         if (!$$comment_entity) {
+            throw $this->createNotFoundException('Unable to find ChangementsComment entity.');
+        }
+        $form = $this->createForm(new ChangementsCommentsType(), $comment_entity);
+        $form->bind($request);
+        if ($form->isValid()) {
+            $session = $this->getRequest()->getSession();
+            $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
+            // ajoute des messages flash
+         
+         return $this->redirect($this->generateUrl('changements_comment_mesactivites'));
+    }
+    
+    }
+    
+    
+     /**
+     * Deletes a Docchangements entity.
+     *
+     */
+    public function deleteAction(Request $request, $id) {
+        $form = $this->createDeleteForm($id);
+        $form->bind($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('ApplicationChangementsBundle:Docchangements')->find($id);
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Docchangements entity.');
+            }
+
+            $em->remove($entity);
+            $em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('docchangements'));
+    }
+    //==============================================
+    //         RETOURNE LE CHANGEMENT
+    //==============================================
+
     protected function getChangement($changement_id) {
         $em = $this->getDoctrine()->getManager();
         $changements = $em->getRepository('ApplicationChangementsBundle:Changements')->find($changement_id);

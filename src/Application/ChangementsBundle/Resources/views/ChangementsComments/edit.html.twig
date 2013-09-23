@@ -1,0 +1,222 @@
+{% extends "ApplicationChangementsBundle::layout.html.twig" %}
+
+{% form_theme edit_form with 'ApplicationChangementsBundle:Form:tpl_form.html.twig' %}
+
+{% block stylesheets %}
+ {{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.fileupload-ui.css') }}" type="text/css" media="all"/>    
+
+<style>
+        .monlabel {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            font-weight: bold;
+        }
+
+        .boxlist {border: 1px solid #D4E0EE;background-color: #f1f1f1;
+                  padding-left:10px;
+                  width:300px;
+        }
+        .leserreurs {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            font-size:18px;
+            color:red;
+        }
+        .hrsep {color: blue;background-color: blue;height: 2px; }
+        a.add_tag_link { color:whitesmoke;}
+        a.myleft{float:right;margin-right:10px;margin-bottom:20px;}
+        .ui-autocomplete-category {
+            font-weight: bold;
+            padding: .2em .4em;
+            margin: .8em 0 .2em;
+            line-height: 1.5;
+        }
+
+        .mytiny {width:30%;}
+        .tinymce {height:300px;}
+        td.description {text-align:center;vertical-align:middle;}
+        .lastcol {max-width:200px}
+        /*select#changements_idapplis,select#changements_idusers{height:200px;}*/
+        
+        
+          select option:hover {
+                background-color: #b6d1fd;
+            }
+            
+            /* #s2id_autogen2.select2-input.select2-default {*/
+            div#s2id_changements_idapplis, div#s2id_changements_idusers,
+             div#s2id_changements_searchfilter_idProjet,
+             div#s2id_changements_searchfilter_idusers {
+           
+            min-width:167px;
+            }
+            select#changements_searchfilter_idusers{
+                height:150px;}
+            label,.mondiv { color:#02195e; font-size: 12px;
+                            font-weight: normal;
+                            line-height: 20px;}
+
+            /* select#changements_searchfilter_idStatus{
+               }*/
+             .select2-choice {
+     width:167px;
+}
+    </style>
+{#  {{ form_stylesheet(edit_form) }}#}
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ tinymce_init() }}
+        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/datenew.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/listprojetapplis.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('select2/select2.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
+       {{ form_javascript(edit_form) }}
+{% endblock %}
+
+{% block content_header '' %}
+{% block title %}EDITION ACTIVITE{% endblock %}
+{% block content %}
+
+{% set btnretour = app.session.get('buttonretour') %}
+{% if btnretour is not defined %}
+{% set btnretour = 'changements_fanta' %}
+{% endif %}
+
+<div id="divchmgt" style="display: none;">{{ entity.id }}</div>
+
+        <form action="{{ path('changements_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+              {#------------------------------------------------
+                   TABLE HTML
+                  -------------------------------------------------#}
+           
+            <table class="table-mybordered">
+                <tr>
+                    {#------------------------------------------------
+                    LIGNE 1 CELL 1
+                    -------------------------------------------------#}
+                <td class="calendar file">
+                        <div> {{ form_row(edit_form.nom) }}</div>
+                         <br/> <br/>
+                        <div> {{ form_row(edit_form.dateDemande) }} </div>
+                        <br/> <br/>
+                        <div> {{ form_row(edit_form.dateDebut) }} </div>
+                        <br/> <br/>
+          
+          
+                     </td>
+                    {#------------------------------------------------
+                    LIGNE 1 CELL 2
+                    -------------------------------------------------#}
+             
+                    <td class="calendar mytiny">
+                      {{ form_row(edit_form.idEnvironnement) }}
+                      {{ form_row(edit_form.idStatus) }}
+                      {{ form_row(edit_form.idKind) }}
+                      {{ form_row(edit_form.astreinte) }}
+                    </td>
+                    {#------------------------------------------------
+                    LIGNE 1 CELL 3
+                    -------------------------------------------------#}
+            
+                   <td class="calendar lastcol">
+                    {{ form_row(edit_form.idapplis) }}
+                    {{ form_row(edit_form.demandeur) }}
+                    {{ form_row(edit_form.idusers) }}
+                    {{ form_row(edit_form.ticketExt) }}
+                     <br/> <br/>
+                     {{ form_row(edit_form.ticketInt) }}
+                   </td>
+                </tr>
+                
+                <tr>
+                    <td class="calendar description" colspan="3">
+                        {{ form_row(edit_form.description,{ 'attr': {'class': 'tinymce'} }) }}
+                        </td>
+               </tr>
+                {#------------------------------------------------
+                   LIGNE 2
+                  -------------------------------------------------#}
+                <tr>                   
+                   <td class="calendar" colspan="3">
+                        <ul class="tags" data-prototype="{{ form_widget(edit_form.picture.vars.prototype)|e }}">
+                        {% for tag in edit_form.picture %}
+                        <li> 
+                        {{ form_errors(tag.file) }}
+                        {{ form_widget(tag.file) }}
+                        {{ form_errors(tag.name) }}
+                        {{ form_widget(tag.name) }}
+                        {#  {{ form_widget(tag.OriginalFilename) }}#}
+                        </li>
+                        {% endfor %}
+                        </ul>
+                 </td>
+                </tr>  
+                    {#------------------------------------------------
+                   LIGNE 3
+                  -------------------------------------------------#}
+           
+                <tr>
+                    <td class="calendar" colspan="3"> {{ form_rest(edit_form) }} 
+                        <button type="submit" class="btn btn-large btn-warning">Modifier</button>
+                        <a href="{{ path(btnretour) }}" class="myleft btn btn-large btn-success">Retour</a>
+                </form>
+
+                    
+                </td>
+                </tr>
+                {% if is_granted('ROLE_SUPER_ADMIN')  %}
+                <tr>
+                 <td class="calendar" colspan="3"> 
+                   
+                    <form action="{{ path('changements_delete', { 'id': entity.id }) }}" method="post">
+                    {{ form_errors(delete_form) }}
+                    {{ form_row(delete_form.id) }}
+                    {{ form_rest(delete_form) }}
+                    <div style="text-align:right;margin-bottom:10px;">
+                        <button type="submit" class="btn btn-medium btn-danger" onclick="if (!confirm('Are you sure?')) {
+                        return false;
+                        }">Supprimer Opération</button>
+                    </div>
+                    </form>
+              
+                         </td>
+            </tr>
+              {% endif %}
+</tbody>
+</table>
+
+{#=====================================================================
+                   LES FICHIERS DE LA DEMANDE
+=====================================================================#}
+                        
+
+<h3><center>Liste des Fichiers associés</center></h3>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr class="title"><th>id</th><th>Nom</th><th>Path</th></tr>
+    </thead>
+   <tbody>
+    {% for fic in entity.picture %}
+        <tr class="closed">
+            <td>{{ fic.id }}</td>
+            <td>{{ fic.name }}</td>
+            <td><a href="{{ path('docchangements_download', { 'id': fic.id }) }}">{{ fic.path }}</a></td>
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>
+    
+{% endblock %}
+                                            
+                                            
+                      
+                        
+                        
+                         
