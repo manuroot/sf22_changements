@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.fileupload-ui.css') }}" type="text/css" media="all"/>    
-
+  <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
 <style>
         .monlabel {
             font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -145,6 +145,8 @@
         <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/listprojetapplis.js') }}"></script>
         <script type="text/javascript" src="{{ asset('select2/select2.js') }}"></script>
         <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>
+
        {{ form_javascript(edit_form) }}
 {% endblock %}
 
@@ -156,7 +158,8 @@
 {% if btnretour is not defined %}
 {% set btnretour = 'changements_fanta' %}
 {% endif %}
-
+{% include 'ApplicationChangementsBundle:templates:flash.html.twig' %}
+      
 <div id="divchmgt" style="display: none;">{{ entity.id }}</div>
 
         <form action="{{ path('changements_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>

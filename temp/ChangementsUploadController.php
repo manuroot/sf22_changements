@@ -48,8 +48,16 @@ class ChangementsUploadController extends Controller {
      */
     public function editentityfilesAction($id) {
           $entity = $this->get('changement.common.manager')->loadChangement($id);
-           $editForm = $this->createForm(new ChangementsFilesForEntityType(), $entity);
-        //return  $this->check_retour();
+       /*$em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindaIdAll($id);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Changements entity.');
+        }*/
+        $editForm = $this->createForm(new ChangementsFilesForEntityType(), $entity);
+
+          $this->check_retour();
+       /* $session = $this->getRequest()->getSession();
+        $session->set('buttonretour', 'changements_fanta');*/
         return $this->render('ApplicationChangementsBundle:Changements:editentityfiles.html.twig', array(
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
@@ -58,9 +66,25 @@ class ChangementsUploadController extends Controller {
 
     public function editpunkaveAction($id) {
       $entity = $this->get('changement.common.manager')->loadChangement($id);
-       $editForm = $this->createForm(new ChangementsFilesForEntityType(), $entity);
-       //return $this->check_retour();
-           $isNew = true;
+      /*$em = $this->getDoctrine()->getManager();
+
+        // $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
+        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindaIdAll($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Changements entity.');
+        }*/
+
+        $editForm = $this->createForm(new ChangementsFilesForEntityType(), $entity);
+        $this->check_retour();
+        /*
+        $session = $this->getRequest()->getSession();
+        $btn_retour = $session->get('buttonretour');
+        if ($btn_retour != 'changements_fanta' && $btn_retour == 'changements_myfanta')
+            $session->set('buttonretour', 'changements_fanta');
+
+*/
+        $isNew = true;
         $editId = $this->getRequest()->get('editId');
         if (!preg_match('/^\d+$/', $editId)) {
             $editId = sprintf('%09d', mt_rand(0, 1999999999));
@@ -99,7 +123,7 @@ class ChangementsUploadController extends Controller {
 
         $editForm->bind($request);
         if ($request->getMethod() == 'POST') {
-           // echo "entity a updater: $id<br>";
+            echo "entity a updater: $id<br>";
             // $alldatas = $request->request->all();
             // $uploadedFile = $request->files->get('fileschangements');
             //  $datas = $alldatas["changements_searchfilter"];
@@ -110,8 +134,14 @@ class ChangementsUploadController extends Controller {
             $this->get('changement.common.manager')->saveChangement($entity);
             $session = $this->getRequest()->getSession();
             $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
-           return $this->check_retour();
-        
+
+            // ajoute des messages flash
+                $this->check_retour();
+            /*$btn_retour = $session->get('buttonretour');
+            if ($btn_retour == 'changements_fanta' || $btn_retour == 'changements_myfanta')
+                return $this->redirect($this->generateUrl($btn_retour));
+            else
+                return $this->redirect($this->generateUrl('changements_fanta'));*/
         }
         return $this->render('ApplicationChangementsBundle:Changements:editentityfiles.html.twig', array(
                     'entity' => $entity,
@@ -158,7 +188,15 @@ class ChangementsUploadController extends Controller {
      */
     public function newFichierAction($id) {
 
-        $entity=$this->get('changement.common.manager')->loadChangement($id);
+         $entity=$this->get('changement.common.manager')->loadChangement($id);
+        /*$em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindaIdAll($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Changements entity.');
+        }*/
+        
+        
         $editForm = $this->createForm(new ChangementsType(), $entity);
         return $this->render('ApplicationChangementsBundle:Changements:new_fichier.html.twig', array(
                     'entity' => $entity,
@@ -176,7 +214,21 @@ class ChangementsUploadController extends Controller {
         $request = $this->getRequest();
 
         $alldatas = $request->request->all();
-                     $entity=$this->get('changement.common.manager')->loadChangement($id);
+        //    $datas = $alldatas["changements_searchfilter"];
+        //$uploadedFile = $request->files->all();
+        //  print_r($uploadedFile);
+        //   print_r($alldatas);exit(1);
+        //  $datas = $alldatas["changements_searchfilter"];
+        /* print_r($alldatas);
+          print_r($uploadedFile);
+          print_r($alldatas);exit(1); */
+        //    $parameters = $datas;
+
+       
+                $entity=$this->get('changement.common.manager')->loadChangement($id);
+       /* if (!$entity = $this->get('changement.common.manager')->loadChangement($id)) {
+            throw new NotFoundHttpException($this->get('translator')->trans('This desk does not exist.'));
+        }*/
         $editId = $this->getRequest()->get('editId');
         if (!preg_match('/^\d+$/', $editId)) {
             $editId = sprintf('%09d', mt_rand(0, 1999999999));
@@ -212,10 +264,6 @@ class ChangementsUploadController extends Controller {
           return $this->redirect($this->generateUrl('changements_fanta'));
           }
          */
-           $session = $this->getRequest()->getSession();
-            $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
-          // return $this->check_retour();
-        
         return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
                     'entity' => $entity,
                         //'edit_form' => $editForm->createView(),
@@ -235,8 +283,19 @@ class ChangementsUploadController extends Controller {
         $form->bind($request);
 
         if ($form->isValid()) {
-            $this->get('changement.common.manager')->deleteChangement($id);
+             $entity = $this->get('changement.common.manager')->deleteChangement($id);
+           /*  
+             $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Changements entity.');
+            }
+
+            $em->remove($entity);
+            $em->flush();*/
         }
+
         return $this->redirect($this->generateUrl('changements_posttest'));
     }
 

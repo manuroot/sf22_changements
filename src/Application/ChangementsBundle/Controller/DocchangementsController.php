@@ -197,25 +197,9 @@ class DocchangementsController extends Controller {
         ));
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     public function indexoAction() {
         $em = $this->getDoctrine()->getManager();
-
         $entities = $em->getRepository('ApplicationChangementsBundle:Docchangements')->findAll();
-
         return $this->render('ApplicationChangementsBundle:Docchangements:index.html.twig', array(
                     'entities' => $entities,
                 ));
@@ -227,15 +211,11 @@ class DocchangementsController extends Controller {
      */
     public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('ApplicationChangementsBundle:Docchangements')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Docchangements entity.');
         }
-
         $deleteForm = $this->createDeleteForm($id);
-
         return $this->render('ApplicationChangementsBundle:Docchangements:show.html.twig', array(
                     'entity' => $entity,
                     'delete_form' => $deleteForm->createView(),));
@@ -287,9 +267,7 @@ class DocchangementsController extends Controller {
      */
     public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('ApplicationChangementsBundle:Docchangements')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Docchangements entity.');
         }
@@ -306,6 +284,7 @@ class DocchangementsController extends Controller {
 
     /**
      * Edits an existing Docchangements entity.
+     * Update d'un doc par son id
      *
      */
     public function updateAction(Request $request, $id) {
@@ -357,15 +336,13 @@ class DocchangementsController extends Controller {
     public function deleteAction(Request $request, $id) {
         $form = $this->createDeleteForm($id);
         $form->bind($request);
-
-        if ($form->isValid()) {
+       if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('ApplicationChangementsBundle:Docchangements')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Docchangements entity.');
             }
-
             $em->remove($entity);
             $em->flush();
         }

@@ -45,16 +45,16 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  */
 class ChangementsController extends Controller {
-
+   
+    
     private function check_retour() {
-        $session = $this->getRequest()->getSession();
-        $btn_retour = $session->get('buttonretour');
-        if ($btn_retour == 'changements_fanta' || $btn_retour == 'changements_myfanta')
-            return $this->redirect($this->generateUrl($btn_retour));
-        else
-            return $this->redirect($this->generateUrl('changements_fanta'));
-    }
-
+     $session = $this->getRequest()->getSession();
+     $btn_retour = $session->get('buttonretour');
+            if ($btn_retour == 'changements_fanta' || $btn_retour == 'changements_myfanta')
+                return $this->redirect($this->generateUrl($btn_retour));
+            else
+                return $this->redirect($this->generateUrl('changements_fanta'));
+ }
     /* ====================================================================
      *
      * SECURITY
@@ -175,6 +175,26 @@ class ChangementsController extends Controller {
         ));
     }
 
+    /*
+     * $page=1;$dir='DESC';$sort='a.id';
+      }
+      //-----------------------------------------
+      // On recupere les vars de session filter
+      //------------------------------------------
+      elseif ($session->has('changementControllerFilternew')) {
+      $datas = $session->get('changementControllerFilternew');
+      $parameters = $datas;
+      $searchForm->bind($datas);
+      // $page=1;$dir='DESC';$sort='a.id';
+      list($page, $dir, $sort) = $this->OrderfantaAction();
+      }
+      else {
+      list($page, $dir, $sort) = $this->OrderfantaAction();
+      //$page=1;$dir='DESC';$sort='a.id';
+      }
+
+     */
+
     public function indexposttestAction(Request $request) {
 
         $em = $this->getDoctrine()->getManager();
@@ -182,6 +202,17 @@ class ChangementsController extends Controller {
         $session = $request->getSession();
         $session->set('buttonretour', 'changements_posttest');
         $datas = array();
+        /* $page = $request->query->get('page');
+          if (isset($page)){
+          $session->set('page_chgmts_a', $page);
+          //exit(1);
+          }
+          elseif ($session->has('page_chgmts_a')) {
+          $page = $session->get('page_chgmts_a');
+          }
+          else {
+          $page=1;
+          } */
         if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
             $session->remove('changementControllerFilternew');
             /*   $session->remove('chgmts_page');
@@ -557,7 +588,12 @@ class ChangementsController extends Controller {
      *
      */
     public function showAction($id) {
-        $entity = $this->get('changement.common.manager')->loadChangement($id);
+          $entity = $this->get('changement.common.manager')->loadChangement($id);
+        /*$em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindaIdAll($id);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Changements entity.');
+        }*/
         $deleteForm = $this->createDeleteForm($id);
         return $this->render('ApplicationChangementsBundle:Changements:show.html.twig', array(
                     'entity' => $entity,
@@ -565,7 +601,12 @@ class ChangementsController extends Controller {
     }
 
     public function showXhtmlAction($id) {
-        $entity = $this->get('changement.common.manager')->loadChangement($id);
+          $entity = $this->get('changement.common.manager')->loadChangement($id);
+          /*$em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindaIdAll($id);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Changements entity.');
+        }*/
         $deleteForm = $this->createDeleteForm($id);
         return $this->render('ApplicationChangementsBundle:Changements:showxhtml.html.twig', array(
                     'entity' => $entity,
@@ -595,7 +636,7 @@ class ChangementsController extends Controller {
      */
     public function newflowstartAction() {
         // form data class
-        // $entity = new Changements();
+        $entity = new Changements();
         $flow = $this->get('application.form.flow.new.changement');
         $flow->reset();
         return $this->redirect($this->generateUrl('changements_newflow'));
@@ -617,9 +658,12 @@ class ChangementsController extends Controller {
         $status = "ok";
         $flow = $this->get('application.form.flow.new.changement');
         // $flow->reset();
+        // must match the flow's service id
         $flow->bind($entity);
-       // form of the current step
+
+        // form of the current step
         $form = $flow->createForm();
+
         // $form = $flow->createForm($entity);
         if ($flow->isValid($form)) {
             $flow->saveCurrentStepData($form);
@@ -629,15 +673,19 @@ class ChangementsController extends Controller {
                 $form = $flow->createForm();
             } else {
                 // flow finished
+
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($entity);
                 $em->flush();
                 $flow->reset();
-
                 $id = $entity->getId();
                 $session = $this->getRequest()->getSession();
                 $session->getFlashBag()->add('warning', "Enregistrement $id ajouté avec succès");
-                return $this->check_retour();
+                $btn_retour = $session->get('buttonretour');
+                if (!isset($btn_retour)) {
+                    $session->set('buttonretour', 'changements_fanta');
+                }
+                return $this->redirect($this->generateUrl($btn_retour)); // redirect when done
             }
         } else {
             $status = "NOK";
@@ -671,8 +719,13 @@ class ChangementsController extends Controller {
             $session = $request->getSession();
             $session->getFlashBag()->add('warning', "Enregistrement $id ajouté aux opérations");
             // ajoute des messages flash
-            return $this->check_retour();
+            $btn_retour = $session->get('buttonretour');
+            if ($btn_retour == 'changements_fanta' || $btn_retour == 'changements_myfanta')
+                return $this->redirect($this->generateUrl($btn_retour));
+            else
+                return $this->redirect($this->generateUrl('changements_fanta'));
         }
+
         return $this->render('ApplicationChangementsBundle:Changements:new.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),
@@ -686,16 +739,26 @@ class ChangementsController extends Controller {
      */
     public function editAction($id) {
 
-        $entity = $this->get('changement.common.manager')->loadChangement($id);
-        $editForm = $this->createForm(new ChangementsType(), $entity);
+       $entity = $this->get('changement.common.manager')->loadChangement($id);
+       $editForm = $this->createForm(new ChangementsType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
-        //return $this->check_retour();
+        $this->check_retour();
+        /*$session = $this->getRequest()->getSession();
+        $btn_retour = $session->get('buttonretour');
+        if ($btn_retour != 'changements_fanta' && $btn_retour == 'changements_myfanta')
+            $session->set('buttonretour', 'changements_fanta');*/
         return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
         ));
     }
+
+  
+    /**
+     * Displays a form to create a new Docchangements entity.
+     *
+     */
 
     /**
      * 
@@ -704,7 +767,13 @@ class ChangementsController extends Controller {
      */
     public function newFichierAction($id) {
 
-        $entity = $this->get('changement.common.manager')->loadChangement($id);
+          $entity = $this->get('changement.common.manager')->loadChangement($id);
+       /* $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindaIdAll($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Changements entity.');
+        }*/
         $editForm = $this->createForm(new ChangementsType(), $entity);
         return $this->render('ApplicationChangementsBundle:Changements:new_fichier.html.twig', array(
                     'entity' => $entity,
@@ -712,30 +781,34 @@ class ChangementsController extends Controller {
         ));
     }
 
+   
+
     /**
      * Edits an existing Changements entity.
      *
      * @Secure(roles="ROLE_USER")
      */
     public function updateAction(Request $request, $id) {
-
-        $manager= $this->get('changement.common.manager');
-        $entity = $manager->loadChangement($id);
+        /*if (!$entity = $this->get('changement.common.manager')->loadChangement($id)) {
+            throw new NotFoundHttpException($this->get('translator')->trans('This desk does not exist.'));
+        }*/
+        $entity = $this->get('changement.common.manager')->loadChangement($id);
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createForm(new ChangementsType(), $entity);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
-           // $this->get('changement.common.manager')->saveChangement($entity);
-            $manager->saveChangement($entity);
+            $this->get('changement.common.manager')->saveChangement($entity);
             $session = $this->getRequest()->getSession();
             $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
-            //    return $this->redirect($this->generateUrl('changements_fanta'));
-            return $this->check_retour();
-        }
 
-        $session = $request->getSession();
-        $session->getFlashBag()->add('warning', "Form non valide");
+            // ajoute des messages flash
+            $btn_retour = $session->get('buttonretour');
+            if ($btn_retour == 'changements_fanta' || $btn_retour == 'changements_myfanta')
+                return $this->redirect($this->generateUrl($btn_retour));
+            else
+                return $this->redirect($this->generateUrl('changements_fanta'));
+        }
 
         return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
                     'entity' => $entity,
@@ -755,8 +828,19 @@ class ChangementsController extends Controller {
         $form->bind($request);
 
         if ($form->isValid()) {
-            $this->get('changement.common.manager')->deleteChangement($id);
-            return $this->check_retour();
+             $this->get('changement.common.manager')->deleteChangement($id);
+             $this->check_retour();
+             
+           /*em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Changements entity.');
+            }
+
+            $em->remove($entity);
+            $em->flush();
+        }*/
         }
         return $this->redirect($this->generateUrl('changements_posttest'));
     }
@@ -814,13 +898,18 @@ class ChangementsController extends Controller {
                         ->getForm();
     }
 
-    public function update_changement_statusAction() {
+     public function update_changement_statusAction() {
         $request = $this->get('request');
 
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
 
             $id = $request->request->get('id');
             $entity = $this->get('changement.common.manager')->checkandloadChangement($id);
+            /*$em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Changements entity.');
+            }*/
             // return le nom du status
             $id_status = $entity->getIdStatus();
             $new_status = $id_status;
@@ -862,7 +951,12 @@ class ChangementsController extends Controller {
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
 
             $id = $request->request->get('id');
-            $entity = $this->get('changement.common.manager')->checkandloadChangement($id);
+             $entity = $this->get('changement.common.manager')->checkandloadChangement($id);
+           /* $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Changements entity.');
+            }*/
             list($user_id, $group_id) = $this->getuserid();
             if (!isset($user_id)) {
                 throw $this->createNotFoundException('Unable to find Changements entity.');
@@ -893,12 +987,14 @@ class ChangementsController extends Controller {
     }
 
     /*
+     * 
+     * 
+     * 
      * A mettre dans manager
      */
-
     public function GetTicketExtAjaxAction($field, $term) {
 
-
+        
         $em = $this->getDoctrine()->getManager();
         $entity_ticket = $em->getRepository('ApplicationChangementsBundle:Changements')->findAjaxValue(array($field => $term));
         $json = array();
@@ -964,6 +1060,42 @@ class ChangementsController extends Controller {
         return $response;
     }
 
+    /*  if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
+      $em = $this->getDoctrine()->getManager();
+      $applis = array();
+      $cert_app = array();
+      $applis['cert']=array();
+      $applis['applis']=array();
+      $id = $request->request->get('id_projet');
+
+      if (isset($id) && $id !="") {
+      //  echo "id ok:--$id--"; exit(1);
+      $projet = $em->getRepository('ApplicationRelationsBundle:Projet')->find($id);
+      $id_cert = $request->request->get('id_cert');
+
+      if (isset($id_cert) && $id_cert !="") {
+      //  echo "cert ok";exit(1);
+      //var_dump($id_cert);
+      $cert = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->find($id_cert);
+      foreach ($cert->getIdapplis() as $appli) {
+      array_push($cert_app, $appli->getId());
+      }
+      $applis['cert'] = $cert_app;
+      }
+      foreach ($projet->getIdapplis() as $appli) {
+      //$applis[] = array($appli);
+      $applis['applis'][$appli->getId()] = $appli->getNomapplis();
+      //      $applis[] = array($appli->getId(), $appli->getNomapplis());
+      }
+      }
+      //    $appli=array(3,4);
+      $response = new Response(json_encode($applis));
+      $response->headers->set('Content-Type', 'application/json');
+
+      return $response;
+      }
+     */
+
     public function listByProjetAction() {
         $request = $this->getRequest();
 
@@ -1014,7 +1146,7 @@ class ChangementsController extends Controller {
             $term = $request->request->get('motcle');
 
             $array = $this->getDoctrine()
-                    ->getManager()
+                    ->getEntityManager()
                     ->getRepository('menCommandesBundle:commande')
                     ->listeNature($term);
 
@@ -1384,8 +1516,15 @@ class ChangementsController extends Controller {
     public function CalendarEventsAction() {
 
         $request = $this->getRequest();
-        //$session = $this->getRequest()->getSession();
+        $session = $this->getRequest()->getSession();
         $current_date = new \DateTime();
+        /*
+          $current_session_events = $session->get('date_calendar');
+          if (!isset($current_session_events)) {
+          $session->set('date_calendar',array());
+          } */
+
+
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
             $month = $request->request->get('month');
             if (!isset($month)) {
@@ -1403,12 +1542,35 @@ class ChangementsController extends Controller {
 
             // $session_event=$date;
             $events_date = $em->getRepository('ApplicationChangementsBundle:Changements')->getMyDate($date);
+            //   $events_date = $current_session_events;
+            //  $session->set($date, $events_date);
+            /* $current_session_events = $session->get($date);
+
+              if (!isset($current_session_events)) {
+              // echo "year=$year month=$month<br>";exit(1);
+              $em = $this->getDoctrine()->getManager();
+              // recuperation des parametres
+              $events_date = $em->getRepository('ApplicationChangementsBundle:Changements')->getMyDate($date);
+              //  $session->set($date, $events_date);
+              $session->set($date, $events_date);
+
+              //  print_r($events_date);
+              } else {
+              $events_date = $current_session_events;
+              //   print_r($events_date);
+              } */
+
+
+
+            //print_r($events_date); 
+            // exit(1);
             $response = new Response(json_encode($events_date));
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
         // return new Response();
     }
+
 
 }
 

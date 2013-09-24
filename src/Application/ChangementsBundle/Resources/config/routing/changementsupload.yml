@@ -4,7 +4,7 @@ changements_filesedit:
    
 changements_filesupdate:
     pattern:  /{id}/filesupdate
-    defaults: { _controller: "ApplicationChangementsdBundle:ChangementsUpload:updateentityfiles" }
+    defaults: { _controller: "ApplicationChangementsBundle:ChangementsUpload:updateentityfiles" }
     requirements: { _method: post }
 
 #---------------------------------------------------------------

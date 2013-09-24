@@ -35,6 +35,11 @@ docchangements_update:
     pattern:  /{id}/update
     defaults: { _controller: "ApplicationChangementsBundle:Docchangements:update" }
     requirements: { _method: post }
+    
+docchangements_update_bychangement:
+    pattern:  /{id}/updatebychangement
+    defaults: { _controller: "ApplicationChangementsBundle:Docchangements:updatebychangement" }
+    requirements: { _method: post }
 
 docchangements_delete:
     pattern:  /{id}/delete
