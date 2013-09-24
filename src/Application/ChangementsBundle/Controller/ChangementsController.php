@@ -870,7 +870,6 @@ class ChangementsController extends Controller {
     // 
     //==============================================
       /**
-     *
      * @Secure(roles="ROLE_USER")
      */
   
@@ -898,8 +897,15 @@ class ChangementsController extends Controller {
             $('#tr'+id).after("<tr><td>"+data+"</b></td></tr>");
             }          
         }
-        }*/
-            $entity = $this->get('changement.common.manager')->checkandloadChangement($id);
+             * 
+             * http://forum.symfony-project.org/viewtopic.php?t=36827&p=125930
+             * http://stackoverflow.com/questions/10846970/catch-session-timeout-symfony2
+        }          * 
+             * http://stackoverflow.com/questions/18872721/symfony2-security-automatic-logout-after-an-inactive-period
+         http://symfony-gu.ru/documentation/en/html/components/http_foundation/session_configuration.html    http://www.paulirish.com/2009/jquery-idletimer-plugin/
+             * 
+             */
+        
             list($user_id, $group_id) = $this->getuserid();
             if (!isset($user_id)) {
                   $array['mystatus'] = "false";
@@ -911,6 +917,7 @@ class ChangementsController extends Controller {
             }
             
             $em=$this->getDoctrine()->getManager();
+                $entity = $this->get('changement.common.manager')->checkandloadChangement($id);
             $entity_user = $em->getRepository('ApplicationSonataUserBundle:User')->find($user_id);
             /*if (!isset($entity_user)){
                 $array['mystatus'] = "false";
@@ -1490,6 +1497,32 @@ class ChangementsController extends Controller {
         }
         // return new Response();
     }
+/*public function executeCheckMyExpire(sfWebRequest $request )
+
+{
+
+	$need_redirect = "";
+
+	if( request->isXmlHttpRequest() AND ! $this->getUser()->isAuthenticated() 
+				OR
+			$this->getUser()->getAttribute('my_expire') < time()
+		)
+
+	)
+
+	{
+
+                 // in this case, you know its time to redirect!
+
+		$need_redirect = "YOUR LINK TO REDIRECT IN AJAX RESPONSE";
+
+	}
+
+	
+
+	return $this->renderText($need_redirect);
+
+}*/
 
 }
 
