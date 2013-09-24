@@ -22,7 +22,7 @@ services:
         arguments:       ['ApplicationChangementsBundle:Changements']
         tags:
             - { name: calendr.event_provider }
-        
+  
    application.form.flow.new.changement:
         class: Application\ChangementsBundle\Form\ChangementsFlow
         parent: craue.form.flow

@@ -814,6 +814,14 @@ class ChangementsController extends Controller {
                         ->getForm();
     }
 
+    //==============================================
+    //          REQUETES AJAX
+    // 
+    //==============================================
+    /**
+     *
+     * @Secure(roles="ROLE_USER")
+     */
     public function update_changement_statusAction() {
         $request = $this->get('request');
 
@@ -856,21 +864,62 @@ class ChangementsController extends Controller {
         }
     }
 
+
+    //==============================================
+    //          REQUETES AJAX
+    // 
+    //==============================================
+      /**
+     *
+     * @Secure(roles="ROLE_USER")
+     */
+  
     public function update_changement_favorisAction() {
         $request = $this->get('request');
 
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
-
             $id = $request->request->get('id');
+            
+            /* $user_security = $this->container->get('security.context');
+        // authenticated REMEMBERED, FULLY will imply REMEMBERED (NON anonymous)
+        if (!$user_security->isGranted('IS_AUTHENTICATED_FULLY')) {
+       
+        $.ajax({
+        type: "POST",
+        url: "{{ path('ma_route')}}",
+        data: DATA,
+        cache: false,
+        success: function(data)
+        {
+            if( data.length > 10 ){
+                window.location.replace("{{ path('fos_user_security_login') }}");
+            }
+            else{
+            $('#tr'+id).after("<tr><td>"+data+"</b></td></tr>");
+            }          
+        }
+        }*/
             $entity = $this->get('changement.common.manager')->checkandloadChangement($id);
             list($user_id, $group_id) = $this->getuserid();
             if (!isset($user_id)) {
+                  $array['mystatus'] = "false";
                 throw $this->createNotFoundException('Unable to find Changements entity.');
+                $response = new Response(json_encode($array));
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
                 // echo "user_id=$user_id";
             }
+            
+            $em=$this->getDoctrine()->getManager();
             $entity_user = $em->getRepository('ApplicationSonataUserBundle:User')->find($user_id);
-            // $array = array('mystatus' => $stat);
-            //$entity->getIdfavoris();
+            /*if (!isset($entity_user)){
+                $array['mystatus'] = "false";
+                throw $this->createNotFoundException('Unable to find Changements entity.');
+                $response = new Response(json_encode($array));
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+                
+            }*/
             $stat = $entity->checkIdfavoris($entity_user);
             // si true==> present
             if ($stat == true) {
@@ -892,12 +941,12 @@ class ChangementsController extends Controller {
         }
     }
 
-    /*
-     * A mettre dans manager
-     */
+  
+    //==============================================
+    // AJAX
+    //==============================================
 
     public function GetTicketExtAjaxAction($field, $term) {
-
 
         $em = $this->getDoctrine()->getManager();
         $entity_ticket = $em->getRepository('ApplicationChangementsBundle:Changements')->findAjaxValue(array($field => $term));
@@ -905,8 +954,15 @@ class ChangementsController extends Controller {
         foreach ($entity_ticket->getQuery()->getResult() as $ticket) {
             array_push($json, $ticket->getTicketExt());
         }
-        return $json;
+        $response = new Response(json_encode($json));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
+
+    //==============================================
+    //          REQUETES AJAX
+    // 
+    //==============================================
 
     public function DescriptionAjaxAction(Request $request) {
         $term = $request->get('term');
@@ -920,6 +976,11 @@ class ChangementsController extends Controller {
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
+
+    //==============================================
+    //          REQUETES AJAX
+    // 
+    //==============================================
 
     public function NomAjaxAction(Request $request) {
         $term = $request->get('term');
@@ -935,6 +996,11 @@ class ChangementsController extends Controller {
         return $response;
     }
 
+    //==============================================
+    //          REQUETES AJAX
+    // 
+    //==============================================
+
     public function TicketExtAjaxAction(Request $request) {
         $term = $request->get('term');
         $em = $this->getDoctrine()->getManager();
@@ -948,6 +1014,11 @@ class ChangementsController extends Controller {
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
+
+    //==============================================
+    //          REQUETES AJAX
+    // 
+    //==============================================
 
     public function TicketIntAjaxAction(Request $request) {
         $term = $request->get('term');
@@ -963,6 +1034,11 @@ class ChangementsController extends Controller {
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
+
+    //==============================================
+    //          REQUETES AJAX
+    // 
+    //==============================================
 
     public function listByProjetAction() {
         $request = $this->getRequest();
@@ -1006,6 +1082,11 @@ class ChangementsController extends Controller {
         }
         // return new Response();
     }
+
+    //==============================================
+    //          REQUETES AJAX
+    // 
+    //==============================================
 
     public function ajaxprojetsAction() {
         $request = $this->get('request');

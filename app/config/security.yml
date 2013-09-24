@@ -41,7 +41,8 @@ security:
             remember_me:
                    httponly: false
                    key:      "%secret%"
-                   lifetime: 31536000 # 365 days in seconds
+                    #lifetime: 3600 # 365 days in seconds
+                   lifetime: 15 # 365 days in seconds
                    path:     /
                    domain:   ~ # Defaults to the current domain from $_SERVER
             switch_user:        true

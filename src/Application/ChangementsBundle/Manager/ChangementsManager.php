@@ -5,6 +5,9 @@ namespace Application\ChangementsBundle\Manager;
 use Application\ChangementsBundle\Manager\ChangementsBaseManager;
 use Doctrine\ORM\EntityManager;
 use Application\ChangementsBundle\Entity\Changements;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ChangementsManager extends ChangementsBaseManager {
 
@@ -16,7 +19,7 @@ class ChangementsManager extends ChangementsBaseManager {
 
     public function loadChangement($changementId) {
           $entity = $this->getRepository()->myFindaIdAll($changementId);
-         if (!$entity ) {
+         if (! $entity ) {
             throw new NotFoundHttpException($this->get('translator')->trans('Ce changement n\'existe pas'));
         }
         else {

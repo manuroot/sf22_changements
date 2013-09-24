@@ -4,10 +4,6 @@ namespace Application\ChangementsBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
-
-
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Application\ChangementsBundle\Entity\Changements;
@@ -70,12 +66,7 @@ class DocchangementsController extends Controller {
         $session = $this->getRequest()->getSession();
         $session->set('buttonretour', 'docchangements');
         $em = $this->getDoctrine()->getManager();
-        //$query = $em->getRepository('ApplicationChangementsBundle:Changements')->myFindAll();
-
         $query = $em->getRepository('ApplicationChangementsBundle:Docchangements')->myFindAll();
-
-        // $nbtags = $query->getPicture()->count();
-
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
                 $query, $this->get('request')->query->get('page', 1)/* page number */, 10/* limit per page */
@@ -93,27 +84,25 @@ class DocchangementsController extends Controller {
 
      public function indexfantaAction(Request $request) {
 
-         //  $entity = new Changements();
-      $em = $this->getDoctrine()->getManager();
-   /*      $json = $em->getRepository('ApplicationChangementsBundle:Docchangements')->findAjaxValue(array('nom' => 'ab'));
-    exit(1);*/
-        $parameters = array();
-       
+     $em = $this->getDoctrine()->getManager();
+       $parameters = array();
         $request = $this->getRequest();
         $session = $request->getSession();
         $session->set('buttonretour', 'docchangements');
-      
         $searchForm = $this->createForm(new DocchangementsFilterType());
-     
-        if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
+     if ($request->getMethod() == 'POST'){
+        if ($request->get('submit-filter') == "reset") {
             $session->remove('docchangementFilternew');
-        } elseif ($request->getMethod() == 'POST' && $request->get('submit-filter') == "filter") {
+        }
+        elseif ($request->get('submit-filter') == "filter") {
             $alldatas = $request->request->all();
             $datas = $alldatas["docchangements_searchfilter"];
             $parameters = $datas;
             $session->set('docchangementFilternew', $datas);
             $searchForm->bind($datas);
-        } else {
+        }
+     }
+        else {
             if ($session->has('docchangementFilternew')) {
                 $datas = $session->get('docchangementFilternew');
                 $parameters = $datas;

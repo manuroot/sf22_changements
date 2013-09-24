@@ -11,21 +11,8 @@ use Application\RelationsBundle\Entity\Document;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Application\ChangementsBundle\Form\ChangementsType;
 use Application\ChangementsBundle\Form\ChangementsFilesForEntityType;
-
-
-//use Application\ChangementsBundle\Entity\GridExport;
-
-//use Doctrine\ORM\Tools\Pagination\CountOutputWalker;
-//use Application\ChangementsBundle\Entity\ChangementsStatus;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-//use Application\CentralBundle\Model\MesFiltresBundle;
-
-
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
-/* use Pagerfanta\Pagerfanta;
-  use Pagerfanta\Adapter\DoctrineORMAdapter;
-  use Pagerfanta\Exception\NotValidCurrentPageException; */
 
 /**
  * Changements controller.
@@ -71,11 +58,8 @@ class ChangementsUploadController extends Controller {
                             'create_to_folder' => true));
             }
         }
-
-        $existingFiles = $this->get('punk_ave.file_uploader')
+       $existingFiles = $this->get('punk_ave.file_uploader')
                 ->getFiles(array('folder' => 'tmp/attachments/' . $editId));
-        // print_r($existingFiles);exit(1);
-
         return $this->render('ApplicationChangementsBundle:Changements:edit-punkave.html.twig', array(
                     'entity' => $entity,
                     'form' => $editForm->createView(),
@@ -88,30 +72,20 @@ class ChangementsUploadController extends Controller {
     
     /**
      * Edits an existing Changements entity.
-     *
+     * sauvegarde du changement avec les fichiers updatés
+     * 
      * @Secure(roles="ROLE_USER")
      */
     public function updateentityfilesAction(Request $request, $id) {
-       
-        
-       $entity = $this->get('changement.common.manager')->checkandloadChangement($id);
+       $em = $this->get('changement.common.manager');
+       $entity=$em->checkandloadChangement($id);
        $editForm = $this->createForm(new ChangementsFilesForEntityType(), $entity);
-
-        $editForm->bind($request);
+       $editForm->bind($request);
         if ($request->getMethod() == 'POST') {
-           // echo "entity a updater: $id<br>";
-            // $alldatas = $request->request->all();
-            // $uploadedFile = $request->files->get('fileschangements');
-            //  $datas = $alldatas["changements_searchfilter"];
-            /* print_r($alldatas);
-              print_r($uploadedFile);
-
-              exit(1); */
-            $this->get('changement.common.manager')->saveChangement($entity);
+            $em->saveChangement($entity);
             $session = $this->getRequest()->getSession();
             $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
            return $this->check_retour();
-        
         }
         return $this->render('ApplicationChangementsBundle:Changements:editentityfiles.html.twig', array(
                     'entity' => $entity,
@@ -157,7 +131,8 @@ class ChangementsUploadController extends Controller {
      * @Secure(roles="ROLE_USER")
      */
     public function newFichierAction($id) {
-
+ 
+     
         $entity=$this->get('changement.common.manager')->loadChangement($id);
         $editForm = $this->createForm(new ChangementsType(), $entity);
         return $this->render('ApplicationChangementsBundle:Changements:new_fichier.html.twig', array(

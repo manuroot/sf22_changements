@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+   
+    <parameters>
+   
+    </parameters>
+
+<services>
+    <service id="application_epost_twig_extension" class="Application\ChangementsBundle\Twig\Extensions\ApplicationChangementsExtension">
+    <tag name="twig.extension" />
+</service>
+
+<service id="application.form.new.changement" class="Application\ChangementsBundle\Form\ChangementsStepsType">
+    <tag name="form.type" alias="changements" />
+</service>
+
+<service id="changement.common.manager" class="Application\ChangementsBundle\Manager\ChangementsManager">
+    <tag name="form.type" alias="changements" />
+</service>
+</services>
+
+    <services>
+        <service id="wmd_watch_my_desk.example" class="%wmd_watch_my_desk.example.class%">
+            <argument type="service" id="service_id" />
+            <argument>plain_value</argument>
+            <argument>%parameter_name%</argument>
+        </service>
+    </services>
+  
+</container>
+
+
+         
