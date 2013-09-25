@@ -903,20 +903,7 @@ class ChangementsController extends Controller {
             if (!$user_security->isGranted('IS_AUTHENTICATED_FULLY')) {
                 
             }
-            /*  $.ajax({
-              type: "POST",
-              url: "{{ path('ma_route')}}",
-              data: DATA,
-              cache: false,
-              success: function(data)
-              {
-              if( data.length > 10 ){
-              window.location.replace("{{ path('fos_user_security_login') }}");
-              }
-              else{
-              $('#tr'+id).after("<tr><td>"+data+"</b></td></tr>");
-              }
-              }
+            /*  
              * 
              * http://forum.symfony-project.org/viewtopic.php?t=36827&p=125930
              * http://stackoverflow.com/questions/10846970/catch-session-timeout-symfony2

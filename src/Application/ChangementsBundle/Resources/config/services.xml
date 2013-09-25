@@ -1,12 +1,8 @@
 <?xml version="1.0" ?>
+
 <container xmlns="http://symfony.com/schema/dic/services"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-
-   
-    <parameters>
-   
-    </parameters>
 
 <services>
     <service id="application_epost_twig_extension" class="Application\ChangementsBundle\Twig\Extensions\ApplicationChangementsExtension">
@@ -18,19 +14,29 @@
 </service>
 
 <service id="changement.common.manager" class="Application\ChangementsBundle\Manager\ChangementsManager">
-    <tag name="form.type" alias="changements" />
+   <argument type="service" id="doctrine.orm.entity_manager" />
 </service>
-</services>
 
-    <services>
-        <service id="wmd_watch_my_desk.example" class="%wmd_watch_my_desk.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+ <service id="application.form.flow.new.changement" class="MyCompany\MyBundle\Form\RegisterUserFlow"
+            parent="craue.form.flow"
+            scope="request">
+        <call method="setFormType">
+            <argument type="service" id="application.form.new.changement" />
+        </call>
+    </service>
+
+ <service id="booking_repository" 
+            class="Application\ChangementsBundle\Repository\ChangementsRepository"
+            factory-service="doctrine.orm.default_entity_manager"
+             factory-method="getRepository">
+      <argument>ApplicationChangementsBundle:Changements</argument>
+         <tag name="calendr.event_provider" />
+          
+    </service>
+    
+     <service id="application_changements" class="Application\ChangementsBundle\EventListener\SessionExpiryListener">
+            <argument type="service" id="service_container"/>
+            <tag name="kernel.event_subscriber"/>
         </service>
-    </services>
-  
+ </services>
 </container>
-
-
-         

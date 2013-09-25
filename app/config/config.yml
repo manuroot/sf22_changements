@@ -36,11 +36,13 @@ framework:
       cookie_lifetime: 43200
     fragments:       ~
 
- 
+#==================================================
+# SESSION IDLE TIMEOUT
+#================================================== 
 application_changements:
-  session_timeout: 3600
-  redirect_to: ~
-  expired_response: 'test'
+    session_timeout: 30
+    redirect_to: fos_user_security_login
+    ##expired_response: 'test'
   
 #==================================================
 # TWIG Configuration
@@ -70,9 +72,9 @@ assetic:
     #bundles:        [ ]
     bundles:        [ ApplicationChangementsBundle,ApplicationCertificatsBundle,ApplicationRelationsBundle ]
     #bundles:        [ ApplicationChangementsBundle,SonataNewsBundle ]
-    java: /usr/bin/java
+    #java: /usr/bin/java
     #java: "C:\ProgramFiles\Java\jre6\bin\java.exe"
-    #java: "C:\\Program Files\\Java\\jre6\\bin\\java.exe"
+    java: "C:\\Program Files\\Java\\jre6\\bin\\java.exe"
     filters:
         cssrewrite: ~
        # cssembed:
@@ -204,10 +206,8 @@ apy_data_grid:
         #default    Pagerfanta\View\DefaultView
         #options:            #all options of pager fanta view constructor
         #view_class:           Pagerfanta\View\DefaultView
-#==================================================
-#  FOSUSER
-# pour les commandes fos:user:create
-#==================================================
+
+
 #==================================================
 #  FOSUSER
 # pour les commandes fos:user:create

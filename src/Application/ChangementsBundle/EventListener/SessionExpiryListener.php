@@ -41,19 +41,19 @@ class SessionExpiryListener implements EventSubscriberInterface
         $session_data = $session->getMetadataBag();
 
         // Expire sessions if unused for $idletimeout
-        $idle_timeout = $this->container->getParameter('changements.session_timeout');
+        $idle_timeout = $this->container->getParameter('application_changements.session_timeout');
         if (time() - $session_data->getLastUsed() > $idle_timeout) {
             $session->invalidate();
 
             // Return custom response if provided
-            $expiry_response = $this->container->getParameter('changements.expired_response');
+            $expiry_response = $this->container->getParameter('application_changements.expired_response');
             if ($expiry_response) {
                 $event->setResponse($this->container->get($expiry_response));
                 return;
             }
 
             // Redirect to route name if provided
-            $path = $this->container->getParameter('changements.redirect_to');
+            $path = $this->container->getParameter('application_changements.redirect_to');
             if ($path) {
                 $url = $this->container->get('router')->generate($path);
                 $response = new RedirectResponse($url);
