@@ -6,6 +6,12 @@ ajax_nom:
     methods: POST|GET
     defaults: { _controller: "ApplicationChangementsBundle:Changements:NomAjax" }
   
+ajax_checkuser:
+    pattern:  /ajaxusercheck
+    methods: POST|GET
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:checkuser" }
+    options:
+        expose: true
   
 ajax_ticketint:
     pattern:  /ajaxticketint

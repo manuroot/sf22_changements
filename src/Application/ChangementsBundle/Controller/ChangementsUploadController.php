@@ -31,7 +31,7 @@ class ChangementsUploadController extends Controller {
     /**
      * Displays a form to edit an existing Changements entity.
      *
-     * @Secure(roles="ROLE_USER")
+       * @Secure(roles="IS_AUTHENTICATED_FULLY")
      */
     public function editentityfilesAction($id) {
           $entity = $this->get('changement.common.manager')->loadChangement($id);
@@ -43,6 +43,13 @@ class ChangementsUploadController extends Controller {
         ));
     }
 
+    /**
+     * Displays a form to edit an existing Changements entity.
+     *
+     * 
+     * @Secure(roles="IS_AUTHENTICATED_FULLY")
+     *
+     */
     public function editpunkaveAction($id) {
       $entity = $this->get('changement.common.manager')->loadChangement($id);
        $editForm = $this->createForm(new ChangementsFilesForEntityType(), $entity);
@@ -74,7 +81,7 @@ class ChangementsUploadController extends Controller {
      * Edits an existing Changements entity.
      * sauvegarde du changement avec les fichiers updatés
      * 
-     * @Secure(roles="ROLE_USER")
+      * @Secure(roles="IS_AUTHENTICATED_FULLY")
      */
     public function updateentityfilesAction(Request $request, $id) {
        $em = $this->get('changement.common.manager');
@@ -128,7 +135,7 @@ class ChangementsUploadController extends Controller {
     /**
      * 
      *
-     * @Secure(roles="ROLE_USER")
+        * @Secure(roles="IS_AUTHENTICATED_FULLY")
      */
     public function newFichierAction($id) {
  
@@ -144,7 +151,7 @@ class ChangementsUploadController extends Controller {
     /**
      * Edits an existing Changements entity.
      *
-     * @Secure(roles="ROLE_USER")
+       * @Secure(roles="IS_AUTHENTICATED_FULLY")
      */
     public function punkaveupdateAction(Request $request, $id) {
 

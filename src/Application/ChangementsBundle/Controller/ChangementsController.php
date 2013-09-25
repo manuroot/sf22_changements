@@ -618,7 +618,7 @@ class ChangementsController extends Controller {
         $flow = $this->get('application.form.flow.new.changement');
         // $flow->reset();
         $flow->bind($entity);
-       // form of the current step
+        // form of the current step
         $form = $flow->createForm();
         // $form = $flow->createForm($entity);
         if ($flow->isValid($form)) {
@@ -682,7 +682,9 @@ class ChangementsController extends Controller {
     /**
      * Displays a form to edit an existing Changements entity.
      *
-     * @Secure(roles="ROLE_USER")
+     * 
+     * @Secure(roles="IS_AUTHENTICATED_FULLY")
+     *
      */
     public function editAction($id) {
 
@@ -719,14 +721,14 @@ class ChangementsController extends Controller {
      */
     public function updateAction(Request $request, $id) {
 
-        $manager= $this->get('changement.common.manager');
+        $manager = $this->get('changement.common.manager');
         $entity = $manager->loadChangement($id);
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createForm(new ChangementsType(), $entity);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
-           // $this->get('changement.common.manager')->saveChangement($entity);
+            // $this->get('changement.common.manager')->saveChangement($entity);
             $manager->saveChangement($entity);
             $session = $this->getRequest()->getSession();
             $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
@@ -864,69 +866,86 @@ class ChangementsController extends Controller {
         }
     }
 
+    //==============================================
+    //          REQUETES AJAX
+    // 
+    //==============================================
+    public function checkuserAction() {
+        $request = $this->get('request');
+
+         $array['status'] = false;
+        if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
+            $user_security = $this->container->get('security.context');
+            // authenticated REMEMBERED, FULLY will imply REMEMBERED (NON anonymous)
+            if ($user_security->isGranted('IS_AUTHENTICATED_FULLY')) {
+                $array['status'] = true;
+            } 
+            $response = new Response(json_encode($array));
+
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+    }
 
     //==============================================
     //          REQUETES AJAX
     // 
     //==============================================
-      /**
-     * @Secure(roles="ROLE_USER")
-     */
-  
     public function update_changement_favorisAction() {
         $request = $this->get('request');
 
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
             $id = $request->request->get('id');
-            
-            /* $user_security = $this->container->get('security.context');
-        // authenticated REMEMBERED, FULLY will imply REMEMBERED (NON anonymous)
-        if (!$user_security->isGranted('IS_AUTHENTICATED_FULLY')) {
-       
-        $.ajax({
-        type: "POST",
-        url: "{{ path('ma_route')}}",
-        data: DATA,
-        cache: false,
-        success: function(data)
-        {
-            if( data.length > 10 ){
-                window.location.replace("{{ path('fos_user_security_login') }}");
+
+            $user_security = $this->container->get('security.context');
+            // authenticated REMEMBERED, FULLY will imply REMEMBERED (NON anonymous)
+            if (!$user_security->isGranted('IS_AUTHENTICATED_FULLY')) {
+                
             }
-            else{
-            $('#tr'+id).after("<tr><td>"+data+"</b></td></tr>");
-            }          
-        }
+            /*  $.ajax({
+              type: "POST",
+              url: "{{ path('ma_route')}}",
+              data: DATA,
+              cache: false,
+              success: function(data)
+              {
+              if( data.length > 10 ){
+              window.location.replace("{{ path('fos_user_security_login') }}");
+              }
+              else{
+              $('#tr'+id).after("<tr><td>"+data+"</b></td></tr>");
+              }
+              }
              * 
              * http://forum.symfony-project.org/viewtopic.php?t=36827&p=125930
              * http://stackoverflow.com/questions/10846970/catch-session-timeout-symfony2
-        }          * 
+              }          *
              * http://stackoverflow.com/questions/18872721/symfony2-security-automatic-logout-after-an-inactive-period
-         http://symfony-gu.ru/documentation/en/html/components/http_foundation/session_configuration.html    http://www.paulirish.com/2009/jquery-idletimer-plugin/
+              http://symfony-gu.ru/documentation/en/html/components/http_foundation/session_configuration.html    http://www.paulirish.com/2009/jquery-idletimer-plugin/
              * 
              */
-        
+
             list($user_id, $group_id) = $this->getuserid();
             if (!isset($user_id)) {
-                  $array['mystatus'] = "false";
+                $array['mystatus'] = "false";
                 throw $this->createNotFoundException('Unable to find Changements entity.');
                 $response = new Response(json_encode($array));
                 $response->headers->set('Content-Type', 'application/json');
                 return $response;
                 // echo "user_id=$user_id";
             }
-            
-            $em=$this->getDoctrine()->getManager();
-                $entity = $this->get('changement.common.manager')->checkandloadChangement($id);
+
+            $em = $this->getDoctrine()->getManager();
+            $entity = $this->get('changement.common.manager')->checkandloadChangement($id);
             $entity_user = $em->getRepository('ApplicationSonataUserBundle:User')->find($user_id);
-            /*if (!isset($entity_user)){
-                $array['mystatus'] = "false";
-                throw $this->createNotFoundException('Unable to find Changements entity.');
-                $response = new Response(json_encode($array));
-                $response->headers->set('Content-Type', 'application/json');
-                return $response;
-                
-            }*/
+            /* if (!isset($entity_user)){
+              $array['mystatus'] = "false";
+              throw $this->createNotFoundException('Unable to find Changements entity.');
+              $response = new Response(json_encode($array));
+              $response->headers->set('Content-Type', 'application/json');
+              return $response;
+
+              } */
             $stat = $entity->checkIdfavoris($entity_user);
             // si true==> present
             if ($stat == true) {
@@ -948,7 +967,6 @@ class ChangementsController extends Controller {
         }
     }
 
-  
     //==============================================
     // AJAX
     //==============================================
@@ -1497,32 +1515,32 @@ class ChangementsController extends Controller {
         }
         // return new Response();
     }
-/*public function executeCheckMyExpire(sfWebRequest $request )
 
-{
+    /* public function executeCheckMyExpire(sfWebRequest $request )
 
-	$need_redirect = "";
+      {
 
-	if( request->isXmlHttpRequest() AND ! $this->getUser()->isAuthenticated() 
-				OR
-			$this->getUser()->getAttribute('my_expire') < time()
-		)
+      $need_redirect = "";
 
-	)
+      if( request->isXmlHttpRequest() AND ! $this->getUser()->isAuthenticated()
+      OR
+      $this->getUser()->getAttribute('my_expire') < time()
+      )
 
-	{
+      )
 
-                 // in this case, you know its time to redirect!
+      {
 
-		$need_redirect = "YOUR LINK TO REDIRECT IN AJAX RESPONSE";
+      // in this case, you know its time to redirect!
 
-	}
+      $need_redirect = "YOUR LINK TO REDIRECT IN AJAX RESPONSE";
 
-	
+      }
 
-	return $this->renderText($need_redirect);
 
-}*/
 
+      return $this->renderText($need_redirect);
+
+      } */
 }
 

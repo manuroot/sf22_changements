@@ -13,7 +13,7 @@
         </a>
         <button type="submit" id="reset" name="submit-filter" class="btn btn-medium btn-warning" value="reset" >
             <i class="icon-minus-sign icon-mesfiltres"></i>Effacer Filtres</button>
-                    {#
+                {#
                     <button type="submit" id="reset" name="submit-open" class="btn btn-medium btn-warning" value="open" >
                       <img src="{{ asset('bundles/applicationchangements/images/cadenas-souvert.png') }}" alt="show" width="15px" height="15px"/>
                       </button>
@@ -30,8 +30,12 @@
 
 
 
-          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-        
+          {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+            {% if fav is defined %}
+         <a href="{{ path("changements_myfanta") }}" class="show_favoris btn btn-medium btn-primary my-star">
+            <i class="icon-star"></i> Favoris
+        </a>
+            {% endif %}
         <a href="{{ path(new_flow_path) }}" class=" ajoutchange btn btn-medium btn-primary">
             <i class=" icon-plus icon-mesfiltres"></i>{{ new_text }}(flow)
         </a>

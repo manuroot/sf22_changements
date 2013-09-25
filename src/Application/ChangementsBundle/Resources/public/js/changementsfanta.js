@@ -39,22 +39,22 @@ $(document).ready(function() {
 
     /* $('a.favoris').tooltip();*/
     /* $("a.favoris").popover({placement:'bottom', trigger:'hover'});*/
-    
-      $("#mytitleb").popover({ 
-    html : true,
-    delay: {show: 300, hide: 300}, 
-   placement: 'bottom',
-  trigger: 'hover',
-    title: function() {
-      return $("#popover-head").html();
-    },
-    content: function() {
-        
-      return $("#popover-content").html();
-    }
-  });
-     
-     
+
+    $("#mytitleb").popover({
+        html: true,
+        delay: {show: 300, hide: 300},
+        placement: 'bottom',
+        trigger: 'hover',
+        title: function() {
+            return $("#popover-head").html();
+        },
+        content: function() {
+
+            return $("#popover-content").html();
+        }
+    });
+
+
     $("a.favoris").popover({delay: {show: 300, hide: 300}, placement: 'bottom', trigger: 'hover'});
     $("a.tooltip_comments,a.tooltip_edit,a.tooltip_show").popover(
             {html: true, delay: {show: 300, hide: 300}, placement: 'left', trigger: 'hover'}
@@ -65,48 +65,65 @@ $(document).ready(function() {
      ========================================================*/
 
     $("td > a.favoris").click(function(event) {
-        if ($(this).hasClass("favoris")) {
-            var id = $(this).attr("data-id");
-            /*$(this).closest("tr>td").data().css( "color", "red" );*/
-            var name = $(this).attr("data-name");
-            var message = "";
-            var new_status = 0;
-            var img_favori = "";
-            var modal_res = "";
-            var obj = $(this);
-            var status = $(this).attr("data-status");
-            console.log("favoris id=" + id + "status=" + status);
-            if (status == 1) {
-                message = "Supprimer de ";
-                img_favori = "star-off.png";
 
-            }
+        var url_login = Routing.generate('fos_user_security_login');
+        var chck = checkuser();
+       /* alert("not alredy logged in" + chck);
+        console.log("chck=" + chck);*/
+        if (chck === false) {
 
-            else {
-                message = "Ajouter a ";
-                img_favori = "star-on.png";
-                new_status = 1;
-            }
-            var mess = "<i class='icon-wrench icon-2x'></i><br><h3>" + message + " vos favoris: </h3><p>status=" + status + "</p><p>id=" + id + "</p><p>nom=" + name + "</p>";
-            bootbox.confirm(mess, function(checkstr) {
-                console.log("confirm result=" + checkstr);
-                /*Example.show("Confirm result: "+result);*/
+            /*    alert("not alredy logged in");*/
 
+            window.location.replace(url_login);
+            /*   console.log("grgfdgf");*/
+        }
+        else {
+            /*  console.log("grgfdgf");*/
+            /*    alert("alredy logged in");*/
+            /*  console.log("grgfdgf");*/
+            if ($(this).hasClass("favoris")) {
+                var id = $(this).attr("data-id");
+                /*$(this).closest("tr>td").data().css( "color", "red" );*/
+                var name = $(this).attr("data-name");
+                var message = "";
+                var new_status = 0;
+                var img_favori = "";
+                var modal_res = "";
+                var obj = $(this);
+                var status = $(this).attr("data-status");
+                console.log("favoris id=" + id + "status=" + status);
+                if (status == 1) {
+                    message = "Supprimer de ";
+                    img_favori = "star-off.png";
 
-                // var checkstr = confirm(message + " vos favoris: \nstatus=" + status + "\nid=" + id + "\nnom=" + name);
-                if (checkstr === true) {
-                    /*$(this).data('data-status',new_status);*/
-                    var dataAjax = {id: id};
-
-                    changerfavoris(dataAjax, obj);
                 }
 
-            });
-            return true;
-        }
-        /* pas de class favoris*/
-        else {
-            return false;
+                else {
+                    message = "Ajouter a ";
+                    img_favori = "star-on.png";
+                    new_status = 1;
+                }
+                var mess = "<i class='icon-wrench icon-2x'></i><br><h3>" + message + " vos favoris: </h3><p>status=" + status + "</p><p>id=" + id + "</p><p>nom=" + name + "</p>";
+                bootbox.confirm(mess, function(checkstr) {
+                    console.log("confirm result=" + checkstr);
+                    /*Example.show("Confirm result: "+result);*/
+
+
+                    // var checkstr = confirm(message + " vos favoris: \nstatus=" + status + "\nid=" + id + "\nnom=" + name);
+                    if (checkstr === true) {
+                        /*$(this).data('data-status',new_status);*/
+                        var dataAjax = {id: id};
+
+                        changerfavoris(dataAjax, obj);
+                    }
+
+                });
+                return true;
+            }
+            /* pas de class favoris*/
+            else {
+                return false;
+            }
         }
         /*});*/
 
@@ -115,14 +132,14 @@ $(document).ready(function() {
     /*========================================================
      *  Changement de status
      ========================================================*/
-/*
-    $('.show-details').popover({
-  placement: function(tip, ele) {
-    var width = $(window).width();
-    return width >= 975 ? 'left' : ( width < 600 ? 'top' : 'right' );
-  }
-});
-*/
+    /*
+     $('.show-details').popover({
+     placement: function(tip, ele) {
+     var width = $(window).width();
+     return width >= 975 ? 'left' : ( width < 600 ? 'top' : 'right' );
+     }
+     });
+     */
     $("td > a.okstatus").click(function(event) {
         /* * A modifier: change color only sur success !!*/
         if ($(this).hasClasses(['open', 'closed', 'prepare'])) {
@@ -151,6 +168,43 @@ $(document).ready(function() {
 
     function removeTableRow(trId) {
         $('tr#' + trId).remove();
+    }
+    
+    
+    setInterval(function()
+{ 
+    $.ajax({
+      type:"POST",
+       url: Routing.generate('ajax_checkuser'),
+      datatype:"html",
+      success:function(data)
+      {
+      var url_login = Routing.generate('fos_user_security_login');
+       /* console.log("check user");*/
+        if (data.status === false) {window.location.replace(url_login);}
+            },
+             error: function(e) {
+            myVar=false;
+             }
+        });
+}, 600000);//time in milliseconds */
+
+
+    function checkuser() {
+        $.ajax({
+            url: Routing.generate('ajax_checkuser'),
+            async: false,
+            type: "POST",
+            cache: false,
+            success: function(data)
+            {
+                myVar = data.status;
+            },
+             error: function(e) {
+            myVar=false;
+             }
+        });
+        return myVar;
     }
     /*========================================================
      *  Fonction: ajout au favoris
@@ -245,10 +299,10 @@ $(document).ready(function() {
             /*contentType: 'application/json',*/
             success: function(reponse) {
 
-                var status="";
-              
-                var id = obj.attr("data-id");       
-                  var txtid="id=" + id + " "; 
+                var status = "";
+
+                var id = obj.attr("data-id");
+                var txtid = "id=" + id + " ";
                 if (obj.hasClass("open")) {
                     obj.removeClass("open").addClass("closed");
                     obj.closest("tr").removeClass("success").addClass("myclosed");
@@ -271,8 +325,8 @@ $(document).ready(function() {
                     status = "closed ==> prepare";
                 }
                 ;
-                var message= txtid + status;
-            $.pnotify({
+                var message = txtid + status;
+                $.pnotify({
                     title: 'Modification Status',
                     text: message,
                     animation: 'show',
@@ -366,8 +420,8 @@ $(document).ready(function() {
         beforeShowDay: editDays,
         onSelect: postmonth,
         /*onSelect: function(dateText, inst) {
-            alert(dateText);
-        },*/
+         alert(dateText);
+         },*/
         /* onSelect: function(dateText, inst) {
          var url = Routing.generate('changements_fanta');
          window.location.href = url + '/' + dateText;
@@ -381,30 +435,30 @@ $(document).ready(function() {
 
     });
 
-  function postmonth(date) {
-      
-      /*alert('Form is submitting');*/
-      //$("#changements_searchfilter_dateDebut").html(date.toString());
-      $("input#changements_searchfilter_dateDebut").val(date);
-      $("input#changements_searchfilter_dateDebut_max").val(date);
-      $( "button#filter" ).trigger( "click" );
-    /*  $(".form").submit();*/
-  
-  /*var dataAjax = {
-            'year': year,
-            'month': month
-        };*/
+    function postmonth(date) {
 
-       /* $.ajax({
-            async: false,
-            url: Routing.generate('changements_fanta'),
-            
-            type: "POST",
-            dataType: "json",
-            data: date
+        /*alert('Form is submitting');*/
+        //$("#changements_searchfilter_dateDebut").html(date.toString());
+        $("input#changements_searchfilter_dateDebut").val(date);
+        $("input#changements_searchfilter_dateDebut_max").val(date);
+        $("button#filter").trigger("click");
+        /*  $(".form").submit();*/
+
+        /*var dataAjax = {
+         'year': year,
+         'month': month
+         };*/
+
+        /* $.ajax({
+         async: false,
+         url: Routing.generate('changements_fanta'),
+         
+         type: "POST",
+         dataType: "json",
+         data: date
          });*/
-         }
-        
+    }
+
     function editDays(date) {
         /* console.log("edit days");*/
         for (var i = 0; i < eventsDays.length; i++) {
@@ -413,12 +467,12 @@ $(document).ready(function() {
             /* console.log("events=" + eventsDays[i] + "--" + t + " date=" + date.toString() + " i=" + i);
              */
             /*    if (t == date.toString()) {     */
-          if (new Date(eventsDays[i]).toString() === date.toString()) {
+            if (new Date(eventsDays[i]).toString() === date.toString()) {
                 return [true, 'free-day', eventsTitle[i]];
                 /*a class="ui-state-default" href="#">
-      3
-    </a>*/
-        }
+                 3
+                 </a>*/
+            }
         }
         return [true];
     }
@@ -441,26 +495,26 @@ $(document).ready(function() {
             return m;
         }
     });
-  
-  
-    $('.alert').each(function(){
+
+
+    $('.alert').each(function() {
         var html = $(this).html();
-     $.pnotify({
-                    title: 'Flash Message',
-                    text: html,
-                    animation: 'show',
-                    nonblock_opacity: 0.2,
-                    type: 'success',
-                    icon: 'icon-flag',
-                    width: '350px',
-                    opacity: .9
-                }); 
+        $.pnotify({
+            title: 'Flash Message',
+            text: html,
+            animation: 'show',
+            nonblock_opacity: 0.2,
+            type: 'success',
+            icon: 'icon-flag',
+            width: '350px',
+            opacity: .9
+        });
     });
 
 
 
-    
-                
+
+
     $("#changements_searchfilter_idStatus_cl").click(function() {
         $("#changements_searchfilter_idStatus").select2("val", "");
     });
@@ -493,73 +547,73 @@ $(document).ready(function() {
     });
 
     $("#changements_searchfilter_demandeur").select2();
-/*
- //if submit button is clicked
-    $('#submit').click(function () {        
-        
-        //Get the data from all the fields
-        var name = $('input[name=name]');
-        var email = $('input[name=email]');
-        var website = $('input[name=website]');
-        var comment = $('textarea[name=comment]');
-        //Simple validation to make sure user entered something
-        //If error found, add hightlight class to the text field
-        if (name.val()=='') {
-            name.addClass('hightlight');
-            return false;
-        } else name.removeClass('hightlight');
-        
-        if (email.val()=='') {
-            email.addClass('hightlight');
-            return false;
-        } else email.removeClass('hightlight');
-        
-        if (comment.val()=='') {
-            comment.addClass('hightlight');
-            return false;
-        } else comment.removeClass('hightlight');
-        
-        //organize the data properly
-        var data = 'name=' + name.val() + '&email=' + email.val() + '&website='
-        + website.val() + '&comment=' + encodeURIComponent(comment.val());
-        
-        //disabled all the text fields
-        $('.text').attr('disabled','true');
-        
-        //show the loading sign
-        $('.loading').show();
-        
-        //start the ajax
-        $.ajax({
-            //this is the php file that processes the data and send mail
-            url: "process.php",    
-            
-            //GET method is used
-            type: "GET",
-            //pass the data            
-            data: data,        
-            
-            //Do not cache the page
-            cache: false,
-            
-            //success
-            success: function (html) {                
-                //if process.php returned 1/true (send mail success)
-                if (html==1) {                    
-                    //hide the form
-                    $('.form').fadeOut('slow');                    
-                    
-                    //show the success message
-                    $('.done').fadeIn('slow');
-                    
-                //if process.php returned 0/false (send mail failed)
-                } else alert('Sorry, unexpected error. Please try again later.');                
-            }        
-        });
-        
-        //cancel the submit button default behaviours
-        return false;
-    });     
- 
- */
+    /*
+     //if submit button is clicked
+     $('#submit').click(function () {        
+     
+     //Get the data from all the fields
+     var name = $('input[name=name]');
+     var email = $('input[name=email]');
+     var website = $('input[name=website]');
+     var comment = $('textarea[name=comment]');
+     //Simple validation to make sure user entered something
+     //If error found, add hightlight class to the text field
+     if (name.val()=='') {
+     name.addClass('hightlight');
+     return false;
+     } else name.removeClass('hightlight');
+     
+     if (email.val()=='') {
+     email.addClass('hightlight');
+     return false;
+     } else email.removeClass('hightlight');
+     
+     if (comment.val()=='') {
+     comment.addClass('hightlight');
+     return false;
+     } else comment.removeClass('hightlight');
+     
+     //organize the data properly
+     var data = 'name=' + name.val() + '&email=' + email.val() + '&website='
+     + website.val() + '&comment=' + encodeURIComponent(comment.val());
+     
+     //disabled all the text fields
+     $('.text').attr('disabled','true');
+     
+     //show the loading sign
+     $('.loading').show();
+     
+     //start the ajax
+     $.ajax({
+     //this is the php file that processes the data and send mail
+     url: "process.php",    
+     
+     //GET method is used
+     type: "GET",
+     //pass the data            
+     data: data,        
+     
+     //Do not cache the page
+     cache: false,
+     
+     //success
+     success: function (html) {                
+     //if process.php returned 1/true (send mail success)
+     if (html==1) {                    
+     //hide the form
+     $('.form').fadeOut('slow');                    
+     
+     //show the success message
+     $('.done').fadeIn('slow');
+     
+     //if process.php returned 0/false (send mail failed)
+     } else alert('Sorry, unexpected error. Please try again later.');                
+     }        
+     });
+     
+     //cancel the submit button default behaviours
+     return false;
+     });     
+     
+     */
 }); //Eof:: ready

@@ -22,6 +22,9 @@ class ApplicationChangementsExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        $container->setParameter('changements_session.session_timeout', $config['session_timeout']);
+        $container->setParameter('changements_session.redirect_to', $config['redirect_to']);
+        $container->setParameter('changements_session.expired_response', $config['expired_response']);
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }

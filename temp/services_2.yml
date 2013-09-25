@@ -1,0 +1,44 @@
+services:
+  
+   application_epost_twig_extension:
+        class: Application\ChangementsBundle\Twig\Extensions\ApplicationChangementsExtension
+        tags:
+            - { name: twig.extension }
+         
+   application.form.new.changement:
+        class: Application\ChangementsBundle\Form\ChangementsStepsType
+        tags:
+            - { name: form.type, alias: changements }
+
+   changements_session:
+        class: Application\ChangementsBundle\EventListener\SessionExpiryListener
+        tags:
+           - { name: kernel.event_subscriber, event: kernel.event, method: onKernelRequest }
+
+   changement.common.manager:
+    class:  Application\ChangementsBundle\Manager\ChangementsManager
+    arguments: 
+        entityManager: "@doctrine.orm.entity_manager"
+        
+   booking_repository:
+        class:           Application\ChangementsBundle\Repository\ChangementsRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method:  getRepository
+        arguments:       ['ApplicationChangementsBundle:Changements']
+        tags:
+            - { name: calendr.event_provider }
+  
+   application.form.flow.new.changement:
+        class: Application\ChangementsBundle\Form\ChangementsFlow
+        parent: craue.form.flow
+        scope: request 
+        calls:
+            - [ setFormType, [ @application.form.new.changement ] ]
+        
+   
+  
+            
+
+
+           
+   
