@@ -828,6 +828,7 @@ class ChangementsController extends Controller {
         $request = $this->get('request');
 
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
+              $em = $this->getDoctrine()->getManager();
 
             $id = $request->request->get('id');
             $entity = $this->get('changement.common.manager')->checkandloadChangement($id);
