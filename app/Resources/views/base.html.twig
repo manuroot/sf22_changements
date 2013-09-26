@@ -38,6 +38,7 @@
                         <center><h1>   {% block title %}CERTIFICATS{% endblock %}
                                </h1></center>
                 {% block content %}
+                            
                 {% endblock %}
                             </div>
                             <div id="footer">
@@ -55,7 +56,12 @@
                         <script type="text/javascript" src="{{ asset('jquery/jquery.ui.datepicker.js') }}"></script>
                         <script type="text/javascript" src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
                          <script type="text/javascript" src="{{ asset('bootstrap/js/bootbox.min.js') }}"></script>
-                       
+                       {# <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+                        <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+                        <script type="text/javascript" src="{{ asset('jquery/idletime/jquery.idletimer.js') }}"></script>
+                        <script type="text/javascript" src="{{ asset('jquery/idletime/jquery.idletimeout.js') }}"></script>
+                         <script type="text/javascript" src="{{ asset('js/idletimer.js') }}"></script>
+                         #}
       {% endblock %}
 
 

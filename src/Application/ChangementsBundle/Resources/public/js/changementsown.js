@@ -28,6 +28,15 @@ $(document).ready(function() {
 
     });
 
+$("a.editme").colorbox({
+            iframe:true,
+            transition:	"elastic",
+            width:"70%",
+            height:"70%",
+              fastIframe:false,
+            opacity:0.3
+        
+        });
     function runEffect() {
 // get effect type from
         var selectedEffect = 'slide';

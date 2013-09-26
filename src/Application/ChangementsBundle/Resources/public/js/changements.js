@@ -1,6 +1,19 @@
 $(document).ready(function() {
 
+
     var mesdates = ["#changements_filter_dateDebut", "#changements_filter_dateFin"];
+
+    $("a.editme").colorbox({
+            iframe:true,
+            transition:	"elastic",
+            width:"70%",
+            height:"70%",
+              fastIframe:false,
+            opacity:0.3
+        
+        });
+        
+    
     mesdates.forEach(function(entry) {
         /* console.log(entry);*/
         $(entry + "_left_date").datepicker({

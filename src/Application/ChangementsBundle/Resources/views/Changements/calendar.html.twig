@@ -110,10 +110,18 @@ span.label.label-warning{ vertical-align:top;}*/
 {% block javascripts %}
 {{ parent() }}
        <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
-<script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/editme.js') }}"></script>
 <script type="text/javascript">
           
 $(document).ready(function() {
+    $("a.editme").colorbox({
+            iframe:true,
+            transition:	"elastic",
+            width:"70%",
+            height:"70%",
+              fastIframe:false,
+            opacity:0.3
+        
+        });
 //$(function() {
   $( "#grid_certificatsgrid__dateDebut__query__from" ).datepicker({
 maxDate: "+3M +10D",

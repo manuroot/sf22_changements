@@ -874,14 +874,13 @@ class ChangementsController extends Controller {
     public function checkuserAction() {
         $request = $this->get('request');
 
-       $from = $request->request->get('from');
-       $array['status'] = true;
+        $from = $request->request->get('from');
+        $array['status'] = true;
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
             $user_security = $this->container->get('security.context');
             if (!$user_security->isGranted('IS_AUTHENTICATED_FULLY') && isset($from)) {
-                 $array['status'] = false;    
-                 }
-                 else{
+                $array['status'] = false;
+            } else {
                 // 1er passage
                 $session = $request->getSession();
                 if (!$session->has('inactivity')) {
@@ -893,19 +892,24 @@ class ChangementsController extends Controller {
                 $idle = time() - $session->get('inactivity');
                 $array['idle'] = $idle;
                 if ($idle > $idle_timeout) {
-                     $session->invalidate();
-                   //     $user_security->setToken(null); 
+                    $session->invalidate();
+                    //     $user_security->setToken(null); 
                     //$session->invalidate();
                     $array['status'] = false;
                 }
-                 }
-             $response = new Response(json_encode($array));
+            }
+            $response = new Response(json_encode($array));
             $response->headers->set('Content-Type', 'application/json');
             return $response;
+        } elseif ($request->isXmlHttpRequest() && $request->getMethod() == 'GET') {
+
+            $response = new Response();
+            $response->setContent("OK");
+            return $response;
+//echo "OK";exit(1);
         }
     }
 
-   
     //==============================================
     //          REQUETES AJAX
     // 
@@ -1242,18 +1246,6 @@ class ChangementsController extends Controller {
 
     public function indexfantaAction(Request $request) {
 
-        /* $session = $request->getSession();
-          //$session->start();
-          $session_data = $session->getMetadataBag();
-          // Expire sessions if unused for $idletimeout
-          $idle_timeout = $this->container->getParameter('application_changements.session_timeout');
-
-          $idle=time() - $session_data->getLastUsed();
-          echo "<br>-- $idle --";
-          if (time() - $session_data->getLastUsed() > $idle_timeout) {
-          $session->invalidate();
-          }
-          exit(1); */
         $parameters = array();
         $em = $this->getDoctrine()->getManager();
         // Pour les favoris
@@ -1268,11 +1260,6 @@ class ChangementsController extends Controller {
         // On efface les sessions si post 
         //------------------------------------------
         if ($request->getMethod() == 'POST') {
-            /* $alldatas = $request->request->all();
-              $datas = $alldatas["changements_searchfilter"];
-              print_r($alldatas);exit(1); */
-
-
             $session->remove('chgmtsfanta_page');
             $session->remove('chgmtsfanta_sort');
             $session->remove('chgmtsfanta_dir');
@@ -1293,18 +1280,6 @@ class ChangementsController extends Controller {
                 $session->set('changementControllerFilternew', $datas);
                 $searchForm->bind($datas);
             }
-            //-----------------------------------------
-            // On recupere les vars de post ==> session filter
-            //------------------------------------------
-            /* elseif ($request->get('submit-open') == "open") {
-              $alldatas = $request->request->all();
-              $datas = $alldatas["changements_searchfilter"];
-              $parameters = $datas;
-              $session->set('changementControllerFilternew', $datas);
-
-              $searchForm->bind($datas);
-
-              } */
             $page = 1;
             $dir = 'DESC';
             $sort = 'a.id';
@@ -1381,14 +1356,9 @@ class ChangementsController extends Controller {
         $em = $this->getDoctrine()->getManager();
         // Pour les favoris
         list($user_id, $group_id) = $this->getuserid();
-
-
-        /*
-          $query_status = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->GetNomStatus();
-          print_r($query_status);
-          exit(1);
-         */
-
+        if (isset($user_id)) {
+            $parameters['user_favoris'] = $user_id;
+        }
         $request = $this->getRequest();
         $session = $request->getSession();
         $session->set('buttonretour', 'changements_myfanta');
@@ -1417,18 +1387,7 @@ class ChangementsController extends Controller {
                 $session->set('changementControllerFilternew', $datas);
                 $searchForm->bind($datas);
             }
-            //-----------------------------------------
-            // On recupere les vars de post ==> session filter
-            //------------------------------------------
-            /* elseif ($request->get('submit-open') == "open") {
-              $alldatas = $request->request->all();
-              $datas = $alldatas["changements_searchfilter"];
-              $parameters = $datas;
-              $session->set('changementControllerFilternew', $datas);
 
-              $searchForm->bind($datas);
-
-              } */
             $page = 1;
             $dir = 'DESC';
             $sort = 'a.id';
@@ -1451,11 +1410,6 @@ class ChangementsController extends Controller {
             $page = 1;
         }
 
-        list($user_id, $group_id) = $this->getuserid();
-        if (isset($user_id)) {
-            $parameters['user_favoris'] = $user_id;
-            // echo "user_id=$user_id";
-        }
         //   exit(1);
         //-----------------------------------------
         // On recupere les vars de session page,dir,order

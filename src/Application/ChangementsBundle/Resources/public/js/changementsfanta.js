@@ -17,32 +17,15 @@ $(document).ready(function() {
         }
     });
 
-    /*   bootbox.setDefaults({
-     locale: "fr",
-     show: true,
-     backdrop: true,
-     closeButton: true,
-     animate: true,
-     className: "my-modal"
-     });
-     
-     $(".confirm-delete").click(function(e) {
-     e.preventDefault();
-     var id = $(this).data('id')
-     bootbox.dialog("Remove this product?", [{
-     "label" : "No",
-     "icon"  : "icon-remove"
-     }, {
-     "label" : "Yes",
-     "icon"  : "icon-ok icon-white",
-     "callback": function() {
-     deleteRecord(id);
-     }
-     }]);
-     });    */
-
-    /* $('a.favoris').tooltip();*/
-    /* $("a.favoris").popover({placement:'bottom', trigger:'hover'});*/
+    $("a.editme").colorbox({
+            iframe:true,
+            transition:	"elastic",
+            width:"70%",
+            height:"70%",
+              fastIframe:false,
+            opacity:0.3
+        
+        });
 
     $("#mytitleb").popover({
         html: true,
@@ -179,7 +162,7 @@ $(document).ready(function() {
     }
     
  
-  
+  /*
     setInterval(function()
 {
   
@@ -199,7 +182,7 @@ $(document).ready(function() {
         });
   
         }, 300000);
- 
+ */
     function checkuser(dataAjax) {
                         
         $.ajax({
