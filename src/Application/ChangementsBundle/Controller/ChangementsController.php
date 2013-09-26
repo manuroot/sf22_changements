@@ -828,7 +828,7 @@ class ChangementsController extends Controller {
         $request = $this->get('request');
 
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
-              $em = $this->getDoctrine()->getManager();
+            $em = $this->getDoctrine()->getManager();
 
             $id = $request->request->get('id');
             $entity = $this->get('changement.common.manager')->checkandloadChangement($id);
@@ -874,20 +874,38 @@ class ChangementsController extends Controller {
     public function checkuserAction() {
         $request = $this->get('request');
 
-         $array['status'] = false;
+       $from = $request->request->get('from');
+       $array['status'] = true;
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
             $user_security = $this->container->get('security.context');
-            // authenticated REMEMBERED, FULLY will imply REMEMBERED (NON anonymous)
-            if ($user_security->isGranted('IS_AUTHENTICATED_FULLY')) {
-                $array['status'] = true;
-            } 
-            $response = new Response(json_encode($array));
-
+            if (!$user_security->isGranted('IS_AUTHENTICATED_FULLY') && isset($from)) {
+                 $array['status'] = false;    
+                 }
+                 else{
+                // 1er passage
+                $session = $request->getSession();
+                if (!$session->has('inactivity')) {
+                    $session->set('inactivity', time());
+                }
+                //$session_data = $session->getMetadataBag();
+                // Expire sessions if unused for $idletimeout
+                $idle_timeout = $this->container->getParameter('application_changements.session_timeout');
+                $idle = time() - $session->get('inactivity');
+                $array['idle'] = $idle;
+                if ($idle > $idle_timeout) {
+                     $session->invalidate();
+                   //     $user_security->setToken(null); 
+                    //$session->invalidate();
+                    $array['status'] = false;
+                }
+                 }
+             $response = new Response(json_encode($array));
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
     }
 
+   
     //==============================================
     //          REQUETES AJAX
     // 
@@ -903,7 +921,7 @@ class ChangementsController extends Controller {
             if (!$user_security->isGranted('IS_AUTHENTICATED_FULLY')) {
                 
             }
-            /*  
+            /*
              * 
              * http://forum.symfony-project.org/viewtopic.php?t=36827&p=125930
              * http://stackoverflow.com/questions/10846970/catch-session-timeout-symfony2
@@ -1224,6 +1242,18 @@ class ChangementsController extends Controller {
 
     public function indexfantaAction(Request $request) {
 
+        /* $session = $request->getSession();
+          //$session->start();
+          $session_data = $session->getMetadataBag();
+          // Expire sessions if unused for $idletimeout
+          $idle_timeout = $this->container->getParameter('application_changements.session_timeout');
+
+          $idle=time() - $session_data->getLastUsed();
+          echo "<br>-- $idle --";
+          if (time() - $session_data->getLastUsed() > $idle_timeout) {
+          $session->invalidate();
+          }
+          exit(1); */
         $parameters = array();
         $em = $this->getDoctrine()->getManager();
         // Pour les favoris

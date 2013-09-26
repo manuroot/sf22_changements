@@ -20,22 +20,10 @@
                 <span class="icon-bar"></span> 
                  <span class="icon-bar"></span> 
             </a>
-                          {#  <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> 
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span> 
-                                <span class="icon-bar"></span> 
-                            </a>
-                        #}
-                    <a class="brand" href="{{ path('changements_fanta') }}">
-            
-  
-  <i class="icon-home"></i>
-      
- 
-                                {% block toto %}I-CHANGE(v1.2a){% endblock %}</a>
- 
-
-                    <div class="btn-group pull-right"> 
+           <a class="brand" href="{{ path('changements_fanta') }}">
+            <i class="icon-home"></i>
+            {% block toto %}I-CHANGE(v1.2a){% endblock %}</a>
+           <div class="btn-group pull-right"> 
                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"> <i class="icon-user"></i>
                                         {% if is_granted("ROLE_USER") %}
                                         {{ app.user.username }} 
@@ -99,8 +87,8 @@
                                                 
                                                 <li><a href="{{ path('changements_calendar') }}"><i class="icon-calendar"></i> {{ 'Calendrier Des Opérations'|trans }}</a></li>
                                                 <li><a href="{{ path('docchangements') }}"><i class="icon-briefcase"></i> {{ 'Fichiers Des Opérations'|trans }}</a></li>
-                                                <li><a href="{{ path('changements_comment_mesactivites') }}"><i class="icon-briefcase"></i> {{ 'Mes Commentaires'|trans }}</a></li>
-                                                <li><a href="{{ path('changements_charts') }}"><i class="icon-camera"></i> {{ 'Graphiques'|trans }}</a></li>
+                                                <li><a href="{{ path('changements_comment_mesactivites') }}"><i class="icon-pencil"></i> {{ 'Mes Commentaires'|trans }}</a></li>
+                                                <li><a href="{{ path('changements_charts') }}"><i class="icon-bar-chart"></i> {{ 'Graphiques'|trans }}</a></li>
 
 
                                             </ul>

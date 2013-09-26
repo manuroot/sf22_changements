@@ -8,6 +8,9 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Exception\CredentialsExpiredException;
+//use Symfony\Component\Security\Core\SecurityContext;
+//use Symfony\Component\Security\Core\SecurityContextInterface;
+//use Doctrine\ORM\Event\LifecycleEventArgs;
 
 /**
 * Expires the session if idle too long
@@ -18,10 +21,12 @@ class SessionExpiryListener implements EventSubscriberInterface
 * @var ContainerInterface
 */
     private $container;
+  //  protected $securityContext;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+     //   $this->securityContext = $securityContext;
     }
 
     public function onKernelRequest(GetResponseEvent $event)
@@ -30,9 +35,13 @@ class SessionExpiryListener implements EventSubscriberInterface
         if (HttpKernelInterface::MASTER_REQUEST !== $event->getRequestType()) {
             return;
         }
-
+  //$user_security = $this->container->get('security.context');
+        // authenticated REMEMBERED, FULLY will imply REMEMBERED (NON anonymous)
+     //   if ($user_security->isGranted('IS_AUTHENTICATED_FULLY')) {
+    
         $request = $event->getRequest();
-        if (!$request->hasSession()) {
+        if (!$request->hasSession()){
+            //|| ! $this->securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
             return;
         }
 

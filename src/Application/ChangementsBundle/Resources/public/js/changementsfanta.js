@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    /*passer en parametre inactivié session*/
+      var userid = "{{ user.username|escape('js') }}";
+      /*var test = {{ testArray|json_encode|raw }};
+       var test = {{ testArray|json_encode|raw }};*/
     var img_path = '/bundles/applicationchangements/images/';
     var img_s_path = 'bundles/applicationchangements/images/';
 
@@ -67,15 +71,10 @@ $(document).ready(function() {
     $("td > a.favoris").click(function(event) {
 
         var url_login = Routing.generate('fos_user_security_login');
-        var chck = checkuser();
-       /* alert("not alredy logged in" + chck);
-        console.log("chck=" + chck);*/
-        if (chck === false) {
-
-            /*    alert("not alredy logged in");*/
-
-            window.location.replace(url_login);
-            /*   console.log("grgfdgf");*/
+        var dataAjax = {from: 'favoris'};
+        var chck = checkuser(dataAjax);
+           if (chck === false) {
+         window.location.replace(url_login);
         }
         else {
             /*  console.log("grgfdgf");*/
@@ -142,6 +141,13 @@ $(document).ready(function() {
      */
     $("td > a.okstatus").click(function(event) {
         /* * A modifier: change color only sur success !!*/
+        var url_login = Routing.generate('fos_user_security_logout');
+        var datax = {from: 'favoris'};
+        var chck = checkuser(datax);
+           if (chck === false) {
+         window.location.replace(url_login);
+        }
+        else {
         if ($(this).hasClasses(['open', 'closed', 'prepare'])) {
             /*if ($(this).hasClass("open") || $(this).hasClass("closed") || $(this).hasClass("prepare")) {*/
             var id = $(this).attr("data-id");
@@ -150,6 +156,7 @@ $(document).ready(function() {
             origin_mess = "<i class='icon-wrench icon-2x'></i><br><h3>Modifier le status de la demande ?</h3>";
             var mess = origin_mess + "<p>id=" + id + "</p><p>nom=" + name + "</p>";
 
+            
             bootbox.confirm(mess, function(checkstr) {
                 console.log("confirm result=" + checkstr);
 
@@ -163,6 +170,7 @@ $(document).ready(function() {
             });
             return true;
         }
+    }
 
     });
 
@@ -170,28 +178,32 @@ $(document).ready(function() {
         $('tr#' + trId).remove();
     }
     
-    
+ 
+  
     setInterval(function()
-{ 
+{
+  
     $.ajax({
       type:"POST",
        url: Routing.generate('ajax_checkuser'),
       datatype:"html",
       success:function(data)
       {
-      var url_login = Routing.generate('fos_user_security_login');
-       /* console.log("check user");*/
+      var url_login = Routing.generate('fos_user_security_logout');
+     
         if (data.status === false) {window.location.replace(url_login);}
             },
              error: function(e) {
             myVar=false;
              }
         });
-}, 600000);//time in milliseconds */
-
-
-    function checkuser() {
+  
+        }, 300000);
+ 
+    function checkuser(dataAjax) {
+                        
         $.ajax({
+            data: dataAjax,
             url: Routing.generate('ajax_checkuser'),
             async: false,
             type: "POST",

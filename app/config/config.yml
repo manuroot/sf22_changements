@@ -40,7 +40,7 @@ framework:
 # SESSION IDLE TIMEOUT
 #================================================== 
 application_changements:
-    session_timeout: 30
+    session_timeout: 3600
     redirect_to: fos_user_security_login
     ##expired_response: 'test'
   
@@ -259,7 +259,7 @@ fos_user:
   
 
 fos_js_routing:
-     routes_to_expose: [ fos_user_security_login,changements_fanta,changements_updatexhtml_changement,certificatscenter_updatexhtml_certificats,serveurs_updatexhtml_status,certificatscenter_listbyprojet,changements_listbyprojet,changements_minicalendar,ajax_checkuser ]  
+     routes_to_expose: [ fos_user_security_logout,fos_user_security_login,changements_fanta,changements_updatexhtml_changement,certificatscenter_updatexhtml_certificats,serveurs_updatexhtml_status,certificatscenter_listbyprojet,changements_listbyprojet,changements_minicalendar,ajax_checkuser ]  
     
 #==================================================
 #  TINYMCE

@@ -32,9 +32,15 @@
 
           {% if is_granted("IS_AUTHENTICATED_FULLY") %}
             {% if fav is defined %}
-         <a href="{{ path("changements_myfanta") }}" class="show_favoris btn btn-medium btn-primary my-star">
-            <i class="icon-star"></i> Favoris
-        </a>
+             {% if fav == 's_fanta'%}
+                <a href="{{ path("changements_myfanta") }}" class="show_favoris btn btn-medium btn-primary my-star">
+                    <i class="icon-star"></i> Favoris
+                </a>
+             {% else %}
+                 <a href="{{ path("changements_fanta") }}" class="show_favoris btn btn-medium btn-primary">
+                    <i class="icon-circle-arrow-right"></i> Index
+                </a>
+            {% endif %}
             {% endif %}
         <a href="{{ path(new_flow_path) }}" class=" ajoutchange btn btn-medium btn-primary">
             <i class=" icon-plus icon-mesfiltres"></i>{{ new_text }}(flow)
