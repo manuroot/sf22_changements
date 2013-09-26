@@ -17,7 +17,7 @@
    <argument type="service" id="doctrine.orm.entity_manager" />
 </service>
 
- <service id="application.form.flow.new.changement" class="MyCompany\MyBundle\Form\RegisterUserFlow"
+ <service id="application.form.flow.new.changement" class="Application\ChangementsBundle\Form\ChangementsFlow"
             parent="craue.form.flow"
             scope="request">
         <call method="setFormType">
