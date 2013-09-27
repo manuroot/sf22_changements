@@ -59,8 +59,11 @@
 
             /* select#changements_searchfilter_idStatus{
                }*/
+            select option:hover {
+                background-color: #b6d1fd;
+            }
              .select2-choice {
-     width:167px;
+     width:200px;
 }
       /*  .boxlist {
             border: 1px solid #D4E0EE;
@@ -135,7 +138,7 @@
  {% endif %}
 {% if flow.getCurrentStepNumber() > 1 and flow.getCurrentStepNumber() < 6  %}
                 
-                   <td> {{ form(form) }}</td>
+                   <td style="align: left;width:60%;"{{ form(form) }}</td>
  {% endif %}
                    
  {% if flow.getCurrentStepNumber() == 6 %}
