@@ -904,6 +904,7 @@ class ChangementsController extends Controller {
         } elseif ($request->isXmlHttpRequest() && $request->getMethod() == 'GET') {
 
             $response = new Response();
+           //  return new Response('<html><body>Hello '.$name.'!</body></html>');
             $response->setContent("OK");
             return $response;
 //echo "OK";exit(1);
