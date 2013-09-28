@@ -71,6 +71,11 @@ class AppKernel extends Kernel {
             //new FOS\CommentBundle\FOSCommentBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle($this),
             //====================================================
+            // FORM JS VALIDATION
+            //====================================================
+           //new APY\JsFormValidationBundle\APYJsFormValidationBundle(),
+           // new Bazinga\ExposeTranslationBundle\BazingaExposeTranslationBundle(),
+            //====================================================
             // HIGHCHARTS ET CALENDARS
             //====================================================
             //  new ADesigns\CalendarBundle\ADesignsCalendarBundle(),

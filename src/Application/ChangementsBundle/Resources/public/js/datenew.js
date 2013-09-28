@@ -88,20 +88,57 @@ $(document).ready(function() {
         placeholder: "-- Choisir Application(s) --",
         allowClear: true
     });
+      $("#changements_idProjet").select2({
+        placeholder: "-- Choisir Projet(s) --",
+        allowClear: true
+    });
     $("select#changements_idusers").select2({
         placeholder: "-- Choisir User(s) --",
         allowClear: true
     });
-
+$("select#changements_idEnvironnement").select2({
+        placeholder: "-- Choisir Environnement(s) --",
+        allowClear: true
+    });
     $("#changements_demandeur").select2();
     $("#changements_searchfilter_idProjet").select2({
         placeholder: "-- Choisir Projet(s) --",
         allowClear: true
     });
 
+$('#changements_idStatus').change(function()
+{
+        console.log("this.value=" + $(this).val());
+        var test_status=$(this).val();
+    if (test_status == 2){
+        if ($("#changements_dateFin[required!='required']")){
+           if ($('#changements_dateFin:text').val().length == 0){
+           $('#changements_dateFin').attr('required','required');
+            alert('Le champs DateFin est obligatoire (changement fermé)');
+            $("#changements_dateFin_control_group > label").addClass('leserreurs');
 
-    $("#changements_idProjet").select2({
-        placeholder: "-- Choisir Projet(s) --",
-        allowClear: true
-    });
+        }
+        }
+    }
+    else {
+        if ( $("#changements_dateFin_control_group > label").hasClass('leserreurs')){
+              $("#changements_dateFin_control_group > label").removeClass('leserreurs');
+        }
+        $('#changements_dateFin').removeAttr('required');
+    }
+       /* if($('#changements_dateFin').hasAttribute('required')){
+    alert('true');   
+} else {
+    alert('false');   
+}
+       $('#changements_dateFin').prop('required',true);
+alert('Value change to ' +  test_status);
+    }*/
+ /*   alert('Value change to ' +  $(this).val());*/
+   /*  var theID = $('#changements_idStatus').select2('data').id;
+    var theSelection = $(test).select2('data').text;
+    $('#selectedID').text(theID);
+    $('#selectedText').text(theSelection);*/
+});
+  
 }); //Eof:: ready

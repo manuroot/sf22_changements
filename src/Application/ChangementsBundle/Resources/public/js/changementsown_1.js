@@ -7,7 +7,7 @@ $(document).ready(function() {
         "#changements_searchfilter_dateFin",
         "#changements_searchfilter_dateDebut_max",
         "#changements_searchfilter_dateFin_max",
-        "#certificatsfiles_searchfilter_updatedAt"
+        "#certificatsfiles_searchfilter_updatedAt",
     ];
     /*var mydates=["#changements_searchfilter_dateDebut","#changements_searchfilter_dateFin"];*/
     mydates.forEach(function(entry) {

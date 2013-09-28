@@ -20,7 +20,8 @@ $builder
           ->add('nom', null, array(
               'label'=>'Nom',
               'attr' => array(
-                           'placeholder' => '5 a 40 car.'
+                           'placeholder' => '5 a 40 car.',
+                   'pattern'     => '.{5,40}' //minlength
                                     ),
                     'widget_addon' => array(
                         'icon' => 'pencil',
@@ -262,6 +263,15 @@ $builder
             }
         });*/
                $builder->add('idapplis', 'entity', array(
+                    /*   'attr' => array(
+                           'placeholder' => '5 a 40 car.',
+                   'pattern'     => '.{5,40}' //minlength
+                                    ),*/
+                   'attr' => array(
+                           'required' => 'required'
+                           
+                                    ),
+                   
                     'class' => 'ApplicationRelationsBundle:Applis',
                     'query_builder' => function(EntityRepository $em) {
                         return $em->createQueryBuilder('u')
@@ -272,6 +282,22 @@ $builder
                      
                     'required' => true,
                     'label' => 'Applications'
+                ))
+           ->add('idusers', 'entity', array(
+                    'attr' => array(
+                         /* 'style' => 'height:150px',*/
+                        'placeholder' => 'ex: 12345 (5 a 10 car.)'
+                                    ),
+                    'class' => 'ApplicationRelationsBundle:ChronoUser',
+                    'query_builder' => function(EntityRepository $em) {
+                        return $em->createQueryBuilder('u')
+                                ->orderBy('u.nomUser', 'ASC');
+                    },
+                    'property' => 'nomUser',
+                    'multiple' => true,
+                    'required' => true,
+                    'label' => 'Utilisateurs',
+                 /* 'empty_value' => '--- Followers ---'*/
                 ));
 
                 /* ->add('picture',new DocumentsType())
@@ -345,7 +371,7 @@ $builder
                 ->add('idEnvironnement', 'entity', array(
                     'class' => 'ApplicationRelationsBundle:Environnements',
                     'property' => 'nom',
-                    'expanded' => false,
+                   /* 'expanded' => false,*/
                     'multiple' => true,
                     'required' => true,
                     'label' => 'Environnements'
@@ -361,23 +387,9 @@ $builder
                     'multiple' => false,
                     'required' => true,
                     'label' => 'Demandeur',
-                    'empty_value' => '--- Choisir une option ---'
+                    'empty_value' => '--- Demandeur ---'
                 ))
-                ->add('idusers', 'entity', array(
-                    'attr' => array(
-                          'style' => 'height:150px',
-                        'placeholder' => 'ex: 12345 (5 a 10 car.)'
-                                    ),
-                    'class' => 'ApplicationRelationsBundle:ChronoUser',
-                    'query_builder' => function(EntityRepository $em) {
-                        return $em->createQueryBuilder('u')
-                                ->orderBy('u.nomUser', 'ASC');
-                    },
-                    'property' => 'nomUser',
-                    'multiple' => true,
-                    'required' => true,
-                    'label' => 'Utilisateurs'
-                ));
+              
 
         //  ->add('fic')
         //    ->add('nbfiles')

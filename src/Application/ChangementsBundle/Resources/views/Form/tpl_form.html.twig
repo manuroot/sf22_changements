@@ -1,16 +1,3 @@
-
-{# Labels #}
-
-{#
-{% block form_label %}
-    {{ parent() }}
-
-    {% if required %}
-        <span class="required" title="This field is required">*</span>
-    {% endif %}
-{% endblock %}
-      #}  
-        
 {% block form_label %}
 {% spaceless %}
     {% if label is not sameas(false) %}
@@ -30,3 +17,16 @@
     {% endif %}
 {% endspaceless %}
 {% endblock form_label %}
+  {#
+{% block field_row %}
+{% spaceless %}    
+    <div class="control-group {% if errors %}error{% endif %}">
+      XXXX {{ form_label(form) }}
+      <div class="controls">
+        {{ form_widget(form) }}        
+        {{ form_errors(form) }}        
+      </div>
+    </div>    
+{% endspaceless %}
+{% endblock field_row %}
+#}

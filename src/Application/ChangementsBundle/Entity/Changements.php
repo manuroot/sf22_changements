@@ -57,7 +57,7 @@ class Changements extends AbstractEvent {
      * @ORM\OrderBy({"nom" = "ASC"})
      * @Assert\Length(
      *      min = "5",
-     *      max = "40",
+     *      max = "10",
      *      minMessage = "Your name must be at least {{ limit }} characters length |
      *  Au minimum {{ limit }} caracteres",
      *      maxMessage = "Your first name cannot be longer than than {{ limit }} characters length |

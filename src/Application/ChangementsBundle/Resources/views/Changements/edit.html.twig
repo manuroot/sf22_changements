@@ -3,9 +3,9 @@
 {% form_theme edit_form with 'ApplicationChangementsBundle:Form:tpl_form.html.twig' %}
 
 {% block stylesheets %}
+
  {{ parent() }}
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
-<link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.fileupload-ui.css') }}" type="text/css" media="all"/>    
   <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
 <style>
@@ -21,7 +21,7 @@
         .leserreurs {
             font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
             font-weight: bold;
-            font-size:18px;
+            font-size:12px;
             color:red;
         }
         .hrsep {color: blue;background-color: blue;height: 2px; }
@@ -45,15 +45,15 @@
                 background-color: #b6d1fd;
             }
             
-            /* #s2id_autogen2.select2-input.select2-default {*/
-            div#s2id_changements_idapplis, div#s2id_changements_idusers,
+            div#s2id_changements_idEnvironnement,
+             div#s2id_changements_idapplis, div#s2id_changements_idusers,
              div#s2id_changements_searchfilter_idProjet,
-             div#s2id_changements_searchfilter_idusers {
+             div#s2id_changements_searchfilter_idusers,ul.select2-choice {
+           width:210px;
            
-            min-width:167px;
+           /* min-width:200px;max-width:220px;*/
             }
-            select#changements_searchfilter_idusers{
-                height:150px;}
+         
             label,.mondiv { color:#02195e; font-size: 12px;
                             font-weight: normal;
                             line-height: 20px;}
@@ -63,8 +63,33 @@
              .select2-choice {
      width:167px;
 }
+div.testa{background-color: red;width:100px;position: absolute;left:100px;}
+.select2-container {
+    position: relative;
+    display: inline-block;
+    /* inline-block for ie7 */
+    zoom: 1;
+    *display: inline;
+    vertical-align: top;
+}
+#myform label.error {
+	margin-left: 10px;
+	width: auto;
+	display: inline;
+        color:red;
+/*
+.trseparation{border:2px;
+              border-color:black;}.table-mybordered {
+    border-spacing: 1px;
+    border-collapse: collapse;
+    text-align: left;
+}*/
+
     </style>
 {#  {{ form_stylesheet(edit_form) }}#}
+<link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('select2/select2-bootstrap.css') }}" type="text/css" media="all"/>
+
 
 {% endblock %}
 
@@ -142,12 +167,36 @@
         <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
         <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/datenew.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/listprojetapplis.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('select2/select2.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>
+       
 
+         <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/listprojetapplis.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>
+           <script type="text/javascript" src="{{ asset('jquery/validate/jquery.validate.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('select2/select2.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>        <script>
+         
+$().ready(function() {
+	// validate the comment form when it is submitted
+	
+        $("#myform").validate();
+      
+$.each($(".select2-container"), function (i, n) {
+            $(n).next().show().fadeTo(0, 0).height("0px").css("left", "auto"); // make the original select visible for validation engine and hidden for us
+            $(n).prepend($(n).next());
+            $(n).delay(500).queue(function () {
+                $(this).removeClass("validate[required]"); //remove the class name from select2 container(div), so that validation engine dose not validate it
+                $(this).dequeue();
+            });
+        });
+});
+
+</script>
+        {#
+<script type="text/javascript" src="{{ asset('bundles/bazingaexposetranslation/js/translator.min.js') }}"></script>
+<script type="text/javascript" src="{{ url('bazinga_exposetranslation_js', { 'domain_name': 'validators' }) }}"></script>
+#}
        {{ form_javascript(edit_form) }}
+{#{{ JSFV(edit_form) }}#}
 {% endblock %}
 
 {% block content_header '' %}
@@ -155,14 +204,16 @@
 {% block content %}
 
 {% set btnretour = app.session.get('buttonretour') %}
-{% if btnretour is not defined %}
+{% if btnretour is not defined or btnretour =="" %}
 {% set btnretour = 'changements_fanta' %}
 {% endif %}
 {% include 'ApplicationChangementsBundle:templates:flash.html.twig' %}
-      
+    
+  {#------------------------------------------------#}
+
 <div id="divchmgt" style="display: none;">{{ entity.id }}</div>
 
-        <form action="{{ path('changements_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+        <form  id="myform" action="{{ path('changements_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
               {#------------------------------------------------
                    TABLE HTML
                   -------------------------------------------------#}
@@ -174,16 +225,11 @@
                     -------------------------------------------------#}
                 <td class="calendar file">
                         <div> {{ form_row(edit_form.nom) }}</div>
-                         <br/> <br/>
+                       <br/> <br/>
                         <div> {{ form_row(edit_form.dateDemande) }} </div>
                         <br/> <br/>
                         <div> {{ form_row(edit_form.dateDebut) }} </div>
-                        <br/> <br/>
-                        <div>{{ form_row(edit_form.dateFin) }} </div>
-                        <br/> <br/>
-                        <div>{{ form_row(edit_form.dateComep) }}</div>
-                        <br/> <br/>
-                        <div> {{ form_row(edit_form.dateVsr) }}</div>
+                       
           
                      </td>
                     {#------------------------------------------------
@@ -192,25 +238,57 @@
              
                     <td class="calendar mytiny">
                         <div>{{ form_row(edit_form.idProjet) }}</div>
-                       {{ form_row(edit_form.idEnvironnement) }}
                         {{ form_row(edit_form.idStatus) }}
-                         {{ form_row(edit_form.idKind) }}
-                         {{ form_row(edit_form.astreinte) }}
+                         {{ form_row(edit_form.idEnvironnement) }}
+                      
+                       
                     </td>
                     {#------------------------------------------------
                     LIGNE 1 CELL 3
                     -------------------------------------------------#}
             
                    <td class="calendar lastcol">
-                    {{ form_row(edit_form.idapplis) }}
-                    {{ form_row(edit_form.demandeur) }}
-                    {{ form_row(edit_form.idusers) }}
-                    {{ form_row(edit_form.ticketExt) }}
-                     <br/> <br/>
-                     {{ form_row(edit_form.ticketInt) }}
+                     
+                   <div>  {{ form_row(edit_form.demandeur) }}</div>
+                   <div>  {{ form_row(edit_form.idusers) }}</div>
+                   <div>  {{ form_row(edit_form.idapplis) }}</div>
+                           
+                           
                    </td>
                 </tr>
                 
+{#=====================================================================
+                   LIGNE 2 : CHAMPS OPTIONNELS
+=====================================================================#}
+                <tr class="trseparation">
+                      {#------------------------------------------------
+                    LIGNE 2 CELL 1
+                    -------------------------------------------------#}
+                    <td class="calendar file">
+                      
+                        <div>{{ form_row(edit_form.dateFin) }} </div>
+                      
+                     <br/> <br/>
+                        <div>{{ form_row(edit_form.dateComep) }}</div>
+                        <br/> <br/>
+                        <div> {{ form_row(edit_form.dateVsr) }}</div></td>
+                    
+                   {#------------------------------------------------
+                   LIGNE 2 CELL 2
+                   -------------------------------------------------#}
+                 
+                     <td class="calendar mytiny">
+                           {{ form_row(edit_form.idKind) }}
+                         {{ form_row(edit_form.astreinte) }}</td>
+                        {#------------------------------------------------
+                    LIGNE 2 CELL 3
+                    -------------------------------------------------#}
+                 
+                    <td class="calendar lastcol">
+                    {{ form_row(edit_form.ticketExt) }}
+                     <br/> <br/>
+                     {{ form_row(edit_form.ticketInt) }}</td>
+                </tr>
                 <tr>
                     <td class="calendar description" colspan="3">
                         {{ form_row(edit_form.description,{ 'attr': {'class': 'tinymce'} }) }}
@@ -260,6 +338,18 @@
                         return false;
                         }">Supprimer Opération</button>
                     </div>
+                            {#
+                            <div class="control-group warning">
+  <label class="control-label" for="e1">Input with warning</label>
+  <div class="controls">
+    <select id="e1">
+      <option value="AL">Alabama</option>
+      ...
+      <option value="WY">Wyoming</option>
+    </select>
+    <span class="help-inline">Something may have gone wrong</span>
+  </div>
+</div>#}
                     </form>
               
                          </td>

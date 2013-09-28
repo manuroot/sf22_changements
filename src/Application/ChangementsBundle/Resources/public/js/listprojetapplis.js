@@ -17,7 +17,54 @@ $(document).ready(function() {
      return false;
      });
      */
+  
      function remplirSelect (dataAjax) {
+   $.ajax({
+         url: Routing.generate('changements_listbyprojet'),
+         type: "POST", 
+        data : dataAjax, 
+        dataType: "json", 
+        success: function(reponse){
+            // Sur Succès de la réponse AJAX
+             var optionData = reponse;
+              var cer_arr=[];
+            for (key in optionData['chgmnt']) {
+            cer_arr.push(optionData['chgmnt'][key]);
+             
+            }    
+           // supprimer la precedente select list
+           $("#changements_idapplis> option").remove();
+        
+            i = 0;  
+             var selected_appli='';
+              console.log("arr cert:" + cer_arr);
+             var selectedItems = $("#changements_idapplis").select2("val");
+             for (key in optionData['applis']) {
+                 // si appartient au changement
+             if(jQuery.inArray(+ key,cer_arr) != -1){
+                console.log("key in array: key=" + key);
+                selected_appli='selected="selected"'; 
+                  /* console.log("in array: key=" + key);*/
+             selectedItems.push(key);
+            }
+          // on remplit les applis en f() de projet
+               $("#changements_idapplis").append(  '<option label="' 
+                    + optionData['applis'][key]
+                    + '"' + 'value="' + key  + '"' + selected_appli + '>'
+                    + optionData['applis'][key]
+                    + '</option>');
+                i++;
+                selected_appli='';
+                  /* console.log("Ajout : key=" + key);*/
+                  /*$("#changements_idapplis").select2("val",  "15");
+                  $("#changements_idapplis").select2("val",  "23");*/
+            }
+            $("#changements_idapplis").select2("val", selectedItems);
+    } //Eof:: success
+});  //Eof:: ajax 
+ 
+} //Eof:: fucntion remplirSelect
+    function remplirSelectStandard (dataAjax) {
    $.ajax({
          url: Routing.generate('changements_listbyprojet'),
          type: "POST", 
@@ -29,20 +76,27 @@ $(document).ready(function() {
             var values = {selected: [], unselected:[]};
             $("#changements_idapplis > option").each(function(){
                 values[this.selected ? 'selected' : 'unselected'].push(this.value);
+                   console.log("this.value=" + this.value);
             });
             var cer_arr=[];
             for (key in optionData['chgmnt']) {
             cer_arr.push(optionData['chgmnt'][key]);
             }    
             $("#changements_idapplis> option").remove();
+        
             i = 0;  
              var selected_appli='';
               console.log("arr cert:" + cer_arr);
              for (key in optionData['applis']) {
              if(jQuery.inArray(+ key,cer_arr) != -1){
-                //console.log("key in array: key=" + key);
+                console.log("key in array: key=" + key);
                 selected_appli='selected="selected"'; 
             }
+            /* pour select2 fo effacer les champs non presents dans new projet*/
+            else {
+                 $("#changements_idapplis option[value='" + key + "']").remove();
+            }
+            
            // on remplit les applis en f() de projet
                $("#changements_idapplis").append(  '<option label="' 
                     + optionData['applis'][key]
@@ -70,7 +124,7 @@ var dataAjax = {
      id_changement: Vid_chgmnt
 };
 remplirSelect (dataAjax);
-      
+  /* $("#changements_idapplis").select2("val", ["15","23"]); */    
           
 // Sur changement de l'un des 'select'
 // on recharge la bonne liste
@@ -87,7 +141,7 @@ $("select#changements_idProjet").change(function(){
     };
             
     remplirSelect (dataAjax);
- 
+  /* $("#changements_idapplis").select2("val", ["15","23"]);  */
 }); //Eof:: sur changement de l'un des 'select'
  
 }); //Eof:: ready

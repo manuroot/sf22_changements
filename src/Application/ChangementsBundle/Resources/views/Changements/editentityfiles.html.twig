@@ -140,10 +140,11 @@
         </script>
         <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
         <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+                <script type="text/javascript" src="{{ asset('select2/select2.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/datenew.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/listprojetapplis.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('select2/select2.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
+
        {{ form_javascript(edit_form) }}
 {% endblock %}
 
