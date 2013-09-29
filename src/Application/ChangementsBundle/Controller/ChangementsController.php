@@ -1351,15 +1351,21 @@ class ChangementsController extends Controller {
     // 
     //==============================================
 
+     /**
+     * Displays a form to edit an existing Changements entity.
+     *
+     * 
+     * @Secure(roles="IS_AUTHENTICATED_FULLY")
+     *
+     */
     public function indexmyfantaAction(Request $request) {
 
         $parameters = array();
         $em = $this->getDoctrine()->getManager();
         // Pour les favoris
-        list($user_id, $group_id) = $this->getuserid();
-        if (isset($user_id)) {
-            $parameters['user_favoris'] = $user_id;
-        }
+       
+       // echo "user_id=$user_id";
+      //  exit(1);
         $request = $this->getRequest();
         $session = $request->getSession();
         $session->set('buttonretour', 'changements_myfanta');
@@ -1416,8 +1422,15 @@ class ChangementsController extends Controller {
         // On recupere les vars de session page,dir,order
         //------------------------------------------
         //list($page, $dir, $sort) = $this->OrderfantaAction();
+         list($user_id, $group_id) = $this->getuserid();
+        if (isset($user_id)) {
+            $parameters['user_favoris'] = $user_id;
+         //   print_r($parameters);
+        }
+        // $parameters['truc'] = 'tzrez';
         $next_dir = ($dir == 'DESC') ? 'ASC' : 'DESC';
         $arrow[$sort] = $next_dir == "DESC" ? 'icon-arrow-up' : 'icon-arrow-down';
+       //   $parameters['truc'] = 'tzrez';
         $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getJoinedBy($sort, $dir, $parameters);
         $adapter = new DoctrineORMAdapter($query);
         //$adapter->setDistinct(false);

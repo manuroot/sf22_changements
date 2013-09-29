@@ -220,7 +220,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
             $parameters['idEnv'] = $criteria['idEnvironnement'];
         }
         if (isset($criteria['user_favoris'])) {
-            // var_dump($criteria['idEnvironnement']);exit(1);
+          //   var_dump($criteria['idEnvironnement']);exit(1);
             $query->andWhere('i.id IN (:idFavoris)');
             //  $query->distinct('GroupConcat(g.nom) AS kak');
             $parameters['idFavoris'] = $criteria['user_favoris'];
@@ -532,6 +532,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
 
 
         $this->query = $query;
+       // print_r($criteria);exit(1);
         if (!empty($criteria)) {
             $query = $this->getListBy($criteria);
         }
@@ -539,6 +540,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         //  $query->groupBy('a.idStatus');
         // $query->add('orderBy', "a.idStatus $dir");
         //        }
+       
         $query->add('orderBy', "$sort $dir");
 
 

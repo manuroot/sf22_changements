@@ -33,7 +33,7 @@ framework:
     session:         
       #lifetime:       30
       # cookie_lifetime: 30
-      cookie_lifetime: 864000
+      cookie_lifetime: 86400
     fragments:       ~
 
 #==================================================

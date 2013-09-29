@@ -21,7 +21,7 @@ $builder
               'label'=>'Nom',
               'attr' => array(
                            'placeholder' => '5 a 40 car.',
-                   'pattern'     => '.{5,40}' //minlength
+                   'pattern'     => '.{5,50}' //minlength
                                     ),
                     'widget_addon' => array(
                         'icon' => 'pencil',

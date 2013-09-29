@@ -103,7 +103,7 @@
                     <i class={{ arrow['g.nom'] }}></i>
                     {% endif %}
                 </th>
-     <th colspan="4">Actions</th>
+     <th colspan="2">Actions</th>
                         </tr>
                </thead>
     <tbody>
@@ -111,17 +111,29 @@
          {% set text_comment = "<p>Editer/Voir les commentaires de cet enregistrement (id=" ~ entity.id  ~ ")" %}
          {% set text_edit= "<p>Editer cet enregistrement (id=" ~ entity.id  ~ ")" %}
         {% set text_show= "<p>Afficher les détails de cet enregistrement (id=" ~ entity.id  ~ ")" %}
+            
+{#=============================== TR =================================#}
+        {% set trclass= "" %}
         {% if entity.idStatus.description == 'closed' %} 
-            <tr class="myclosed">
+            {% set trclass= "myclosed" %}
         {# sinon: open prepare ou wait #}
         {% else %}
             {% if entity.idStatus.description == 'prepare' or  entity.idStatus.description == 'wait'%} 
-                <tr class="prepare">
+              {% set trclass= "prepare" %}
             {% else %}
-                <tr class="success">
+                {% set trclass= "success" %}
             {% endif %}
         {% endif %}
-
+       
+        {% if isfavoris is defined %}
+            <tr class="{{ trclass }}" id="{{ entity.id }}">
+        {% else %}
+        
+            <tr class="{{trclass}}">
+        {% endif %}
+                                    
+{#===============================  START DES TDs =================================#}                     
+                                    
    <td>{{ entity.id }}</td>
    <td><a href="{{ path('changements_show', { 'id': entity.id }) }}">{{ entity.nom }}</a></td>
          
@@ -158,13 +170,17 @@
     <td>{{ entity.demandeur.nomUser }}</td>
     <td>
         {% if entity.picture|length > 0  %}
-            <img src="{{ asset('bundles/applicationchangements/images/wordx.gif') }}" alt="show" width="12px" height="12px"/>x {{  entity.picture|length }}
+         <img src="{{ asset('bundles/applicationchangements/images/wordx.gif') }}" alt="show" width="12px" height="12px"/>x {{  entity.picture|length }}
         {% else %}
             -
         {% endif %}
     </td>
    
-    <td>{{ entity.comments|length }}</td>
+    <td>{{ entity.comments|length }}  &nbsp;
+     <a class="tooltip_comments"  rel="tooltip" data-content="{{ text_comment }}" data-original-title="Information" data-toggle="tooltip"
+      href="{{ path('changements_comment_show', { 'id': entity.id }) }}">
+     <i class="icon-pencil" style="color:black"></i>
+     </a></td>
     <td>{{ entity.idusers|join(', ') }}</td>
     <td style="min-width:45px"> 
         {% if entity.idStatus.description != 'closed' %}
@@ -207,12 +223,8 @@
    </td>
 #}
   {% endif %}
-   <td>
-  <a class="tooltip_comments"  rel="tooltip" data-content="{{ text_comment }}" data-original-title="Information" data-toggle="tooltip"
-      href="{{ path('changements_comment_show', { 'id': entity.id }) }}">
-     <i class="icon-pencil" style="color:black"></i>
-     </a>
-  </td>
+  
+
 {#------------------------------------------------------------
 ===========END TR===========================================
 ------------------------------------------------------------#}
