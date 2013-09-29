@@ -114,7 +114,8 @@ $('#changements_idStatus').change(function()
         if ($("#changements_dateFin[required!='required']")){
            if ($('#changements_dateFin:text').val().length == 0){
            $('#changements_dateFin').attr('required','required');
-            alert('Le champs DateFin est obligatoire (changement fermé)');
+              bootbox.alert("Le champs DateFin est obligatoire (changement fermé) !");
+            /*alert('Le champs DateFin est obligatoire (changement fermé)');*/
             $("#changements_dateFin_control_group > label").addClass('leserreurs');
 
         }
