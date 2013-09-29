@@ -6,7 +6,7 @@ $(document).ready(function() {
     var img_path = '/bundles/applicationchangements/images/';
     var img_s_path = 'bundles/applicationchangements/images/';
 
-   /* $.fn.extend({
+    $.fn.extend({
         hasClasses: function(selectors) {
             var self = this;
             for (i in selectors) {
@@ -15,7 +15,7 @@ $(document).ready(function() {
             }
             return false;
         }
-    });*/
+    });
 
     $("a.editme").colorbox({
             iframe:true,
