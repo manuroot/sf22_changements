@@ -870,6 +870,7 @@ class ChangementsController extends Controller {
     //==============================================
     //          REQUETES AJAX
     // 
+    //        A TESTER: $user_security->setToken(null);  ???
     //==============================================
     public function checkuserAction() {
         $request = $this->get('request');

@@ -1,4 +1,6 @@
-        <div id="matable">
+ {% set infocomments = "<p>Nomnre de commentaires par changement</p>" %}
+{% set infofichiers = "<p>Nombre de fichiers par changement</p>" %}
+     <div id="matable">
             <table class="table table-striped table-bordered table-hover">
                 <thead>
                 <tr class="title">
@@ -12,7 +14,7 @@
 
                 <th style="80px"  class="sorted">
                     <a href="{{ path('changements_fanta', {'sort':'a.nom','dir':next_dir}) }}">Nom</a> 
-                    <i class="icon-user"></i>
+                    <i class="icon-list-alt"></i>
                     {% if arrow['a.nom'] is defined %}
                         <i class={{ arrow['a.nom'] }}></i>
                     {% endif %}
@@ -54,18 +56,20 @@
                     <i class={{ arrow['a.demandeur'] }}></i>
                     {% endif %}
                 </th>
+
                 
-                <th style="30px"  class="sorted">
-                  
-                    <i class="icon-book"></i>
+                
+                <th style="30px"  class="sorted thinfos">
+    <a class="mytooltip" href="#" rel="tooltip" data-content="{{ infofichiers }}" data-original-title="Information" data-toggle="tooltip">
+        <i class="icon-book"></i></a>
+                   
                   
                 </th>
-                 <th style="30px"  class="sorted">
-                    <a href="{{ path('changements_fanta', {'sort':'a.demandeur','dir':next_dir}) }}">F</a> 
-                    <i class="icon-tag"></i>
-                    {% if arrow['a.demandeur'] is defined %}
-                    <i class={{ arrow['a.demandeur'] }}></i>
-                    {% endif %}
+                 <th style="30px"  class="sorted thinfos">
+      <a class="mytooltip" href="#" rel="tooltip" data-content="{{ infocomments }}" data-original-title="Information" data-toggle="tooltip">
+        <i class="icon-comment"></i></a>
+                    
+                  
                 </th>
                  <th style="80px"  class="sorted">
                     <a href="{{ path('changements_fanta', {'sort':'e.nomUser','dir':next_dir}) }}">Users</a> 
@@ -103,14 +107,14 @@
                     <i class={{ arrow['g.nom'] }}></i>
                     {% endif %}
                 </th>
-     <th colspan="2">Actions</th>
+     <th colspan="3">Actions</th>
                         </tr>
                </thead>
     <tbody>
     {% for entity in  pagerfanta.currentPageResults %}
-         {% set text_comment = "<p>Editer/Voir les commentaires de cet enregistrement (id=" ~ entity.id  ~ ")" %}
-         {% set text_edit= "<p>Editer cet enregistrement (id=" ~ entity.id  ~ ")" %}
-        {% set text_show= "<p>Afficher les détails de cet enregistrement (id=" ~ entity.id  ~ ")" %}
+         {% set text_comment = "<p>Editer/Voir les commentaires de cet enregistrement (id=" ~ entity.id  ~ ")</p>" %}
+         {% set text_edit= "<p>Editer cet enregistrement (id=" ~ entity.id  ~ ")</p>" %}
+        {% set text_show= "<p>Afficher les détails de cet enregistrement (id=" ~ entity.id  ~ ")</p>" %}
             
 {#=============================== TR =================================#}
         {% set trclass= "" %}
@@ -176,11 +180,12 @@
         {% endif %}
     </td>
    
-    <td>{{ entity.comments|length }}  &nbsp;
-     <a class="tooltip_comments"  rel="tooltip" data-content="{{ text_comment }}" data-original-title="Information" data-toggle="tooltip"
-      href="{{ path('changements_comment_show', { 'id': entity.id }) }}">
-     <i class="icon-pencil" style="color:black"></i>
-     </a></td>
+     <td> {% if entity.comments|length > 0  %}
+                {{ entity.comments|length }}
+            {% else %}
+            -
+        {% endif %}
+        </td>
     <td>{{ entity.idusers|join(', ') }}</td>
     <td style="min-width:45px"> 
         {% if entity.idStatus.description != 'closed' %}
@@ -215,6 +220,7 @@
         <img src="{{ asset('bundles/applicationchangements/images/edit.png') }}" alt="edit" width="15px" height="15px" />
     </a>
    </td>
+    
    {#
    <td style="min-width:18px">
        <a href="{{ path('changements_filesedit', { 'id': entity.id }) }}">
@@ -224,7 +230,11 @@
 #}
   {% endif %}
   
-
+<td><a class="tooltip_comments"  rel="tooltip" data-content="{{ text_comment }}" data-original-title="Information" data-toggle="tooltip"
+      href="{{ path('changements_comment_show', { 'id': entity.id }) }}">
+     <i class="icon-comment-alt" style="color:black"></i>
+     </a>
+   </td>
 {#------------------------------------------------------------
 ===========END TR===========================================
 ------------------------------------------------------------#}

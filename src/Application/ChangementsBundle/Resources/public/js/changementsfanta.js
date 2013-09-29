@@ -46,6 +46,9 @@ $(document).ready(function() {
     $("a.tooltip_comments,a.tooltip_edit,a.tooltip_show").popover(
             {html: true, delay: {show: 300, hide: 300}, placement: 'left', trigger: 'hover'}
     );
+           $("th.thinfos > a.mytooltip").popover(
+            {html: true, delay: {show: 300, hide: 1000}, placement: 'top', trigger: 'hover'}
+    );
 
     /*========================================================
      *  Ajout de favoris
@@ -55,6 +58,7 @@ $(document).ready(function() {
 
         var url_login = Routing.generate('fos_user_security_login');
         var dataAjax = {from: 'favoris'};
+        /*ca a l'air de bugger  !! */
         var chck = checkuser(dataAjax);
            if (chck === false) {
          window.location.replace(url_login);
