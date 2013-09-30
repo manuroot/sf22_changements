@@ -16,7 +16,15 @@
     
 
 {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
+{% stylesheets 
+                'bundles/applicationchangements/css/sliding.css' 
+                'bundles/applicationchangements/css/changements.css' 
+               'bundles/applicationchangements/css/colorbox.css' 
+
+                output='bundles/applicationchangements/css/ccpchangements.css' filter='?yui_css' debug=false %}
+<link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
+{% endstylesheets %}
+
     <link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
     <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/indexfanta.css') }}" type="text/css" media="all"/>
@@ -33,8 +41,12 @@ div.etat { position:relative;float:right;margin-right:10px;}
    .my-nice-button>i { color: blue; }
     *.icon-silver {color: silver}
      *.icon-blue {color: blue}
+       /*  .js #ShowHideContainer {display: none;}*/
+       .first {display: none;}
+          .second {display: none;}
         </style>   
     {{ form_stylesheet(search_form) }}
+    
 {% endblock %}
         
         
@@ -63,8 +75,17 @@ div.etat { position:relative;float:right;margin-right:10px;}
 
 
  <script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>
- 
-   {{ form_javascript(search_form) }}
+  {{ form_javascript(search_form) }}
+<script type="text/javascript">
+     
+      $(document).ready(function() {
+       $(".first").show("fade",800);
+        $(".second").show("fade",800);
+      /* $("#matable").show();*/
+       // Stuff to do as soon as the DOM is ready
+      });  
+    </script>  
+  
     
 {% endblock %}
 
@@ -94,8 +115,7 @@ div.etat { position:relative;float:right;margin-right:10px;}
 {% endblock %}
 
 {% block content %}
-<!-- dialog window markup -->
-<!-- dialog window markup -->
+
 <div id="dialog" class="hidden" title="Votre session va expirer !">
 	<p>
 		<span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>
