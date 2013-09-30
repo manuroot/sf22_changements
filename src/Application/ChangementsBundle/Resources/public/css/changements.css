@@ -35,7 +35,9 @@ div.ui-datepicker {
 
 #ShowHideContainer {
     padding-top:10px;
-    padding-bottom:20px;}
+    padding-bottom:20px;
+   /* min-height:400px;*/
+}
 
 .ajoutchange { float:right;margin-right:30px;}
 .toggler { width: 500px; height: 200px; }
