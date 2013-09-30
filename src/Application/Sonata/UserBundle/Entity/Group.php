@@ -38,27 +38,5 @@ class Group extends BaseGroup
         return $this->id;
     }
    
-    
-     /**
-     * Set image
-     *
-     * @param \Application\Sonata\MediaBundle\Entity\Media $image
-     * @return Post
-     */
-    public function setServicegroup(\Application\RelationsBundle\Entity\EserviceGroup $servicegroup = null)
-    {
-        $this->servicegroup = $servicegroup;
-    
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return \Application\Sonata\MediaBundle\Entity\Media 
-     */
-    public function getServicegroup()
-    {
-        return $this->servicegroup;
-    }
+  
 }

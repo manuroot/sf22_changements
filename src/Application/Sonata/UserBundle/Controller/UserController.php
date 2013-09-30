@@ -28,7 +28,7 @@ class UserController extends Controller
             'entities' => $entities,
         ));
     }
- public function usesringroupAction($group_id)
+ /*public function usesringroupAction($group_id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -37,7 +37,7 @@ class UserController extends Controller
         return $this->render('ApplicationSonataUserBundle:User:useringroup.html.twig', array(
             'entities' => $entities,
         ));
-    }
+    }*/
 
     /**
      * Creates a new User entity.

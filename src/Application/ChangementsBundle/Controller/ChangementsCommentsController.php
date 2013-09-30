@@ -75,17 +75,17 @@ class ChangementsCommentsController extends Controller {
         if ($user_security->isGranted('IS_AUTHENTICATED_FULLY')) {
             $user = $this->get('security.context')->getToken()->getUser();
             $user_id = $user->getId();
-            $group = $user->getIdgroup();
-            if (isset($group)) {
+           /*$group = $user->getIdgroup();*/
+           /*if (isset($group)) {
                 $group_id = $group->getId();
             } else {
                 $group_id = 0;
-            }
+            }*/
         } else {
             $user_id = 0;
-            $group_id = 0;
+          //  $group_id = 0;
         }
-        return array($user_id, $group_id);
+        return $user_id;
     }
 
     //==============================================
@@ -95,7 +95,7 @@ class ChangementsCommentsController extends Controller {
     public function newAction($changement_id) {
 
         $em = $this->getDoctrine()->getManager();
-        list($user_id, $group_id) = $this->getuserid();
+        $user_id = $this->getuserid();
         $validation = 0;
         $comment = null;
         if ($user_id != 0) {
@@ -162,7 +162,7 @@ class ChangementsCommentsController extends Controller {
     public function showmycommentAction(Request $request, $id) {
 
         $em = $this->getDoctrine()->getManager();
-        list($user_id, $group_id) = $this->getuserid();
+        $user_id = $this->getuserid();
         $comment = $em->getRepository('ApplicationChangementsBundle:ChangementsComments')->find($id);
         //$comment = $em->getRepository('ApplicationChangementsBundle:ChangementsComments')->myFindaIdAll($id);
         // print_r($comment);exit(1);
@@ -179,7 +179,7 @@ class ChangementsCommentsController extends Controller {
     public function showAction(Request $request, $id) {
 
         $em = $this->getDoctrine()->getManager();
-        list($user_id, $group_id) = $this->getuserid();
+        $user_id = $this->getuserid();
 
         $session = $request->getSession();
         $btn_retour = $session->get('buttonretour');

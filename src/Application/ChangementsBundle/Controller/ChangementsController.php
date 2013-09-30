@@ -69,17 +69,17 @@ class ChangementsController extends Controller {
         if ($user_security->isGranted('IS_AUTHENTICATED_FULLY')) {
             $user = $this->get('security.context')->getToken()->getUser();
             $user_id = $user->getId();
-            $group = $user->getIdgroup();
+           /* $group = $user->getIdgroup();
             if (isset($group)) {
                 $group_id = $group->getId();
             } else {
                 $group_id = 0;
-            }
+            }*/
         } else {
             $user_id = 0;
-            $group_id = 0;
+          //  $group_id = 0;
         }
-        return array($user_id, $group_id);
+        return $user_id;
     }
 
     /* ====================================================================
@@ -937,7 +937,7 @@ class ChangementsController extends Controller {
              * 
              */
 
-            list($user_id, $group_id) = $this->getuserid();
+          $user_id = $this->getuserid();
             if (!isset($user_id)) {
                 $array['mystatus'] = "false";
                 throw $this->createNotFoundException('Unable to find Changements entity.');
@@ -1251,7 +1251,7 @@ class ChangementsController extends Controller {
         $parameters = array();
         $em = $this->getDoctrine()->getManager();
         // Pour les favoris
-        list($user_id, $group_id) = $this->getuserid();
+      $user_id = $this->getuserid();
         $changements_nb_status = $em->getRepository('ApplicationChangementsBundle:Changements')->getStatusForRequeteBuilder();
         $request = $this->getRequest();
         $session = $request->getSession();
@@ -1423,7 +1423,7 @@ class ChangementsController extends Controller {
         // On recupere les vars de session page,dir,order
         //------------------------------------------
         //list($page, $dir, $sort) = $this->OrderfantaAction();
-         list($user_id, $group_id) = $this->getuserid();
+       $user_id = $this->getuserid();
         if (isset($user_id)) {
             $parameters['user_favoris'] = $user_id;
          //   print_r($parameters);

@@ -37,48 +37,15 @@ class User extends BaseUser
      * @return integer $id
      */
     
-     /**
-     * @var \ChronoUserGroup
-     *
-     * @ORM\ManyToOne(targetEntity="Application\RelationsBundle\Entity\EserviceGroup",inversedBy="users", cascade={"persist", "merge"}))
-     * @ORM\OrderBy({"nomGroup" = "ASC"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_group", referencedColumnName="id",nullable=true)
-     * })
-     * @ORM\OrderBy({"nom_group" = "ASC"})
-    */
-    private $idgroup;
-    
-    
-      
+       
      
       
     public function getId()
     {
         return $this->id;
     }
-    /**
-     * Set idgroup
-     *
-     * @param \Application\EservicesBundle\Entity\ChronoUsergroup $idgroup
-     * @return ChronoUser
-     */
-    public function setIdgroup(\Application\RelationsBundle\Entity\Eservicegroup $idgroup=null)
-    {
-        $this->idgroup = $idgroup;
+   
     
-        return $this;
-    }
-
-    /**
-     * Get idgroup
-     *
-     * @return Application\RelationsBundle\Entity\Eservicegroup
-     */
-    public function getIdgroup()
-    {
-        return $this->idgroup;
-    }
    
     /**
      * Constructor

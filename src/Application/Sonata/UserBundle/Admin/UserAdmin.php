@@ -31,8 +31,8 @@ class UserAdmin extends SonataUserAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
             parent::configureListFields($listMapper);
-        $listMapper
-        ->add('idgroup',null,array('label'=>'Group-applis'));
+      /*  $listMapper
+        ->add('idgroup',null,array('label'=>'Group-applis'));*/
         
     }
 
@@ -42,8 +42,8 @@ class UserAdmin extends SonataUserAdmin
     protected function configureDatagridFilters(DatagridMapper $filterMapper)
     {
          parent::configureDatagridFilters($filterMapper);
-        $filterMapper
-         ->add('idgroup');
+     /*   $filterMapper
+         ->add('idgroup');*/
                 }
 
     /**
@@ -53,11 +53,11 @@ class UserAdmin extends SonataUserAdmin
     {
             parent::configureShowFields($showMapper);
 
-         $showMapper
+        /*- $showMapper
                 ->with('ESERVICE-GROUPE')
                  ->add('idgroup')
                 
-            ->end();
+            ->end();*/
     
     }
 
@@ -68,10 +68,10 @@ class UserAdmin extends SonataUserAdmin
     {
          parent::configureFormFields($formMapper);
 
-        $formMapper
+       /* $formMapper
               ->with('ESERVICE-GROUPE')
                    ->add('idgroup')
-            ->end();
+            ->end();*/
    
     }
 
