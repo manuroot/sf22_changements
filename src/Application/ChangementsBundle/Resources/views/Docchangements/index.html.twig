@@ -131,6 +131,7 @@ Fichiers sur les Opérations
            {#  <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>#}
             <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d') }}{% endif %}</td>
             <td>{{ entity.idchangement|join('<br> ')|raw }}</td>
+            {#<td>{{ entity.idProjet.nomprojet|join('<br> ')|raw }}</td>#}
             <td>
                     <a href="{{ path('docchangements_show', { 'id': entity.id }) }}">
                         <img src="{{ asset('bundles/applicationcertificats/images/detail.png') }}" alt="show" width="15" height="15" />

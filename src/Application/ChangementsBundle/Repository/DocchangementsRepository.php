@@ -33,9 +33,10 @@ class DocchangementsRepository extends EntityRepository {
 
 
         $query = $this->createQueryBuilder('a')
-                ->select('a,b')
+                ->select('a,b,c')
                 ->add('orderBy', 'a.id DESC')
-                ->leftJoin('a.idchangement', 'b');
+                ->leftJoin('a.idchangement', 'b')
+                ->leftJoin('b.idProjet', 'c');
 
 
         $parameters = array();
@@ -46,9 +47,12 @@ class DocchangementsRepository extends EntityRepository {
             $datas = array();
             $query_ids = $this->createQueryBuilder('a')
                     ->select('partial a.{id},partial b.{id,nom}')
+                      //  partial                        c.{id,nomprojet}')
                     ->leftJoin('a.idchangement', 'b')
                     ->Where('b.id IS NOT NULL')
+                  /*  ->leftJoin('b.idProjet', 'c')*/
                     ->andWhere("b.nom LIKE :nom");
+                
             // ->groupBy('b.id')
             $parameters_id['nom'] = '%' . $criteria['changements_nom'] . '%';
             $query_ids->setParameters($parameters_id);
@@ -62,11 +66,11 @@ class DocchangementsRepository extends EntityRepository {
             $parameters['ids'] = $datas;
         }
 
-        if (isset($criteria['idchangements']) && $criteria['idchangements'] != "") {
+       /* if (isset($criteria['idchangements']) && $criteria['idchangements'] != "") {
             $query->andWhere('b.id IN (:idchangements)');
             $query->distinct('GroupConcat(b.nom) AS kak');
             $parameters['idchangements'] = $criteria['idchangements'];
-        }
+        }*/
 
 
         if (isset($criteria['updatedAt']) && $criteria['updatedAt'] != "") {

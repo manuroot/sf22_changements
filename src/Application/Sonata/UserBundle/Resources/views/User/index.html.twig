@@ -58,7 +58,7 @@ tr.title {
                 <th>Last Login</th>
                 <th>Création</th>
                 <th>Update</th>
-                <th>Groupe</th>
+              {#  <th>Groupe</th>#}
                   {% if is_granted("ROLE_ADMIN") %}
                 <th colspan="3">Actions</th>
                 {% else %}
@@ -79,12 +79,13 @@ tr.title {
              
                 <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-           {% if entity.idgroup is not null %}
-               {# <td>{{ entity.idgroup.nomGroup }}</td>#}
+         {#  {% if entity.idgroup is not null %}
+              
                  <td><a href="{{ path('egroup_groupes_show', { 'id': entity.idgroup.getId }) }}">{{ entity.idgroup.nomGroup }}</a></td>
                 {% else %}
                 <td>---</td>
                 {% endif %}
+#}
                 <td>
                      
                 <a href="{{ path('users_show', { 'id': entity.id }) }}">

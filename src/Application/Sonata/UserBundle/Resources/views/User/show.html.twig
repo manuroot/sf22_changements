@@ -39,12 +39,12 @@ DETAILS UTILISATEUR: {{ entity.username }}
                 <th>Username</th>
                 <td>{{ entity.username }}</td>
             </tr>
-               <th>Groupe</th>
+           {#    <th>Groupe</th>
             {% if entity.idgroup is not null %}
                 <td>{{ entity.idgroup.nomGroup }}</td>
                 {% else %}
                 <td>---</td>
-                {% endif %}
+                {% endif %}#}
                 <td>
             <tr>
                 <th>Usernamecanonical</th>
