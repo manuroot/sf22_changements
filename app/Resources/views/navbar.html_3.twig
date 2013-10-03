@@ -5,36 +5,23 @@
 
     <div class="navbar navbar-fixed-top navbar-inverse">
         <div class="navbar-inner">
-              <div class="container-fluid"> 
+            <div class="container-fluid"> 
+                
                  <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> 
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span> 
                 <span class="icon-bar"></span> 
                  <span class="icon-bar"></span> 
-                <span class="icon-bar"></span> 
-                <span class="icon-bar"></span> 
             </a>
            <a class="brand" href="{{ path('changements_fanta') }}">
             <i class="icon-home"></i>
             {% block toto %}I-CHANGE(v1.2a){% endblock %}</a>
     
 
- 
-           
-<div class="nav-collapse collapse">
-        <ul class="nav pull-right">
-        {% if is_granted("ROLE_USER") or is_granted("ROLE_ADMIN") %}
-                  <li><a href="{{ path('fos_user_security_logout') }}"><i class="icon-user"></i> Déconnexion
-    <b class="caret"></b> </a></li>    
-    
-       {% else %}
-    <li><a href="{{ path('fos_user_security_login') }}"> <i class="icon-key"></i>Connexion</a></li>
-       {% endif %}
-        </ul>       
-         
-        
-          <ul class="nav pull-right">
-           {% if is_granted("ROLE_USER") or is_granted("ROLE_ADMIN") %}
+       
+      {#  
+        <div class="btn-group pull-right"> 
+    {% if is_granted("ROLE_USER") or is_granted("ROLE_ADMIN") %}
      <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"> <i class="icon-user"></i>
     {{ app.user.username }} <b class="caret"></b> </a>
             
@@ -44,14 +31,25 @@
     <li><a href="{{ path('sonata_user_profile_edit_authentication') }}">{{ 'Edit Profile' }}</a></li>
     {% endif %}   
       </ul>
-  
+   
+    
     {% endif %}
      
-        </ul>
-        
-        
-        
-        
+    </div>
+      #}                  
+           
+<div class="nav-collapse collapse">
+        {#    <ul class="nav pull-right">
+        {% if is_granted("ROLE_USER") or is_granted("ROLE_ADMIN") %}
+                  <li><a href="{{ path('fos_user_security_logout') }}"><i class="icon-user"></i> Déconnexion
+    <b class="caret"></b> </a></li>    
+    
+       {% else %}
+    <li><a href="{{ path('fos_user_security_login') }}"> <i class="icon-key"></i>Connexion</a></li>
+       {% endif %}
+        </ul>       
+            
+      #}      
     <ul class="nav">
 
 {#======================== Changemements =================#}

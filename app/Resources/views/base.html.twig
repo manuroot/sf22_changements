@@ -10,6 +10,7 @@
               'css/jquery-ui-1.9.2.custom.css' 
               'bundles/whiteoctoberpagerfanta/css/pagerfantaDefault.css' 
               'css/font-awesome.min.css' 
+              '@ApplicationCentralBundle/Resources/public/css/main.css' 
   output='css/compiled/mainjquery.css' filter='?yui_css , cssrewrite' %}
             <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
         {% endstylesheets %}
@@ -26,11 +27,11 @@
             #content{ position:relative;}
        
          </style>
-        {% stylesheets 
+       {# {% stylesheets 
                   '@ApplicationCentralBundle/Resources/public/css/main.css' 
                 output='css/compiled/main.css' filter='?yui_css , cssrewrite' %}
             <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
-        {% endstylesheets %}
+        {% endstylesheets %}#}
 {# filter='?yui_css' en dev #}
         {% endblock %}
       {#    <script src="{{ asset('jquery/jquery-1.10.2.min.js') }}" type="text/javascript"></script>
@@ -63,7 +64,7 @@
                         <!-- Placed at the end of the document so the pages load faster sans assetic -->
 
        {% block javascripts %}
-                     <script src="{{ asset('jquery/jquery-1.10.2.min.js') }}" type="text/javascript"></script>
+                     <script src="{{ asset('jquery/jquery-1.9.1.js') }}" type="text/javascript"></script>
           <script type="text/javascript" src="{{ asset('jquery/jquery-ui-1.9.2.custom.min.js') }}"></script>
           <script type="text/javascript" src="{{ asset('jquery/jquery.ui.datepicker.js') }}"></script>
           <script type="text/javascript" src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>

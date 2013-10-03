@@ -68,7 +68,7 @@ $("a.editme").colorbox({
 
     var ShowHideBox = $('#showhideboxown');
     //var  ShowHideButton = $('#ShowHideButton');
-  //  initBox();
+  initBox();
 //ShowHideBoxown.hide();
 //var ShowHideBoxown = $('#ShowHideBoxown').hide();
     $('#target').submit(function() {

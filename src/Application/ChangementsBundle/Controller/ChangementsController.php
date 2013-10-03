@@ -1312,6 +1312,7 @@ class ChangementsController extends Controller {
         $next_dir = ($dir == 'DESC') ? 'ASC' : 'DESC';
         $arrow[$sort] = $next_dir == "DESC" ? 'icon-arrow-up' : 'icon-arrow-down';
         $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getJoinedBy($sort, $dir, $parameters);
+        
         $adapter = new DoctrineORMAdapter($query);
         //$adapter->setDistinct(false);
         // sur changement categories avec filtres la page n'est peut etre

@@ -42,7 +42,7 @@ div.etat { position:relative;float:right;margin-right:10px;}
     *.icon-silver {color: silver}
      *.icon-blue {color: blue}
        /*  .js #ShowHideContainer {display: none;}*/
-       .first {display: none;}
+      .first,#contain-matable,#footer {display: none;}
          /* .second {display: none;}*/
         </style>   
     {{ form_stylesheet(search_form) }}
@@ -79,8 +79,10 @@ div.etat { position:relative;float:right;margin-right:10px;}
 <script type="text/javascript">
     /* $(document).onload(function() { $("div#matable").hide();});*/
       $(document).ready(function() {
-       $(".first").show("fade",800);
-     //  $("div#matable").show("fade",800);
+       $(".first").show("fade");
+     
+      $("div#contain-matable").show("fade");
+      $("div#footer").show("fade");
       /*  $(".second").show("fade",800);*/
       /* $("#matable").show();*/
        // Stuff to do as soon as the DOM is ready
@@ -145,7 +147,7 @@ div.etat { position:relative;float:right;margin-right:10px;}
             'include_html_search':  'ApplicationChangementsBundle:Changements:indexsearchsimple_form.html.twig'
         }
 %}
-
+<div id="contain-matable">
         <div id="matable">           
 {% include 'ApplicationChangementsBundle:templates:table_fanta.html.twig'   %}
             </div>
@@ -153,4 +155,5 @@ div.etat { position:relative;float:right;margin-right:10px;}
             {{ pagerfanta(pagerfanta, 'twitter_bootstrap') }}
             </div>
          <br>
+      </div>   
 {% endblock %}

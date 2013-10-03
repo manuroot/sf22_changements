@@ -9,9 +9,17 @@
   .ui-pnotify-history-container {
     position: absolute;
     top: 0px;
-    right: 150px;
+    right: 280px;
     width: 100px;
     }
+    .ui-pnotify {
+top: 50px;
+right: 25px;
+position: absolute;
+height: auto;
+/* Ensures notices are above everything */
+z-index: 9999;
+}
     td.central {min-width:350px;}
   
     
