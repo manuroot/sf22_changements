@@ -54,7 +54,6 @@
         "white-october/pagerfanta-bundle": "dev-master",
         "twitter/bootstrap": "v2.3.2",
         "craue/formflow-bundle": "dev-master",
-        "knplabs/knp-paginator-bundle": "dev-master",
         "free-agent/workflow-bundle": "dev-master",
         "stfalcon/tinymce-bundle": "dev-master",
         "knplabs/knp-menu-bundle": "1.1.x-dev",
