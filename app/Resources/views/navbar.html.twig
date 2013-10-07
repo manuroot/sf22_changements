@@ -94,11 +94,23 @@
     </ul>
     </li>
 
+      {#======================== Projets =================#}
+ {% set addoncl="dropdown" %}
+    {% if foo[0] == 'projets' %}  {% set addoncl="dropdown active" %} {% endif %}
+    <li class="{{addoncl}}">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-white icon-wrench"></i>
+    Projets<b class="caret"></b> </a>
+    <ul class="dropdown-menu">
+        <li><a href="{{ path('projets') }}"><i class="icon-th-list"></i> {{ 'Projets'|trans }}</a></li>
+        <li><a href="{{ path('projets_documents') }}"><i class="icon-briefcase"></i> {{ 'projets_documents'|trans }}</a></li>
+    </ul>
+    </li>
+    
     {#======================== Serveurs =================#}
     {% set addoncl="dropdown" %}
     {% if foo[0] == 'serveurs' %}  {% set addoncl="dropdown active" %} {% endif %}
     <li class="{{addoncl}}">
-    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-white  icon-th"></i>
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-white icon-th"></i>
     Serveurs<b class="caret"></b> </a>
     <ul class="dropdown-menu">
         <li><a href="{{ path('serveurs') }}"><i class="icon-th-list"></i> {{ 'Serveurs'|trans }}</a></li>
@@ -107,17 +119,7 @@
     </ul>
     </li>
    
-    {#======================== Projets =================#}
- {% set addoncl="dropdown" %}
-    {% if foo[0] == 'projets' %}  {% set addoncl="dropdown active" %} {% endif %}
-    <li class="{{addoncl}}">
-    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-white  icon-wrench"></i>
-    Projets<b class="caret"></b> </a>
-    <ul class="dropdown-menu">
-        <li><a href="{{ path('projets') }}"><i class="icon-th-list"></i> {{ 'Projets'|trans }}</a></li>
-        <li><a href="{{ path('projets_documents') }}"><i class="icon-briefcase"></i> {{ 'projets_documents'|trans }}</a></li>
-    </ul>
-    </li>
+  
     
     {#======================== Admin =================#}
    {% if is_granted("ROLE_ADMIN") %}
