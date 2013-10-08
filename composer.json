@@ -44,7 +44,6 @@
         "sonata-project/jquery-bundle": "1.8.3",
         "sonata-project/media-bundle": "dev-master",
         "sonata-project/formatter-bundle": "dev-master",
-        "sonata-project/news-bundle": "dev-master",
         "sonata-project/intl-bundle": "dev-master",
         "genemu/form-bundle": "dev-master",
         "sonata-project/google-authenticator": "1.0.0",

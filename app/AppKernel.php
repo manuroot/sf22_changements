@@ -40,7 +40,7 @@ class AppKernel extends Kernel {
             new Sonata\IntlBundle\SonataIntlBundle(),
             new Sonata\MediaBundle\SonataMediaBundle(),
             new Sonata\FormatterBundle\SonataFormatterBundle(),
-            new Sonata\NewsBundle\SonataNewsBundle(),
+            //new Sonata\NewsBundle\SonataNewsBundle(),
             new FrequenceWeb\Bundle\CalendRBundle\FrequenceWebCalendRBundle(),
             new Knp\Bundle\MarkdownBundle\KnpMarkdownBundle(),
             new Craue\FormFlowBundle\CraueFormFlowBundle(),
