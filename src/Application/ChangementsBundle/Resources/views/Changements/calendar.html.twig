@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/changements.css') }}" type="text/css" media="all"/>
-
+  <link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
 <style>
         a.calendar {
             color:#373737
@@ -38,10 +38,10 @@
         font-size: 12px;
         text-align:center;
     }
-    td.datas:hover {
+   /* td.datas:hover {
     text-decoration: underline;
     background-color: rgb(255, 209, 0);
-}
+}*/
  .table td {
 
     line-height: 20px;
@@ -71,11 +71,10 @@
   
 }
 div.event,div.eventrun {
-    /*width:97%;*/
+ 
     padding-left:4px;
     margin-bottom:2px;
-   /* border-bottom:1px solid;
-    border-top:1px solid;*/
+ 
             
 }
 div.eventrun {
@@ -86,7 +85,7 @@ div.eventrun {
   font-weight:bold;
 }
 div.noevent {
-  /*  width:98%;*/
+ 
     padding-left:4px;
     margin-bottom:2px;
     margin-top:0px
@@ -100,19 +99,64 @@ div.controls {
     padding-top:20px;
    
 margin:auto;width:500px; }
-
-/*
-span.label.label-warning{ vertical-align:top;}*/
-    </style>
+select#changements_calendar_form_idStatus,
+#s2id_changements_calendar_form_idStatus{
+    width:200px;
+}
+  td.datas:hover {
+text-decoration: none;
+background-color: rgb(255, 209, 0);
+}        
+       
+  </style>
  {% endblock %}
 
 
+               
 {% block javascripts %}
-{{ parent() }}
-       <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
-<script type="text/javascript">
+    {{ parent() }}
+   <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+   
+    <script type="text/javascript" src="{{ asset('select2/select2.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
+
+       <script type="text/javascript">
           
 $(document).ready(function() {
+     var img_path = '/bundles/applicationchangements/images/';
+    var img_s_path = 'bundles/applicationchangements/images/';
+    /*========================================================
+     *  Fonctions: select2 pour formulaire
+     ========================================================*/
+
+        function format(state) {
+        if (!state.id)
+            return state.text; // optgroup
+        return "<img class='flag' src='" + img_s_path + state.id.toLowerCase() + ".png'/> " + state.text;
+    }
+    $("#changements_calendar_form_idStatus").select2({
+        placeholder: "-- Choisir Statut(s) --",
+        allowClear: true,
+        formatResult: format,
+        formatSelection: format,
+        escapeMarkup: function(m) {
+            return m;
+        }
+    });
+    
+    $("#changements_calendar_form_publishedAt_month").select2({
+    allowClear: false
+    });
+  
+     $("#changements_calendar_form_publishedAt_year").select2({
+    allowClear: false
+    });
+      $("#changements_searchfilter_idStatus_cl").click(function() {
+        $("#changements_searchfilter_idStatus").select2("val", "");
+    });
+    
     $("a.editme").colorbox({
             iframe:true,
             transition:	"elastic",
@@ -122,23 +166,7 @@ $(document).ready(function() {
             opacity:0.3
         
         });
-//$(function() {
-  $( "#grid_certificatsgrid__dateDebut__query__from" ).datepicker({
-maxDate: "+3M +10D",
-changeMonth: true,
-changeYeat: true,
-numberOfMonths: 1,
-dateFormat: "yy-mm-dd",
-onClose: function( selectedDate ) {
-$( "#form_bis" ).datepicker( "option", "minDate", selectedDate );
-}
-});
- 
-$(function() {
-$( "#datepicker" ).datepicker();
-});
-  
-});
+ });
 </script>
 
 {% endblock %}
@@ -224,12 +252,15 @@ $( "#datepicker" ).datepicker();
                 
                         <div class="{{ eventclass }}" style="background-color: {{ mycolor }}">
                            {% set  toto = event.nom %} 
-                           {% if toto|length > 25 %}
-                               {% set  toto = toto|slice(0, 25) ~ '..' %} 
+                           {% if toto|length > 20 %}
+                               {% set  toto = toto|slice(0, 20) ~ '..' %} 
                             {% endif %}
                                <a class="calendar editme" title="Opération: {{ event.nom }} - Demandeur: {{ event.demandeur }}" href="{{ path('changements_showXhtml', { 'id': event.uid }) }}">
                         {{ toto }}
                         </a>
+                      {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+                                <a href="{{ path('changements_edit',{ 'id': event.uid }) }}"><i class="icon-edit" style="color:black;"></i></a>
+                       {% endif %}     
                         </div>
    
                    {% elseif week.containsEvent(event) %}
