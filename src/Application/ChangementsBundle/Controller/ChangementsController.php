@@ -1506,31 +1506,6 @@ class ChangementsController extends Controller {
         // return new Response();
     }
 
-    /* public function executeCheckMyExpire(sfWebRequest $request )
-
-      {
-
-      $need_redirect = "";
-
-      if( request->isXmlHttpRequest() AND ! $this->getUser()->isAuthenticated()
-      OR
-      $this->getUser()->getAttribute('my_expire') < time()
-      )
-
-      )
-
-      {
-
-      // in this case, you know its time to redirect!
-
-      $need_redirect = "YOUR LINK TO REDIRECT IN AJAX RESPONSE";
-
-      }
-
-
-
-      return $this->renderText($need_redirect);
-
-      } */
+  
 }
 
