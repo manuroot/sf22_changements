@@ -1,0 +1,64 @@
+{% extends "ApplicationChangementsBundle::layout.html.twig" %}
+{% block stylesheets %}
+{{ parent() }} 
+<link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/certifcatssearch.css') }}" type="text/css" media="all"/>
+
+<style>
+        
+        tr.single {
+         background-color: #f1f1f1;
+        }
+
+    </style> 
+{% endblock %}
+    
+
+{% block content_header '' %}
+{% block title %}AJOUTER CONTACT CLIENT{% endblock %}
+{% block content %}
+
+<form action="{{ path('changements_contact_create') }}" method="post" {{ form_enctype(form) }}>
+   <table class="table-mybordered">
+
+          <tr>
+              <td class="calendar">
+   
+                        <div>
+                            
+    {{ form_row(form.nomUser) }}
+    {{ form_row(form.infos) }}
+  
+                                </div>
+                            </td>
+                         <td class="calendar">
+                                <div>
+ {{ form_rest(form) }}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                  <td class="calendar" colspan="2">
+                                    <p>
+                                        <button type="submit" class="btn btn-small btn-warning">Ajouter</button>
+                                        </form>
+       
+                                        <a href="{{  path('changements_contact') }}" class="btn btn-small btn-success">Retour</a>
+                                    </p>
+                                    
+                                    
+                                </td></tr>
+                       
+                       
+                    </table>
+             
+ {#{ form_widget(form) }#}
+
+               
+
+
+
+        
+  
+
+{% endblock %}

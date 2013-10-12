@@ -389,7 +389,18 @@ $builder
                     'label' => 'Demandeur',
                     'empty_value' => '--- Demandeur ---'
                 ))
-              
+               ->add('contact', 'entity', array(
+                    'class' => 'ApplicationChangementsBundle:ChangementsContact',
+                    'query_builder' => function(EntityRepository $em) {
+                        return $em->createQueryBuilder('u')
+                                ->orderBy('u.nomUser', 'ASC');
+                    },
+                    'property' => 'nomUser',
+                    'multiple' => false,
+                    'required' => false,
+                    'label' => 'Contact Client',
+                    'empty_value' => '--- Contact ---'
+                ))
 
         //  ->add('fic')
         //    ->add('nbfiles')

@@ -2,6 +2,9 @@ _changements:
     resource: "@ApplicationChangementsBundle/Resources/config/routing/changements.yml"
     prefix:   /
 
+_changements_contact:
+    resource: "@ApplicationChangementsBundle/Resources/config/routing/changementsContact.yml"
+    prefix:   /contact
     
 _changements_ajax_operations:
     resource: "@ApplicationChangementsBundle/Resources/config/routing/changementsajax.yml"

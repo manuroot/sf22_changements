@@ -217,6 +217,17 @@ class Changements extends AbstractEvent {
      */
     private $demandeur;
 
+    
+     /**
+     * @var \ChangementsContact
+     *
+     * @ORM\ManyToOne(targetEntity="Application\ChangementsBundle\Entity\ChangementsContact")
+     * @ORM\JoinColumn(name="contact", referencedColumnName="id")
+     * @GRID\Column(field="contact.nomUser", title="Contact",size="20",filter="select",selectFrom="query")
+     */
+    private $contact;
+    
+    
     /**
      * 
      * mapped:ok, coté proprietaire ??
@@ -455,6 +466,28 @@ class Changements extends AbstractEvent {
      */
     public function getDemandeur() {
         return $this->demandeur;
+    }
+
+    
+     /**
+     * Set demandeur
+     *
+     * @param @return \Application\ChangementsBundle\Entity\ChangementsContact  $demandeur
+     * @return Changements
+     */
+    public function setContact(\Application\ChangementsBundle\Entity\ChangementsContact $contact = null) {
+        $this->contact = $contact;
+
+        return $this;
+    }
+
+    /**
+     * Get idProject
+     *
+     * @return \Application\ChangementsBundle\Entity\ChangementsContact 
+     */
+    public function getContact() {
+        return $this->contact;
     }
 
     /**

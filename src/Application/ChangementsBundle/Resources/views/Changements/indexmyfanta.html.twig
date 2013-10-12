@@ -40,6 +40,7 @@
     <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/indexfanta.css') }}" type="text/css" media="all"/>
 {{ form_stylesheet(search_form) }}
 <style>
+            a.firstbutton{ margin-left:50px;}
    .popover {
 	max-width: 300px;
         min-width:150px;
@@ -63,7 +64,7 @@ div.etat { position:relative;float:right;margin-right:10px;}
             <i class="icon-check-empty icon-stack-base"></i>
             <i class="icon-table"></i>
         </span>    OPERATIONS: FAVORIS 
-        <a class="btn btn-medium btn-info" href="#">
+        <a class="firstbutton btn btn-medium btn-info" href="#">
             <i class="icon-info-sign icon-2x"></i> <div class="montext">{{ nbResults }}</div></a> 
             
      <a class="mytitleb btn btn-medium btn-info" href="{{ path('changements_calendar') }}">

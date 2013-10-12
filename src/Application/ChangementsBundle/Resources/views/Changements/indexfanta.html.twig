@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/indexfanta.css') }}" type="text/css" media="all"/>
     
 <style>
+        a.firstbutton{ margin-left:50px;}
    .popover {
 	max-width: 300px;
         min-width:150px;
@@ -103,7 +104,7 @@ div.etat { position:relative;float:right;margin-right:10px;}
             <i class="icon-table"></i>
         </span>    PLANNING DES OPERATIONS 
     
-        <a id="mytitleb" class="mytitleb btn btn-medium btn-info" href="#">
+        <a id="mytitleb" class="firstbutton mytitleb btn btn-medium btn-info" href="#">
             <i class="icon-info-sign icon-2x"></i> <div class="montext">{{ nbResults }}</div></a> 
      <a class="mytitleb btn btn-medium btn-info" href="{{ path('changements_calendar') }}">
             <i class="icon-calendar icon-2x"></i></a> 

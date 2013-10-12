@@ -1,0 +1,30 @@
+changements_contact:
+    pattern:  /
+    defaults: { _controller: "ApplicationChangementsBundle:ChangementsContact:index" }
+
+changements_contact_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationChangementsBundle:ChangementsContact:show" }
+
+changements_contact_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationChangementsBundle:ChangementsContact:new" }
+
+changements_contact_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationChangementsBundle:ChangementsContact:create" }
+    requirements: { _method: post }
+
+changements_contact_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationChangementsBundle:ChangementsContact:edit" }
+
+changements_contact_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationChangementsBundle:ChangementsContact:update" }
+    requirements: { _method: post }
+
+changements_contact_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationChangementsBundle:ChangementsContact:delete" }
+    requirements: { _method: post }

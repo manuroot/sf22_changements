@@ -121,12 +121,14 @@
    <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-white icon-wrench"></i>
    Administration<b class="caret"></b> </a>
    <ul class="dropdown-menu">
-        <li><a href="{{ path('chronouser') }}"><i class="icon-camera"></i> {{ 'Utilisateurs'|trans }}</a></li>
-        <li><a href="{{ path('chronogroup') }}"><i class="icon-plus-sign"></i> {{ 'Groupes'|trans }}</a></li>
-        <li><a href="{{ path('environnement') }}"><i class="icon-camera"></i> {{ 'Environnements'|trans }}</a></li>
-        <li><a href="{{ path('users') }}"><i class="icon-camera"></i> {{ 'Eservices-Users(FOSUSER)'|trans }}</a></li>                            
-        <li><a href="{{ path('applications') }}"><i class="icon-camera"></i> {{ 'Applications'|trans }}</a></li>
-    </ul>
+        <li><a href="{{ path('chronouser') }}"><i class="icon-user"></i> {{ 'Utilisateurs'|trans }}</a></li>
+        <li><a href="{{ path('chronogroup') }}"><i class="icon-group"></i> {{ 'Groupes'|trans }}</a></li>
+        <li><a href="{{ path('environnement') }}"><i class="icon-globe"></i> {{ 'Environnements'|trans }}</a></li>
+        <li><a href="{{ path('users') }}"><i class="icon-group"></i> {{ 'Eservices-Users(FOSUSER)'|trans }}</a></li>                            
+        <li><a href="{{ path('applications') }}"><i class="icon-wrench"></i> {{ 'Applications'|trans }}</a></li>
+    <li><a href="{{ path('changements_contact') }}"><i class="icon-group"></i> {{ 'Contacts Clients'|trans }}</a></li>
+   
+   </ul>
 </li>
 {% endif %}
 </ul> 
