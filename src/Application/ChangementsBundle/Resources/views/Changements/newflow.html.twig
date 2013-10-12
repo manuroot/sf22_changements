@@ -178,6 +178,7 @@
            <tr><th>Environnements</th>
            <td>{{ entity.idEnvironnement|join(', ') }}</td>  </tr>
            <tr><th>Utilisateurs</th> <td> {{ entity.idusers|join(', ') }}</td>  </tr>
+              <tr><th>Contact Client</th> <td> {{ entity.contact }}</td>  </tr>
             </tbody>
            </table>
 {{ form_rest(form) }}
