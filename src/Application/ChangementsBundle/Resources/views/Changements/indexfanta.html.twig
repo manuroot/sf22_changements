@@ -105,8 +105,8 @@ div.etat { position:relative;float:right;margin-right:10px;}
     
         <a id="mytitleb" class="mytitleb btn btn-medium btn-info" href="#">
             <i class="icon-info-sign icon-2x"></i> <div class="montext">{{ nbResults }}</div></a> 
-          
-        <div id="popover-head" class="hide">Opérations:</div>
+     <a class="mytitleb btn btn-medium btn-info" href="{{ path('changements_calendar') }}">
+            <i class="icon-calendar icon-2x"></i></a> 
 <div id="popover-content" class="hide mycontent" > 
     <h4>
       {% for key, value in nb_status %}
