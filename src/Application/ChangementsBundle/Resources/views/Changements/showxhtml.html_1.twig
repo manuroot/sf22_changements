@@ -100,31 +100,6 @@ td.comment {
     background-color: rgb(87, 87, 87);
     border-color: rgb(255, 255, 255);
 }
-  div.btxt{padding-bottom:10px;}   
- div.btxt:hover {
-padding-left:5px;
-font-weight: bold;
-color: black;
-}  
-           .mypad {margin-left:4px;
-                  margin-right:4px;}
-    #description{background-color: #eaeaea;padding:10px;
-            border:1px solid black;} 
-    
-    .mywell {
-            min-height:200px;
-            border:1px solid blue;
-   /* border-color: rgb(220, 220, 220);*/
-    padding:10px;
-   margin:5px;
-   background-color: #dedede;
-   /* background-image: linear-gradient(to bottom, #cadefb 0%, #9b9c9c 100%);
-    background-repeat: repeat-x;*/
-    border-style: solid;
-    border-color: rgb(0, 0, 0);
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05) inset, 0px 1px 0px rgba(255, 255, 255, 0.1);
-  
-}
   </style>
 
         {% endblock %}
@@ -170,65 +145,165 @@ $(document).ready(function() {
   </ul>
       
   <div id="tabs-1">
-  
-<div class="row mypad">
-    <div class="span5 mywell">
-       <div class="btxt"> <i class="icon-th-list icon-2x"></i> Id: {{ entity.id }}</div>
-        <div class="btxt">  <i class="icon-pencil  icon-2x"></i> Nom: {{ entity.nom }}</div>
-       <div class="btxt">  <i class="icon-wrench  icon-2x"></i> Type Demande: {{ entity.idKind }}</div>
-         <div class="btxt">  <i class="icon-question-sign  icon-2x"></i> Status: {{ entity.idStatus }}</div>
-    </div>
-    <div class="span4 mywell">
-        <div class="btxt">  <i class="icon-user-md icon-2x"></i>  Contact Client: {{ entity.contact }}</div>
-       <div class="btxt">   <i class="icon-user icon-2x"></i>  Demandeur: {{ entity.demandeur }}</div>
-     <div class="btxt">     <i class="icon-group icon-2x"></i>  Utilisateurs: {{ entity.idusers|join(', ') }}</div>
-    </div>  
-        </div>
-      
-  
-<div class="row mypad">
-      <div class="span5 mywell">
-       <div class="btxt">   <i class="icon-time  icon-2x"></i> Date Demande 
-        {% if entity.dateDemande is not null %}
-            {{ entity.dateDemande|date('Y-m-d') }}
-        {% else %}
-             --
-        {% endif %}
-      </div>
-       <div class="btxt">   <i class="icon-time icon-2x"></i> Date Début: {{ entity.dateDebut|date('Y-m-d H:i:s') }}
-           </div>
+   
+<table class="view table-bordered">
+
+ <thead>
+                        <tr class="title">
+                            <th>Paramètres</th>
+                            <th>Valeurs</th>
+                        </tr>
+                    </thead>
+    <tbody>
+        
        
-      <div class="btxt">    <i class="icon-time icon-2x"></i> Date Fin: {{ entity.dateFin|date('Y-m-d H:i:s') }}
-      </div>
-     <div class="btxt">     <i class="icon-time icon-2x"></i> Date COMEP 
-        {% if entity.dateComep is not null %}{{ entity.dateComep|date('Y-m-d H:i:s') }}
-        {% else %}
-        Aucune
-        {% endif %}
-        </div>
-       <div class="btxt">   <i class="icon-time icon-2x"></i> Date VSR: {% if entity.dateVsr is not null %}
+        <tr>
+            <td class="viewlabel">Id</td>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <td class="viewlabel">Nom</td>
+            <td>{{ entity.nom }}</td>
+        </tr>
+         <tr>
+            <td class="viewlabel">Date Demande</td>
+             <td>
+            {% if entity.dateDemande is not null %}
+               {{ entity.dateDemande|date('Y-m-d') }}
+                    {% else %}
+                    --
+            {% endif %}
+            </td>
+           
+        </tr>
+        
+        <tr>
+                <td class="viewlabel">Type</td>
+                <td>{{ entity.idKind }}</td>
+            </tr>
+            
+         <tr>
+            <td class="viewlabel">Astreinte</td>
+            <td>{{ entity.astreinte }}</td>
+        </tr>
+        
+        <tr>
+             <td class="viewlabel">Contact Client</td>
+            <td>{{ entity.contact }}</td>
+        </tr>
+        
+        <tr>
+            <td class="viewlabel">Demandeur</td>
+            <td>{{ entity.demandeur }}</td>
+        </tr>
+        <tr>
+            <td class="viewlabel">Date Début</td>
+
+            <td>{{ entity.dateDebut|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <td class="viewlabel">Date de Fin</td>
+             <td>
+            {% if entity.dateFin is not null %}
+               {{ entity.dateFin|date('Y-m-d H:i:s') }}
+                    {% else %}
+                    ---
+            {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td class="viewlabel">Date du COMEP</td>
+            <td>
+            {% if entity.dateComep is not null %}
+               {{ entity.dateComep|date('Y-m-d H:i:s') }}
+                    {% else %}
+                    Aucune
+            {% endif %}
+            </td>
+            </tr>
+            <tr>
+                 <td class="viewlabel">Date de VSR</td>
+            <td>
+            {% if entity.dateVsr is not null %}
                {{ entity.dateVsr|date('Y-m-d H:i:s') }}
                       {% else %}
                     Aucune
             {% endif %}
-            </div>
-</div>   
-        <div class="span4 mywell">
-               <div class="btxt">  <i class="icon-globe  icon-2x"></i> Environnements:  {{ entity.idEnvironnement|join(', ') }}</div>  
-        <div class="btxt">  <i class="icon-tag  icon-2x"></i> Projet: {{ entity.idProjet }}</div>
-          <div class="btxt">  <i class="icon-archive  icon-2x"></i> Applications: {{ entity.idapplis|join(', ') }} </div>  
-          <div class="btxt">    <i class="icon-tag icon-2x"></i> Ticket Externe: {{ entity.ticketExt }}</div>
-          <div class="btxt">     <i class="icon-tag icon-2x"></i> Ticket Interne: {{ entity.ticketInt }}</div>
-        </div>
+            </td>
+               
+             
+            </tr>
+            <tr>
+                <td class="viewlabel">Description</td>
+                
+                <td>{{ entity.description|raw }}</td>
+            </tr>
+
+            <tr>
+                <td class="viewlabel">Projet</td>
+                <td>{{ entity.idProjet }}</td>
+            </tr>
+            <tr>
+                <td class="viewlabel">Status</td>
+                <td>{{ entity.idStatus }}</td>
+            </tr>
+            <tr>
+                <!--<td class="viewlabel">Avatar</td>
+                <td>{#{ entity.avatar }#}</td>-->
+            </tr>
+
+            <!--  <tr>
+                  <td class="viewlabel">Fichier Principal</td>
+                  <td>{#{ entity.picture.name }#}
+                  
+              
+                  </td>
+              </tr>-->
+
+            <tr><td class="viewlabel">Applications</td>
+                <td>
+           {{ entity.idapplis|join(', ') }}   
+             {#% for appli in entity.idapplis %} {{ appli.nomapplis }}
+       {% endfor %#}
+                    </td>
+                </tr>
+
+                <tr><td class="viewlabel">Environnements</td>
+                    <td>
+
+           {{ entity.idEnvironnement|join(', ') }}   
+             {#% for envi in entity.idEnvironnement %} {{ envi.nom }}
+       {% endfor %#}
+                    </td>
+                </tr>
+
+
+
+                <tr>
+                    <td class="viewlabel">Utilisateurs</td>
+                    <td>
+           {{ entity.idusers|join(', ') }}   
+{#% for user in entity.idusers %} {{ user.nomUser }}
+
+       {% endfor %#}
+                        </td>
+                    </tr>
+                    
+                     <tr>
+                <td class="viewlabel">Ticket Externe</td>
+                <td>{{ entity.ticketExt }}</td>
+            </tr>
+             <tr>
+                <td class="viewlabel">Ticket Interne</td>
+                <td>{{ entity.ticketInt }}</td>
+            </tr>
+
+
+                </tbody>
+            </table>
+
 </div>
-<br/>
-<div class="row mypad">
-    <div class="span7 mywell">
     
-   {{ entity.description|raw }}
-  </div>
-</div>
-</div>    
   <div id="tabs-2">
 
 
@@ -291,16 +366,11 @@ $(document).ready(function() {
         <tr class="title"><td class="myth">
         <i class="icon-user"></i> {{ comment.user }}
         <i class="icon-time"></i> {{ comment.created|date('l, F j, Y') }}
-        
           <span class="badge badge-warning">{{ comment.categorie }} </span>
         </td></tr> 
         </thead>
         <tr>
-            <td class="comment"> <p>
-
-   {% if comment.comment|length == "" %} ---{% else %}
-            {{ comment.comment|raw }}
-                {% endif %}</p></td>
+            <td class="comment"> <p>{{ comment.comment|raw }}</p></td>
         </tr>
        {% endfor %}
      </tbody>
