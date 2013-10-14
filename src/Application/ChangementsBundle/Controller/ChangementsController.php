@@ -1269,7 +1269,7 @@ class ChangementsController extends Controller {
             $session->remove('chgmtsfanta_dir');
             $session->remove('changementControllerFilternew');
             if ($request->get('submit-filter') == "reset") {
-                $session->getFlashBag()->add('warning', "Filtres de recherche reinitialisée");
+                $session->getFlashBag()->add('warning', "Filtres de recherche reinitialisés");
                 $session->remove('date_calendar');
             }
             //-----------------------------------------
@@ -1384,7 +1384,7 @@ class ChangementsController extends Controller {
             $session->remove('chgmtsfanta_dir');
             $session->remove('changementControllerFilternew');
             if ($request->get('submit-filter') == "reset") {
-                $session->getFlashBag()->add('warning', "Filtres de recherche reinitialisée");
+                $session->getFlashBag()->add('warning', "Filtres de recherche reinitialisés");
             }
             //-----------------------------------------
             // On recupere les vars de post ==> session filter
