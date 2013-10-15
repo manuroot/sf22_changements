@@ -7,19 +7,26 @@
                       <br /><br />
      {{ form_row(search_form.OriginalFilename) }}
                       <br /><br />
-      {{ form_row(search_form.md5) }}
+                      {{ form_row(search_form.changements_nom) }}
+                      
+    {#  {{ form_row(search_form.md5) }}#}
  
     </td>
    <td class="calendar">
-   
-   {# {{ form_row(search_form.updatedAt_max) }}#}
-  
+       {{ form_row(search_form.createdAt) }}
+<br /><br />
+      {{ form_row(search_form.createdAt_max) }}
+<br /><br />
+
       {{ form_row(search_form.updatedAt) }}
 <br /><br />
       {{ form_row(search_form.updatedAt_max) }}
- <br /><br />
- {{ form_row(search_form.idchangements) }}
-       
+
+
+
+{#
+ {{ form_row(search_form.idchangements) }}#}
+       <br /><br />
  {{ form_rest(search_form) }}
     </td>
     

@@ -76,7 +76,7 @@ Fichiers sur les Opérations
   <i class="icon-info-sign icon-2x"></i>     
   <div class="montext">{{ total }}
   </div></a>
-
+  {{ form_stylesheet(search_form) }}
 {% endblock %}
 
 
@@ -110,8 +110,11 @@ Fichiers sur les Opérations
                      <i class=" icon-time"></i></th>
                 <th{% if pagination.isSorted('b.idchangement.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Changements', 'b.idchangement.nom') }}
                  <i class=" icon-tags"></i></th>
-              
-                <th colspan="3">Actions</th>
+                 {% set myspan="1" %}
+                 {% if is_granted("ROLE_ADMIN") %}{% set myspan="2" %}{% endif %}
+                
+                <th colspan="{{ myspan }}">Actions</th>
+                
             </tr>
       <tbody>
       {% for entity in pagination %}
@@ -137,11 +140,16 @@ Fichiers sur les Opérations
                         <img src="{{ asset('bundles/applicationcertificats/images/detail.png') }}" alt="show" width="15" height="15" />
                     </a>
             </td>
-            <td>
+            
+             {% if is_granted("ROLE_ADMIN") %}
+                 <td>
                   <a href="{{ path('docchangements_edit', { 'id': entity.id }) }}">
                       <img src="{{ asset('bundles/applicationcertificats/images/edit.png') }}" alt="edit" width="15" height="15" />
                   </a>
-            </td>
+                </td>
+               
+                                 {% endif %}
+
         </tr>
     {% endfor %}
     </tbody>

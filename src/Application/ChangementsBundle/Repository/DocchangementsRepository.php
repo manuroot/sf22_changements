@@ -105,21 +105,28 @@ class DocchangementsRepository extends EntityRepository {
     }
 
     public function findAjaxValue($criteria, $getids = null) {
-        $parameters = array();
+      $parameters = array();
         $datas = array();
-        $query = $this->createQueryBuilder('a');
+        $query = $this->createQueryBuilder('a')
+         ->select('partial a.{id,name}')
+          ->andWhere("a.name LIKE :nom")
+                ->groupBy('a.name')
+                ->add('orderBy', 'a.name ASC');
+      /*  $query = $this->createQueryBuilder('a');
         $query->select('distinct b.nom,b.id');
         $query->leftJoin('a.idchangement', 'b')
                 ->Where('b.id IS NOT NULL')
                 ->andWhere("b.nom LIKE :nom")
                 ->groupBy('b.nom')
                 ->add('orderBy', 'b.nom ASC');
-
+*/
         $parameters['nom'] = '%' . $criteria['nom'] . '%';
         $query->setParameters($parameters);
         foreach ($query->getQuery()->getArrayResult() as $q) {
-            array_push($datas, $q['nom']);
+            array_push($datas, $q['name']);
         }
+         
+
 
         return $datas;
     }

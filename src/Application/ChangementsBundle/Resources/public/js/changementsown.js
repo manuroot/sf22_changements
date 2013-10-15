@@ -1,8 +1,11 @@
 $(document).ready(function() {
 
     var mydates = [
-        "#docchangements_searchfilter_updatedAt",
+        "#docchangements_searchfilter_createdAt",
+        "#docchangements_searchfilter_createdAt_max",
+          "#docchangements_searchfilter_updatedAt",
         "#docchangements_searchfilter_updatedAt_max",
+      
         "#changements_searchfilter_dateDebut",
         "#changements_searchfilter_dateFin",
         "#changements_searchfilter_dateDebut_max",

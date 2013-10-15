@@ -29,8 +29,8 @@
                                 #}      
 
 
-
-          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+    {% if is_granted("ROLE_ADMIN") %}
+    {#{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}#}
             <a href="{{ path(new_path) }}" class=" ajoutchange btn btn-medium btn-primary">
             <i class=" icon-plus icon-mesfiltres"></i>{{ new_text }}(quick)
         </a>

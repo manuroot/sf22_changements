@@ -14,6 +14,7 @@ use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Application\ChangementsBundle\Form\DocchangementsFilterType;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 
 /**
  * Docchangements controller.
@@ -319,7 +320,10 @@ class DocchangementsController extends Controller {
 
         
     /**
-     * Deletes a Docchangements entity.
+     * Displays a form to edit an existing Changements entity.
+     *
+     * 
+     * @Secure(roles="ROLE_ADMIN")
      *
      */
     public function deleteAction(Request $request, $id) {
@@ -401,8 +405,9 @@ class DocchangementsController extends Controller {
     
 public function DocChangementsNomAjaxAction(Request $request) {
         $term = $request->get('term');
-       // $alldatas = $request->request->all();
-      //  print_r($alldatas);
+       /* $alldatas = $request->request->all();
+       print_r($alldatas);*/
+      //  echo "term=$term";
         $em = $this->getDoctrine()->getManager();
         $json = $em->getRepository('ApplicationChangementsBundle:Docchangements')->findAjaxValue(array('nom' => $term));
         $response = new Response(json_encode($json));

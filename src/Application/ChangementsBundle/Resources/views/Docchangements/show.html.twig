@@ -3,7 +3,12 @@
   {% block stylesheets %}
 {{ parent() }}
       <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/sliding.css') }}" type="text/css" media="all"/>
-     
+      
+<style>
+         td {
+          background-color: whitesmoke;
+        }
+        </style>
  {% endblock %}
 
 {% block content_header '' %}
@@ -15,16 +20,23 @@
 <table class="table table-striped table-bordered table-hover">
     <thead>
   
-        <tr class="title"><th>Id</th><th>Nom</th><th>Path</th><th>Path</th></tr>
+        <tr class="title"><th>Id</th><th>Nom</th><th>Path</th><th>Date Update</th></tr>
       <tr>
             <td>{{ entity.id }}</td>
             <td>{{ entity.name }}</td>
               <td>{{ entity.path }}</td>
                  <td>{{ entity.updatedAt|date('Y-m-d H:i:s') }}</td>
+          
         </tr>
-        
-         
-            <tr>  <td colspan="3"> 
+         <tr class="title"><th colspan="2">Changement</th><th colspan="2">Projet</th></tr>
+        <tr>
+         {% for changement in entity.idchangement %}       
+               <td colspan="2">{{ changement.nom }}</td>
+                   <td colspan="2">{{ changement.idProjet.nomprojet }}</td>
+             
+                 {% endfor %}
+         </tr>
+            <tr>  <td colspan="4"> 
      
       
           <form action="{{ path('docchangements_delete', { 'id': entity.id }) }}" method="post">
@@ -34,7 +46,10 @@
      <a href="{{ path('docchangements_edit', { 'id': entity.id }) }}"  class="btn btn-large btn-warning">Edit</a>
            <a href="{{ path('docchangements') }}" class="btn btn-large btn-success">Retour</a>
       
-           <button type="submit" class="btn btn-small btn-danger">Supprimer Fichier</button>
+            {% if is_granted("ROLE_ADMIN") %}
+                 <button type="submit" class="btn btn-small btn-danger">Supprimer Fichier</button>
+            {% endif %}
+       
    </form> 
       
              </td>

@@ -56,26 +56,22 @@ Fichiers sur les Opérations
 
 {% block content %}
 
-{% for type, flashMessages in app.session.flashbag.all() %}
-    {% for flashMessage in flashMessages %}
-<div class="alert alert-{{ type }}">
-            {{ flashMessage|trans }}
-    </div>
-    {% endfor %}
-{% endfor %}
+
+{% include 'ApplicationChangementsBundle:templates:flash.html.twig' %}
 
 
-{% include 'ApplicationChangementsBundle:templates:container_search.html.twig' 
+{% include 'ApplicationChangementsBundle:templates:doc_container_search.html.twig' 
         with {
-            'form_path': 'docchangements_fanta',
+            'form_path': 'docchangements',
             'search_form': search_form,'box':"ShowHideBoxown",
              'new_path': 'docchangements_new',
             'new_text':"Ajouter un Fichier",
               'include_html_search': 'ApplicationChangementsBundle:Docchangements:indexsearch_form.html.twig'
 }
 %}
+
  
-<br> <br>  
+ <br>  
 
     <table class="table table-striped table-bordered table-hover">
        

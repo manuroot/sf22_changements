@@ -63,12 +63,14 @@
     <ul class="dropdown-menu">
         <li><a href="{{ path('changements_fanta') }}"><i class="icon-th-list"></i> {{ 'Opérations DataGrid Fanta'|trans }}</a></li>
         {% if is_granted("IS_AUTHENTICATED_FULLY") %}
-            <li><a href="{{ path('changements_myfanta') }}"><i class="icon-th-list"></i> {{ 'Opérations DataGrid Favoris'|trans }}</a></li>
+                  <li><a href="{{ path('changements_myfanta') }}"><i class="icon-th-list"></i> {{ 'Opérations DataGrid Favoris'|trans }}</a></li>
+            <li><a href="{{ path('docchangements') }}"><i class="icon-briefcase"></i> {{ 'Fichiers Des Opérations'|trans }}</a></li>
+        <li><a href="{{ path('changements_comment_mesactivites') }}"><i class="icon-pencil"></i> {{ 'Commentaires'|trans }}</a></li>
+        
         {% endif %}
         <li><a href="{{ path('changements_apy') }}"><i class="icon-th-list"></i> {{ 'Opérations DataGrid APY'|trans }}</a></li>
         <li><a href="{{ path('changements_calendar') }}"><i class="icon-calendar"></i> {{ 'Calendrier Des Opérations'|trans }}</a></li>
-        <li><a href="{{ path('docchangements') }}"><i class="icon-briefcase"></i> {{ 'Fichiers Des Opérations'|trans }}</a></li>
-        <li><a href="{{ path('changements_comment_mesactivites') }}"><i class="icon-pencil"></i> {{ 'Mes Commentaires'|trans }}</a></li>
+        
         <li><a href="{{ path('changements_charts') }}"><i class="icon-bar-chart"></i> {{ 'Graphiques'|trans }}</a></li>
     </ul>
     </li>

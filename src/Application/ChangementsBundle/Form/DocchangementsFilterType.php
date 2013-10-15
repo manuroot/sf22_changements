@@ -15,13 +15,27 @@ class DocchangementsFilterType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
        $builder
-                ->add('name','text',array( 
+               
+               
+                ->add('name', 'genemu_jqueryautocomplete_text', array(
+                    'label' => 'Description',
+                    'widget_addon' => array(
+                        'icon' => 'pencil',
+                        'type' => 'prepend'
+                    ),
+                    'configs' => array('minLength' => 3),
+                    'mapped' => false, 'required' => false,
+                    'route_name' => 'ajax_changements_nom',
+                    'class' => 'Changements',
+                ))
+               
+               /*->add('name','text',array( 
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'
                         ),
                     'label'=>'Nom',
-                    'mapped'=>false,'required'=>false))
+                    'mapped'=>false,'required'=>false))*/
                
                   /*   ->add('path','text',array( 
                     'widget_addon' => array(
@@ -30,13 +44,38 @@ class DocchangementsFilterType extends AbstractType {
                         ),
                     'mapped'=>false,'required'=>false))
                     */
-                  ->add('md5','text',array( 
+              /*    ->add('md5','text',array( 
                       'label'=>'Md5',
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'
                         ),
-                    'mapped'=>false,'required'=>false))
+                    'mapped'=>false,'required'=>false))*/
+               
+               
+                 ->add('createdAt','text',array( 
+                     'label'=>'Date Création Min',
+                      'attr' => array(
+            'placeholder'=>'> date_création'),
+                     'widget_addon' => array(
+                        'icon' => 'time',
+                        'type' => 'prepend'
+                        ),
+                     'mapped'=>false,'required'=>false
+                     ))
+                
+                     ->add('createdAt_max','text',array( 
+                          'label'=>'Date Création Max',
+                      'attr' => array(
+            'placeholder'=>'< date_création'),
+                     'widget_addon' => array(
+                        'icon' => 'time',
+                        'type' => 'prepend'
+                        ),
+                     'mapped'=>false,'required'=>false
+                     ))
+                
+               
                
                  ->add('updatedAt','text',array( 
                      'label'=>'Date Update Min',
@@ -82,20 +121,30 @@ class DocchangementsFilterType extends AbstractType {
                     ),
                     'mapped' => false, 'required' => false))
              
-               
-                  ->add('changements_nom', 'genemu_jqueryautocomplete_text', array(
-                    'label' => 'Changement(s LIKE)',
+                ->add('changements_nom', 'genemu_jqueryautocomplete_text', array(
+                    'label' => 'Changement',
                     'widget_addon' => array(
                         'icon' => 'pencil',
                         'type' => 'prepend'
                     ),
                     'configs' => array('minLength' => 2),
                     'mapped' => false, 'required' => false,
+                    'route_name' => 'ajax_nom',
+                    'class' => 'Changements',
+                ))
+                /*  ->add('changements_nom', 'genemu_jqueryautocomplete_text', array(
+                    'label' => 'Changement',
+                    'widget_addon' => array(
+                        'icon' => 'pencil',
+                        'type' => 'prepend'
+                    ),
+                    'configs' => array('minLength' => 3),
+                    'mapped' => false, 'required' => false,
                     'route_name' => 'ajax_changements_nom',
                     'class' => 'Docchangements',
-                ))
+                ))*/
                
-                 ->add('idchangements', 'entity', array(
+                /* ->add('idchangements', 'entity', array(
                     'class' => 'ApplicationChangementsBundle:Changements',
                      'query_builder' => function(EntityRepository $em) {
                         return $em->createQueryBuilder('u')
@@ -106,7 +155,7 @@ class DocchangementsFilterType extends AbstractType {
                     'multiple' => false,
                     'required' => false,
                     'label' => 'Changement (=)'
-                ))
+                ))*/
                ;
             
     }
