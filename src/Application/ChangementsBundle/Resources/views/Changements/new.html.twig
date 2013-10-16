@@ -289,9 +289,11 @@ $.each($(".select2-container"), function (i, n) {
                     -------------------------------------------------#}
                  
                     <td class="calendar lastcol">
+                    <div>  {{ form_row(form.contact) }}</div>
                     {{ form_row(form.ticketExt) }}
                      <br/> <br/>
                      {{ form_row(form.ticketInt) }}</td>
+                        
                 </tr>
                 <tr>
                     <td class="calendar description" colspan="3">
