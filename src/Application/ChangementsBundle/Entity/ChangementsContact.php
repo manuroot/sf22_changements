@@ -60,7 +60,7 @@ class ChangementsContact
     /**
      * @var string
      *
-     * @ORM\Column(name="Bureau", type="string", length=30, nullable=true)
+     * @ORM\Column(name="Bureau", type="string", length=45, nullable=true)
      */
    
     
