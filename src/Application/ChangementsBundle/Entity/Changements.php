@@ -549,7 +549,14 @@ class Changements extends AbstractEvent {
           $this->begin = clone $start;
           $this->end = clone $end; */
     }
-
+/*
+    public function __clone() {
+    if ($this->id) {
+        $this->setId(null);
+        $this->idapplis = clone $this->idapplis;
+        $this->idusers= clone $this->idusers;
+    }
+}*/
     /**
      * Add idusers
      *
@@ -694,7 +701,10 @@ class Changements extends AbstractEvent {
             throw new \Exception("$items must be an instance of Applus or ArrayCollection");
         }
     }
-
+  public function initclonePicture() {
+        $this->picture = new ArrayCollection();
+  }
+  
     /**
      * Remove picture
      *

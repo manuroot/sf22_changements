@@ -10,8 +10,6 @@ use Application\ChangementsBundle\Entity\Changements;
 use Application\RelationsBundle\Entity\Document;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Application\ChangementsBundle\Form\ChangementsType;
-
-
 use Application\ChangementsBundle\Form\ChangementsFilesForEntityType;
 use Application\ChangementsBundle\Form\CalendarType;
 use Application\ChangementsBundle\Form\ChangementsFilterType;
@@ -71,15 +69,15 @@ class ChangementsController extends Controller {
         if ($user_security->isGranted('IS_AUTHENTICATED_FULLY')) {
             $user = $this->get('security.context')->getToken()->getUser();
             $user_id = $user->getId();
-           /* $group = $user->getIdgroup();
-            if (isset($group)) {
-                $group_id = $group->getId();
-            } else {
-                $group_id = 0;
-            }*/
+            /* $group = $user->getIdgroup();
+              if (isset($group)) {
+              $group_id = $group->getId();
+              } else {
+              $group_id = 0;
+              } */
         } else {
             $user_id = 0;
-          //  $group_id = 0;
+            //  $group_id = 0;
         }
         return $user_id;
     }
@@ -595,6 +593,57 @@ class ChangementsController extends Controller {
      *
      * @Secure(roles="ROLE_USER")
      */
+    public function newcloneAction($id) {
+        $entity = $this->get('changement.common.manager')->loadChangement($id);
+        $copy = clone $entity;
+
+
+        $nom = $copy->getNom();
+
+        $copy->setNom("C-" . $nom);
+        $copy->initclonePicture();
+      
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($copy);
+        $em->flush();
+       /*  $applis = $entity->getIdapplis();
+
+   // $this->applis = new ArrayCollection();
+    foreach ($applis as $app) {
+        $cloneApplis = clone $app;
+       $copy>add($cloneApplis);
+      //  $clonePupil->setClassroom($this);
+         $copy->addIdappli($applis);
+    }
+         foreach($entity->getIdapplis() as $applis) {
+        $copy->addIdappli($applis);
+    }  */
+        
+        // $newentity = $this->get('changement.common.manager')->loadChangement($id);
+        $editForm = $this->createForm(new ChangementsType(), $copy);
+        $deleteForm = $this->createDeleteForm($id);
+        //return $this->check_retour();
+
+        return $this->render('ApplicationChangementsBundle:Changements:new.html.twig', array(
+                    'entity' => $copy,
+                    'form' => $editForm->createView(),
+                 //   'delete_form' => $deleteForm->createView(),
+        ));
+        /*    $entity = new Changements();
+          $form = $this->createForm(new ChangementsType(), $entity);
+          // $form->getData()->getNom()->setData('someklklm');
+          //$entity->setNom("tre");
+          return $this->render('ApplicationChangementsBundle:Changements:new.html.twig', array(
+          'entity' => $entity,
+          'form' => $form->createView(),
+          )); */
+    }
+
+    /**
+     * Displays a form to create a new Changements entity.
+     *
+     * @Secure(roles="ROLE_USER")
+     */
     public function newflowstartAction() {
         // form data class
         // $entity = new Changements();
@@ -907,7 +956,7 @@ class ChangementsController extends Controller {
         } elseif ($request->isXmlHttpRequest() && $request->getMethod() == 'GET') {
 
             $response = new Response();
-           //  return new Response('<html><body>Hello '.$name.'!</body></html>');
+            //  return new Response('<html><body>Hello '.$name.'!</body></html>');
             $response->setContent("OK");
             return $response;
 //echo "OK";exit(1);
@@ -939,7 +988,7 @@ class ChangementsController extends Controller {
              * 
              */
 
-          $user_id = $this->getuserid();
+            $user_id = $this->getuserid();
             if (!isset($user_id)) {
                 $array['mystatus'] = "false";
                 throw $this->createNotFoundException('Unable to find Changements entity.');
@@ -1253,7 +1302,7 @@ class ChangementsController extends Controller {
         $parameters = array();
         $em = $this->getDoctrine()->getManager();
         // Pour les favoris
-      $user_id = $this->getuserid();
+        $user_id = $this->getuserid();
         $changements_nb_status = $em->getRepository('ApplicationChangementsBundle:Changements')->getStatusForRequeteBuilder();
         $request = $this->getRequest();
         $session = $request->getSession();
@@ -1312,7 +1361,7 @@ class ChangementsController extends Controller {
         $next_dir = ($dir == 'DESC') ? 'ASC' : 'DESC';
         $arrow[$sort] = $next_dir == "DESC" ? 'icon-arrow-up' : 'icon-arrow-down';
         $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getJoinedBy($sort, $dir, $parameters);
-        
+
         $adapter = new DoctrineORMAdapter($query);
         //$adapter->setDistinct(false);
         // sur changement categories avec filtres la page n'est peut etre
@@ -1355,7 +1404,7 @@ class ChangementsController extends Controller {
     // 
     //==============================================
 
-     /**
+    /**
      * Displays a form to edit an existing Changements entity.
      *
      * 
@@ -1367,9 +1416,8 @@ class ChangementsController extends Controller {
         $parameters = array();
         $em = $this->getDoctrine()->getManager();
         // Pour les favoris
-       
-       // echo "user_id=$user_id";
-      //  exit(1);
+        // echo "user_id=$user_id";
+        //  exit(1);
         $request = $this->getRequest();
         $session = $request->getSession();
         $session->set('buttonretour', 'changements_myfanta');
@@ -1426,15 +1474,15 @@ class ChangementsController extends Controller {
         // On recupere les vars de session page,dir,order
         //------------------------------------------
         //list($page, $dir, $sort) = $this->OrderfantaAction();
-       $user_id = $this->getuserid();
+        $user_id = $this->getuserid();
         if (isset($user_id)) {
             $parameters['user_favoris'] = $user_id;
-         //   print_r($parameters);
+            //   print_r($parameters);
         }
         // $parameters['truc'] = 'tzrez';
         $next_dir = ($dir == 'DESC') ? 'ASC' : 'DESC';
         $arrow[$sort] = $next_dir == "DESC" ? 'icon-arrow-up' : 'icon-arrow-down';
-       //   $parameters['truc'] = 'tzrez';
+        //   $parameters['truc'] = 'tzrez';
         $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getJoinedBy($sort, $dir, $parameters);
         $adapter = new DoctrineORMAdapter($query);
         //$adapter->setDistinct(false);
@@ -1506,6 +1554,5 @@ class ChangementsController extends Controller {
         // return new Response();
     }
 
-  
 }
 

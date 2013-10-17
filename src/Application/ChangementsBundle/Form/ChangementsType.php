@@ -196,7 +196,7 @@ $builder
                     'multiple' => false,
                     'required' => true,
                     'label' => 'Projet',
-                    'empty_value' => '--- Choisir une option ---'
+                    'empty_value' => '--- Options ---'
                 ))
                             
                   ->add('idKind', 'entity', array(

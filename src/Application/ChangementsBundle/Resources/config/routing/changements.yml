@@ -74,6 +74,11 @@ changements_edit:
     pattern:  /{id}/edit
     defaults: { _controller: "ApplicationChangementsBundle:Changements:edit" }
 
+changements_clone:
+    pattern:  /{id}/clone
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:newclone" }
+    
+    
 changements_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "ApplicationChangementsBundle:Changements:delete" }
