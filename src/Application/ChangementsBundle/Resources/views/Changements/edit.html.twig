@@ -134,7 +134,8 @@ $.each($(".select2-container"), function (i, n) {
 {% endblock %}
 
 {% block content_header '' %}
-{% block title %}EDITION OPERATION{% endblock %}
+{% block title %}EDITION OPERATION {% if is_clone is defined %} (CLONE de {{ entity.id }}) {% endif %}
+{% endblock %}
 {% block content %}
 
 {% set btnretour = app.session.get('buttonretour') %}

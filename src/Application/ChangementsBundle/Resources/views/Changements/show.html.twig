@@ -59,9 +59,10 @@ color: red;
 
  {% if is_granted("ROLE_USER") %}
 <a href="{{ path('changements_edit', { 'id': entity.id }) }}" class="btn btn-medium btn-warning">Editer</a>
+<a style="float:right;margin-right:50px;text-align:right;" href="{{ path('changements_clone', { 'id': entity.id }) }}" class="btn btn-medium btn-info">Cloner</a>
 {% endif %}
 
-<a href="{{ path('changements_clone', { 'id': entity.id }) }}" class="btn btn-medium btn-default">Cloner</a>
+
 <br> <br> 
 
 <div class="row mypad">

@@ -123,7 +123,16 @@ var dataAjax = {
     id_projet:Vid_projet,
      id_changement: Vid_chgmnt
 };
+
+/* au chargement */
 remplirSelect (dataAjax);
+
+
+ /* var myclone = "{{ is_clone|escape('js') }}";
+        if (typeof myclone != 'undefined') {
+
+}
+*/
   /* $("#changements_idapplis").select2("val", ["15","23"]); */    
           
 // Sur changement de l'un des 'select'

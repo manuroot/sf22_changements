@@ -29,7 +29,7 @@ use CalendR\Event\AbstractEvent;
 //* @GRID\Source(columns="id,nom,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUser,idusers.nomUser:GroupConcat,idEnvironnement.nom:GroupConcat",groupBy={"id"})
 // @GRID\Source(columns="id,nom,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUser,idEnvironnement.nom:concat_ws",groupBy={"id"})
 // @GRID\Source(columns="id,nom,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUser,idusers.nomUser:GroupConcat,idEnvironnement.nom:GroupConcat",groupBy={"id"})
- //* @GRID\Source(columns="id,nom,ticketExt,ticketInt,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUseridStatus.nom,idStatus.nom,idEnvironnement.nom:GroupConcat",groupBy={"id"})
+//* @GRID\Source(columns="id,nom,ticketExt,ticketInt,dateDebut,dateFin,idProjet.nomprojet,demandeur.nomUseridStatus.nom,idStatus.nom,idEnvironnement.nom:GroupConcat",groupBy={"id"})
 
 class Changements extends AbstractEvent {
 
@@ -68,13 +68,13 @@ class Changements extends AbstractEvent {
      */
     private $nom;
 
-     /**
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_demande", type="date", nullable=false)
      */
     private $dateDemande;
-    
+
     /**
      * @var \DateTime
      *
@@ -115,7 +115,7 @@ class Changements extends AbstractEvent {
      */
     private $description;
 
-        /**
+    /**
      * @var \Projet
      *
      * @ORM\ManyToOne(targetEntity="Application\ChangementsBundle\Entity\KindChangements")
@@ -125,8 +125,7 @@ class Changements extends AbstractEvent {
      * })
      */
     private $idKind;
-    
-    
+
     /**
      * @var \Projet
      *
@@ -162,7 +161,7 @@ class Changements extends AbstractEvent {
      * @GRID\Column(field="idEnvironnement.nom", filterable=true,size="30",title="Env", filter="select",selectFrom="query")
      */
     private $idEnvironnement;
-    
+
     //values={"type1"="Production"})
     //* @GRID\Column(field="idEnvironnement.nom:GroupConcat", filterable=true,size="100",title="Env", filter="select",selectFrom="query")
     // * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\Environnements",inversedBy="idchangements",cascade={"persist"})
@@ -182,25 +181,24 @@ class Changements extends AbstractEvent {
      */
     private $idapplis;
 
-      /**
+    /**
      * coté proprietaire (inversedBy)
      * 
      * @ORM\ManyToMany(targetEntity="Application\Sonata\UserBundle\Entity\User",cascade={"persist"})
-      * @ORM\JoinTable(name="changements_favoris",
+     * @ORM\JoinTable(name="changements_favoris",
      * joinColumns={@ORM\JoinColumn(name="changements_id", referencedColumnName="id")},
      *   inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
      * )
      * @GRID\Column(title="Favoris",field="idusers.nomUser:GroupConcat", size="20",title="Users", filter="select")
      */
     private $idfavoris;
-    
-    
+
     /**
      * coté proprietaire (inversedBy)
      * 
      * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\ChronoUser", inversedBy="idchangement",cascade={"persist"})
-      * @ORM\OrderBy({"nomUser" = "ASC"})
-      * @ORM\JoinTable(name="changements_users")
+     * @ORM\OrderBy({"nomUser" = "ASC"})
+     * @ORM\JoinTable(name="changements_users")
      * @GRID\Column(title="Users",field="idusers.nomUser:GroupConcat", size="20",title="Users", filter="select")
      */
     private $idusers;
@@ -210,15 +208,14 @@ class Changements extends AbstractEvent {
 
     /**
      * @var \ChronoUser
-     *
+     * One direction
      * @ORM\ManyToOne(targetEntity="Application\RelationsBundle\Entity\ChronoUser")
      * @ORM\JoinColumn(name="demandeur", referencedColumnName="id")
      * @GRID\Column(field="demandeur.nomUser", title="Demandeur",size="20",filter="select",selectFrom="query")
      */
     private $demandeur;
 
-    
-     /**
+    /**
      * @var \ChangementsContact
      *
      * @ORM\ManyToOne(targetEntity="Application\ChangementsBundle\Entity\ChangementsContact")
@@ -226,11 +223,11 @@ class Changements extends AbstractEvent {
      * @GRID\Column(field="contact.nomUser", title="Contact",size="20",filter="select",selectFrom="query")
      */
     private $contact;
-    
-    
+
     /**
      * 
      * mapped:ok, coté proprietaire ??
+     * One direction
      * @var \ChangementStatus
      *
      * @ORM\ManyToOne(targetEntity="ChangementsStatus")
@@ -241,7 +238,7 @@ class Changements extends AbstractEvent {
     private $idStatus;
 
     //  * @ORM\ManyToOne(targetEntity="ChangementsStatus", inversedBy="idchangements")
-    
+
     /**
      * not proprietaire side (mappedby)
      * 
@@ -285,15 +282,14 @@ class Changements extends AbstractEvent {
      *
      * @var File $avatar
      */
-    
-     /**
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="astreinte", type="boolean", nullable=true)
      */
     private $astreinte;
-    
-      
+
 //protected $avatar;
 
 
@@ -468,8 +464,7 @@ class Changements extends AbstractEvent {
         return $this->demandeur;
     }
 
-    
-     /**
+    /**
      * Set demandeur
      *
      * @param @return \Application\ChangementsBundle\Entity\ChangementsContact  $demandeur
@@ -542,21 +537,51 @@ class Changements extends AbstractEvent {
         $this->picture = new ArrayCollection();
         $this->idEnvironnement = new ArrayCollection();
         $this->idfavoris = new ArrayCollection();
-      $this->dateDemande = new \DateTime('now');
-         $this->astreinte = false;
+        $this->dateDemande = new \DateTime('now');
+        $this->astreinte = false;
         //   $this->idapplis = new \Doctrine\Common\Collections\ArrayCollection();
         /*         $this->uid = $uid;
           $this->begin = clone $start;
           $this->end = clone $end; */
     }
-/*
+
     public function __clone() {
-    if ($this->id) {
-        $this->setId(null);
-        $this->idapplis = clone $this->idapplis;
-        $this->idusers= clone $this->idusers;
+        if ($this->id) {
+               $allapps = $this->getIdapplis();
+        
+            $applis = new ArrayCollection();
+          //  $allapps = $this->getIdapplis();
+            foreach ($allapps as $app) {
+                $applis[] = $app;
+            }
+            
+            $this->idapplis = $applis;
+         //    $this->idapplis=$allapps;
+        //}
+        $envir = new ArrayCollection();
+        $all_environnements = $this->getIdEnvironnement();
+        foreach ($all_environnements as $environnement) {
+            $envir[] = $environnement;
+        }
+        $this->idEnvironnement = $envir;
+         $this->setDateDemande(new \DateTime('now'));
+    //     $this->setDateDemande(new \DateTime('now'));
+         $this->setNom("C-" . $this->getNom());
+   // $this->setIdStatus(null);
+         $this->picture = new ArrayCollection();
+        
+          $users = new ArrayCollection();
+        $all_users = $this->getIdusers();
+        foreach ($all_users as $user) {
+            $users[] = $user;
+        }
+        $this->idusers = $users;
+         
+        }
+        
+        
     }
-}*/
+
     /**
      * Add idusers
      *
@@ -701,11 +726,24 @@ class Changements extends AbstractEvent {
             throw new \Exception("$items must be an instance of Applus or ArrayCollection");
         }
     }
-  public function initclonePicture() {
+
+    public function initclonePicture() {
         $this->picture = new ArrayCollection();
-  }
-  
-    /**
+    }
+
+    /*
+      public function cloneApplis() {
+      // Get current collection
+      $applis = $this->getIdapplis();
+
+      $this->idappliss = new ArrayCollection();
+      foreach ($pupils as $pupil) {
+      $clonePupil = clone $pupil;
+      $this->pupils->add($clonePupil);
+      $clonePupil->setClassroom($this);
+      }
+      }
+     */ /**
      * Remove picture
      *
      * @param \Application\RelationsBundle\Entity\Document $picture
@@ -747,9 +785,9 @@ class Changements extends AbstractEvent {
 
     public function getEnd() {
         if (!isset($this->dateFin))
-              return $this->dateDebut;
-            else
-        return $this->dateFin;
+            return $this->dateDebut;
+        else
+            return $this->dateFin;
     }
 
     /**
@@ -824,16 +862,15 @@ class Changements extends AbstractEvent {
         return $this->ticketInt;
     }
 
-       /**
+    /**
      * Set statusFile
      *
      * @param boolean $astreinte
-      * @return integer 
+     * @return integer 
      */
-    public function setAstreinte($astreinte)
-    {
+    public function setAstreinte($astreinte) {
         $this->astreinte = $astreinte;
-    
+
         return $this;
     }
 
@@ -842,11 +879,9 @@ class Changements extends AbstractEvent {
      *
      * @return boolean 
      */
-    public function getAstreinte()
-    {
+    public function getAstreinte() {
         return $this->astreinte;
     }
-    
 
     /**
      * Set idKind
@@ -854,10 +889,9 @@ class Changements extends AbstractEvent {
      * @param \Application\ChangementsBundle\Entity\KindChangements $idKind
      * @return Changements
      */
-    public function setIdKind(\Application\ChangementsBundle\Entity\KindChangements $idKind)
-    {
+    public function setIdKind(\Application\ChangementsBundle\Entity\KindChangements $idKind) {
         $this->idKind = $idKind;
-    
+
         return $this;
     }
 
@@ -866,8 +900,7 @@ class Changements extends AbstractEvent {
      *
      * @return \Application\ChangementsBundle\Entity\KindChangements 
      */
-    public function getIdKind()
-    {
+    public function getIdKind() {
         return $this->idKind;
     }
 
@@ -877,10 +910,9 @@ class Changements extends AbstractEvent {
      * @param \DateTime $dateDemande
      * @return Changements
      */
-    public function setDateDemande($dateDemande)
-    {
+    public function setDateDemande($dateDemande) {
         $this->dateDemande = $dateDemande;
-    
+
         return $this;
     }
 
@@ -889,29 +921,24 @@ class Changements extends AbstractEvent {
      *
      * @return \DateTime 
      */
-    public function getDateDemande()
-    {
+    public function getDateDemande() {
         return $this->dateDemande;
     }
-    
-    
-    
-     /**
+
+    /**
      * Add idusers
      *
      * @param \Application\RelationsBundle\Entity\ChronoUser $idusers
      * @return Changements
      */
     public function addIfavoris(\Application\Sonata\UserBundle\Entity\User $idfavoris) {
-         if (!$this->idfavoris->contains($idfavoris)) {
-         
-        $this->idfavoris->add($idfavoris);
+        if (!$this->idfavoris->contains($idfavoris)) {
 
-        
-    }
-       /* $this->idfavoris[] = $idfavoris;
+            $this->idfavoris->add($idfavoris);
+        }
+        /* $this->idfavoris[] = $idfavoris;
 
-        return $this;*/
+          return $this; */
     }
 
     /**
@@ -924,8 +951,6 @@ class Changements extends AbstractEvent {
             return;
         }
         $this->idfavoris->removeElement($idfavoris);
-        
-    
     }
 
     /**
@@ -936,16 +961,15 @@ class Changements extends AbstractEvent {
     public function getIdfavoris() {
         return $this->idfavoris;
     }
-   
-     public function checkIdfavoris(\Application\Sonata\UserBundle\Entity\User $idfavoris) {
-         if (!$this->idfavoris->contains($idfavoris)) 
+
+    public function checkIdfavoris(\Application\Sonata\UserBundle\Entity\User $idfavoris) {
+        if (!$this->idfavoris->contains($idfavoris))
             return false;
-         else 
-             return true;
+        else
+            return true;
     }
 
- public function setIdfavoris($users)
-    {
+    public function setIdfavoris($users) {
         if ($users instanceof ArrayCollection || is_array($users)) {
             foreach ($users as $item) {
                 $this->addIdfavoris($item);
@@ -956,5 +980,5 @@ class Changements extends AbstractEvent {
             throw new \Exception("$users must be an instance of User or ArrayCollection");
         }
     }
-   
+
 }

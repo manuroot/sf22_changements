@@ -596,47 +596,34 @@ class ChangementsController extends Controller {
     public function newcloneAction($id) {
         $entity = $this->get('changement.common.manager')->loadChangement($id);
         $copy = clone $entity;
-
-
-        $nom = $copy->getNom();
-
-        $copy->setNom("C-" . $nom);
-        $copy->initclonePicture();
-      
-        $em = $this->getDoctrine()->getManager();
+       /* $em = $this->getDoctrine()->getManager();
         $em->persist($copy);
-        $em->flush();
-       /*  $applis = $entity->getIdapplis();
-
-   // $this->applis = new ArrayCollection();
-    foreach ($applis as $app) {
-        $cloneApplis = clone $app;
-       $copy>add($cloneApplis);
-      //  $clonePupil->setClassroom($this);
-         $copy->addIdappli($applis);
-    }
-         foreach($entity->getIdapplis() as $applis) {
-        $copy->addIdappli($applis);
-    }  */
+        $em->flush();*/
+        $copy->setDateDebut(null);
+        $copy->setDateFin(null);
+        $copy->setIdStatus(null);
         
-        // $newentity = $this->get('changement.common.manager')->loadChangement($id);
-        $editForm = $this->createForm(new ChangementsType(), $copy);
+        $id=$copy->getId();
+       $editForm = $this->createForm(new ChangementsType(), $copy);
         $deleteForm = $this->createDeleteForm($id);
-        //return $this->check_retour();
-
-        return $this->render('ApplicationChangementsBundle:Changements:new.html.twig', array(
+    //   return $this->get('router')->generate('changements_update', array('id' => $id));
+    //  return $this->redirect($this->generateUrl('changements_edit', array('id' => $id)));
+   /* return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
                     'entity' => $copy,
+                //  'form' => $editForm->createView(),
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
+                    'is_clone' => 'yes'
+        ));*/
+    
+       return $this->render('ApplicationChangementsBundle:Changements:new.html.twig', array(
+                    'entity' => $copy,
+                //  'form' => $editForm->createView(),
                     'form' => $editForm->createView(),
-                 //   'delete_form' => $deleteForm->createView(),
+                    //'delete_form' => $deleteForm->createView(),
+                    'is_clone' => 'yes'
         ));
-        /*    $entity = new Changements();
-          $form = $this->createForm(new ChangementsType(), $entity);
-          // $form->getData()->getNom()->setData('someklklm');
-          //$entity->setNom("tre");
-          return $this->render('ApplicationChangementsBundle:Changements:new.html.twig', array(
-          'entity' => $entity,
-          'form' => $form->createView(),
-          )); */
+  
     }
 
     /**
