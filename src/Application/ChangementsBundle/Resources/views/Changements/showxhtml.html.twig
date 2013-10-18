@@ -136,14 +136,32 @@ color: red;
   
 <script src="{{ asset('jquery/jquery-1.9.1.js') }}" type="text/javascript"></script>
                <script type="text/javascript" src="{{ asset('jquery/jquery-ui-1.10.3.custom.min.js') }}"></script>
-  
+               <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
+     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+ 
    <script>
   
 $(document).ready(function() {
 
     $( "#tabs" ).tabs();
 
-  
+
+ var originalClose = $.colorbox.close;
+        $("#cloner").click(function(){ 
+             console.log("try to close");
+            parent.jQuery.colorbox.close();
+          var myclone=Routing.generate('changements_clone', {'id': "{{ entity.id }}"});
+         parent.window.location.replace(myclone);
+                return true;
+            }); 
+    $("#editer").click(function(){ 
+             console.log("try to close");
+            parent.jQuery.colorbox.close();
+          var myclone=Routing.generate('changements_edit', {'id': "{{ entity.id }}"});
+         parent.window.location.replace(myclone);
+                return true;
+            }); 
 });
 </script>  
     
@@ -152,10 +170,16 @@ $(document).ready(function() {
     {% block content %}
         
          <center><h2>OPERATION: {{ entity.nom }} </h2></center>
+{#<input type="button" value="Cancel" id="btncancel"/> #}
+
+{#<a  id="btncancel" href="{{ path('changements_clone', { 'id': entity.id }) }}" class="btn btn-medium btn-info">Cloner</a>
+#}
 
 <div id="tabs">
-    
-
+    {% if is_granted("ROLE_USER") %}
+    <input type="button" value="editer" id="editer" class="btn btn-medium btn-info" style="float:right;margin-top:5px;margin-right:10px;text-align:right;">
+    <input type="button" value="cloner" id="cloner" class="btn btn-medium btn-info" style="float:right;margin-top:5px;margin-right:10px;text-align:right;">
+{% endif %}
   
   <ul>
     <li><a href="#tabs-1" class="mytab"> <i class="icon-user icon-mesfiltres"></i>  Données Principales</a></li>
