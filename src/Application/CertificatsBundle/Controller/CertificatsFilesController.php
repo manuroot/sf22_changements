@@ -577,7 +577,7 @@ class CertificatsFilesController extends Controller {
         return $retour;
     }
 
-    public function FileUploadAction(Request $request) {
+    public function FileUploaOlddAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $alldatas = $request->request->all();
         $certificats['fields'] = array();
@@ -634,7 +634,7 @@ class CertificatsFilesController extends Controller {
         return $retour;
     }
 
-    public function FileUploadtempAction(Request $request) {
+    public function FileUploadAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
 
         $alldatas = $request->request->all();
@@ -642,8 +642,7 @@ class CertificatsFilesController extends Controller {
         // $applis = array();
         $certificats['fields'] = array();
         //     print_r($fileUploader);
-        $datas = $alldatas["fileupload"];
-
+        //$datas = $alldatas["fileupload"];
         $uploaded_file = $request->files->get('files');
         //  $uploaded_file = $request->files->get('moncert');
         //moncert[fichier][file]
@@ -663,7 +662,7 @@ class CertificatsFilesController extends Controller {
           throw $this->createNotFoundException('Unable to find CertificatsCenter entity.');
           }
           $editForm = $this->createForm(new CertificatsCenterType(), $entity); */
-        if ($uploaded_file['fichier']['file'] != NULL) {
+        /*if ($uploaded_file['fichier']['file'] != NULL) {
 
             //    echo "original name=" . $uploadedFile['fichier']['file']->originalName . "<br>";
             //    print_r($uploadedFile['fichier']);
@@ -671,7 +670,7 @@ class CertificatsFilesController extends Controller {
             //     print_r($uploadedFile['fichier']['file']);
             //  $entity->setFichier(NULL);
             //$userProfile->setPicture(NULL);
-        }
+        }*/
         // non sinon il en manque !!
         //    $editForm->bind($postData);
         /* $editForm->bind($request);
@@ -681,8 +680,8 @@ class CertificatsFilesController extends Controller {
           }
 
           echo "id=$id<br>"; */
-        $datas = $request->get('moncert');
-        print_r($datas);
+      //  $datas = $request->get('moncert');
+      //  print_r($datas);
         // $uploaded_file = $request->files->get('files');
         // echo "origine=" . $uploaded_file['originalName'] . "<br>";
         // print_r( $uploaded_file);
@@ -691,12 +690,20 @@ class CertificatsFilesController extends Controller {
             //move_uploaded_file($_FILES["files"]["tmp_name"],"/tmp/toto.txt");
             $tmp_file = $_FILES["files"]["tmp_name"];
             $original_name = $_FILES['files']['name'];
+           /* $cn = "rttterter";
+            $fullcn = "sfsdfsd/hgf/tt";
+            $validfrom="2012-10-10";
+            $validto="2012-10-10";*/
+            
+            /* Marche pas sous windows*/
             $openssl = new MyOpenSsl();
             $data_parse = $openssl->Parse_x509($tmp_file);
             $cn = $data_parse['subject']['CN'];
             $fullcn = $data_parse['name'];
             list($validfrom, $validto) = $openssl->Return_Dates($tmp_file);
-            $certificats['fields'] = array(
+            
+             $certificats['fields'] = array(
+            
                 'cn' => $cn,
                 'from' => $validfrom,
                 'to' => $validto,

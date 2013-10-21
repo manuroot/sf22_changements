@@ -94,15 +94,27 @@
             // Sur Succès de la réponse AJAX
             var optionData = reponse;
             if(typeof optionData['fields']['name'] !== 'undefined') {
-                $("input#moncert_fileName").val(optionData['fields']['name']);
+                  console.log("replace field with " + optionData['fields']['name']);
+                $("input#moncert_fileName").addClass('leserreurs').css({'background-color' : '#FFFFEEE'}).val(optionData['fields']['name']);
+                 
+                 $("div#files").addClass('leserreurs');
+                $("div#files").html(optionData['fields']['name']);
+                
             }
             if(typeof optionData['fields']['from'] !== 'undefined') {
-                $("INPUT#moncert_startDate").val(optionData['fields']['from']);
+                 console.log("replace field with " + optionData['fields']['from']);
+                 $("INPUT#moncert_startDate").css({'background-color' : '#FFFFEEE'});
+                 $("INPUT#moncert_startDate").val(optionData['fields']['from']);
+              
             }
             if(typeof optionData['fields']['to'] !== 'undefined') {
+                 console.log("replace field with " + optionData['fields']['to']);
+                  $("INPUT#moncert_endTime").css({'background-color' : '#FFFFEEE'});
                 $("INPUT#moncert_endTime").val(optionData['fields']['to']);
                  }
             if(typeof optionData['fields']['cn'] !== 'undefined') {
+                 console.log("replace field with " + optionData['fields']['cn']);
+                  $("INPUT#moncert_cnName").css({'background-color' : '#FFFFEEE'});
                 $("INPUT#moncert_cnName").val(optionData['fields']['cn']);
             }
             
@@ -145,7 +157,12 @@
     height: 18px;
     background: green;
 }
- 
+ .leserreurs {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            font-size:12px;
+            color:red;
+        }
     </style> 
 {% endblock %}
 
@@ -227,32 +244,21 @@
                      </span>#}
                       {% if fichier  %}   
                       <input type="hidden"  name="myfile"  value="{{ fichier.id }}">
-                  {#  <button type="submit" class="btn btn-primary start">
-                    <i class="glyphicon glyphicon-upload"></i>
-                    <span>Start upload</span>
-                </button>#}
-                             {#       <span class="btn btn-success fileinput-button">
-        <i class="icon-plus"></i>
-        <span>Add files...</span>
-        <!-- The file input field used as target for the file upload widget -->
-       
-         <input type="hidden"  name="myfile"  value="{{ fichier.id }}">
-    </span>
-#}
-                  <br>
+                 
+             
     <br>
     <!-- The global progress bar -->
-    <div id="progress" class="progress">
+    {#<div id="progress" class="progress">
         <div class="progress-bar progress-bar-success"></div>
-    </div>
+    </div>#}
     <!-- The container for the uploaded files -->
-    <div id="files" class="files"></div>                  
+    <div id="files" class="files">
                                        
                                        {# <input type="hidden"  name="myfile"  value="{{ fichier.id }}" data-url="{{ 'certificatscenter_listbyprojet' }}">
                                  #}       
                                     
-  
-                                        Actuel: <br>
+
+                                        
                                   <strong>  {{ fichier.OriginalFilename }}
                                         <br>
                                         {{ fichier.updatedAt|date('Y-m-d H:i:s') }}
@@ -260,14 +266,18 @@
                                         {% else %}
                                         (Pas de fichier actuellement)
                                         {% endif %}
-   <br/>    <span class="btn btn-primary fileinput-button">
+                                                     
+  </div>
+    {% do form.fichier.setRendered() %}
+    {#<span class="btn btn-primary fileinput-button">
           
                 <span>Ajouter un fichier</span>
-           {# <input id="moncert_fichier_file" class=" not-removable" type="file" name="moncert[fichier][file]"></input>
-                #}    {{ form_errors(form.fichier) }}
+           <input id="moncert_fichier_file" class=" not-removable" type="file" name="moncert[fichier][file]"></input>
+                    {{ form_errors(form.fichier) }}
                                         
        {{ form_widget(form.fichier) }}  
             </span>    
+#}
                                         </div>
                                       <div id="progress">
     <div class="bar" style="width: 0%;"></div>
