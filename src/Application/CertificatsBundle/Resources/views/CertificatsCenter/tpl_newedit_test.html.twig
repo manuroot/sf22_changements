@@ -1,0 +1,147 @@
+{% extends "ApplicationCertificatsBundle::layout.html.twig" %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/applicationcertificats/js/datenew.js') }}"></script>
+<script type="text/javascript" src="{{ asset('jquery/fileupload/jquery.iframe-transport.js') }}"></script>
+<script type="text/javascript" src="{{ asset('jquery/jquery.ui.widget.js') }}"></script>
+<script type="text/javascript" src="{{ asset('jquery/fileupload/jquery.fileupload.js') }}"></script>
+<script>
+
+    $(function () {
+        
+         $('#moncert_fichier_file').fileupload({
+        dataType: 'json',
+         url: Routing.generate('certificatscenter_listbyprojet'),
+        done: function (e, data) {
+            $.each(data.result.files, function (index, file) {
+                $('<p/>').text(file.name).appendTo(document.body);
+            });
+        },
+    
+     progressall: function (e, data) {
+        var progress = parseInt(data.loaded / data.total * 100, 10);
+        $('#progress .bar').css(
+            'width',
+            progress + '%'
+        );
+    }
+    });
+    
+    $('#hhmoncert_fichier_file').fileupload({
+        dataType: 'json',
+         url: Routing.generate('certificatscenter_listbyprojet'),
+         add: function (e, data) {
+            data.context = $('<button/>').text('Upload')
+                .appendTo(document.body)
+                .click(function () {
+                    data.context = $('<p/>').text('Uploading...').replaceAll($(this));
+                    data.submit();
+                });
+        },
+        done: function (e, data) {
+            $.each(data.result.files, function (index, file) {
+                $('<p/>').text(file.name).appendTo(document.body);
+            });
+        },
+    
+     progressall: function (e, data) {
+        var progress = parseInt(data.loaded / data.total * 100, 10);
+        $('#progress .bar').css(
+            'width',
+            progress + '%'
+        );
+    }
+    });
+
+   $('#xxmoncert_fichier_file').fileupload({
+        dataType: 'json',
+         url: Routing.generate('certificatscenter_listbyprojet'),
+        add: function (e, data) {
+            data.context = $('<button/>').text('Upload')
+                .appendTo(document.body)
+                .click(function () {
+                    data.context = $('<p/>').text('Uploading...').replaceAll($(this));
+                    data.submit();
+                });
+        },
+        done: function (e, data) {
+            data.context.text('Upload finished.');
+        }
+    });
+   
+    $('#11moncert_fichier_file').fileupload({
+        dataType: 'json',
+        add: function (e, data) {
+            data.context = $('<button/>').text('Upload')
+                .appendTo(document.body)
+                .click(function () {
+                    data.context = $('<p/>').text('Uploading...').replaceAll($(this));
+                    data.submit();
+                });
+        },
+        done: function (e, data) {
+            data.context.text('Upload finished.');
+        }
+    });
+
+});
+
+
+</script>
+{% endblock %}
+
+
+{% block stylesheets %}
+{{ parent() }} 
+<link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/sliding.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/certifcatssearch.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.fileupload-ui.css') }}" type="text/css" media="all"/>  
+<style>
+    select[multiple], select[size] {height: 250px;}
+    textarea {width:400px;height:200px;}
+    tr.single {background-color: #f1f1f1;}
+    div.fichier{
+        padding:5px;background-color:whitesmoke;color:#0033cc;}
+.bar {
+    height: 18px;
+    background: green;
+}
+ 
+    </style> 
+{% endblock %}
+
+
+{% block content_header '' %}
+    
+{% block title %}{{ titre }}  CERTIFICAT {% endblock %}
+
+{% block content %}
+ <form id="fileupload" action="php/index.php" method="POST" enctype="multipart/form-data">
+    <div class="row">
+        <div class="span16 fileupload-buttonbar">
+            <div class="progressbar fileupload-progressbar"><div style="width:0%;"></div></div>
+            <span class="btn btn-success fileinput-button">
+                <span>Add files...</span>
+                <input type="file" name="files[]" multiple>
+            </span>
+            <!-- Extra file input start /-->
+          
+            <!--/ Extra file input stop -->
+            <button type="submit" class="btn btn-primary start">Start upload</button>
+            <button type="reset" class="btn btn-info cancel">Cancel upload</button>
+            <button type="button" class="btn btn-danger delete">Delete selected</button>
+            <input type="checkbox" class="toggle">
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="span16">
+            <table class="zebra-striped"><tbody class="files"></tbody></table>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

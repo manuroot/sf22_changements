@@ -31,6 +31,8 @@ use Application\CertificatsBundle\Entity\CertificatsFiles;
 // * keep:
 //  * @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,idEnvironnement.nom,typeCert.fileType,idapplis.nomapplis:GroupConcat",groupBy={"id"}) 
 // @GRID\Source(groupBy={"id"}) 
+// * @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,warningFile,project.nomprojet,idEnvironnement.nom,typeCert.fileType",groupBy={"id"}) 
+
 // //* @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,typeCert.fileType,idapplis.nomapplis:GroupConcat",groupBy={"id"}) 
 //* @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,typeCert.fileType,idapplis.nomapplis:GroupConcat",groupBy={"id"}) 
 class CertificatsCenter
@@ -184,11 +186,11 @@ class CertificatsCenter
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idEnvironnement", referencedColumnName="id")
      * })
-     * @GRID\Column(field="idEnvironnement.nom", filterable=false,size="20",title="Env", filter="select",selectFrom="query")
+     * @GRID\Column(field="idEnvironnement.nom", filterable=true,size="20",title="Env", operator={"eq"},filter="select",selectFrom="query")
      */
     private $idEnvironnement;
-    
-    
+  
+     // @GRID\Column(field="idEnvironnement.nom", filterable=false,size="20",title="Env", operator="eq",filter="select",selectFrom="query")
     
     
     //* @OrderBy({"name" = "ASC"})

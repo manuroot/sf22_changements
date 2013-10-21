@@ -496,7 +496,8 @@ class CertificatsCenterController extends Controller {
         $uploadedFile = $request->files->get('moncert');
 
         //=========================================
-        // Si fichier a ete uploadé
+        // Si fichier a ete uploadé:
+        // on mey le lien a null et on update
         //=========================================
         if ($uploadedFile['fichier']['file'] != NULL) {
 

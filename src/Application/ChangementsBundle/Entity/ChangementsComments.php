@@ -32,7 +32,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="changements_comments")
  * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="Application\ChangementsBundle\Repository\ChangementsCommentsRepository")
- * @GRID\Source(columns="id,user.username,changement.nomUser.username,changement.id,
+ * @GRID\Source(columns="id,user.username,user.id,changement.nomUser.username,changement.id,
  changement.idProjet.nomprojet,changement.demandeur.nomUser,created,updated,categorie.nom,approved",groupBy={"id"})
  */
 
@@ -56,6 +56,7 @@ class ChangementsComments {
      *   @ORM\JoinColumn(name="user", referencedColumnName="id")
      * })
       * @GRID\Column(field="user.username", title="Owner",size="20",filter="select",selectFrom="query")
+     * @GRID\Column(field="user.id", title="ownerid",visible=false)
      */
     private $user;
     

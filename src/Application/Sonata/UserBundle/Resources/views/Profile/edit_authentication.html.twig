@@ -1,4 +1,6 @@
-{% extends "SonataUserBundle::layout.html.twig" %}
+{% extends "ApplicationSonataUserBundle::layout.html.twig" %}
+  
+
 
 {#
 
@@ -11,17 +13,102 @@ file that was distributed with this source code.
 
 #}
 
+  {% block stylesheets %}
 
-{% block fos_user_content %}
-nn
-<div class="sonata-user-edit-authentication">
-    <h2>{{ "title_user_account" | trans({}, 'SonataUserBundle')}} - {{ "title_user_edit_authentication" | trans({}, 'SonataUserBundle')}}</h2>
+{{ parent() }} 
+  <style type="text/css">
+          body {
+    
+background-image:url("/images/ravenna.png");
+/*background-image:url("images/nasty_fabric.png");*/
+}
+div.connection{
 
+    width: 40%;
+    min-width:300px;
+  /* z-index:50;*/
+     margin:auto;
+    margin-top:50px;
+          
+        margin-left-ltr-source: physical;
+        margin-left-rtl-source: physical;
+        margin-right-ltr-source: physical;
+        margin-right-rtl-source: physical;
+       box-shadow: 1px 1px 1px #999; 
+    border: 1px solid rgb(221, 221, 221);
+        border-top-width: 1px;
+        border-right-width-value: 1px;
+        border-right-width-ltr-source: physical;
+        border-right-width-rtl-source: physical;
+        border-bottom-width: 1px;
+        border-left-width-value: 1px;
+        border-left-width-ltr-source: physical;
+        border-left-width-rtl-source: physical;
+        border-top-style: solid;
+        border-right-style-value: solid;
+        border-right-style-ltr-source: physical;
+        border-right-style-rtl-source: physical;
+        border-bottom-style: solid;
+        border-left-style-value: solid;
+        border-left-style-ltr-source: physical;
+        border-left-style-rtl-source: physical;
+        border-top-color: rgb(221, 221, 221);
+        border-right-color-value: rgb(221, 221, 221);
+        border-right-color-ltr-source: physical;
+        border-right-color-rtl-source: physical;
+        border-bottom-color: rgb(221, 221, 221);
+        border-left-color-value: rgb(221, 221, 221);
+        border-left-color-ltr-source: physical;
+        border-left-color-rtl-source: physical;
+        -moz-border-top-colors: none;
+        -moz-border-right-colors: none;
+        -moz-border-bottom-colors: none;
+        -moz-border-left-colors: none;
+        border-image-source: none;
+        border-image-slice: 100% 100% 100% 100%;
+        border-image-width: 1 1 1 1;
+        border-image-outset: 0 0 0 0;
+        border-image-repeat: stretch stretch;
+    border-radius: 6px 6px 6px 6px;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+        border-bottom-right-radius: 6px;
+        border-bottom-left-radius: 6px;
+         /* background-color:gainsboro;*/
+          padding:5px;
+          background-color: rgba(220,220,220, 0.4);
+         /* opacity: 0.9;*/
+         filter:alpha(opacity=90); 
+}
+div.connection form {
+    padding:5px;
+}
+#content {z-index:20;}
+ #footer {
+   /* position:absolute;*/
+    bottom:0;
+    width:50%;
+   margin:auto;
+    height:30px;  
+    background:#eaeaea;
+ margin-top:100px;
+              padding:5px;
+              }
+</style> 
+ {% endblock %}
+    {% block title %}<h2><center>Profil Utilisateur</center></h2>{% endblock %}
+
+{% block content %}
+
+<div class="connection">
+  
+    {#<h2>{{ "title_user_account" | trans({}, 'SonataUserBundle')}} - {{ "title_user_edit_authentication" | trans({}, 'SonataUserBundle')}}</h2>
+#}
     <form action="{{ path('sonata_user_profile_edit_authentication') }}" method="POST">
         {{ form_rest(form) }}
 
        <input type="submit" class="btn btn-primary" name="submit" value="{{ 'sonata_user_submit'|trans({}, 'SonataUserBundle') }}" />
     </form>
 
-</div>
-{% endblock fos_user_content %}
+
+{% endblock content %}

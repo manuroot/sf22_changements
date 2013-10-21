@@ -69,7 +69,7 @@ class ChangementsUploadController extends Controller {
                 ->getFiles(array('folder' => 'tmp/attachments/' . $editId));
         return $this->render('ApplicationChangementsBundle:Changements:edit-punkave.html.twig', array(
                     'entity' => $entity,
-                    'form' => $editForm->createView(),
+                    'edit_form' => $editForm->createView(),
                     'editId' => $editId,
                     'existingFiles' => $existingFiles,
                     'isNew' => $isNew,
@@ -159,6 +159,9 @@ class ChangementsUploadController extends Controller {
 
         $alldatas = $request->request->all();
                      $entity=$this->get('changement.common.manager')->loadChangement($id);
+         $editForm = $this->createForm(new ChangementsFilesForEntityType(), $entity);
+        $isNew = true;
+       
         $editId = $this->getRequest()->get('editId');
         if (!preg_match('/^\d+$/', $editId)) {
             $editId = sprintf('%09d', mt_rand(0, 1999999999));
@@ -194,9 +197,7 @@ class ChangementsUploadController extends Controller {
           return $this->redirect($this->generateUrl('changements_fanta'));
           }
          */
-           $session = $this->getRequest()->getSession();
-            $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
-          // return $this->check_retour();
+           // return $this->check_retour();
         
         return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
                     'entity' => $entity,
@@ -205,7 +206,8 @@ class ChangementsUploadController extends Controller {
         ));
     }
 
-   
+       
+      
 
     /**
      * Deletes a Changements entity.

@@ -29,6 +29,8 @@
 
   {% block stylesheets %}
 {{ parent() }}
+   <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
+ 
    <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
   <style>
 
@@ -94,7 +96,7 @@ Fichiers sur les Opérations
 }
 %}
  
-<br> <br>  
+
 
     <table class="table table-striped table-bordered table-hover">
         <thead>

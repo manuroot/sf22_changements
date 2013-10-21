@@ -269,7 +269,7 @@ class MyOpenSsl {
 
         $validFrom = date('Y-m-d', $data_parse['validFrom_time_t']);
         $validTo = date('Y-m-d', $data_parse['validTo_time_t']);
-        echo "d1=$validFrom <br> d2=$validTo<br>";
+      //  echo "d1=$validFrom <br> d2=$validTo<br>";
 //echo "$validFrom  -- $validFrom <br>";
         return array($validFrom, $validTo);
     }
@@ -404,8 +404,8 @@ class MyOpenSsl {
         $info = pathinfo($name);
         $data = file_get_contents($name);
 
-        $data_parse = null;
-        print "<h3>View Certificate: $file_basename</h3>";
+     //   $data_parse = null;
+      //  print "<h3>View Certificate: $file_basename</h3>";
 
         if (isset($info['extension'])) {
 
@@ -417,11 +417,12 @@ class MyOpenSsl {
             }
         }
 
-        $data_parse = openssl_x509_parse($data);
+       $data_parse = openssl_x509_parse($data);
+       // print_r($data_parse);
         if (!$data_parse) {
             return ($data_parse);
         }
-        array_walk($data_parse, 'print_element');
+      //  array_walk($data_parse, 'print_element');
         return ($data_parse);
     }
 

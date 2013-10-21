@@ -130,7 +130,8 @@ var mesdates=[
        
 {% endblock %}
 {% block content %}
- 
+ {% set userid = app.user.username %}
+        {% set user = app.security.getToken().getUser() %}
 {% include 'ApplicationChangementsBundle:templates:flash.html.twig' %}
   
 <br> <br> 
@@ -242,20 +243,32 @@ var mesdates=[
 
      {% for action in column.rowActions %}
  {% set confirm = action.confirm ? " onclick=\"return confirm('" ~ action.confirmMessage ~ "')\"" : '' %}
-      
+    {#  
   {% if action.title == 'Edit' and  is_granted('ROLE_SUPER_ADMIN') %}
-   <a href="{{ url(action.route, column.routeParameters(row, action), true) }}" target="{{ action.target }}">
+#}
+    
+  {% if action.title == 'Edit' %}
+     {% if is_granted('ROLE_SUPER_ADMIN')%} 
+     <a href="{{ url(action.route, column.routeParameters(row, action), true) }}" target="{{ action.target }}">
                          <img src="{{ asset('bundles/applicationchangements/images/edit.png') }}" alt="edit" width="15" height="15" />
-                    </a>
-&nbsp;&nbsp;
+     </a>
+    {% elseif row.field('user.id') == app.user.id %}
+  
+ {#{{ app.user.id }} -- {{ row.field('user.id') }}#}
+    <a href="{{ url(action.route, column.routeParameters(row, action), true) }}" target="{{ action.target }}">
+                         <img src="{{ asset('bundles/applicationchangements/images/edit.png') }}" alt="edit" width="15" height="15" />
+     </a>
 
-     {% else %}   
-{% if is_granted('ROLE_SUPER_ADMIN')  %}
+
+ {% endif %}
+    &nbsp;&nbsp;
+ {% endif %}     
+{% if action.title == 'Delete' and  is_granted('ROLE_SUPER_ADMIN') %}
 <a href="{{ url(action.route, column.routeParameters(row, action), false) }}"{{ confirm }} target="{{ action.target }}">
                   <img src="{{ asset('bundles/applicationchangements/images/delete.png') }}" alt="delete" width="15" height="15" />
      </a>              
   {% endif %}
-     {% endif %}
+    
         
      
     {% endfor %}

@@ -39,3 +39,11 @@ ajax_nom_certfiles:
     methods: POST|GET
     defaults: { _controller: "ApplicationCertificatsBundle:CertificatsFiles:NomAjax" }
   
+certificats_fileupload:
+    pattern:  ajaxfilesss
+    methods: POST|GET
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsFiles:FileUpload" }
+    options:
+        expose: true
+  
+  

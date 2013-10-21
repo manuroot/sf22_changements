@@ -3,6 +3,27 @@
 {% block javascripts %}
 {{ parent() }}
 {{ tinymce_init() }}
+ <script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>
+ <script>
+ $().ready(function() {
+	// validate the comment form when it is submitted
+	
+    $('.alert').each(function() {
+        var html = $(this).html();
+        $.pnotify({
+            title: 'Flash Message',
+            text: html,
+            animation: 'show',
+            nonblock_opacity: 0.2,
+            type: 'error',
+            icon: 'icon-flag',
+            width: '350px',
+            opacity: .9
+        });
+    });
+});
+</script>
+
 {% endblock %}
 
   {% block stylesheets %}
@@ -14,6 +35,8 @@
 <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
 {% endstylesheets %}
 #}
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
+ 
   <link rel="stylesheet" href="{{ asset('css/compiled/changements.css') }}" type="text/css" media="all"/>
 <style>
          td.single {
@@ -53,7 +76,8 @@ color: red;
       {% block content_header '' %}
 {% block title %}DETAILS CHANGEMENT:  {{ entity.nom }} {% endblock %}
 {% block content %}
-
+{% include 'ApplicationChangementsBundle:templates:flash.html.twig' %}
+      
 <br> <br> 
 <a href="{{ path('changements_fanta') }}" class="btn btn-medium btn-success">Retour</a>
 

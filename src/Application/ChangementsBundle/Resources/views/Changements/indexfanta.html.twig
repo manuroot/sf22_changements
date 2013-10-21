@@ -55,29 +55,23 @@ div.etat { position:relative;float:right;margin-right:10px;}
     {{ parent() }}
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-    
     <script type="text/javascript" src="{{ asset('select2/select2.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
-
-
-   <script type="text/javascript" src="{{ asset('jquery/idletime/jquery.idletimer.js') }}"></script>
-   <script type="text/javascript" src="{{ asset('jquery/idletime/jquery.idletimeout.js') }}"></script>
-   <script type="text/javascript" src="{{ asset('js/idletimer.js') }}"></script>
-   
-   
+    <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('jquery/idletime/jquery.idletimer.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('jquery/idletime/jquery.idletimeout.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/idletimer.js') }}"></script>
     {% javascripts 
     '@ApplicationChangementsBundle/Resources/public/js/jquery.cookie.js'
     '@ApplicationChangementsBundle/Resources/public/js/changementsown.js'
     '@ApplicationChangementsBundle/Resources/public/js/jquery.colorbox.js'
     '@ApplicationChangementsBundle/Resources/public/js/changementsfanta.js'
       output='js/compiled/changementsown.js' filter='?yui_js' %}
-<script src="{{ asset_url }}"></script>
+    <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
 
-
- <script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>
-  {{ form_javascript(search_form) }}
-<script type="text/javascript">
+    <script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>
+    {{ form_javascript(search_form) }}
+    <script type="text/javascript">
     /* $(document).onload(function() { $("div#matable").hide();});*/
       $(document).ready(function() {
        $(".first").show("fade");
@@ -89,11 +83,7 @@ div.etat { position:relative;float:right;margin-right:10px;}
        // Stuff to do as soon as the DOM is ready
       });  
     </script>  
-  
-    
 {% endblock %}
-
-
 
 {% block content_header '' %}
 
@@ -105,11 +95,14 @@ div.etat { position:relative;float:right;margin-right:10px;}
         </span>    PLANNING DES OPERATIONS 
     
         <a id="mytitleb" class="firstbutton mytitleb btn btn-medium btn-info" href="#">
-            <i class="icon-info-sign icon-2x"></i> <div class="montext">{{ nbResults }}</div></a> 
-     <a class="btn btn-small btn-info" href="{{ path('changements_calendar') }}">
-            <i class="icon-calendar"></i></a> 
-             <a class="mytitleb btn btn-small btn-info" href="{{ path('changements_charts') }}">
-            <i class="icon-bar-chart"></i></a> 
+            <i class="icon-info-sign icon-2x"></i> <div class="montext">{{ nbResults }}</div>
+        </a> 
+        <a class="btn btn-small btn-info" href="{{ path('changements_calendar') }}">
+            <i class="icon-calendar"></i>
+        </a> 
+        <a class="mytitleb btn btn-small btn-info" href="{{ path('changements_charts') }}">
+            <i class="icon-bar-chart"></i>
+        </a> 
             
 <div id="popover-content" class="hide mycontent" > 
     <h4>

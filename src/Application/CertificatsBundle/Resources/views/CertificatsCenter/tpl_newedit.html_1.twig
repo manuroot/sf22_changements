@@ -12,7 +12,7 @@
 
     $(function () {
         
-       /*  $('#moncert_fichier_file').fileupload({
+         $('#moncert_fichier_file').fileupload({
         dataType: 'json',
          url: Routing.generate('certificatscenter_listbyprojet'),
         done: function (e, data) {
@@ -28,9 +28,9 @@
             progress + '%'
         );
     }
-    });*/
+    });
     
-   /* $('#hhmoncert_fichier_file').fileupload({
+    $('#hhmoncert_fichier_file').fileupload({
         dataType: 'json',
          url: Routing.generate('certificatscenter_listbyprojet'),
          add: function (e, data) {
@@ -54,8 +54,8 @@
             progress + '%'
         );
     }
-    });*/
-/*
+    });
+
    $('#xxmoncert_fichier_file').fileupload({
         dataType: 'json',
          url: Routing.generate('certificatscenter_listbyprojet'),
@@ -70,9 +70,9 @@
         done: function (e, data) {
             data.context.text('Upload finished.');
         }
-    });*/
+    });
    
-   /* $('#11moncert_fichier_file').fileupload({
+    $('#11moncert_fichier_file').fileupload({
         dataType: 'json',
         add: function (e, data) {
             data.context = $('<button/>').text('Upload')
@@ -85,27 +85,36 @@
         done: function (e, data) {
             data.context.text('Upload finished.');
         }
-    });*/
+    });
  $('#fileupload').fileupload({
-    dataType: 'json',
-    url: Routing.generate('certificats_fileupload'),
-    maxFileSize: 100000, // 100 kB
-    success: function(reponse){
+        dataType: 'json',
+         url: Routing.generate('certificats_fileupload'),
+          success: function(reponse){
             // Sur Succès de la réponse AJAX
-            var optionData = reponse;
-            if(typeof optionData['fields']['name'] !== 'undefined') {
-                $("input#moncert_fileName").val(optionData['fields']['name']);
+             var optionData = reponse;
+              var cer_arr=[];
+               /* for (key in optionData['chgmnt']) {
+           
+               console.log("key=" + key + " in array: val=" + optionData['chgmnt'][key]);
+                $("input#moncert_fileName").val(optionData['chgmnt']['cn']);
+                  $("INPUT#moncert_startDate").val(optionData['chgmnt']['from']);
+                    $("INPUT#moncert_endTime").val(optionData['chgmnt']['to']);
+            }*/
+           
+            /*   console.log("key=" + key + " in array: val=" + optionData['chgmnt'][key]);*/
+            if(typeof optionData['chgmnt']['name'] !== 'undefined') {
+                $("input#moncert_fileName").val(optionData['chgmnt']['name']);
             }
-            if(typeof optionData['fields']['from'] !== 'undefined') {
-                $("INPUT#moncert_startDate").val(optionData['fields']['from']);
-            }
-            if(typeof optionData['fields']['to'] !== 'undefined') {
-                $("INPUT#moncert_endTime").val(optionData['fields']['to']);
+              if(typeof optionData['chgmnt']['from'] !== 'undefined') {
+                  $("INPUT#moncert_startDate").val(optionData['chgmnt']['from']);
+              }
+                 if(typeof optionData['chgmnt']['to'] !== 'undefined') {
+                     $("INPUT#moncert_endTime").val(optionData['chgmnt']['to']);
                  }
-            if(typeof optionData['fields']['cn'] !== 'undefined') {
-                $("INPUT#moncert_cnName").val(optionData['fields']['cn']);
-            }
-            
+                 if(typeof optionData['chgmnt']['cn'] !=='undefined') {
+                     $("INPUT#moncert_cnName").val(optionData['chgmnt']['cn']);
+                 }
+           /* }*/
         },
        /* done: function (e, data) {
              var optionData = data;
@@ -119,9 +128,9 @@
       console.log("check reponse=" + data);
          
         },*/
-               /* always: function (e, data) {
+                always: function (e, data) {
      //  console.log(data);
-    }*/
+    }
     });
 });
 
@@ -159,8 +168,6 @@
 {% if action == 'edit' %}
 <div id="divcert" style="display: none;">{{ entity.id }}</div>
 <form   id="fileupload" action="{{ path(path_form, { 'id': entity.id }) }}" method="post" {{ form_enctype(form) }}>
-    
-     <input type="hidden"  name="id-entity"  value="{{ entity.id }}">
 {% else %}
         <div id="divcert" style="display: none;"></div>
  <form  action="{{ path(path_form)}}" method="post" {{ form_enctype(form) }}>
@@ -216,8 +223,8 @@
                                 
                                 <div class="fichier">
                                   
-                <span class="btn btn-primary fileinput-button">
-                <span>Ajouter un fichier</span>
+                <span class="btn btn-success fileinput-button">
+                <span>Add file...</span>
                 <input id="file" type="file" name="files" multiple=false>
             </span>                         
                                         
@@ -227,10 +234,10 @@
                      </span>#}
                       {% if fichier  %}   
                       <input type="hidden"  name="myfile"  value="{{ fichier.id }}">
-                  {#  <button type="submit" class="btn btn-primary start">
+                    <button type="submit" class="btn btn-primary start">
                     <i class="glyphicon glyphicon-upload"></i>
                     <span>Start upload</span>
-                </button>#}
+                </button>
                              {#       <span class="btn btn-success fileinput-button">
         <i class="icon-plus"></i>
         <span>Add files...</span>
@@ -260,14 +267,9 @@
                                         {% else %}
                                         (Pas de fichier actuellement)
                                         {% endif %}
-   <br/>    <span class="btn btn-primary fileinput-button">
-          
-                <span>Ajouter un fichier</span>
-           {# <input id="moncert_fichier_file" class=" not-removable" type="file" name="moncert[fichier][file]"></input>
-                #}    {{ form_errors(form.fichier) }}
+          {{ form_errors(form.fichier) }}
                                         
        {{ form_widget(form.fichier) }}  
-            </span>    
                                         </div>
                                       <div id="progress">
     <div class="bar" style="width: 0%;"></div>

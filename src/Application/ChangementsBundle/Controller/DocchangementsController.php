@@ -15,6 +15,7 @@ use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Application\ChangementsBundle\Form\DocchangementsFilterType;
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use Symfony\Component\HttpFoundation\RedirectResponse; 
 
 /**
  * Docchangements controller.
@@ -22,6 +23,21 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
  */
 class DocchangementsController extends Controller {
 
+    public function getRefererRoute()
+  {
+    $request = $this->getRequest();
+
+    //look for the referer route
+    $referer = $request->headers->get('referer');
+    $lastPath = substr($referer, strpos($referer, $request->getBaseUrl()));
+    $lastPath = str_replace($request->getBaseUrl(), '', $lastPath);
+
+    $matcher = $this->get('router')->getMatcher();
+    $parameters = $matcher->match($lastPath);
+    $route = $parameters['_route'];
+
+    return $route;
+  }
      // ====================================================================
     // 
     //  CREATION DU PAGINATOR / Pagerfanta
@@ -359,9 +375,16 @@ class DocchangementsController extends Controller {
         }
         
         $request = $this->get('request');
+        
+       
+        $url = $request->headers->get("referer");
+      
+    
+    $message="\nContacter l'administrateur";
+    
      //   $url='docchangements';
         $session = $request->getSession();
-        $url=$session->get('buttonretour');
+      //  $url=$session->get('buttonretour');
         if (!isset($url))
             $url='docchangements';    
      //   $path = $entity->getUploadRootDir();
@@ -376,17 +399,28 @@ class DocchangementsController extends Controller {
 
          //if (!file_exists($path . $filename)) {
         if (!file_exists($path . $filename)) {
-            $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas (code 1)");
-             return $this->render('ApplicationChangementsBundle:errors:errorsxhtml.html.twig', array(
+            $session->getFlashBag()->add('warning', "Le fichier $realname n 'existe pas (code 1). $message");
+              return new RedirectResponse($url);
+             /*$this->render('ApplicationChangementsBundle:errors:errorsxhtml.html.twig', array(
                     'message' => "Le fichier n'existe pas<br>Contacter l'administrateur"
-                  ));
+                  ));*/
             //return $this->redirect($this->generateUrl('changements_fanta'));
+          
         }
+           if (!is_readable($path . $filename)){
+                  $session->getFlashBag()->add('info', "Le fichier $realname n 'est pas lisible (code 2). $message");
+                    return new RedirectResponse($url);
+             
+            /* $this->render('ApplicationChangementsBundle:errors:errorsxhtml.html.twig', array(
+                    'message' => "Le fichier n'est pas lisible<br>Contacter l'administrateur"
+                  ));*/
+             }
+        
 
-        try {
+     try {
             $content = file_get_contents($path . $filename);
         } catch (\ErrorException $e) {
-            $session->getFlashBag()->add('error', "Le fichier $filename n 'existe pas (code 2)");
+            $session->getFlashBag()->add('notice', "Le fichier $realname n 'existe pas (code 2). $message");
             return $this->redirect($this->generateUrl($url));
         }
          $response = new Response();
@@ -396,10 +430,14 @@ class DocchangementsController extends Controller {
         $response->headers->set('Content-Disposition', 'attachment;filename="' . $realname);
         //$response->headers->set('Content-Length',filesize($filename));
         //$session = $this->getRequest()->getSession();
-        $session->getFlashBag()->add('notice', "Le fichier $filename a ete téléchargé");
+        $session->getFlashBag()->add('notice', "Le fichier $realname a ete téléchargé");
 
         $response->setContent($content);
         return $response;
+       /*
+          return $this->render('ApplicationChangementsBundle:errors:errorsxhtml.html.twig', array(
+                    'message' => "Le fichier n'existe pas 3<br>Contacter l'administrateur"));*/
+           
     }
     
     

@@ -137,19 +137,20 @@ LISTE DES {{ parent() }}
 
      {% for action in column.rowActions %}
  {% set confirm = action.confirm ? " onclick=\"return confirm('" ~ action.confirmMessage ~ "')\"" : '' %}
-      
+      {% if is_granted("ROLE_USER") %} 
   {% if action.title == 'Edit' %}
    <a href="{{ url(action.route, column.routeParameters(row, action), true) }}" target="{{ action.target }}">
                          <img src="{{ asset('bundles/applicationcertificats/images/edit.png') }}" alt="notes_edit" width="15" height="15" />
                     </a>
 &nbsp;&nbsp;
-
-     {% else %}   
-{% if is_granted('ROLE_SUPER_ADMIN')  %}
+ {% endif %}
+     
+{% if action.title == 'Delete' and is_granted('ROLE_SUPER_ADMIN')  %}
 <a href="{{ url(action.route, column.routeParameters(row, action), false) }}"{{ confirm }} target="{{ action.target }}">
                   <img src="{{ asset('bundles/applicationcertificats/images/delete.png') }}" alt="notes_delete" width="15" height="15" />
      </a>              
   {% endif %}
+
      {% endif %}
         
      
