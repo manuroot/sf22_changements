@@ -9,7 +9,33 @@
 <script type="text/javascript" src="{{ asset('jquery/jquery.ui.widget.js') }}"></script>
 <script type="text/javascript" src="{{ asset('jquery/fileupload/jquery.fileupload.js') }}"></script>
 <script>
-
+$(document).bind('dragover', function (e) {
+    var dropZone = $('#dropzone'),
+        timeout = window.dropZoneTimeout;
+    if (!timeout) {
+        dropZone.addClass('in');
+    } else {
+        clearTimeout(timeout);
+    }
+    var found = false,
+      	node = e.target;
+    do {
+        if (node === dropZone[0]) {
+       		found = true;
+       		break;
+       	}
+       	node = node.parentNode;
+    } while (node != null);
+    if (found) {
+        dropZone.addClass('hover');
+    } else {
+        dropZone.removeClass('hover');
+    }
+    window.dropZoneTimeout = setTimeout(function () {
+        window.dropZoneTimeout = null;
+        dropZone.removeClass('in hover');
+    }, 100);
+});
     $(function () {
         
        /*  $('#moncert_fichier_file').fileupload({
@@ -87,6 +113,7 @@
         }
     });*/
  $('#fileupload').fileupload({
+       dropZone: $('#dropzone'),
     dataType: 'json',
     url: Routing.generate('certificats_fileupload'),
     maxFileSize: 100000, // 100 kB
@@ -166,6 +193,32 @@
             font-size:12px;
             color:red;
         }
+        
+        #dropzone {
+    background: palegreen;
+    width: 300px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-weight: bold;
+}
+#dropzone.in {
+    width: 300px;
+    height: 200px;
+    line-height: 100px;
+    font-size: larger;
+}
+#dropzone.hover {
+    background: lawngreen;
+}
+#dropzone.fade {
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+    opacity: 1;
+}
     </style> 
 {% endblock %}
 
@@ -235,7 +288,13 @@
 #}
     {% if fichier  %}   
                     
-           
+    {#       
+  <span class="btn btn-primary">
+        <span>Verifier Fields</span>
+            <input id="ckeckfields">
+    </span> #}
+   <a href="{{ path('certificats_fileupload') }}" class="btn btn-medium btn-primary">Vérifier Fields</a>
+
     <br>
      <!-- The container for the uploaded files -->
     <div id="files" class="files">
@@ -249,9 +308,9 @@
 {% endif %}
                                                      
   </div>
+     <div id="dropzone" class="fade well">Drop files here</div>
     {% do form.fichier.setRendered() %}
 </div>
-
 <div id="progress">
     <div class="bar" style="width: 0%;"></div>
 </div>
