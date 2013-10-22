@@ -455,8 +455,18 @@ class CertificatsCenterController extends Controller {
 
         $fichier = $entity->getFichier();
 
+         $fentity = new CertificatsFiles();
+       //$form = $this->createForm(new CertificatsFilesType,$entity);
+
+        $xform = $this->createFormBuilder($fentity)
+       // ->add('name')
+        ->add('file')
+        ->getForm();
+        
+        
         return $this->render('ApplicationCertificatsBundle:CertificatsCenter:edit.html.twig', array(
                     'entity' => $entity,
+                    'xform'=> $xform->createView(),
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
                     'btnretour' => $myretour,

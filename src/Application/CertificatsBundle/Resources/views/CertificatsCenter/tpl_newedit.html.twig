@@ -172,6 +172,15 @@
 {% block title %}{{ titre }}  CERTIFICAT {% endblock %}
 
 {% block content %}
+ <h1>Upload File</h1>
+
+<form action="{{ path('certificats_fileupload') }}" method="post" {{ form_enctype(xform) }}>
+    {{ form_widget(xform) }}
+
+    <input type="submit" value="Upload Document" />
+</form>
+ 
+ 
  
 {% if action == 'edit' %}
 <div id="divcert" style="display: none;">{{ entity.id }}</div>
@@ -235,7 +244,9 @@
                                   
                 <span class="btn btn-primary fileinput-button">
                 <span>Ajouter un fichier</span>
-                <input id="file" type="file" name="files" multiple=false>
+                
+             {#   <input id="file" type="file" name="file" multiple=false>#}
+                <input id="file" type="file" name="fichier_certificat[file]" multiple=false>
             </span>                         
                                         
             {# <span class="btn btn-success fileinput-button">

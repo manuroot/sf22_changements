@@ -33,7 +33,8 @@ class CertificatsFilesType extends AbstractType {
     }
 
     public function getName() {
-        return 'certificats_fichier';
+        return 'moncert';
+        //return 'certificats_fichier';
     }
 
 }
