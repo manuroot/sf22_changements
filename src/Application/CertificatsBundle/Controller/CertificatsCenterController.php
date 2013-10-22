@@ -490,37 +490,41 @@ class CertificatsCenterController extends Controller {
      */
     public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
-
         $session = $request->getSession();
         $session->set('buttonretour', 'certificatscenter');
-
         $entity = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find CertificatsCenter entity.');
         }
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createForm(new CertificatsCenterType(), $entity);
-        // $postData = $request->request->all;
+       $postData = $request->request->all();
+       
+         //var_dump($postData);exit(1);
         //$postData = $this->getRequest()->request;
         $uploadedFile = $request->files->get('moncert');
-
+        $id_file = $request->get('myfile'); 
+        $editForm->bind($request);
+        
+       // var_dump($id_file);exit(1);
+        // si fichier link, lien vers certificats
+        if (isset($id_file) && $id_file !=0){
+         //   $entity->setFichier(NULL);
+            $fichier_entity= $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->find($id_file);
+            $entity->setFichier($fichier_entity);
+          
+        }
         //=========================================
         // Si fichier a ete uploadé:
         // on mey le lien a null et on update
         //=========================================
-        if ($uploadedFile['fichier']['file'] != NULL) {
-
-            //    echo "original name=" . $uploadedFile['fichier']['file']->originalName . "<br>";
-            //    print_r($uploadedFile['fichier']);
-            //   exit(1);
-            //     print_r($uploadedFile['fichier']['file']);
+        elseif ($uploadedFile['fichier']['file'] != NULL) {
             $entity->setFichier(NULL);
-            //$userProfile->setPicture(NULL);
         }
+        
         // non sinon il en manque !!
         //    $editForm->bind($postData);
-        $editForm->bind($request);
+       
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();

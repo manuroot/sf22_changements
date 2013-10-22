@@ -75,7 +75,7 @@ class CertificatsFilesController extends Controller {
 
         return $this->render('ApplicationCertificatsBundle:CertificatsFiles:index.html.twig', array(
                     'entities' => $entities,
-        ));
+                ));
     }
 
     public function indexooldAction() {
@@ -88,7 +88,7 @@ class CertificatsFilesController extends Controller {
         $count = $pagination->getTotalItemCount();
         return $this->render('ApplicationCertificatsBundle:CertificatsFiles:index.html.twig', array(
                     'pagination' => $pagination,
-        ));
+                ));
     }
 
     public function indexAction(Request $request) {
@@ -130,7 +130,7 @@ class CertificatsFilesController extends Controller {
                     'search_form' => $searchForm->createView(),
                     'pagination' => $pagination,
                     'total' => $total
-        ));
+                ));
     }
 
     /*
@@ -188,10 +188,10 @@ class CertificatsFilesController extends Controller {
             $uploaded_file = $request->files->get('files');
             $datas = $alldatas["fichier_certificat"];
             // print_r($request);
-           //   exit(1); 
+            //   exit(1); 
             $form->bind($request);
-var_dump($form);
-exit(1);
+            var_dump($form);
+            exit(1);
             if ($form->isValid()) {
                 // recup des champs du formluaire
                 //verif si creation d'une entree
@@ -229,7 +229,7 @@ exit(1);
                                 'form' => $form->createView(),
                                 'btnretour' => $myretour,
                                 'fichier' => $entity_file,
-                    ));
+                            ));
                 }
                 return $this->redirect($this->generateUrl('certificats_documents_show', array('id' => $entity_fichier->getId())));
             }
@@ -238,7 +238,7 @@ exit(1);
         return $this->render('ApplicationCertificatsBundle:CertificatsFiles:new.html.twig', array(
                     'entity' => $entity_fichier,
                     'form' => $form->createView(),
-        ));
+                ));
     }
 
     /** ===================================================================
@@ -271,7 +271,7 @@ exit(1);
         return $this->render('ApplicationCertificatsBundle:CertificatsFiles:new.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),
-        ));
+                ));
     }
 
     /**
@@ -321,7 +321,7 @@ exit(1);
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
-        ));
+                ));
     }
 
     /**
@@ -352,7 +352,7 @@ exit(1);
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
-        ));
+                ));
     }
 
     /**
@@ -638,142 +638,42 @@ exit(1);
 
     public function FileUploadAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-
         $alldatas = $request->request->all();
-        // $fileUploader = $this->get('punk_ave.file_uploader');
-        // $applis = array();
         $certificats['fields'] = array();
-        //     print_r($fileUploader);
-        //$datas = $alldatas["fileupload"];
-        $uploaded_file = $request->files;
         $uploaded_file = $request->files->get('fichier_certificat');
-    // var_dump($uploaded_file);
-   //  exit(1);
- //var_dump($request);        
-        
-         $entity = new CertificatsFiles();
-       $form = $this->createForm(new CertificatsFilesType,$entity,array(
-          
-    'csrf_protection' => false
-));
+        $entity = new CertificatsFiles();
+        $form = $this->createForm(new CertificatsFilesType, $entity, array(
+            'csrf_protection' => false
+                ));
 
-       // $form = $this->createFormBuilder($entity)
-       // ->add('name')
-     //   ->add('file')
-       // ->getForm();
-        
-      //  $form->handleRequest($request);
- $form->bind($uploaded_file);
-         //$form->bind($uploaded_file);
-   // if ($form->isValid()) {
-       // $em = $this->getDoctrine()->getManager();
-
-        $em->persist($entity);
-        $em->flush();
-   // }else { echo "not valid";}
-     //   exit(1);
-        //$uploaded_file = $request->files->get('files');
-       //  $form->add('file','file',array('label'=>'Fichier (*)','required'=>true,));
-        //  $uploaded_tempfile = $request->files->get('moncert');
-        //  print_r($uploaded_tempfile);
-        //moncert[fichier][file]
-        /*  $uploadedFile = $request->files->get('moncert');
-
-          //=========================================
-          // Si fichier a ete uploadé:
-          // on mey le lien a null et on update
-          //=========================================
-          if ($uploadedFile['fichier']['file'] != NULL) { */
-        /*  $id = $request->get("id-entity");
-
-
-          $entity = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->find($id);
-
-          if (!$entity) {
-          throw $this->createNotFoundException('Unable to find CertificatsCenter entity.');
-          }
-          $editForm = $this->createForm(new CertificatsCenterType(), $entity); */
-        /*if ($uploaded_file['fichier']['file'] != NULL) {
-
-            //    echo "original name=" . $uploadedFile['fichier']['file']->originalName . "<br>";
-            //    print_r($uploadedFile['fichier']);
-            //   exit(1);
-            //     print_r($uploadedFile['fichier']['file']);
-            //  $entity->setFichier(NULL);
-            //$userProfile->setPicture(NULL);
-        }*/
-        // non sinon il en manque !!
-        //    $editForm->bind($postData);
-        /* $editForm->bind($request);
-          if ($editForm->isValid()) {
-          $em->persist($entity);
-          $em->flush();
-          }
-
-          echo "id=$id<br>"; */
-      //  $datas = $request->get('moncert');
-      //  print_r($datas);
-        // $uploaded_file = $request->files->get('files');
-        // echo "origine=" . $uploaded_file['originalName'] . "<br>";
-        // print_r( $uploaded_file);
-        //  print_r($_FILES["files"]);
+        /* si fichier uploadé */
         if ($uploaded_file) {
-             $original_name=$entity->getOriginalFilename();
-                $filename = $entity->getPath();
+            $form->bind($uploaded_file);
+            $em->persist($entity);
+            $em->flush();
+
+            $original_name = $entity->getOriginalFilename();
+            $id_fichier = $entity->getId();
+            $filename = $entity->getPath();
             $path = $this->get('kernel')->getRootDir() . "/../" . $entity->getDownloadDir();
             $fic = $path . $filename;
             if (file_exists($fic)) {
-                
-           
-           // $tmp_file =  $entity->getFile();
-            //move_uploaded_file($_FILES["files"]["tmp_name"],"/tmp/toto.txt");
-          //  $tmp_file = $_FILES["files"]["tmp_name"];
-           // $original_name = $_FILES['files']['name'];
-           /* $cn = "rttterter";
-            $fullcn = "sfsdfsd/hgf/tt";
-            $validfrom="2012-10-10";
-            $validto="2012-10-10";*/
-            
-            /* Marche pas sous windows*/
-            $openssl = new MyOpenSsl();
-            $data_parse = $openssl->Parse_x509($fic);
-            $cn = $data_parse['subject']['CN'];
-            $fullcn = $data_parse['name'];
-            list($validfrom, $validto) = $openssl->Return_Dates($fic);
-            
-             $certificats['fields'] = array(
-            
-                'cn' => $cn,
-                'from' => $validfrom,
-                'to' => $validto,
-                'name' => $original_name,
-            );
-            } 
+               /* Marche pas sous windows */
+                $openssl = new MyOpenSsl();
+                $data_parse = $openssl->Parse_x509($fic);
+                $cn = $data_parse['subject']['CN'];
+                $fullcn = $data_parse['name'];
+                list($validfrom, $validto) = $openssl->Return_Dates($fic);
+
+                $certificats['fields'] = array(
+                    'cn' => $cn,
+                    'from' => $validfrom,
+                    'to' => $validto,
+                    'name' => $original_name,
+                    'id' => $id_fichier
+                );
+            }
         }
-        /*     
-        $entity_fichier = new CertificatsFiles();
-        
-        $form = $this->createForm(new CertificatsFilesAddType(), $entity_fichier);
-        if ($request->getMethod() == 'POST') {
-            $alldatas = $request->request->all();
-            $datas = $alldatas["fichier_certificat"];
-           
-            $form->bind($request);
-
-            if ($form->isValid()) {
-                // recup des champs du formluaire
-                //verif si creation d'une entree
-                //verif si associé a entree existante
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($entity_fichier);
-                $em->flush();
-             
-             
-             
-        }
-
-*/
-
         $retour = new Response(json_encode($certificats));
         //$response = new Response(json_encode(array('response'=>$response)));
         $retour->headers->set('Content-Type', 'application/json');

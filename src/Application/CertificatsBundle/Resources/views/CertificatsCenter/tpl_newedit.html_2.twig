@@ -175,14 +175,24 @@
 {% block title %}{{ titre }}  CERTIFICAT {% endblock %}
 
 {% block content %}
+ 
+{#
+<form action="{{ path('certificats_fileupload') }}" method="post" {{ form_enctype(xform) }}>
+    {{ form_widget(xform) }}
 
+    <input type="submit" value="Upload Document" />
+</form>
+ 
+ #}
+ 
 {% if action == 'edit' %}
-    <div id="divcert" style="display: none;">{{ entity.id }}</div>
-    <form   id="fileupload" action="{{ path(path_form, { 'id': entity.id }) }}" method="post" {{ form_enctype(form) }}>
+<div id="divcert" style="display: none;">{{ entity.id }}</div>
+<form   id="fileupload" action="{{ path(path_form, { 'id': entity.id }) }}" method="post" {{ form_enctype(form) }}>
+    
      <input type="hidden"  name="id-entity"  value="{{ entity.id }}">
 {% else %}
-    <div id="divcert" style="display: none;"></div>
-    <form  action="{{ path(path_form)}}" method="post" {{ form_enctype(form) }}>
+        <div id="divcert" style="display: none;"></div>
+ <form  action="{{ path(path_form)}}" method="post" {{ form_enctype(form) }}>
 {% endif %}
 
 
@@ -190,8 +200,7 @@
     
          <table class="table-mybordered">
 
-            <tr>
-                <td class="calendar">
+            <tr><td class="calendar">
                         <div>
     {{ form_errors(form.fileName) }}
     {{ form_label(form.fileName, 'Nom du Fichier'|trans) }}
@@ -202,67 +211,6 @@
     {{ form_label(form.cnName, 'CN du certificat'|trans) }}
     {{ form_widget(form.cnName) }}
                                 </div>
-                               <div>
-    {{ form_errors(form.startDate) }}
-    {{ form_label(form.startDate, 'Date Début'|trans) }}
-    {{ form_widget(form.startDate) }}
-                                </div>
-                            
-                            <div>
-    {{ form_errors(form.endTime) }}
-    {{ form_label(form.endTime, 'Date Fin'|trans) }}
-    {{ form_widget(form.endTime) }}
-                                </div>
-                            
-               </td>
-               
-               
-               
-               <td class="calendar">
-                                 
-<div class="fichier">
-    <span class="btn btn-primary fileinput-button">
-        <span>Ajouter un fichier</span>
-            <input id="file" type="file" name="fichier_certificat[file]" multiple=false>
-    </span>                         
-        
-          <input id="filelink" type="hidden"  name="myfile" value="0">
-    {#{% if fichier  %}   
-        <input id="filelink" type="hidden"  name="myfile"  value="{{ fichier.id }}">
-    {% else %}
-        <input id="filelink" type="hidden"  name="myfile">
-    {% endif %}  
-#}
-    {% if fichier  %}   
-                    
-           
-    <br>
-     <!-- The container for the uploaded files -->
-    <div id="files" class="files">
-   <strong>  {{ fichier.OriginalFilename }}
-    <br>
-   {{ fichier.updatedAt|date('Y-m-d H:i:s') }}
-   </strong>
- 
-{% else %}
-     (Pas de fichier actuellement)
-{% endif %}
-                                                     
-  </div>
-    {% do form.fichier.setRendered() %}
-</div>
-
-<div id="progress">
-    <div class="bar" style="width: 0%;"></div>
-</div>
-                   
-</td>            
-                  
-</tr>
-                            
-<tr>
-<td class="calendar">                   
-                      
     {{ form_errors(form.serviceName) }}
     {{ form_label(form.serviceName, 'Service'|trans) }}
     {{ form_widget(form.serviceName) }}
@@ -285,23 +233,85 @@
  {{ form_errors(form.warningFile) }}
    {{ form_label(form.warningFile, 'Activer le Warning') }}
     {{ form_widget(form.warningFile) }}
-{{ form_errors(form.description) }}
+
+
+</div>
+ {{ form_errors(form.description) }}
    {{ form_label(form.description, 'Description') }}
-    {{ form_widget(form.description) }} 
-   </td><td class="calendar">
- 
-<div>{{ form_rest(form) }}</div></td>
-</tr>
+    {{ form_widget(form.description) }}                            </td>
+                            <td class="calendar">
+                                
+                         
+                                
+                                <div class="fichier">
+                                  
+                <span class="btn btn-primary fileinput-button">
+                <span>Ajouter un fichier</span>
+                
+             {#   <input id="file" type="file" name="file" multiple=false>#}
+                <input id="file" type="file" name="fichier_certificat[file]" multiple=false>
+            </span>                         
+                                        
+            {# <span class="btn btn-success fileinput-button">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>Add files...</span>
+                     </span>#}
+            {% if fichier  %}   
+                      <input id="filelink" type="hidden"  name="myfile"  value="{{ fichier.id }}">
+             {% else %}
+                                <input id="filelink" type="hidden"  name="myfile">
+            {% endif %}  
+                      {% if fichier  %}   
+                    
+           
+    <br>
+    <!-- The global progress bar -->
+    {#<div id="progress" class="progress">
+        <div class="progress-bar progress-bar-success"></div>
+    </div>#}
+    <!-- The container for the uploaded files -->
+    <div id="files" class="files">
+                                       
+                                       {# <input type="hidden"  name="myfile"  value="{{ fichier.id }}" data-url="{{ 'certificatscenter_listbyprojet' }}">
+                                 #}       
+                                    
 
-<tr>
-
-    <td class="calendar" colspan="2">
-    <p>
-        <button type="submit" class="btn btn-medium btn-warning">{{ titre_valider }}</button>
-        <a href="{{ path(btnretour) }}" class="btn btn-medium btn-success">Retour</a>
-    </p>
-</td></tr>
-</table>
+                                        
+                                  <strong>  {{ fichier.OriginalFilename }}
+                                        <br>
+                                        {{ fichier.updatedAt|date('Y-m-d H:i:s') }}
+                                        </strong>
+                                        {% else %}
+                                        (Pas de fichier actuellement)
+                                        {% endif %}
+                                                     
+  </div>
+    {% do form.fichier.setRendered() %}
+    {#<span class="btn btn-primary fileinput-button">
+          
+                <span>Ajouter un fichier</span>
+           <input id="moncert_fichier_file" class=" not-removable" type="file" name="moncert[fichier][file]"></input>
+                    {{ form_errors(form.fichier) }}
+                                        
+       {{ form_widget(form.fichier) }}  
+            </span>    
+#}
+                                        </div>
+                                      <div id="progress">
+    <div class="bar" style="width: 0%;"></div>
+</div>
+ <div>{{ form_rest(form) }}
+                                    </div>
+                                </td>
+                            </tr><tr>
+                            <td class="calendar" colspan="2">
+                                    <p>
+                                        <button type="submit" class="btn btn-medium btn-warning">{{ titre_valider }}</button>
+                                        <a href="{{ path(btnretour) }}" class="btn btn-medium btn-success">Retour</a>
+                                    </p>
+                                </td></tr>
+                    
+                    </table>
 </form>
         
         
