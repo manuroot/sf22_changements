@@ -8,7 +8,23 @@
 <script type="text/javascript" src="{{ asset('jquery/fileupload/jquery.iframe-transport.js') }}"></script>
 <script type="text/javascript" src="{{ asset('jquery/jquery.ui.widget.js') }}"></script>
 <script type="text/javascript" src="{{ asset('jquery/fileupload/jquery.fileupload.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/applicationcertificats/js/jquery.colorbox.js') }}"></script>
 <script>
+    
+    $(document).ready(function() {
+    $("a.editme").colorbox({
+            iframe:true,
+            /*   data:{idchgmt:$(this).attr("data-idchgmt")},   */ 
+                  transition:	"elastic",
+            width:"70%",
+            height:"70%",
+              fastIframe:false,
+            opacity:0.3
+        
+        });
+        
+        
+        });
 $(document).bind('dragover', function (e) {
     var dropZone = $('#dropzone'),
         timeout = window.dropZoneTimeout;
@@ -117,10 +133,17 @@ $(document).bind('dragover', function (e) {
     dataType: 'json',
     url: Routing.generate('certificats_fileupload'),
     maxFileSize: 100000, // 100 kB
+     progressall: function (e, data) {
+        var progress = parseInt(data.loaded / data.total * 100, 10);
+        $('#progress .bar').css(
+            'width',
+            progress + '%'
+        );
+    },
     success: function(reponse){
             // Sur Succès de la réponse AJAX
             var optionData = reponse;
-            optionData['fields']
+          /*  optionData['fields']*/
              $("input#filelink").val(optionData['fields']['id']);
              
             if(typeof optionData['fields']['name'] !== 'undefined') {
@@ -177,6 +200,7 @@ $(document).bind('dragover', function (e) {
 <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/sliding.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/certifcatssearch.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.fileupload-ui.css') }}" type="text/css" media="all"/>  
+<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>  
 <style>
     select[multiple], select[size] {height: 250px;}
     textarea {width:400px;height:200px;}
@@ -229,88 +253,85 @@ $(document).bind('dragover', function (e) {
 
 {% block content %}
 
+     
 {% if action == 'edit' %}
     <div id="divcert" style="display: none;">{{ entity.id }}</div>
     <form   id="fileupload" action="{{ path(path_form, { 'id': entity.id }) }}" method="post" {{ form_enctype(form) }}>
-     <input type="hidden"  name="id-entity"  value="{{ entity.id }}">
+    <input type="hidden"  name="id-entity"  value="{{ entity.id }}">
 {% else %}
     <div id="divcert" style="display: none;"></div>
     <form  action="{{ path(path_form)}}" method="post" {{ form_enctype(form) }}>
+    <input type="hidden"  name="id-entity"  value="0">
 {% endif %}
-
 
     <br><br>
-    
          <table class="table-mybordered">
-
             <tr>
                 <td class="calendar">
-                        <div>
-    {{ form_errors(form.fileName) }}
-    {{ form_label(form.fileName, 'Nom du Fichier'|trans) }}
-    {{ form_widget(form.fileName) }}
-                            </div>
-                            <div>
-    {{ form_errors(form.cnName) }}
-    {{ form_label(form.cnName, 'CN du certificat'|trans) }}
-    {{ form_widget(form.cnName) }}
-                                </div>
-                               <div>
-    {{ form_errors(form.startDate) }}
-    {{ form_label(form.startDate, 'Date Début'|trans) }}
-    {{ form_widget(form.startDate) }}
-                                </div>
-                            
-                            <div>
-    {{ form_errors(form.endTime) }}
-    {{ form_label(form.endTime, 'Date Fin'|trans) }}
-    {{ form_widget(form.endTime) }}
-                                </div>
-                            
-               </td>
-               
-               
-               
+                <div>
+                    {{ form_errors(form.fileName) }}
+                    {{ form_label(form.fileName, 'Nom du Fichier'|trans) }}
+                    {{ form_widget(form.fileName) }}
+                </div>
+                <div>
+                    {{ form_errors(form.cnName) }}
+                    {{ form_label(form.cnName, 'CN du certificat'|trans) }}
+                    {{ form_widget(form.cnName) }}
+                </div>
+                <div>
+                    {{ form_errors(form.startDate) }}
+                    {{ form_label(form.startDate, 'Date Début'|trans) }}
+                    {{ form_widget(form.startDate) }}
+                </div>
+                <div>
+                    {{ form_errors(form.endTime) }}
+                    {{ form_label(form.endTime, 'Date Fin'|trans) }}
+                    {{ form_widget(form.endTime) }}
+                </div>
+                </td>
+                
                <td class="calendar">
-                                 
-<div class="fichier">
-    <span class="btn btn-primary fileinput-button">
-        <span>Ajouter un fichier</span>
-            <input id="file" type="file" name="fichier_certificat[file]" multiple=false>
-    </span>                         
-        
-          <input id="filelink" type="hidden"  name="myfile" value="0">
-    {#{% if fichier  %}   
-        <input id="filelink" type="hidden"  name="myfile"  value="{{ fichier.id }}">
-    {% else %}
-        <input id="filelink" type="hidden"  name="myfile">
-    {% endif %}  
-#}
-    {% if fichier  %}   
-                    
-    {#       
-  <span class="btn btn-primary">
-        <span>Verifier Fields</span>
-            <input id="ckeckfields">
-    </span> #}
-   <a href="{{ path('certificats_fileupload') }}" class="btn btn-medium btn-primary">Vérifier Fields</a>
+                    <div class="fichier">
+                    <span class="btn btn-primary fileinput-button">
+                        <span>Ajouter un fichier</span>
+                        <input id="file" type="file" name="fichier_certificat[file]" multiple=false>
+                    </span>                         
+                    <input id="filelink" type="hidden"  name="myfile" value="0">
+    
+          <div id="current_file">
+            {% if fichier  %}   
+            <br>
+            <a href="{{ path('certificats_fileupload') }}" class="btn btn-medium btn-primary">Vérifier Fields</a>
+            <!-- The container for the uploaded files -->
+                <div id="files" class="files">
+                <strong>  {{ fichier.OriginalFilename }}
+                <br>
+                   {{ fichier.updatedAt|date('Y-m-d H:i:s') }}
+                </strong>
+                 </div>                                                   
+        {% else %}
+            <div id="files" class="files">
+        (Pas de fichier actuellement)
+        </div>
+        {% endif %}
+        </div>                                                   
 
-    <br>
-     <!-- The container for the uploaded files -->
-    <div id="files" class="files">
-   <strong>  {{ fichier.OriginalFilename }}
-    <br>
-   {{ fichier.updatedAt|date('Y-m-d H:i:s') }}
-   </strong>
- 
-{% else %}
-     (Pas de fichier actuellement)
-{% endif %}
-                                                     
-  </div>
      <div id="dropzone" class="fade well">Drop files here</div>
     {% do form.fichier.setRendered() %}
 </div>
+            {% if action == 'edit' %}       
+                   <a class="editme" href="{{ path('certificats_documents_xhtml', { 'id': entity.id }) }}">
+            {% else %}
+                           <a class="editme" href="{{ path('certificats_documents_xhtml', { 'id': 0 }) }}">
+                           {% endif %}
+                       <span class="icon-stack icon-2x">
+            <i class="icon-check-empty icon-stack-base"></i>
+            <i class="icon-archive"></i>
+        </span>   
+        </a>
+                   Sélectionner Fichier Existant
+                   
+                   
 <div id="progress">
     <div class="bar" style="width: 0%;"></div>
 </div>

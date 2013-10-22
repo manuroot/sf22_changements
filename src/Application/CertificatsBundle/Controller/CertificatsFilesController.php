@@ -133,6 +133,28 @@ class CertificatsFilesController extends Controller {
                 ));
     }
 
+    
+     public function indexxhtmlAction(Request $request,$id) {
+
+        //  $entity = new Changements();
+        
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        $session->set('buttonretour', 'certificats_documents');
+$parameters=array();
+        $query = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->getListBy($parameters);
+        $pagination = $this->createpaginator($query, 15);
+        $total = $pagination->getTotalItemCount();
+        return $this->render('ApplicationCertificatsBundle:CertificatsFiles:index_xhtml.html.twig', array(
+                    'pagination' => $pagination,
+                    'total' => $total,
+                     'id_changement'=>$id
+                ));
+    }
+    
+    
+    
     /*
      * 
      *  if ($request->getMethod() == 'POST' && $request->get('submit-filter') == "reset") {
@@ -679,6 +701,50 @@ class CertificatsFilesController extends Controller {
         $retour->headers->set('Content-Type', 'application/json');
         return $retour;
     }
+
+ public function  FileSelectAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $certificats['fields'] = array();
+        $id = $request->get('id');
+       $certificats['fields']['id']=$id;
+       
+       
+       if ($id){
+        $entity = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->find($id);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find CertificatsFiles entity.');
+        }
+        
+        
+            $original_name = $entity->getOriginalFilename();
+            $id_fichier = $entity->getId();
+            $filename = $entity->getPath();
+            $path = $this->get('kernel')->getRootDir() . "/../" . $entity->getDownloadDir();
+            $fic = $path . $filename;
+            if (file_exists($fic)) {
+               /* Marche pas sous windows */
+                $openssl = new MyOpenSsl();
+                $data_parse = $openssl->Parse_x509($fic);
+                $cn = $data_parse['subject']['CN'];
+                $fullcn = $data_parse['name'];
+                list($validfrom, $validto) = $openssl->Return_Dates($fic);
+
+                $certificats['fields'] = array(
+                    'cn' => $cn,
+                    'from' => $validfrom,
+                    'to' => $validto,
+                    'name' => $original_name,
+                    'id' => $id_fichier
+                );
+        
+            }
+       }
+        $retour = new Response(json_encode($certificats));
+        //$response = new Response(json_encode(array('response'=>$response)));
+        $retour->headers->set('Content-Type', 'application/json');
+        return $retour;
+    }
+    
 
 }
 

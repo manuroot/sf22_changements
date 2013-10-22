@@ -1,5 +1,4 @@
-{% extends "ApplicationCertificatsBundle::layout.html.twig" %}
-
+{% extends "::base.html.twig" %}
 
 {% block stylesheets %}
 {{ parent() }}
@@ -36,16 +35,83 @@ label,.mondiv { color:#02195e; font-size: 12px;
     font-weight: normal;
     line-height: 20px;}
     </style>
-     {{ form_stylesheet(search_form) }}
+    
 {% endblock %}
     
     
     
 {% block javascripts %}
     {{ parent() }}
+       <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
    <script type="text/javascript" src="{{ asset('js/compiled/ccertificats.js') }}"></script>
- 
-   {{ form_javascript(search_form) }}
+   <script type="text/javascript" src="{{ asset('bundles/applicationcertificats/js/jquery.colorbox.js') }}"></script>
+  <script type="text/javascript">
+        $(document).ready(function() {
+ var originalClose = $.colorbox.close;
+       
+    $(".selectionner").click(function(){ 
+             console.log("try to close");
+      /* recuperer id du fichier*/
+      var id = $(this).attr("data-id");
+      var id_changement = $(this).attr("data-idchgmt");
+      var dataAjax = {id: id, id_changement: {{ id_changement }} };
+           $.ajax({
+            url: Routing.generate('certificats_xhtml_selectfile'),
+            type: "POST",
+            data: dataAjax,
+             async: false,
+            dataType: "json",
+            /* ie8 ??*/
+            /*cache: false,*/
+            /*contentType: 'application/json',*/
+            success: function(reponse) {
+
+                var status = "";
+                console.log("success");
+                 var optionData = reponse;
+          /*  optionData['fields']*/
+             window.parent.$("input#filelink").val(optionData['fields']['id']);
+             
+            if(typeof optionData['fields']['name'] !== 'undefined') {
+                  console.log("replace field with " + optionData['fields']['name']);
+                window.parent.$("input#moncert_fileName").addClass('leserreurs').css({'background-color' : '#FFFFEEE'}).val(optionData['fields']['name']);
+                 
+                 window.parent.$("div#files").addClass('leserreurs');
+                window.parent.$("div#files").html(optionData['fields']['name']);
+                
+            }
+            if(typeof optionData['fields']['from'] !== 'undefined') {
+                 console.log("replace field with " + optionData['fields']['from']);
+                 window.parent.$("INPUT#moncert_startDate").css({'background-color' : '#FFFFEEE'});
+                 window.parent.$("INPUT#moncert_startDate").val(optionData['fields']['from']);
+              
+            }
+            if(typeof optionData['fields']['to'] !== 'undefined') {
+                 console.log("replace field with " + optionData['fields']['to']);
+                  window.parent.$("INPUT#moncert_endTime").css({'background-color' : '#FFFFEEE'});
+                window.parent.$("INPUT#moncert_endTime").val(optionData['fields']['to']);
+                 }
+            if(typeof optionData['fields']['cn'] !== 'undefined') {
+                 console.log("replace field with " + optionData['fields']['cn']);
+                  window.parent.$("INPUT#moncert_cnName").css({'background-color' : '#FFFFEEE'});
+               window.parent.$("INPUT#moncert_cnName").val(optionData['fields']['cn']);
+            }
+
+            },
+            error: function(e) {
+                console.log(e.message);
+            }
+        });  //Eof:: ajax 
+             parent.jQuery.colorbox.close();
+         
+        /*  var myclone=Routing.generate('changements_edit'
+         parent.window.location.replace(myclone);*/
+                return true;
+            }); 
+           
+});
+</script>
 {% endblock %}
 
 {% block content_header '' %}
@@ -55,27 +121,12 @@ label,.mondiv { color:#02195e; font-size: 12px;
   <i class="icon-check-empty icon-stack-base"></i>
   <i class="icon-archive"></i>
 </span>  
-FICHIERS-CERTIFICATS 
-<a class="btn btn-small btn-info" href="#">
-  <i class="icon-info-sign icon-2x"></i>     
-  <div class="montext">{{ total }}
-  </div></a>
+Choisir Fichier Existant 
 
 {% endblock %}
 
 {% block content %}
 
-{% include 'ApplicationCertificatsBundle:templates:flash.html.twig' %}
-{% include 'ApplicationCertificatsBundle:templates:container_search.html.twig' 
-        with {
-            'form_path': 'certificats_documents',
-            'search_form': search_form,'box':"ShowHideBox",
-             'new_path': 'certificats_documents_new',
-            'new_text':"Ajouter un Fichier",
-              'include_html_search': 'ApplicationCertificatsBundle:CertificatsFiles:indexsearch_form.html.twig'
-}
-%}
- 
 <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr class="title">
@@ -89,7 +140,7 @@ FICHIERS-CERTIFICATS
     {# <th{% if pagination.isSorted('c.nomprojet') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Projet', 'c.nomprojet') }}</th>
        <th{% if pagination.isSorted('d.fileType') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Type', 'd.fileType') }}</th>
        <th{% if pagination.isSorted('b.fileName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Certificats', 'b.fileName') }}</th>
-   #}  {% if is_granted("ROLE_ADMIN") %}
+     #}{% if is_granted("ROLE_ADMIN") %}
                 <th colspan="4">Actions</th>
                 {% else %}
                 <th>Actions</th>
@@ -115,43 +166,15 @@ FICHIERS-CERTIFICATS
          {#   <td>{{ entity.md5 }}</td>#}
              <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
              <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-              {# <td>{% if entity.certificats %}
-                    {{ entity.certificats.project |join(', ') }}
-{#                   
-{% endif %}</td>
+            {#   <td>{% if entity.certificats %}
+                {{ entity.certificats.project }}{% endif %}</td>
                <td>{% if entity.certificats %}{{ entity.certificats.typeCert }}{% endif %}</td>
              <td>{{ entity.certificats }}</td>#}
-            <td>
-               <a href="{{ path('certificats_documents_show', { 'id': entity.id }) }}">
-                                                <img src="{{ asset('bundles/applicationcertificats/images/detail.png') }}" alt="show" width="15" height="15" />
-                                            </a>
-                                        </td>
-                                        
-                                           {% if is_granted("ROLE_ADMIN") %}
-                                        
-                                        
-                            <td>        
-            <a href="{{ path('certificatscenter_download', { 'id': entity.id }) }}">
+ <td>        
+         <a class="selectionner" data-id="{{ entity.id}}" data-id="{{ entity.id}}" href="#">
                     <img src="{{ asset('bundles/applicationcertificats/images/up2.jpg') }}" alt="edit" width="15" height="15" />
                     </a>
-         
             </td>
-                       <td>
-                    <a href="{{ path('certificats_documents_edit', { 'id': entity.id }) }}">
-                        <img src="{{ asset('bundles/applicationcertificats/images/edit.png') }}" alt="edit" width="15" height="15" />
-                    </a>
-                </td>
-                <td>
-
-
-                    <a href="{{ path('certificats_documents_delete', { 'id': entity.id }) }}">
-                        <img src="{{ asset('bundles/applicationcertificats/images/delete.png') }}" alt="delete" width="15" height="15" />
-                    </a>
-                </td>
-
-                           {% endif %}  
-                
-                                  
         </tr>
     {% endfor %}
     </tbody>
@@ -165,3 +188,5 @@ FICHIERS-CERTIFICATS
     
     
     {% endblock %}
+
+{% block footer %}{% endblock %}

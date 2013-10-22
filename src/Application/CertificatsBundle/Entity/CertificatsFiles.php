@@ -81,7 +81,7 @@ class CertificatsFiles {
     
     
    /**
-     * @ORM\OneToOne(targetEntity = "CertificatsCenter", mappedBy = "fichier")
+     * @ORM\OneToMany(targetEntity = "CertificatsCenter", mappedBy = "fichier")
      */
     protected $certificats;
     
@@ -611,4 +611,27 @@ class CertificatsFiles {
     }
 }
 */
+
+    /**
+     * Add certificats
+     *
+     * @param \Application\CertificatsBundle\Entity\CertificatsCenter $certificats
+     * @return CertificatsFiles
+     */
+    public function addCertificat(\Application\CertificatsBundle\Entity\CertificatsCenter $certificats)
+    {
+        $this->certificats[] = $certificats;
+    
+        return $this;
+    }
+
+    /**
+     * Remove certificats
+     *
+     * @param \Application\CertificatsBundle\Entity\CertificatsCenter $certificats
+     */
+    public function removeCertificat(\Application\CertificatsBundle\Entity\CertificatsCenter $certificats)
+    {
+        $this->certificats->removeElement($certificats);
+    }
 }

@@ -2,6 +2,11 @@ certificats_documents:
     pattern:  /
     defaults: { _controller: "ApplicationCertificatsBundle:CertificatsFiles:index" }
 
+certificats_documents_xhtml:
+    pattern:  /{id}/select
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsFiles:indexxhtml" }
+
+
 certificatscenter_download:
     pattern:  /{id}/download/
     defaults: { _controller: "ApplicationCertificatsBundle:CertificatsFiles:download" }
@@ -46,4 +51,9 @@ certificats_fileupload:
     options:
         expose: true
   
-  
+certificats_xhtml_selectfile:
+    pattern:  /ajaxselectfile
+    methods: POST|GET
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsFiles:FileSelect" }
+    options:
+        expose: true  

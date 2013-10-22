@@ -145,23 +145,6 @@ color: red;
 $(document).ready(function() {
 
     $( "#tabs" ).tabs();
-
-
- var originalClose = $.colorbox.close;
-        $("#cloner").click(function(){ 
-             console.log("try to close");
-            parent.jQuery.colorbox.close();
-          var myclone=Routing.generate('changements_clone', {'id': "{{ entity.id }}"});
-         parent.window.location.replace(myclone);
-                return true;
-            }); 
-    $("#editer").click(function(){ 
-             console.log("try to close");
-            parent.jQuery.colorbox.close();
-          var myclone=Routing.generate('changements_edit', {'id': "{{ entity.id }}"});
-         parent.window.location.replace(myclone);
-                return true;
-            }); 
 });
 </script>  
     

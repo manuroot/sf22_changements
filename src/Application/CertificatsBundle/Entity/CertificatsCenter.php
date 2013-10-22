@@ -170,7 +170,7 @@ class CertificatsCenter
     
      /**
       * 
-     * @ORM\OneToOne(targetEntity="\Application\CertificatsBundle\Entity\CertificatsFiles", inversedBy="certificats",cascade={"persist","remove"}), 
+     * @ORM\ManyToOne(targetEntity="\Application\CertificatsBundle\Entity\CertificatsFiles", inversedBy="certificats",cascade={"persist","remove"}), 
       * 
      * @ORM\JoinColumn(name = "fichier", nullable = true, referencedColumnName = "id",onDelete="set null")
      */
