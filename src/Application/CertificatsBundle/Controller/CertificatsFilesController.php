@@ -601,7 +601,6 @@ $parameters=array();
             $form->bind($uploaded_file);
             $em->persist($entity);
             $em->flush();
-
             $original_name = $entity->getOriginalFilename();
             $id_fichier = $entity->getId();
             $filename = $entity->getPath();
@@ -610,18 +609,9 @@ $parameters=array();
             if (file_exists($fic)) {
                /* Marche pas sous windows */
                 $openssl = new MyOpenSsl();
-                $data_parse = $openssl->Parse_x509($fic);
-                $cn = $data_parse['subject']['CN'];
-                $fullcn = $data_parse['name'];
-                list($validfrom, $validto) = $openssl->Return_Dates($fic);
-
-                $certificats['fields'] = array(
-                    'cn' => $cn,
-                    'from' => $validfrom,
-                    'to' => $validto,
-                    'name' => $original_name,
-                    'id' => $id_fichier
-                );
+                $certificats=$openssl->Parse_x509_light($fic);
+                $certificats['fields']['id'] = $id_fichier;
+                $certificats['fields']['name'] =  $original_name;
             }
         }
         $retour = new Response(json_encode($certificats));
@@ -634,7 +624,7 @@ $parameters=array();
         $em = $this->getDoctrine()->getManager();
         $certificats['fields'] = array();
         $id = $request->get('id');
-       $certificats['fields']['id']=$id;
+      // $certificats['fields']['id']=$id;
        
        
        if ($id){
@@ -643,28 +633,17 @@ $parameters=array();
             throw $this->createNotFoundException('Unable to find CertificatsFiles entity.');
         }
         
-        
             $original_name = $entity->getOriginalFilename();
             $id_fichier = $entity->getId();
             $filename = $entity->getPath();
             $path = $this->get('kernel')->getRootDir() . "/../" . $entity->getDownloadDir();
             $fic = $path . $filename;
             if (file_exists($fic)) {
-               /* Marche pas sous windows */
                 $openssl = new MyOpenSsl();
-                $data_parse = $openssl->Parse_x509($fic);
-                $cn = $data_parse['subject']['CN'];
-                $fullcn = $data_parse['name'];
-                list($validfrom, $validto) = $openssl->Return_Dates($fic);
-
-                $certificats['fields'] = array(
-                    'cn' => $cn,
-                    'from' => $validfrom,
-                    'to' => $validto,
-                    'name' => $original_name,
-                    'id' => $id_fichier
-                );
-        
+                $certificats=$openssl->Parse_x509_light($fic);
+                $certificats['fields']['id'] = $id_fichier;
+                $certificats['fields']['name'] =  $original_name;
+          
             }
        }
         $retour = new Response(json_encode($certificats));

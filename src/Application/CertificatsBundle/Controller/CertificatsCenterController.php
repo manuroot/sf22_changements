@@ -270,6 +270,9 @@ class CertificatsCenterController extends Controller {
     }
 
     /*
+     * 
+     */
+    /*
      *  $entity = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->find($id);
       if (!$entity) {
       throw $this->createNotFoundException('Unable to find CertificatsFiles entity.');

@@ -396,6 +396,26 @@ class MyOpenSsl {
         return (TRUE);
     }
 
+    
+    //===============================
+    public function Parse_x509_light($name) {
+//===============================
+        $data=$this->Parse_x509($name);
+        
+        $validfrom = date('Y-m-d', $data['validFrom_time_t']);
+        $validto = date('Y-m-d', $data['validTo_time_t']);
+        $cn = $data['subject']['CN'];
+        $fullcn = $data['name'];
+       
+       $certificats['fields'] = array(
+                    'cn' => $cn,
+                    'from' => $validfrom,
+                    'to' => $validto,
+                    'fullcn'=>$fullcn
+                );  
+       
+        return $certificats;
+    }
 //===============================
     public function Parse_x509($name) {
 //===============================
