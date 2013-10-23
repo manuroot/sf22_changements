@@ -337,7 +337,7 @@ class CertificatsCenterController extends Controller {
         $alldatas = $request->request->all();
         $datas = $alldatas["moncert"];
         $uploadedFile = $request->files->get('moncert');
-        print_r($alldatas);
+      //  print_r($alldatas);exit(1);
         print_r($uploadedFile);
         $id_fichier = $alldatas['myfile'];
         $form->bind($request);

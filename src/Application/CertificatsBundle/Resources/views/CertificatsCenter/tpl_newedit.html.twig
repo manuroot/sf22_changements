@@ -50,99 +50,10 @@ $(document).bind('dragover', function (e) {
     window.dropZoneTimeout = setTimeout(function () {
         window.dropZoneTimeout = null;
         dropZone.removeClass('in hover');
-    }, 100);
+    }, 2000);
 });
-    $(function () {
-        
-       /*  $('#moncert_fichier_file').fileupload({
-        dataType: 'json',
-         url: Routing.generate('certificatscenter_listbyprojet'),
-        done: function (e, data) {
-            $.each(data.result.files, function (index, file) {
-                $('<p/>').text(file.name).appendTo(document.body);
-            });
-        },
-    
-     progressall: function (e, data) {
-        var progress = parseInt(data.loaded / data.total * 100, 10);
-        $('#progress .bar').css(
-            'width',
-            progress + '%'
-        );
-    }
-    });*/
-    
-   /* $('#hhmoncert_fichier_file').fileupload({
-        dataType: 'json',
-         url: Routing.generate('certificatscenter_listbyprojet'),
-         add: function (e, data) {
-            data.context = $('<button/>').text('Upload')
-                .appendTo(document.body)
-                .click(function () {
-                    data.context = $('<p/>').text('Uploading...').replaceAll($(this));
-                    data.submit();
-                });
-        },
-        done: function (e, data) {
-            $.each(data.result.files, function (index, file) {
-                $('<p/>').text(file.name).appendTo(document.body);
-            });
-        },
-    
-     progressall: function (e, data) {
-        var progress = parseInt(data.loaded / data.total * 100, 10);
-        $('#progress .bar').css(
-            'width',
-            progress + '%'
-        );
-    }
-    });*/
-/*
-   $('#xxmoncert_fichier_file').fileupload({
-        dataType: 'json',
-         url: Routing.generate('certificatscenter_listbyprojet'),
-        add: function (e, data) {
-            data.context = $('<button/>').text('Upload')
-                .appendTo(document.body)
-                .click(function () {
-                    data.context = $('<p/>').text('Uploading...').replaceAll($(this));
-                    data.submit();
-                });
-        },
-        done: function (e, data) {
-            data.context.text('Upload finished.');
-        }
-    });*/
-   
-   /* $('#11moncert_fichier_file').fileupload({
-        dataType: 'json',
-        add: function (e, data) {
-            data.context = $('<button/>').text('Upload')
-                .appendTo(document.body)
-                .click(function () {
-                    data.context = $('<p/>').text('Uploading...').replaceAll($(this));
-                    data.submit();
-                });
-        },
-        done: function (e, data) {
-            data.context.text('Upload finished.');
-        }
-    });*/
- $('#fileupload').fileupload({
-       dropZone: $('#dropzone'),
-    dataType: 'json',
-    url: Routing.generate('certificats_fileupload'),
-    maxFileSize: 100000, // 100 kB
-     progressall: function (e, data) {
-        var progress = parseInt(data.loaded / data.total * 100, 10);
-        $('#progress .bar').css(
-            'width',
-            progress + '%'
-        );
-    },
-    success: function(reponse){
-            // Sur Succès de la réponse AJAX
-            var optionData = reponse;
+ function remplirSelect (data) {
+   var optionData = data;
           /*  optionData['fields']*/
              $("input#filelink").val(optionData['fields']['id']);
              
@@ -170,7 +81,26 @@ $(document).bind('dragover', function (e) {
                   $("INPUT#moncert_cnName").css({'background-color' : '#FFFFEEE'});
                 $("INPUT#moncert_cnName").val(optionData['fields']['cn']);
             }
-            
+ 
+} //Eof:: fucntion remplirSelect
+
+    $(function () {
+ $('#fileupload').fileupload({
+       dropZone: $('#dropzone'),
+    dataType: 'json',
+    url: Routing.generate('certificats_fileupload'),
+    maxFileSize: 100000, // 100 kB
+     progressall: function (e, data) {
+        var progress = parseInt(data.loaded / data.total * 100, 10);
+        $('#progress .bar').css(
+            'width',
+            progress + '%'
+        );
+    },
+    success: function(reponse){
+            // Sur Succès de la réponse AJAX
+            var optionData = reponse;
+            remplirSelect(reponse);
         },
        /* done: function (e, data) {
              var optionData = data;
@@ -188,6 +118,27 @@ $(document).bind('dragover', function (e) {
      //  console.log(data);
     }*/
     });
+    $('#verifierfields').click(function(){ 
+             var id = $(this).attr("data-id");
+      
+      var dataAjax = {id: id};
+   $.ajax({
+            url: Routing.generate('certificats_xhtml_selectfile'),
+            type: "POST",
+            data: dataAjax,
+             async: false,
+            dataType: "json",
+            /* ie8 ??*/
+            /*cache: false,*/
+            /*contentType: 'application/json',*/
+            success: function(reponse) {
+                remplirSelect(reponse);
+               },
+            error: function(e) {
+                console.log(e.message);
+            }
+        });  //Eof:: ajax 
+   });
 });
 
 
@@ -256,11 +207,11 @@ $(document).bind('dragover', function (e) {
      
 {% if action == 'edit' %}
     <div id="divcert" style="display: none;">{{ entity.id }}</div>
-    <form   id="fileupload" action="{{ path(path_form, { 'id': entity.id }) }}" method="post" {{ form_enctype(form) }}>
+    <form  id="fileupload" action="{{ path(path_form, { 'id': entity.id }) }}" method="post" {{ form_enctype(form) }}>
     <input type="hidden"  name="id-entity"  value="{{ entity.id }}">
 {% else %}
     <div id="divcert" style="display: none;"></div>
-    <form  action="{{ path(path_form)}}" method="post" {{ form_enctype(form) }}>
+    <form  id="fileupload" action="{{ path(path_form)}}" method="post" {{ form_enctype(form) }}>
     <input type="hidden"  name="id-entity"  value="0">
 {% endif %}
 
@@ -301,7 +252,7 @@ $(document).bind('dragover', function (e) {
           <div id="current_file">
             {% if fichier  %}   
             <br>
-            <a href="{{ path('certificats_fileupload') }}" class="btn btn-medium btn-primary">Vérifier Fields</a>
+            <a id="verifierfields" data-id="{{ fichier.id}}" href="#" class="btn btn-medium btn-primary">Vérifier Fields</a>
             <!-- The container for the uploaded files -->
                 <div id="files" class="files">
                 <strong>  {{ fichier.OriginalFilename }}
@@ -322,8 +273,8 @@ $(document).bind('dragover', function (e) {
             {% if action == 'edit' %}       
                    <a class="editme" href="{{ path('certificats_documents_xhtml', { 'id': entity.id }) }}">
             {% else %}
-                           <a class="editme" href="{{ path('certificats_documents_xhtml', { 'id': 0 }) }}">
-                           {% endif %}
+                   <a class="editme" href="{{ path('certificats_documents_xhtml', { 'id': 0 }) }}">
+            {% endif %}
                        <span class="icon-stack icon-2x">
             <i class="icon-check-empty icon-stack-base"></i>
             <i class="icon-archive"></i>

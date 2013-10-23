@@ -585,79 +585,7 @@ $parameters=array();
       "2015-05-09"
       ) */
 
-    public function NNFileUploadAction(Request $request) {
-        $em = $this->getDoctrine()->getManager();
-        $alldatas = $request->request->all();
-        //  $certificats['fields'] = array();
-        //  $datas = $alldatas["fileupload"];
-        //$uploaded_file = $request->files->get('files');
-        // $uploaded_file = $request->files->get('moncert');
-        //moncert[fichier][file]
-        $certificats['fields'] = array();
-
-        $retour = new Response(json_encode($certificats));
-        //$response = new Response(json_encode(array('response'=>$response)));
-        $retour->headers->set('Content-Type', 'application/json');
-        return $retour;
-    }
-
-    public function FileUploaOlddAction(Request $request) {
-        $em = $this->getDoctrine()->getManager();
-        $alldatas = $request->request->all();
-        $certificats['fields'] = array();
-        //  $datas = $alldatas["fileupload"];
-        //$uploaded_file = $request->files->get('files');
-        $uploaded_file = $request->files->get('moncert');
-        //moncert[fichier][file]
-        /*  $uploadedFile = $request->files->get('moncert');
-
-          //=========================================
-          // Si fichier a ete uploadé:
-          // on mey le lien a null et on update
-          //=========================================
-          if ($uploadedFile['fichier']['file'] != NULL) { */
-        $id = $request->get("id-entity");
-        $entity = $em->getRepository('ApplicationCertificatsBundle:CertificatsCenter')->find($id);
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find CertificatsCenter entity.');
-        }
-        $editForm = $this->createForm(new CertificatsCenterType(), $entity);
-        /* if ($uploaded_file['fichier']['file'] != NULL) {
-          //  print_r($_FILES);
-
-          $entity->setFichier(NULL);
-          } */
-
-        $datas = $request->get('moncert');
-        if ($uploaded_file) {
-
-            $tmp_file = $_FILES["moncert"]["tmp_name"]["fichier"]["file"];
-            $original_name = $_FILES['moncert']['name']["fichier"]["file"];
-
-            // echo "tmp=$tmp_file";
-
-
-            $openssl = new MyOpenSsl();
-            $data_parse = $openssl->Parse_x509($tmp_file);
-            $cn = $data_parse['subject']['CN'];
-            // $fullcn = $data_parse['name'];
-            list($validfrom, $validto) = $openssl->Return_Dates($tmp_file);
-            $certificats['fields'] = array(
-                'cn' => $cn,
-                'from' => $validfrom,
-                'to' => $validto,
-                'name' => $original_name,
-            );
-        }
-
-        $certificats['fields'] = array();
-
-        $retour = new Response(json_encode($certificats));
-        //$response = new Response(json_encode(array('response'=>$response)));
-        $retour->headers->set('Content-Type', 'application/json');
-        return $retour;
-    }
-
+  
     public function FileUploadAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $alldatas = $request->request->all();
@@ -745,6 +673,6 @@ $parameters=array();
         return $retour;
     }
     
-
+    
 }
 
