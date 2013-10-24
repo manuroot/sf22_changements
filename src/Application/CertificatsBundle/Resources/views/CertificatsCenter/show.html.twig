@@ -25,11 +25,13 @@
 {% include 'ApplicationCertificatsBundle:templates:flash.html.twig' %}
 
 {% if is_granted("ROLE_ADMIN") %}           
-    <a href="{{ path('certificatscenter_edit', { 'id': entity.id }) }}" class="btn btn-small btn-warning">Editer</a>
+    <a href="{{ path('certificatscenter_edit', { 'id': entity.id }) }}" class="btn btn-large btn-warning">Editer</a>
 {% endif %}
+    <a href="{{ path(btnretour) }}" class="btn btn-large btn-success">Retour</a>
 
 <br> <br> 
-<div class="txtfirst">
+<div class="row">
+    <div class="span4">
 <table class="view table-bordered">
  <thead><tr class="title"><th>Paramètres</th><th>Valeurs</th></tr></thead>
 <tbody>
@@ -58,7 +60,7 @@
     <tr><td class="viewlabel">Fichier Lien</td>
         <td>
            {% if entity.fichier.id and entity.fichier.path %}
-            <a class="fichier" href="{{ path('certificatscenter_download', { 'id': entity.fichier.id }) }}">{{ entity.fichier.path }}</a>
+            <a class="fichier" href="{{ path('certificatscenter_download', { 'id': entity.fichier.id }) }}">{{ entity.fichier.OriginalFilename }}</a>
             {% endif %}
        </td>
     </tr>     
@@ -68,13 +70,14 @@
 </tbody>
 </table>
 </div>
-<div class="txtsecond">
+ <div class="span8" style="font-size:8px;">
 {% if cmd_x509 is not null %}
    <pre>{{ cmd_x509|raw }}</pre>
-</div>
 {% endif %}
-<div style="clear:both;"></div>
-         <a href="{{ path(btnretour) }}" class="btn btn-large btn-success">Retour</a>
-<br><br>
+</div>
+        </div>
+        
+        <div style="clear:both;"></div>
+     
   
 {% endblock %}

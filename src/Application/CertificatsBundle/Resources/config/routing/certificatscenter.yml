@@ -1,6 +1,11 @@
 certificatscenter:
     pattern:  /
     defaults: { _controller: "ApplicationCertificatsBundle:CertificatsCenter:index" }
+
+    
+certificatscenter_operations:
+    pattern:  /operations
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsCenter:indexoperations" }
     
 certificatscenter_check:
     pattern:  /checkcert

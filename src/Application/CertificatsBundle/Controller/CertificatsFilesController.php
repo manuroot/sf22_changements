@@ -78,19 +78,17 @@ class CertificatsFilesController extends Controller {
                 ));
     }
 
-    public function indexooldAction() {
-        $em = $this->getDoctrine()->getManager();
-        $request = $this->getRequest();
-        $session = $request->getSession();
-        $session->set('buttonretour', 'certificats_documents');
-        $query = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->myFindAll();
-        $pagination = $this->createpaginator($query, 10);
-        $count = $pagination->getTotalItemCount();
-        return $this->render('ApplicationCertificatsBundle:CertificatsFiles:index.html.twig', array(
-                    'pagination' => $pagination,
-                ));
-    }
 
+
+    
+    public function addAction(Request $request) {
+
+ return $this->render('ApplicationCertificatsBundle:CertificatsFiles:add.html.twig', array(
+               
+                ));
+        
+        
+    }
     public function indexAction(Request $request) {
 
         //  $entity = new Changements();
@@ -212,8 +210,8 @@ $parameters=array();
             // print_r($request);
             //   exit(1); 
             $form->bind($request);
-            var_dump($form);
-            exit(1);
+          /*  var_dump($form);
+            exit(1);*/
             if ($form->isValid()) {
                 // recup des champs du formluaire
                 //verif si creation d'une entree
@@ -590,6 +588,9 @@ $parameters=array();
         $em = $this->getDoctrine()->getManager();
         $alldatas = $request->request->all();
         $certificats['fields'] = array();
+       // $check_entity = $request->query->get('onlycheck');
+     //  print_r($check_entity);
+       // exit(1);
         $uploaded_file = $request->files->get('fichier_certificat');
         $entity = new CertificatsFiles();
         $form = $this->createForm(new CertificatsFilesType, $entity, array(
@@ -601,6 +602,7 @@ $parameters=array();
             $form->bind($uploaded_file);
             $em->persist($entity);
             $em->flush();
+          
             $original_name = $entity->getOriginalFilename();
             $id_fichier = $entity->getId();
             $filename = $entity->getPath();
@@ -620,6 +622,45 @@ $parameters=array();
         return $retour;
     }
 
+     public function FileCheckAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $alldatas = $request->request->all();
+        $certificats['fields'] = array();
+        $check_entity = $request->query->get('onlycheck');
+     //  print_r($check_entity);
+       // exit(1);
+        $uploaded_file = $request->files->get('fichier_certificat');
+        $entity = new CertificatsFiles();
+        $form = $this->createForm(new CertificatsFilesType, $entity, array(
+            'csrf_protection' => false
+                ));
+
+        /* si fichier uploadé */
+        if ($uploaded_file) {
+            $form->bind($uploaded_file);
+            $em->persist($entity);
+            $em->flush();
+          
+            $original_name = $entity->getOriginalFilename();
+            $id_fichier = $entity->getId();
+            $filename = $entity->getPath();
+            $path = $this->get('kernel')->getRootDir() . "/../" . $entity->getDownloadDir();
+            $fic = $path . $filename;
+            if (file_exists($fic)) {
+               /* Marche pas sous windows */
+                $openssl = new MyOpenSsl();
+                $certificats=$openssl->Parse_x509_light($fic);
+                $certificats['fields']['id'] = $id_fichier;
+                $certificats['fields']['name'] =  $original_name;
+            }
+        }
+        $retour = new Response(json_encode($certificats));
+        //$response = new Response(json_encode(array('response'=>$response)));
+        $retour->headers->set('Content-Type', 'application/json');
+        return $retour;
+    }
+    
+    
  public function  FileSelectAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $certificats['fields'] = array();

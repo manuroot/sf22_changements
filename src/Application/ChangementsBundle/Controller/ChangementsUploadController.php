@@ -69,7 +69,7 @@ class ChangementsUploadController extends Controller {
                 ->getFiles(array('folder' => 'tmp/attachments/' . $editId));
         return $this->render('ApplicationChangementsBundle:Changements:edit-punkave.html.twig', array(
                     'entity' => $entity,
-                    'edit_form' => $editForm->createView(),
+                    'form' => $editForm->createView(),
                     'editId' => $editId,
                     'existingFiles' => $existingFiles,
                     'isNew' => $isNew,

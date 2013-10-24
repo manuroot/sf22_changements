@@ -24,7 +24,12 @@ class DocchangementsType extends AbstractType {
               //  ->add('file',null,array('label' => 'MAJ Fichier'))
                      ->add('name',null,array('label' => 'Nom'))
              //    ->add('name','text',array('label' => 'Nom',required=>false,'mapped'=>false))
-                ->add('idchangement', 'entity', array(
+                /* ===================================================     
+             *  ENLEVER: PAS DE MODIF DE CHANGEMENT ICI !!!! 
+             * 
+             ===================================================== */
+                
+                /*->add('idchangement', 'entity', array(
                     'class' => 'ApplicationChangementsBundle:Changements',
                     'query_builder' => function(EntityRepository $em) {
                         return $em->createQueryBuilder('u')
@@ -34,7 +39,7 @@ class DocchangementsType extends AbstractType {
                     'multiple' => true,
                     'required' => false,
                     'label' => 'Changements'
-                ))
+                ))*/
         //  ->add('name','text',array('label' => 'Description du Fichier'))
         ;
     }

@@ -54,14 +54,16 @@
               
                 {{ form_row(form.name) }}
                 {{ form_row(form.file) }}
+               {{ form_rest(form) }}
                 </td>
-                <td class="calendar">
+           {#     <td class="calendar">
      {{ form_row(form.idchangement) }}
            
-                {{ form_rest(form) }}</td>
+                {{ form_rest(form) }}</td>#}
              </tr>
             <tr>
                 <td class="calendar" colspan="2">
+                {#<td class="calendar" colspan="2">#}
                 <p><button type="submit" class="btn btn-medium btn-warning">Ajouter</button>
                 <a href="{{  path(tpl_retour) }}" class="btn btn-medium btn-primary">Retour</a>
                 </p>

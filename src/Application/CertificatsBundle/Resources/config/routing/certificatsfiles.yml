@@ -2,6 +2,11 @@ certificats_documents:
     pattern:  /
     defaults: { _controller: "ApplicationCertificatsBundle:CertificatsFiles:index" }
 
+certificats_documents_ajouter:
+    pattern:  /add
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsFiles:add" }
+
+
 certificats_documents_xhtml:
     pattern:  /{id}/select
     defaults: { _controller: "ApplicationCertificatsBundle:CertificatsFiles:indexxhtml" }
@@ -45,7 +50,7 @@ ajax_nom_certfiles:
     defaults: { _controller: "ApplicationCertificatsBundle:CertificatsFiles:NomAjax" }
   
 certificats_fileupload:
-    pattern:  ajaxfilesss
+    pattern:  fileupload
     methods: POST|GET
     defaults: { _controller: "ApplicationCertificatsBundle:CertificatsFiles:FileUpload" }
     options:

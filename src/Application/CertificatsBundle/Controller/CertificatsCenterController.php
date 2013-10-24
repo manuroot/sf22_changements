@@ -478,6 +478,13 @@ class CertificatsCenterController extends Controller {
                         //  'idty'=>$securityIdentity,
         ));
     }
+ public function indexoperationsAction(Request $request) {
+
+        
+        return $this->render('ApplicationCertificatsBundle:CertificatsCenter:index_operations.html.twig', array(
+                    
+        ));
+    }
 
     /** ===================================================================
      * 

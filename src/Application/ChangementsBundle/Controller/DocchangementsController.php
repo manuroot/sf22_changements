@@ -252,10 +252,15 @@ class DocchangementsController extends Controller {
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+               /* ===================================================     
+             *  ENLEVER: PAS DE MODIF DE CHANGEMENT ICI !!!! 
+             * 
+             ===================================================== */
+            
           // on ajoute cote changement
-                 foreach ($entity->getIdchangement() AS $changement){
+                /* foreach ($entity->getIdchangement() AS $changement){
                      $changement->addPicture($entity);
-                 }
+                 }*/
             // on persite coté document
             $em->persist($entity);
             $em->flush();
@@ -310,7 +315,11 @@ class DocchangementsController extends Controller {
         if ($editForm->isValid()) {
              // on vide cote changement
             // ou passer par byreference a false dans le formulaire
-            foreach ( $current_changements as $change ){
+            /* ===================================================     
+             *  ENLEVER: PAS DE MODIF DE CHANGEMENT ICI !!!! 
+             * 
+             ===================================================== */
+            /*foreach ( $current_changements as $change ){
                     $change->getPicture()->removeElement( $entity );
                     $em->persist($change);
                 }
@@ -318,7 +327,7 @@ class DocchangementsController extends Controller {
                   // on ajoute cote changement
                  foreach ($entity->getIdchangement() AS $changement){
                      $changement->addPicture($entity);
-                 }
+                 }*/
             // on persite coté document
             $em->persist($entity);
             $em->flush();
