@@ -94,9 +94,9 @@ $(document).bind('dragover', function (e) {
                 '</tr>');
           /*  row.find('.name').text(file.name);*/
               rows = rows.add(row);   
-         });
+       
         
-        var mybtn=$('<button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-trash"></i><span>Upload</span></button>');
+        var mybtn=$("<h4>" + file.name + "</h4>" + '<button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-trash"></i><span>Upload</span></button>');
          var mydiv=$("div#uploaded-files");
          o.context = mybtn
          .appendTo(mydiv)
@@ -105,6 +105,7 @@ $(document).bind('dragover', function (e) {
                     o.context = $('<p/>').text('Uploading...').replaceAll($(this));
                     o.submit();
                 });
+                  });
         },
      progressall: function (e, data) {
         var progress = parseInt(data.loaded / data.total * 100, 10);
