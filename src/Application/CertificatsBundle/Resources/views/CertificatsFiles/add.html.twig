@@ -81,21 +81,29 @@ $(document).bind('dragover', function (e) {
     maxFileSize: 100000, // 100 kB
     
   
-    add1: function (e, o) {
+    add: function (e, o) {
+        var rows = $();
          $.each(o.files, function (index, file) {
            console.log("fic=" + file.name);
           
-             
+              var row = $('<tr class="template-upload fade">' +
+                '<td><span class="preview"></span></td>' +
+                  '<button class="start">Start</button>'  +
+                 '<button class="cancel">Cancel</button>' +
+                '</td>' +
+                '</tr>');
+          /*  row.find('.name').text(file.name);*/
+              rows = rows.add(row);   
          });
         
         var mybtn=$('<button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-trash"></i><span>Upload</span></button>');
          var mydiv=$("div#uploaded-files");
-         data.context = mybtn
+         o.context = mybtn
          .appendTo(mydiv)
          
                 .click(function () {
-                    data.context = $('<p/>').text('Uploading...').replaceAll($(this));
-                    data.submit();
+                    o.context = $('<p/>').text('Uploading...').replaceAll($(this));
+                    o.submit();
                 });
         },
      progressall: function (e, data) {
