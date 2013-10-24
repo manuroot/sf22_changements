@@ -13,7 +13,8 @@
 <script type="text/javascript" src="{{ asset('jquery/fileupload/jquery.fileupload-process.js') }}"></script>
 <script type="text/javascript" src="{{ asset('jquery/fileupload/jquery.fileupload-image.js') }}"></script>
 <script type="text/javascript" src="{{ asset('jquery/fileupload/jquery.fileupload-ui.js') }}"></script>
-
+<script type="text/javascript" src="{{ asset('jquery/fileupload/jquery.fileupload-validate.js') }}"></script>
+<script type="text/javascript" src="{{ asset('jquery/fileupload/jquery.ui.widget.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/tmpl.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/applicationcertificats/js/jquery.colorbox.js') }}"></script>
       
@@ -65,25 +66,27 @@ $(document).bind('dragover', function (e) {
  function remplirSelect (data) {
    var optionData = data;
           /*  optionData['fields']*/
-          $("#uploaded-files").append('<div style="display:block;border:1px dashed #CCCCCC;">' + optionData['fields']['name'] + '</div>');
-          
+     /*     $("#uploaded-files").append('<div style="display:block;border:1px dashed #CCCCCC;">' + optionData['fields']['name'] + '</div>');
+      */    
  
 } //Eof:: fucntion remplirSelect
 
     $(function () {
  $('#fileupload').fileupload({
+      apc: true,
       filesContainer: $('table.files'),
        dropZone: $('#dropzone'),
+       acceptFileTypes : /(\.|\/)(gif|jpe?g|png|crt|pem|key|p12|zip)$/i,
         uploadTemplateId: null,
     downloadTemplateId: null,
     dataType: 'json',
     url: Routing.generate('certificats_fileupload'),
-    maxFileSize: 100000, // 100 kB
+    maxFileSize: 1000000, // 1000 kB
     
   
-    add: function (e, o) {
+   /* add: function (e, o) {
         var rows = $();
-         $.each(o.files, function (index, file) {
+          $.each(o.files, function (index, file) {
            console.log("fic=" + file.name);
           
               var row = $('<tr class="template-upload fade">' +
@@ -92,15 +95,17 @@ $(document).bind('dragover', function (e) {
                  '<button class="cancel">Cancel</button>' +
                 '</td>' +
                 '</tr>');
-          /*  row.find('.name').text(file.name);*/
+           row.find('.name').text(file.name);
               rows = rows.add(row);   
        
         
         var mybtn=$("<div class='added'>" +
              file.name +  
              '<div id="button"><button type="button" class="btn btn-primary">' + 
-             '<i class="glyphicon glyphicon-trash"></i><span>Upload</span></button></div></div>');
+             '<i class="icon-trash"></i><span>Upload</span></button></div></div>');
          var mydiv=$("div#uploaded-files");
+         var myimg=$('<img src="' + URL.createObjectURL(o.files[0]) + '" width="200px" />');
+        o.context = myimg.appendTo(mydiv)
          o.context = mybtn
          .appendTo(mydiv)
          
@@ -109,34 +114,34 @@ $(document).bind('dragover', function (e) {
                     o.submit();
                 });
                   });
-        },
-     progressall: function (e, data) {
+        },*/
+  /*  progressall: function (e, data) {
         var progress = parseInt(data.loaded / data.total * 100, 10);
         $('#progress .bar').css(
             'width',
             progress + '%'
         );
-    },
-    success: function(reponse){
+    },*/
+   /* success: function(reponse){
             // Sur Succès de la réponse AJAX
             var optionData = reponse;
             remplirSelect(reponse);
-        },
-    /* uploadTemplate: function (o) {
+        },*/
+   uploadTemplate: function (o) {
         var rows = $();
         $.each(o.files, function (index, file) {
             var row = $('<tr class="template-upload fade">' +
                 '<td><span class="preview"></span></td>' +
                 '<td><p class="name"></p>' +
-                (file.error ? '<div class="error"></div>' : '') +
+                (file.error ? '<div class="error"><strong></strong></div>' : '') +
                 '</td>' +
                 '<td><p class="size"></p>' +
                 (o.files.error ? '' : '<div class="progress"></div>') +
                 '</td>' +
                 '<td>' +
                 (!o.files.error && !index && !o.options.autoUpload ?
-                    '<button class="start">Start</button>' : '') +
-                (!index ? '<button class="cancel">Cancel</button>' : '') +
+                    '<button class="start btn btn-primary"><i class="icon-upload icon-black"></i> Start</button>' : '') +
+                (!index ? '<button class="cancel btn btn-danger""><i class="icon-upload icon-black"></i> Cancel</button>' : '') +
                 '</td>' +
                 '</tr>');
             row.find('.name').text(file.name);
@@ -147,7 +152,7 @@ $(document).bind('dragover', function (e) {
             rows = rows.add(row);
         });
         return rows;
-    },*/
+    },
     downloadTemplate: function (o) {
         var rows = $();
         $.each(o.files, function (index, file) {
@@ -182,10 +187,19 @@ $(document).bind('dragover', function (e) {
             rows = rows.add(row);
         });
         return rows;
+    },
+    done: function (e, reponse) {
+       var data = reponse;
+       /* $.each(data.result.files, function (index, file) {
+             
+           
+            });*/
     }
-      /*done: function (e, reponse) {
+     /* done: function (e, reponse) {
             var data = reponse;
+           
             $.each(data.result.files, function (index, file) {
+             
                 $('<p/>').text(file.name).appendTo(document.body);
             });
         }*/
@@ -206,6 +220,7 @@ $(document).bind('dragover', function (e) {
 <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/sliding.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/certifcatssearch.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.fileupload-ui.css') }}" type="text/css" media="all"/>  
+<link rel="stylesheet" href="{{ asset('bootstrap/css/blueimp-gallery.min.css') }}" type="text/css" media="all"/>  
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>  
 <style>
     select[multiple], select[size] {height: 250px;}
@@ -213,10 +228,10 @@ $(document).bind('dragover', function (e) {
     tr.single {background-color: #f1f1f1;}
     div.fichier{
         padding:5px;background-color:whitesmoke;color:#0033cc;}
-.bar {
+/*.bar {
     height: 18px;
     background: green;
-}
+}*/
 .added {
     padding:5px;margin:5px;
     width:200px;height:200px;
@@ -259,6 +274,65 @@ margin-bottom:5px;}
     -o-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
     opacity: 1;
+}
+
+.fileupload-progress {
+	margin: 10px 0;
+}
+.fileupload-progress .progress-extended {
+	margin-top: 5px;
+}
+.error {
+  color: red;
+}
+.fileupload-buttonbar .btn,
+.fileupload-buttonbar .toggle {
+  margin-bottom: 5px;
+}
+.progress-animated .progress-bar,
+.progress-animated .bar {
+  background: url("../img/progressbar.gif") !important;
+  filter: none;
+}
+
+progress-bar-success {background-color: red;}
+
+
+.fileupload-process {
+  float: right;
+  display: none;
+}
+.fileupload-processing .fileupload-process,
+.files .processing .preview {
+  display: block;
+  width: 32px;
+  height: 32px;
+  background: url("/images/loading.gif") center no-repeat;
+  background-size: contain;
+}
+.files audio,
+.files video {
+  max-width: 300px;
+}
+
+@media (max-width: 767px) {
+  .fileupload-buttonbar .toggle,
+  .files .toggle,
+  .files .btn span {
+    display: none;
+  }
+  .files .name {
+    width: 80px;
+    word-wrap: break-word;
+  }
+  .files audio,
+  .files video {
+    max-width: 80px;
+  }
+  .files img,
+  .files canvas {
+    max-width: 100%;
+  }
 }
     </style> 
 {% endblock %}
@@ -315,96 +389,78 @@ margin-bottom:5px;}
             </div>
           <div id="dropzone" class="fade well">Drop files here</div>
         <!-- The table listing the files available for upload/download -->
-       <div id="uploaded-files"> 
+     {#  <div id="uploaded-files"> 
            </div>
          <table role="presentation" class="table table-striped"><tbody class="files">
          <tr class="template-download fade">
                 
-             </tbody></table>
+             </tbody></table>#}
     </form> 
       </div>
    
     </div>      
-  
-{% verbatim %} 
-  <!-- The template to display files available for upload -->
-<script id="template-upload" type="text/x-tmpl">
-{% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-upload">
+   
+ <table class="table table-striped files" role="presentation">
+  <tbody class="files">
+ 
+  <script id="template-upload" type="text/x-tmpl">
+    (% for (var i=0, file; file=o.files[i]; i++) { %)
+    <tr class="template-upload fade">
+        <td class="preview"><span class="fade"></span></td>
+        <td class="name"><span>(%=file.name%)</span></td>
+        <td class="size"><span>(%=o.formatFileSize(file.size)%)</span></td>
+        (% if (file.error) { %)
+        <td class="error" colspan="2"><span class="label label-important">Error</span> (%=file.error%)</td>
+        (% } else if (o.files.valid && !i) { %)
         <td>
-            <span class="preview"></span>
+            <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar" style="width:0%;"></div></div>
         </td>
-        <td>
-            <p class="name">{%=file.name%}</p>
-            <strong class="error text-danger"></strong>
-        </td>
-        <td>
-            <p class="size">Processing...</p>
-            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
-        </td>
-        <td>
-            {% if (!i && !o.options.autoUpload) { %}
-                <button class="btn btn-primary start" disabled>
-                    <i class="glyphicon glyphicon-upload"></i>
-                    <span>Start</span>
-                </button>
-            {% } %}
-            {% if (!i) { %}
-                <button class="btn btn-warning cancel">
-                    <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span>Cancel</span>
-                </button>
-            {% } %}
-        </td>
+        <td class="start">(% if (!o.options.autoUpload) { %)
+            <button class="btn btn-primary">
+                <i class="icon-upload icon-white"></i>
+                <span>Start</span>
+            </button>
+            (% } %)</td>
+        (% } else { %)
+        <td colspan="2"></td>
+        (% } %)
+        <td class="cancel">(% if (!i) { %)
+            <button class="btn btn-warning">
+                <i class="icon-ban-circle icon-white"></i>
+                <span>Cancel</span>
+            </button>
+            (% } %)</td>
     </tr>
-{% } %}
+    (% } %)
 </script>
-{% endverbatim %}
-
-
-{% verbatim %}
 <!-- The template to display files available for download -->
 <script id="template-download" type="text/x-tmpl">
-{% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-download">
-        <td>
-            <span class="preview">
-                {% if (file.thumbnailUrl) { %}
-                    <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
-                {% } %}
-            </span>
+    (% for (var i=0, file; file=o.files[i]; i++) { %)
+    <tr class="template-download fade">
+        (% if (file.error) { %)
+        <td></td>
+        <td class="name"><span>(%=file.name%)</span></td>
+        <td class="size"><span>(%=o.formatFileSize(file.size)%)</span></td>
+        <td class="error" colspan="2"><span class="label label-important">Error</span> (%=file.error%)</td>
+        (% } else { %)
+        <td class="preview">(% if (file.thumbnail_url) { %)
+            <a href="(%=file.url%)" title="(%=file.name%)" rel="gallery" download="(%=file.name%)"><img src="(%=file.thumbnail_url%)"></a>
+            (% } %)</td>
+        <td class="name">
+            <a href="(%=file.url%)" title="(%=file.name%)" rel="(%=file.thumbnail_url&&'gallery'%)" download="(%=file.name%)">(%=file.name%)</a>
         </td>
-        <td>
-            <p class="name">
-                {% if (file.url) { %}
-                    <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
-                {% } else { %}
-                    <span>{%=file.name%}</span>
-                {% } %}
-            </p>
-            {% if (file.error) { %}
-                <div><span class="label label-danger">Error</span> {%=file.error%}</div>
-            {% } %}
-        </td>
-        <td>
-            <span class="size">{%=o.formatFileSize(file.size)%}</span>
-        </td>
-        <td>
-            {% if (file.deleteUrl) { %}
-                <button class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
-                    <i class="glyphicon glyphicon-trash"></i>
-                    <span>Delete</span>
-                </button>
-                <input type="checkbox" name="delete" value="1" class="toggle">
-            {% } else { %}
-                <button class="btn btn-warning cancel">
-                    <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span>Cancel</span>
-                </button>
-            {% } %}
+        <td class="size"><span>(%=o.formatFileSize(file.size)%)</span></td>
+        <td colspan="2"></td>
+        (% } %)
+        <td class="delete">
+            <button class="btn btn-danger" data-type="(%=file.delete_type%)" data-url="(%=file.delete_url%)"(% if (file.delete_with_credentials) { %) data-xhr-fields='{"withCredentials":true}'(% } %)>
+            <i class="icon-trash icon-white"></i>
+            <span>Delete</span>
+            </button>
+            <input type="checkbox" name="delete" value="1">
         </td>
     </tr>
-{% } %}
+    (% } %)
 </script>
-{% endverbatim %}
+</table>
 {% endblock %}
