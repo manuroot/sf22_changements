@@ -14,6 +14,7 @@ use Application\CertificatsBundle\Entity\CertificatsActions;
 use Application\CertificatsBundle\Form\CertificatsCenterType;
 use Application\CertificatsBundle\Form\CertificatsActionsType;
 use Application\CertificatsBundle\Form\CertificatsCenterCheckType;
+use Application\CertificatsBundle\Form\CertificatsCenterSimpleCheckType;
 use Application\CertificatsBundle\Form\CertificatsCenterFiltresType;
 use APY\DataGridBundle\Grid\Source\Entity;
 use APY\DataGridBundle\Grid\Grid;
@@ -155,6 +156,22 @@ class CertificatsCenterController extends Controller {
         ));
     }
 
+     /* ====================================================================
+     * 
+     *  VERIFICATION FICHIER SIMPLE
+     * 
+      =================================================================== */
+
+    public function simplecheckcertAction() {
+        $entity = new CertificatsActions();
+        //  $myForm = $this->createForm(new CertificatsActionsType(),$entity);
+        $form = $this->createForm(new CertificatsCenterSimpleCheckType());
+        return $this->render('ApplicationCertificatsBundle:CertificatsCenter:index_simplecheck.html.twig', array(
+                    'form' => $form->createView(),
+                        // 'myform'=> $myForm->createView(),
+        ));
+    }
+    
     /* ====================================================================
      * 
      *  VERIFICATION CERT

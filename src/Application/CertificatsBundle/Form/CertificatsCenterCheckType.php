@@ -18,7 +18,7 @@ class CertificatsCenterCheckType extends AbstractType {
 
     public function __construct() {
         $obj_openssl = new MyOpenSsl();
-        list($this->operations_view, $this->operations_check) = $obj_openssl->getOperations();
+        $this->operations_view = $obj_openssl->getOperations();
 
         $this->type_fichiers = $obj_openssl->getFichiers();
         $this->type_password = $obj_openssl->getPassword();
@@ -32,12 +32,13 @@ class CertificatsCenterCheckType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
-        $builder->add('contenu', 'textarea', array(
+        $builder
+       /*->add('contenu', 'textarea', array(
             'mapped'=>false,
                     'attr' => array(
                         'placeholder' => 'Placer le Contenu de votre certificat ICI',
                         'help_block' => 'Example block-level help text here.'
-            )))
+            )))*/
                 ->add('contenu', 'textarea', array(
                     'mapped'=>false,
                     'attr' => array(

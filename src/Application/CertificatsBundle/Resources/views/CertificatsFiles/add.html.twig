@@ -2,8 +2,8 @@
 
 {% block javascripts %}
 {{ parent() }}
+{#{% include "ApplicationCertificatsBundle:templates:tpl_file.js.twig" %}#}
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 <script type="text/javascript" src="{{ asset('jquery/fileupload/load-image.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/applicationcertificats/js/datenew.js') }}"></script>
@@ -17,201 +17,7 @@
 <script type="text/javascript" src="{{ asset('jquery/fileupload/jquery.ui.widget.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/tmpl.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/applicationcertificats/js/jquery.colorbox.js') }}"></script>
-      
- 
-<script>
-    
-    $(document).ready(function() {
-    $("a.editme").colorbox({
-            iframe:true,
-            /*   data:{idchgmt:$(this).attr("data-idchgmt")},   */ 
-                  transition:	"elastic",
-            width:"70%",
-            height:"70%",
-              fastIframe:false,
-            opacity:0.3
-        
-        });
-        
-        
-        });
-$(document).bind('dragover', function (e) {
-    var dropZone = $('#dropzone'),
-        timeout = window.dropZoneTimeout;
-    if (!timeout) {
-        dropZone.addClass('in');
-    } else {
-        clearTimeout(timeout);
-    }
-    var found = false,
-      	node = e.target;
-    do {
-        if (node === dropZone[0]) {
-       		found = true;
-       		break;
-       	}
-       	node = node.parentNode;
-    } while (node != null);
-    if (found) {
-        dropZone.addClass('hover');
-    } else {
-        dropZone.removeClass('hover');
-    }
-    window.dropZoneTimeout = setTimeout(function () {
-        window.dropZoneTimeout = null;
-        dropZone.removeClass('in hover');
-    }, 2000);
-});
-
- function remplirSelect (data) {
-   var optionData = data;
-          /*  optionData['fields']*/
-     /*     $("#uploaded-files").append('<div style="display:block;border:1px dashed #CCCCCC;">' + optionData['fields']['name'] + '</div>');
-      */    
- 
-} //Eof:: fucntion remplirSelect
-
-    $(function () {
- $('#fileupload').fileupload({
-      apc: true,
-      filesContainer: $('table.files'),
-       dropZone: $('#dropzone'),
-       acceptFileTypes : /(\.|\/)(gif|jpe?g|png|crt|pem|key|p12|zip)$/i,
-        uploadTemplateId: null,
-    downloadTemplateId: null,
-    dataType: 'json',
-    url: Routing.generate('certificats_fileupload'),
-    maxFileSize: 1000000, // 1000 kB
-    
-  
-   /* add: function (e, o) {
-        var rows = $();
-          $.each(o.files, function (index, file) {
-           console.log("fic=" + file.name);
-          
-              var row = $('<tr class="template-upload fade">' +
-                '<td><span class="preview"></span></td>' +
-                  '<button class="start">Start</button>'  +
-                 '<button class="cancel">Cancel</button>' +
-                '</td>' +
-                '</tr>');
-           row.find('.name').text(file.name);
-              rows = rows.add(row);   
-       
-        
-        var mybtn=$("<div class='added'>" +
-             file.name +  
-             '<div id="button"><button type="button" class="btn btn-primary">' + 
-             '<i class="icon-trash"></i><span>Upload</span></button></div></div>');
-         var mydiv=$("div#uploaded-files");
-         var myimg=$('<img src="' + URL.createObjectURL(o.files[0]) + '" width="200px" />');
-        o.context = myimg.appendTo(mydiv)
-         o.context = mybtn
-         .appendTo(mydiv)
-         
-                .click(function () {
-                    o.context = $('<p/>').text('Uploading...').replaceAll($(this));
-                    o.submit();
-                });
-                  });
-        },*/
-  /*  progressall: function (e, data) {
-        var progress = parseInt(data.loaded / data.total * 100, 10);
-        $('#progress .bar').css(
-            'width',
-            progress + '%'
-        );
-    },*/
-   /* success: function(reponse){
-            // Sur Succès de la réponse AJAX
-            var optionData = reponse;
-            remplirSelect(reponse);
-        },*/
-   uploadTemplate: function (o) {
-        var rows = $();
-        $.each(o.files, function (index, file) {
-            var row = $('<tr class="template-upload fade">' +
-                '<td><span class="preview"></span></td>' +
-                '<td><p class="name"></p>' +
-                (file.error ? '<div class="error"><strong></strong></div>' : '') +
-                '</td>' +
-                '<td><p class="size"></p>' +
-                (o.files.error ? '' : '<div class="progress"></div>') +
-                '</td>' +
-                '<td>' +
-                (!o.files.error && !index && !o.options.autoUpload ?
-                    '<button class="start btn btn-primary"><i class="icon-upload icon-black"></i> Start</button>' : '') +
-                (!index ? '<button class="cancel btn btn-danger""><i class="icon-upload icon-black"></i> Cancel</button>' : '') +
-                '</td>' +
-                '</tr>');
-            row.find('.name').text(file.name);
-            row.find('.size').text(o.formatFileSize(file.size));
-            if (file.error) {
-                row.find('.error').text(file.error);
-            }
-            rows = rows.add(row);
-        });
-        return rows;
-    },
-    downloadTemplate: function (o) {
-        var rows = $();
-        $.each(o.files, function (index, file) {
-            var row = $('<tr class="template-download fade">' +
-                '<td><span class="preview"></span></td>' +
-                '<td><p class="name"></p>' +
-                (file.error ? '<div class="error"></div>' : '') +
-                '</td>' +
-                '<td><span class="size"></span></td>' +
-                '<td><button class="delete">Delete</button></td>' +
-                '</tr>');
-            row.find('.size').text(o.formatFileSize(file.size));
-            if (file.error) {
-                row.find('.name').text(file.name);
-                row.find('.error').text(file.error);
-            } else {
-                row.find('.name').append($('<a></a>').text(file.name));
-                if (file.thumbnailUrl) {
-                    row.find('.preview').append(
-                        $('<a></a>').append(
-                            $('<img>').prop('src', file.thumbnailUrl)
-                        )
-                    );
-                }
-                row.find('a')
-                    .attr('data-gallery', '')
-                    .prop('href', file.url);
-                row.find('.delete')
-                    .attr('data-type', file.delete_type)
-                    .attr('data-url', file.delete_url);
-            }
-            rows = rows.add(row);
-        });
-        return rows;
-    },
-    done: function (e, reponse) {
-       var data = reponse;
-       /* $.each(data.result.files, function (index, file) {
-             
-           
-            });*/
-    }
-     /* done: function (e, reponse) {
-            var data = reponse;
-           
-            $.each(data.result.files, function (index, file) {
-             
-                $('<p/>').text(file.name).appendTo(document.body);
-            });
-        }*/
-   
-      
-    });
-   
-});
-
-
-</script>
-
+<script type="text/javascript" src="{{ asset('bundles/applicationcertificats/js/myfile-upload.js') }}"></script>
 {% endblock %}
 
 
@@ -221,120 +27,8 @@ $(document).bind('dragover', function (e) {
 <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/certifcatssearch.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.fileupload-ui.css') }}" type="text/css" media="all"/>  
 <link rel="stylesheet" href="{{ asset('bootstrap/css/blueimp-gallery.min.css') }}" type="text/css" media="all"/>  
-<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>  
-<style>
-    select[multiple], select[size] {height: 250px;}
-    textarea {width:400px;height:200px;}
-    tr.single {background-color: #f1f1f1;}
-    div.fichier{
-        padding:5px;background-color:whitesmoke;color:#0033cc;}
-/*.bar {
-    height: 18px;
-    background: green;
-}*/
-.added {
-    padding:5px;margin:5px;
-    width:200px;height:200px;
-    background-color:whitesmoke;
-    color:#0033cc;
-    float:left;
-}
-
-div.added div#button{
-margin-bottom:5px;}
-             
- .leserreurs {
-            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-            font-weight: bold;
-            font-size:12px;
-            color:red;
-        }
-        
-#dropzone {
-    background: palegreen;
-    width: 300px;
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-    font-weight: bold;
-}
-#dropzone.in {
-    width: 300px;
-    height: 200px;
-    line-height: 100px;
-    font-size: larger;
-}
-#dropzone.hover {
-    background: lawngreen;
-}
-#dropzone.fade {
-    -webkit-transition: all 0.3s ease-out;
-    -moz-transition: all 0.3s ease-out;
-    -ms-transition: all 0.3s ease-out;
-    -o-transition: all 0.3s ease-out;
-    transition: all 0.3s ease-out;
-    opacity: 1;
-}
-
-.fileupload-progress {
-	margin: 10px 0;
-}
-.fileupload-progress .progress-extended {
-	margin-top: 5px;
-}
-.error {
-  color: red;
-}
-.fileupload-buttonbar .btn,
-.fileupload-buttonbar .toggle {
-  margin-bottom: 5px;
-}
-.progress-animated .progress-bar,
-.progress-animated .bar {
-  background: url("../img/progressbar.gif") !important;
-  filter: none;
-}
-
-progress-bar-success {background-color: red;}
-
-
-.fileupload-process {
-  float: right;
-  display: none;
-}
-.fileupload-processing .fileupload-process,
-.files .processing .preview {
-  display: block;
-  width: 32px;
-  height: 32px;
-  background: url("/images/loading.gif") center no-repeat;
-  background-size: contain;
-}
-.files audio,
-.files video {
-  max-width: 300px;
-}
-
-@media (max-width: 767px) {
-  .fileupload-buttonbar .toggle,
-  .files .toggle,
-  .files .btn span {
-    display: none;
-  }
-  .files .name {
-    width: 80px;
-    word-wrap: break-word;
-  }
-  .files audio,
-  .files video {
-    max-width: 80px;
-  }
-  .files img,
-  .files canvas {
-    max-width: 100%;
-  }
-}
-    </style> 
+<link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/colorbox.css') }}" type="text/css" media="all"/>  
+<link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/myfile-upload.css') }}" type="text/css" media="all"/>  
 {% endblock %}
 
 
@@ -361,15 +55,15 @@ progress-bar-success {background-color: red;}
                    {# <input type="file" name="files[]" multiple>#}
                 </span>
                 <button type="submit" class="btn btn-primary start">
-                    <i class="icon-fire"></i>
+                    <i class="icon-upload"></i>
                     <span>Start upload</span>
                 </button>
                 <button type="reset" class="btn btn-warning cancel">
-                    <i class="icon-circle"></i>
+                    <i class=" icon-minus-sign"></i>
                     <span>Cancel upload</span>
                 </button>
                 <button type="button" class="btn btn-danger delete">
-                    <i class="glyphicon glyphicon-trash"></i>
+                    <i class="icon-trash"></i>
                     <span>Delete</span>
                 </button>
                 <input type="checkbox" class="toggle">
@@ -400,6 +94,9 @@ progress-bar-success {background-color: red;}
    
     </div>      
    
+  
+        <div class="row">
+    <div class="span8 offset1">
  <table class="table table-striped files" role="presentation">
   <tbody class="files">
  
@@ -463,4 +160,5 @@ progress-bar-success {background-color: red;}
     (% } %)
 </script>
 </table>
+            </div></div>
 {% endblock %}

@@ -6,6 +6,11 @@ certificatscenter:
 certificatscenter_operations:
     pattern:  /operations
     defaults: { _controller: "ApplicationCertificatsBundle:CertificatsCenter:indexoperations" }
+
+certificatscenter_simplecheck:
+    pattern:  /simplecheck
+    defaults: { _controller: "ApplicationCertificatsBundle:CertificatsCenter:simplecheckcert" }
+    
     
 certificatscenter_check:
     pattern:  /checkcert

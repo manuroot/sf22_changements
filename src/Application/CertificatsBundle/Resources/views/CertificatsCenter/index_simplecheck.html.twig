@@ -1,0 +1,149 @@
+{% extends "ApplicationCertificatsBundle::layout.html.twig" %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+
+<script type="text/javascript" src="{{ asset('jquery/fileupload/load-image.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/applicationcertificats/js/datenew.js') }}"></script>
+<script type="text/javascript" src="{{ asset('jquery/fileupload/jquery.iframe-transport.js') }}"></script>
+<script type="text/javascript" src="{{ asset('jquery/jquery.ui.widget.js') }}"></script>
+<script type="text/javascript" src="{{ asset('jquery/fileupload/jquery.fileupload.js') }}"></script>
+<script type="text/javascript" src="{{ asset('jquery/fileupload/jquery.fileupload-process.js') }}"></script>
+<script type="text/javascript" src="{{ asset('jquery/fileupload/jquery.fileupload-image.js') }}"></script>
+<script type="text/javascript" src="{{ asset('jquery/fileupload/jquery.fileupload-ui.js') }}"></script>
+<script type="text/javascript" src="{{ asset('jquery/fileupload/jquery.fileupload-validate.js') }}"></script>
+<script type="text/javascript" src="{{ asset('jquery/fileupload/jquery.ui.widget.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/tmpl.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/applicationcertificats/js/jquery.colorbox.js') }}"></script><script>
+    
+    $(document).ready(function() {
+    $("a.editme").colorbox({
+            iframe:true,
+            /*   data:{idchgmt:$(this).attr("data-idchgmt")},   */ 
+                  transition:	"elastic",
+            width:"70%",
+            height:"70%",
+              fastIframe:false,
+            opacity:0.3
+    });
+});
+$(document).bind('dragover', function (e) {
+    var dropZone = $('#dropzone'),
+        timeout = window.dropZoneTimeout;
+    if (!timeout) {
+        dropZone.addClass('in');
+    } else {
+        clearTimeout(timeout);
+    }
+    var found = false,
+      	node = e.target;
+    do {
+        if (node === dropZone[0]) {
+       		found = true;
+       		break;
+       	}
+       	node = node.parentNode;
+    } while (node != null);
+    if (found) {
+        dropZone.addClass('hover');
+    } else {
+        dropZone.removeClass('hover');
+    }
+    window.dropZoneTimeout = setTimeout(function () {
+        window.dropZoneTimeout = null;
+        dropZone.removeClass('in hover');
+    }, 2000);
+});
+ function remplirSelect (data) {
+   var optionData = data;
+        
+ 
+} //Eof:: fucntion remplirSelect
+
+   
+ $('#fileupload').each(function () {
+     
+      $(this).fileupload({
+     dropZone: $(this),
+    dataType: 'json',
+    url: Routing.generate('certificats_fileupload',{'onlycheck':'true'}),
+    maxFileSize: 100000, // 100 kB
+    start: function (e) {   
+    $('#progress .bar').css('width','0%');
+    },
+     progressall: function (e, data) {
+        var progress = parseInt(data.loaded / data.total * 100, 10);
+        $('#progress .bar').css(
+            'width',
+            progress + '%'
+        );
+    },
+    success: function(reponse){
+            // Sur Succès de la réponse AJAX
+            var optionData = reponse;
+            remplirSelect(reponse);
+        },
+      
+    });
+    
+});
+
+
+</script>
+{% endblock %}
+
+
+{% block stylesheets %}
+{{ parent() }} 
+<link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/sliding.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/certifcatssearch.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.fileupload-ui.css') }}" type="text/css" media="all"/>  
+<link rel="stylesheet" href="{{ asset('bootstrap/css/blueimp-gallery.min.css') }}" type="text/css" media="all"/>  
+<link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/colorbox.css') }}" type="text/css" media="all"/>  
+<link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/myfile-upload.css') }}" type="text/css" media="all"/>  
+{% endblock %}
+
+
+{% block content_header '' %}
+    
+{% block title %} CERTIFICAT {% endblock %}
+
+{% block content %}
+<br/><br/>
+
+       <form  class="fileupload" action="{{ path('certificatscenter_operations')}}" method="post" enctype="multipart/form-data">
+       <div class="row">
+    
+    <div class="span3 offset1">
+       {{ form_row(form.operations_view) }}
+            
+               <button type="submit" class="btn btn-medium btn-warning">Valider</button>
+            </div>
+       <div class="span3">
+            <input id="file" type="file" name="fichier_certificat[file]" multiple=false>
+    
+    
+  
+    <div class="progress">
+        <div class="bar" style="width: 0%;"></div>
+    </div>
+    <a class="editme" href="{{ path('certificats_documents_xhtml', { 'id': 0 }) }}">
+       <span class="icon-stack icon-2x">
+            <i class="icon-check-empty icon-stack-base"></i>
+            <i class="icon-archive"></i>
+        </span>   
+    </a>
+    Sélectionner 
+    </div>
+    <div class="span4 offset1">
+       <div id="dropzone" class="fade well">Drop files here</div>
+        <div id="detailfichier" class="fade well"></div>
+    </div>
+    </div>
+</form>
+
+ 
+        
+{% endblock %}

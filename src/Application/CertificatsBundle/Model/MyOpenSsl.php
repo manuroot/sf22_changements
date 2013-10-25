@@ -401,7 +401,7 @@ class MyOpenSsl {
     public function Parse_x509_light($name) {
 //===============================
         $data=$this->Parse_x509($name);
-        
+       /* var_dump($data);*/
         $validfrom = date('Y-m-d', $data['validFrom_time_t']);
         $validto = date('Y-m-d', $data['validTo_time_t']);
         $cn = $data['subject']['CN'];

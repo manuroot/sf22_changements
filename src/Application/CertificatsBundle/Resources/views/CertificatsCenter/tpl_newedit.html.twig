@@ -200,7 +200,7 @@ $(document).bind('dragover', function (e) {
 
 {% block content_header '' %}
     
-{% block title %}{{ titre }}  CERTIFICAT {% endblock %}
+{% block title %}PKI: {{ titre }}  FICHIER {% endblock %}
 
 {% block content %}
 
@@ -267,7 +267,7 @@ $(document).bind('dragover', function (e) {
         {% endif %}
         </div>                                                   
 
-     <div id="dropzone" class="fade well">Drop files here</div>
+     <div id="dropzone" class="fade well">Déplacer Fichier ici</div>
     {% do form.fichier.setRendered() %}
 </div>
             {% if action == 'edit' %}       
@@ -334,33 +334,5 @@ $(document).bind('dragover', function (e) {
 </td></tr>
 </table>
 </form>
-        
-        
-               
-                          {#      <form id="fileupload" enctype="multipart/form-data">
-                                       <input type="hidden"  name="myfile"  value="1">
-    <div class="row">
-        <div class="span16 fileupload-buttonbar">
-            <div class="progressbar fileupload-progressbar"><div style="width:0%;"></div></div>
-            <span class="btn btn-success fileinput-button">
-                <span>Add file...</span>
-                <input id="file" type="file" name="files" multiple=false>
-            </span>
-            <!-- Extra file input start /-->
-          
-            <!--/ Extra file input stop -->
-            <button type="submit" class="btn btn-primary start">Start upload</button>
-            <button type="reset" class="btn btn-info cancel">Cancel upload</button>
-            <button type="button" class="btn btn-danger delete">Delete selected</button>
-            <input type="checkbox" class="toggle">
-        </div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="span16">
-            <table class="zebra-striped"><tbody class="files"></tbody></table>
-        </div>
-    </div>
-</form>
-#}
+      
 {% endblock %}
