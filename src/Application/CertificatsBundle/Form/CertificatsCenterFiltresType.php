@@ -66,11 +66,19 @@ class CertificatsCenterFiltresType extends AbstractType {
                     'left_date_options' => array(
                              'attr' => array('placeholder' => '> date Fin',
                                  'style'=>'width:150px'),
+                        'widget_addon' => array(
+                        'icon' => 'time',
+                        'type' => 'prepend'
+                    ),
                         'widget' => 'single_text'
                     /* 'time_widget' => 'single_text' */
                     ),
                     'right_date_options' => array(
                             'attr' => array('placeholder' => '< date Fin','style'=>'width:150px'),
+                        'widget_addon' => array(
+                        'icon' => 'time',
+                        'type' => 'prepend'
+                    ),
                         'widget' => 'single_text'
                     /* 'time_widget' => 'single_text' */
                     ),

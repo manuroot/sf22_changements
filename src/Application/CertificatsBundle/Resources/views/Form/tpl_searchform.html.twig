@@ -46,25 +46,21 @@
 {% endblock filter_number_range_widget %}
 
 {% block filter_date_range_widget %}
-    <div class="filter-date-range">
-       {# {{ dump(form.left_date.vars.attr) }}#}
-          {#  {% for key in form.left_date.vars.attr %}
-   k= --{{key}}--
-{% endfor %}#}
-      {#  <i class="icon-pencil"></i> #}
+    
+   <div class="filter-date-range">
           <div class="input-prepend">
-                <span class="add-on"><i class="icon-time"></i></span> {{ form_widget(form.left_date, {'attr': attr}) }}
+        {#        <span class="add-on"><i class="icon-time"></i></span>#}
+         {{ form_widget(form.left_date, {'attr': attr}) }}
             </div>
-           
-            <div class="input-prepend">
-                <span class="add-on"><i class="icon-time"></i></span> {{ form_widget(form.right_date, {'attr': attr}) }}
+        <br/>   <br/>
+   <div class="input-prepend">
+{#                <span class="add-on"><i class="icon-time"></i></span> #}
+{{ form_widget(form.right_date, {'attr': attr}) }}
             </div>
-     {#   {{ form_widget(form.left_date, {'attr': attr}) }}
-        {{ form_widget(form.right_date, {'attr': attr}) }}#}
     </div>
  <br><br>
 {% endblock filter_date_range_widget %}
- 
+
  
 {# Labels #}
 

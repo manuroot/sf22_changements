@@ -37,7 +37,9 @@
     {{ form_errors(search_form.endTime) }}
     {{ form_label(search_form.endTime, 'Date De Fin'|trans) }}
     {{ form_widget(search_form.endTime) }}
-                                        
+              </td>
+ <td class="calendar">
+                             
   {{ form_errors(search_form.project) }}
     {{ form_label(search_form.project, 'Projet'|trans) }}
     {{ form_widget(search_form.project) }}
@@ -53,7 +55,7 @@
 
   </td>
    </tr>
-   <tr><td class="calendar" colspan="2">
+   <tr><td class="calendar" colspan="3">
             
      <button id="filter" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="filter" >
           <i class="icon-search"></i>  Filtrer</button>
