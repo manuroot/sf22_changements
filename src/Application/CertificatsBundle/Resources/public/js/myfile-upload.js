@@ -47,21 +47,28 @@ $(document).bind('dragover', function (e) {
       */    
  
 } //Eof:: fucntion remplirSelect
-
+/*
+window.tmpl = function (id) {
+    if (id === 'template-upload') {
+        return function (o) {
+            return '<tr class="template-upload"><!-- ... --></tr>';
+        };
+    }
+   };*/
     $(function () {
  $('#fileupload').fileupload({
       apc: true,
       filesContainer: $('table.files'),
        dropZone: $('#dropzone'),
        acceptFileTypes : /(\.|\/)(gif|jpe?g|png|crt|pem|key|p12|zip)$/i,
-        uploadTemplateId: null,
+     uploadTemplateId: null,
     downloadTemplateId: null,
     dataType: 'json',
     url: Routing.generate('certificats_fileupload'),
     maxFileSize: 1000000, // 1000 kB
 
    uploadTemplate: function (o) {
-        var rows = $();
+     var rows = $();
         $.each(o.files, function (index, file) {
             var row = $('<tr class="template-upload fade">' +
                 '<td><span class="preview"></span></td>' +
@@ -95,8 +102,10 @@ $(document).bind('dragover', function (e) {
                 (file.error ? '<div class="error"></div>' : '') +
                 '</td>' +
                 '<td><span class="size"></span></td>' +
-                '<td><button class="delete">Delete</button></td>' +
-                '</tr>');
+                '<td><button class="delete btn-danger">'+
+                '<i class="icon-upload icon-black"></i> Clear</button>' +
+                '  <input type="checkbox" name="delete" value="1">' + 
+                '</td></tr>');
             row.find('.size').text(o.formatFileSize(file.size));
             if (file.error) {
                 row.find('.name').text(file.name);
@@ -106,7 +115,7 @@ $(document).bind('dragover', function (e) {
                 if (file.thumbnailUrl) {
                     row.find('.preview').append(
                         $('<a></a>').append(
-                            $('<img>').prop('src', file.thumbnailUrl)
+                            $('<img width="70px;">').prop('src', file.thumbnailUrl)
                         )
                     );
                 }
@@ -117,18 +126,19 @@ $(document).bind('dragover', function (e) {
                     .attr('data-type', file.delete_type)
                     .attr('data-url', file.delete_url);
             }
+            row.append('');
             rows = rows.add(row);
         });
         return rows;
-    },
-    done: function (e, reponse) {
+    }
+   /* done: function (e, reponse) {
        var data = reponse;
-       /* $.each(data.result.files, function (index, file) {
+       $.each(data.result.files, function (index, file) {
              
            
-            });*/
-    }
-     /* done: function (e, reponse) {
+            });
+    }*/
+    /* done: function (e, reponse) {
             var data = reponse;
            
             $.each(data.result.files, function (index, file) {

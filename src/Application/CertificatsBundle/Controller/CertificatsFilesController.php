@@ -588,6 +588,8 @@ $parameters=array();
         $em = $this->getDoctrine()->getManager();
         $alldatas = $request->request->all();
         $certificats['fields'] = array();
+        $certificats['files'] = array();
+        $addfiles=array();
        // $check_entity = $request->query->get('onlycheck');
      //  print_r($check_entity);
        // exit(1);
@@ -607,15 +609,28 @@ $parameters=array();
             $id_fichier = $entity->getId();
             $filename = $entity->getPath();
             $path = $this->get('kernel')->getRootDir() . "/../" . $entity->getDownloadDir();
+            $url_upload=$entity->getWebPath();
             $fic = $path . $filename;
             if (file_exists($fic)) {
                /* Marche pas sous windows */
                 $openssl = new MyOpenSsl();
+                $url_download = $this->generateUrl('certificatscenter_download', array('id'=> $id_fichier /* parameters */));
+                $url_delete = $this->generateUrl('certificats_documents_delete', array('id'=> $id_fichier /* parameters */));
+                 $url_delete = $this->generateUrl('certificats_documents_delete', array('id'=> $id_fichier /* parameters */));
                 $certificats=$openssl->Parse_x509_light($fic);
                 $certificats['fields']['id'] = $id_fichier;
                 $certificats['fields']['name'] =  $original_name;
+                $addfiles = array("name"=> "$original_name",
+    "size"=> filesize($fic),
+    "url"=> "$url_download",
+    "thumbnailUrl"=> "/$url_upload",
+    "deleteUrl"=> "$url_delete",
+    "deleteType"=> "DELETE");
+  
             }
         }
+                    $certificats['files'][0]=$addfiles;
+        //print_r($certificats);
         $retour = new Response(json_encode($certificats));
         //$response = new Response(json_encode(array('response'=>$response)));
         $retour->headers->set('Content-Type', 'application/json');

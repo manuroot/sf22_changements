@@ -29,6 +29,65 @@
 <link rel="stylesheet" href="{{ asset('bootstrap/css/blueimp-gallery.min.css') }}" type="text/css" media="all"/>  
 <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/colorbox.css') }}" type="text/css" media="all"/>  
 <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/myfile-upload.css') }}" type="text/css" media="all"/>  
+{#<style>
+.bar_content { display:inline-block; }
+ 
+.progress-bar {
+	background-color: #1a1a1a;
+	height: 25px;
+	padding: 5px;
+	width: 90%;
+	min-width:250px;
+	overflow:hidden;
+	 margin: 20px auto;		
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-moz-box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
+	-webkit-box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
+	box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;           
+}
+ 
+.progress-bar span {
+	float:left;
+	display: inline-block;
+	height: 100%;
+	background-color: #777;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-moz-box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+	-webkit-transition: width .4s ease-in-out;
+	-moz-transition: width 1.4s ease-in-out;
+	-ms-transition: width 1.4s ease-in-out;
+	-o-transition: width 1.4s ease-in-out;
+	transition: width 1.4s ease-in-out;		
+ 
+}
+   .fileupload-buttonbar .btn,
+.fileupload-buttonbar .toggle {
+  margin-bottom: 5px;
+}
+.progress-animated .progress-bar,
+.progress-animated .bar {
+  background: url("/images/progressbar.gif") !important;
+  filter: none;
+}
+.fileupload-process {
+  float: right;
+  display: none;
+}
+.fileupload-processing .fileupload-process,
+.files .processing .preview {
+  display: block;
+  width: 32px;
+  height: 32px;
+  background: url("../images/loading.gif") center no-repeat;
+  background-size: contain;
+}  
+</style>#}
 {% endblock %}
 
 
@@ -42,7 +101,9 @@
        <div class="row">
     <div class="span8 offset1">
         
-<form id="fileupload" action="{{ path('certificats_documents_ajouter') }}" method="post" enctype="multipart/form-data">
+{#<form id="fileupload" action="{{ path('certificats_documents_ajouter') }}" method="post" enctype="multipart/form-data">
+#}
+        <form id="fileupload" action="#" method="post" enctype="multipart/form-data">
         <!-- Redirect browsers with JavaScript disabled to the origin page -->
          <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
         <div class="row fileupload-buttonbar">
@@ -51,7 +112,7 @@
                 <span class="btn btn-success fileinput-button">
                     <i class="icon-plus"></i>
                     <span>Add files...</span>
-                     <input id="file" type="file" name="fichier_certificat[file]" multiple=false>
+                     <input id="file" type="file" name="fichier_certificat[file]" multiple=true>
                    {# <input type="file" name="files[]" multiple>#}
                 </span>
                 <button type="submit" class="btn btn-primary start">
@@ -71,6 +132,15 @@
                 <span class="fileupload-process"></span>
             </div>
             <!-- The global progress state -->
+             <div class="col-lg-5 fileupload-progress fade">
+                <!-- The global progress bar -->
+                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+                </div>
+                <!-- The extended global progress state -->
+                <div class="progress-extended">&nbsp;</div>
+            </div>
+            {#
             <div class="col-lg-5 fileupload-progress fade">
                 <!-- The global progress bar -->
                 <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
@@ -79,6 +149,7 @@
                 <!-- The extended global progress state -->
                 <div class="progress-extended">&nbsp;</div>
             </div>
+#}
        
             </div>
           <div id="dropzone" class="fade well">Drop files here</div>
@@ -98,7 +169,7 @@
         <div class="row">
     <div class="span8 offset1">
  <table class="table table-striped files" role="presentation">
-  <tbody class="files">
+ {#<tbody class="files">
  
   <script id="template-upload" type="text/x-tmpl">
     (% for (var i=0, file; file=o.files[i]; i++) { %)
@@ -152,13 +223,14 @@
         <td class="delete">
             <button class="btn btn-danger" data-type="(%=file.delete_type%)" data-url="(%=file.delete_url%)"(% if (file.delete_with_credentials) { %) data-xhr-fields='{"withCredentials":true}'(% } %)>
             <i class="icon-trash icon-white"></i>
-            <span>Delete</span>
+            <span>XXDelete</span>
             </button>
             <input type="checkbox" name="delete" value="1">
         </td>
     </tr>
     (% } %)
 </script>
+</tbody> #}
 </table>
             </div></div>
 {% endblock %}
