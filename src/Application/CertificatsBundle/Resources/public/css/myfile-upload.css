@@ -66,7 +66,7 @@ margin-bottom:5px;}
 }
 .progress-animated .progress-bar,
 .progress-animated .bar {
-  background: url("../img/progressbar.gif") !important;
+  background: url("/images/progressbar.gif") !important;
   filter: none;
 }
 
@@ -108,4 +108,14 @@ progress-bar-success {background-color: red;}
   .files canvas {
     max-width: 100%;
   }
+}
+
+.fileupload-progress {
+margin: 10px 0;
+}
+.fileupload-progress .progress-extended {
+margin-top: 5px;
+}
+.error {
+  color: red;
 }

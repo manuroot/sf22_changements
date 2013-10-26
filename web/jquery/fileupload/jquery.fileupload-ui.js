@@ -293,10 +293,10 @@
                     });
                 that._transition($(this).find('.fileupload-progress')).done(
                     function () {
-                        $(this).find('.progress')
+                       $(this).find('.progress')
                             .attr('aria-valuenow', '0')
                             .children().first().css('width', '0%');
-                        $(this).find('.progress-extended').html('&nbsp;');
+                     $(this).find('.progress-extended').html('&nbsp;');
                         deferred.resolve();
                     }
                 );

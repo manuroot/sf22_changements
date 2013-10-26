@@ -31,11 +31,56 @@
 <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/colorbox.css') }}" type="text/css" media="all"/>  
 <link rel="stylesheet" href="{{ asset('bundles/applicationcertificats/css/myfile-upload.css') }}" type="text/css" media="all"/>  
 <style>
+
+    .bar {
+    height: 18px;
+    background: green;
+}
+ .progress-success,progress-bar-success  {
+    height: 18px;
+    background: blue;
+}
+
+@-webkit-keyframes progress-bar-stripes {
+  from {
+    background-position: 40px 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+@-moz-keyframes progress-bar-stripes {
+  from {
+    background-position: 40px 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+@-o-keyframes progress-bar-stripes {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 40px 0;
+  }
+}
+
+@keyframes progress-bar-stripes {
+  from {
+    background-position: 40px 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
 .progress {
   height: 20px;
   margin-bottom: 20px;
   overflow: hidden;
- 
   background-color: #f5f5f5;
   border-radius: 4px;
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -64,19 +109,115 @@
   background-size: 40px 40px;
 }
 
+.progress.active .progress-bar {
+  -webkit-animation: progress-bar-stripes 2s linear infinite;
+     -moz-animation: progress-bar-stripes 2s linear infinite;
+      -ms-animation: progress-bar-stripes 2s linear infinite;
+       -o-animation: progress-bar-stripes 2s linear infinite;
+          animation: progress-bar-stripes 2s linear infinite;
+}
+
+.progress-bar-success {
+  background-color: #5cb85c;
+}
+
+.progress-striped .progress-bar-success {
+  background-image: -webkit-gradient(linear, 0 100%, 100% 0, color-stop(0.25, rgba(255, 255, 255, 0.15)), color-stop(0.25, transparent), color-stop(0.5, transparent), color-stop(0.5, rgba(255, 255, 255, 0.15)), color-stop(0.75, rgba(255, 255, 255, 0.15)), color-stop(0.75, transparent), to(transparent));
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -moz-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+
+.progress-bar-info {
+  background-color: #5bc0de;
+}
+
+.progress-striped .progress-bar-info {
+  background-image: -webkit-gradient(linear, 0 100%, 100% 0, color-stop(0.25, rgba(255, 255, 255, 0.15)), color-stop(0.25, transparent), color-stop(0.5, transparent), color-stop(0.5, rgba(255, 255, 255, 0.15)), color-stop(0.75, rgba(255, 255, 255, 0.15)), color-stop(0.75, transparent), to(transparent));
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -moz-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+
+.progress-bar-warning {
+  background-color: #f0ad4e;
+}
+
+.progress-striped .progress-bar-warning {
+  background-image: -webkit-gradient(linear, 0 100%, 100% 0, color-stop(0.25, rgba(255, 255, 255, 0.15)), color-stop(0.25, transparent), color-stop(0.5, transparent), color-stop(0.5, rgba(255, 255, 255, 0.15)), color-stop(0.75, rgba(255, 255, 255, 0.15)), color-stop(0.75, transparent), to(transparent));
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -moz-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+
+.progress-bar-danger {
+  background-color: #d9534f;
+}
+
+.progress-striped .progress-bar-danger {
+  background-image: -webkit-gradient(linear, 0 100%, 100% 0, color-stop(0.25, rgba(255, 255, 255, 0.15)), color-stop(0.25, transparent), color-stop(0.5, transparent), color-stop(0.5, rgba(255, 255, 255, 0.15)), color-stop(0.75, rgba(255, 255, 255, 0.15)), color-stop(0.75, transparent), to(transparent));
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -moz-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
     </style>
+<style>
+/*.bar_content { display:inline-block; }*/
+ /*
+.progress-bar {
+	background-color: #1a1a1a;
+	height: 25px;
+	padding: 5px;
+	width: 90%;
+	min-width:250px;
+	overflow:hidden;
+	 margin: 20px auto;		
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-moz-box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
+	-webkit-box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
+	box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;           
+}
+ 
+.progress-bar span {
+	float:left;
+	display: inline-block;
+	height: 100%;
+	background-color: #777;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-moz-box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+	-webkit-transition: width .4s ease-in-out;
+	-moz-transition: width 1.4s ease-in-out;
+	-ms-transition: width 1.4s ease-in-out;
+	-o-transition: width 1.4s ease-in-out;
+	transition: width 1.4s ease-in-out;		
+ 
+}
+}*/
+
+.progress-animated .progress-bar,
+.progress-animated .bar {
+  background: url("/images/progressbar.gif") !important;
+  filter: none;
+}
+</style>
 {% endblock %}
 
 
 {% block content_header '' %}
     
-{% block title %}AJOUTER DES FICHIERS {% endblock %}
+{% block title %}AJOUTER CERTIFICAT {% endblock %}
 
 {% block content %}
 
   <br><br>
        <div class="row">
-    <div class="span7 offset1">
+    <div class="span8 offset1">
         
 {#<form id="fileupload" action="{{ path('certificats_documents_ajouter') }}" method="post" enctype="multipart/form-data">
 #}
@@ -109,6 +250,12 @@
                 <span class="fileupload-process"></span>
             </div>
             <!-- The global progress state -->
+          {#
+  <div id="progress" class="progress progress-success progress-striped">
+    <div class="bar"></div>
+  </div>
+            #}
+            
              <div class="col-lg-5 fileupload-progress fade">
                 <!-- The global progress bar -->
                 <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
@@ -117,14 +264,28 @@
                 <!-- The extended global progress state -->
                 <div class="progress-extended">&nbsp;</div>
             </div>
+            {#
+            <div class="col-lg-5 fileupload-progress fade">
+                <!-- The global progress bar -->
+                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+                </div>
+                <!-- The extended global progress state -->
+                <div class="progress-extended">&nbsp;</div>
             </div>
-           </div>
-               
-               <div class="span4">
+#}
+       
+            </div>
           <div id="dropzone" class="fade well">Drop files here</div>
-          </div>
+        <!-- The table listing the files available for upload/download -->
+     {#  <div id="uploaded-files"> 
+           </div>
+         <table role="presentation" class="table table-striped"><tbody class="files">
+         <tr class="template-download fade">
+                
+             </tbody></table>#}
     </form> 
-    
+      </div>
    
     </div>      
    
@@ -132,11 +293,10 @@
         <div class="row">
     <div class="span8 offset1">
  <table class="table table-striped files" role="presentation">
-<tbody class="files">
+ {#<tbody class="files">
  
   <script id="template-upload" type="text/x-tmpl">
-{% raw %}
-          (% for (var i=0, file; file=o.files[i]; i++) { %)
+    (% for (var i=0, file; file=o.files[i]; i++) { %)
     <tr class="template-upload fade">
         <td class="preview"><span class="fade"></span></td>
         <td class="name"><span>(%=file.name%)</span></td>
@@ -164,13 +324,10 @@
             (% } %)</td>
     </tr>
     (% } %)
-    {% endraw %}
 </script>
-
 <!-- The template to display files available for download -->
 <script id="template-download" type="text/x-tmpl">
- {% raw %}
-        (% for (var i=0, file; file=o.files[i]; i++) { %)
+    (% for (var i=0, file; file=o.files[i]; i++) { %)
     <tr class="template-download fade">
         (% if (file.error) { %)
         <td></td>
@@ -196,13 +353,8 @@
         </td>
     </tr>
     (% } %)
-     {% endraw %}
 </script>
-</tbody> 
+</tbody> #}
 </table>
             </div></div>
 {% endblock %}
-  
-    {% block footer %}
-
-                  {% endblock %}

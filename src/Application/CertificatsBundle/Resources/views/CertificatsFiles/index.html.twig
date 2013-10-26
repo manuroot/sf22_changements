@@ -143,10 +143,16 @@ FICHIERS-CERTIFICATS
                 </td>
                 <td>
 
-
+                    
+                     <form method="post" action="{{ path('certificats_documents_delete', { 'id': entity.id }) }}">
+            <button type="submit"><img src="{{ asset('bundles/applicationcertificats/images/delete.png') }}" alt="delete" width="15" height="15" />
+            </button>
+        
+        </form>
+{#
                     <a href="{{ path('certificats_documents_delete', { 'id': entity.id }) }}">
                         <img src="{{ asset('bundles/applicationcertificats/images/delete.png') }}" alt="delete" width="15" height="15" />
-                    </a>
+                    </a>#}
                 </td>
 
                            {% endif %}  

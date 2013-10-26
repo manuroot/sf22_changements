@@ -45,12 +45,7 @@ body {
         {% endstylesheets %}#}
 {# filter='?yui_css' en dev #}
         {% endblock %}
-      {#    <script src="{{ asset('jquery/jquery-1.10.2.min.js') }}" type="text/javascript"></script>
-          <script type="text/javascript" src="{{ asset('jquery/jquery-ui-1.9.2.custom.min.js') }}"></script>
-          <script type="text/javascript" src="{{ asset('jquery/jquery.ui.datepicker.js') }}"></script>
-          <script type="text/javascript" src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
-          <script type="text/javascript" src="{{ asset('bootstrap/js/bootbox.min.js') }}"></script>
-#}
+     
     </head>
         <body>
             <div class="container">
@@ -70,9 +65,9 @@ body {
                             <div id="footer">
                                 <p align="center">{{ 'contact: mroot72000@yahoo.fr'|trans }} © 2013</p>
                             </div>        
-                        </div>
+                       
                   {% endblock %}
-
+ </div>
 
                         <!-- Le javascript ================================================== -->
                         <!-- Placed at the end of the document so the pages load faster sans assetic -->
@@ -83,16 +78,7 @@ body {
           <script type="text/javascript" src="{{ asset('jquery/jquery.ui.datepicker.js') }}"></script>
           <script type="text/javascript" src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
           <script type="text/javascript" src="{{ asset('bootstrap/js/bootbox.min.js') }}"></script>
-
-          
-                       {#<script src="{{ asset('jquery/jquery-1.9.1.js') }}" type="text/javascript"></script>
-                       #}
-                   {#         <script src="{{ asset('jquery/jquery-1.10.2.min.js') }}" type="text/javascript"></script>
-                           <script type="text/javascript" src="{{ asset('jquery/jquery-ui-1.9.2.custom.min.js') }}"></script>
-                        <script type="text/javascript" src="{{ asset('jquery/jquery.ui.datepicker.js') }}"></script>
-                        <script type="text/javascript" src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
-                         <script type="text/javascript" src="{{ asset('bootstrap/js/bootbox.min.js') }}"></script>
-    #}   {% endblock %}
+      {% endblock %}
 
 
                     </body>

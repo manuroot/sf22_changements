@@ -426,10 +426,10 @@ $parameters=array();
      *
      */
     public function deleteAction(Request $request, $id) {
-        $form = $this->createDeleteForm($id);
-        $form->bind($request);
+       // $form = $this->createDeleteForm($id);
+     //   $form->bind($request);
 
-        if ($form->isValid()) {
+      ///  if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('ApplicationCertificatsBundle:CertificatsFiles')->find($id);
 
@@ -439,7 +439,7 @@ $parameters=array();
 
             $em->remove($entity);
             $em->flush();
-        }
+       // }
 
         return $this->redirect($this->generateUrl('certificats_documents'));
     }
@@ -707,7 +707,8 @@ $parameters=array();
         $retour->headers->set('Content-Type', 'application/json');
         return $retour;
     }
-    
+     
+
     
 }
 
