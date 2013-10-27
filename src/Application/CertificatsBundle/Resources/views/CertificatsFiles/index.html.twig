@@ -43,8 +43,23 @@ label,.mondiv { color:#02195e; font-size: 12px;
     
 {% block javascripts %}
     {{ parent() }}
-   <script type="text/javascript" src="{{ asset('js/compiled/ccertificats.js') }}"></script>
+    
  
+ 		
+    
+   <script type="text/javascript" src="{{ asset('js/compiled/ccertificats.js') }}"></script>
+ <script>
+    $(document).ready(function(){    
+   $(".deletefichier").bind('click', function(event) {
+   console.log("submit delete");
+       event.preventDefault();
+       var form = $(this).parents('form:first');
+   form.submit();
+});
+});
+</script>
+
+
    {{ form_javascript(search_form) }}
 {% endblock %}
 
@@ -144,10 +159,12 @@ FICHIERS-CERTIFICATS
                 <td>
 
                     
-                     <form method="post" action="{{ path('certificats_documents_delete', { 'id': entity.id }) }}">
-            <button type="submit"><img src="{{ asset('bundles/applicationcertificats/images/delete.png') }}" alt="delete" width="15" height="15" />
-            </button>
-        
+                     <form method="post" class="deleteformfichier" action="{{ path('certificats_documents_delete', { 'id': entity.id }) }}">
+                    <a href="{{ path('certificats_documents_delete', { 'id': entity.id }) }}" class="deletefichier">
+                 <img src="{{ asset('bundles/applicationcertificats/images/delete.png') }}" alt="delete" width="15" height="15" />
+            
+            </a>
+      {#  <a href="{{ path(app.session.get('confirmation').no) }}" class="btn blue">Cancel</a>#}
         </form>
 {#
                     <a href="{{ path('certificats_documents_delete', { 'id': entity.id }) }}">

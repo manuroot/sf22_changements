@@ -67,7 +67,8 @@ media:
 #  resource: "@RizzaCalendarBundle/Resources/config/routing/event.yml"
 #  prefix: /event
   
-
+adesigns_calendar:
+  resource: "@ADesignsCalendarBundle/Resources/config/routing.xml"    
     
 usermedia:
     resource: '@ApplicationSonataMediaBundle/Resources/config/routing.yml'

@@ -162,10 +162,22 @@ class CertificatsCenterController extends Controller {
      * 
       =================================================================== */
 
-    public function simplecheckcertAction() {
+    public function simplecheckcertAction(Request $request) {
         $entity = new CertificatsActions();
         //  $myForm = $this->createForm(new CertificatsActionsType(),$entity);
         $form = $this->createForm(new CertificatsCenterSimpleCheckType());
+       
+        if ($request->getMethod() == 'POST') {
+            $postData = $request->request->get('checkcert');
+          /*  $form->bind($postData);
+            $ssl = new MyOpenSsl();
+            $all_ope = $ssl->getOperations();
+            $all_fic = $ssl->getFichiers();
+            $arr = array($all_ope, $all_fic);*/
+            var_dump($postData);
+            //  var_dump($arr);
+       
+        }
         return $this->render('ApplicationCertificatsBundle:CertificatsCenter:index_simplecheck.html.twig', array(
                     'form' => $form->createView(),
                         // 'myform'=> $myForm->createView(),

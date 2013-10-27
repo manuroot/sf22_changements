@@ -96,8 +96,9 @@ LISTE DES {{ parent() }}
 
 {% block footer %}
 {% endblock %}
-
+ 
 {% block grid_actions %}
+ {% if is_granted('ROLE_SUPER_ADMIN')  %}
 <div class="mass-actions">
 <span class="grid_massactions_helper">
         <a href="#" onclick="return {{ grid.hash }}_markVisible(true);">{{ 'Select visible'|trans }}</a> |
@@ -123,9 +124,9 @@ LISTE DES {{ parent() }}
     {% endspaceless %}
         <br><br>
 </div>
-
+ {% endif %}   
 {% endblock grid_actions %}
-            
+        
 {# -------------------------------------------------- grid_filters -------------------------------------------------- #}
 {#{% block grid_filters %}
   
@@ -197,18 +198,22 @@ LISTE DES {{ parent() }}
 
 {# -------------------------------------------- grid_column_filter_type_massaction --------------------------------------- #}
 {% block grid_column_filter_type_massaction %}
+                        {% if is_granted('ROLE_SUPER_ADMIN')  %}
    <!-- <input type="button" class="grid-search-reset" value="R" title="{{ 'Reset'|trans }}" onclick="return {{ grid.hash }}_reset();"/>-->
    
   <button type="button" class="btn btn-small btn-primary" value="Reset" title="{{ 'Reset'|trans }}" onclick="return {{ grid.hash }}_reset();">
-     <i class="icon-minus-sign"></i> CLEAR</button>
+     {#<i class="icon-minus-sign"></i>#}
+     CLEAR</button>
 {#
 <input type="button" class="btn btn-small btn-warning" value="Reset" title="{{ 'Reset'|trans }}" onclick="return {{ grid.hash }}_reset();"/>
-#}
+#}{% endif %}                     
 {% endblock grid_column_filter_type_massaction %}
+   
+                        
 {# -------------------------------------------- grid_column_filter_type_massaction_filter --------------------------------------- #}
 {% block grid_column_filter_type_actions %}
     <a href="{{ grid_url('reset', grid) }}">
-        <button type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
+        <button type="submit" name="submit-filter" class="btn btn-small btn-warning" value="show" >
             <i class="icon-minus-sign"></i> CLEAR </button>
     </a>
 {% endblock grid_column_filter_type_actions %}
