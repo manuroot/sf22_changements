@@ -480,11 +480,41 @@ $(document).ready(function() {
      *  Fonctions: select2 pour formulaire
      ========================================================*/
 
-    function format(state) {
+    function formatsmall(state) {
         if (!state.id)
             return state.text; // optgroup
         return "<img class='flag' src='" + img_s_path + state.id.toLowerCase() + ".png'/> " + state.text;
     }
+    function format(state) {
+        if (!state.id)
+            return state.text; // optgroup
+        return "<img width='10px' class='flag' src='" + img_s_path + state.id.toLowerCase() + ".png'/> " + state.text;
+    }
+$("#searchstatus_idStatus").select2({
+        placeholder: "-- Choisir Statut(s) --",
+        allowClear: true,
+        formatResult: formatsmall,
+        formatSelection: formatsmall,
+        escapeMarkup: function(m) {
+            return m;
+        }
+    });
+
+$("#searchstatus_idStatus").click(function() {
+        var myval=$("#searchstatus_idStatus").val();
+        if (myval == null) {
+            $("#changements_searchfilter_idStatus").select2("val","");
+        }
+        else {
+       $("#changements_searchfilter_idStatus").select2("val", myval);
+     /*  myval.forEach(function(entry) {
+        console.log("val idstatus="+ entry);  
+       
+    });*/
+        }
+        
+    });
+    
     $("#changements_searchfilter_idStatus").select2({
         placeholder: "-- Choisir Statut(s) --",
         allowClear: true,
@@ -510,20 +540,48 @@ $(document).ready(function() {
         });
     });
 
-
-
-
+    $("#changements_searchfilter_idStatus").click(function() {
+        var myval=$("#changements_searchfilter_idStatus").val();
+        if (myval == null) {
+            $("#searchstatus_idStatus").select2("val","");
+        }else {
+       $("#searchstatus_idStatus").select2("val", myval);
+      /* myval.forEach(function(entry) {
+        console.log("val idstatus="+ entry);  
+      
+    });*/
+        }
+   
+    });
+    
+    /*  $("#changements_searchfilter_idStatus").select2("val", 1);*/
+  /*   $("#searchstatus_1").click(function() {
+if($('#searchstatus_1').is(':checked')){
+      $("#changements_searchfilter_idStatus").select2("val", 1);
+    }
+    else { 
+        $("#changements_searchfilter_idStatus").removeselect2("val", ""); }
+        $("#selectBox option[value='option1']").remove();
+        $("#changements_searchfilter_idStatus").select2("val", ""); }
+     });*/
+/* cl: clear function (not used) */
 
     $("#changements_searchfilter_idStatus_cl").click(function() {
         $("#changements_searchfilter_idStatus").select2("val", "");
+        var myval=$("#changements_searchfilter_idStatus").val();
+        console.log("val idstatus="+ myval);
+      /* $("#searchstatus_0").prop("checked",true)*/
     });
 
 
-    $("#changements_searchfilter_idProjet").select2({
+  $("#changements_searchfilter_idProjet").select2({
         placeholder: "-- Choisir Projet(s) --",
         allowClear: true
     });
-    $("#changements_searchfilter_idProjet_cl").click(function() {
+ 
+
+   $("#changements_searchfilter_idProjet_cl").click(function() {
+        console.log("val idstatus=");
         $("#changements_searchfilter_idProjet").select2("val", "");
     });
 

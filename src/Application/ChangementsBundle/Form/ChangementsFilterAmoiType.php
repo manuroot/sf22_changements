@@ -203,7 +203,8 @@ class ChangementsFilterAmoiType extends AbstractType {
                    /*->add('idStatus', 'filter_entity', array(*/
                 ->add('idStatus', 'entity', array(
                      'attr' => array(
-                          'style' => 'height:30px' ),
+                         'class'=> "hidden",
+                           'style' => 'height:40px' ),
                     'label' => 'Status',
                     'class' => 'Application\ChangementsBundle\Entity\ChangementsStatus',
                     'property' => 'nom',

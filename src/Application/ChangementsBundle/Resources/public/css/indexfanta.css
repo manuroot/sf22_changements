@@ -45,8 +45,13 @@ z-index: 9999;
             }
             tr.edition {background-color: moccasin;}
             
+            div#s2id_searchstatus_idStatus{
+                 width:400px;
+                
+            }
               /* #s2id_autogen2.select2-input.select2-default {*/
-            select#changements_searchfilter_idEnvironnement,
+           select#searchstatus_idStatus,
+              select#changements_searchfilter_idEnvironnement,
             select#changements_searchfilter_idProjet,
             select#changements_searchfilter_idusers, 
             select#changements_searchfilter_idStatus,

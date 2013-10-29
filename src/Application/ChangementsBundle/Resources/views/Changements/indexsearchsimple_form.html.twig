@@ -1,4 +1,4 @@
-<form  class="form" action="{{ path(tpl_path) }}" method="POST" {{ form_enctype(search_form) }}>
+<form  id="thesearchform" class="form" action="{{ path(tpl_path) }}" method="POST" {{ form_enctype(search_form) }}>
    <table class="table-mybordered">
 
     <tr><td class="calendar">
@@ -34,7 +34,9 @@
         #}
  {{ form_row(search_form.idProjet) }}
           {#      <input id="changements_searchfilter_idProjet_cl" class="btn-info" type="button" value="Clear"></input>
-           #}   {{ form_row(search_form.idStatus) }}
+           #}  
+
+{# {{ form_row(search_form.idStatus) }}#}
          {#   <input id="changements_searchfilter_idStatus_cl" class="btn-info" type="button" value="Clear"></input>
              #}
     

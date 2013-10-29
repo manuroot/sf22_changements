@@ -37,7 +37,7 @@
 	width: auto;
 }
 div.etat { position:relative;float:right;margin-right:10px;}
-   .show_favoris  {margin-left: 50px;}
+   .show_favoris  {float:right;margin-right: 20px;}
    .my-star>i { color: yellow; }
    .my-nice-button>i { color: blue; }
     *.icon-silver {color: silver}
@@ -74,6 +74,8 @@ div.etat { position:relative;float:right;margin-right:10px;}
     <script type="text/javascript">
     /* $(document).onload(function() { $("div#matable").hide();});*/
       $(document).ready(function() {
+           $('select#changements_searchfilter_idStatus').removeClass('hidden');
+        /* $("select#changements_searchfilter_idStatus").show("fade");*/
        $(".first").show("fade");
      
       $("div#contain-matable").show("fade");
@@ -146,7 +148,7 @@ div.etat { position:relative;float:right;margin-right:10px;}
 %}
 <div id="contain-matable">
         <div id="matable">           
-{% include 'ApplicationChangementsBundle:templates:table_fanta.html.twig'   %}
+{% include 'ApplicationChangementsBundle:templates:table_fanta.html.twig' with { 'index_path': 'changements_fanta' }%}  
             </div>
             <div class="pagination" align="center">
             {{ pagerfanta(pagerfanta, 'twitter_bootstrap') }}

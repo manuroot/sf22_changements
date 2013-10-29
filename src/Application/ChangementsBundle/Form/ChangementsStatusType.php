@@ -25,6 +25,17 @@ class ChangementsStatusType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
              $builder->add('idStatus', 'entity', array(
+                     'attr' => array(
+                          'style' => 'height:30px' ),
+                    'label' => 'Status',
+                    'class' => 'Application\ChangementsBundle\Entity\ChangementsStatus',
+                    'property' => 'nom',
+                    'expanded' => false,
+                   'multiple'=> true,
+                    'required' => false,
+                    'empty_value' => '--- Options ---', 
+                ));
+        /*->add('idStatus', 'entity', array(
                     'label' => 'Status',
                     'class' => 'Application\ChangementsBundle\Entity\ChangementsStatus',
                     'property' => 'nom',
@@ -32,13 +43,13 @@ class ChangementsStatusType extends AbstractType {
                     'multiple' => true,
                     'required' => false,
                     'attr'      => array('class' => 'toto'),
-                        /* 'empty_value' => '--- Choisir une option ---', */
-                ));
+                      
+                ));*/
             
     }
 
     public function getName() {
-        return 'changements_searchstatus';
+        return 'searchstatus';
     }
 
    
