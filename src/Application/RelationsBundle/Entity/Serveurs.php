@@ -17,7 +17,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @UniqueEntity(fields="nom", message="Nom déja utilisé")
  * @UniqueEntity(fields="ip_in", message="IP deja utilisée")
- * @UniqueEntity(fields="ip_out", message="IP deja utilisée")
  * @UniqueEntity(fields="nom_dns", message="Nom DNS deja utilisée")
  * 
  * 
@@ -58,7 +57,7 @@ class Serveurs {
     private $description;
 
      /**
-     * @var string
+     * @var string $ip_in
      *
      * @ORM\Column(name="ip_in", type="string", length=20, nullable=true, unique=true)
       * 
@@ -69,21 +68,19 @@ class Serveurs {
      *     match=true,
      *     message="patterns: ip ex: 192.168.1.12"
      * )
-     * @var string $ip_in
      */
   
     private $ip_in;
     
     /**
-     * @var string
+     * @var string $ip_out
      *
-     * @ORM\Column(name="ip_out", type="string", length=20, nullable=true, unique=true)
+     * @ORM\Column(name="ip_out", type="string", length=20, nullable=true)
      * @Assert\Regex(
      *     pattern="/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/",
      *     match=true,
      *     message="patterns: ip ex: 192.168.1.12"
      * )
-     * @var string $ip_in
      */
      private $ip_out;
 

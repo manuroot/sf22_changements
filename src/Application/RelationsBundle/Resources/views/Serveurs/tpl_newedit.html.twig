@@ -23,15 +23,7 @@
 
      
 {% include 'ApplicationCertificatsBundle:templates:flash.html.twig' %}
-{#
-{% for type, flashMessages in app.session.flashbag.all() %}
-    {% for flashMessage in flashMessages %}
-        <div class="alert alert-{{ type }}">
-            {{ flashMessage|trans }}
-        </div>
-    {% endfor %}
-{% endfor %}
-#}
+
 {% if action == 'edit' %}
 
 <form   action="{{ path(path_form, { 'id': entity.id }) }}" method="post" {{ form_enctype(form) }}>
@@ -39,40 +31,30 @@
  <form  action="{{ path(path_form)}}" method="post" {{ form_enctype(form) }}>
 {% endif %}
 
-
-    <br><br>
-      <table class="table-mybordered">
-
-          
-          <tr><td class="calendar">
-    
-                    {{ form_errors(form.nom) }}
-                    {{ form_label(form.nom) }}
-                    {{ form_widget(form.nom) }}
-                        </div>
-                  
-                        <div>
-                    {{ form_errors(form.description) }}
-                    {{ form_label(form.description) }}
-                    {{ form_widget(form.description) }}
-                            </div>
-                        <div>
-                     {{ form_row(form.ip_in) }}
-                                {{ form_row(form.ip_out) }}
-                    
-                </div>
-                        </td>
-     <td class="calendar">
-              
-                 {{ form_rest(form) }}
-                </td></tr>
-             <tr>
-                <td class="calendar" colspan="2">
-        <p>
-            <button type="submit" class="btn btn-medium btn-warning">Modifier</button>
+<br><br>
+<table class="table-mybordered">
+    <tr><td class="calendar">
+        {{ form_errors(form.nom) }}
+        {{ form_label(form.nom) }}
+        {{ form_widget(form.nom) }}
+        <div>
+        {{ form_errors(form.description) }}
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description) }}
+        </div>
+        <div>
+        {{ form_row(form.ip_in) }}
+        {{ form_row(form.ip_out) }}
+        </div>
+        </td>
+        <td class="calendar">
+        {{ form_rest(form) }}
+        </td></tr>
+        <tr><td class="calendar" colspan="2">
+            <p><button type="submit" class="btn btn-medium btn-warning">Modifier</button>
             <a href="{{ path(tpl_retour) }}" class="btn btn-medium btn-success">Retour</a>
-        </p>
-         </td></tr>
+            </p>
+        </td></tr>
         </tbody></table>
     </form>
 
@@ -81,15 +63,12 @@
 
     <form action="{{ path(tpl_delete, { 'id': entity.id }) }}" method="post">
         {{ form_errors(delete_form) }}
-          {{ form_rest(delete_form) }}
-            <div style="text-align:right">
-                <button type="submit"  class="btn btn-medium btn-danger" onclick="if(!confirm('Are you sure?')) { return false; }">Supprimer Serveur</button>
-
-            </div>
+        {{ form_rest(delete_form) }}
+        <div style="text-align:right">
+            <button type="submit"  class="btn btn-medium btn-danger" onclick="if(!confirm('Are you sure?')) { return false; }">Supprimer Serveur</button>
+        </div>
         </form>
-
 {% endif %}
-      
 
 {% endblock %}
 
