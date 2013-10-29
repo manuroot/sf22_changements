@@ -491,7 +491,7 @@ $(document).ready(function() {
         return "<img width='10px' class='flag' src='" + img_s_path + state.id.toLowerCase() + ".png'/> " + state.text;
     }
 $("#searchstatus_idStatus").select2({
-        placeholder: "-- Choisir Statut(s) --",
+        placeholder: "-- Statut(s) --",
         allowClear: true,
         formatResult: formatsmall,
         formatSelection: formatsmall,
@@ -516,7 +516,7 @@ $("#searchstatus_idStatus").click(function() {
     });
     
     $("#changements_searchfilter_idStatus").select2({
-        placeholder: "-- Choisir Statut(s) --",
+        placeholder: "-- Statut(s) --",
         allowClear: true,
         formatResult: format,
         formatSelection: format,
