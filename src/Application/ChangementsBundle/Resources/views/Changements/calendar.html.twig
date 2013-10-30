@@ -17,6 +17,22 @@
     div#footer {
          background-color: rgb(87, 96, 108);
     }
+    div.titredate{ 
+        display: block; 
+        width:auto;
+        overflow: hidden;
+        position:relative;
+        padding-right:5px;
+        color:whitesmoke;
+      line-height: 15px;
+        text-align: right;
+        /* vertical-align: top;*/
+   /* padding: 0px 0px 5px 5px;*/
+   /* margin-top:0px;*/
+    /*border: 1px solid red;*/
+       background-color: rgb(87, 96, 108);
+       opacity:0.9;
+    }
      tr.title , td.title{
     height: 35px;
     background: none repeat scroll 0% 0% rgb(87, 96, 108);
@@ -79,6 +95,7 @@ div.event,div.eventrun {
  
             
 }
+
 div.eventrun {
   box-sizing:border-box;
   -moz-box-sizing:border-box;
@@ -100,16 +117,21 @@ div.noevent {
 div.controls {
     padding-top:20px;
    
-margin:auto;width:500px; }
+margin:auto;width:auto; }
 select#changements_calendar_form_idStatus,
 #s2id_changements_calendar_form_idStatus{
     width:200px;
 }
   td.datas:hover {
 text-decoration: none;
-background-color: rgb(255, 209, 0);
+background-color: #bcbcbc;
+/*background-color: rgb(255, 209, 0);*/
 }        
-       
+   div.eventrun:hover,div.event:hover{
+       background-color:rgb(255, 209, 0);
+   }   
+   div#s2id_changements_calendar_form_publishedAt_month {
+   min-width:150px;}
   </style>
  {% endblock %}
 
@@ -238,10 +260,11 @@ $(document).ready(function() {
     {% for week in month %}
         <td class="title"> Semaine-{{ week }}</td>
         {% for day in week %}
-            <td class="datas">
+            <td class="datas" valign="top">
             {#% if month.includes(day) %#}
             {% if month.contains(day.begin) %}
-                <span class="label label-warning"> {{ day.begin.format('d') }} </span>
+                      <div class="titredate">{{ day.begin.format('d') }}</div>
+              {#  <span class="label label-warning"> {{ day.begin.format('d') }} </span>#}
                 {% for event in evenement.find(month) %}
                     {# {% for event in evenement.find(day) %}#}
                     {% if day.containsEvent(event) %}
