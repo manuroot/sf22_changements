@@ -277,8 +277,8 @@ $(document).ready(function() {
                 
                         <div class="{{ eventclass }}" style="background-color: {{ mycolor }}">
                            {% set  toto = event.nom %} 
-                           {% if toto|length > 20 %}
-                               {% set  toto = toto|slice(0, 20) ~ '..' %} 
+                           {% if toto|length > 25 %}
+                               {% set  toto = toto|slice(0, 25) ~ '..' %} 
                             {% endif %}
                                <a class="calendar editme" title="Opération: {{ event.nom }} - Demandeur: {{ event.demandeur }}" href="{{ path('changements_showXhtml', { 'id': event.uid }) }}">
                         {{ toto }}
