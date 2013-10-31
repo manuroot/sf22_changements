@@ -22,3 +22,7 @@ _docchangements:
     resource: "@ApplicationChangementsBundle/Resources/config/routing/docchangements.yml"
     prefix:   /docchangements
     #prefix:   /admin/tag
+
+_changements_wdcalendar:
+    resource: "@ApplicationChangementsBundle/Resources/config/routing/calendar.yml"
+    prefix:   /wdcalendar

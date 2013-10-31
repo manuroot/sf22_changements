@@ -132,6 +132,7 @@ background-color: #bcbcbc;
    }   
    div#s2id_changements_calendar_form_publishedAt_month {
    min-width:150px;}
+   button#submit {margin-left:20px;}
   </style>
  {% endblock %}
 
@@ -190,6 +191,7 @@ $(document).ready(function() {
             opacity:0.3
         
         });
+        
  });
 </script>
 
@@ -229,16 +231,18 @@ $(document).ready(function() {
            <tr><td class="calendar" colspan="8">
                  <form action="{{ path('changements_calendar') }}" method="post" {{ form_enctype(form) }}>
   <div class="controls">
-          {{ form_widget(form.idStatus,{'attr': { 'style': 'font-size:14px;height:30px;' } }) }}   
+       <button id="submit1" name="submit" value="previous" type="submit"><i class="icon-white  icon-hand-left"></i> </button>
+         {{ form_widget(form.idStatus,{'attr': { 'style': 'font-size:14px;height:30px;' } }) }}   
                   {{ form_widget(form.publishedAt.year,{'attr': { 'style': 'font-size:14px;height:30px;width:100px' } }) }}
                   {{ form_widget(form.publishedAt.month,{'attr': { 'style': 'font-size:14px;height:30px;width:100px' } }) }}
                
+       <button id="submit2" value="next" name="submit"  type="submit"><i class="icon-white  icon-hand-right"></i> </button>
                        {{ form_widget(form.publishedAt.day,{'attr': { 'style': 'display:none' } }) }}
                  {#    {{ form_row(form.publishedAt) }}#}
                      {{ form_rest(form) }}
                         {#
 {{ form_widget(form) }}#}
-    <button type="submit" class="btn btn-medium btn-primary">Valider</button>
+    <button id="submit" type="submit" name="submit" value="submit" class="btn btn-medium btn-primary">Valider</button>
               </div>                           
           </form>  
                  

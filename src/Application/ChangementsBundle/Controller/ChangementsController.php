@@ -461,12 +461,28 @@ class ChangementsController extends Controller {
         $datas_session = $session->get('calendar_dates');
         $form = $this->createForm(new CalendarType($em));
         if ($request->getMethod() == 'POST') {
+           
             $dataform = $request->get('changements_calendar_form');
             $parameters = $dataform;
-            // print_r($dataform);exit(1);
+           
+       
             $session->set('calendar_dates', $dataform);
             $current_year = $dataform['publishedAt']['year'];
             $current_month = $dataform['publishedAt']['month'];
+            if ($request->get('submit') == "next") {
+                if ($current_month == 12){$current_month =1;$current_year+=1;}
+                else {$current_month +=1;}
+                   $dataform['publishedAt']['year']=$current_year;
+             $dataform['publishedAt']['month']=$current_month;
+                 }
+            elseif ($request->get('submit') == "previous") {
+                 if ($current_month == 1){$current_month =12;$current_year-=1;}
+                else { $current_month =$current_month-1;}
+               $dataform['publishedAt']['year']=$current_year;
+             $dataform['publishedAt']['month']=$current_month;
+             
+            }
+                //  print_r($dataform);exit(1);
             $form->bind($dataform);
         } elseif (isset($datas_session)) {
             // echo "data set<br>";

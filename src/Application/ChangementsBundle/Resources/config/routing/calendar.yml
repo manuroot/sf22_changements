@@ -1,0 +1,19 @@
+ 
+#---------------------------------------------------------------
+# Changements Indexes: fanta par defaut
+#--------------------------------------------------------------- 
+
+wdcalendar_index:
+    pattern:  /
+    defaults: { _controller: "ApplicationChangementsBundle:Calendar:index" }
+    methods: POST|GET
+    
+    
+  
+calendar_ajax:
+    methods: POST|GET
+    pattern:  /wdcalajax
+    defaults: { _controller: "ApplicationChangementsBundle:Calendar:datafeed" }
+    options:
+        expose: true
+ 
