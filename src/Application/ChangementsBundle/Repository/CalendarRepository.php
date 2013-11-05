@@ -33,6 +33,8 @@ class CalendarRepository extends EntityRepository{
 
     public function mySql2PhpTime($sqlDate) {
         $arr = date_parse($sqlDate);
+      // echo "parse date: \n";
+     //   var_dump($arr);
         return mktime($arr["hour"], $arr["minute"], $arr["second"], $arr["month"], $arr["day"], $arr["year"]);
     }
 
@@ -69,15 +71,9 @@ class CalendarRepository extends EntityRepository{
    * valeurs retournee en json
    */
     public function select_between($sd, $ed,$compteur=0) {
-/*
-           echo "sd=" . $sd . "--" . $sd;
-           echo "ed=" . $ed . "--" . $ed;
- */     // $cols = $this->get_allcols();
-      //  $ret = array();
-        $ret['events'] = array();
-       $ret = array();
-      $events=array();
-      $ret=array("issort" => true,
+     $ret['events'] = array();
+     $events=array();
+     $ret=array("issort" => true,
       "start" => $this->php2JsTime($sd),"end" => $this->php2JsTime($ed),'error' => null);
 
        // $compteur=0;
@@ -91,25 +87,27 @@ class CalendarRepository extends EntityRepository{
         $parameters['datedebut'] = $this->php2MySqlTime($sd);
        // var_dump($query);
         $query->setParameters($parameters);
-        //  foreach ($query->getQuery()->getScalarResult() as $v) {
-        foreach ($query->getQuery()->getResult() as $v) {
-        //   var_dump($v);
-         /* echo "nom=" . $v['nom'] . "\n";
+          foreach ($query->getQuery()->getScalarResult() as $v) {
+            //  echo "array c=$compteur\n";
+         //var_dump($v);
+        /*  echo "nom=" . $v['nom'] . "\n";
           echo "d1=" . $v['dateDebut'] . "\n";
           echo "d2=" . $v['dateFin'] . "\n";*/
-       array_push($events, 
-                $v['id'],
+               $ret['events'][$compteur]=array(
+                  $v['id'],
                 $v['nom'],
                 $this->php2JsTime($this->mySql2PhpTime($v['dateDebut'])),
                 $this->php2JsTime($this->mySql2PhpTime($v['dateFin'])),
-                "1",0,0,"red","1",null,"fggdfgf","");
+                $v['IsAllDayEvent'],   
+                0,0,"red","1",null,"fggdfgf",""
+                                 );
+      
             $compteur++;
       
         
         }
-         //array_push($events, 
-       //  $events["issort"] = true;
-       return array($events,$ret);
+      //   var_dump($ret);
+       return array($ret,$compteur);
     }
    
      

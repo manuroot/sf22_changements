@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Application\ChangementsBundle\Entity\Calendar;
+use Application\ChangementsBundle\Form\WdcalendarType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -19,36 +20,45 @@ class CalendarController extends Controller {
 
     public function indexAction(Request $request) {
 
-        /*  $em = $this->getDoctrine()->getManager();
-          $params=array();
-          $params['showdate'] = '9/26/2013';
-          $params['timezone'] = "1";
-          $params['viewtype'] = 'month';
-         */
-        //  $data_query = $em->getRepository('ApplicationChangementsBundle:Calendar')->listCalendar($params['showdate'],$params['viewtype']);
+        //     $d =  new \DateTime('2000-01-01');
+        //     $datedebut=$d->format('Y-m-d H:i:s');
+        //var_dump($datedebut);
 
+
+
+        $em = $this->getDoctrine()->getManager();
+
+        //   $entity = new Calendar();
+        //     $entity->setNom('tretr');
+        // $d = date_format('2000-01-01 11:30', 'Y-m-d H:i:s');
+        //    $date="2000-01-01 11:30";
+        //  echo "dd=" .  date("Y-m-d H:i:s", $date);
+
+
+        /*  $format = 'd/m/Y H:i';
+          $date = \DateTime::createFromFormat($format, '11/6/2013 16:30');
+          echo "Format: $format; " . $date->format('Y-m-d H:i:s') . "\n";
+         */
+
+        $entity = new Calendar();
+        /*  $entity->setNom("rtert");
+
+          $format = 'd/m/Y H:i';
+          $d = \DateTime::createFromFormat($format, '11/6/2013 14:30');
+          $f = \DateTime::createFromFormat($format, '11/6/2013 16:30');
+          //$d=$datedebut->format('Y-m-d H:i:s');
+          //$f=$datefin->format('Y-m-d H:i:s');
+
+          $entity->setDateFin($f);
+          $entity->setDateDebut($d);
+          //   $entity->setDateFin($f);
+          //  $entity->setIsAllDayEvent($form['IsAllDayEvent']);
+          $em->persist($entity);
+          $em->flush(); */
 
         return $this->render('ApplicationChangementsBundle:Calendar:index.html.twig', array(
         ));
     }
-
-    /*
-     * updateDetailedCalendar($id, $st, $et, $sub, $ade, $dscr, $loc, $color, $tz) {
-     * 
-     * event: [
-      [id,
-      description,
-      date_debut,
-      date_fin,
-      alldayevent (0/1),
-      0,
-      0,
-      color
-      1,
-      location,
-     * description 
-     * 
-     */
 
     public function datafeedAction(Request $request) {
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
@@ -57,41 +67,129 @@ class CalendarController extends Controller {
             $params['showdate'] = $request->get('showdate');
             $params['timezone'] = $request->get('timezone');
             $params['viewtype'] = $request->get('viewtype');
-            $form = $request->get('form');
+            $data_query = array();
 
-            $all= $this->get('request')->request->all();
+            //$request->query->get('name');
+            $method = $request->query->get('method', 'list');
 
 
-          list($data_query,$addon) = $em->getRepository('ApplicationChangementsBundle:Calendar')->listCalendar($params['showdate'], $params['viewtype']);
 
-            /* $serializer = $container->get('jms_serializer');
-              $serializer->serialize($data, 'json'); */
+            $form = $this->get('request')->request->all();
 
-       //    var_dump($all);
+            switch ($method) {
+                case "add":
+                    $entity = new Calendar();
+                    $entity->setNom($form["CalendarTitle"]);
+                    $format = 'm/d/Y H:i';
+                    $d = \DateTime::createFromFormat($format, $form["CalendarStartTime"]);
+                    $f = \DateTime::createFromFormat($format, $form["CalendarEndTime"]);
+
+                    $entity->setDateFin($f);
+                    $entity->setDateDebut($d);
+                    $entity->setIsAllDayEvent($form['IsAllDayEvent']);
+                    $em->persist($entity);
+                    $em->flush();
+//$ret['dd']="$d";$ret['ff']="$f";
+                    $ret['IsSuccess'] = true;
+                    $ret['Msg'] = 'add success';
+                    $data_query = $ret;
+                    break;
+                //viewtype: month, week ou day
+                case "list":
+                    $datas = $em->getRepository('ApplicationChangementsBundle:Calendar')->listCalendar($params['showdate'], $params['viewtype']);
+                    $data_query = $datas[0];
+                    break;
+                case "update":
+                    $entity = $em->getRepository('ApplicationChangementsBundle:Calendar')->find($form["calendarId"]);
+                    $format = 'm/d/Y H:i';
+                    $d = \DateTime::createFromFormat($format, $form["CalendarStartTime"]);
+                    $f = \DateTime::createFromFormat($format, $form["CalendarEndTime"]);
+                    $entity->setDateFin($f);
+                    $entity->setDateDebut($d);
+
+                    $em->persist($entity);
+                    $em->flush();
+                    $ret['IsSuccess'] = true;
+                    $ret['Msg'] = 'update success';
+                    $data_query = $ret;
+                    /*
+                      $editForm = $this->createForm(new WdcalendarType(), $calendar_entity);
+                      $datas['dateDebut'] = $form["CalendarStartTime"];
+                      $datas['dateFin'] = $form["CalendarEndTime"];
+                      //$form["CalendarStartTime"], $form["CalendarEndTime"]);
+                      $editForm->bind($datas);
+                      $em->persist($calendar_entity);
+                      $em->flush(); */
+                    //  $ret = $db->updateCalendar($form["calendarId"], $form["CalendarStartTime"], $form["CalendarEndTime"]);
+                    break;
+            }
         }
-
-      /*  $array = array(
-
-           $data_query,
-          'issort'=>true,
-          'start'=>	"01\/10\/2013 00:00",
-          'end'=>	"01\/10\/2013 23:59",
-          "error"=>null
-          ); */
-        //  $array = array($array);
-        //  $response = new Response($serializer);
-        $response = new Response(json_encode(array('events'=>  $data_query,
-            $addon,
-         /*'issort'=>true,
-          'start'=>	"01\/10\/2013 00:00",
-          'end'=>	"01\/10\/2013 23:59",
-          "error"=>null,*/
-            form=>$all
-         )));
-        //$response=$data_query;
-
+        $response = new Response(json_encode($data_query));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
+    }
+
+    public function editwdAction(Request $request, $id) {
+
+        $calendar_entity = $em->getRepository('ApplicationChangementsBundle:Calendar')->find($id);
+        $editForm = $this->createForm(new WdcalendarType(), $calendar_entity);
+        //Application\ChangementsBundle\Form\WdcalendarType
+
+        if ($request->getMethod() == 'POST') {
+
+            $formData = $this->_request->getPost();
+            print_r($formData);
+            if ($form->isValid($formData)) {
+                $form_datas = $form->getValues();
+                $id = (int) $form->getValue('id', 0);
+                // si modif
+                if (isset($id) && $id != 0) {
+                    echo "id is set: $id <br>";
+                    $table->modifier($form_datas);
+                }
+                // sinon ajout
+                else {
+                    echo "id is not set<br>";
+                    $form_datas = $form->getValues();
+                    unset($formData['id']);
+                    $table->insert($form_datas);
+                }
+                $json = $form->getMessages();
+                header('Content-type: application/json');
+                $json['IsSuccess'] = true;
+                echo Zend_Json::encode($json);
+            } else {
+
+                $form->populate($formData);
+            }
+            $this->view->form = $form;
+        } else {
+            echo "attente de post";
+            $id = (int) $this->_request->getParam('id', null);
+            // si $id modif=> populate
+            if ($id > 0) {
+                $table = new Application_Model_DbTable_Changements();
+                $row = $table->get_row($id);
+                /* if (isset($row) && isset($row['is_changement'])){
+                  }
+                  else {
+                  $table = new Application_Model_DbTable_ChronoUserAbsence();
+                  $row = $table->get_row($id);
+                  } */
+                // print_r($row);
+                $form->populate($row);
+                $form->submit->setLabel('Modifier');
+            }
+            // Sinon Ajout
+            else {
+
+                $form->submit->setLabel('Ajouter');
+            }
+            $this->view->form = $form;
+        }
+
+
+        //    $this->view->render('wdcalendara/editwd.phtml');
     }
 
     // $_GET parameters

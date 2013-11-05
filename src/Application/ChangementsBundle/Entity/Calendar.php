@@ -84,6 +84,33 @@ class Calendar {
    
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="IsAllDayEvent", type="boolean", nullable=true)
+     */
+    private $IsAllDayEvent;
+    
+    
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="location", type="string", length=100, nullable=true)
+     */
+    private $location;
+ 
+       /**
+     * @var string
+     *
+     * @ORM\Column(name="RecurringRule", type="string", length=100, nullable=true)
+     */
+    private $RecurringRule;
+    
+    
+    
+    
+    
+    /**
      * Get id
      *
      * @return integer 
@@ -212,4 +239,73 @@ class Calendar {
 
    
 
+
+    /**
+     * Set IsAllDayEvent
+     *
+     * @param boolean $isAllDayEvent
+     * @return Calendar
+     */
+    public function setIsAllDayEvent($isAllDayEvent)
+    {
+        $this->IsAllDayEvent = $isAllDayEvent;
+    
+        return $this;
+    }
+
+    /**
+     * Get IsAllDayEvent
+     *
+     * @return boolean 
+     */
+    public function getIsAllDayEvent()
+    {
+        return $this->IsAllDayEvent;
+    }
+
+    /**
+     * Set location
+     *
+     * @param string $location
+     * @return Calendar
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+    
+        return $this;
+    }
+
+    /**
+     * Get location
+     *
+     * @return string 
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * Set RecurringRule
+     *
+     * @param string $recurringRule
+     * @return Calendar
+     */
+    public function setRecurringRule($recurringRule)
+    {
+        $this->RecurringRule = $recurringRule;
+    
+        return $this;
+    }
+
+    /**
+     * Get RecurringRule
+     *
+     * @return string 
+     */
+    public function getRecurringRule()
+    {
+        return $this->RecurringRule;
+    }
 }
