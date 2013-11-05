@@ -299,6 +299,14 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
             // ->groupby('a.name');
             $parameters['myid'] = (string) $criteria['byid'];
         }
+         if (isset($criteria['operation'])) {
+            // var_dump($criteria['idEnvironnement']);exit(1);
+            $query->andWhere('a.operation = :operation');
+            //   $query->distinct('GroupConcat(e.nomUser)');
+            $parameters['operation'] = $criteria['operation'];
+        }
+        
+        
         // Supprimer champs qui ne sont pas dans la classe
         foreach ($criteria as $field => $value) {
             if (!$this->getClassMetadata()->hasField($field)) {
@@ -320,9 +328,10 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
                 $parameters[$val] = '%' . $criteria[$val] . '%';
             }
         }
-
-
-
+        $query->andwhere('a.operation is NULL');
+          // $parameters['operation']=0;
+        
+  
         $query->setParameters($parameters);
 
 
@@ -519,6 +528,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         $values = array('DISTINCT a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},partial f.{id},partial h.{id}');
         $query = $this->createQueryBuilder('a')
                 ->select($values)
+              
                 ->leftJoin('a.idProjet', 'b')
                 ->leftJoin('a.demandeur', 'c')
                 ->leftJoin('a.idStatus', 'd')
@@ -531,13 +541,12 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
                 ->addSelect('partial e.{id,nomUser}')
                 //->addSelect('partial e.{id,nomUser}')
                 ->leftJoin('a.idusers', 'e');
-
-
         $this->query = $query;
        // print_r($criteria);exit(1);
         if (!empty($criteria)) {
             $query = $this->getListBy($criteria);
         }
+        
 //if (! isset($sort)){
         //  $query->groupBy('a.idStatus');
         // $query->add('orderBy', "a.idStatus $dir");

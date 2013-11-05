@@ -290,6 +290,13 @@ class Changements extends AbstractEvent {
      */
     private $astreinte;
 
+     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="operation", type="boolean", nullable=true)
+     */
+    private $operation;
+    
 //protected $avatar;
 
 
@@ -539,6 +546,7 @@ class Changements extends AbstractEvent {
         $this->idfavoris = new ArrayCollection();
         $this->dateDemande = new \DateTime('now');
         $this->astreinte = false;
+         $this->operation = false;
         //   $this->idapplis = new \Doctrine\Common\Collections\ArrayCollection();
         /*         $this->uid = $uid;
           $this->begin = clone $start;
@@ -883,6 +891,28 @@ class Changements extends AbstractEvent {
         return $this->astreinte;
     }
 
+  /**
+     * Set operation
+     *
+     * @param boolean $operation
+     * @return integer 
+     */
+    public function setOperation($operation) {
+        $this->astreinte = $operation;
+
+        return $this;
+    }
+
+    
+    /**
+     * Get operation
+     * 
+     * @return boolean 
+     */
+    public function getOperation() {
+        return $this->operation;
+    }
+    
     /**
      * Set idKind
      *

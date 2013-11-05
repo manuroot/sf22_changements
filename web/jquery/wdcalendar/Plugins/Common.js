@@ -61,7 +61,7 @@ function StrFormatNoEncode(temp, dataarry) {
     return temp.replace(/\{([\d]+)\}/g, function(s1, s2) { var s = dataarry[s2]; if (typeof (s) != "undefined") { if (s instanceof (Date)) { return s.getTimezoneOffset() } else { return (s); } } else { return ""; } });
 }
 function getiev() {
-  /*  var userAgent = window.navigator.userAgent.toLowerCase();
+    var userAgent = window.navigator.userAgent.toLowerCase();
     $.browser.msie8 = $.browser.msie && /msie 8\.0/i.test(userAgent);
     $.browser.msie7 = $.browser.msie && /msie 7\.0/i.test(userAgent);
     $.browser.msie6 = !$.browser.msie8 && !$.browser.msie7 && $.browser.msie && /msie 6\.0/i.test(userAgent);
@@ -77,8 +77,6 @@ function getiev() {
     }
     else { v = -1; }
     return v;
-    */
-   v=-1;
 }
 $(document).ready(function() {
     var v = getiev()

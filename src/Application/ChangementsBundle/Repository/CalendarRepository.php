@@ -10,5 +10,108 @@ use Doctrine\ORM\EntityRepository;
  */
 class CalendarRepository extends EntityRepository{
    
+    public function js2PhpTime($jsdate) {
+         $matches=array();
+        if (preg_match('@(\d+)/(\d+)/(\d+)\s+(\d+):(\d+)@', $jsdate, $matches) == 1) {
+            $ret = mktime($matches[4], $matches[5], 0, $matches[1], $matches[2], $matches[3]);
+            // echo $matches[4] ."-". $matches[5] ."-". 0  ."-". $matches[1] ."-". $matches[2] ."-". $matches[3];
+        } else if (preg_match('@(\d+)/(\d+)/(\d+)@', $jsdate, $matches) == 1) {
+            $ret = mktime(0, 0, 0, $matches[1], $matches[2], $matches[3]);
+        }
+        return $ret;
+    }
+    
+     public function php2JsTime($phpDate) {
+        //echo $phpDate;
+        //return "/Date(" . $phpDate*1000 . ")/";
+        return date("m/d/Y H:i", $phpDate);
+    }
+
+    public function php2MySqlTime($phpDate) {
+        return date("Y-m-d H:i:s", $phpDate);
+    }
+
+    public function mySql2PhpTime($sqlDate) {
+        $arr = date_parse($sqlDate);
+        return mktime($arr["hour"], $arr["minute"], $arr["second"], $arr["month"], $arr["day"], $arr["year"]);
+    }
+
+
+     public function listCalendar($day, $type,$compteur=0) {
+     
+        $phpTime = $this->js2PhpTime($day);
+     //   echo $phpTime . "+" . $type;
+        switch ($type) {
+            case "month":
+                $st = mktime(0, 0, 0, date("m", $phpTime), 1, date("Y", $phpTime));
+                $et = mktime(0, 0, -1, date("m", $phpTime) + 1, 1, date("Y", $phpTime));
+                break;
+            case "week":
+                //suppose first day of a week is monday 
+                $monday = date("d", $phpTime) - date('N', $phpTime) + 1;
+                //echo date('N', $phpTime);
+                $st = mktime(0, 0, 0, date("m", $phpTime), $monday, date("Y", $phpTime));
+                $et = mktime(0, 0, -1, date("m", $phpTime), $monday + 7, date("Y", $phpTime));
+                break;
+            case "day":
+                $st = mktime(0, 0, 0, date("m", $phpTime), date("d", $phpTime), date("Y", $phpTime));
+                $et = mktime(0, 0, -1, date("m", $phpTime), date("d", $phpTime) + 1, date("Y", $phpTime));
+                break;
+        }
+        //  echo "debug<br>";
+        //   echo $st . "--" . $et;
+      //  $compteur=0;
+        //$events=arrat();
+           return $this->select_between($st, $et,$compteur);
+    }
+    /*
+   * 
+   * valeurs retournee en json
+   */
+    public function select_between($sd, $ed,$compteur=0) {
+/*
+           echo "sd=" . $sd . "--" . $sd;
+           echo "ed=" . $ed . "--" . $ed;
+ */     // $cols = $this->get_allcols();
+      //  $ret = array();
+        $ret['events'] = array();
+       $ret = array();
+      $events=array();
+      $ret=array("issort" => true,
+      "start" => $this->php2JsTime($sd),"end" => $this->php2JsTime($ed),'error' => null);
+
+       // $compteur=0;
+        
+        $parameters = array();
+        $query = $this->createQueryBuilder('a')
+                ->select('a.id,a.nom,a.dateDebut,a.dateFin')
+               ->andWhere('a.dateDebut >= (:datedebut)')
+               ->andWhere('a.dateFin <= (:datefin)');
+       $parameters['datefin'] = $this->php2MySqlTime($ed);
+        $parameters['datedebut'] = $this->php2MySqlTime($sd);
+       // var_dump($query);
+        $query->setParameters($parameters);
+        //  foreach ($query->getQuery()->getScalarResult() as $v) {
+        foreach ($query->getQuery()->getResult() as $v) {
+        //   var_dump($v);
+         /* echo "nom=" . $v['nom'] . "\n";
+          echo "d1=" . $v['dateDebut'] . "\n";
+          echo "d2=" . $v['dateFin'] . "\n";*/
+       array_push($events, 
+                $v['id'],
+                $v['nom'],
+                $this->php2JsTime($this->mySql2PhpTime($v['dateDebut'])),
+                $this->php2JsTime($this->mySql2PhpTime($v['dateFin'])),
+                "1",0,0,"red","1",null,"fggdfgf","");
+            $compteur++;
+      
+        
+        }
+         //array_push($events, 
+       //  $events["issort"] = true;
+       return array($events,$ret);
+    }
+   
+     
 }
 

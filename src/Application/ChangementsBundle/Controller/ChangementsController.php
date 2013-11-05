@@ -1308,6 +1308,7 @@ class ChangementsController extends Controller {
         $user_id = $this->getuserid();
         $changements_nb_status = $em->getRepository('ApplicationChangementsBundle:Changements')->getStatusForRequeteBuilder();
         $request = $this->getRequest();
+        //$request = $this->container->get('request');
         $session = $request->getSession();
         $session->set('buttonretour', 'changements_fanta');
         $searchForm = $this->createForm(new ChangementsFilterAmoiType($em));
@@ -1363,6 +1364,11 @@ class ChangementsController extends Controller {
         //list($page, $dir, $sort) = $this->OrderfantaAction();
         $next_dir = ($dir == 'DESC') ? 'ASC' : 'DESC';
         $arrow[$sort] = $next_dir == "DESC" ? 'icon-arrow-up' : 'icon-arrow-down';
+        //$routeName = $request->get('_route');
+        //echo "route=$routeName";exit(1);
+       // if ($routeName != "changements_fanta")
+       //     $parameters['operation']=1;
+            
         $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getJoinedBy($sort, $dir, $parameters);
 
         $adapter = new DoctrineORMAdapter($query);
@@ -1388,6 +1394,10 @@ class ChangementsController extends Controller {
             throw new NotFoundHttpException();
             // throw $this->createNotFoundException('Unable to find entity.');
         }
+         //if ($routeName != "changements_fanta")
+             //   $currenttwig='indexfanta.html.twig';
+        // else 
+          //      $currenttwig='indexfanta.html.twig';
         return $this->render('ApplicationChangementsBundle:Changements:indexfanta.html.twig', array(
                     'pagerfanta' => $pagerfanta,
                     'entities' => $q,
