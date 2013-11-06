@@ -16,4 +16,14 @@ calendar_ajax:
     defaults: { _controller: "ApplicationChangementsBundle:Calendar:datafeed" }
     options:
         expose: true
+        
+        
+calendar_edit:
+    methods: POST|GET
+    pattern:  /wdcaledit
+    defaults: { _controller: "ApplicationChangementsBundle:Calendar:editwdAction" }
+    options:
+        expose: true
+ 
+ 
  

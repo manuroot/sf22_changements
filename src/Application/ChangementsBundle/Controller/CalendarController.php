@@ -32,12 +32,8 @@ class CalendarController extends Controller {
             $params['timezone'] = $request->get('timezone');
             $params['viewtype'] = $request->get('viewtype');
             $data_query = array();
-
             //$request->query->get('name');
             $method = $request->query->get('method', 'list');
-
-
-
             $form = $this->get('request')->request->all();
 
             switch ($method) {
@@ -87,104 +83,48 @@ class CalendarController extends Controller {
         return $response;
     }
 
+    
+
     public function editwdAction(Request $request, $id) {
 
+        $em = $this->getDoctrine()->getManager();
         $calendar_entity = $em->getRepository('ApplicationChangementsBundle:Calendar')->find($id);
+        //$form=new WdcalendarType;
         $editForm = $this->createForm(new WdcalendarType(), $calendar_entity);
-        //Application\ChangementsBundle\Form\WdcalendarType
-
-        if ($request->getMethod() == 'POST') {
-
-            $formData = $this->_request->getPost();
-            print_r($formData);
-            if ($form->isValid($formData)) {
-                $form_datas = $form->getValues();
-                $id = (int) $form->getValue('id', 0);
-                // si modif
-                if (isset($id) && $id != 0) {
-                    echo "id is set: $id <br>";
-                    $table->modifier($form_datas);
-                }
-                // sinon ajout
-                else {
-                    echo "id is not set<br>";
-                    $form_datas = $form->getValues();
-                    unset($formData['id']);
-                    $table->insert($form_datas);
-                }
-                $json = $form->getMessages();
-                header('Content-type: application/json');
-                $json['IsSuccess'] = true;
-                echo Zend_Json::encode($json);
-            } else {
-
-                $form->populate($formData);
-            }
-            $this->view->form = $form;
-        } else {
-            echo "attente de post";
-            $id = (int) $this->_request->getParam('id', null);
-            // si $id modif=> populate
-            if ($id > 0) {
-                $table = new Application_Model_DbTable_Changements();
-                $row = $table->get_row($id);
-                /* if (isset($row) && isset($row['is_changement'])){
-                  }
-                  else {
-                  $table = new Application_Model_DbTable_ChronoUserAbsence();
-                  $row = $table->get_row($id);
-                  } */
-                // print_r($row);
-                $form->populate($row);
-                $form->submit->setLabel('Modifier');
-            }
-            // Sinon Ajout
-            else {
-
-                $form->submit->setLabel('Ajouter');
-            }
-            $this->view->form = $form;
-        }
-
+        $deleteForm = $this->createDeleteForm($id);
+        //return $this->check_retour();
+        return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
+        ));
+        
+        
+        /*----------------------
+       * si post : update/create
+       ---------------------*/
+         if ($request->getMethod() == 'POST') {
+             $formData = $this->get('request')->request->all();
+         $id=$formData['id'];
+          if (isset($id) && $id != 0) {}
+          //ajout
+          else {}
+            // update record 
+         }
+             
+      /*----------------------
+       * si pas post :edit
+       ---------------------*/
+         
+         else {}
+            $json['IsSuccess'] = true;
+       
+            
+        
 
         //    $this->view->render('wdcalendara/editwd.phtml');
+   
     }
 
-    // $_GET parameters
-    // $method=$request->query->get('method');
-    // $method = $this->_request->getParam('method');
-    //   $form = $this->_request->getParams();
-//print_r($form);
-    //   $db = new Application_Model_DbTable_ChronoCalendara();
-    // $ret = $this->get_events($form["showdate"], $form["viewtype"]);
-//$array=array()
-
-    /* case "list":
-
-
-      //  $ret = $db->listCalendar($form["showdate"], $form["viewtype"]);
-      break;
-      case "update":
-      $ret = $db->updateCalendar($form["calendarId"], $form["CalendarStartTime"], $form["CalendarEndTime"]);
-      break;
-      case "remove":
-      $ret = $db->delete_record($form["calendarId"]);
-      break;
-      case "adddetails":
-      //    print_r($form);
-      $st = $form["stpartdate"] . " " . $form["stparttime"];
-      $et = $form["etpartdate"] . " " . $form["etparttime"];
-      if (isset($form["id"])) {
-      //   echo "UPDATE<br>";
-      $ret = $db->updateDetailedCalendar($form["id"], $st, $et, $form["Subject"], isset($form["IsAllDayEvent"]) ? 1 : 0, $form["Description"], $form["Location"], $form["colorvalue"], $form["timezone"]);
-      } else {
-      //  echo "ADD DETAILS<br>";
-      $ret = $db->addDetailedCalendar($st, $et, $form["Subject"], isset($form["IsAllDayEvent"]) ? 1 : 0, $form["Description"], $form["Location"], $form["colorvalue"], $form["timezone"]);
-      }
-      break;
-      } */
-
-    //  $ret['form'] = $form;
-//return json_encode($ret); 
 }
 

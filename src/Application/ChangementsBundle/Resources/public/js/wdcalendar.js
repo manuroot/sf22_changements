@@ -81,9 +81,8 @@
                     }
                     function Edit(data)
                     {
-                        // 
-       
-                        // var eurl="/uzf04new/wdcalendar/editwd";   
+                        // var eurl="/uzf04new/wdcalendar/editwd";  
+                        //editwdAction
                         var eurl="/uzf04new/wdcalendar/editwd?id={0}&start={2}&end={3}&isallday={4}&title={1}";   
                         var myid=data[0];
                         var myhref="/uzf04new/changements/edit/id/" + myid;
@@ -119,9 +118,9 @@
                             id:[myid]
                         };
                      
-                
+                 
                         $.ajax({
-                            url: '/uzf04new/changements/edit',
+                            url: Routing.generate('calendar_edit'),
                             type: 'POST',
                             cache: false,
                             data: {id:myid},
