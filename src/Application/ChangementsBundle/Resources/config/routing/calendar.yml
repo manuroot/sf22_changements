@@ -17,11 +17,24 @@ calendar_ajax:
     options:
         expose: true
         
-        
+calendar_showXhtml:
+    pattern:  /{id}/showxhtml
+    defaults: { _controller: "ApplicationChangementsBundle:Calendar:showXhtml" }
+    methods: POST|GET
+    options:
+        expose: true
+ 
+
+calendar_create:
+    pattern:  /new
+    defaults: { _controller: "ApplicationChangementsBundle:Calendar:new" }
+    options:
+        expose: true
+  
 calendar_edit:
     methods: POST|GET
-    pattern:  /wdcaledit
-    defaults: { _controller: "ApplicationChangementsBundle:Calendar:editwdAction" }
+    pattern:  /{id}/wdcaledit
+    defaults: { _controller: "ApplicationChangementsBundle:Calendar:editwd" }
     options:
         expose: true
  

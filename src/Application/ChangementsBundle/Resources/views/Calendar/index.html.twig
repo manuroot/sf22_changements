@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/wdcalendar/dp.css') }}" type="text/css" media="all"/>
     <link rel="stylesheet" href="{{ asset('css/wdcalendar/alert.css') }}" type="text/css" media="all"/>
     <link rel="stylesheet" href="{{ asset('css/wdcalendar/main.css') }}" type="text/css" media="all"/>
+     <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" media="all"/> 
  
     <script src="{{ asset('jquery/jquery-1.8.3.js') }}" type="text/javascript"></script>
    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
@@ -23,6 +24,9 @@
    <script type="text/javascript" src="{{ asset('jquery/wdcalendar/Plugins/wdCalendar_lang_US.js') }}"></script>
    <script type="text/javascript" src="{{ asset('jquery/wdcalendar/Plugins/jquery.calendar.js') }}"></script>
    <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/wdcalendar.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
+   
+  
 </head>
    
         <body>
@@ -107,5 +111,6 @@
         <div id="example" class="flora" style="display:none"  title="Informations sur le changement">
             I'm in a dialog!
         </div>
+                  <a class="calendar editme" href="{{ path('changements_showXhtml', { 'id': 451 }) }}">
     </body>
 </html>

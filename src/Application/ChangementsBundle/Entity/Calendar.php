@@ -62,7 +62,19 @@ class Calendar {
      */
     private $nom;
 
-   
+   /**
+     * @ORM\Column(name="color", type="string", length=20, nullable=true)
+     */
+    private $color;
+     
+     
+     
+   /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     */
+    private $description;
 
     /**
      * @var \DateTime
@@ -140,6 +152,29 @@ class Calendar {
         return $this->nom;
     }
 
+    
+     /**
+     * Set color
+     *
+     * @param string $color
+     */
+    
+    public function setColor($color) {
+        $this->color = $color;
+
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string 
+     */
+    public function getColor() {
+        return $this->color;
+    }
+    
+    
     /**
      * Set dateDebut
      *
@@ -189,7 +224,8 @@ class Calendar {
      */
     public function __construct() {
         // ????????
-        $this->dateDemande = new \DateTime('now');
+     /*   $this->dateDemande = new \DateTime('now');*/
+            $this->color = "red";
     
     }
 
@@ -216,27 +252,7 @@ class Calendar {
     }
 
   
-    /**
-     * Set dateDemande
-     *
-     * @param \DateTime $dateDemande
-     * @return Changements
-     */
-    public function setDateDemande($dateDemande) {
-        $this->dateDemande = $dateDemande;
-
-        return $this;
-    }
-
-    /**
-     * Get dateDemande
-     *
-     * @return \DateTime 
-     */
-    public function getDateDemande() {
-        return $this->dateDemande;
-    }
-
+    
    
 
 
@@ -307,5 +323,25 @@ class Calendar {
     public function getRecurringRule()
     {
         return $this->RecurringRule;
+    }
+      /**
+     * Set description
+     *
+     * @param string $description
+     * @return Changements
+     */
+    public function setDescription($description) {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription() {
+        return $this->description;
     }
 }

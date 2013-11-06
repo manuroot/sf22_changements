@@ -40,7 +40,7 @@
 
         var colors = [
 
-        // "F7B281", "EA878B", "FDFC77", "8DADE1", "9CDA95", "CF9CB5"
+         "F7B281", "EA878B", "FDFC77", "8DADE1", "9CDA95", "CF9CB5"
 
     ];
         var borders = [];

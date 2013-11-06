@@ -1,0 +1,246 @@
+{% extends "::base.html.twig" %}
+
+
+{% block stylesheets %}
+
+ {{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.fileupload-ui.css') }}" type="text/css" media="all"/>    
+  <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ asset('css/wdcalendar/colorselect.css') }}" type="text/css" media="all"/>
+    <link rel="stylesheet" href="{{ asset('css/wdcalendar/dropdown.css') }}" type="text/css" media="all"/>
+<style>
+     /*   .monlabel {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            font-weight: bold;
+        }
+
+        .boxlist {border: 1px solid #D4E0EE;background-color: #f1f1f1;
+                  padding-left:10px;
+                  width:300px;
+        }
+        .leserreurs {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            font-size:12px;
+            color:red;
+        }
+        .hrsep {color: blue;background-color: blue;height: 2px; }
+        a.add_tag_link { color:whitesmoke;}
+        a.myleft{float:right;margin-right:10px;margin-bottom:20px;}
+        .ui-autocomplete-category {
+            font-weight: bold;
+            padding: .2em .4em;
+            margin: .8em 0 .2em;
+            line-height: 1.5;
+        }
+
+        .mytiny {width:30%;}
+        .tinymce {height:300px;}
+        td.description {text-align:center;vertical-align:middle;}
+        .lastcol {max-width:200px}
+         
+        
+          select option:hover {
+                background-color: #b6d1fd;
+            }
+            
+         
+            .select2-container,
+             div#s2id_changements_idEnvironnement,div#s2id_changements_idProject,
+             div#s2id_changements_demandeur,
+             div#s2id_changements_idapplis, div#s2id_changements_idusers,
+             div#s2id_changements_searchfilter_idProjet,
+             div#s2id_changements_searchfilter_idusers,ul.select2-choice {
+           width:210px;
+           
+      
+            }
+           
+         
+            label,.mondiv { color:#02195e; font-size: 12px;
+                            font-weight: normal;
+                            line-height: 20px;}
+
+          
+             .select2-choice {
+     width:167px;
+}*/
+div.testa{background-color: red;width:100px;position: absolute;left:100px;}
+.select2-container {
+    position: relative;
+    display: inline-block;
+    /* inline-block for ie7 */
+    zoom: 1;
+    *display: inline;
+    vertical-align: top;
+}
+#myform label.error {
+	margin-left: 10px;
+	width: auto;
+	display: inline;
+        color:red;
+   }
+   textarea {
+height:300px;
+width:98%;
+}
+/*
+.trseparation{border:2px;
+              border-color:black;}.table-mybordered {
+    border-spacing: 1px;
+    border-collapse: collapse;
+    text-align: left;
+}*/
+
+div.colorPicker-picker {
+  height: 32px;
+  width: 32px;
+  padding: 0 !important;
+  border: 1px solid #ccc;
+  /*background: url("/css/wdcalendar/images/dropdown/dropdown.gif") no-repeat top right;*/
+  cursor: pointer;
+  line-height: 16px;
+  font-size:0.75em;
+  font-weight:bold;
+  text-align: center;
+}
+
+div.colorPicker-palette {
+  width: 110px;
+  position: absolute;
+  border: 1px solid #598FEF;
+  background-color: #EFEFEF;
+  padding: 2px;
+  z-index: 9999;
+}
+  div.colorPicker_hexWrap {width: 100%; float:left }
+  div.colorPicker_hexWrap label {font-size: 95%; color: #2F2F2F; margin: 5px 2px; width: 25%}
+  div.colorPicker_hexWrap input {margin: 5px 2px; padding: 0; font-size: 95%; border: 1px solid #000; width: 65%; }
+div#color_selector {
+  width: 110px;
+  position: absolute;
+  border: 1px solid #598FEF;
+  background-color: #EFEFEF;
+  padding: 2px;
+  z-index: 1120; 
+}
+div.colorPicker-swatch {
+  height: 12px;
+  width: 12px;
+  border: 1px solid #000;
+  margin: 2px;
+  float: left;
+  cursor: pointer;
+  line-height: 12px;
+}
+    </style>
+{#  {{ form_stylesheet(edit_form) }}#}
+<link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('select2/select2-bootstrap.css') }}" type="text/css" media="all"/>
+
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+ 
+        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+  
+        <script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>
+           <script type="text/javascript" src="{{ asset('jquery/validate/jquery.validate.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('select2/select2.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>  
+        <script type="text/javascript" src="{{ asset('jquery/jquery.colorPicker.js') }}"></script>
+        
+          <script src="{{ asset('jquery/jquery-1.8.3.js') }}" type="text/javascript"></script>
+   <script type="text/javascript" src="{{ asset('jquery/wdcalendar/jquery.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('jquery/jquery-ui-1.8.23.custom.min.js') }}"></script>
+
+  
+  
+        <script type="text/javascript" src="{{ asset('jquery/wdcalendar/Plugins/Common.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('jquery/wdcalendar/Plugins/jquery.colorselect.js') }}"></script>
+         
+        <script>
+            $(document).ready(function() {
+        //debugger;
+          var cv =$("#calendar_color").val() ;
+        if(cv=="")
+        {
+            cv="-1";
+        }
+        $("#calendarcolor").colorselect({ title: "Color", index: cv, hiddenid: "calendar_color" });
+       
+ /*
+ $('#calendar_color').colorPicker();*/
+});
+
+</script>
+     {{ tinymce_init() }}
+{% endblock %}
+
+{% block content_header '' %}
+{% block title %}hjkhjkhjk
+{% endblock %}
+
+{% block content %}
+
+{% include 'ApplicationChangementsBundle:templates:flash.html.twig' %}
+    
+
+<form  id="myform"  action="{{ path('calendar_edit',{ 'id': entity.id }) }}" method="post" {{ form_enctype(form) }}>
+
+              {#------------------------------------------------
+                   TABLE HTML
+                  -------------------------------------------------#}
+           
+            <table class="table-mybordered">
+                <tr>
+                    {#------------------------------------------------
+                    LIGNE 1 CELL 1
+                    -------------------------------------------------#}
+                <td class="calendar file">
+                        <div> {{ form_row(form.nom) }}</div>
+                         <div id="calendarcolor">
+            </div>
+                        <div> {{ form_row(form.color) }}</div>
+                        
+                         
+            <br/><br/>{#
+<label for="color1">Color 1</label> <input id="color" type="text" name="calendar[color]" value="#333399" />#}
+
+                     </td>
+                     <td class="calendar file">
+                     
+                      <div> {{ form_row(form.dateDebut) }} </div>
+                      <br/><br/>
+                         <div> {{ form_row(form.dateFin) }} </div></td>
+                  
+                </tr>
+                
+                <tr>
+                    <td class="calendar" colspan="3"> {{ form_rest(form) }} 
+                        <button type="submit" class="btn btn-large btn-warning">Modifier</button>
+                      
+                </form>
+
+                    
+                </td>
+                </tr>    
+                           </tbody>
+                                    </table>
+
+    
+
+	
+		
+		
+
+{% endblock %}
+    
+     {% block footer %} {% endblock %}
+
+
+

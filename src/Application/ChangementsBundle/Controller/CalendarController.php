@@ -87,43 +87,73 @@ class CalendarController extends Controller {
 
     public function editwdAction(Request $request, $id) {
 
+         $id = $request->get('id');
         $em = $this->getDoctrine()->getManager();
         $calendar_entity = $em->getRepository('ApplicationChangementsBundle:Calendar')->find($id);
-        //$form=new WdcalendarType;
         $editForm = $this->createForm(new WdcalendarType(), $calendar_entity);
-        $deleteForm = $this->createDeleteForm($id);
-        //return $this->check_retour();
-        return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
-                    'entity' => $entity,
-                    'edit_form' => $editForm->createView(),
-                    'delete_form' => $deleteForm->createView(),
-        ));
-        
-        
-        /*----------------------
+      
+         /*----------------------
        * si post : update/create
        ---------------------*/
          if ($request->getMethod() == 'POST') {
-             $formData = $this->get('request')->request->all();
-         $id=$formData['id'];
+           $formData = $this->get('request')->request->all();
+           //  var_dump($formData);
+        $editForm->bind($request);
+
+        if ($editForm->isValid()) {
+             $em->persist($calendar_entity);
+                    $em->flush();
+                  
+                     $session = $this->getRequest()->getSession();
+            $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
+         
+        }
+        else {echo "notvalid";}
+           //  
+        /* $id=$formData['id'];
           if (isset($id) && $id != 0) {}
           //ajout
-          else {}
+          else {}*/
             // update record 
          }
-             
-      /*----------------------
-       * si pas post :edit
-       ---------------------*/
-         
-         else {}
-            $json['IsSuccess'] = true;
        
-            
-        
-
-        //    $this->view->render('wdcalendara/editwd.phtml');
+          return $this->render('ApplicationChangementsBundle:Calendar:edit.html.twig', array(
+                    'entity' => $calendar_entity,
+                    'form' => $editForm->createView(),
+         ));
+     
+     
    
+    }
+    
+    public function newAction(Request $request) {
+    
+         $entity = new Calendar();
+        $form = $this->createForm(new WdCalendarType(), $entity);
+      
+        return $this->render('ApplicationChangementsBundle:Calendar:new.html.twig', array(
+                    'entity' => $entity,
+                    'form' => $form->createView(),
+        ));
+    }
+    
+    
+    
+     public function showXhtmlAction(Request $request) {
+        $id = $request->get('id');
+    
+       // var_dump($id);
+        $em = $this->getDoctrine()->getManager();
+        $calendar_entity = $em->getRepository('ApplicationChangementsBundle:Calendar')->find($id);
+        /*
+         $response = new Response(json_encode($calendar_entity));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;*/
+        
+        
+        return $this->render('ApplicationChangementsBundle:Calendar:showxhtml.html.twig', array(
+                    'entity' => $calendar_entity,
+                   ));
     }
 
 }

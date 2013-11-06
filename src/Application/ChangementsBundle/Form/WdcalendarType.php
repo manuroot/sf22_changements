@@ -49,7 +49,15 @@ $builder
                     ),
                     'required' => false,
                 ))
-              
+         ->add('description', 'textarea', array(
+        'attr' => array(
+            'class' => 'tinymce',
+            'data-theme' => 'advanced' // simple, advanced, bbcode
+        ),
+              'required' => false,
+    ))
+      ->add('color', 'hidden', array(
+              'label'=>'Couleur'))
         ;
     }
 
