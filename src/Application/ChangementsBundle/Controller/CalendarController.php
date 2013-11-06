@@ -20,42 +20,6 @@ class CalendarController extends Controller {
 
     public function indexAction(Request $request) {
 
-        //     $d =  new \DateTime('2000-01-01');
-        //     $datedebut=$d->format('Y-m-d H:i:s');
-        //var_dump($datedebut);
-
-
-
-        $em = $this->getDoctrine()->getManager();
-
-        //   $entity = new Calendar();
-        //     $entity->setNom('tretr');
-        // $d = date_format('2000-01-01 11:30', 'Y-m-d H:i:s');
-        //    $date="2000-01-01 11:30";
-        //  echo "dd=" .  date("Y-m-d H:i:s", $date);
-
-
-        /*  $format = 'd/m/Y H:i';
-          $date = \DateTime::createFromFormat($format, '11/6/2013 16:30');
-          echo "Format: $format; " . $date->format('Y-m-d H:i:s') . "\n";
-         */
-
-        $entity = new Calendar();
-        /*  $entity->setNom("rtert");
-
-          $format = 'd/m/Y H:i';
-          $d = \DateTime::createFromFormat($format, '11/6/2013 14:30');
-          $f = \DateTime::createFromFormat($format, '11/6/2013 16:30');
-          //$d=$datedebut->format('Y-m-d H:i:s');
-          //$f=$datefin->format('Y-m-d H:i:s');
-
-          $entity->setDateFin($f);
-          $entity->setDateDebut($d);
-          //   $entity->setDateFin($f);
-          //  $entity->setIsAllDayEvent($form['IsAllDayEvent']);
-          $em->persist($entity);
-          $em->flush(); */
-
         return $this->render('ApplicationChangementsBundle:Calendar:index.html.twig', array(
         ));
     }
@@ -97,10 +61,10 @@ class CalendarController extends Controller {
                 //viewtype: month, week ou day
                 case "list":
                     $datas = $em->getRepository('ApplicationChangementsBundle:Calendar')->listCalendar($params['showdate'], $params['viewtype']);
-                    
+
                     $data_query = $datas[0];
                     //$data_query['events']=array();
-                   //   var_dump($data_query);
+                    //   var_dump($data_query);
                     break;
                 case "update":
                     $entity = $em->getRepository('ApplicationChangementsBundle:Calendar')->find($form["calendarId"]);
@@ -115,15 +79,6 @@ class CalendarController extends Controller {
                     $ret['IsSuccess'] = true;
                     $ret['Msg'] = 'update success';
                     $data_query = $ret;
-                    /*
-                      $editForm = $this->createForm(new WdcalendarType(), $calendar_entity);
-                      $datas['dateDebut'] = $form["CalendarStartTime"];
-                      $datas['dateFin'] = $form["CalendarEndTime"];
-                      //$form["CalendarStartTime"], $form["CalendarEndTime"]);
-                      $editForm->bind($datas);
-                      $em->persist($calendar_entity);
-                      $em->flush(); */
-                    //  $ret = $db->updateCalendar($form["calendarId"], $form["CalendarStartTime"], $form["CalendarEndTime"]);
                     break;
             }
         }
