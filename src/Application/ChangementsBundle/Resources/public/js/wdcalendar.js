@@ -31,7 +31,7 @@
                     if (p && p.datestrshow) {
                         $("#txtdatetimeshow").text(p.datestrshow);
                     }
-                   /* $("#caltoolbar").noSelect();
+                   $("#caltoolbar").noSelect();
             
                     $("#hdtxtshow").datepicker({ picker: "#txtdatetimeshow", showtarget: $("#txtdatetimeshow"),
                         onReturn:function(r){                          
@@ -40,14 +40,14 @@
                                 $("#txtdatetimeshow").text(p.datestrshow);
                             }
                         } 
-                    });*/
+                    });
                     function cal_beforerequest(type)
                     {
-                        var t="Loading data...";
+                        var t="Chargement des données...";
                         switch(type)
                         {
                             case 1:
-                                t="Loading data...";
+                                t="Chargement des données...";
                                 break;
                             case 2:                      
                             case 3:  

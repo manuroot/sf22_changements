@@ -97,7 +97,10 @@ class CalendarController extends Controller {
                 //viewtype: month, week ou day
                 case "list":
                     $datas = $em->getRepository('ApplicationChangementsBundle:Calendar')->listCalendar($params['showdate'], $params['viewtype']);
+                    
                     $data_query = $datas[0];
+                    //$data_query['events']=array();
+                   //   var_dump($data_query);
                     break;
                 case "update":
                     $entity = $em->getRepository('ApplicationChangementsBundle:Calendar')->find($form["calendarId"]);
