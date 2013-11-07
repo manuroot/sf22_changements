@@ -35,7 +35,8 @@ class CalendarController extends Controller {
             //$request->query->get('name');
             $method = $request->query->get('method', 'list');
             $form = $this->get('request')->request->all();
-
+             $ret['form'] = $form;
+             $ret['form']['action'] ='datafeed';
             switch ($method) {
                 case "add":
                     $entity = new Calendar();
@@ -52,6 +53,7 @@ class CalendarController extends Controller {
 //$ret['dd']="$d";$ret['ff']="$f";
                     $ret['IsSuccess'] = true;
                     $ret['Msg'] = 'add success';
+                   
                     $data_query = $ret;
                     break;
                 //viewtype: month, week ou day
@@ -59,6 +61,7 @@ class CalendarController extends Controller {
                     $datas = $em->getRepository('ApplicationChangementsBundle:Calendar')->listCalendar($params['showdate'], $params['viewtype']);
 
                     $data_query = $datas[0];
+                    $data_query['form'] = $form;
                     //$data_query['events']=array();
                     //   var_dump($data_query);
                     break;
