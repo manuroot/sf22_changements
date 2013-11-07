@@ -2067,11 +2067,13 @@ function quickadd(start, end, isallday, pos) {
                             option.eventItems[tId][0] = data.Data;
                             option.eventItems[tId][8] = 1;
                             render();
+                             gridcontainer.reload(); // 20120208: reload container after quick add
                             option.onAfterRequestData && option.onAfterRequestData(2);
                         }
                         else {
                             option.onRequestDataError && option.onRequestDataError(2, data);
                             option.isloading = false;
+                             gridcontainer.reload(); // 20120208: reload container after quick add
                             option.onAfterRequestData && option.onAfterRequestData(2);
                         }
 
@@ -2096,7 +2098,8 @@ function quickadd(start, end, isallday, pos) {
             }
             else {
                 if (option.EditCmdhandler && $.isFunction(option.EditCmdhandler)) {
-                    option.EditCmdhandler.call(this, ['0', $("#bbit-cal-what").val(), $("#bbit-cal-start").val(), $("#bbit-cal-end").val(), $("#bbit-cal-allday").val()]);
+                //    option.EditCmdhandler.call(this, ['0', $("#bbit-cal-what").val(), $("#bbit-cal-start").val(), $("#bbit-cal-end").val(), $("#bbit-cal-allday").val()]);
+                       option.EditCmdhandler.call(this, ['', $("#bbit-cal-what").val(), $("#bbit-cal-start").val(), $("#bbit-cal-end").val(), $("#bbit-cal-allday").val()]); // 20120208: deleted id = 0
                 }
                 $("#bbit-cal-buddle").css("visibility", "hidden");
                 realsedragevent();

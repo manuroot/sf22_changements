@@ -16,7 +16,7 @@ $(document).ready(function() {
     /* var DATA_FEED_URL = "/uzf04new/wdcalendar/datafeed";*/
     var op = {
         view: view,
-        theme: 1,
+        theme: 3,
         showday: new Date(),
         EditCmdhandler: Edit,
         DeleteCmdhandler: Delete,
