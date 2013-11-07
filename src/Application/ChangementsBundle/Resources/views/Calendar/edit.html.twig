@@ -165,6 +165,34 @@ div.colorPicker-swatch {
          
         <script>
             $(document).ready(function() {
+    $("#calendar_dateDebut").datepicker({
+        minDate: "-5Y",
+        maxDate: "+10Y",
+        changeMonth: true,
+        changeYear: true,
+        showWeek: true,
+        firstDay: 1,
+        numberOfMonths: 1,
+        dateFormat: "yy-mm-dd 08:00",
+        onClose: function(selectedDate) {
+            $("#form_bis").datepicker("option", "minDate", selectedDate);
+        }
+    });
+    $("#calendar_dateFin").datepicker({
+        maxDate: "+5Y",
+        minDate: "-5Y",
+        changeMonth: true,
+        changeYear: true,
+        numberOfMonths: 1,
+        showWeek: true,
+        firstDay: 1,
+        dateFormat: "yy-mm-dd 17:00",
+        onClose: function(selectedDate) {
+            $("#form_bis").datepicker("option", "minDate", selectedDate);
+        }
+    });
+    
+    
         //debugger;
           var cv =$("#calendar_color").val() ;
         if(cv=="")
@@ -205,8 +233,10 @@ div.colorPicker-swatch {
                         <div> {{ form_row(form.nom) }}</div>
                          <div id="calendarcolor">
             </div>
-                        <div> {{ form_row(form.color) }}</div>
-                        
+<br/><br/>
+<div> {{ form_row(form.color) }}</div>
+<br/><br/>
+                           <div> {{ form_row(form.IsAllDayEvent) }} </div>
                          
             <br/><br/>{#
 <label for="color1">Color 1</label> <input id="color" type="text" name="calendar[color]" value="#333399" />#}
@@ -216,7 +246,10 @@ div.colorPicker-swatch {
                      
                       <div> {{ form_row(form.dateDebut) }} </div>
                       <br/><br/>
-                         <div> {{ form_row(form.dateFin) }} </div></td>
+                         <div> {{ form_row(form.dateFin) }} </div>
+                    
+                     
+                     </td>
                   
                 </tr>
                 

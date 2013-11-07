@@ -89,7 +89,8 @@ class CalendarRepository extends EntityRepository {
                  ->select('a.id,a.nom,a.dateDebut,a.dateFin,a.IsAllDayEvent,a.color')
                 //->select('a.id,a.nom,a.dateDebut,a.dateFin,a.IsAllDayEvent')
                 ->andWhere('a.dateDebut >= (:datedebut)')
-                ->andWhere('a.dateFin <= (:datefin)');
+                ->andWhere('a.dateFin <= (:datefin)')
+                   ->add('orderBy', 'a.dateDebut DESC');
         $parameters['datefin'] = $this->php2MySqlTime($ed);
         $parameters['datedebut'] = $this->php2MySqlTime($sd);
         // var_dump($query);

@@ -59,6 +59,8 @@ $builder
       ->add('color', 'hidden', array(
               'label'=>'Couleur'))
         ;
+    $builder->add('IsAllDayEvent', 'checkbox', array('label' => 'AllDay','required' => false));
+              
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
