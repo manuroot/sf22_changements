@@ -26,6 +26,7 @@ $(document).ready(function() {
         onAfterRequestData: cal_afterrequest,
         onRequestDataError: cal_onerror,
         autoload: true,
+        readonly: false, 
         url: DATA_FEED_URL + "?method=list",
         quickAddUrl: DATA_FEED_URL + "?method=add",
         quickUpdateUrl: DATA_FEED_URL + "?method=update",
@@ -95,7 +96,7 @@ $(document).ready(function() {
     
     /*------------------------------------------
      * 
-     * VIEW WINDOW
+     * EDIT WINDOW
      *
      ------------------------------------------*/
 
@@ -164,10 +165,10 @@ $(document).ready(function() {
             height: "600px",
             fastIframe: false,
             opacity: 0.3,
-            href: url,
-        onClosed:function(){
+            href: url
+       /* onClosed:function(){
               $("#gridcontainer").reload();
-         }
+         }*/
      });
 
 
@@ -288,11 +289,23 @@ $(document).ready(function() {
          $.colorbox({
             iframe: true,
             transition: "elastic",
+            width: "80%",
+            height: "80%",
+            fastIframe: false,
+            opacity: 0.3,
+            href: url,
+        onClosed:function(){
+              $("#gridcontainer").reload();
+         }
+     });
+        /* $.colorbox({
+            iframe: true,
+            transition: "elastic",
             width: "600px",
             height: "600px",
             fastIframe: false,
             opacity: 0.3,
-            href: url});
+            href: url});*/
         
         /*OpenModelWindow(url, {width: 500, height: 500, caption: "Créer Evenement"});*/
     });

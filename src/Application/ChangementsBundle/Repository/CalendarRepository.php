@@ -90,7 +90,7 @@ class CalendarRepository extends EntityRepository {
                 //->select('a.id,a.nom,a.dateDebut,a.dateFin,a.IsAllDayEvent')
                 ->andWhere('a.dateDebut >= (:datedebut)')
                 ->andWhere('a.dateFin <= (:datefin)')
-                   ->add('orderBy', 'a.dateDebut DESC');
+                   ->add('orderBy', 'a.id ASC');
         $parameters['datefin'] = $this->php2MySqlTime($ed);
         $parameters['datedebut'] = $this->php2MySqlTime($sd);
         // var_dump($query);
@@ -107,12 +107,13 @@ class CalendarRepository extends EntityRepository {
                 $this->php2JsTime($this->mySql2PhpTime($v['dateDebut'])),
                 $this->php2JsTime($this->mySql2PhpTime($v['dateFin'])),
                 $v['IsAllDayEvent'],
-                0, 0, $v['color'], "1", null, "fggdfgf", ""
+                0, 0, $v['color'], "1", 
+                $v['location'], "fggdfgf", ""
             );
 
             $compteur++;
         }
-      //  var_dump($ret);
+     //  var_dump($ret);
         return array($ret, $compteur);
     }
 

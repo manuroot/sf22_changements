@@ -58,6 +58,13 @@ $builder
     ))
       ->add('color', 'hidden', array(
               'label'=>'Couleur'))
+         ->add('location', null, array(
+              'label'=>'Location',
+             'widget_addon' => array(
+                        'icon' => 'time',
+                        'type' => 'prepend'
+                    ),))
+        
         ;
     $builder->add('IsAllDayEvent', 'checkbox', array('label' => 'AllDay','required' => false));
               

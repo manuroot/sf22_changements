@@ -2,12 +2,14 @@
 
 {% form_theme form with 'ApplicationChangementsBundle:Form:tpl_form.html.twig' %}
 
+
 {% block stylesheets %}
 
  {{ parent() }}
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
-<link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.fileupload-ui.css') }}" type="text/css" media="all"/>    
-  <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
+<link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
+ <link rel="stylesheet" href="{{ asset('css/wdcalendar/colorselect.css') }}" type="text/css" media="all"/>
+ <link rel="stylesheet" href="{{ asset('css/wdcalendar/dropdown.css') }}" type="text/css" media="all"/>
 <style>
         .monlabel {
             font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -111,8 +113,50 @@ width:98%;
     <script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>
            <script type="text/javascript" src="{{ asset('jquery/validate/jquery.validate.js') }}"></script>
         <script type="text/javascript" src="{{ asset('select2/select2.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>        <script>
+        <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script> 
+        <script>
+
+            $(document).ready(function() {
+    $("#calendar_dateDebut").datepicker({
+        minDate: "-5Y",
+        maxDate: "+10Y",
+        changeMonth: true,
+        changeYear: true,
+        showWeek: true,
+        firstDay: 1,
+        numberOfMonths: 1,
+        dateFormat: "yy-mm-dd 08:00",
+        onClose: function(selectedDate) {
+            $("#form_bis").datepicker("option", "minDate", selectedDate);
+        }
+    });
+    $("#calendar_dateFin").datepicker({
+        maxDate: "+5Y",
+        minDate: "-5Y",
+        changeMonth: true,
+        changeYear: true,
+        numberOfMonths: 1,
+        showWeek: true,
+        firstDay: 1,
+        dateFormat: "yy-mm-dd 17:00",
+        onClose: function(selectedDate) {
+            $("#form_bis").datepicker("option", "minDate", selectedDate);
+        }
+    });
+    
+    
+        //debugger;
+          var cv =$("#calendar_color").val() ;
+        if(cv=="")
+        {
+            cv="-1";
+        }
+        $("#calendarcolor").colorselect({ title: "Color", index: cv, hiddenid: "calendar_color" });
        
+ /*
+ $('#calendar_color').colorPicker();*/
+});
+
 
 </script>
      
@@ -134,20 +178,31 @@ width:98%;
                   -------------------------------------------------#}
            
             <table class="table-mybordered">
-                <tr>
+                  <tr>
                     {#------------------------------------------------
                     LIGNE 1 CELL 1
                     -------------------------------------------------#}
                 <td class="calendar file">
-                        <div> {{ form_widget(form.nom) }}</div>
-                         <div>{{ form_errors(form.nom) }}</div>
-                           <br/> <br/>
-                        <div> {{ form_row(form.dateDebut) }} </div>
-                         <div> {{ form_row(form.dateFin) }} </div>
-                       
-          
+                        <div> {{ form_row(form.nom) }}</div>
+                         <div id="calendarcolor">
+            </div>
+<br/><br/>
+<div> {{ form_row(form.color) }}</div>
+<br/><br/>
+                           <div> {{ form_row(form.IsAllDayEvent) }} </div>
+                         
+            <br/><br/>{#
+<label for="color1">Color 1</label> <input id="color" type="text" name="calendar[color]" value="#333399" />#}
+
                      </td>
-                   
+                     <td class="calendar file">
+                     
+                      <div> {{ form_row(form.dateDebut) }} </div>
+                      <br/><br/>
+                         <div> {{ form_row(form.dateFin) }} </div>
+                    
+                     
+                     </td>
                   
                 </tr>
                 
