@@ -98,7 +98,7 @@ class CalendarRepository extends EntityRepository {
         $parameters = array();
         $query = $this->createQueryBuilder('a')
                 
-                 ->select('a.id,a.nom,a.dateDebut,a.dateFin,a.IsAllDayEvent,a.color')
+                 ->select('a.id,a.nom,a.dateDebut,a.dateFin,a.IsAllDayEvent,a.color,a.location')
                 //->select('a.id,a.nom,a.dateDebut,a.dateFin,a.IsAllDayEvent')
                 ->andWhere('a.dateDebut >= (:datedebut)')
                 ->andWhere('a.dateFin <= (:datefin)')

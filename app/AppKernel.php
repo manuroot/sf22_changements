@@ -76,15 +76,19 @@ class AppKernel extends Kernel {
            //new APY\JsFormValidationBundle\APYJsFormValidationBundle(),
            // new Bazinga\ExposeTranslationBundle\BazingaExposeTranslationBundle(),
             //====================================================
-            // HIGHCHARTS ET CALENDARS
+            // HIGHCHARTS ET FILE MANAGEMENT
             //====================================================
-           // new ADesigns\CalendarBundle\ADesignsCalendarBundle(),
             //new \Application\ADesigns\CalendarBundle\ApplicationADesignsCalendarBundle(),
             new Ob\HighchartsBundle\ObHighchartsBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Oneup\UploaderBundle\OneupUploaderBundle(),
             new PunkAve\FileUploaderBundle\PunkAveFileUploaderBundle(),
             new Application\CentralBundle\ApplicationCentralBundle(),
+            //====================================================
+            // CALENDARS
+            //====================================================
+            new ADesigns\CalendarBundle\ADesignsCalendarBundle(),
+         
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

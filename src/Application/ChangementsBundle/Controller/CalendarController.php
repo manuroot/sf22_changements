@@ -107,7 +107,7 @@ class CalendarController extends Controller {
                 $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
             } 
         }
-      return $this->render('ApplicationChangementsBundle:Calendar:edit.html.twig', array(
+      return $this->render('ApplicationChangementsBundle:Calendar:edit_create.html.twig', array(
                     'entity' => $calendar_entity,
                     'action' => 'edit',
                     'button_submit' => 'Modifier',
@@ -135,7 +135,7 @@ class CalendarController extends Controller {
                 $session->getFlashBag()->add('warning', "Enregistrement ajouté");
             } 
         }
-        return $this->render('ApplicationChangementsBundle:Calendar:edit.html.twig', array(
+        return $this->render('ApplicationChangementsBundle:Calendar:edit_create.html.twig', array(
                     'entity' => $calendar_entity,
                     'action' => 'create',
                     'button_submit' => 'Ajouter',
