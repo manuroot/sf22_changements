@@ -277,7 +277,12 @@
              * {Boolean} Whether end user can drag event item by mouse. 
              */
             enableDrag: true, 
-            loadDateR: [] 
+            loadDateR: [],
+            /**
+             * @description {Config} intervalTime  
+             * {Integer} Set scale time. 
+             */
+            intervalTime: 30
         };
         var eventDiv = $("#gridEvent");
         if (eventDiv.length == 0) {
@@ -308,6 +313,10 @@
         //
         gridcontainer.css("overflow-y", "visible").height(option.height - 8);
 
+//Detect zero intervalTime and set default value.
+        if (option.intervalTime == 0) {
+            option.intervalTime = 30;
+        }
         //populate events data for first display.
         if (option.url && option.autoload) {
             populate(); 
@@ -446,6 +455,8 @@
 
         //build day view
         function BuildDaysAndWeekView(startday, l, events, config) {
+            var height_col = ((60/option.intervalTime)/2)*24*42;
+         
             var days = [];
             if (l == 1) {
                 var show = dateFormat.call(startday, i18n.xgcalendar.dateformat.Md);
@@ -498,8 +509,10 @@
             //onclick=\"javascript:FunProxy('rowhandler',event,this);\"
        
        html.push("<div id=\"dvtec\"  class=\"scolltimeevent\"><table style=\"table-layout: fixed;", jQuery.browser.msie ? "" : "width:100%", "\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td>");
-            html.push("<table style=\"height: 588px\" id=\"tgTable\" class=\"tg-timedevents\" cellspacing=\"0\" cellpadding=\"0\"><tbody>");
+         html.push("<table style=\"height: 588px\" id=\"tgTable\" class=\"tg-timedevents\" cellspacing=\"0\" cellpadding=\"0\"><tbody>");
        
+      /*  html.push("<table style=\"height: ", height_col, "px\" id=\"tgTable\" class=\"tg-timedevents\" cellspacing=\"0\" cellpadding=\"0\"><tbody>");
+      */     
        /*html.push("<table style=\"height: 1008px\" id=\"tgTable\" class=\"tg-timedevents\" cellspacing=\"0\" cellpadding=\"0\"><tbody>");*/
             BuildDayScollEventContainer(html, days, scollDayEvents);
             html.push("</tbody></table></td></tr></tbody></table></div>");
@@ -1682,6 +1695,7 @@ function quickd(type) {
 function getbuddlepos(x, y) {
     var tleft = x - 110; 
     var ttop = y - 217; 
+    
     var maxLeft = document.documentElement.clientWidth;
     var maxTop = document.documentElement.clientHeight;
     var ishide = false;

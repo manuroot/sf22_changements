@@ -1,4 +1,4 @@
-{% extends "::base.html.twig" %}
+{% extends "::layout.html.twig" %}
 
   {# <script>var menuDownUrl = "{{ asset('bundles/applicationcertificats/images/') }}";</script>#}
             
@@ -20,10 +20,10 @@
 #}
    {#   
 {{ parent() }}#}
-{#
- <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.css' ) }}" type="text/css" media="all"/>
- <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-responsive.css' ) }}" type="text/css" media="all"/>
- #}
+
+ <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap_calendar.css' ) }}" type="text/css" media="all"/>
+ {#<link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-responsive.css' ) }}" type="text/css" media="all"/>
+#}
      {#         
     <link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
     <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
@@ -37,6 +37,11 @@
      <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" media="all"/> 
 
 <style>
+        .page-header {
+    padding-top: 20px;
+    margin: 20px 0px 30px;
+    border-bottom: 1px solid rgb(238, 238, 238);
+}
   /*div.container {min-height:1500px;}*/
   /*a.firstbutton{ margin-left:20px;}
    .popover {
@@ -168,13 +173,13 @@ div.etat { position:relative;float:right;margin-right:10px;}
             </div>
 
         </div>
-
+{#
         <div id="example" class="flora" style="display:none"  title="Informations sur le changement">
             I'm in a dialog!
         </div>
-                  <a class="calendar editme" href="{{ path('changements_showXhtml', { 'id': 451 }) }}">
-    </body>
-</html>
+                  <a class="calendar editme" href="{{ path('changements_showXhtml', { 'id': 451 }) }}">#}
+  {#  </body>
+</html>#}
  
 {% endblock %}
  {% block footer %}  {% endblock %}

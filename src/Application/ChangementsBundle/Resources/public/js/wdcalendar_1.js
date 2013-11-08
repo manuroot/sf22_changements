@@ -31,7 +31,7 @@ $(document).ready(function() {
         quickAddUrl: DATA_FEED_URL + "?method=add",
         quickUpdateUrl: DATA_FEED_URL + "?method=update",
         quickDeleteUrl: DATA_FEED_URL + "?method=remove",
-       /*   intervalTime: 15 */// You must add this option
+        intervalTime: 15 // You must add this option
     };
     var $dv = $("#calhead");
     var _MH = document.documentElement.clientHeight;
