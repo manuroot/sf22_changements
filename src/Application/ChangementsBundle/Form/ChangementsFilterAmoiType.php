@@ -277,7 +277,23 @@ class ChangementsFilterAmoiType extends AbstractType {
                     //  'expanded'=>true,
                     'required' => false,
                     'label' => 'Utilisateurs'
-        ));
+        ))
+            
+            ->add('idKind', 'entity', array(
+                    'class' => 'ApplicationChangementsBundle:KindChangements',
+                    'query_builder' => function(EntityRepository $em) {
+                        return $em->createQueryBuilder('u')
+                                ->orderBy('u.nom', 'ASC');
+                    },
+                    'property' => 'nom',
+                    'multiple' => false,
+                    'required' => false,
+                    'label' => 'Type',
+                    'empty_value' => '--- Choisir une option ---'
+                ));
+                    
+            
+            ;
  
         /*
           ->add('idusers', 'entity', array(

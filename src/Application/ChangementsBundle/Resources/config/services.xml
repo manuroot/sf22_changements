@@ -39,5 +39,10 @@
             <argument type="service" id="security.context"/>
             <tag name="kernel.event_subscriber"/>
         </service>
+      
+        <service id="changements.calendar_listener" class="Application\ChangementsBundle\EventListener\CalendarEventListener">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <tag name="kernel.event_listener" event="calendar.load_events" method="loadEvents" />
+        </service>
  </services>
 </container>

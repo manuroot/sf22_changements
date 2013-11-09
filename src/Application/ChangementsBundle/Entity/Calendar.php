@@ -118,7 +118,16 @@ class Calendar {
      */
     private $RecurringRule;
     
-    
+     /**
+     * @var \Application\Sonata\UserBundle\Entity\User
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\UserBundle\Entity\User")
+     * @ORM\OrderBy({"username" = "ASC"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="proprietaire", referencedColumnName="id")
+     * })
+     */
+    private $proprietaire;
     
     
     
@@ -225,7 +234,7 @@ class Calendar {
     public function __construct() {
         // ????????
      /*   $this->dateDemande = new \DateTime('now');*/
-            $this->color = "red";
+            $this->color = "1";
     
     }
 
@@ -343,5 +352,31 @@ class Calendar {
      */
     public function getDescription() {
         return $this->description;
+    }
+    
+    /* public function preUpdate()
+      {
+      $this->setUpdatedAt(new \DateTime);
+      } */
+
+    /**
+     * Set proprietaire
+     *
+     * @param \Application\Sonata\UserBundle\Entity\User $proprietaire
+     * @return Epost
+     */
+    public function setProprietaire(\Application\Sonata\UserBundle\Entity\User $proprietaire = null) {
+        $this->proprietaire = $proprietaire;
+
+        return $this;
+    }
+
+    /**
+     * Get proprietaire
+     *
+     * @return \Application\Sonata\UserBundle\Entity\User 
+     */
+    public function getProprietaire() {
+        return $this->proprietaire;
     }
 }

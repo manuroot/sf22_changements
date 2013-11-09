@@ -29,7 +29,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 
 
-class AdesignCalendarEntity
+class AdesignCalendar
 {
  /**
     * @var integer
@@ -160,6 +160,10 @@ class AdesignCalendarEntity
         return $this->id;
     }
     
+     public function getTitle()
+    {
+        return $this->title;
+    }
     public function setTitle($title)
     {
         $this->title = $title;

@@ -234,6 +234,13 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
             $parameters['idUser'] = $criteria['demandeur'];
         }
 
+         if (isset($criteria['idKind'])) {
+            // var_dump($criteria['idEnvironnement']);exit(1);
+            $query->andWhere('j.id = (:idKind)');
+            $parameters['idKind'] = $criteria['idKind'];
+        }
+        
+        
         if (isset($criteria['idProjet'])) {
             // var_dump($criteria['idEnvironnement']);exit(1);
             $query->andWhere('b.id IN (:idProjet)');
@@ -525,7 +532,8 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
     public function getJoinedBy($sort = 'a.id', $dir = 'DESC', $criteria = array()) {
 
         $parameters = array();
-        $values = array('DISTINCT a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},partial f.{id},partial h.{id}');
+        $values = array('DISTINCT a,partial b.{id,nomprojet},
+            partial c.{id,nomUser},partial d.{id,nom,description},partial f.{id},partial h.{id},partial j.{id,nom}');
         $query = $this->createQueryBuilder('a')
                 ->select($values)
               
@@ -540,7 +548,9 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
                 ->leftJoin('a.comments', 'h')
                 ->addSelect('partial e.{id,nomUser}')
                 //->addSelect('partial e.{id,nomUser}')
-                ->leftJoin('a.idusers', 'e');
+                ->leftJoin('a.idusers', 'e')
+                ->leftJoin('a.idKind', 'j')
+                ;
         $this->query = $query;
        // print_r($criteria);exit(1);
         if (!empty($criteria)) {

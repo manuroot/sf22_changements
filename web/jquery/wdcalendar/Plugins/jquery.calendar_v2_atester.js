@@ -11,7 +11,7 @@
     var oneHour  = (fontSize * 2) + 2;
     var qtrHour  = halfHour / 2;
     // Flags to enable or disable some content
-    var showAllday  = 1;
+    var showAllday  = 0;
     var showIcons   = 1;
     var tableHeight = workDay * oneHour;
     var __WDAY = new Array(i18n.xgcalendar.dateformat.sun, i18n.xgcalendar.dateformat.mon, i18n.xgcalendar.dateformat.tue, i18n.xgcalendar.dateformat.wed, i18n.xgcalendar.dateformat.thu, i18n.xgcalendar.dateformat.fri, i18n.xgcalendar.dateformat.sat);
@@ -780,10 +780,9 @@
             var p = { bdcolor: theme[0], bgcolor2: theme[0], bgcolor1: theme[2], width: "70%", icon: "", title: "", data: "" };
             p.starttime = pZero(e.st.hour) + ":" + pZero(e.st.minute);
             p.endtime = pZero(e.et.hour) + ":" + pZero(e.et.minute);
-            /* données a afficher*/
             p.content = e.event[1];
-            if (e.event[9] != "" && e.event[9] != null) {
-                p.content += " (" + e.event[9] + ")";
+            if (e.event[9] != "") {
+                p.content += " @ " + e.event[9];
             }
             p.title = getTitle(e.event);
             p.data = e.event.join("$");

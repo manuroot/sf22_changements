@@ -12,6 +12,8 @@ use Doctrine\ORM\EntityRepository;
  */
 class CalendarRepository extends EntityRepository {
 
+    private $user;
+
     public function js2PhpTime($jsdate) {
         $matches = array();
         if (preg_match('@(\d+)/(\d+)/(\d+)\s+(\d+):(\d+)@', $jsdate, $matches) == 1) {
@@ -23,23 +25,24 @@ class CalendarRepository extends EntityRepository {
         return $ret;
     }
 
-   public function js2PhpTimeFR($jsdate){
-  if(preg_match('@(\d+)/(\d+)/(\d+)\s+(\d+):(\d+)@', $jsdate, $matches)==1){
-    $ret = mktime($matches[4], $matches[5], 0, $matches[2], $matches[1], $matches[3]); 
-  }else if(preg_match('@(\d+)/(\d+)/(\d+)@', $jsdate, $matches)==1){
-    $ret = mktime(0, 0, 0, $matches[2], $matches[1], $matches[3]);
-  }
-  return $ret;
-}
+    public function js2PhpTimeFR($jsdate) {
+        if (preg_match('@(\d+)/(\d+)/(\d+)\s+(\d+):(\d+)@', $jsdate, $matches) == 1) {
+            $ret = mktime($matches[4], $matches[5], 0, $matches[2], $matches[1], $matches[3]);
+        } else if (preg_match('@(\d+)/(\d+)/(\d+)@', $jsdate, $matches) == 1) {
+            $ret = mktime(0, 0, 0, $matches[2], $matches[1], $matches[3]);
+        }
+        return $ret;
+    }
+
     public function php2JsTime($phpDate) {
         //echo $phpDate;
         //return "/Date(" . $phpDate*1000 . ")/";
         return date("m/d/Y H:i", $phpDate);
     }
-    
-    public function php2JsTimeFR($phpDate){
-    return date("d/m/Y H:i", $phpDate);
-}
+
+    public function php2JsTimeFR($phpDate) {
+        return date("d/m/Y H:i", $phpDate);
+    }
 
     public function php2MySqlTime($phpDate) {
         return date("Y-m-d H:i:s", $phpDate);
@@ -52,8 +55,9 @@ class CalendarRepository extends EntityRepository {
         return mktime($arr["hour"], $arr["minute"], $arr["second"], $arr["month"], $arr["day"], $arr["year"]);
     }
 
-    public function listCalendar($day, $type, $compteur = 0) {
+    public function listCalendar($day, $type, $user_id = 0, $compteur = 0) {
 
+        $this->user = $user_id;
         $phpTime = $this->js2PhpTime($day);
         //   echo $phpTime . "+" . $type;
         switch ($type) {
@@ -80,6 +84,17 @@ class CalendarRepository extends EntityRepository {
         return $this->select_between($st, $et, $compteur);
     }
 
+    public function getUsersForRequeteBuilder() {
+        $query = $this->createQueryBuilder('a')
+                //    ->select('a');
+                ->select('distinct b.id,b.username')
+                ->leftJoin('a.proprietaire', 'b')
+                ->groupBy('b.id')
+                ->add('orderBy', 'b.username ASC');
+        return $query->getQuery()->getResult();
+        //->getScalarResult();
+    }
+
     /*
      * 
      * valeurs retournee en json
@@ -89,29 +104,28 @@ class CalendarRepository extends EntityRepository {
         //$ret['events'] = array();
         //$events = array();
         $ret = array(
-            'events'=>array(),
+            'events' => array(),
             "issort" => true,
             "start" => $this->php2JsTime($sd), "end" => $this->php2JsTime($ed), 'error' => null);
-
-        // $compteur=0;
-
-        $parameters = array();
         $query = $this->createQueryBuilder('a')
-                
-                 ->select('a.id,a.nom,a.dateDebut,a.dateFin,a.IsAllDayEvent,a.color,a.location')
-                //->select('a.id,a.nom,a.dateDebut,a.dateFin,a.IsAllDayEvent')
+                //  ->select('a')
+                ->select('a.id,a.nom,a.dateDebut,a.dateFin,a.IsAllDayEvent,a.color,a.location')
+                ->leftJoin('a.proprietaire', 'b')
                 ->andWhere('a.dateDebut >= (:datedebut)')
-                ->andWhere('a.dateFin <= (:datefin)')
-                   ->add('orderBy', 'a.dateDebut ASC');
-                   //->add('orderBy', 'a.id ASC');
+                ->orWhere('a.dateFin <= (:datefin)')
+                ->andwhere('b.id = :proprietaire')
+                ->add('orderBy', 'a.dateDebut ASC');
+
+
         $parameters['datefin'] = $this->php2MySqlTime($ed);
         $parameters['datedebut'] = $this->php2MySqlTime($sd);
+        $parameters['proprietaire'] = $this->user;
         // var_dump($query);
         $query->setParameters($parameters);
         foreach ($query->getQuery()->getScalarResult() as $v) {
             //  echo "array c=$compteur\n";
-            //var_dump($v);
-            /*  echo "nom=" . $v['nom'] . "\n";
+            // var_dump($v);
+            /* echo "nom=" . $v['nom'] . "\n";
               echo "d1=" . $v['dateDebut'] . "\n";
               echo "d2=" . $v['dateFin'] . "\n"; */
             $ret['events'][$compteur] = array(
@@ -120,13 +134,13 @@ class CalendarRepository extends EntityRepository {
                 $this->php2JsTime($this->mySql2PhpTime($v['dateDebut'])),
                 $this->php2JsTime($this->mySql2PhpTime($v['dateFin'])),
                 $v['IsAllDayEvent'],
-                0, 0, $v['color'], "1", 
+                0, 0, $v['color'], "1",
                 $v['location'], "fggdfgf", ""
             );
 
             $compteur++;
         }
-     //  var_dump($ret);
+        //  var_dump($ret);
         return array($ret, $compteur);
     }
 

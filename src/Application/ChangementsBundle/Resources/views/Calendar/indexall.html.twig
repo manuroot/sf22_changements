@@ -1,0 +1,29 @@
+{% extends "::layout.html.twig" %}
+
+  {# <script>var menuDownUrl = "{{ asset('bundles/applicationcertificats/images/') }}";</script>#}
+            
+
+{% block stylesheets %}
+ {{ parent() }}
+{% endblock %}
+        
+        
+{% block javascripts %}
+  {{ parent() }}
+      <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+   <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+   
+{% endblock %}
+
+{% block content_header '' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+         {% for entity in  entities %}
+                 
+   <br>{{ entity.id }}: {{ entity.username }}
+  
+{% endfor %}
+{% endblock %}
+ {% block footer %}  {% endblock %}
