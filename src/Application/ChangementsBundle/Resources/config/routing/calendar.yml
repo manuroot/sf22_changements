@@ -18,7 +18,14 @@ calendar_adesignajax:
     defaults: { _controller: "ApplicationChangementsBundle:Calendar:loadjqCalendar" }
     options:
         expose: true
-   
+
+calendar_adesignajax_changements:
+    methods: POST|GET
+    pattern:  /adesignajaxchangements
+    defaults: { _controller: "ApplicationChangementsBundle:Calendar:loadjqCalendarChangements" }
+    options:
+        expose: true  
+        
 calendar_dropajax:
     methods: POST|GET
     pattern:  /updateajax
@@ -32,12 +39,16 @@ calendar_ajax:
     defaults: { _controller: "ApplicationChangementsBundle:Calendar:datafeed" }
     options:
         expose: true
- 
+
+wdcalendar_indexadesignchangement:
+    pattern:  /adesignchangements
+    defaults: { _controller: "ApplicationChangementsBundle:Calendar:indexadesignchangements" }
+    
 wdcalendar_indexadesign:
     pattern:  /adesign
     defaults: { _controller: "ApplicationChangementsBundle:Calendar:indexadesign" }
     
-    
+       
 calendar_showXhtml:
     pattern:  /{id}/showxhtml
     defaults: { _controller: "ApplicationChangementsBundle:Calendar:showXhtml" }

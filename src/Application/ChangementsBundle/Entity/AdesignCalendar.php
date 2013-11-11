@@ -50,7 +50,7 @@ class AdesignCalendar
     /**
      * @var string
      *
-     * @ORM\Column(name="url", type="string", length=50, nullable=false)
+     * @ORM\Column(name="url", type="string", length=50, nullable=true)
      */
     protected $url;
     
@@ -71,7 +71,7 @@ class AdesignCalendar
    /**
      * @var string
      *
-     * @ORM\Column(name="cssclass", type="string", length=50, nullable=false)
+     * @ORM\Column(name="cssclass", type="string", length=50, nullable=true)
      */
     protected $cssClass;
     
@@ -199,9 +199,9 @@ class AdesignCalendar
         return $this->fgColor;
     }
     
-    public function setCssClass($class)
+    public function setCssClass($classcss)
     {
-        $this->cssClass = $class;
+        $this->cssClass = $classcss;
     }
     
     public function getCssClass()

@@ -210,8 +210,8 @@
                     eventSources: [
                         {
                             /* default from vendor adesign*/
-                         /*   url: Routing.generate('fullcalendar_loader'), */
-                        url: Routing.generate('calendar_adesignajax'), 
+                 
+                        url: Routing.generate('calendar_adesignajax_changements'), 
                         type: 'POST',
                         error: function() {
                         //alert('There was an error while fetching Google Calendar!');
@@ -473,11 +473,11 @@
 <div id='wrap'>
 <div id='external-events'>
 <h4> <i class="icon-wrench"></i> Evenements:</h4>
-<div class='external-event' myclass="class1" style="background-color:rgb(148, 162, 190);">STANDARD</div>
-<div class='external-event' myclass="class2" style="background-color:rgb(153, 51, 85)">IMPORTANT</div>
-<div class='external-event' myclass="class3" style="background-color:rgb(170, 170, 170)">MEETING</div>
-<div class='external-event' myclass="class4" style="background-color:rgb(242, 166, 64)">IDEE</div>
-<div class='external-event' myclass="class5" style="background-color: rgb(179, 115, 179)">RAPPEL</div>
+<div class='external-event' myclass="class1" style="background-color:rgb(148, 162, 190);">Congé payé</div>
+<div class='external-event' myclass="class2" style="background-color:rgb(153, 51, 85)">RTT</div>
+<div class='external-event' myclass="class3" style="background-color:rgb(170, 170, 170)">Réunion</div>
+<div class='external-event' myclass="class4" style="background-color:rgb(242, 166, 64)">MEP</div>
+<div class='external-event' myclass="class5" style="background-color: rgb(179, 115, 179)">VABF</div>
 <div class='external-event' myclass="class6" style="background-color:rgb(102, 140, 217)">TODO</div>
 <p>
 <input type='checkbox' id='drop-remove' /> <label for='drop-remove'>remove after drop</label>

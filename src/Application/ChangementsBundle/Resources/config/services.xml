@@ -43,6 +43,8 @@
         <service id="changements.calendar_listener" class="Application\ChangementsBundle\EventListener\CalendarEventListener">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <tag name="kernel.event_listener" event="calendar.load_events" method="loadEvents" />
-        </service>
+             <tag name="kernel.event_listener" event="calendar.load_eventsch" method="loadEventsch" />
+         </service>
+     
  </services>
 </container>

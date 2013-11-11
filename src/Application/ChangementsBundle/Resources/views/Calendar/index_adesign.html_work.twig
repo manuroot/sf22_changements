@@ -26,14 +26,14 @@
      
   
   <style>
-           div.container {width:97%;}
+           div.container {width:95%;}
           #wrap {
 		width: 100%;
 		margin: 0 auto;
 		}
   #external-events {
 		float: left;
-		width: 8%;
+		width: 10%;
                 margin-top:50px;
 		padding: 0 10px;
 		border: 1px solid #ccc;
@@ -74,17 +74,8 @@
  /*
 }*/
 /*
-.fc-event-inner*/
-.fc-agenda .fc-event-time {
-  
-   /*  border: 1px solid cadetblue;
-    background: #ccc;*/
-}
- .class1
- {  border: 1px solid cadetblue;
-    background: #ccc;
-}
-	#external-events p {
+.fc-event-inner
+*/	#external-events p {
 		margin: 1.5em 0;
 		font-size: 11px;
 		color: #666;
@@ -94,37 +85,11 @@
 		margin: 0;
 		vertical-align: middle;
 		}
-  #calendar-holder {
+                #calendar-holder {
 		float: right;
-		width: 90%;
+		width: 85%;
 		}
-  /* <div class='external-event' myclass="class1" style="border:'1px solid #ffff';background-color:blue;">Congé payé</div>
-<div class='external-event' myclass="class2" style="background-color:rgb(153, 51, 85)">RTT</div>
-<div class='external-event' myclass="class3" style="background-color:rgb(170, 170, 170)">Réunion</div>
-<div class='external-event' myclass="class4" style="background-color:rgb(242, 166, 64)">MEP</div>
-<div class='external-event' myclass="class5" style="background-color: rgb(179, 115, 179)">VABF</div>
-<div class='external-event' myclass="class6" style="background-color:rgb(102, 140, 217)">TODO</div>
-*/
-  .class1 {     border: 1px solid rgb(90, 105, 134);background-color: rgb(148, 162, 190);}   
-  .class1 .fc-event-time {background:  rgb(90, 105, 134);}
-
-
-  .class2 {     border: 1px solid rgb(113, 6, 47);background: rgb(153, 51, 85);}  
-  
-  .class2 .fc-event-time {background:  rgb(113, 6, 47);}
-  
-  
- .class3 {     border: 1px solid rgb(102, 102, 102);;background: rgb(170, 170, 170);}
- .class3 .fc-event-time {background:rgb(102, 102, 102);}
- .class4 {     border: 1px solid rgb(190, 109, 0);;background: rgb(242, 166, 64);}              
-  .class4 .fc-event-time {background:rgb(190, 109, 0);}
- .class5 {     border: 1px solid rgb(122, 54, 122);;background: rgb(179, 115, 179);}
-   .class5 .fc-event-time {background:   rgb(122, 54, 122);}
-.class6 {  border: 1px solid rgb(41, 82, 163);background: rgb(102, 140, 217);}
-      .class6 .fc-event-time {background:   rgb(41, 82, 163);}
-    
-      
-      </style>   
+</style>   
 {% endblock %}
         
         
@@ -145,7 +110,7 @@
 		var d = date.getDate();
 		var m = date.getMonth();
 		var y = date.getFullYear();
-		/*$(this).find('.fc-event-time').addClass('newclass');*/
+		
                 
              $('#external-events div.external-event').each(function() {
 		
@@ -153,10 +118,8 @@
 			// it doesn't need to have a start or end
 			var eventObject = {
 				title: $.trim($(this).text()), // use the element's text as the event title
-                                'backgroundcolor':$( this ).css( "background-color" ),
-                                'myclass':$( this ).attr( "myclass" )
+                                'backgroundcolor':$( this ).css( "background-color" )
 			};
-                        console.log("class=" + eventObject.myclass);
 			
 			// store the Event Object in the DOM element so we can get to it later
 			$(this).data('eventObject', eventObject);
@@ -182,8 +145,8 @@
                     eventStartEditable: true,
                     eventDurationEditable: true,
                     droppable: true,
-                    hiddenDays: [0,6], 
-                 /*  eventBorderColor:'red',*/
+                    hiddenDays: [ ], 
+                   eventBorderColor:'red',
                   /*  columnFormat: {
 			month: 'ddd',
 			week: 'ddd dd/MM',
@@ -209,9 +172,7 @@
                     },*/
                     eventSources: [
                         {
-                            /* default from vendor adesign*/
-                         /*   url: Routing.generate('fullcalendar_loader'), */
-                        url: Routing.generate('calendar_adesignajax'), 
+                        url: Routing.generate('fullcalendar_loader'), 
                         type: 'POST',
                         error: function() {
                         //alert('There was an error while fetching Google Calendar!');
@@ -241,15 +202,15 @@
        /*   start = $.fullCalendar.formatDate(event.start, "yyyy-MM-dd HH:mm:ss");
     end = $.fullCalendar.formatDate(event.end, "yyyy-MM-dd HH:mm:ss");*/
         console.log("select outside result=" + data['id'] + "\nstart=" + data['start'] + "\nend=" + data['end']);
-         /* $('#calendar-holder').fullCalendar('renderEvent', dataAjax, true);*/
+        
         $('#calendar-holder').fullCalendar('renderEvent',
 	{
 	'title':data['title'],
-            'start':data['start'],
-            'end':data['end'],
+            'newstart':data['start'],
+            'newend':data['end'],
             	allDay: allDay,
               id:data['id']
-	},false
+	}
 	
 	);
                });
@@ -284,10 +245,7 @@
         var title = prompt('Event Title:', calEvent.title, { buttons: { Ok: true, Cancel: false} });
         if (title){
             calEvent.title = title;
-           $('#calendar-holder').fullCalendar('updateEvent',calEvent);
-             updateajax('calendar_dropajax',calEvent,calEvent.allDay,function (result) { 
-        console.log("result=" + result['data']['id']);
-        });
+            $.fullCalendar('updateEvent',calEvent);
           }
 },
         /*
@@ -318,7 +276,6 @@
             dataAjax['title'] = title;
             dataAjax['start'] = date;
             dataAjax['backgroundColor'] = bg;
-            dataAjax['className'] = copiedEventObject['myclass'];
             dataAjax['end'] = new Date(tempDate.setHours(tempDate.getHours()+2)); ;
             dataAjax['allDay'] = allDay;
             createajax('calendar_dropajax',dataAjax,allDay,function (result) { 
@@ -329,8 +286,7 @@
         // render the event on the calendar
 	// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
 	//$(template_event).css('background-color', background_color);
-       $('#calendar-holder').fullCalendar('renderEvent', dataAjax, false);
-     /*  $(this).find('.fc-event-time').addClass('class1');*/
+        $('#calendar-holder').fullCalendar('renderEvent', dataAjax, true);
 	 });
         }
         // is the "remove after drop" checkbox checked?
@@ -364,8 +320,7 @@
         id: id,
         'newstart':start,
         'newend':end,
-        'allday': allday,
-       'title':event.title
+        'allday': allday
       };
     $.ajax({
         async: false,
@@ -403,9 +358,7 @@
             'title':data['title'],
              'background-color':data['backgroundColor'],
             'newstart':start,
-            'newend':end,
-            allDay: allday,
-            'className':data['className']
+            'newend':end
         };
         $.ajax({
             async: false,
@@ -418,7 +371,6 @@
                 datareponse = reponse;
                 var id=reponse['data']['id'];
                 console.log("in success id=" + id);
-               
           
             },
           error: function(e) {
@@ -427,7 +379,6 @@
            
         }
         });
-        /* $('#calendar-holder').fullCalendar('renderEvent', dataAjax, true);*/
        /* return datareponse;*/
        callback(datareponse);
   
@@ -438,15 +389,7 @@
 
 {% block content_header '' %}
 
-
-{% block title %}
-      {#  <span class="icon-stack">
-            <i class="icon-check-empty icon-stack-base"></i>
-            <i class="icon-calendar"></i>
-        </span>    Opérations: Calendrier #}
-       
-{% endblock %}
-        
+{% block title %}{% endblock %}
 
 {% block content %}
 {#
@@ -473,12 +416,12 @@
 <div id='wrap'>
 <div id='external-events'>
 <h4> <i class="icon-wrench"></i> Evenements:</h4>
-<div class='external-event' myclass="class1" style="background-color:rgb(148, 162, 190);">STANDARD</div>
-<div class='external-event' myclass="class2" style="background-color:rgb(153, 51, 85)">IMPORTANT</div>
-<div class='external-event' myclass="class3" style="background-color:rgb(170, 170, 170)">MEETING</div>
-<div class='external-event' myclass="class4" style="background-color:rgb(242, 166, 64)">IDEE</div>
-<div class='external-event' myclass="class5" style="background-color: rgb(179, 115, 179)">RAPPEL</div>
-<div class='external-event' myclass="class6" style="background-color:rgb(102, 140, 217)">TODO</div>
+<div class='external-event' style="border:'1px solid #ffff';background-color:blue;">Congé payé</div>
+<div class='external-event' style="background-color:rgb(153, 51, 85)">RTT</div>
+<div class='external-event' style="background-color:rgb(170, 170, 170)">Réunion</div>
+<div class='external-event' style="background-color:rgb(242, 166, 64)">MEP</div>
+<div class='external-event' style="background-color: rgb(179, 115, 179)">VABF</div>
+<div class='external-event' style="background-color:rgb(102, 140, 217)">TODO</div>
 <p>
 <input type='checkbox' id='drop-remove' /> <label for='drop-remove'>remove after drop</label>
 </p>

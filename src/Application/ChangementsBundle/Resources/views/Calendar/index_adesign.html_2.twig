@@ -1,0 +1,369 @@
+{% extends "::layout.html.twig" %}
+
+  {# <script>var menuDownUrl = "{{ asset('bundles/applicationcertificats/images/') }}";</script>#}
+            
+  {% block stylesheets %}
+    
+
+{{ parent() }}
+{#{% stylesheets 
+                'bundles/applicationchangements/css/sliding.css' 
+                'bundles/applicationchangements/css/changements.css' 
+               'bundles/applicationchangements/css/colorbox.css' 
+
+                output='bundles/applicationchangements/css/ccpchangements.css' filter='?yui_css' debug=true %}
+<link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
+{% endstylesheets %}#}
+
+    <link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/indexfanta.css') }}" type="text/css" media="all"/>
+        <link rel="stylesheet" href="{{ asset('fullcalendar/fullcalendar.css') }}" />
+      {#  <link rel="stylesheet" href="{{ asset('fullcalendar/fullcalendar.print.css') }}" />#}
+       {# <link rel="stylesheet" href="{{ asset('css/jquery-ui-1.9.2.custom.css') }}" />#}
+     
+  
+  <style>
+           div.container {width:95%;}
+          #wrap {
+		width: 100%;
+		margin: 0 auto;
+		}
+    #external-events {
+		float: left;
+		width: 10%;
+                margin-top:50px;
+		padding: 0 10px;
+		border: 1px solid #ccc;
+		background: #eee;
+		text-align: left;
+		}
+		
+	#external-events h4 {
+		font-size: 16px;
+		margin-top: 0;
+		padding-top: 1em;
+		}
+		
+	.external-event { /* try to mimick the look of a real event */
+		margin: 10px 0;
+		padding: 2px 4px;
+		background: #3366CC;
+		color: #fff;
+		font-size: .85em;
+		cursor: pointer;
+		}
+		
+	#external-events p {
+		margin: 1.5em 0;
+		font-size: 11px;
+		color: #666;
+		}
+		
+	#external-events p input {
+		margin: 0;
+		vertical-align: middle;
+		}
+                #calendar-holder {
+		float: right;
+		width: 85%;
+		}
+</style>   
+{% endblock %}
+        
+        
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    <script type="text/javascript" src="{{ asset('select2/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
+ {# <script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/jquery/jquery-1.8.2.min.js') }}"></script>#}
+    <script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.js') }}"></script>
+    {#<script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/fullcalendar/jquery.fullcalendar.min.js') }}"></script>
+{#<script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.js') }}"></script>
+#}{#<script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/calendar-settings.js') }}"></script>#}
+<script type="text/javascript">
+       $(document).ready(function() {
+   var date = new Date();
+		var d = date.getDate();
+		var m = date.getMonth();
+		var y = date.getFullYear();
+		
+                
+                /* initialize the external events
+		-----------------------------------------------------------------*/
+	
+		$('#external-events div.external-event').each(function() {
+		
+			// create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+			// it doesn't need to have a start or end
+			var eventObject = {
+				title: $.trim($(this).text()) // use the element's text as the event title
+			};
+			
+			// store the Event Object in the DOM element so we can get to it later
+			$(this).data('eventObject', eventObject);
+			
+			// make the event draggable using jQuery UI
+			$(this).draggable({
+				zIndex: 999,
+				revert: true,      // will cause the event to go back to its
+				revertDuration: 0  //  original position after the drag
+			});
+			
+		});
+		$('#calendar-holder').fullCalendar({
+                    theme: true,
+                    firstDay:1,   
+                    minTime:8,
+                    maxTime:20,
+                    slotMinutes: 30,
+                    defaultEventMinutes: 120,
+                    editable: true,
+                    selectable: true,
+                    selectHelper: true,
+                    eventStartEditable: true,
+                    eventDurationEditable: true,
+                    droppable: true,
+                    hiddenDays: [ ], 
+                   /*  axisFormat: 'H(:mm)h', //,'h(:mm)tt',*/
+                    defaultView: 'agendaWeek',
+     select: function(start, end, allDay) {
+				var title = prompt('Event Title:');
+				if (title) {
+                                    
+                                      start = $.fullCalendar.formatDate(start, "yyyy-MM-dd HH:mm:ss");
+   end = $.fullCalendar.formatDate(end, "yyyy-MM-dd HH:mm:ss");
+                                    
+                                     var dataAjax = { 
+                                         'title':title,
+                                         'newstart':start,
+             'newend':end,
+            
+                };
+        $.ajax({
+            async: false,
+            url: Routing.generate('calendar_dropajax'),
+            type: "POST",
+            dataType: "json",
+            data: dataAjax,
+            success: function(reponse) {
+                var optionData = reponse;
+                var id=reponse['data']['id'];
+                console.log("id=" + id);
+           /*     event['id']=reponse['data']['id'];*/
+        $('#calendar-holder').fullCalendar('renderEvent',
+						{
+							title: title,
+							start: start,
+							end: end,
+							allDay: allDay,
+                                                        id:id
+						},
+						true // make the event "stick"
+					);
+            }
+        });
+        
+        
+					
+				}
+				$('#calendar-holder').fullCalendar('unselect');
+                               /* $('#calendar-holder').fullCalendar('refetchEvents');*/
+			},
+ eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
+   start = $.fullCalendar.formatDate(event.start, "yyyy-MM-dd HH:mm:ss");
+   end = $.fullCalendar.formatDate(event.end, "yyyy-MM-dd HH:mm:ss");
+ var dataAjax = { id: event.id,
+             'newstart':start,
+             'newend':end,
+       day: dayDelta,
+      min: minuteDelta,
+      allday: allDay
+      
+                };
+        $.ajax({
+            async: false,
+            url: Routing.generate('calendar_dropajax'),
+            type: "POST",
+            dataType: "json",
+            data: dataAjax,
+            success: function(reponse) {
+                var optionData = reponse;
+            }
+        });
+        
+        alert("Ajax done");
+
+    },
+    eventClick: function(calEvent, jsEvent, view) {
+          var title = prompt('Event Title:', calEvent.title, { buttons: { Ok: true, Cancel: false} });
+
+          if (title){
+              calEvent.title = title;
+              $.fullCalendar('updateEvent',calEvent);
+          }
+},
+   drop: function(date, allDay) { // this function is called when something is dropped
+			
+				// retrieve the dropped element's stored Event Object
+				var originalEventObject = $(this).data('eventObject');
+				
+				// we need to copy it, so that multiple events don't have a reference to the same object
+				var copiedEventObject = $.extend({}, originalEventObject);
+				
+				// assign it the date that was reported
+				copiedEventObject.start = date;
+				copiedEventObject.allDay = allDay;
+                           /*   start = $.fullCalendar.formatDate(event.start, "yyyy-MM-dd HH:mm:ss");
+   end = $.fullCalendar.formatDate(event.end, "yyyy-MM-dd HH:mm:ss");*/
+     /*    start = $.fullCalendar.formatDate(event.start, "yyyy-MM-dd HH:mm:ss");
+   end = $.fullCalendar.formatDate(event.end, "yyyy-MM-dd HH:mm:ss");
+ */
+        alert("new event ajouté = (" + copiedEventObject.start  + ")");
+   				
+				// render the event on the calendar
+				// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+				$('#calendar-holder').fullCalendar('renderEvent', copiedEventObject, true);
+				
+            
+				// is the "remove after drop" checkbox checked?
+				if ($('#drop-remove').is(':checked')) {
+					// if so, remove the element from the "Draggable Events" list
+					$(this).remove();
+				}
+				
+			},
+                                
+                                
+                                
+                                
+			header: {
+				left: 'prev, next',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay'
+			},
+			lazyFetching:true,
+            timeFormat: {
+                    // for agendaWeek and agendaDay
+                    agenda: 'h:mmt', // 5:00 - 6:30
+
+                    // for all other views
+                    '': 'h:mmt'            // 7p
+            },
+			eventSources: [
+                    {
+                        url: Routing.generate('fullcalendar_loader'), 
+						type: 'POST',
+                        error: function() {
+                           //alert('There was an error while fetching Google Calendar!');
+                        }
+                    }
+			],
+    /*                   
+eventDrop: function (event, dayDelta, minuteDelta) {
+        // message to end user
+        alert(event.id + ' was moved ' + dayDelta + ' days\n' +
+            '- database will be updated now');
+
+              
+        jQuery.post(
+            'createevent.php'
+            , { 
+                id: event.id
+                , start: event.start
+                , end: event.end
+            }
+        );                    
+    },*/
+ eventResize: function(event,dayDelta,minuteDelta,revertFunc) {
+ 
+ start = $.fullCalendar.formatDate(event.start, "yyyy-MM-dd HH:mm:ss");
+   end = $.fullCalendar.formatDate(event.end, "yyyy-MM-dd HH:mm:ss");
+  var obj = $(this);
+  var dataAjax = { id: event.id,
+             'newstart':start,
+             'newend':end,
+       day: dayDelta,
+      min: minuteDelta
+                };
+                 if (!confirm("Resize de id=" + event.id + " ?")) {
+            revertFunc();
+        }else {
+                createajax(dataAjax,'calendar_dropajax',obj);
+        }
+      /*  alert(
+            "RESIZE::new=(" + start + "," + end + ") The end date of " + event.title + "has been moved " +
+            dayDelta + " days and " +
+            minuteDelta + " minutes."
+        );
+*/
+       /* if (!confirm("Resize de id=" + event.id + " ?")) {
+            revertFunc();
+        }
+       
+          $.ajax({
+            async: false,
+            url: Routing.generate('calendar_dropajax'),
+            type: "POST",
+            dataType: "json",
+            data: dataAjax,
+            success: function(reponse) {
+                var optionData = reponse;
+            }
+        });*/
+
+    }      
+		});
+                  /*========================================================
+     *  Fonction: Modif du status
+     ========================================================*/
+
+    function createajax(dataAjax,route,obj) {
+         $.ajax({
+            async: false,
+            url: Routing.generate(route),
+            type: "POST",
+            dataType: "json",
+            data: dataAjax,
+            success: function(reponse) {
+                var optionData = reponse;
+            },
+            error: function(e) {
+                console.log(e.message);
+            }
+        });
+  
+    } //Eof:: fucntion remplirSelect
+
+});
+</script>
+{% endblock %}
+
+{% block content_header '' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+<div id='wrap'>
+<div id='external-events'>
+<h4> <i class="icon-wrench"></i> Evenements:</h4>
+<div class='external-event'>Congé payé</div>
+<div class='external-event'>RTT</div>
+<div class='external-event'>Réunion</div>
+<div class='external-event'>MEP</div>
+<div class='external-event'>VABF</div>
+<div class='external-event'>TODO</div>
+<p>
+<input type='checkbox' id='drop-remove' /> <label for='drop-remove'>remove after drop</label>
+</p>
+</div>
+
+<div id="calendar-holder"></div>
+
+<div style='clear:both'></div>
+</div>
+{% endblock %}
+ {% block footer %}  {% endblock %}

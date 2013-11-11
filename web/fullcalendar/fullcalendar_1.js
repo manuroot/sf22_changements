@@ -26,9 +26,9 @@ var defaults = {
 		right: 'today prev,next'
 	},
 	weekends: true,
-	weekNumbers: true,
+	weekNumbers: false,
 	weekNumberCalculation: 'iso',
-	weekNumberTitle: 'Semaine ',
+	weekNumberTitle: 'W',
 	
 	// editing
 	//editable: false,
@@ -46,45 +46,34 @@ var defaults = {
 	// time formats
 	titleFormat: {
 		month: 'MMMM yyyy',
-               week:"'Semaine du' dd [yyyy] {'au' [MMM] dd MMM yyyy}",
-               day: 'dddd dd MMM yyyy'
-		/*week: "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}",*/
-		/*day: 'dddd, MMM d, yyyy'*/
+		week: "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}",
+		day: 'dddd, MMM d, yyyy'
 	},
 	columnFormat: {
 		month: 'ddd',
-                week: 'ddd dd/M',
-                day: 'dddd dd/M' 
-		/*week: 'ddd M/d',
-		day: 'dddd M/d'*/
+		week: 'ddd M/d',
+		day: 'dddd M/d'
 	},
 	timeFormat: { // for event elements
-		/*'': 'h(:mm)t' // default*/
-                 '': 'HH:mm'
-                
+		'': 'h(:mm)t' // default
 	},
 	
 	// locale
 	isRTL: false,
 	firstDay: 0,
-        monthNames:['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
-monthNamesShort:['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'],
-dayNames: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
-dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
-/*
 	monthNames: ['January','February','March','April','May','June','July','August','September','October','November','December'],
 	monthNamesShort: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
 	dayNames: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
-	dayNamesShort: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],*/
+	dayNamesShort: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
 	buttonText: {
 		prev: "<span class='fc-text-arrow'>&lsaquo;</span>",
 		next: "<span class='fc-text-arrow'>&rsaquo;</span>",
 		prevYear: "<span class='fc-text-arrow'>&laquo;</span>",
 		nextYear: "<span class='fc-text-arrow'>&raquo;</span>",
 		today: 'today',
-		month: '<i class="icon-calendar"></i> Mois',
-		week: '<i class="icon-calendar"></i> Semaine',
-		day: '<i class="icon-calendar"></i> Jour'
+		month: 'month',
+		week: 'week',
+		day: 'day'
 	},
 	
 	// jquery-ui theming
@@ -2768,10 +2757,9 @@ setDefaults({
 	firstHour: 6,
 	slotMinutes: 30,
 	defaultEventMinutes: 120,
-        /*axisFormat: 'h(:mm)tt',*/
-        axisFormat: 'HH:mm',
+	axisFormat: 'h(:mm)tt',
 	timeFormat: {
-		agenda: 'H:mm{ - h:mm}'
+		agenda: 'h:mm{ - h:mm}'
 	},
 	dragOpacity: {
 		agenda: .5
