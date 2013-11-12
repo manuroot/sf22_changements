@@ -1,29 +1,16 @@
 {% extends "::layout.html.twig" %}
-
   {# <script>var menuDownUrl = "{{ asset('bundles/applicationcertificats/images/') }}";</script>#}
-            
   {% block stylesheets %}
     
-
 {{ parent() }}
-{#{% stylesheets 
-                'bundles/applicationchangements/css/sliding.css' 
-                'bundles/applicationchangements/css/changements.css' 
-               'bundles/applicationchangements/css/colorbox.css' 
-
-                output='bundles/applicationchangements/css/ccpchangements.css' filter='?yui_css' debug=true %}
-<link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
-{% endstylesheets %}#}
-
     <link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
     <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>
     <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/indexfanta.css') }}" type="text/css" media="all"/>
     <link rel="stylesheet" href="{{ asset('css/jquery-ui-1.9.2.custom_1.css') }}" />    
     <link rel="stylesheet" href="{{ asset('fullcalendar/fullcalendar.css') }}" />
     <link rel="stylesheet" href="{{ asset('fullcalendar/view_calendar.css') }}" />
       {#  <link rel="stylesheet" href="{{ asset('fullcalendar/fullcalendar.print.css') }}" />#}
-        
-     
   
   <style>
            div.container {width:97%;}
@@ -62,24 +49,9 @@
  
 #calendar-holder .fc-header-title{
 	font-weight: normal;
-}	/*
-.fc-event-time { 
-  
-    -moz-opacity:1;
-    padding:0px;
-    font-weight: bold;
-   filter:alpha(opacity=60); /* IE */
-  /*  -moz-opacity:0.6; /* Mozilla */
- 
- /*
+}	
+/*.fc-agenda .fc-event-time {
 }*/
-/*
-.fc-event-inner*/
-.fc-agenda .fc-event-time {
-  
-   /*  border: 1px solid cadetblue;
-    background: #ccc;*/
-}
  .class1
  {  border: 1px solid cadetblue;
     background: #ccc;
@@ -98,32 +70,20 @@
 		float: right;
 		width: 90%;
 		}
-  /* <div class='external-event' myclass="class1" style="border:'1px solid #ffff';background-color:blue;">Congé payé</div>
-<div class='external-event' myclass="class2" style="background-color:rgb(153, 51, 85)">RTT</div>
-<div class='external-event' myclass="class3" style="background-color:rgb(170, 170, 170)">Réunion</div>
-<div class='external-event' myclass="class4" style="background-color:rgb(242, 166, 64)">MEP</div>
-<div class='external-event' myclass="class5" style="background-color: rgb(179, 115, 179)">VABF</div>
-<div class='external-event' myclass="class6" style="background-color:rgb(102, 140, 217)">TODO</div>
-*/
-  .class1 {     border: 1px solid rgb(90, 105, 134);background-color: rgb(148, 162, 190);}   
-  .class1 .fc-event-time {background:  rgb(90, 105, 134);}
-
-
-  .class2 {     border: 1px solid rgb(113, 6, 47);background: rgb(153, 51, 85);}  
-  
-  .class2 .fc-event-time {background:  rgb(113, 6, 47);}
-  
-  
- .class3 {     border: 1px solid rgb(102, 102, 102);;background: rgb(170, 170, 170);}
- .class3 .fc-event-time {background:rgb(102, 102, 102);}
- .class4 {     border: 1px solid rgb(190, 109, 0);;background: rgb(242, 166, 64);}              
-  .class4 .fc-event-time {background:rgb(190, 109, 0);}
- .class5 {     border: 1px solid rgb(122, 54, 122);;background: rgb(179, 115, 179);}
-   .class5 .fc-event-time {background:   rgb(122, 54, 122);}
+.class1 {     border: 1px solid rgb(90, 105, 134);background-color: rgb(148, 162, 190);}   
+.class1 .fc-event-time {background:  rgb(90, 105, 134);}
+.class2 {     border: 1px solid rgb(113, 6, 47);background: rgb(153, 51, 85);}  
+.class2 .fc-event-time {background:  rgb(113, 6, 47);}
+.class3 {     border: 1px solid rgb(102, 102, 102);;background: rgb(170, 170, 170);}
+.class3 .fc-event-time {background:rgb(102, 102, 102);}
+.class4 {     border: 1px solid rgb(190, 109, 0);;background: rgb(242, 166, 64);}              
+.class4 .fc-event-time {background:rgb(190, 109, 0);}
+.class5 {     border: 1px solid rgb(122, 54, 122);;background: rgb(179, 115, 179);}
+.class5 .fc-event-time {background:   rgb(122, 54, 122);}
 .class6 {  border: 1px solid rgb(41, 82, 163);background: rgb(102, 140, 217);}
-      .class6 .fc-event-time {background:   rgb(41, 82, 163);}
+.class6 .fc-event-time {background:   rgb(41, 82, 163);}
     
-      
+.nube{ position: absolute;left:0;top:0}
       </style>   
 {% endblock %}
         
@@ -136,6 +96,8 @@
     <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
  {# <script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/jquery/jquery-1.8.2.min.js') }}"></script>#}
     <script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.js') }}"></script>
+      <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
+ 
     {#<script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/fullcalendar/jquery.fullcalendar.min.js') }}"></script>
 {#<script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.js') }}"></script>
 #}{#<script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/calendar-settings.js') }}"></script>#}
@@ -219,6 +181,13 @@
                         }
                         }
                     ],
+                    eventRender: function(event, element) {
+        /*element.find(".fc-event-time").after($("<span class=\"fc-event-icons\"></span>").html("Whatever you want the content of the span to be"));*/
+      {#  element.find(".fc-event-time").append($("<i class=\"icon-briefcase\"></i>").html());#}
+        element.find("div.fc-event-time").prepend(" <i class=\"icon-wrench\"></i> ");
+        /*.html("Whatever you want the content of the span to be"));*/
+      
+    },
             /*
                      * 
                      * @param {type} start
@@ -238,10 +207,7 @@
             createajax('calendar_dropajax',dataAjax,allDay,function (result) { 
             console.log("result=" + result['data']['id']);
              data=result['data'];
-            
-       /*   start = $.fullCalendar.formatDate(event.start, "yyyy-MM-dd HH:mm:ss");
-    end = $.fullCalendar.formatDate(event.end, "yyyy-MM-dd HH:mm:ss");*/
-        console.log("select outside result=" + data['id'] + "\nstart=" + data['start'] + "\nend=" + data['end']);
+          console.log("select outside result=" + data['id'] + "\nstart=" + data['start'] + "\nend=" + data['end']);
          /* $('#calendar-holder').fullCalendar('renderEvent', dataAjax, true);*/
         $('#calendar-holder').fullCalendar('renderEvent',
 	{
@@ -259,6 +225,22 @@
         /* $('#calendar-holder').fullCalendar('refetchEvents');*/
     },
  
+     /* eventMouseover: function( event, jsEvent, view ) { 
+                            var item = $(this);
+                            if(item.find('.nube').length == 0){
+                                var info = '<span class="nube"><h2>'+event.title+'</h2><img src="'+event.avatar+'" /> <p class="text">'+event.name+'</p><p>'+event.start+' <br /> '+event.end+'</p><p><a href="/post.php?blogid='+event.id+'">read_more</a></p></span>';
+                                item.append(info);
+                            }
+                            if(parseInt(item.css('top')) <= 200){
+                                item.find('.nube').css({'top': 20,'bottom':'auto'});
+                                item.parent().find('.fc-event').addClass('z0');
+                            }
+                            item.find('.nube').stop(true,true).fadeIn();
+   },
+   eventMouseout: function( event, jsEvent, view ) { 
+                            var item = $(this);
+                            item.find('.nube').stop(true,true).fadeOut();
+   },*/
  /*===================================
  *  drop== move event
 * DROP EVENT
@@ -282,14 +264,38 @@
              * @returns {undefined}
              */
     eventClick: function(calEvent, jsEvent, view) {
-        var title = prompt('Event Title:', calEvent.title, { buttons: { Ok: true, Cancel: false} });
+        /*var title = prompt('Event Title:', calEvent.title, { buttons: { Ok: true, Cancel: false} });
         if (title){
             calEvent.title = title;
            $('#calendar-holder').fullCalendar('updateEvent',calEvent);
              updateajax('calendar_dropajax',calEvent,calEvent.allDay,function (result) { 
         console.log("result=" + result['data']['id']);
         });
-          }
+        
+        */
+        
+        
+        
+          var id = calEvent.id;
+        /* console.log("id=" + id);*/
+        /*    http://symvideo:92/452/showxhtml*/
+        var url = Routing.generate('calendar_showXhtml', {id: id});
+        /*var dataAjax = {'id': id};*/
+        $.colorbox({
+            iframe: true,
+            transition: "elastic",
+            width: "600px",
+            height: "600px",
+            fastIframe: false,
+            opacity: 0.3,
+            href: url
+       /* onClosed:function(){
+              $("#gridcontainer").reload();
+         }*/
+     });
+
+     
+      
 },
         /*
          * drop external event
@@ -388,7 +394,88 @@
        callback(datareponse);
   
     } //Eof:: fucntion remplirSelect
+  function View(datab)
+    {
+        var str = "Informations sur l\'evenement<br>";
+        var id = datab['id'];
+        /* console.log("id=" + id);*/
+        /*    http://symvideo:92/452/showxhtml*/
+        var url = Routing.generate('calendar_showXhtml', {id: id});
+        /*var dataAjax = {'id': id};*/
+        $.colorbox({
+            iframe: true,
+            transition: "elastic",
+            width: "600px",
+            height: "600px",
+            fastIframe: false,
+            opacity: 0.3,
+            href: url
+       /* onClosed:function(){
+              $("#gridcontainer").reload();
+         }*/
+     });
 
+
+        /*   $.ajax({
+         
+         url: Routing.generate('calendar_showXhtml'),
+         type: 'POST',
+         cache: false,
+         data: dataAjax,
+         dataType: "json",
+         success: function (data) {
+         
+         $.each(data, function(i, item){
+         str += "<strong>" + i + "</strong>:";
+         str +="<font color='red'>"  + item + "</font><br>";
+         });
+         $("#example").empty();
+         $("#example").append(str);
+         $("#example").dialog({
+         width: 600,
+         height:450,
+         modal: true,
+         
+         
+         buttons: {
+         Ok: function() {
+         $( this ).dialog( "close" );
+         }
+         }     
+         });
+         }
+         });*/
+    }
+
+  /*------------------------------------------
+     * 
+     * EDIT WINDOW
+     *
+     ------------------------------------------*/
+
+    function Edit(data)
+    {
+        if (data)
+        {
+        var id = data[0];
+          var url = Routing.generate('calendar_edit', {id: id});
+       
+          /*  var url = Routing.generate('calendar_showXhtml', {id: id});*/
+        /*var dataAjax = {'id': id};*/
+        $.colorbox({
+            iframe: true,
+            transition: "elastic",
+            width: "80%",
+            height: "80%",
+            fastIframe: false,
+            opacity: 0.3,
+            href: url,
+         onClosed:function(){
+              $("#gridcontainer").reload();
+         }
+     });
+           }
+    }
 
  /*========================================================
      *  Fonction: Ajaxs
