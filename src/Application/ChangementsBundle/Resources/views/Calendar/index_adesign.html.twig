@@ -199,13 +199,9 @@
         var title = prompt('Event Title:');
         var data=[];
 	if (title) {
-            var dataAjax=[];
-            dataAjax['title'] = title;
-            dataAjax['start'] = start;
-            dataAjax['end'] = end;
-            dataAjax['backgroundColor']="rgb(102, 140, 217)";
+            var dataAjax={'title': title,'start':start,'end':end,'backgroundColor':"rgb(102, 140, 217)"};
             createajax('calendar_dropajax',dataAjax,allDay,function (result) { 
-            console.log("result=" + result['data']['id']);
+            console.log("create ajax?? result=" + result['data']['id']);
              data=result['data'];
           console.log("select outside result=" + data['id'] + "\nstart=" + data['start'] + "\nend=" + data['end']);
          /* $('#calendar-holder').fullCalendar('renderEvent', dataAjax, true);*/
