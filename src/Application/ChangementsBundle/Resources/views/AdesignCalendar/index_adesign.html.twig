@@ -82,8 +82,14 @@
 .class5 .fc-event-time {background:   rgb(122, 54, 122);}
 .class6 {  border: 1px solid rgb(41, 82, 163);background: rgb(102, 140, 217);}
 .class6 .fc-event-time {background:   rgb(41, 82, 163);}
-    
+ .description {height:200px;}
 .nube{ position: absolute;left:0;top:0}
+.popup {
+    background-color:ivory; border:1px solid gray;
+    position:fixed; top:25%; left:25%; display:none; padding: 0px 20px 10px 10px; z-index:100;
+}
+.popup form div{float:left; width:80px; text-align:left;}
+.popup form input{float:left; text-align:left;}
       </style>   
 {% endblock %}
         
@@ -97,12 +103,36 @@
  {# <script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/jquery/jquery-1.8.2.min.js') }}"></script>#}
     <script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.js') }}"></script>
       <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
- 
+   <script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>
     {#<script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/fullcalendar/jquery.fullcalendar.min.js') }}"></script>
 {#<script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.js') }}"></script>
 #}{#<script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/calendar-settings.js') }}"></script>#}
 <script type="text/javascript">
        $(document).ready(function() {
+           
+        /*   
+           
+       $("a.editme").colorbox({
+            iframe:true,
+            transition:	"elastic",
+            width:"70%",
+            height:"70%",
+              fastIframe:false,
+            opacity:0.3,
+            href: function(){
+            // Since I can't see your markup I can't provide exact solution
+            // but if your .button elm is an anchor then use
+       
+            var url = Routing.generate('calendar_showXhtml', {id: id});
+           
+            // if you are obtaining the url from diff. elm, grab it from there
+            // such as $('#your_element).attr('href') 
+            return url;
+        }
+      
+        
+        });*/
+
    var date = new Date();
 		var d = date.getDate();
 		var m = date.getMonth();
@@ -184,17 +214,13 @@
                     eventRender: function(event, element) {
         /*element.find(".fc-event-time").after($("<span class=\"fc-event-icons\"></span>").html("Whatever you want the content of the span to be"));*/
       {#  element.find(".fc-event-time").append($("<i class=\"icon-briefcase\"></i>").html());#}
-        element.find("div.fc-event-time").prepend(" <i class=\"icon-wrench\"></i> ");
+        element.find("div.fc-event-time").prepend(" <a class=\"editme\" href=\"#\"><i class=\"icon-wrench\"></i></a> ");
+        
+         
         /*.html("Whatever you want the content of the span to be"));*/
       
     },
-            /*
-                     * 
-                     * @param {type} start
-                     * @param {type} end
-                     * @param {type} allDay
-                     * @returns {undefined}
-                     */
+    /*    
     select: function(start, end, allDay) {
         var title = prompt('Event Title:');
         var data=[];
@@ -204,7 +230,6 @@
             console.log("create ajax?? result=" + result['data']['id']);
              data=result['data'];
           console.log("select outside result=" + data['id'] + "\nstart=" + data['start'] + "\nend=" + data['end']);
-         /* $('#calendar-holder').fullCalendar('renderEvent', dataAjax, true);*/
         $('#calendar-holder').fullCalendar('renderEvent',
 	{
 	'title':data['title'],
@@ -218,9 +243,8 @@
                });
    	}
 	$('#calendar-holder').fullCalendar('unselect');
-        /* $('#calendar-holder').fullCalendar('refetchEvents');*/
-    },
- 
+     },
+ */
      /* eventMouseover: function( event, jsEvent, view ) { 
                             var item = $(this);
                             if(item.find('.nube').length == 0){
@@ -237,29 +261,216 @@
                             var item = $(this);
                             item.find('.nube').stop(true,true).fadeOut();
    },*/
- /*===================================
- *  drop== move event
-* DROP EVENT
-  * @param {type} event
-  * @param {type} dayDelta
-  * @param {type} minuteDelta
-  * @param {type} allDay
-  * @param {type} revertFunc
-  * @returns {undefined}  
-  =================================**/
+ select: function(start, end, allDay) {
+   /*     var endtime = $.fullCalendar.formatDate(end,'h:mm tt');
+    var starttime = $.fullCalendar.formatDate(start,'ddd, MMM d, h:mm tt');*/
+  /* var   start = $.fullCalendar.formatDate(start, "yyyy-MM-dd HH:mm:ss");
+   var end = $.fullCalendar.formatDate(end, "yyyy-MM-dd HH:mm:ss");*/
+         console.log("start" + start + " end=" + end);
+    var mywhen = start + ' - ' + end;
+  
+        $('#createEventModal #when').text(mywhen);
+        $('#createEventModal').modal('show');
+        /*  $('#calendar-holder').fullCalendar('unselect');*/
+ 
+       $('#createEventModal #apptStartTime').val(start);
+      $('#createEventModal #apptEndTime').val(end);
+      $('#createEventModal #apptAllDay').val(allDay)
+      
+      
+        /* $("#titleName").focus();*/
+               $("#submitButton").click(function(){
+                     $('#createEventModal').hide();
+                    console.log("submit button");
+                    var title=$("#titleName").val();
+                    var description=$("#descriptionName").val();
+                    
+                    var mstart= $('#createEventModal #apptStartTime').val();
+      
+    var mend= $('#createEventModal #apptEndTime').val();
+     var mallDay= $('#createEventModal #apptAllDay').val()
+      
+      
+                    if (title) {
+                        var dataAjax=[];
+            console.log("mstart=" + mstart + "start" + start + " end=" + end);
+            dataAjax={'title':title, 'description':description,'start':mstart,'end':mend,'allDay':mallDay};
+            createajax('calendar_dropajax',dataAjax,allDay,function (result) { 
+            console.log("result=" + result['data']['id']);
+            dataAjax['id'] = result['data']['id'];
+           
+   	
+        // render the event on the calendar
+	// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+	//$(template_event).css('background-color', background_color);
+       $('#calendar-holder').fullCalendar('renderEvent', dataAjax, false);
+     /*  $(this).find('.fc-event-time').addClass('class1');*/
+ $('#calendar-holder').fullCalendar('unselect');	 
+    });
+        /*         $('#calendar-holder').fullCalendar('renderEvent',{
+                            title: title,
+                            start: start,
+                            end: end,
+                            allDay: allDay
+                        },
+                        true // make the event "stick"
+                    );*/
+                  
+                    }
+                    $('#createEventModal').modal('hide');
+                    $("#titleName").val("");
+                    $("#descriptionName").val("");
+                     $('#calendar-holder').fullCalendar('unselect');
+                
+                   
+                });
+              /*  $('#createEventModal').modal('hide');*/
+            },
+    //other functions
+  /*
+select1: function(start, end, allDay){
+    $(".popup").show(); // show's pop up
+    $(".title").focus(); // auto focus on the field
+     $(".submitForm").click(function(){ // on submission
+          e.preventDefault();
+    var title = $(".title").val(); // gets title value
+    var description = $(".description").val(); // gets title value
+    if(title != ""){
+         var dataAjax=[];
+        
+            dataAjax={'title':title,'start':start,'end':end,'allDay':allDay};
+            createajax('calendar_dropajax',dataAjax,allDay,function (result) { 
+            console.log("result=" + result['data']['id']);
+            dataAjax['id'] = result['data']['id'];
+           
+   	
+        // render the event on the calendar
+	// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+	//$(template_event).css('background-color', background_color);
+       $('#calendar-holder').fullCalendar('renderEvent', dataAjax, false);
+       $(this).find('.fc-event-time').addClass('class1');
+	 });
+   
+         
+      // if the title exists run script
+    
+    }
+$(".popup").hide(); // hide pop up box
+});
+},*/
     eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
         updateajax('calendar_dropajax',event,event['allDay'],function (result) { 
-           console.log("result=" + result);
+           console.log("event single drop result=" + result);
         });
     },  
-            /*
-             * 
-             * @param {type} calEvent
-             * @param {type} jsEvent
-             * @param {type} view
-             * @returns {undefined}
-             */
+         
     eventClick: function(calEvent, jsEvent, view) {
+          console.log("event click");
+           
+        var border=$(this).css('border-color');
+        $(this).css('border-color', 'red');
+        $("#example").dialog({
+         width: 600,
+         height:450,
+         modal: true,
+         
+         
+         buttons: {
+         Submit: function() {
+         $( this ).dialog( "close" );
+        
+         if (title){
+            calEvent.title = title;
+           $('#calendar-holder').fullCalendar('updateEvent',calEvent);
+             updateajax('calendar_dropajax',calEvent,calEvent.allDay,function (result) { 
+        console.log("result=" + result['data']['id']);
+        });
+         }
+        
+        
+        
+        
+        
+        }
+         }     
+         });
+        
+        
+           var boxContentString = "infos:<br> " + calEvent.title + 
+                   "<br>Description:<br>" + calEvent.description + "\n----";
+bootbox.dialog(boxContentString,[
+    //buttons
+  
+    {
+        "label" : "Edit",
+        "class" : "btn-success",
+        "callback": function(e){
+            //do stuff
+        }   
+    },
+    {
+        "label" : "View",
+                "class" : "btn-warning",
+        "callback": function(e){
+            //do stuff
+        }
+    },
+        {
+        "label" : "Delete",
+                "class" : "btn-danger",
+        "callback": function(e){
+            //do stuff
+        }
+    }, 
+             {
+    "label" : "Cancel",
+    "class" : "btn-default",
+    "callback": function() {
+        // Cancel function
+    }
+}
+]);
+           /*var mess ="hfjskdhfj";
+           bootbox.confirm(mess, function(checkstr) {
+                    console.log("confirm result=");
+                    });*/
+                    /*Example.show("Confirm result: "+result);
+                     * 
+                     */
+    /*                bootbox.dialog("I am a custom dialog", [{
+    "label" : "Success!",
+    "class" : "class-with-width",
+    "callback": function() {
+        Example.show("great success");
+    }
+}]);*/
+     /* bootbox.dialog({
+message: "I am a custom dialog",
+title: "Custom title",
+buttons: {
+success: {
+label: "Success!",
+//className: "btn-success",
+callback: function() {
+Example.show("great success");
+}
+},
+danger: {
+label: "Danger!",
+//className: "btn-danger",
+callback: function() {
+Example.show("uh oh, look out!");
+}
+},
+main: {
+label: "Click ME!",
+//className: "btn-primary",
+callback: function() {
+Example.show("Primary button");
+}
+}
+}
+});*/
         /*var title = prompt('Event Title:', calEvent.title, { buttons: { Ok: true, Cancel: false} });
         if (title){
             calEvent.title = title;
@@ -272,12 +483,12 @@
         
         
         
-          var id = calEvent.id;
+    //      var id = calEvent.id;
         /* console.log("id=" + id);*/
         /*    http://symvideo:92/452/showxhtml*/
-        var url = Routing.generate('calendar_showXhtml', {id: id});
+    //    var url = Routing.generate('calendar_showXhtml', {id: id});
         /*var dataAjax = {'id': id};*/
-        $.colorbox({
+   /*     $.colorbox({
             iframe: true,
             transition: "elastic",
             width: "600px",
@@ -287,19 +498,14 @@
             href: url
        /* onClosed:function(){
               $("#gridcontainer").reload();
-         }*/
-     });
+         }
+     });*/
 
      
-      
+ //  $(this).find("div.fc-event-time").prepend(" <a class=\"editme\" href=\"#\"><i class=\"icon-wrench\"></i></a> ");
+  $(this).css('border-color', border);          
 },
-        /*
-         * drop external event
-         * 
-         * @param {type} date
-         * @param {type} allDay
-         * @returns {undefined}
-         */
+
     drop: function(date, allDay) { // this function is called when something is dropped
         var tempDate = new Date(date);  //clone date
         // retrieve the dropped element's stored Event Object
@@ -315,7 +521,7 @@
         
         var bg= copiedEventObject['backgroundcolor'];
         
-        console.log("tittre?=" + copiedEventObject['title']);
+        console.log("Drop function titre?=" + copiedEventObject['title']);
         if (title) {
             var dataAjax=[];
             dataAjax['title'] = title;
@@ -349,7 +555,7 @@
 
     eventResize: function(event,dayDelta,minuteDelta,revertFunc) {
         updateajax('calendar_dropajax',event,event['allDay'],function (result) { 
-        console.log("result=" + result['data']['id']);
+        console.log("resize event");
         });
     }      
 });
@@ -367,7 +573,7 @@
         id: id,
         'newstart':start,
         'newend':end,
-        'allday': allday,
+        'allDay': allday,
        'title':event.title
       };
     $.ajax({
@@ -390,6 +596,8 @@
        callback(datareponse);
   
     } //Eof:: fucntion remplirSelect
+    
+    
   function View(datab)
     {
         var str = "Informations sur l\'evenement<br>";
@@ -489,6 +697,7 @@
             'newstart':start,
             'newend':end,
             allDay: allday,
+            description: data['description'],
             'className':data['className']
         };
         $.ajax({
@@ -554,6 +763,58 @@
 				<input id="txt_current_event" type="hidden" value="" />
 			</div>
 #}
+<div id="createEventModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+        <h3 id="myModalLabel1">Ajouter un Evenement</h3>
+    </div>
+    <div class="modal-body">
+    <form id="eventForm" class="form-horizontal">
+       <div class="control-group">    
+             <label class="control-label" for="inputTitle">Titre:</label>
+            <div class="controls">
+                 <input type="text" name="title" id="titleName" style="margin: 0 auto;" data-provide="typeahead" data-items="4" data-source="">
+            </div>
+        </div>
+            
+             <div class="control-group">
+            <label class="control-label" for="inputDescription">Description:</label>
+            <div class="controls">
+             <textarea name="description" id="descriptionName" style="height:200px;margin: 0 auto;" data-provide="typeahead" data-items="4" data-source="">
+            </textarea></div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="when">Date:</label>
+            <div class="controls controls-row" id="when" style="margin-top:5px;">
+            </div>
+        </div>
+            <input type="hidden" id="apptStartTime"/>
+              <input type="hidden" id="apptEndTime"/>
+              <input type="hidden" id="apptAllDay" />
+    </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="submitButton">Save</button>
+    </div>
+</div>
+
+
+
+
+{#
+
+<div class="popup"><h3>Add an Event</h3>
+<form>
+    <div><i class="icon-calendar"></i> Title: </div>
+    <input class="title" type="text" /><br /><br />
+     <div>Description: </div>
+     <textarea class="description" type="textarea"></textarea><br /><br />
+  <button type="submit" class="btn btn-medium btn-danger submitForm">Submit</button>
+     </form></div>
+
+#}
+
 <div id='wrap'>
 <div id='external-events'>
 <h4> <i class="icon-wrench"></i> Evenements:</h4>

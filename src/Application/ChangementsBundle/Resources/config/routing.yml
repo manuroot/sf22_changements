@@ -26,3 +26,7 @@ _docchangements:
 _changements_wdcalendar:
     resource: "@ApplicationChangementsBundle/Resources/config/routing/calendar.yml"
     prefix:   /wdcalendar
+    
+_changements_adesigncalendar:
+    resource: "@ApplicationChangementsBundle/Resources/config/routing/adesigncalendar.yml"
+    prefix:   /adesigncalendar

@@ -43,16 +43,27 @@ class CalendarEventListener {
             //   echo "id=" . $companyEvent->getTitle();
             // var_dump($companyEvent->getAllDayEvent());
             // create an event with a start/end time, or an all day event
-            if ($companyEvent->getAllDay() === false) {
+            
+            // non, on utilise maintenant
+         /*   if ($companyEvent->getAllDay() === false) {
                 $eventEntity = new EventEntity($companyEvent->getTitle(), $companyEvent->getStartDatetime(), $companyEvent->getEndDatetime());
             } else {
                 $eventEntity = new EventEntity($companyEvent->getTitle(), $companyEvent->getStartDatetime(), null, true);
-            }
+            }*/
 
+            
+            $eventEntity = new EventEntity($companyEvent->getTitle(), 
+                    $companyEvent->getStartDatetime(), 
+                    $companyEvent->getEndDatetime(),
+                    $companyEvent->getAllDay()
+                    );
+         //   var_dump($eventEntity);
+            
             $className = $companyEvent->getCssClass();
 
             //optional calendar event settings
             $id = $companyEvent->getId();
+          //  echo "id $id allday=" .   $companyEvent->getAllDay() . "\n";
             //  $bg=$companyEvent->getBgColor();
             $eventEntity->setId($id); // default is false, set to true if this is an all day event
             // $eventEntity->setAllDay(true); // default is false, set to true if this is an all day event
