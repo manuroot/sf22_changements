@@ -220,103 +220,43 @@
         /*.html("Whatever you want the content of the span to be"));*/
       
     },
-    /*    
-    select: function(start, end, allDay) {
-        var title = prompt('Event Title:');
-        var data=[];
-	if (title) {
-            var dataAjax={'title': title,'start':start,'end':end,'backgroundColor':"rgb(102, 140, 217)"};
-            createajax('calendar_dropajax',dataAjax,allDay,function (result) { 
-            console.log("create ajax?? result=" + result['data']['id']);
-             data=result['data'];
-          console.log("select outside result=" + data['id'] + "\nstart=" + data['start'] + "\nend=" + data['end']);
-        $('#calendar-holder').fullCalendar('renderEvent',
-	{
-	'title':data['title'],
-            'start':data['start'],
-            'end':data['end'],
-            	allDay: allDay,
-              id:data['id']
-	},false
-	
-	);
-               });
-   	}
-	$('#calendar-holder').fullCalendar('unselect');
-     },
- */
-     /* eventMouseover: function( event, jsEvent, view ) { 
-                            var item = $(this);
-                            if(item.find('.nube').length == 0){
-                                var info = '<span class="nube"><h2>'+event.title+'</h2><img src="'+event.avatar+'" /> <p class="text">'+event.name+'</p><p>'+event.start+' <br /> '+event.end+'</p><p><a href="/post.php?blogid='+event.id+'">read_more</a></p></span>';
-                                item.append(info);
-                            }
-                            if(parseInt(item.css('top')) <= 200){
-                                item.find('.nube').css({'top': 20,'bottom':'auto'});
-                                item.parent().find('.fc-event').addClass('z0');
-                            }
-                            item.find('.nube').stop(true,true).fadeIn();
-   },
-   eventMouseout: function( event, jsEvent, view ) { 
-                            var item = $(this);
-                            item.find('.nube').stop(true,true).fadeOut();
-   },*/
+    
  select: function(start, end, allDay) {
-   /*     var endtime = $.fullCalendar.formatDate(end,'h:mm tt');
-    var starttime = $.fullCalendar.formatDate(start,'ddd, MMM d, h:mm tt');*/
-  /* var   start = $.fullCalendar.formatDate(start, "yyyy-MM-dd HH:mm:ss");
-   var end = $.fullCalendar.formatDate(end, "yyyy-MM-dd HH:mm:ss");*/
-         console.log("start" + start + " end=" + end);
-    var mywhen = start + ' - ' + end;
-  
-        $('#createEventModal #when').text(mywhen);
-        $('#createEventModal').modal('show');
-        /*  $('#calendar-holder').fullCalendar('unselect');*/
- 
-       $('#createEventModal #apptStartTime').val(start);
-      $('#createEventModal #apptEndTime').val(end);
-      $('#createEventModal #apptAllDay').val(allDay)
-      
-      
-        /* $("#titleName").focus();*/
-               $("#submitButton").click(function(){
-                     $('#createEventModal').hide();
-                    console.log("submit button");
-                    var title=$("#titleName").val();
-                    var description=$("#descriptionName").val();
-                    
-                    var mstart= $('#createEventModal #apptStartTime').val();
-      
-    var mend= $('#createEventModal #apptEndTime').val();
-     var mallDay= $('#createEventModal #apptAllDay').val()
-      
-      
-                    if (title) {
-                        var dataAjax=[];
-            console.log("mstart=" + mstart + "start" + start + " end=" + end);
+      /* var endtime = $.fullCalendar.formatDate(end);
+    var starttime = $.fullCalendar.formatDate(start);
+    */
+    var   mstart = $.fullCalendar.formatDate(start, "yyyy-MM-dd HH:mm:ss");
+    var mend = $.fullCalendar.formatDate(end, "yyyy-MM-dd HH:mm:ss");
+    console.log("start" + mstart + " end=" + mend);
+    /*   console.log("start" + start + " end=" + end);*/
+    var mywhen = mstart + ' - ' + mend;
+    $('#createEventModal #when').text(mywhen);
+    $('#createEventModal').modal('show');
+    /*  $('#calendar-holder').fullCalendar('unselect');*/
+    $('#apptStartTime').val(mstart);
+    $('#apptEndTime').val(mend);
+    $('#apptAllDay').val(allDay)
+    /* $("#titleName").focus();*/
+    $("#submitButton").click(function(){
+    $('#createEventModal').hide();
+    console.log("submit button");
+    var title=$("#titleName").val();
+    var description=$("#descriptionName").val();
+    var mstart= $('#apptStartTime').val();
+    var mend= $('#apptEndTime').val();
+    var mallDay= $('#createEventModal #apptAllDay').val()
+    if (title) {
+            var dataAjax=[];
+            console.log("mstart=" + mstart + "start" + start + " end=" + mend);
             dataAjax={'title':title, 'description':description,'start':mstart,'end':mend,'allDay':mallDay};
             createajax('calendar_dropajax',dataAjax,allDay,function (result) { 
-            console.log("result=" + result['data']['id']);
-            dataAjax['id'] = result['data']['id'];
-           
-   	
-        // render the event on the calendar
-	// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-	//$(template_event).css('background-color', background_color);
-       $('#calendar-holder').fullCalendar('renderEvent', dataAjax, false);
-     /*  $(this).find('.fc-event-time').addClass('class1');*/
- $('#calendar-holder').fullCalendar('unselect');	 
-    });
-        /*         $('#calendar-holder').fullCalendar('renderEvent',{
-                            title: title,
-                            start: start,
-                            end: end,
-                            allDay: allDay
-                        },
-                        true // make the event "stick"
-                    );*/
-                  
-                    }
+                console.log("result=" + result['data']['id']);
+                dataAjax['id'] = result['data']['id'];
+                $('#calendar-holder').fullCalendar('renderEvent', dataAjax, false);
+                /*  $(this).find('.fc-event-time').addClass('class1');*/
+                $('#calendar-holder').fullCalendar('unselect');	 
+            });
+        }
                     $('#createEventModal').modal('hide');
                     $("#titleName").val("");
                     $("#descriptionName").val("");
@@ -326,38 +266,7 @@
                 });
               /*  $('#createEventModal').modal('hide');*/
             },
-    //other functions
-  /*
-select1: function(start, end, allDay){
-    $(".popup").show(); // show's pop up
-    $(".title").focus(); // auto focus on the field
-     $(".submitForm").click(function(){ // on submission
-          e.preventDefault();
-    var title = $(".title").val(); // gets title value
-    var description = $(".description").val(); // gets title value
-    if(title != ""){
-         var dataAjax=[];
-        
-            dataAjax={'title':title,'start':start,'end':end,'allDay':allDay};
-            createajax('calendar_dropajax',dataAjax,allDay,function (result) { 
-            console.log("result=" + result['data']['id']);
-            dataAjax['id'] = result['data']['id'];
-           
-   	
-        // render the event on the calendar
-	// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-	//$(template_event).css('background-color', background_color);
-       $('#calendar-holder').fullCalendar('renderEvent', dataAjax, false);
-       $(this).find('.fc-event-time').addClass('class1');
-	 });
    
-         
-      // if the title exists run script
-    
-    }
-$(".popup").hide(); // hide pop up box
-});
-},*/
     eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
         updateajax('calendar_dropajax',event,event['allDay'],function (result) { 
            console.log("event single drop result=" + result);
@@ -366,16 +275,13 @@ $(".popup").hide(); // hide pop up box
          
     eventClick: function(calEvent, jsEvent, view) {
           console.log("event click");
-           
-        var border=$(this).css('border-color');
+     var border=$(this).css('border-color');
         $(this).css('border-color', 'red');
         $("#example").dialog({
          width: 600,
          height:450,
          modal: true,
-         
-         
-         buttons: {
+          buttons: {
          Submit: function() {
          $( this ).dialog( "close" );
         
@@ -386,11 +292,6 @@ $(".popup").hide(); // hide pop up box
         console.log("result=" + result['data']['id']);
         });
          }
-        
-        
-        
-        
-        
         }
          }     
          });
@@ -400,7 +301,6 @@ $(".popup").hide(); // hide pop up box
                    "<br>Description:<br>" + calEvent.description + "\n----";
 bootbox.dialog(boxContentString,[
     //buttons
-  
     {
         "label" : "Edit",
         "class" : "btn-success",
@@ -430,77 +330,6 @@ bootbox.dialog(boxContentString,[
     }
 }
 ]);
-           /*var mess ="hfjskdhfj";
-           bootbox.confirm(mess, function(checkstr) {
-                    console.log("confirm result=");
-                    });*/
-                    /*Example.show("Confirm result: "+result);
-                     * 
-                     */
-    /*                bootbox.dialog("I am a custom dialog", [{
-    "label" : "Success!",
-    "class" : "class-with-width",
-    "callback": function() {
-        Example.show("great success");
-    }
-}]);*/
-     /* bootbox.dialog({
-message: "I am a custom dialog",
-title: "Custom title",
-buttons: {
-success: {
-label: "Success!",
-//className: "btn-success",
-callback: function() {
-Example.show("great success");
-}
-},
-danger: {
-label: "Danger!",
-//className: "btn-danger",
-callback: function() {
-Example.show("uh oh, look out!");
-}
-},
-main: {
-label: "Click ME!",
-//className: "btn-primary",
-callback: function() {
-Example.show("Primary button");
-}
-}
-}
-});*/
-        /*var title = prompt('Event Title:', calEvent.title, { buttons: { Ok: true, Cancel: false} });
-        if (title){
-            calEvent.title = title;
-           $('#calendar-holder').fullCalendar('updateEvent',calEvent);
-             updateajax('calendar_dropajax',calEvent,calEvent.allDay,function (result) { 
-        console.log("result=" + result['data']['id']);
-        });
-        
-        */
-        
-        
-        
-    //      var id = calEvent.id;
-        /* console.log("id=" + id);*/
-        /*    http://symvideo:92/452/showxhtml*/
-    //    var url = Routing.generate('calendar_showXhtml', {id: id});
-        /*var dataAjax = {'id': id};*/
-   /*     $.colorbox({
-            iframe: true,
-            transition: "elastic",
-            width: "600px",
-            height: "600px",
-            fastIframe: false,
-            opacity: 0.3,
-            href: url
-       /* onClosed:function(){
-              $("#gridcontainer").reload();
-         }
-     });*/
-
      
  //  $(this).find("div.fc-event-time").prepend(" <a class=\"editme\" href=\"#\"><i class=\"icon-wrench\"></i></a> ");
   $(this).css('border-color', border);          
@@ -517,18 +346,24 @@ Example.show("Primary button");
       //  copiedEventObject.end = new Date(tempDate.setHours(tempDate.getHours()+2)); // <-- make sure we assigned a date object
         /*   copiedEventObject.end=date + defaultEventMinutes;*/
 	//copiedEventObject.allDay = allDay;
+        console.log("drop start=" + date);
         var title = copiedEventObject['title'];
         
         var bg= copiedEventObject['backgroundcolor'];
-        
+        start = $.fullCalendar.formatDate(date, "yyyy-MM-dd HH:mm:ss");
+        end = new Date(tempDate.setHours(tempDate.getHours()+2)); 
+        end =$.fullCalendar.formatDate(end, "yyyy-MM-dd HH:mm:ss");
+  
         console.log("Drop function titre?=" + copiedEventObject['title']);
         if (title) {
             var dataAjax=[];
             dataAjax['title'] = title;
-            dataAjax['start'] = date;
+            dataAjax['start'] = start;
+            /*dataAjax['start'] = date;*/
             dataAjax['backgroundColor'] = bg;
             dataAjax['className'] = copiedEventObject['myclass'];
-            dataAjax['end'] = new Date(tempDate.setHours(tempDate.getHours()+2)); ;
+            dataAjax['end'] = end; 
+            /*dataAjax['end'] = new Date(tempDate.setHours(tempDate.getHours()+2)); ;*/
             dataAjax['allDay'] = allDay;
             createajax('calendar_dropajax',dataAjax,allDay,function (result) { 
             console.log("result=" + result['data']['id']);
@@ -559,6 +394,24 @@ Example.show("Primary button");
         });
     }      
 });
+
+function doSubmit(){
+    $("#createEventModal").modal('hide');
+    console.log($('#apptStartTime').val());
+    console.log($('#apptEndTime').val());
+    console.log($('#apptAllDay').val());
+    alert("form submitted");
+        
+    $("#calendar").fullCalendar('renderEvent',
+        {
+            title: $('#patientName').val(),
+            start: new Date($('#apptStartTime').val()),
+            end: new Date($('#apptEndTime').val()),
+            allDay: ($('#apptAllDay').val() == "true"),
+        },
+        true);
+   }
+
    /*========================================================
      *  Fonction: Ajaxs
      ========================================================*/
@@ -620,35 +473,6 @@ Example.show("Primary button");
      });
 
 
-        /*   $.ajax({
-         
-         url: Routing.generate('calendar_showXhtml'),
-         type: 'POST',
-         cache: false,
-         data: dataAjax,
-         dataType: "json",
-         success: function (data) {
-         
-         $.each(data, function(i, item){
-         str += "<strong>" + i + "</strong>:";
-         str +="<font color='red'>"  + item + "</font><br>";
-         });
-         $("#example").empty();
-         $("#example").append(str);
-         $("#example").dialog({
-         width: 600,
-         height:450,
-         modal: true,
-         
-         
-         buttons: {
-         Ok: function() {
-         $( this ).dialog( "close" );
-         }
-         }     
-         });
-         }
-         });*/
     }
 
   /*------------------------------------------
@@ -688,9 +512,10 @@ Example.show("Primary button");
     function createajax(route,data,allday,callback) {
     var obj = $(this);
     var datareponse;
-  
-       start = $.fullCalendar.formatDate(data['start'], "yyyy-MM-dd HH:mm:ss");
-        end = $.fullCalendar.formatDate(data['end'], "yyyy-MM-dd HH:mm:ss");
+  console.log("create ajax request");
+  start=data['start'];end=data['end'];
+     /*  start = $.fullCalendar.formatDate(data['start'], "yyyy-MM-dd HH:mm:ss");
+        end = $.fullCalendar.formatDate(data['end'], "yyyy-MM-dd HH:mm:ss");*/
         var dataAjax = { 
             'title':data['title'],
              'background-color':data['backgroundColor'],

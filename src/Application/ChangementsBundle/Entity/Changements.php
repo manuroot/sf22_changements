@@ -546,7 +546,7 @@ class Changements extends AbstractEvent {
         $this->idfavoris = new ArrayCollection();
         $this->dateDemande = new \DateTime('now');
         $this->astreinte = false;
-         $this->operation = false;
+         $this->operation = NULL;
         //   $this->idapplis = new \Doctrine\Common\Collections\ArrayCollection();
         /*         $this->uid = $uid;
           $this->begin = clone $start;
@@ -898,7 +898,7 @@ class Changements extends AbstractEvent {
      * @return integer 
      */
     public function setOperation($operation) {
-        $this->astreinte = $operation;
+        $this->operation = $operation;
 
         return $this;
     }
