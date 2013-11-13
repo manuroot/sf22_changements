@@ -111,14 +111,17 @@ class CalendarEventListener {
             /*$nickname= $nom . "\n(" . $projet . ')';*/
             $nickname= $nom . " (" . $projet . ')';
              $eventEntity = new EventEntity($nickname, $d, $f);
+          /*   echo "status=$status\n";*/
             if ($status == 'open')
               $eventEntity->setCssClass('class1'); //set the background color of the event's label
                 elseif ($status == 'closed')
                     $eventEntity->setCssClass('class2'); //set the background color of the event's label
-              elseif ($status == 'prepare')
+              elseif ($status == 'en preparation')
                 $eventEntity->setCssClass('class3'); //set the background color of the event's label
-               
-              
+               elseif ($status == 'REPORTE')
+              $eventEntity->setCssClass('class4'); //set the background color of the event's label
+              else
+                  $eventEntity->setCssClass('class5'); //set the background color of the event's label
          //   echo "id =$id nom=$nom status=$status";
            /* if ($d)
                 echo "d=--" . $d->format('Y-m-d H:i:s') . "--";

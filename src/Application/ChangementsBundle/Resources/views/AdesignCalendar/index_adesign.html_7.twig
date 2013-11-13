@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="{{ asset('css/jquery-ui-1.9.2.custom_1.css') }}" />    
     <link rel="stylesheet" href="{{ asset('fullcalendar/fullcalendar.css') }}" />
     <link rel="stylesheet" href="{{ asset('fullcalendar/view_calendar.css') }}" />
-     <link rel="stylesheet" href="{{ asset('jquery/simplecolorpicker/colorPicker.css') }}" type="text/css" media="all"/>
       {#  <link rel="stylesheet" href="{{ asset('fullcalendar/fullcalendar.print.css') }}" />#}
   
   <style>
@@ -71,40 +70,6 @@
 		float: right;
 		width: 90%;
 		}
-                
-                  /*            background-color:rgb(148, 162, 190);
-#94A2BE
-background-color:rgb(153, 51, 85);
-#993355
-background-color:rgb(170, 170, 170);
-#AAAAAA
-background-color:rgb(242, 166, 64);
-#F2A640
-background-color: rgb(179, 115, 179);
-  #B373B3
-background-color:rgb(102, 140, 217);
-#668CD9
-*/
-.class0 {     border: 1px solid rgb(90, 105, 134);background-color: #94A2BE;}   
-.class0 .fc-event-time {background:  rgb(90, 105, 134);}
-
-.class1 {     border: 1px solid rgb(113, 6, 47);background:#993355;}  
-.class1 .fc-event-time {background:  rgb(113, 6, 47);}
-
-.class2 {     border: 1px solid rgb(102, 102, 102);;background: #AAAAAA;}
-.class2 .fc-event-time {background:rgb(102, 102, 102);}
-
-.class3 {     border: 1px solid rgb(190, 109, 0);;background: #F2A640;}              
-.class3 .fc-event-time {background:rgb(190, 109, 0);}
-
-.class4 {     border: 1px solid rgb(122, 54, 122);;background: #B373B3;}
-.class4 .fc-event-time {background:   rgb(122, 54, 122);}
-
-.class5 {  border: 1px solid rgb(41, 82, 163);background: #668CD9;}
-.class5 .fc-event-time {background:   rgb(41, 82, 163);}
-
-/*
-
 .class1 {     border: 1px solid rgb(90, 105, 134);background-color: rgb(148, 162, 190);}   
 .class1 .fc-event-time {background:  rgb(90, 105, 134);}
 .class2 {     border: 1px solid rgb(113, 6, 47);background: rgb(153, 51, 85);}  
@@ -116,7 +81,7 @@ background-color:rgb(102, 140, 217);
 .class5 {     border: 1px solid rgb(122, 54, 122);;background: rgb(179, 115, 179);}
 .class5 .fc-event-time {background:   rgb(122, 54, 122);}
 .class6 {  border: 1px solid rgb(41, 82, 163);background: rgb(102, 140, 217);}
-.class6 .fc-event-time {background:   rgb(41, 82, 163);}*/
+.class6 .fc-event-time {background:   rgb(41, 82, 163);}
  .description {height:200px;}
 .nube{ position: absolute;left:0;top:0}
 .popup {
@@ -125,7 +90,6 @@ background-color:rgb(102, 140, 217);
 }
 .popup form div{float:left; width:80px; text-align:left;}
 .popup form input{float:left; text-align:left;}
-
       </style>   
 {% endblock %}
         
@@ -140,21 +104,42 @@ background-color:rgb(102, 140, 217);
     <script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.js') }}"></script>
       <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
    <script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>
-    
-      <script type="text/javascript" src="{{ asset('jquery/simplecolorpicker/jquery.colorPicker.js') }}"></script>
-
     {#<script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/fullcalendar/jquery.fullcalendar.min.js') }}"></script>
 {#<script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.js') }}"></script>
 #}{#<script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/calendar-settings.js') }}"></script>#}
 <script type="text/javascript">
        $(document).ready(function() {
-  
-        var date = new Date();
-	var d = date.getDate();
-	var m = date.getMonth();
-	var y = date.getFullYear();
-	/*$(this).find('.fc-event-time').addClass('newclass');*/
-         $('#external-events div.external-event').each(function() {
+           
+        /*   
+           
+       $("a.editme").colorbox({
+            iframe:true,
+            transition:	"elastic",
+            width:"70%",
+            height:"70%",
+              fastIframe:false,
+            opacity:0.3,
+            href: function(){
+            // Since I can't see your markup I can't provide exact solution
+            // but if your .button elm is an anchor then use
+       
+            var url = Routing.generate('calendar_showXhtml', {id: id});
+           
+            // if you are obtaining the url from diff. elm, grab it from there
+            // such as $('#your_element).attr('href') 
+            return url;
+        }
+      
+        
+        });*/
+
+   var date = new Date();
+		var d = date.getDate();
+		var m = date.getMonth();
+		var y = date.getFullYear();
+		/*$(this).find('.fc-event-time').addClass('newclass');*/
+                
+             $('#external-events div.external-event').each(function() {
 		
 			// create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
 			// it doesn't need to have a start or end
@@ -190,7 +175,6 @@ background-color:rgb(102, 140, 217);
                     eventDurationEditable: true,
                     droppable: true,
                       hiddenDays: [], 
-                      unselectAuto: false,
                     /*hiddenDays: [0,6], */
                  /*  eventBorderColor:'red',*/
                   /*  columnFormat: {
@@ -228,12 +212,6 @@ background-color:rgb(102, 140, 217);
                         }
                     ],
                     eventRender: function(event, element) {
-                    
-                    /* if (event.allDay === 'true') {
-        event.allDay = true;
-    } else {
-        event.allDay = false;
-    }*/
         /*element.find(".fc-event-time").after($("<span class=\"fc-event-icons\"></span>").html("Whatever you want the content of the span to be"));*/
       {#  element.find(".fc-event-time").append($("<i class=\"icon-briefcase\"></i>").html());#}
         element.find("div.fc-event-time").prepend(" <a class=\"editme\" href=\"#\"><i class=\"icon-wrench\"></i></a> ");
@@ -258,53 +236,32 @@ background-color:rgb(102, 140, 217);
     $('#apptStartTime').val(mstart);
     $('#apptEndTime').val(mend);
     $('#apptAllDay').val(allDay)
-   
     /* $("#titleName").focus();*/
-    $("#submitButton").click(function(event){
-        event.preventDefault();
+    $("#submitButton").click(function(){
     $('#createEventModal').hide();
     console.log("submit button");
     var title=$("#titleName").val();
     var description=$("#descriptionName").val();
     var mstart= $('#apptStartTime').val();
-    
-    
     var mend= $('#apptEndTime').val();
-    var csscolor=$('#color').val();
-    var color_index=getcolor(csscolor);
-    var cssclass='class0';
-    if (color_index != -1){cssclass='class' + color_index;}
-    
-    console.log("color=" + csscolor + " class=" + cssclass);
-    var mallDay= $('#createEventModal #apptAllDay').val();
+    var mallDay= $('#createEventModal #apptAllDay').val()
     if (title) {
             var dataAjax=[];
-            console.log("allday=" + mallDay + "mstart=" + mstart + "start" + start + " end=" + mend);
-            dataAjax={
-                    'title':title,
-                    'className':cssclass, 
-                    'description':description,
-                    'start':mstart,
-                    'end':mend,
-                    'allDay': ($('#apptAllDay').val() == "true"),
-                  
-                };
-            createajax('calendar_dropajax',dataAjax,mallDay,function (result) { 
+            console.log("mstart=" + mstart + "start" + start + " end=" + mend);
+            dataAjax={'title':title, 'description':description,'start':mstart,'end':mend,'allDay':mallDay};
+            createajax('calendar_dropajax',dataAjax,allDay,function (result) { 
                 console.log("result=" + result['data']['id']);
-                 console.log(" in result ?? allday=" + mallDay);
                 dataAjax['id'] = result['data']['id'];
                 $('#calendar-holder').fullCalendar('renderEvent', dataAjax, false);
                 /*  $(this).find('.fc-event-time').addClass('class1');*/
-             
+                $('#calendar-holder').fullCalendar('unselect');	 
             });
-             
         }
-          $('#calendar-holder').fullCalendar('unselect');	 
                     $('#createEventModal').modal('hide');
                     $("#titleName").val("");
                     $("#descriptionName").val("");
                      $('#calendar-holder').fullCalendar('unselect');
-               
+                
                    
                 });
               /*  $('#createEventModal').modal('hide');*/
@@ -320,10 +277,7 @@ background-color:rgb(102, 140, 217);
           console.log("event click");
      var border=$(this).css('border-color');
         $(this).css('border-color', 'red');
-        var start = $.fullCalendar.formatDate(calEvent.start, "yyyy-MM-dd HH:mm:ss");
-    var end = $.fullCalendar.formatDate(calEvent.end, "yyyy-MM-dd HH:mm:ss");
-  
-     /*   $("#example").dialog({
+        $("#example").dialog({
          width: 600,
          height:450,
          modal: true,
@@ -340,12 +294,11 @@ background-color:rgb(102, 140, 217);
          }
         }
          }     
-         });*/
+         });
         
         
-           var boxContentString = "infos:<br>TITRE: " + calEvent.title + 
-                   "<br>Description:<br>" + calEvent.description + "<br>" +
-                   "allday=" + calEvent.allDay + "<br>start=" + start + "<br>end=" + end;
+           var boxContentString = "infos:<br> " + calEvent.title + 
+                   "<br>Description:<br>" + calEvent.description + "\n----";
 bootbox.dialog(boxContentString,[
     //buttons
     {
@@ -381,11 +334,6 @@ bootbox.dialog(boxContentString,[
  //  $(this).find("div.fc-event-time").prepend(" <a class=\"editme\" href=\"#\"><i class=\"icon-wrench\"></i></a> ");
   $(this).css('border-color', border);          
 },
-
-/*=================================
-*  DROP EXTERNAL EVENT
-* 
-==================================*/
 
     drop: function(date, allDay) { // this function is called when something is dropped
         var tempDate = new Date(date);  //clone date
@@ -602,40 +550,6 @@ function doSubmit(){
        callback(datareponse);
   
     } //Eof:: fucntion remplirSelect
-    
- 
-       /*$('#color').colorPicker();*/
-    $('#color').colorPicker(
-        {colors:  ["#94a2be","#993355","#aaaaaa","#f2a640","#b373b3","#668cd9"],
-            pickerDefault: "#94a2be",
-   transparency: true,
-   onColorChange : function(id, newValue) { console.log("ID: " + id + " has been changed to " + newValue);
-       var colors=["#94a2be","#993355","#aaaaaa","#f2a640","#b373b3","#668cd9"];
-  /*  alert(jQuery.inArray(newValue, colors));*/
-    alert(getcolor(newValue));
-    } 
-                
-        });
-        
-         function getcolor(value) {
-            var colors=["#94a2be","#993355","#aaaaaa","#f2a640","#b373b3","#668cd9"];
-        return jQuery.inArray(value, colors);
-    }
-    
-    function reloadCal() {
-    newSource[0] = '/feeds/calendarjson.ashx?e1=' + $('#e1').is(':checked') + '&e2=' + $('#e2').is(':checked');
-    newSource[1] = $('#e3').is(':checked') ? '/feeds/caljson2.ashx' : '';
-    $('#calendar-holder')
-        .fullCalendar('removeEventSource', source[0])
-        .fullCalendar('removeEventSource', source[1])
-        .fullCalendar('refetchEvents')
-        .fullCalendar('addEventSource', newSource[0])
-        .fullCalendar('addEventSource', newSource[1])
-        .fullCalendar('refetchEvents');
-    source[0] = newSource[0];
-    source[1] = newSource[1];
-}
-
 });
 </script>
 {% endblock %}
@@ -648,7 +562,7 @@ function doSubmit(){
             <i class="icon-check-empty icon-stack-base"></i>
             <i class="icon-calendar"></i>
         </span>    Opérations: Calendrier #}
-      
+       
 {% endblock %}
         
 
@@ -687,14 +601,7 @@ function doSubmit(){
                  <input type="text" name="title" id="titleName" style="margin: 0 auto;" data-provide="typeahead" data-items="4" data-source="">
             </div>
         </div>
-        <div class="control-group">    
-             <label class="control-label" for="color">Couleur:</label>
-           <div class="controls">
-<input id="color" name="color" type="text" id="color"/></div>
-        </div>
-   
-        
-        
+            
              <div class="control-group">
             <label class="control-label" for="inputDescription">Description:</label>
             <div class="controls">
@@ -732,30 +639,16 @@ function doSubmit(){
      </form></div>
 
 #}
-{#
 
-background-color:rgb(148, 162, 190);
-/*#94A2BE*/
-background-color:rgb(153, 51, 85);
-/*#993355*/
-background-color:rgb(170, 170, 170);
-
-background-color:rgb(242, 166, 64);
-/*#AAAAAA*/
-background-color: rgb(179, 115, 179);
-
-background-color:rgb(102, 140, 217);
-  /*#B373B3*/
-#}
 <div id='wrap'>
 <div id='external-events'>
 <h4> <i class="icon-wrench"></i> Evenements:</h4>
-<div class='external-event class0' myclass="class0">STANDARD</div>
-<div class='external-event class1' myclass="class1">IMPORTANT</div>
-<div class='external-event class2' myclass="class2">MEETING</div>
-<div class='external-event class3' myclass="class3">IDEE</div>
-<div class='external-event class4' myclass="class4">RAPPEL</div>
-<div class='external-event class5' myclass="class5">TODO</div>
+<div class='external-event' myclass="class1" style="background-color:rgb(148, 162, 190);">STANDARD</div>
+<div class='external-event' myclass="class2" style="background-color:rgb(153, 51, 85)">IMPORTANT</div>
+<div class='external-event' myclass="class3" style="background-color:rgb(170, 170, 170)">MEETING</div>
+<div class='external-event' myclass="class4" style="background-color:rgb(242, 166, 64)">IDEE</div>
+<div class='external-event' myclass="class5" style="background-color: rgb(179, 115, 179)">RAPPEL</div>
+<div class='external-event' myclass="class6" style="background-color:rgb(102, 140, 217)">TODO</div>
 <p>
 <input type='checkbox' id='drop-remove' /> <label for='drop-remove'>remove after drop</label>
 </p>

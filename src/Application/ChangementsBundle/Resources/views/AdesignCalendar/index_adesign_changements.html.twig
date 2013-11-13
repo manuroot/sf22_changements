@@ -180,8 +180,8 @@
                     selectable: true,
                     selectHelper: true,
                     eventStartEditable: true,
-                    eventDurationEditable: true,
-                    droppable: true,
+                    eventDurationEditable: false,
+                    droppable: false,
                     hiddenDays: [0,6], 
                  /*  eventBorderColor:'red',*/
                   /*  columnFormat: {
@@ -190,7 +190,7 @@
 			day: 'dddd M/d'
 		},*/
                    /*  axisFormat: 'H(:mm)h', //,'h(:mm)tt',*/
-                    defaultView: 'agendaWeek',
+                    defaultView: 'month',
                     header: {
                         left: 'prev, next',
                         center: 'title',
@@ -225,7 +225,7 @@
                      * @param {type} allDay
                      * @returns {undefined}
                      */
-    select: function(start, end, allDay) {
+  /*  select: function(start, end, allDay) {
         var title = prompt('Event Title:');
         var data=[];
 	if (title) {
@@ -237,12 +237,8 @@
             createajax('calendar_dropajax',dataAjax,allDay,function (result) { 
             console.log("result=" + result['data']['id']);
              data=result['data'];
-            
-       /*   start = $.fullCalendar.formatDate(event.start, "yyyy-MM-dd HH:mm:ss");
-    end = $.fullCalendar.formatDate(event.end, "yyyy-MM-dd HH:mm:ss");*/
-        console.log("select outside result=" + data['id'] + "\nstart=" + data['start'] + "\nend=" + data['end']);
-         /* $('#calendar-holder').fullCalendar('renderEvent', dataAjax, true);*/
-        $('#calendar-holder').fullCalendar('renderEvent',
+          console.log("select outside result=" + data['id'] + "\nstart=" + data['start'] + "\nend=" + data['end']);
+          $('#calendar-holder').fullCalendar('renderEvent',
 	{
 	'title':data['title'],
             'start':data['start'],
@@ -255,8 +251,8 @@
                });
    	}
 	$('#calendar-holder').fullCalendar('unselect');
-        /* $('#calendar-holder').fullCalendar('refetchEvents');*/
-    },
+       
+    },*/
  
  /*===================================
  *  drop== move event
@@ -268,11 +264,11 @@
   * @param {type} revertFunc
   * @returns {undefined}  
   =================================**/
-    eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
+   /* eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
         updateajax('calendar_dropajax',event,event['allDay'],function (result) { 
            console.log("result=" + result);
         });
-    },  
+    },  */
             /*
              * 
              * @param {type} calEvent
@@ -297,7 +293,7 @@
          * @param {type} allDay
          * @returns {undefined}
          */
-    drop: function(date, allDay) { // this function is called when something is dropped
+  /*  drop: function(date, allDay) { // this function is called when something is dropped
         var tempDate = new Date(date);  //clone date
         // retrieve the dropped element's stored Event Object
 	var originalEventObject = $(this).data('eventObject');
@@ -306,8 +302,7 @@
 	// assign it the date that was reported
 	//copiedEventObject.start = date;
       //  copiedEventObject.end = new Date(tempDate.setHours(tempDate.getHours()+2)); // <-- make sure we assigned a date object
-        /*   copiedEventObject.end=date + defaultEventMinutes;*/
-	//copiedEventObject.allDay = allDay;
+     //copiedEventObject.allDay = allDay;
         var title = copiedEventObject['title'];
         
         var bg= copiedEventObject['backgroundcolor'];
@@ -330,7 +325,7 @@
 	// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
 	//$(template_event).css('background-color', background_color);
        $('#calendar-holder').fullCalendar('renderEvent', dataAjax, false);
-     /*  $(this).find('.fc-event-time').addClass('class1');*/
+    
 	 });
         }
         // is the "remove after drop" checkbox checked?
@@ -338,17 +333,17 @@
             // if so, remove the element from the "Draggable Events" list
             $(this).remove();
         }
-    },
+    },*/
                                 
                                 
                                 
                                 
-
+/*
     eventResize: function(event,dayDelta,minuteDelta,revertFunc) {
         updateajax('calendar_dropajax',event,event['allDay'],function (result) { 
         console.log("result=" + result['data']['id']);
         });
-    }      
+    }  */    
 });
    /*========================================================
      *  Fonction: Ajaxs
@@ -449,36 +444,15 @@
         
 
 {% block content %}
-{#
-<div id="event_generation_wrapper">
-				<div class='left'>
-					<div class='text'>Background:</div><br /> 	
-					<div class='text'>Border:</div><br />
-					<div class='text'>Text:</div><br />	
-				</div>
-				<div class='right'>
-					<input id="txt_background_color" type='hidden' class='color_picker' value='#2795C3' /><br />
-					<input id="txt_border_color" type='hidden' class='color_picker' value='#6AB3D3' /><br />
-					<input id="txt_text_color" type='hidden' class='color_picker' value='#ffffff' /><br />
-				</div>
-				<input id='txt_title' type='text' value='Title' /><br />
-				<textarea id='txt_description'>Description</textarea><br />
-				<input id='txt_price' type='text' value='5.00' /><br />
-				<input id='txt_available' type='text' value='5' /><br />
-				<input id="btn_gen_event" type="button" value="New Template" class='btn' />
-				<input id="btn_update_event" type="button" value="Update Event" class='btn'/>
-				<input id="txt_current_event" type="hidden" value="" />
-			</div>
-#}
 <div id='wrap'>
 <div id='external-events'>
 <h4> <i class="icon-wrench"></i> Evenements:</h4>
-<div class='external-event' myclass="class1" style="background-color:rgb(148, 162, 190);">Congé payé</div>
-<div class='external-event' myclass="class2" style="background-color:rgb(153, 51, 85)">RTT</div>
-<div class='external-event' myclass="class3" style="background-color:rgb(170, 170, 170)">Réunion</div>
-<div class='external-event' myclass="class4" style="background-color:rgb(242, 166, 64)">MEP</div>
-<div class='external-event' myclass="class5" style="background-color: rgb(179, 115, 179)">VABF</div>
-<div class='external-event' myclass="class6" style="background-color:rgb(102, 140, 217)">TODO</div>
+<div class='external-event' myclass="class1" style="background-color:rgb(148, 162, 190);">Ouvert</div>
+<div class='external-event' myclass="class2" style="background-color:rgb(153, 51, 85)">Fermé</div>
+<div class='external-event' myclass="class3" style="background-color:rgb(170, 170, 170)">En Préparation</div>
+<div class='external-event' myclass="class4" style="background-color:rgb(242, 166, 64)">Reporté</div>
+<div class='external-event' myclass="class5" style="background-color: rgb(179, 115, 179)">Annulé</div>
+
 <p>
 <input type='checkbox' id='drop-remove' /> <label for='drop-remove'>remove after drop</label>
 </p>
