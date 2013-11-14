@@ -142,7 +142,7 @@ public function indexadesignchangementsAction(Request $request) {
               echo "here";  
               $f = \DateTime::createFromFormat($format, $data['start']);
             } else{
-          echo "ok f";
+        //  echo "ok f";
           $f = \DateTime::createFromFormat($format, $data['end']);
             }
             /*========================================
