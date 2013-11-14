@@ -309,7 +309,10 @@ background-color:rgb(102, 140, 217);
                 });
               /*  $('#createEventModal').modal('hide');*/
             },
-   
+   /*===================================
+   * 
+   * Deplacer Event
+   ====================================*/
     eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
         updateajax('calendar_dropajax',event,event['allDay'],function (result) { 
            console.log("event single drop result=" + result);
@@ -471,6 +474,7 @@ function doSubmit(){
     function updateajax(route,event,allday,callback) {
     start = $.fullCalendar.formatDate(event.start, "yyyy-MM-dd HH:mm:ss");
     end = $.fullCalendar.formatDate(event.end, "yyyy-MM-dd HH:mm:ss");
+    if(typeof end === 'undefined'){end=start;}
     var obj = $(this);
     var datareponse;
     if (!event.id) {var id=null;}else {var id=event.id;}
@@ -481,6 +485,7 @@ function doSubmit(){
         'allDay': allday,
        'title':event.title
       };
+      console.log("update ajax");
     $.ajax({
         async: false,
         url: Routing.generate(route),

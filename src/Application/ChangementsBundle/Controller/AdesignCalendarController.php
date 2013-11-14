@@ -136,9 +136,15 @@ public function indexadesignchangementsAction(Request $request) {
             $data['end'] = $request->get('newend');
             $data['start'] = $request->get('newstart');
             $format = 'Y-m-d H:i:s';
-            $d = \DateTime::createFromFormat($format, $data['start']);
-            $f = \DateTime::createFromFormat($format, $data['end']);
-
+              $d = \DateTime::createFromFormat($format, $data['start']);
+               // $f = \DateTime::createFromFormat($format, $data['end']);
+           if (! $data['end'] || $data['end'] ==""){
+              echo "here";  
+              $f = \DateTime::createFromFormat($format, $data['start']);
+            } else{
+          echo "ok f";
+          $f = \DateTime::createFromFormat($format, $data['end']);
+            }
             /*========================================
              * 
              *             NEW EVENT
