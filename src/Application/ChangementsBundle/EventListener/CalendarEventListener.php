@@ -117,15 +117,18 @@ class CalendarEventListener {
                 elseif ($status == 'closed')
                     $eventEntity->setCssClass('class2'); //set the background color of the event's label
               elseif ($status == 'en preparation')
-                $eventEntity->setCssClass('class3'); //set the background color of the event's label
+                $eventEntity->setCssClass('class0'); //set the background color of the event's label
                elseif ($status == 'REPORTE')
-              $eventEntity->setCssClass('class4'); //set the background color of the event's label
+              $eventEntity->setCssClass('class3'); //set the background color of the event's label
               else
-                  $eventEntity->setCssClass('class5'); //set the background color of the event's label
+                  $eventEntity->setCssClass('class4'); //set the background color of the event's label
          //   echo "id =$id nom=$nom status=$status";
            /* if ($d)
-                echo "d=--" . $d->format('Y-m-d H:i:s') . "--";
-       */    
+ <div class='external-event class1' myclass="class1">Ouvert</div>
+<div class='external-event class2' myclass="class2">Fermé</div>
+<div class='external-event class0' myclass="class0">En préparation</div>
+<div class='external-event class3' myclass="class3">Reporté</div>
+<div class='external-event class4' myclass="class4">Annulé</div>    
           /*  else
                 echo " f=--" . $f->format('Y-m-d H:i:s') . "--\n";
 */

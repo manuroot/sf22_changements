@@ -72,19 +72,7 @@
 		width: 90%;
 		}
                 
-                  /*            background-color:rgb(148, 162, 190);
-#94A2BE
-background-color:rgb(153, 51, 85);
-#993355
-background-color:rgb(170, 170, 170);
-#AAAAAA
-background-color:rgb(242, 166, 64);
-#F2A640
-background-color: rgb(179, 115, 179);
-  #B373B3
-background-color:rgb(102, 140, 217);
-#668CD9
-*/
+ 
 .class0 {     border: 1px solid rgb(90, 105, 134);background-color: #94A2BE;}   
 .class0 .fc-event-time {background:  rgb(90, 105, 134);}
 
@@ -103,21 +91,7 @@ background-color:rgb(102, 140, 217);
 .class5 {  border: 1px solid rgb(41, 82, 163);background: #668CD9;}
 .class5 .fc-event-time {background:   rgb(41, 82, 163);}
 
-/*
-
-.class1 {     border: 1px solid rgb(90, 105, 134);background-color: rgb(148, 162, 190);}   
-.class1 .fc-event-time {background:  rgb(90, 105, 134);}
-.class2 {     border: 1px solid rgb(113, 6, 47);background: rgb(153, 51, 85);}  
-.class2 .fc-event-time {background:  rgb(113, 6, 47);}
-.class3 {     border: 1px solid rgb(102, 102, 102);;background: rgb(170, 170, 170);}
-.class3 .fc-event-time {background:rgb(102, 102, 102);}
-.class4 {     border: 1px solid rgb(190, 109, 0);;background: rgb(242, 166, 64);}              
-.class4 .fc-event-time {background:rgb(190, 109, 0);}
-.class5 {     border: 1px solid rgb(122, 54, 122);;background: rgb(179, 115, 179);}
-.class5 .fc-event-time {background:   rgb(122, 54, 122);}
-.class6 {  border: 1px solid rgb(41, 82, 163);background: rgb(102, 140, 217);}
-.class6 .fc-event-time {background:   rgb(41, 82, 163);}*/
- .description {height:200px;}
+.description {height:200px;}
 .nube{ position: absolute;left:0;top:0}
 .popup {
     background-color:ivory; border:1px solid gray;
@@ -362,6 +336,8 @@ bootbox.dialog(boxContentString,[
         "label" : "View",
                 "class" : "btn-warning",
         "callback": function(e){
+            var dataAjax={'id':calEvent.id};
+            View(d);
             //do stuff
         }
     },
@@ -369,8 +345,16 @@ bootbox.dialog(boxContentString,[
         "label" : "Delete",
                 "class" : "btn-danger",
         "callback": function(e){
-            //do stuff
-        }
+            var dataAjax={'id':calEvent.id};
+        
+            deleteajax('calendar_dropajax',dataAjax,function (result) { 
+         /*   console.log("result=" + result['data']['id']);*/
+         console.log("id delete=" + calEvent.id );
+             $('#calendar-holder').fullCalendar('removeEvents', calEvent.id );
+          /*  dataAjax['id'] = result['data']['id'];*/
+            
+            });
+            }
     }, 
              {
     "label" : "Cancel",
@@ -480,8 +464,8 @@ function doSubmit(){
     if (!event.id) {var id=null;}else {var id=event.id;}
     var dataAjax = { 
         id: id,
-        'newstart':start,
-        'newend':end,
+        'start':start,
+        'end':end,
         'allDay': allday,
        'title':event.title
       };
@@ -507,6 +491,38 @@ function doSubmit(){
   
     } //Eof:: fucntion remplirSelect
     
+     /*========================================================
+     *  Fonction: Ajaxs
+     ========================================================*/
+
+    function deleteajax(route,event,callback) {
+    var obj = $(this);
+    var datareponse;
+    if (!event.id) {var id=null;}else {var id=event.id;}
+    var dataAjax = { 
+        'id': id,action:'delete'
+    };
+    console.log("delete ajax");
+    $.ajax({
+        async: false,
+        url: Routing.generate(route),
+        type: "POST",
+        dataType: "json",
+        data: dataAjax,
+        success: function(reponse) {
+                datareponse = reponse;
+                
+        },
+        error: function(e) {
+            console.log(e.message);
+            datareponse = e.message;
+           
+        }
+        });
+       /* return datareponse;*/
+       callback(datareponse);
+  
+    } //Eof:: fucntion remplirSelect
     
   function View(datab)
     {
@@ -570,14 +586,15 @@ function doSubmit(){
     var obj = $(this);
     var datareponse;
   console.log("create ajax request");
-  start=data['start'];end=data['end'];
+  start=data['start'];
+  end=data['end'];
      /*  start = $.fullCalendar.formatDate(data['start'], "yyyy-MM-dd HH:mm:ss");
         end = $.fullCalendar.formatDate(data['end'], "yyyy-MM-dd HH:mm:ss");*/
         var dataAjax = { 
             'title':data['title'],
              'background-color':data['backgroundColor'],
-            'newstart':start,
-            'newend':end,
+            'start':start,
+            'end':end,
             allDay: allday,
             description: data['description'],
             'className':data['className']
