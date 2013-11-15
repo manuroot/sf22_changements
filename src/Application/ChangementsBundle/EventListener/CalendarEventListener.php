@@ -4,8 +4,8 @@ namespace Application\ChangementsBundle\EventListener;
 
 // src/Acme/DemoBundle/EventListener/CalendarEventListener.php  
 
-use ADesigns\CalendarBundle\Event\CalendarEvent;
-use ADesigns\CalendarBundle\Entity\EventEntity;
+use Application\ChangementsBundle\Event\CalendarEvent;
+use Application\ChangementsBundle\Entity\EventEntity;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 
@@ -52,7 +52,8 @@ class CalendarEventListener {
             }*/
 
             
-            $eventEntity = new EventEntity($companyEvent->getTitle(), 
+            $eventEntity = new EventEntity(
+                    $companyEvent->getTitle(), 
                     $companyEvent->getStartDatetime(), 
                     $companyEvent->getEndDatetime(),
                     $companyEvent->getAllDay()
@@ -60,19 +61,23 @@ class CalendarEventListener {
          //   var_dump($eventEntity);
             
             $className = $companyEvent->getCssClass();
-
+  //   
             //optional calendar event settings
             $id = $companyEvent->getId();
+             $description=$companyEvent->getDescription();
           //  echo "id $id allday=" .   $companyEvent->getAllDay() . "\n";
             //  $bg=$companyEvent->getBgColor();
+          //  $eventEntity->setId($id); // default is false, set to true if this is an all day event
             $eventEntity->setId($id); // default is false, set to true if this is an all day event
             // $eventEntity->setAllDay(true); // default is false, set to true if this is an all day event
             // $eventEntity->setBgColor($bg); //set the background color of the event's label
             $eventEntity->setCssClass($className); //set the background color of the event's label
+            $eventEntity->setDescription($description); //set the foreground color of the event's label
             $eventEntity->setFgColor('#FFFFFF'); //set the foreground color of the event's label
             /*  $eventEntity->setUrl('http://www.google.com'); // url to send user to when event label is clicked */
             //$eventEntity->setCssClass('my-custom-class'); // a custom class you may want to apply to event labels
             //finally, add the event to the CalendarEvent for displaying on the calendar
+        //  $eventEntity['description']=$companyEvent->getDescription();
             $calendarEvent->addEvent($eventEntity);
         }
     }

@@ -12,7 +12,8 @@ use Application\ChangementsBundle\Form\WdcalendarType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use ADesigns\CalendarBundle\Event\CalendarEvent;
+//use ADesigns\CalendarBundle\Event\CalendarEvent;
+use Application\ChangementsBundle\Event\CalendarEvent;
 
 /**
  * Calendar controller.
@@ -35,12 +36,12 @@ class AdesignCalendarController extends Controller {
 
     public function indexadesignAction(Request $request) {
         return $this->render('ApplicationChangementsBundle:AdesignCalendar:index_adesign.html.twig', array(
-                ));
+        ));
     }
 
     public function indexadesignchangementsAction(Request $request) {
         return $this->render('ApplicationChangementsBundle:AdesignCalendar:index_adesign_changements.html.twig', array(
-                ));
+        ));
     }
 
     /**
@@ -120,27 +121,26 @@ class AdesignCalendarController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $ret = array();
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
-            
-              $data['id'] = $request->get('id');
-          $action = $request->get('action');
-                 if (isset($action) && $action =="delete"){
-                         $entity = $em->getRepository('ApplicationChangementsBundle:AdesignCalendar')->find($data['id']);
+
+            $data['id'] = $request->get('id');
+            $action = $request->get('action');
+            if (isset($action) && $action == "delete") {
+                $entity = $em->getRepository('ApplicationChangementsBundle:AdesignCalendar')->find($data['id']);
                 if (!$entity) {
-                throw $this->createNotFoundException('Unable to find ChangementsContact entity.');
-                } 
-                    $em->remove($entity);
-                    $em->flush();
-                 $ret['id'] = $data['id'];
-                 $ret['status'] = 'removed';
-         $response = new Response(\json_encode($ret));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-                    
-                 }
-            
-                 
-                 
-          
+                    throw $this->createNotFoundException('Unable to find ChangementsContact entity.');
+                }
+                $em->remove($entity);
+                $em->flush();
+                $ret['id'] = $data['id'];
+                $ret['status'] = 'removed';
+                $response = new Response(\json_encode($ret));
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+            }
+
+
+
+
             $data['end'] = $request->get('end');
             $data['start'] = $request->get('start');
             $format = 'Y-m-d H:i:s';
@@ -164,7 +164,7 @@ class AdesignCalendarController extends Controller {
                 $entity->setUrl('4564');
                 $bgcolor = $request->get('background-color', '#000000');
                 $classcss = $request->get('className', 'class1');
-                $description = $request->get('className', 'Pas de description');
+                $description = $request->get('description', 'Pas de description');
                 $allday = $request->get('allDay');
                 $fgcolor = $request->get('background-color', '#FFFFFF');
                 $entity->setBgColor($bgcolor); //set the background color of the event's label
@@ -190,29 +190,37 @@ class AdesignCalendarController extends Controller {
             else {
                 $entity = $em->getRepository('ApplicationChangementsBundle:AdesignCalendar')->find($data['id']);
                 if (!$entity) {
-                throw $this->createNotFoundException('Unable to find ChangementsContact entity.');
-                } 
-                    //$this->getRequest()->query->all(); 
-                    //to get all GET params and 
-                    //$this->getRequest()->request->all(); to get all POST params.
-                    $entity->setStartDatetime($d);
-                    $entity->setEndDatetime($f);
-                    //$all= $request->all();
-                    $title = $request->get('title');
-                    $allday = $request->get('allDay');
-                    var_dump($title);
-                    var_dump($allday);
-                    if ($allday == 'true')
-                        $entity->setAllDay(true);
-                    else
-                        $entity->setAllDay(false);
-                    if ($title)
-                        $entity->setTitle($title);
-                    $em->persist($entity);
-                    $em->flush();
-                    $ret['IsSuccess'] = true;
-                    $ret['Msg'] = 'update success';
-                
+                    throw $this->createNotFoundException('Unable to find ChangementsContact entity.');
+                }
+                //$this->getRequest()->query->all(); 
+                //to get all GET params and 
+                //$this->getRequest()->request->all(); to get all POST params.
+                $entity->setStartDatetime($d);
+                $entity->setEndDatetime($f);
+                //$all= $request->all();
+                $title = $request->get('title');
+                $description = $request->get('description', 'Pas de description');
+               // echo "description=" . $description;
+                $entity->setDescription($description);
+
+                $allday = $request->get('allDay');
+               /* var_dump($title);
+                var_dump($allday);*/
+                if ($allday == 'true'){
+                      $entity->setAllDay(true);
+                     //  $data['allDay']=true;
+                }
+                else{
+                    $entity->setAllDay(false);
+                   //   $data['allDay']=false;
+                }
+                if ($title)
+                    $entity->setTitle($title);
+                $em->persist($entity);
+                $em->flush();
+                $data['allDay']=$allday;
+                $ret['IsSuccess'] = true;
+                $ret['Msg'] = 'update success';
             }
             $ret['data'] = $data;
         }

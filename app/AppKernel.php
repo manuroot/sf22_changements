@@ -83,11 +83,11 @@ class AppKernel extends Kernel {
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Oneup\UploaderBundle\OneupUploaderBundle(),
             new PunkAve\FileUploaderBundle\PunkAveFileUploaderBundle(),
-            new Application\CentralBundle\ApplicationCentralBundle(),
+            new Application\CentralBundle\ApplicationCentralBundle()
             //====================================================
             // CALENDARS
             //====================================================
-            new ADesigns\CalendarBundle\ADesignsCalendarBundle(),
+            //new ADesigns\CalendarBundle\ADesignsCalendarBundle(),
          
         );
 
