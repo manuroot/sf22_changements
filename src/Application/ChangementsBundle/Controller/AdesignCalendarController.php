@@ -123,6 +123,10 @@ class AdesignCalendarController extends Controller {
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
 
             $data['id'] = $request->get('id');
+            
+            
+            
+            
             $action = $request->get('action');
             if (isset($action) && $action == "delete") {
                 $entity = $em->getRepository('ApplicationChangementsBundle:AdesignCalendar')->find($data['id']);
@@ -173,6 +177,8 @@ class AdesignCalendarController extends Controller {
                 else
                     $entity->setAllDay(false);
                 $entity->setCssClass($classcss);
+                  $data['className']=$classcss;
+        
                 $entity->setDescription($description);
                 $entity->setFgColor($fgcolor); //set the foreground color of the event's label
                 $em->persist($entity);
@@ -199,10 +205,12 @@ class AdesignCalendarController extends Controller {
                 $entity->setEndDatetime($f);
                 //$all= $request->all();
                 $title = $request->get('title');
-                $description = $request->get('description', 'Pas de description');
-               // echo "description=" . $description;
+                $description = $request->get('description');
+                $classcss = $request->get('className', 'class1');
+                /* fields optionnels dans le post */
+                 if ($description){
                 $entity->setDescription($description);
-
+                 }
                 $allday = $request->get('allDay');
                /* var_dump($title);
                 var_dump($allday);*/
@@ -216,6 +224,11 @@ class AdesignCalendarController extends Controller {
                 }
                 if ($title)
                     $entity->setTitle($title);
+                 if ($classcss){
+              
+                $data['className']=$classcss;
+               $entity->setCssClass($classcss);
+                 }
                 $em->persist($entity);
                 $em->flush();
                 $data['allDay']=$allday;
