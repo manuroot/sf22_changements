@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Application\ChangementsBundle\Entity\Calendar;
+use Application\ChangementsBundle\Entity\CalendarEvenements;
 use Application\ChangementsBundle\Entity\AdesignCalendar;
 use Application\ChangementsBundle\Form\WdcalendarType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -35,8 +36,17 @@ class AdesignCalendarController extends Controller {
     }
 
     public function indexadesignAction(Request $request) {
+        
+        
+     $em = $this->getDoctrine()->getManager();
+  $entity_evements = $em->getRepository('ApplicationChangementsBundle:CalendarEvenements')->findall();
+                if (!$entity_evements) {
+                    throw $this->createNotFoundException('Unable to find ChangementsContact entity.');
+                }
+         
+     
         return $this->render('ApplicationChangementsBundle:AdesignCalendar:index_adesign.html.twig', array(
-        ));
+        'evenements'=> $entity_evements));
     }
 
     public function indexadesignchangementsAction(Request $request) {

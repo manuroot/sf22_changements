@@ -747,12 +747,18 @@ background-color:rgb(102, 140, 217);
 <div id='wrap'>
 <div id='external-events'>
 <h4> <i class="icon-wrench"></i> Evenements:</h4>
+{#
 <div class='external-event class0' myclass="class0">STANDARD</div>
 <div class='external-event class1' myclass="class1">IMPORTANT</div>
 <div class='external-event class2' myclass="class2">MEETING</div>
 <div class='external-event class3' myclass="class3">IDEE</div>
 <div class='external-event class4' myclass="class4">RAPPEL</div>
 <div class='external-event class5' myclass="class5">TODO</div>
+#}
+ {% for entity in evenements %}
+<div class='external-event {{ entity.cssClass }}' myclass="{{ entity.cssClass }}">{{ entity.nom }}</div>
+ {% endfor %}
+   
 <p>
 <input type='checkbox' id='drop-remove' /> <label for='drop-remove'>remove after drop</label>
 </p>
