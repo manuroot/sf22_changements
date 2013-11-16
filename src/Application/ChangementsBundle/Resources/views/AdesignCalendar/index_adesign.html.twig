@@ -763,7 +763,13 @@ background-color:rgb(102, 140, 217);
 <input type='checkbox' id='drop-remove' /> <label for='drop-remove'>remove after drop</label>
 </p>
 </div>
-
+ {#
+   <form name="display">
+        <input type="checkbox" name="cal_type" id="events" checked>Events</p>
+        <input type="checkbox" name="cal_type" id="rto" checked>Vacations and time-off</p>
+        <input type="checkbox" name="cal_type" id="goals" checked>Goals</p>
+    </form>
+#}
 <div id="calendar-holder"></div>
 
 <div style='clear:both'></div>

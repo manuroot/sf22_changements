@@ -37,6 +37,26 @@ class AdesignCalendarController extends Controller {
 
     public function indexadesignAction(Request $request) {
         
+        /*
+         $form = $this->createFormBuilder(array('id' => $id))
+                  ->add('idStatus', 'filter_entity', array(
+                    'attr' => array(
+                        'style' => 'height:30px'),
+                    'label' => 'Status',
+                    'class' => 'Application\ChangementsBundle\Entity\ChangementsStatus',
+                    'property' => 'nom',
+                    'expanded' => false,
+                    'multiple' => false,
+                    'required' => false,
+                    'empty_value' => '- Choisir une option -',
+                ))
+        ;
+                        ->add('id', 'hidden')
+                        ->getForm()
+        ;
+         
+         */
+         
         
      $em = $this->getDoctrine()->getManager();
   $entity_evements = $em->getRepository('ApplicationChangementsBundle:CalendarEvenements')->findall();
