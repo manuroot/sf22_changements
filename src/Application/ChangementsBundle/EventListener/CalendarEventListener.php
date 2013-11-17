@@ -105,19 +105,25 @@ class CalendarEventListener {
 
 
         foreach ($companyEvents as $companyEvent) {
+         //   var_dump($companyEvents);
             $nom = $companyEvent->getNom();
             $id = $companyEvent->getId();
             $d = $companyEvent->getDateDebut();
             $f = $companyEvent->getDateFin();
             $projet=$companyEvent->getIdProjet();
+            $status_num=$companyEvent->getIdStatus()->getId();
+         //   echo "status=$status_num";
              if (!$f)
                 $f = $d;
-            $status=$companyEvent->getIdStatus();
+           // $status=$companyEvent->getIdStatus();
             /*$nickname= $nom . "\n(" . $projet . ')';*/
             $nickname= $nom . " (" . $projet . ')';
              $eventEntity = new EventEntity($nickname, $d, $f);
           /*   echo "status=$status\n";*/
-            if ($status == 'open')
+            
+          //   if ()
+             $eventEntity->setCssClass("class" . $status_num);
+           /* if ($status == 'open')
               $eventEntity->setCssClass('class1'); //set the background color of the event's label
                 elseif ($status == 'closed')
                     $eventEntity->setCssClass('class2'); //set the background color of the event's label
@@ -126,7 +132,7 @@ class CalendarEventListener {
                elseif ($status == 'REPORTE')
               $eventEntity->setCssClass('class3'); //set the background color of the event's label
               else
-                  $eventEntity->setCssClass('class4'); //set the background color of the event's label
+                  $eventEntity->setCssClass('class4'); //set the background color of the event's label*/
          //   echo "id =$id nom=$nom status=$status";
            /* if ($d)
  <div class='external-event class1' myclass="class1">Ouvert</div>

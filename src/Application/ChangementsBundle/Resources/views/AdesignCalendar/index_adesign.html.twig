@@ -104,6 +104,18 @@
 .popup form div{float:left; width:80px; text-align:left;}
 .popup form input{float:left; text-align:left;}
 div.modal-header {background-color: rgb(245, 245, 245);}
+div.date-chooser{margin-top:15px;}
+/*div#ui-datepicker-div{z-index:100;}*/
+.ui-datepicker{ z-index: 9999 !important;}
+ span#dateaddon{height: 15px;
+ padding: 2px 2px;
+font-size: 10px;}
+ i.icon-time{padding:2px;}
+INPUT#datepicker{width:70px;height: 15px;
+padding: 2px 2px;
+margin-bottom: 1px;
+font-size: 10px;
+}
       </style>   
 {% endblock %}
         
@@ -125,6 +137,27 @@ div.modal-header {background-color: rgb(245, 245, 245);}
 	var d = date.getDate();
 	var m = date.getMonth();
 	var y = date.getFullYear();
+        
+         $("#datepicker").datepicker({
+            dateFormat: 'yy/mm/dd',
+         
+   // While using year and month change I prefer to use inline  date picker  like (  <div id="datepicker"></div>   )
+                    changeMonth: true,
+                        changeYear: true,
+                        onChangeMonthYear: function(year, month, inst) {
+                        var date = new Date();
+                        console.log("month=" + month);
+                         $('#calendar-holder').fullCalendar('gotoDate', year, month-1, date.getDate()); 
+                         },
+                onSelect: function(dateText, inst) {
+                        var date = new Date(dateText);
+                  
+        
+         console.log("month=" + date.getMonth());
+        $('#calendar-holder').fullCalendar('gotoDate', date.getFullYear(), date.getMonth(), date.getDate()); 
+                        /*  $('#calendar-holder').fullCalendar('gotoDate', date);*/
+                }
+        });
 	/*$(this).find('.fc-event-time').addClass('newclass');*/
          $('#external-events div.external-event').each(function() {
 		
@@ -687,6 +720,7 @@ function initForm(){
 
 {% block content %}
 
+
 <!----------Form Edit Event ----------------->
 <div id="createEventModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
     <div class="modal-header">
@@ -750,6 +784,9 @@ background-color:rgb(102, 140, 217);
 #}
 <div id='wrap'>
 <div id='external-events'>
+    <div class="input-prepend date-chooser">
+    <span class="add-on" id="dateaddon"><i class="icon-time"></i></span>
+    <input type="text" id="datepicker" /></div>
 <h4> <i class="icon-wrench"></i> Evenements:</h4>
 {#
 <div class='external-event class0' myclass="class0">STANDARD</div>

@@ -919,7 +919,7 @@ class Changements extends AbstractEvent {
      * @param \Application\ChangementsBundle\Entity\KindChangements $idKind
      * @return Changements
      */
-    public function setIdKind(\Application\ChangementsBundle\Entity\KindChangements $idKind) {
+    public function setIdKind(\Application\ChangementsBundle\Entity\KindChangements $idKind=null) {
         $this->idKind = $idKind;
 
         return $this;
