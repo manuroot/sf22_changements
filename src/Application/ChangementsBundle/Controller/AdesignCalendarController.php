@@ -36,8 +36,28 @@ class AdesignCalendarController extends Controller {
     }
 
     public function indexadesignAction(Request $request) {
-        
-        /*
+         
+     $em = $this->getDoctrine()->getManager();
+  $entity_evements = $em->getRepository('ApplicationChangementsBundle:CalendarEvenements')->findall();
+             /*   if (!$entity_evements) {
+                    throw $this->createNotFoundException('Unable to find ChangementsContact entity.');
+                }*/
+         
+     
+        return $this->render('ApplicationChangementsBundle:AdesignCalendar:index_adesign.html.twig', array(
+        'evenements'=> $entity_evements));
+    }
+
+    public function indexadesignchangementsAction(Request $request) {
+           $em = $this->getDoctrine()->getManager();
+  $entity_evements = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->findall();
+   
+        return $this->render('ApplicationChangementsBundle:AdesignCalendar:index_adesign_changements.html.twig', array(
+        'evenements'=> $entity_evements));
+    }
+
+    
+    /*
          $form = $this->createFormBuilder(array('id' => $id))
                   ->add('idStatus', 'filter_entity', array(
                     'attr' => array(
@@ -56,24 +76,6 @@ class AdesignCalendarController extends Controller {
         ;
          
          */
-         
-        
-     $em = $this->getDoctrine()->getManager();
-  $entity_evements = $em->getRepository('ApplicationChangementsBundle:CalendarEvenements')->findall();
-                if (!$entity_evements) {
-                    throw $this->createNotFoundException('Unable to find ChangementsContact entity.');
-                }
-         
-     
-        return $this->render('ApplicationChangementsBundle:AdesignCalendar:index_adesign.html.twig', array(
-        'evenements'=> $entity_evements));
-    }
-
-    public function indexadesignchangementsAction(Request $request) {
-        return $this->render('ApplicationChangementsBundle:AdesignCalendar:index_adesign_changements.html.twig', array(
-        ));
-    }
-
     /**
      * Dispatch a CalendarEvent and return a JSON Response of any events returned.
      *
@@ -101,32 +103,6 @@ class AdesignCalendarController extends Controller {
         $response->setContent(json_encode($return_events));
 
         return $response;
-        /*  $startDatetime = new \DateTime();
-          $startDatetime->setTimestamp($request->get('start'));
-
-          $endDatetime = new \DateTime();
-          $endDatetime->setTimestamp($request->get('end'));
-
-          $format = 'Y-m-d H:i:s';
-          $startDatetime = \DateTime::createFromFormat($format, $startDatetime);
-          $endDatetime = \DateTime::createFromFormat($format,  $endDatetime);
-
-
-          $events = $this->container->get('event_dispatcher')->dispatch(CalendarEvent::CONFIGUREJ, new CalendarEvent($startDatetime, $endDatetime))->getEvents();
-
-          var_dump($events);
-          $response = new \Symfony\Component\HttpFoundation\Response();
-          $response->headers->set('Content-Type', 'application/json');
-
-          $return_events = array();
-
-          foreach ($events as $event) {
-          $return_events[] = $event->toArray();
-          }
-
-          $response->setContent(json_encode($return_events));
-
-          return $response; */
     }
 
     public function loadjqCalendarChangementsAction(Request $request) {
@@ -152,11 +128,10 @@ class AdesignCalendarController extends Controller {
         $ret = array();
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
 
+          //  $all=$this->getRequest()->request->all();// to get all POST params.
+           //         var_dump($all);
             $data['id'] = $request->get('id');
-            
-            
-            
-            
+              
             $action = $request->get('action');
             if (isset($action) && $action == "delete") {
                 $entity = $em->getRepository('ApplicationChangementsBundle:AdesignCalendar')->find($data['id']);
@@ -202,10 +177,12 @@ class AdesignCalendarController extends Controller {
                 $allday = $request->get('allDay');
                 $fgcolor = $request->get('background-color', '#FFFFFF');
                 $entity->setBgColor($bgcolor); //set the background color of the event's label
-                if ($allday == 'true')
+               /* if ($allday == 'true')
                     $entity->setAllDay(true);
                 else
-                    $entity->setAllDay(false);
+                    $entity->setAllDay(false);*/
+                 $entity->setAllDay($allday);
+                $data['allDay']=(boolean)$allday;
                 $entity->setCssClass($classcss);
                   $data['className']=$classcss;
         
@@ -228,7 +205,7 @@ class AdesignCalendarController extends Controller {
                 if (!$entity) {
                     throw $this->createNotFoundException('Unable to find ChangementsContact entity.');
                 }
-                //$this->getRequest()->query->all(); 
+              // $this->getRequest()->query->all(); 
                 //to get all GET params and 
                 //$this->getRequest()->request->all(); to get all POST params.
                 $entity->setStartDatetime($d);
@@ -242,16 +219,17 @@ class AdesignCalendarController extends Controller {
                 $entity->setDescription($description);
                  }
                 $allday = $request->get('allDay');
+                $entity->setAllDay($allday);
                /* var_dump($title);
                 var_dump($allday);*/
-                if ($allday == 'true'){
+              /*  if ($allday == 'true'){
                       $entity->setAllDay(true);
                      //  $data['allDay']=true;
                 }
                 else{
                     $entity->setAllDay(false);
                    //   $data['allDay']=false;
-                }
+                }*/
                 if ($title)
                     $entity->setTitle($title);
                  if ($classcss){
@@ -261,7 +239,7 @@ class AdesignCalendarController extends Controller {
                  }
                 $em->persist($entity);
                 $em->flush();
-                $data['allDay']=$allday;
+              //  $data['allDay']=(boolean)$allday;
                 $ret['IsSuccess'] = true;
                 $ret['Msg'] = 'update success';
             }

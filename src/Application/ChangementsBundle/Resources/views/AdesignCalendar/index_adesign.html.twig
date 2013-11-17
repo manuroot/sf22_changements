@@ -43,6 +43,10 @@
 		font-size: .85em;
 		cursor: pointer;
 		}
+                
+                .external-event input { 
+		float: right;
+		}
 	#calendar-holder .ui-widget-header{
 	font-weight: normal;
 	padding: 3px 3px 3px 3px;
@@ -756,7 +760,9 @@ background-color:rgb(102, 140, 217);
 <div class='external-event class5' myclass="class5">TODO</div>
 #}
  {% for entity in evenements %}
-<div class='external-event {{ entity.cssClass }}' myclass="{{ entity.cssClass }}">{{ entity.nom }}</div>
+<div class='external-event {{ entity.cssClass }}' myclass="{{ entity.cssClass }}">{{ entity.nom }}
+<input type="checkbox" class="external-checkbox" name="external-checkbox" id="{{ entity.id }}" checked>
+</div>
  {% endfor %}
    
 <p>

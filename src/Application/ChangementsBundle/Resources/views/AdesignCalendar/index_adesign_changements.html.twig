@@ -26,7 +26,7 @@
 		}
   #external-events {
 		float: left;
-		width: 8%;
+		width: 10%;
                 margin-top:50px;
 		padding: 0 10px;
 		border: 1px solid #ccc;
@@ -47,6 +47,9 @@
 		color: #fff;
 		font-size: .85em;
 		cursor: pointer;
+		}
+                 .external-event input { 
+		float: right;
 		}
 	#calendar-holder .ui-widget-header{
 	font-weight: normal;
@@ -89,7 +92,7 @@
 		}
   #calendar-holder {
 		float: right;
-		width: 90%;
+		width: 88%;
 		}
 
 .class0 {     border: 1px solid rgb(90, 105, 134);background-color: #94A2BE;}   
@@ -145,6 +148,7 @@
                     eventStartEditable: true,
                     eventDurationEditable: false,
                     droppable: false,
+                    disableDragging:true,
                     hiddenDays: [0,6], 
                     defaultView: 'month',
                     header: {
@@ -170,29 +174,8 @@
            
  
     eventClick: function(calEvent, jsEvent, view) {
-      
       View(calEvent);
-          
-      /*  $.colorbox({html:"<h1>"+calEvent.title+"</h1><br><p>"+calEvent.start+" TO "+calEvent.end+"</p>"});
-  
-       $.colorbox({
-            iframe:true,
-            transition:	"elastic",
-            width:"70%",
-            height:"70%",
-              fastIframe:false,
-            opacity:0.3
-        
-        });*/
-     /* var title = prompt('Event Title:', calEvent.title, { buttons: { Ok: true, Cancel: false} });
-        if (title){
-            calEvent.title = title;
-           $('#calendar-holder').fullCalendar('updateEvent',calEvent);
-             updateajax('calendar_dropajax',calEvent,calEvent.allDay,function (result) { 
-        console.log("result=" + result['data']['id']);
-        });
-          }*/
-},
+   }
 });
 function View(datab)
     {
@@ -239,18 +222,17 @@ function View(datab)
 <div id='wrap'>
 <div id='external-events'>
     <h4> <i class="icon-wrench"></i> Evenements:</h4>
+     {% for entity in evenements %}
+<div class='external-event class{{ entity.id }}' myclass="class{{ entity.id }}">{{ entity.nom|upper }}
+<input type="checkbox" class="external-checkbox" name="external-checkbox" id="{{ entity.id }}" checked>
+</div>
+ {% endfor %}
+   {#
 <div class='external-event class1' myclass="class1">Ouvert</div>
 <div class='external-event class2' myclass="class2">Fermé</div>
 <div class='external-event class0' myclass="class0">En préparation</div>
 <div class='external-event class3' myclass="class3">Reporté</div>
 <div class='external-event class4' myclass="class4">Annulé</div>
-{#
-<h4> <i class="icon-wrench"></i> Evenements:</h4>
-<div class='external-event' myclass="class1" style="background-color:rgb(148, 162, 190);">Ouvert</div>
-<div class='external-event' myclass="class2" style="background-color:rgb(153, 51, 85)">Fermé</div>
-<div class='external-event' myclass="class3" style="background-color:rgb(170, 170, 170)">En Préparation</div>
-<div class='external-event' myclass="class4" style="background-color:rgb(242, 166, 64)">Reporté</div>
-<div class='external-event' myclass="class5" style="background-color: rgb(179, 115, 179)">Annulé</div>
 #}
 <p>
 <input type='checkbox' id='drop-remove' /> <label for='drop-remove'>remove after drop</label>

@@ -265,7 +265,18 @@ class AdesignCalendar
     
     public function setAllDay($allDay = false)
     {
-        $this->allDay = (boolean) $allDay;
+       //   echo "allday en entree entity=--" . $allDay . "--";
+    if ($allDay === 'true' || $allDay === true){
+      //  echo "TRUE";
+        $this->allDay = true;
+    }
+        
+    else{
+    $this->allDay = false;
+ //   echo "FALSE";
+    
+    }
+      //  $this->allDay = (boolean) $allDay;
     }
     
     public function getAllDay()

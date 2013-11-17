@@ -618,6 +618,9 @@ class ChangementsController extends Controller {
         $copy->setDateDebut(null);
         $copy->setDateFin(null);
         $copy->setIdStatus(null);
+        $copy->setTicketExt(null);
+        $copy->setTicketInt(null);
+        
         
         $id=$copy->getId();
        $editForm = $this->createForm(new ChangementsType(), $copy);

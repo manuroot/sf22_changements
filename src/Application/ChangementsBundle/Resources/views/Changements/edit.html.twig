@@ -90,7 +90,9 @@ height:300px;
 width:98%;
 }
 
-
+ td.required{
+       background-color:lightgrey;
+   }
     </style>
 {#  {{ form_stylesheet(edit_form) }}#}
 <link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
@@ -161,7 +163,7 @@ $.each($(".select2-container"), function (i, n) {
                     {#------------------------------------------------
                     LIGNE 1 CELL 1
                     -------------------------------------------------#}
-                <td class="calendar file">
+                <td class="calendar file required">
                         <div> {{ form_row(edit_form.nom) }}</div>
                        <br/> <br/>
                         <div> {{ form_row(edit_form.dateDemande) }} </div>
@@ -174,7 +176,7 @@ $.each($(".select2-container"), function (i, n) {
                     LIGNE 1 CELL 2
                     -------------------------------------------------#}
              
-                    <td class="calendar mytiny">
+                    <td class="calendar mytiny required">
                         <div>{{ form_row(edit_form.idProjet) }}</div>
                         {{ form_row(edit_form.idStatus) }}
                          {{ form_row(edit_form.idEnvironnement) }}
@@ -185,7 +187,7 @@ $.each($(".select2-container"), function (i, n) {
                     LIGNE 1 CELL 3
                     -------------------------------------------------#}
             
-                   <td class="calendar lastcol">
+                   <td class="calendar lastcol required">
                      
                    <div>  {{ form_row(edit_form.demandeur) }}</div>
                    <div>  {{ form_row(edit_form.idusers) }}</div>

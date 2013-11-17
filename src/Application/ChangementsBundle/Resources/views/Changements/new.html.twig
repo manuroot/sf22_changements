@@ -82,6 +82,9 @@ div.testa{background-color: red;width:100px;position: absolute;left:100px;}
 	display: inline;
         color:red;
    }
+   td.required{
+       background-color:lightgrey;
+   }
    textarea {
 height:300px;
 width:98%;
@@ -233,7 +236,7 @@ $.each($(".select2-container"), function (i, n) {
                     {#------------------------------------------------
                     LIGNE 1 CELL 1
                     -------------------------------------------------#}
-                <td class="calendar file">
+                <td class="calendar file required">
                         <div> {{ form_widget(form.nom) }}</div>
                          <div>{{ form_errors(form.nom) }}</div>
                          <br/> <br/>
@@ -247,7 +250,7 @@ $.each($(".select2-container"), function (i, n) {
                     LIGNE 1 CELL 2
                     -------------------------------------------------#}
              
-                    <td class="calendar mytiny">
+                    <td class="calendar mytiny required">
                         <div>{{ form_row(form.idProjet) }}</div>
                         {{ form_row(form.idStatus) }}
                          {{ form_row(form.idEnvironnement) }}
@@ -258,7 +261,7 @@ $.each($(".select2-container"), function (i, n) {
                     LIGNE 1 CELL 3
                     -------------------------------------------------#}
             
-                   <td class="calendar lastcol">
+                   <td class="calendar lastcol required">
                      
                    <div>  {{ form_row(form.demandeur) }}</div>
                    <div>  {{ form_row(form.idusers) }}</div>
