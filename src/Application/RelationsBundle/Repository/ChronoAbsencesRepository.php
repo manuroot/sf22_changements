@@ -12,5 +12,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class ChronoAbsencesRepository extends EntityRepository {
 
+      public function myFindAll() {
+        return $this->createQueryBuilder('a')
+                        ->select('a,b')
+                        ->add('orderBy', 'a.nom ASC')
+                        ->leftJoin('a.user', 'b')
+                        ->getQuery();
+
+        //->getResult();
+    }
     
 }

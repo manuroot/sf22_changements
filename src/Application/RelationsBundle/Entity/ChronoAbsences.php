@@ -49,7 +49,22 @@ class ChronoAbsences
      */
     private $user;
     
-    
+     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_debut", type="datetime", nullable=false)
+      */
+    private $dateDebut;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_fin", type="datetime", nullable=true)
+     * 
+     */
+    private $dateFin;
+   
+
   
     public function __toString() {
         return $this->getNom();    // this will not look good if SonataAdminBundle uses this ;)
@@ -66,6 +81,51 @@ class ChronoAbsences
     {
         return $this->id;
     }
+
+    
+      /**
+     * Set dateDebut
+     *
+     * @param \DateTime $dateDebut
+     * @return Changements
+     */
+    public function setDateDebut($dateDebut) {
+        $this->dateDebut = $dateDebut;
+
+        return $this;
+    }
+
+    /**
+     * Get dateDebut
+     *
+     * @return \DateTime 
+     */
+    public function getDateDebut() {
+        return $this->dateDebut;
+    }
+
+    /**
+     * Set dateFin
+     *
+     * @param \DateTime $dateFin
+     * @return Changements
+     */
+    public function setDateFin($dateFin) {
+        $this->dateFin = $dateFin;
+
+        return $this;
+    }
+
+    /**
+     * Get dateFin
+     *
+     * @return \DateTime 
+     */
+    public function getDateFin() {
+        return $this->dateFin;
+    }
+
+   
 
     /**
      * Set nom

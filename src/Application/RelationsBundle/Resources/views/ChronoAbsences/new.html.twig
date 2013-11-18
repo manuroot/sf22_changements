@@ -1,0 +1,94 @@
+{% extends "ApplicationRelationsBundle::layout.html.twig" %}
+{% block stylesheets %}
+{{ parent() }} 
+<link rel="stylesheet" href="{{ asset('css/sliding.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('css/certifcatssearch.css') }}" type="text/css" media="all"/>
+<style>
+        
+        tr.single {
+         background-color: #f1f1f1;
+        }
+
+    </style> 
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ tinymce_init() }}
+         <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script> 
+         <script>
+ $(document).ready(function() {
+    var img_s_path = '/bundles/applicationchangements/images/';
+
+    $("#chronoabsences_dateDebut").datepicker({
+        maxDate: "+5Y",
+        minDate: "-5Y",
+        changeMonth: true,
+        changeYear: true,
+        numberOfMonths: 1,
+        showWeek: true,
+        firstDay: 1,
+        dateFormat: "yy-mm-dd",
+        onClose: function(selectedDate) {
+            $("#form_bis").datepicker("option", "minDate", selectedDate);
+        }
+    });
+    //$(function() {
+    $("#chronoabsences_dateFin").datepicker({
+        minDate: "-5Y",
+        maxDate: "+10Y",
+        changeMonth: true,
+        changeYear: true,
+        showWeek: true,
+        firstDay: 1,
+        numberOfMonths: 1,
+        dateFormat: "yy-mm-dd 08:00",
+        onClose: function(selectedDate) {
+            $("#form_bis").datepicker("option", "minDate", selectedDate);
+        }
+    });
+    $("#changements_dateFin").datepicker({
+        maxDate: "+5Y",
+        minDate: "-5Y",
+        changeMonth: true,
+        changeYear: true,
+        numberOfMonths: 1,
+        showWeek: true,
+        firstDay: 1,
+        dateFormat: "yy-mm-dd 17:00",
+        onClose: function(selectedDate) {
+            $("#form_bis").datepicker("option", "minDate", selectedDate);
+        }
+    });
+  
+}); //Eof:: ready
+     </script>
+ {{ form_javascript(form) }}
+{% endblock %}
+
+{% block content_header '' %}
+{% block title %}AJOUTER ABSENCE{% endblock %}
+{% block content %}
+
+
+<form action="{{ path('absences_create') }}" method="post" {{ form_enctype(form) }}>
+   <table class="table-mybordered">
+
+          <tr>
+              <td class="calendar">   {{ form_rest(form) }}
+         </td></tr><tr>
+              <td class="calendar">
+                  
+            <button type="submit" class="btn btn-small btn-warning">Ajouter</button>
+            <a href="{{ path('absences') }}" class="btn btn-small btn-success">Retour</a>
+                 
+        </td></tr>
+                    </table>
+   
+</form>
+
+
+{% endblock %}
+
+

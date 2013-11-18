@@ -35,3 +35,7 @@ _serveurs_zones:
 _projets_documents:
     resource: "@ApplicationRelationsBundle/Resources/config/routing/documentbb.yml"
     prefix:   /projets_documents
+    
+_chrono_absences:
+    resource: "@ApplicationRelationsBundle/Resources/config/routing/chronoabsences.yml"
+    prefix:   /absences

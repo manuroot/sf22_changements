@@ -234,7 +234,7 @@ class ServeursSitesController extends Controller
     
     
       //==============================================
-    // VIEW ALL ACTEURS
+    // VIEW ALL Serveurs sites
     //==============================================
     public function indexapyAction($page = 1) {
 

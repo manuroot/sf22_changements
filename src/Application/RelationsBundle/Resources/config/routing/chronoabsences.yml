@@ -1,0 +1,30 @@
+absences:
+    pattern:  /
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoAbsences:index" }
+
+absences_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoAbsences:show" }
+
+absences_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoAbsences:new" }
+
+absences_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoAbsences:create" }
+    requirements: { _method: post }
+
+absences_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoAbsences:edit" }
+
+absences_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoAbsences:update" }
+    requirements: { _method: post|put }
+
+absences_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoAbsences:delete" }
+    requirements: { _method: post|delete }

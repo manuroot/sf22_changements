@@ -1,0 +1,49 @@
+{% extends "ApplicationRelationsBundle::layout.html.twig" %}
+{% block stylesheets %}
+{{ parent() }} 
+<link rel="stylesheet" href="{{ asset('css/sliding.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('css/certifcatssearch.css') }}" type="text/css" media="all"/>
+<style>
+        
+        tr.single {
+         background-color: #f1f1f1;
+        }
+
+    </style> 
+{% endblock %}
+
+{% block content_header '' %}
+{% block title %}ChronoAbsences edit{% endblock %}
+{% block content %}
+
+
+<form action="{{ path('absences_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    <table class="table-mybordered">
+
+          <tr>
+              <td class="calendar">
+    {{ form_rest(edit_form) }}
+ </td></tr><tr>
+              <td class="calendar">
+            <button type="submit" class="btn btn-large btn-warning">Modifier</button>
+            <a href="{{ path('absences') }}" class="btn btn-large btn-success">Retour</a>
+        
+        </td></tr>
+                       
+                       
+                    </table>
+    
+</form>
+
+ <form action="{{ path('absences_delete', { 'id': entity.id }) }}" method="post">
+        {{ form_errors(delete_form) }}
+           {{ form_row(delete_form.id) }}
+           {{ form_rest(delete_form) }}
+            <div style="text-align:right">
+                <button type="submit"  class="btn btn-small btn-danger" onclick="if(!confirm('Are you sure?')) { return false; }">Supprimer Application</button>
+
+            </div>
+        </form>
+
+{% endblock %}
+
