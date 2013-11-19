@@ -154,7 +154,9 @@ class CalendarController extends Controller {
              * 
              *             UPDATE EVENT
              * 
-              ========================================= */ else {
+              ========================================= */ 
+            
+            else {
                 $entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find($data['id']);
                 if (!$entity) {
                     throw $this->createNotFoundException('Unable to find ChangementsContact entity.');

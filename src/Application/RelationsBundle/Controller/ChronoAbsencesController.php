@@ -3,6 +3,8 @@
 namespace Application\RelationsBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Application\RelationsBundle\Entity\ChronoAbsences;
 use Application\RelationsBundle\Form\ChronoAbsencesType;
@@ -32,7 +34,7 @@ class ChronoAbsencesController extends Controller {
         $pagination->setTemplate('ApplicationRelationsBundle:pagination:sliding.html.twig');
         return $this->render('ApplicationRelationsBundle:ChronoAbsences:index.html.twig', array(
                     'pagination' => $pagination,
-                ));
+        ));
     }
 
     /**
@@ -52,7 +54,7 @@ class ChronoAbsencesController extends Controller {
         return $this->render('ApplicationRelationsBundle:ChronoAbsences:new.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),
-                ));
+        ));
     }
 
     /**
@@ -65,7 +67,7 @@ class ChronoAbsencesController extends Controller {
         return $this->render('ApplicationRelationsBundle:ChronoAbsences:new.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),
-                ));
+        ));
     }
 
     /**
@@ -80,7 +82,7 @@ class ChronoAbsencesController extends Controller {
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
-                ));
+        ));
     }
 
     /**
@@ -107,7 +109,7 @@ class ChronoAbsencesController extends Controller {
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
-                ));
+        ));
     }
 
     /**
@@ -145,12 +147,12 @@ class ChronoAbsencesController extends Controller {
         //$entity_evements = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->findall();
 
         $entity = new ChronoAbsences();
-        
+
         $form = $this->createForm(new ChronoAbsencesType(), $entity);
-    
+
         return $this->render('ApplicationRelationsBundle:ChronoAbsences:calendrier.html.twig', array(
-                'form' => $form->createView(),
-            ));
+                    'form' => $form->createView(),
+        ));
     }
 
     public function loadjqCalendarAbscencesAction(Request $request) {
@@ -169,111 +171,79 @@ class ChronoAbsencesController extends Controller {
 
     /* Update d'un record avec son id */
 
-    public function updatejqCalendarAction(Request $request) {
-
+    public function createjqCalendarAction(Request $request) {
         $data = array();
         $em = $this->getDoctrine()->getManager();
-        $ret = array();
+
+        $ret = array('IsSuccess' => false, 'Msg' => 'update unsuccess');
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
-            $data['id'] = $request->get('id');
-
-            $action = $request->get('action');
-            if (isset($action) && $action == "delete") {
-                $form = $this->createDeleteForm($id);
-                $form->bind($request);
-                if ($form->isValid()) {
-                    $this->get('chronoabsences.common.manager')->deleteAbsence($id);
-                    $ret['id'] = $data['id'];
-                    $ret['status'] = 'removed';
-                    $response = new Response(\json_encode($ret));
-                    $response->headers->set('Content-Type', 'application/json');
-                    return $response;
-                }
-            }
-
-            // sinon on continue
-            $data['end'] = $request->get('end');
-            $data['start'] = $request->get('start');
-            $format = 'Y-m-d H:i:s';
-            $d = \DateTime::createFromFormat($format, $data['start']);
-            if (!$data['end'] || $data['end'] == "") {
-                $f = \DateTime::createFromFormat($format, $data['start']);
-            } else {
-                $f = \DateTime::createFromFormat($format, $data['end']);
-            }
-            /* ========================================
-             * 
-             *             NEW EVENT (absence)
-             * 
-              ========================================= */
-            if (!$data['id']) {
-                $data['title'] = $request->get('title');
-                $entity = new ChronoAbsences($data['title'], $d, $f);
-                
-                $entity->setUrl('4564');
-                $bgcolor = $request->get('background-color', '#000000');
-                $classcss = $request->get('className', 'class1');
-                $description = $request->get('description', 'Pas de description');
-                $allday = $request->get('allDay');
-                $fgcolor = $request->get('background-color', '#FFFFFF');
-                $entity->setBgColor($bgcolor); //set the background color of the event's label
-                /* if ($allday == 'true')
-                  $entity->setAllDay(true);
-                  else
-                  $entity->setAllDay(false); */
-                $entity->setAllDay($allday);
-                $data['allDay'] = (boolean) $allday;
-                $entity->setCssClass($classcss);
-                $data['className'] = $classcss;
-
-                $entity->setDescription($description);
-                $entity->setFgColor($fgcolor); //set the foreground color of the event's label
+            $data = $request->get('chronoabsences');
+            $data['end'] = $data['dateFin'];
+            $data['start'] = $data['dateDebut'];
+            $entity = new ChronoAbsences();
+            $form = $this->createForm(new ChronoAbsencesType(), $entity);
+            $form->bind($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
                 $em->persist($entity);
                 $em->flush();
                 $ret['IsSuccess'] = true;
                 $ret['Msg'] = 'update success';
                 $data['id'] = $entity->getId();
+                $data['title'] = $entity->getUser() . ': ' . $entity->getNom();
+                $data['className'] = "class1";
+                $data['allDay'] = true;
             }
-            /* ========================================
-             * 
-             *             UPDATE EVENT
-             * 
-              ========================================= */ else {
-                $entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find($data['id']);
-                if (!$entity) {
-                    throw $this->createNotFoundException('Unable to find ChangementsContact entity.');
-                }
-                // $this->getRequest()->query->all(); 
-                //to get all GET params and 
-                //$this->getRequest()->request->all(); to get all POST params.
-                $entity->setStartDatetime($d);
-                $entity->setEndDatetime($f);
-                //$all= $request->all();
-                $title = $request->get('title');
-                $description = $request->get('description');
-                $classcss = $request->get('className', 'class1');
-                /* fields optionnels dans le post */
-                if ($description) {
-                    $entity->setDescription($description);
-                }
-                $allday = $request->get('allDay');
-                $entity->setAllDay($allday);
-                if ($title)
-                    $entity->setTitle($title);
-                if ($classcss) {
+        }
+        $ret['data'] = $data;
+        $response = new Response(json_encode($ret));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
 
-                    $data['className'] = $classcss;
-                    $entity->setCssClass($classcss);
-                }
-                $em->persist($entity);
-                $em->flush();
-                //  $data['allDay']=(boolean)$allday;
-                $ret['IsSuccess'] = true;
-                $ret['Msg'] = 'update success';
-            }
-            $ret['data'] = $data;
+    /* Update d'un record avec son id */
+
+    public function updatejqCalendarAction(Request $request) {
+        $data = array();
+        $ret = array('IsSuccess' => false, 'Msg' => 'update unsuccess');
+        $data['id'] = $request->get('id');
+        if (!$data['id']) {
+            $response = new Response(json_encode($ret));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
         }
 
+        if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
+            
+        $manager = $this->get('chronoabsences.common.manager');
+        $entity = $manager->loadAbsence($data['id']);
+        
+     
+        $data['end'] = $request->get('end');
+        $data['start'] = $request->get('start');
+        $data['allDay'] = $request->get('allDay');
+        $format = 'Y-m-d H:i:s';   
+        $d = \DateTime::createFromFormat($format, $data['start']);
+            // $f = \DateTime::createFromFormat($format, $data['end']);
+            if (!$data['end'] || $data['end'] == "") {
+                // echo "here";  
+                $f = \DateTime::createFromFormat($format, $data['start']);
+            } else {
+                //  echo "ok f";
+                $f = \DateTime::createFromFormat($format, $data['end']);
+            }
+        $entity->setDateDebut($d);
+        $entity->setDateFin($f);
+        
+        if ($data['allDay'])
+            $entity->setAllDay($data['allDay']);
+        $manager->saveAbsence($entity);
+        $session = $this->getRequest()->getSession();
+        $session->getFlashBag()->add('warning', "Enregistrement " . $data['id'] . " update successfull");
+        $ret['IsSuccess'] = true;
+                $ret['Msg'] = 'update success';
+        }
+       $ret['data'] = $data;
         $response = new Response(json_encode($ret));
         $response->headers->set('Content-Type', 'application/json');
         return $response;

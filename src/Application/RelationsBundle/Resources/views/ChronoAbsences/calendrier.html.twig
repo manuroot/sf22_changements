@@ -181,9 +181,9 @@ font-size: 10px;
                     selectable: true,
                     selectHelper: true,
                     eventStartEditable: true,
-                    eventDurationEditable: false,
+                    eventDurationEditable: true,
                     droppable: false,
-                    disableDragging:true,
+                    disableDragging:false,
                     hiddenDays: [0,6], 
                     defaultView: 'month',
                     header: {
@@ -193,9 +193,9 @@ font-size: 10px;
                     },
                     lazyFetching:true,
                     timeFormat: {
-    agenda: 'H:mm{ - H:mm}'
+                    agenda: 'H:mm{ - H:mm}'
 },
-         eventSources: [
+                    eventSources: [
                         {
                             /* default from vendor adesign*/
                  
@@ -207,6 +207,26 @@ font-size: 10px;
                         }
                     ],
     
+     /*===================================
+   * 
+   * Deplacer Event
+   ====================================*/
+    eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
+        console.log("drop: move event");
+        updateajax('calendar_updateajax_absences',event,function (result) { 
+           console.log("event single drop result=" + result);
+        });
+    },  
+      eventResize: function(event,dayDelta,minuteDelta,revertFunc) {
+        updateajax('calendar_updateajax_absences',event,function (result) { 
+        console.log("resize event");
+        });
+    },     
+
+      /*==================================
+         * 
+         * Edit Event 
+         ==================================*/
       eventClick: function(calEvent, jsEvent, view) {
     console.log("event click");
       console.log("id after click="+ calEvent.id);
@@ -225,22 +245,22 @@ font-size: 10px;
          * Ajout event 
          ==================================*/
  select: function(start, end, allDay) {
-     var eventobjet={'start':start,'end':end,'allDay':allDay};
-      $("#titreheader").html("Ajouter une Absence");
+    var eventobjet={'start':start,'end':end,'allDay':allDay};
+    $("#titreheader").html("Ajouter une Absence");
+    $("#submitButton").unbind('click');
     remplirForm(eventobjet);
-
     $('#createEventModal').modal('show');
-     $("#titleName").focus();
+    $("#titleName").focus();
     $("#submitButton").click(function(event){
+        event.preventDefault();
          doSubmit(event);
          initForm();
          
-        });
+    });
     $("#cancel-button,button.close").click(function(event){
         initForm();
         });
-        
-              /*  $('#createEventModal').modal('hide');*/
+    /*  $('#createEventModal').modal('hide');*/
     },
    /* eventClick: function(calEvent, jsEvent, view) {
       View(calEvent);
@@ -257,13 +277,15 @@ function remplirForm(event){
     if (event.title)
         $("#titleName").val(event.title);
     //$("#chronoabsences_user").val();
-        $('#apptStartTime').val(start);
-        $('#apptEndTime').val(end);
+       /* $('#apptStartTime').val(start);
+        $('#apptEndTime').val(end);*/
        //$('#createEventModal').modal('show');
-       var mywhen = start + ' - ' + end;
-       $('#createEventModal #when').text(mywhen);
-       if (event.allDay)
-           $('#apptAllDay').val(event.allDay);
+      // var mywhen = start + ' - ' + end;
+     //  $('#createEventModal #when').text(mywhen);
+       if (event.allDay){
+           $('#chronoabsences_allDay').val(event.allDay);
+        console.log("allday=" + event.allDay);   
+       }
        if (event.id)
            $('#apptId').val(event.id);
        if (event.description)
@@ -296,7 +318,116 @@ function View(datab)
 
     }
   
+   
+function initForm(){
+        $('#calendar-holder').fullCalendar('unselect');	 
+        $('#createEventModal').modal('hide');
+        $("#titleName").val("");
+        /*$("h3#titreheader").html("TEST");*/
+        $("#descriptionName").val("");
+        $('#apptId').val("");
+        $('#color').val("");
+      //  $("div.colorPicker-picker").css('background-color',getcolorById(0));
+      // $('#calendar-holder').fullCalendar('unselect');
+}
+function doSubmit(event){
+  console.log("submit1 button in doSubmit");
+  //console.log("dosubmit id?=" +event.id);
+  /* event.preventDefault();*/
+    $('#createEventModal').hide();
+    console.log("submit button");
+   // var title=$("#titleName").val();
+   // var mallDay= $('#createEventModal #chronoabsences_allDay').val();
+       var dataAjax = $('form.ajaxform').serialize();
+      //  dataAjax['allDay']=true;
+        console.log("CAS 2 NEW");
+         console.log("allday??=" + dataAjax['allDay']);
+        createajax('calendar_createajax_absences',dataAjax,function (result) { 
+              dataAjax['id'] = result['data']['id'];
+            $('#calendar-holder').fullCalendar('renderEvent', result['data'], false);
+            });  
+       
+ }
+ 
+ /*========================================================
+     *  Fonction: Ajaxs
+     ========================================================*/
 
+    function createajax(route,data,callback) {
+    var obj = $(this);
+    var datareponse;
+  console.log("create ajax request");
+  /*start=data['start'];
+  end=data['end'];*/
+     /*  start = $.fullCalendar.formatDate(data['start'], "yyyy-MM-dd HH:mm:ss");
+        end = $.fullCalendar.formatDate(data['end'], "yyyy-MM-dd HH:mm:ss");*/
+     
+        $.ajax({
+            async: false,
+            url: Routing.generate(route),
+            type: "POST",
+            dataType: "json",
+           /* data: dataAjax,*/
+             data: data,
+            success: function(reponse) {
+                datareponse = reponse;
+              /*  var id=reponse['data']['id'];
+                console.log("in success id=" + id);*/
+               
+          
+            },
+          error: function(e) {
+            console.log(e.message);
+            datareponse = e.message;
+           
+        }
+        });
+        /* $('#calendar-holder').fullCalendar('renderEvent', dataAjax, true);*/
+       /* return datareponse;*/
+       callback(datareponse);
+  
+    } //Eof:: fucntion remplirSelect
+    /*========================================================
+     *  Fonction: Ajaxs
+     ========================================================*/
+ 
+    function updateajax(route,event,callback) {
+         console.log("update ajax");
+
+          
+   start = $.fullCalendar.formatDate(event.start, "yyyy-MM-dd HH:mm:ss");
+   end = $.fullCalendar.formatDate(event.end, "yyyy-MM-dd HH:mm:ss");
+   
+   // Shallow copy
+    var newObject = jQuery.extend({}, event);
+    newObject.start=start;
+    newObject.end=end;
+    newObject.className=event.className[0];
+    console.log("updateajax start=" + event.start);
+    console.log("updateajax end=" + event.end);
+    var datareponse;
+    //if (!event.id) {var id=null;}else {var id=event.id;}
+    $.ajax({
+        async: false,
+        url: Routing.generate(route),
+        type: "POST",
+        dataType: "json",
+        data: newObject,
+        success: function(reponse) {
+                datareponse = reponse;
+                
+        },
+        error: function(e) {
+            console.log(e.message);
+            datareponse = e.message;
+           
+        }
+        });
+       /* return datareponse;*/
+       callback(datareponse);
+  
+    } //Eof:: fucntion remplirSelect
+    
 });
 </script>
 {% endblock %}
@@ -324,8 +455,9 @@ function View(datab)
         <h3 id="titreheader"></h3>
     </div>
     <div class="modal-body">
-    <form id="eventForm" class="form-horizontal">
+    <form id="eventForm" class="form-horizontal ajaxform">
       {{ form(form) }}
+          {#  <input type="hidden" id="apptAllDay" />#}
         {#   <div class="control-group">    
              <label class="control-label" for="color">Couleur:</label>
            <div class="controls">

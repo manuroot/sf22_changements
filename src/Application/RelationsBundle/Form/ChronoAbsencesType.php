@@ -64,6 +64,7 @@ class ChronoAbsencesType extends AbstractType {
                     ),
                     'required' => false,
                 ))
+                             ->add('allDay', 'hidden')                            
         ;
     }
 

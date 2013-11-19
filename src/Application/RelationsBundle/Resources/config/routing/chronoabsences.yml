@@ -37,3 +37,16 @@ calendar_adesignajax_absences:
     options:
         expose: true  
  
+calendar_createajax_absences:
+    methods: POST|GET
+    pattern:  /creteajaxabsence
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoAbsences:createjqCalendar" }
+    options:
+       expose: true  
+       
+calendar_updateajax_absences:
+    methods: POST|GET
+    pattern:  /updateajaxabsence
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoAbsences:updatejqCalendar" }
+    options:
+       expose: true  

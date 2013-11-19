@@ -64,7 +64,12 @@ class ChronoAbsences
      */
     private $dateFin;
    
-
+  /**
+     * @var boolean
+     *
+     * @ORM\Column(name="allday", type="boolean", nullable=true)
+     */
+    protected $allDay = false;
   
     public function __toString() {
         return $this->getNom();    // this will not look good if SonataAdminBundle uses this ;)
@@ -194,5 +199,25 @@ class ChronoAbsences
     public function getUser()
     {
         return $this->user;
+    }
+     public function setAllDay($allDay = false)
+    {
+       //   echo "allday en entree entity=--" . $allDay . "--";
+    if ($allDay === 'true' || $allDay === true){
+      //  echo "TRUE";
+        $this->allDay = true;
+    }
+        
+    else{
+    $this->allDay = false;
+ //   echo "FALSE";
+    
+    }
+      //  $this->allDay = (boolean) $allDay;
+    }
+    
+    public function getAllDay()
+    {
+        return $this->allDay;
     }
 }

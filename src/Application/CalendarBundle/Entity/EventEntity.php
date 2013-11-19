@@ -55,7 +55,7 @@ class EventEntity
      *
      */
     
-    private $description;
+    protected $description;
     /**
      * @var boolean Is this an all day event?
      */

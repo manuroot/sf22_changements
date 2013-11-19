@@ -11,7 +11,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 
 use Application\CalendarBundle\Event\CalendarEvent;
-use Application\CalendarBundle\Entity\EventEntity;
+//use Application\CalendarBundle\Entity\EventEntity;
+use Application\RelationsBundle\Entity\ChronoAbsencesEventEntity;
+
 //use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 
@@ -90,14 +92,18 @@ class ChronoAbsencesManager extends ChronoAbsencesBaseManager {
             $id = $absence->getId();
             $d = $absence->getDateDebut();
             $f = $absence->getDateFin();
-            $user = $absence->getUser();
+            $allday=$absence->getAllDay();
+            $user = $absence->getUser()->getNomUser();
             if (!$f)
                 $f = $d;
             $nickname = ucfirst($user) . ": " .$nom ;
-            $eventEntity = new EventEntity($nickname, $d, $f);
+            //$eventEntity = new EventEntity($nickname, $d, $f);
+//( $title, \DateTime $startDatetime, \DateTime $endDatetime = null, $allDay = false ) {
+  
+            $eventEntity = new ChronoAbsencesEventEntity($nickname, $d, $f,$allday);
             $eventEntity->setCssClass("class1");
             $eventEntity->setId($id); // default is false, set to true if this is an all day event
-
+            $eventEntity->setUser($user); //set the foreground color of the event's label
             $eventEntity->setFgColor('#FFFFFF'); //set the foreground color of the event's label
 
            // $eventEntity['rere']="trtrr";
@@ -109,6 +115,7 @@ class ChronoAbsencesManager extends ChronoAbsencesBaseManager {
 
         foreach ($calendarEvent->getEvents() as $event) {
             $return_events[] = $event->toArray();
+          //  var_dump($event->toArray());
         }
         
         return $return_events;
