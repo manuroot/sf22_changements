@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\ChangementsBundle\Entity;
+namespace Application\CalendarBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use APY\DataGridBundle\Grid\Mapping as GRID;
@@ -27,7 +27,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="wdcalendar_root")
  * @UniqueEntity(fields="nom", message="Ce nom existe déjà...")
  * @ORM\HasLifecycleCallbacks
- * @ORM\Entity(repositoryClass="Application\ChangementsBundle\Repository\AdesignCalendarRootRepository")
+ * @ORM\Entity(repositoryClass="Application\CalendarBundle\Repository\AdesignCalendarRootRepository")
  */
 
 

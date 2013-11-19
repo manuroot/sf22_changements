@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\ChangementsBundle\Entity;
+namespace Application\CalendarBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -18,7 +18,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="wdcalendar_evenements")
  * @ORM\HasLifecycleCallbacks
- * @ORM\Entity(repositoryClass="Application\ChangementsBundle\Repository\CalendarEvenementsRepository")
+ * @ORM\Entity(repositoryClass="Application\CalendarBundle\Repository\CalendarEvenementsRepository")
  */
 
 class CalendarEvenements {

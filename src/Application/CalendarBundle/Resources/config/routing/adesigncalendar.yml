@@ -1,0 +1,21 @@
+calendar_adesignajax:
+    methods: POST|GET
+    pattern:  /adesignajax
+    defaults: { _controller: "ApplicationCalendarBundle:Calendar:loadjqCalendar" }
+    options:
+        expose: true
+
+        
+calendar_dropajax:
+    methods: POST|GET
+    pattern:  /updateajax
+    defaults: { _controller: "ApplicationCalendarBundle:Calendar:updatejqCalendar" }
+    options:
+        expose: true
+        
+calendar_indexadesign:
+    pattern:  /
+    defaults: { _controller: "ApplicationCalendarBundle:Calendar:indexadesign" }
+    
+     
+ 

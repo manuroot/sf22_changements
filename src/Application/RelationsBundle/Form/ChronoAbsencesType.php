@@ -2,9 +2,14 @@
 
 namespace Application\RelationsBundle\Form;
 
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
+
 
 class ChronoAbsencesType extends AbstractType
 {
@@ -16,8 +21,19 @@ class ChronoAbsencesType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('description')
-            ->add('user')
+            ->add('description','textarea')
+            ->add('user', 'entity', array(
+                    'class' => 'ApplicationRelationsBundle:ChronoUser',
+                    'query_builder' => function(EntityRepository $em) {
+                        return $em->createQueryBuilder('u')
+                                ->orderBy('u.nomUser', 'ASC');
+                    },
+                    'property' => 'nomUser',
+                    'multiple' => false,
+                    'required' => true,
+                    'label' => 'Collaborateur',
+                    'empty_value' => '--- Collaborateur ---'
+                ))
                  ->add('dateDebut', 'datetime', array(
                     'label' => 'Date début',
                     'widget' => 'single_text',
@@ -60,3 +76,4 @@ class ChronoAbsencesType extends AbstractType
         return 'chronoabsences';
     }
 }
+

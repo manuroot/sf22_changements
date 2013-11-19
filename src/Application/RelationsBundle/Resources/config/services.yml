@@ -5,6 +5,12 @@ services:
         - { name: sonata.admin, manager_type: orm, group: Projets, label: Liste des Projets }
       arguments: [null, Application\RelationsBundle\Entity\Projet, ApplicationRelationsBundle:ProjetAdmin]   
 
+   chronoabsences.common.manager:
+    class:  Application\RelationsBundle\Manager\ChronoAbsencesManager
+    arguments: 
+        entityManager: "@doctrine.orm.entity_manager"
+
+  
   # application.relations.admin.filetype:
    #   class: Application\RelationsBundle\Admin\FiletypeAdmin
    #   tags:

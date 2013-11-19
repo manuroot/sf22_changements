@@ -1,11 +1,11 @@
 <?php
 
-namespace Application\ChangementsBundle\EventListener;
+namespace Application\CalendarBundle\EventListener;
 
 // src/Acme/DemoBundle/EventListener/CalendarEventListener.php  
 
-use Application\ChangementsBundle\Event\CalendarEvent;
-use Application\ChangementsBundle\Entity\EventEntity;
+use Application\CalendarBundle\Event\CalendarEvent;
+use Application\CalendarBundle\Entity\EventEntity;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 
@@ -20,7 +20,7 @@ class CalendarEventListener {
     public function loadEvents(CalendarEvent $calendarEvent) {
         $startDate = $calendarEvent->getStartDatetime();
         $endDate = $calendarEvent->getEndDatetime();
-       $companyEvents = $this->entityManager->getRepository('ApplicationChangementsBundle:AdesignCalendar')
+       $companyEvents = $this->entityManager->getRepository('ApplicationCalendarBundle:AdesignCalendar')
                         ->createQueryBuilder('a')
                         ->where('a.startDatetime BETWEEN :startDate and :endDate')
                         ->orwhere('a.endDatetime BETWEEN :startDate and :endDate')

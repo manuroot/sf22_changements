@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\ChangementsBundle\Repository;
+namespace Application\CalendarBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 

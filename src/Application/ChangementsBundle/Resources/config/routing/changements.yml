@@ -54,6 +54,16 @@ changements_calendar:
     pattern:  /calendar
     defaults: { _controller: "ApplicationChangementsBundle:Changements:calendar" }
 
+
+
+#---------------------------------------------------------------
+# Changements calendrier principal
+#---------------------------------------------------------------    
+      
+
+wdcalendar_indexadesignchangement:
+    pattern:  /calendrier
+    defaults: { _controller: "ApplicationChangementsBundle:AdesignCalendar:indexadesignchangements" }
 #---------------------------------------------------------------
 # Changements operations: show, create, delete, edit, update
 #---------------------------------------------------------------    

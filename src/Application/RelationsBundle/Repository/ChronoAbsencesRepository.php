@@ -21,5 +21,17 @@ class ChronoAbsencesRepository extends EntityRepository {
 
         //->getResult();
     }
-    
+     public function myFindId($id) {
+        $parameters = array();
+        $values = array('a,partial c.{id,nomUser}');
+
+        $query = $this->createQueryBuilder('a')
+                ->select($values)
+                 ->leftJoin('a.user', 'c');
+                
+        $query->add('orderBy', 'a.id DESC')
+                ->andwhere('a.id = :myid');
+        $query->setParameter('myid', $id);
+    return $query->getQuery()->getSingleResult();
+    }
 }

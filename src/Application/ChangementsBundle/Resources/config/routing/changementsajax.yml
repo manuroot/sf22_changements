@@ -53,4 +53,12 @@ changements_updatexhtml_favoris:
     defaults: { _controller: "ApplicationChangementsBundle:Changements:update_changement_favoris" }
     options:
         expose: true
+        
+
+calendar_adesignajax_changements:
+    methods: POST|GET
+    pattern:  /adesignajaxchangements
+    defaults: { _controller: "ApplicationChangementsBundle:AdesignCalendar:loadjqCalendarChangements" }
+    options:
+        expose: true  
  

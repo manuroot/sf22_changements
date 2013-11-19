@@ -1,10 +1,10 @@
 <?php
 
-namespace Application\ChangementsBundle\Event;
+namespace Application\CalendarBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 
-use  Application\ChangementsBundle\Entity\EventEntity;
+use  Application\CalendarBundle\Entity\EventEntity;
 
 /**
  * Event used to store EventEntitys

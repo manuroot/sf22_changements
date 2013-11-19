@@ -1,8 +1,9 @@
 {% extends "ApplicationRelationsBundle::layout.html.twig" %}
 {% block stylesheets %}
 {{ parent() }} 
-<link rel="stylesheet" href="{{ asset('css/sliding.css') }}" type="text/css" media="all"/>
-<link rel="stylesheet" href="{{ asset('css/certifcatssearch.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/certifcatssearch.css') }}" type="text/css" media="all"/>
+
 <style>
         
         tr.single {
@@ -29,7 +30,7 @@
         numberOfMonths: 1,
         showWeek: true,
         firstDay: 1,
-        dateFormat: "yy-mm-dd",
+        dateFormat: "yy-mm-dd 08:00",
         onClose: function(selectedDate) {
             $("#form_bis").datepicker("option", "minDate", selectedDate);
         }
@@ -43,25 +44,12 @@
         showWeek: true,
         firstDay: 1,
         numberOfMonths: 1,
-        dateFormat: "yy-mm-dd 08:00",
-        onClose: function(selectedDate) {
-            $("#form_bis").datepicker("option", "minDate", selectedDate);
-        }
-    });
-    $("#changements_dateFin").datepicker({
-        maxDate: "+5Y",
-        minDate: "-5Y",
-        changeMonth: true,
-        changeYear: true,
-        numberOfMonths: 1,
-        showWeek: true,
-        firstDay: 1,
         dateFormat: "yy-mm-dd 17:00",
         onClose: function(selectedDate) {
             $("#form_bis").datepicker("option", "minDate", selectedDate);
         }
     });
-  
+ 
 }); //Eof:: ready
      </script>
  {{ form_javascript(form) }}
@@ -73,20 +61,26 @@
 
 
 <form action="{{ path('absences_create') }}" method="post" {{ form_enctype(form) }}>
-   <table class="table-mybordered">
-
-          <tr>
-              <td class="calendar">   {{ form_rest(form) }}
-         </td></tr><tr>
-              <td class="calendar">
-                  
-            <button type="submit" class="btn btn-small btn-warning">Ajouter</button>
-            <a href="{{ path('absences') }}" class="btn btn-small btn-success">Retour</a>
-                 
-        </td></tr>
-                    </table>
-   
-</form>
+<table class="table-mybordered">
+    <tr>
+    <td class="calendar">
+        {{ form_row(form.nom) }}
+        {{ form_row(form.description) }}
+       
+    </td>
+    <td class="calendar">
+         {{ form_row(form.user) }}
+        {{ form_rest(form) }}
+    </td>
+    </tr>
+    <tr>
+    <td class="calendar" colspan="2">
+        <button type="submit" class="btn btn-large btn-warning">Ajouter</button>
+        <a href="{{ path('absences') }}" class="btn btn-large btn-success">Retour</a>
+    </td>
+    </tr>
+ </table>
+ </form>
 
 
 {% endblock %}

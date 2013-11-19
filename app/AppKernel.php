@@ -88,7 +88,8 @@ class AppKernel extends Kernel {
             // CALENDARS
             //====================================================
             //new ADesigns\CalendarBundle\ADesignsCalendarBundle(),
-         
+,
+            new Application\CalendarBundle\ApplicationCalendarBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

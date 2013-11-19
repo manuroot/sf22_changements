@@ -4,7 +4,6 @@ namespace Application\RelationsBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Application\RelationsBundle\Entity\ChronoAbsences;
 use Application\RelationsBundle\Form\ChronoAbsencesType;
 
@@ -12,11 +11,9 @@ use Application\RelationsBundle\Form\ChronoAbsencesType;
  * ChronoAbsences controller.
  *
  */
-class ChronoAbsencesController extends Controller
-{
+class ChronoAbsencesController extends Controller {
 
-    
-      /**
+    /**
      * Lists all CertificatsProjet entities.
      * a completer
      */
@@ -40,192 +37,97 @@ class ChronoAbsencesController extends Controller
         ));
     }
 
-    /**
-     * Lists all ChronoAbsences entities.
-     *
-     */
-    public function index1Action()
-    {
-        $em = $this->getDoctrine()->getManager();
+ 
 
-        $entities = $em->getRepository('ApplicationRelationsBundle:ChronoAbsences')->findAll();
-
-        return $this->render('ApplicationRelationsBundle:ChronoAbsences:index.html.twig', array(
-            'entities' => $entities,
-        ));
-    }
     /**
      * Creates a new ChronoAbsences entity.
      *
      */
-    public function createAction(Request $request)
-    {
+    public function createAction(Request $request) {
         $entity = new ChronoAbsences();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
-
+        $form = $this->createForm(new ChronoAbsencesType(), $entity);
+         $form->bind($request);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-
-            return $this->redirect($this->generateUrl('absences_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('absences'));
         }
-
         return $this->render('ApplicationRelationsBundle:ChronoAbsences:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+                    'entity' => $entity,
+                    'form' => $form->createView(),
         ));
     }
 
-    /**
-    * Creates a form to create a ChronoAbsences entity.
-    *
-    * @param ChronoAbsences $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createCreateForm(ChronoAbsences $entity)
-    {
-        $form = $this->createForm(new ChronoAbsencesType(), $entity, array(
-            'action' => $this->generateUrl('absences_create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
-    }
-
+    
     /**
      * Displays a form to create a new ChronoAbsences entity.
      *
      */
-    public function newAction()
-    {
+    public function newAction() {
         $entity = new ChronoAbsences();
-        $form   = $this->createCreateForm($entity);
-
+        $form = $this->createForm(new ChronoAbsencesType(), $entity);
         return $this->render('ApplicationRelationsBundle:ChronoAbsences:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+                    'entity' => $entity,
+                    'form' => $form->createView(),
         ));
-    }
-
-    /**
-     * Finds and displays a ChronoAbsences entity.
-     *
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('ApplicationRelationsBundle:ChronoAbsences')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find ChronoAbsences entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('ApplicationRelationsBundle:ChronoAbsences:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
     }
 
     /**
      * Displays a form to edit an existing ChronoAbsences entity.
      *
      */
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('ApplicationRelationsBundle:ChronoAbsences')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find ChronoAbsences entity.');
-        }
-
-        $editForm = $this->createEditForm($entity);
+    public function editAction($id) {
+        $entity = $this->get('chronoabsences.common.manager')->loadAbsence($id);
+        $editForm = $this->createForm(new ChronoAbsencesType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
-
         return $this->render('ApplicationRelationsBundle:ChronoAbsences:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
-    /**
-    * Creates a form to edit a ChronoAbsences entity.
-    *
-    * @param ChronoAbsences $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(ChronoAbsences $entity)
-    {
-        $form = $this->createForm(new ChronoAbsencesType(), $entity, array(
-            'action' => $this->generateUrl('absences_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
-        return $form;
-    }
+ 
     /**
      * Edits an existing ChronoAbsences entity.
      *
      */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
+    public function updateAction(Request $request, $id) {
 
-        $entity = $em->getRepository('ApplicationRelationsBundle:ChronoAbsences')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find ChronoAbsences entity.');
-        }
-
+        $manager = $this->get('chronoabsences.common.manager');
+        $entity = $manager->loadAbsence($id);
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
+        $editForm = $this->createForm(new ChronoAbsencesType(), $entity);
+        $editForm->bind($request);
 
         if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('absences_edit', array('id' => $id)));
+            $manager->saveAbsence($entity);
+            $session = $this->getRequest()->getSession();
+            $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
+            return $this->redirect($this->generateUrl('absences'));
         }
 
+        // sinon:
+        $session->getFlashBag()->add('error', "Enregistrement erreur");
         return $this->render('ApplicationRelationsBundle:ChronoAbsences:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
+
     /**
      * Deletes a ChronoAbsences entity.
      *
      */
-    public function deleteAction(Request $request, $id)
-    {
+    public function deleteAction(Request $request, $id) {
         $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
+        $form->bind($request);
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('ApplicationRelationsBundle:ChronoAbsences')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find ChronoAbsences entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+            $this->get('chronoabsences.common.manager')->deleteAbsence($id);
+            return $this->redirect($this->generateUrl('absences'));
         }
-
         return $this->redirect($this->generateUrl('absences'));
     }
 
@@ -236,13 +138,48 @@ class ChronoAbsencesController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
-    {
+    private function createDeleteForm($id) {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('absences_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
+                        ->setAction($this->generateUrl('absences_delete', array('id' => $id)))
+                        ->setMethod('DELETE')
+                        ->add('submit', 'submit', array('label' => 'Delete'))
+                        ->getForm()
         ;
     }
+    
+    
+    
+    
+    
+    public function calendrierAbsencesAction(Request $request) {
+           $em = $this->getDoctrine()->getManager();
+  //$entity_evements = $em->getRepository('ApplicationChangementsBundle:ChangementsStatus')->findall();
+   
+        return $this->render('ApplicationRelationsBundle:ChronoAbsences:calendrier.html.twig', array(
+        ));
+    }
+
+  
+    
+
+    public function loadjqCalendarAbscencesAction(Request $request) {
+        $startDatetime = new \DateTime();
+        $startDatetime->setTimestamp($request->get('start'));
+        $endDatetime = new \DateTime();
+        $endDatetime->setTimestamp($request->get('end'));
+        
+        // TODO
+        // A adapter
+        $events = $this->container->get('event_dispatcher')->dispatch(CalendarEvent::CONFIGUREA, new CalendarEvent($startDatetime, $endDatetime))->getEvents();
+        $response = new \Symfony\Component\HttpFoundation\Response();
+        $response->headers->set('Content-Type', 'application/json');
+        $return_events = array();
+        foreach ($events as $event) {
+            $return_events[] = $event->toArray();
+        }
+        $response->setContent(json_encode($return_events));
+        return $response;
+    }
+
+
 }

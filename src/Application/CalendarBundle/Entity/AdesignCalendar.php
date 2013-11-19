@@ -1,63 +1,107 @@
 <?php
-namespace Application\ChangementsBundle\Entity;
+
+namespace Application\CalendarBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use APY\DataGridBundle\Grid\Mapping as GRID;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\MinLength;
+use Symfony\Component\Validator\Constraints\Choice;
+use Symfony\Component\Validator\Constraints\Date;
+use Doctrine\Common\Collections\ArrayCollection;
+
 
 /**
- * Class for holding a calendar event's details.
- * 
- * @author Mike Yudin <mikeyudin@gmail.com>
+* Class for holding a calendar event's details.
+*
+* @author Mike Yudin <mikeyudin@gmail.com>
+*/
+
+
+/**
+ * Changements
+ *
+ * @ORM\Table(name="wdcalendar_adesignmain")
+ * @ORM\HasLifecycleCallbacks
+ * @ORM\Entity(repositoryClass="Application\CalendarBundle\Repository\AdesignCalendarRepository")
  */
 
-class EventEntity 
+
+class AdesignCalendar
 {
-    /**
-     * @var mixed Unique identifier of this event (optional).
+ /**
+    * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
-    
+   
     /**
-     * @var string Title/label of the calendar event.
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=50, nullable=false)
      */
     protected $title;
     
     /**
-     * @var string URL Relative to current path.
+     * @var string
+     *
+     * @ORM\Column(name="url", type="string", length=50, nullable=true)
      */
     protected $url;
     
     /**
-     * @var string HTML color code for the bg color of the event label.
+     * @var string
+     *
+     * @ORM\Column(name="bgcolor", type="string", length=50, nullable=false)
      */
     protected $bgColor;
     
-    /**
-     * @var string HTML color code for the foregorund color of the event label.
+   /**
+     * @var string
+     *
+     * @ORM\Column(name="fgcolor", type="string", length=50, nullable=false)
      */
     protected $fgColor;
     
-    /**
-     * @var string css class for the event label
+   /**
+     * @var string
+     *
+     * @ORM\Column(name="cssclass", type="string", length=50, nullable=true)
      */
     protected $cssClass;
     
-    /**
-     * @var \DateTime DateTime object of the event start date/time.
+   /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_debut", type="datetime", nullable=false)
      */
     protected $startDatetime;
     
-    /**
-     * @var \DateTime DateTime object of the event end date/time.
+     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_fin", type="datetime", nullable=false)
      */
     protected $endDatetime;
     
     
-        /**
+       /**
      * @var string
      *
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
-    
     private $description;
-    /**
-     * @var boolean Is this an all day event?
+
+    
+  /**
+     * @var boolean
+     *
+     * @ORM\Column(name="allday", type="boolean", nullable=true)
      */
     protected $allDay = false;
     
@@ -73,11 +117,36 @@ class EventEntity
         
         $this->endDatetime = $endDatetime;
     }
-    /**
-     * Convert calendar event details to an array
-     * 
-     * @return array $event 
+    
+    
+     /**
+     * Set description
+     *
+     * @param string $description
+     * @return Changements
      */
+    public function setDescription($description) {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription() {
+        return $this->description;
+    }
+
+    
+    
+    /**
+* Convert calendar event details to an array
+*
+* @return array $event
+*/
     public function toArray()
     {
         $event = array();
@@ -109,10 +178,6 @@ class EventEntity
         if ($this->endDatetime !== null) {
             $event['end'] = $this->endDatetime->format("Y-m-d\TH:i:sP");
         }
-         if ($this->description !== null) {
-            $event['description'] = $this->description;
-        }
-        
         
         $event['allDay'] = $this->allDay;
         
@@ -129,19 +194,11 @@ class EventEntity
         return $this->id;
     }
     
-    
-     public function setDescription($description) {
-        $this->description = $description;
+     public function getTitle()
+    {
+        return $this->title;
     }
-
-  
-    public function getDescription() {
-        return $this->description;
-    }
-    
-    
-    
-    public function setTitle($title) 
+    public function setTitle($title)
     {
         $this->title = $title;
     }
@@ -176,9 +233,9 @@ class EventEntity
         return $this->fgColor;
     }
     
-    public function setCssClass($class)
+    public function setCssClass($classcss)
     {
-        $this->cssClass = $class;
+        $this->cssClass = $classcss;
     }
     
     public function getCssClass()
@@ -208,7 +265,18 @@ class EventEntity
     
     public function setAllDay($allDay = false)
     {
-        $this->allDay = (boolean) $allDay;
+       //   echo "allday en entree entity=--" . $allDay . "--";
+    if ($allDay === 'true' || $allDay === true){
+      //  echo "TRUE";
+        $this->allDay = true;
+    }
+        
+    else{
+    $this->allDay = false;
+ //   echo "FALSE";
+    
+    }
+      //  $this->allDay = (boolean) $allDay;
     }
     
     public function getAllDay()

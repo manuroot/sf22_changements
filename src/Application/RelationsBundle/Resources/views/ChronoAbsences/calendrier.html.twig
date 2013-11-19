@@ -1,3 +1,4 @@
+
 {% extends "::layout.html.twig" %}
 
   {# <script>var menuDownUrl = "{{ asset('bundles/applicationcertificats/images/') }}";</script>#}
@@ -257,12 +258,13 @@ function View(datab)
 <div id='external-events'>
     Date:
      <input type="text" id="datepicker" />
-    <h4> <i class="icon-wrench"></i> Evenements:</h4>
+  {#  <h4> <i class="icon-wrench"></i> Evenements:</h4>
      {% for entity in evenements %}
 <div class='external-event class{{ entity.id }}' myclass="class{{ entity.id }}">{{ entity.nom|upper }}
 <input type="checkbox" class="external-checkbox" name="external-checkbox" id="{{ entity.id }}" checked>
 </div>
  {% endfor %}
+#}
  </div>
 
 <div id="calendar-holder"></div>

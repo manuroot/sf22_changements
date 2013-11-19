@@ -10,6 +10,11 @@ application_certificats:
     resource: "@ApplicationCertificatsBundle/Resources/config/routing.yml"
     prefix:   /
 
+application_calendar:
+    resource: "@ApplicationCalendarBundle/Resources/config/routing.yml"
+    prefix:   /
+    
+    
 central_routes:
     resource: "@ApplicationCentralBundle/Resources/config/routing.yml"
     prefix:   /

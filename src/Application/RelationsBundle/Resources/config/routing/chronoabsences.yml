@@ -2,9 +2,10 @@ absences:
     pattern:  /
     defaults: { _controller: "ApplicationRelationsBundle:ChronoAbsences:index" }
 
-absences_show:
-    pattern:  /{id}/show
-    defaults: { _controller: "ApplicationRelationsBundle:ChronoAbsences:show" }
+absences_calendrier:
+    pattern:  /calendrier
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoAbsences:calendrierAbsences" }
+
 
 absences_new:
     pattern:  /new
@@ -28,3 +29,11 @@ absences_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "ApplicationRelationsBundle:ChronoAbsences:delete" }
     requirements: { _method: post|delete }
+    
+calendar_adesignajax_absences:
+    methods: POST|GET
+    pattern:  /adesignajaxabsences
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoAbsences:loadjqCalendarAbscences" }
+    options:
+        expose: true  
+ 

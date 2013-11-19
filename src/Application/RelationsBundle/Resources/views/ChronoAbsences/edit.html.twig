@@ -1,8 +1,9 @@
 {% extends "ApplicationRelationsBundle::layout.html.twig" %}
+
 {% block stylesheets %}
 {{ parent() }} 
-<link rel="stylesheet" href="{{ asset('css/sliding.css') }}" type="text/css" media="all"/>
-<link rel="stylesheet" href="{{ asset('css/certifcatssearch.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/sliding.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bundles/applicationrelations/css/certifcatssearch.css') }}" type="text/css" media="all"/>
 <style>
         
         tr.single {
@@ -12,38 +13,72 @@
     </style> 
 {% endblock %}
 
+    
+{% block javascripts %}
+{{ parent() }}
+{{ tinymce_init() }}
+         <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script> 
+         <script>
+ $(document).ready(function() {
+    var img_s_path = '/bundles/applicationchangements/images/';
+
+    $("#chronoabsences_dateDebut").datepicker({
+        maxDate: "+5Y",
+        minDate: "-5Y",
+        changeMonth: true,
+        changeYear: true,
+        numberOfMonths: 1,
+        showWeek: true,
+        firstDay: 1,
+        dateFormat: "yy-mm-dd 08:00",
+        onClose: function(selectedDate) {
+            $("#form_bis").datepicker("option", "minDate", selectedDate);
+        }
+    });
+    //$(function() {
+    $("#chronoabsences_dateFin").datepicker({
+        minDate: "-5Y",
+        maxDate: "+10Y",
+        changeMonth: true,
+        changeYear: true,
+        showWeek: true,
+        firstDay: 1,
+        numberOfMonths: 1,
+        dateFormat: "yy-mm-dd 17:00",
+        onClose: function(selectedDate) {
+            $("#form_bis").datepicker("option", "minDate", selectedDate);
+        }
+    });
+ 
+}); //Eof:: ready
+     </script>
+ {{ form_javascript(edit_form) }}
+{% endblock %}
 {% block content_header '' %}
 {% block title %}ChronoAbsences edit{% endblock %}
 {% block content %}
 
 
 <form action="{{ path('absences_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    <table class="table-mybordered">
-
-          <tr>
-              <td class="calendar">
-    {{ form_rest(edit_form) }}
- </td></tr><tr>
-              <td class="calendar">
-            <button type="submit" class="btn btn-large btn-warning">Modifier</button>
-            <a href="{{ path('absences') }}" class="btn btn-large btn-success">Retour</a>
-        
-        </td></tr>
-                       
-                       
-                    </table>
-    
+<table class="table-mybordered">
+    <tr>
+    <td class="calendar">
+        {{ form_row(edit_form.nom) }}
+        {{ form_row(edit_form.description) }}
+        {{ form_row(edit_form.user) }}
+    </td>
+    <td class="calendar">
+        {{ form_rest(edit_form) }}
+    </td>
+    </tr>
+    <tr>
+    <td class="calendar" colspan="2">
+        <button type="submit" class="btn btn-large btn-warning">Modifier</button>
+        <a href="{{ path('absences') }}" class="btn btn-large btn-success">Retour</a>
+    </td>
+    </tr>
+ </table>
 </form>
-
- <form action="{{ path('absences_delete', { 'id': entity.id }) }}" method="post">
-        {{ form_errors(delete_form) }}
-           {{ form_row(delete_form.id) }}
-           {{ form_rest(delete_form) }}
-            <div style="text-align:right">
-                <button type="submit"  class="btn btn-small btn-danger" onclick="if(!confirm('Are you sure?')) { return false; }">Supprimer Application</button>
-
-            </div>
-        </form>
-
 {% endblock %}
 
