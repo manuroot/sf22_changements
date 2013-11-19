@@ -9,6 +9,13 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+
+use Application\CalendarBundle\Event\CalendarEvent;
+use Application\CalendarBundle\Entity\EventEntity;
+//use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+
+
 class ChronoAbsencesManager extends ChronoAbsencesBaseManager {
 
     protected $em;
@@ -61,4 +68,52 @@ class ChronoAbsencesManager extends ChronoAbsencesBaseManager {
         return $this->em->getRepository('ApplicationRelationsBundle:ChronoAbsences');
     }
 
+     public function loadChronoCalendar(CalendarEvent $calendarEvent) {
+        $startDate = $calendarEvent->getStartDatetime();
+        $endDate = $calendarEvent->getEndDatetime();
+        $values = array('DISTINCT a,partial c.{id,nomUser}');
+           $absences = $this->getRepository()
+              ->createQueryBuilder('a')
+                        ->select($values)
+                        ->leftJoin('a.user', 'c')
+                        ->where('a.dateDebut BETWEEN :startDate and :endDate')
+                        ->setParameter('startDate', $startDate->format('Y-m-d H:i:s'))
+                        ->setParameter('endDate', $endDate->format('Y-m-d H:i:s'))
+                        ->orderBy('a.id')
+                        ->getQuery()->getResult();
+
+           // 1) on remplit les chaque event avec chaque absence
+           // 2) on lie chaque event au calendarevent
+        foreach ($absences as $absence) {
+            //   var_dump($companyEvents);
+            $nom = $absence->getNom();
+            $id = $absence->getId();
+            $d = $absence->getDateDebut();
+            $f = $absence->getDateFin();
+            $user = $absence->getUser();
+            if (!$f)
+                $f = $d;
+            $nickname = ucfirst($user) . ": " .$nom ;
+            $eventEntity = new EventEntity($nickname, $d, $f);
+            $eventEntity->setCssClass("class1");
+            $eventEntity->setId($id); // default is false, set to true if this is an all day event
+
+            $eventEntity->setFgColor('#FFFFFF'); //set the foreground color of the event's label
+
+           // $eventEntity['rere']="trtrr";
+            $calendarEvent->addEvent($eventEntity);
+           //$calendarEvent->events['rrr']="reere";
+        }
+        
+       $return_events = array();
+
+        foreach ($calendarEvent->getEvents() as $event) {
+            $return_events[] = $event->toArray();
+        }
+        
+        return $return_events;
+        //var_dump($return_events);
+        
+        
+    }
 }

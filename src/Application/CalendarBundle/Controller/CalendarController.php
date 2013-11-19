@@ -84,10 +84,10 @@ class CalendarController extends Controller {
         $ret = array();
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
 
-          //  $all=$this->getRequest()->request->all();// to get all POST params.
-           //         var_dump($all);
+            //  $all=$this->getRequest()->request->all();// to get all POST params.
+            //         var_dump($all);
             $data['id'] = $request->get('id');
-              
+
             $action = $request->get('action');
             if (isset($action) && $action == "delete") {
                 $entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find($data['id']);
@@ -133,15 +133,15 @@ class CalendarController extends Controller {
                 $allday = $request->get('allDay');
                 $fgcolor = $request->get('background-color', '#FFFFFF');
                 $entity->setBgColor($bgcolor); //set the background color of the event's label
-               /* if ($allday == 'true')
-                    $entity->setAllDay(true);
-                else
-                    $entity->setAllDay(false);*/
-                 $entity->setAllDay($allday);
-                $data['allDay']=(boolean)$allday;
+                /* if ($allday == 'true')
+                  $entity->setAllDay(true);
+                  else
+                  $entity->setAllDay(false); */
+                $entity->setAllDay($allday);
+                $data['allDay'] = (boolean) $allday;
                 $entity->setCssClass($classcss);
-                  $data['className']=$classcss;
-        
+                $data['className'] = $classcss;
+
                 $entity->setDescription($description);
                 $entity->setFgColor($fgcolor); //set the foreground color of the event's label
                 $em->persist($entity);
@@ -154,14 +154,12 @@ class CalendarController extends Controller {
              * 
              *             UPDATE EVENT
              * 
-              ========================================= */
-
-            else {
+              ========================================= */ else {
                 $entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find($data['id']);
                 if (!$entity) {
                     throw $this->createNotFoundException('Unable to find ChangementsContact entity.');
                 }
-              // $this->getRequest()->query->all(); 
+                // $this->getRequest()->query->all(); 
                 //to get all GET params and 
                 //$this->getRequest()->request->all(); to get all POST params.
                 $entity->setStartDatetime($d);
@@ -171,31 +169,31 @@ class CalendarController extends Controller {
                 $description = $request->get('description');
                 $classcss = $request->get('className', 'class1');
                 /* fields optionnels dans le post */
-                 if ($description){
-                $entity->setDescription($description);
-                 }
+                if ($description) {
+                    $entity->setDescription($description);
+                }
                 $allday = $request->get('allDay');
                 $entity->setAllDay($allday);
-               /* var_dump($title);
-                var_dump($allday);*/
-              /*  if ($allday == 'true'){
-                      $entity->setAllDay(true);
-                     //  $data['allDay']=true;
-                }
-                else{
-                    $entity->setAllDay(false);
-                   //   $data['allDay']=false;
-                }*/
+                /* var_dump($title);
+                  var_dump($allday); */
+                /*  if ($allday == 'true'){
+                  $entity->setAllDay(true);
+                  //  $data['allDay']=true;
+                  }
+                  else{
+                  $entity->setAllDay(false);
+                  //   $data['allDay']=false;
+                  } */
                 if ($title)
                     $entity->setTitle($title);
-                 if ($classcss){
-              
-                $data['className']=$classcss;
-               $entity->setCssClass($classcss);
-                 }
+                if ($classcss) {
+
+                    $data['className'] = $classcss;
+                    $entity->setCssClass($classcss);
+                }
                 $em->persist($entity);
                 $em->flush();
-              //  $data['allDay']=(boolean)$allday;
+                //  $data['allDay']=(boolean)$allday;
                 $ret['IsSuccess'] = true;
                 $ret['Msg'] = 'update success';
             }
