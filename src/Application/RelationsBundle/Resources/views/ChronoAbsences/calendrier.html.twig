@@ -233,13 +233,22 @@ font-size: 10px;
         /* var start = $.fullCalendar.formatDate(calEvent.start, "yyyy-MM-dd HH:mm:ss");
         var end = $.fullCalendar.formatDate(calEvent.end, "yyyy-MM-dd HH:mm:ss");*/
      console.log("start=" + calEvent.start + " end=" + calEvent.end);
-  var eventobjet={'start':calEvent.start,'end':calEvent.end,'allDay':calEvent.allDay};
+  var eventobjet={'start':calEvent.start,
+      'end':calEvent.end,
+      'allDay':calEvent.allDay, 'description':calEvent.description};
       $("#titreheader").html("Ajouter une Absence");
-      var d=calEvent.userid;
-      console.log("d=" + d);
-      $("select#chronoabsences_user > option[value=" + d + "]").prop("selected",true);
+      var userid=calEvent.userid;
+      var title=calEvent.title;
+      var absencenom = title.split(": ");
+      //var absencenom=calEvent.title;
+      console.log("userid=" + userid);
+         console.log("description=" + calEvent.description);
+          console.log("absencenom=--" + absencenom[0] + "--");
+      if (userid)
+      $("select#chronoabsences_user > option[value=" + userid + "]").prop("selected",true);
     // $("SELECT#chronoabsences_user[value=" +  d +"]").attr('selected','selected');
-     
+     if (absencenom[1])
+      $("#chronoabsences_nom option:contains(" + absencenom[1] + ")").attr('selected', 'selected');
     remplirForm(eventobjet);
 
     $('#createEventModal').modal('show');
@@ -253,7 +262,7 @@ font-size: 10px;
     var eventobjet={'start':start,'end':end,'allDay':allDay};
     $("#titreheader").html("Ajouter une Absence");
     $("#submitButton").unbind('click');
-    remplirForm(eventobjet);
+    //remplirForm(eventobjet);
     $('#createEventModal').modal('show');
     $("#titleName").focus();
     $("#submitButton").click(function(event){
@@ -263,7 +272,8 @@ font-size: 10px;
          
     });
     $("#cancel-button,button.close").click(function(event){
-        initForm();
+        $("#eventForm").trigger('reset');
+       // initForm();
         });
     /*  $('#createEventModal').modal('hide');*/
     },
@@ -278,23 +288,19 @@ function remplirForm(event){
     var end = $.fullCalendar.formatDate(event.end, "yyyy-MM-dd HH:mm:ss");
     $("#chronoabsences_dateDebut").val(start);
     $("#chronoabsences_dateFin").val(end);
+    $("#chronoabsences_description").val(event.description);
     console.log("start=" + start);
+     console.log("description=" + event.description);
     if (event.title)
         $("#titleName").val(event.title);
-    //$("#chronoabsences_user").val();
-       /* $('#apptStartTime').val(start);
-        $('#apptEndTime').val(end);*/
-       //$('#createEventModal').modal('show');
-      // var mywhen = start + ' - ' + end;
-     //  $('#createEventModal #when').text(mywhen);
-       if (event.allDay){
+        if (event.allDay){
            $('#chronoabsences_allDay').val(event.allDay);
         console.log("allday=" + event.allDay);   
        }
        if (event.id)
            $('#apptId').val(event.id);
        //if (event.description)
-            $("#chronoabsences_description").val(event.description);
+   
 
 return true;
 

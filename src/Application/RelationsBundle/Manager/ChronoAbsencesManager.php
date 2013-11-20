@@ -102,11 +102,11 @@ class ChronoAbsencesManager extends ChronoAbsencesBaseManager {
             
             if (!$f)
                 $f = $d;
-            $nickname = ucfirst($user) . ": " .$nom ;
+            $title = ucfirst($user) . ": " .$nom ;
             //$eventEntity = new EventEntity($nickname, $d, $f);
 //( $title, \DateTime $startDatetime, \DateTime $endDatetime = null, $allDay = false ) {
   
-            $eventEntity = new ChronoAbsencesEventEntity($nickname, $d, $f,$allday);
+            $eventEntity = new ChronoAbsencesEventEntity($title, $d, $f,$allday);
             $eventEntity->setCssClass("class1");
             $eventEntity->setId($id); // default is false, set to true if this is an all day event
             $eventEntity->setUser($user); //set the foreground color of the event's label
