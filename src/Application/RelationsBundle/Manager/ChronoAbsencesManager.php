@@ -94,6 +94,12 @@ class ChronoAbsencesManager extends ChronoAbsencesBaseManager {
             $f = $absence->getDateFin();
             $allday=$absence->getAllDay();
             $user = $absence->getUser()->getNomUser();
+            $userid = $absence->getUser()->getId();
+            $description=$absence->getDescription();
+            //$userid = $absence->getUser()->getId();
+            //echo "userid=" . $userid; 
+            //echo "user=" . $user . "\n";; 
+            
             if (!$f)
                 $f = $d;
             $nickname = ucfirst($user) . ": " .$nom ;
@@ -104,8 +110,9 @@ class ChronoAbsencesManager extends ChronoAbsencesBaseManager {
             $eventEntity->setCssClass("class1");
             $eventEntity->setId($id); // default is false, set to true if this is an all day event
             $eventEntity->setUser($user); //set the foreground color of the event's label
+            $eventEntity->setUserId($userid); //set the foreground color of the event's label
             $eventEntity->setFgColor('#FFFFFF'); //set the foreground color of the event's label
-
+            $eventEntity->setDescription($description); //set the foreground color of the event's label
            // $eventEntity['rere']="trtrr";
             $calendarEvent->addEvent($eventEntity);
            //$calendarEvent->events['rrr']="reere";

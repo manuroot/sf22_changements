@@ -235,6 +235,11 @@ font-size: 10px;
      console.log("start=" + calEvent.start + " end=" + calEvent.end);
   var eventobjet={'start':calEvent.start,'end':calEvent.end,'allDay':calEvent.allDay};
       $("#titreheader").html("Ajouter une Absence");
+      var d=calEvent.userid;
+      console.log("d=" + d);
+      $("select#chronoabsences_user > option[value=" + d + "]").prop("selected",true);
+    // $("SELECT#chronoabsences_user[value=" +  d +"]").attr('selected','selected');
+     
     remplirForm(eventobjet);
 
     $('#createEventModal').modal('show');
@@ -288,8 +293,8 @@ function remplirForm(event){
        }
        if (event.id)
            $('#apptId').val(event.id);
-       if (event.description)
-            $("#descriptionName").val(event.description);
+       //if (event.description)
+            $("#chronoabsences_description").val(event.description);
 
 return true;
 

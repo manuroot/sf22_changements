@@ -17,6 +17,18 @@ class ChronoAbsencesEventEntity extends EventEntity
      */
     protected $user;
        
+      /**
+     * @var integer
+     *
+     */
+    protected $userid;
+    
+      /**
+     * @var string
+     *
+     */
+    protected $description;
+    
     
       
     public function __construct( $title, \DateTime $startDatetime, \DateTime $endDatetime = null, $allDay = false ) {
@@ -31,6 +43,20 @@ class ChronoAbsencesEventEntity extends EventEntity
     public function getUser() {
         return $this->user;
     }
+     public function setUserId($userid) {
+        $this->userid = $userid;
+    }
+  
+    public function getUserId() {
+        return $this->userid;
+    }
+      public function setDescription($description) {
+        $this->description = $description;
+    }
+  
+    public function getDescription() {
+        return $this->description;
+    }
     
    /* public function setTypeabsence($typeabsence) {
         $this->typeabsence = $typeabsence;
@@ -43,6 +69,7 @@ class ChronoAbsencesEventEntity extends EventEntity
     {
      $event=parent::toArray();
       $event['user'] = $this->user;
+       $event['userid'] = $this->userid;
     //  $event['absence'] = $this->typeabsence;
      /*if ($this->user != null) {
             $event['user'] = $this->user;
