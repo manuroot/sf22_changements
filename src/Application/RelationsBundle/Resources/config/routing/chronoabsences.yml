@@ -40,7 +40,7 @@ calendar_adesignajax_absences:
 calendar_createajax_absences:
     methods: POST|GET
     pattern:  /creteajaxabsence
-    defaults: { _controller: "ApplicationRelationsBundle:ChronoAbsences:createjqCalendar" }
+    defaults: { _controller: "ApplicationRelationsBundle:ChronoAbsences:AjaxFormOperationAbsence" }
     options:
        expose: true  
        

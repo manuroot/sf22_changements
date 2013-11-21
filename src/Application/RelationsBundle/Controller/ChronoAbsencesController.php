@@ -171,16 +171,26 @@ class ChronoAbsencesController extends Controller {
 
     /* Update d'un record avec son id */
 
-    public function createjqCalendarAction(Request $request) {
+    public function AjaxFormOperationAbsenceAction(Request $request) {
         $data = array();
         $em = $this->getDoctrine()->getManager();
 
         $ret = array('IsSuccess' => false, 'Msg' => 'update unsuccess');
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
             $data = $request->get('chronoabsences');
+            $id= $request->get('id');
+           // echo "id=$id\n";
             $data['end'] = $data['dateFin'];
             $data['start'] = $data['dateDebut'];
-            $entity = new ChronoAbsences();
+
+            if ($id) {
+                $manager = $this->get('chronoabsences.common.manager');
+                $entity = $manager->loadAbsence($id);
+            }
+            else
+                $entity = new ChronoAbsences();
+            
+            
             $form = $this->createForm(new ChronoAbsencesType(), $entity);
             $form->bind($request);
             if ($form->isValid()) {
@@ -201,7 +211,10 @@ class ChronoAbsencesController extends Controller {
         return $response;
     }
 
-    /* Update d'un record avec son id */
+    /* Update d'un record avec son id
+     * 
+     * Actions= resize, move event
+     *  */
 
     public function updatejqCalendarAction(Request $request) {
         $data = array();
@@ -214,16 +227,16 @@ class ChronoAbsencesController extends Controller {
         }
 
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
-            
-        $manager = $this->get('chronoabsences.common.manager');
-        $entity = $manager->loadAbsence($data['id']);
-        
-     
-        $data['end'] = $request->get('end');
-        $data['start'] = $request->get('start');
-        $data['allDay'] = $request->get('allDay');
-        $format = 'Y-m-d H:i:s';   
-        $d = \DateTime::createFromFormat($format, $data['start']);
+
+            $manager = $this->get('chronoabsences.common.manager');
+            $entity = $manager->loadAbsence($data['id']);
+
+
+            $data['end'] = $request->get('end');
+            $data['start'] = $request->get('start');
+            $data['allDay'] = $request->get('allDay');
+            $format = 'Y-m-d H:i:s';
+            $d = \DateTime::createFromFormat($format, $data['start']);
             // $f = \DateTime::createFromFormat($format, $data['end']);
             if (!$data['end'] || $data['end'] == "") {
                 // echo "here";  
@@ -232,18 +245,18 @@ class ChronoAbsencesController extends Controller {
                 //  echo "ok f";
                 $f = \DateTime::createFromFormat($format, $data['end']);
             }
-        $entity->setDateDebut($d);
-        $entity->setDateFin($f);
-        
-        if ($data['allDay'])
-            $entity->setAllDay($data['allDay']);
-        $manager->saveAbsence($entity);
-        $session = $this->getRequest()->getSession();
-        $session->getFlashBag()->add('warning', "Enregistrement " . $data['id'] . " update successfull");
-        $ret['IsSuccess'] = true;
-                $ret['Msg'] = 'update success';
+            $entity->setDateDebut($d);
+            $entity->setDateFin($f);
+
+            if ($data['allDay'])
+                $entity->setAllDay($data['allDay']);
+            $manager->saveAbsence($entity);
+            $session = $this->getRequest()->getSession();
+            $session->getFlashBag()->add('warning', "Enregistrement " . $data['id'] . " update successfull");
+            $ret['IsSuccess'] = true;
+            $ret['Msg'] = 'update success';
         }
-       $ret['data'] = $data;
+        $ret['data'] = $data;
         $response = new Response(json_encode($ret));
         $response->headers->set('Content-Type', 'application/json');
         return $response;

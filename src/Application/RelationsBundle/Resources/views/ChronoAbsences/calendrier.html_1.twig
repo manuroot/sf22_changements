@@ -245,17 +245,12 @@ font-size: 10px;
       //var absencenom=calEvent.title;
       console.log("userid=" + userid);
          console.log("description=" + calEvent.description);
-          console.log("absencenom=--" + absencenom[1] + "--");
-         if (userid)
+          console.log("absencenom=--" + absencenom[0] + "--");
+      if (userid)
       $("select#chronoabsences_user > option[value=" + userid + "]").prop("selected",true);
     // $("SELECT#chronoabsences_user[value=" +  d +"]").attr('selected','selected');
-     if (absencenom[1]){
-         console.log("init  absence avec " + absencenom[1]);
-         // $("select#chronoabsences_user > option[value=" + userid + "]").prop("selected",true);
-     // $("#chronoabsences_nom option:contains(" + absencenom[1] + ")").attr('selected',true);
-      $("#chronoabsences_nom > option[value=" +  "'" + absencenom[1] + "'" + "]").prop("selected",true);
-      
-     }
+     if (absencenom[1])
+      $("#chronoabsences_nom option:contains(" + absencenom[1] + ")").attr('selected', 'selected');
    $("#submitButton").unbind('click');
     remplirForm(eventobjet);
 
@@ -272,8 +267,7 @@ font-size: 10px;
     });
     $("#cancel-button,button.close").click(function(calEvent){
         $("#eventForm").trigger('reset');
-      //   $('#chronoabsences_nom').val('');
-        initForm();
+       // initForm();
         });
     }   
 ,
@@ -283,15 +277,14 @@ font-size: 10px;
          ==================================*/
  select: function(start, end, allDay) {
     var eventobjet={'start':start,'end':end,'allDay':allDay};
-    initForm();
     $("#titreheader").html("Ajouter une Absence");
     $("#submitButton").unbind('click');
     remplirForm(eventobjet);
     $('#createEventModal').modal('show');
     $("#titleName").focus();
-    $("#submitButton").click(function(){
-      //  event.preventDefault();
-         doSubmit(eventobjet);
+    $("#submitButton").click(function(event){
+        event.preventDefault();
+         doSubmit(event);
          initForm();
          
     });
@@ -318,7 +311,6 @@ function remplirForm(event){
     if (event.title)
         $("#titleName").val(event.title);
         if (event.allDay){
-            //exite pas
            $('#chronoabsences_allDay').val(event.allDay);
         console.log("allday=" + event.allDay);   
        }
@@ -363,40 +355,44 @@ function initForm(){
         $("#descriptionName").val("");
         $('#apptId').val("");
         $('#color').val("");
-       //  $('#chronoabsences_nom').children(':selected').removeProp('selected');
-    //     $('#chronoabsences_nom').val('');
-     //     $('#chronoabsences_nom').val('');
-     //     $('#chronoabsences_user').children(':selected').removeProp('selected');
-      //  $("select#chronoabsences_user > option[value=''").prop("selected",true);
-       // $('select#chronoabsences_user option:selected').removeAttr('selected');
- //$('select#chronoabsences_nom option:selected').removeAttr('selected');
       //  $("div.colorPicker-picker").css('background-color',getcolorById(0));
       // $('#calendar-holder').fullCalendar('unselect');
 }
 function doSubmit(event){
-    console.log("submit1 button in doSubmit");
+  console.log("submit1 button in doSubmit");
+  //console.log("dosubmit id?=" +event.id);
+  /* event.preventDefault();*/
     $('#createEventModal').hide();
     console.log("submit button");
-    var dataAjax = $('form.ajaxform').serializeArray();
-    //  dataAjax['allDay']=true;
-    console.log("CAS 2 NEW");
-    console.log("allday??=" + event.allDay);
-    if (event.id){
-        console.log("CAS 2 EDIT");
-        //dataAjax.push({ name: "chronoabsences[id]", value: event.id });
-        dataAjax.push({ name: "id", value: event.id });
-        createajax('calendar_createajax_absences',dataAjax,function (result) { 
+   // var title=$("#titleName").val();
+   // var mallDay= $('#createEventModal #chronoabsences_allDay').val();
+      // var dataAjax = $('form.ajaxform').serialize();
+       var dataAjax = $('form.ajaxform').serializeArray();
+      //  dataAjax['allDay']=true;
+        console.log("CAS 2 NEW");
+         console.log("allday??=" + dataAjax['allDay']);
+         if (event.id){
+             console.log("CAS 2 EDIT");
+             //dataAjax.push({ name: "chronoabsences[id]", value: event.id });
+             dataAjax.push({ name: "id", value: event.id });
+              
+             createajax('calendar_createajax_absences',dataAjax,function (result) { 
               dataAjax['id'] = result['data']['id'];
                   $('#calendar-holder').fullCalendar( 'removeEvents', event.id );
                 $('#calendar-holder').fullCalendar('renderEvent', result['data'], false);
-        });
-    }
-    else {
+             
+      //  $('#calendar-holder').fullCalendar('renderEvent', result['data'], false);
+            });
+        
+             //dataAjax['id']=event.id;
+         }
+         else {
         createajax('calendar_createajax_absences',dataAjax,function (result) { 
               dataAjax['id'] = result['data']['id'];
             $('#calendar-holder').fullCalendar('renderEvent', result['data'], false);
             });
-    }
+         }
+       
  }
  
  /*========================================================

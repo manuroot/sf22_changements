@@ -31,6 +31,7 @@ class ChronoAbsencesType extends AbstractType {
                 ))
 // ->add('nom')
                 ->add('nom', 'choice', array(
+                     'required' => true,
                     'expanded'=>false,
                     'multiple'=>false,
                     'empty_value' => '--- Type absence ---',
