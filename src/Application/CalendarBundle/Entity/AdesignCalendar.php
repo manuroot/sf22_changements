@@ -97,6 +97,16 @@ class AdesignCalendar
      */
     private $description;
 
+    /**
+     * @var \Calendarrootid
+     * 
+     * @ORM\ManyToOne(targetEntity="\Application\CalendarBundle\Entity\CalendarRoot")
+     * @ORM\OrderBy({"nom" = "ASC"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="calendarid", referencedColumnName="id")
+     * })
+     */
+    private $calendarid;
     
   /**
      * @var boolean
@@ -282,5 +292,28 @@ class AdesignCalendar
     public function getAllDay()
     {
         return $this->allDay;
+    }
+
+    /**
+     * Set calendarid
+     *
+     * @param \Application\CalendarBundle\Entity\CalendarRoot $calendarid
+     * @return AdesignCalendar
+     */
+    public function setCalendarid(\Application\CalendarBundle\Entity\CalendarRoot $calendarid = null)
+    {
+        $this->calendarid = $calendarid;
+    
+        return $this;
+    }
+
+    /**
+     * Get calendarid
+     *
+     * @return \Application\CalendarBundle\Entity\CalendarRoot 
+     */
+    public function getCalendarid()
+    {
+        return $this->calendarid;
     }
 }

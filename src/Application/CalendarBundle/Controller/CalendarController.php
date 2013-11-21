@@ -52,6 +52,13 @@ class CalendarController extends Controller {
      * @return Response
      */
     public function loadjqCalendarAction(Request $request) {
+        
+        
+         $session = $request->getSession();
+                if (!$session->has('calendar_id')) {
+                    $session->set('calendar_id', '1');
+                }
+        $root_calendar = $session->get('calendar_id');
         $startDatetime = new \DateTime();
         $startDatetime->setTimestamp($request->get('start'));
 

@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
     <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/indexfanta.css') }}" type="text/css" media="all"/>
-    <link rel="stylesheet" href="{{ asset('css/jquery-ui-1.9.2.custom_1.css') }}" />    
+  {#  <link rel="stylesheet" href="{{ asset('css/jquery-ui-1.9.2.custom_1.css') }}" />    #}
+    <link rel="stylesheet" href="{{ asset('css/jquery_flicker/jquery-ui-1.9.2.custom.css') }}" /> 
     <link rel="stylesheet" href="{{ asset('fullcalendar/fullcalendar.css') }}" />
     <link rel="stylesheet" href="{{ asset('fullcalendar/view_calendar.css') }}" />
     <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>
@@ -196,10 +197,32 @@ font-size: 10px;
                  
                         url: Routing.generate('calendar_adesignajax_changements'), 
                         type: 'POST',
+                        cache: true,
+               /*         data: {
+                custom_param1: 'something',
+                custom_param2: 'somethingelse'
+            }
+            */
                         error: function() {
                         //alert('There was an error while fetching Google Calendar!');
                         }
                         }
+                        ,
+                                  {
+                            /* default from vendor adesign*/
+                 
+                        url: Routing.generate('calendar_adesignajax_absences'), 
+                        type: 'POST',
+                        error: function() {
+                        //alert('There was an error while fetching Google Calendar!');
+                        },
+                                 editable: false,
+                    selectable: false,
+                
+                                absence: 'true',
+                                color: '#668CD9',   // a non-ajax option
+                textColor: 'black' // a non-ajax option
+                        }     
                     ],
            
  
