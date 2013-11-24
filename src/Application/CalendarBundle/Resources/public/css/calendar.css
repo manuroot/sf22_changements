@@ -1,0 +1,115 @@
+/* 
+    Document   : calendar
+    Created on : 22 nov. 2013, 17:02:10
+    Author     : manuroot
+    Description:
+        Purpose of the stylesheet follows.
+*/
+           div.container {width:97%;}
+          #wrap {
+		width: 100%;
+		margin: 0 auto;
+		}
+  #external-events {
+		float: left;
+		width: 8%;
+                margin-top:50px;
+		padding: 0 10px;
+		border: 1px solid #ccc;
+		background: #eee;
+		text-align: left;
+		}
+		
+	#external-events h4 {
+		font-size: 16px;
+		margin-top: 0;
+		padding-top: 1em;
+		}
+		
+	.external-event { 
+		margin: 10px 0;
+		padding: 2px 4px;
+		background: #3366CC;
+		color: #fff;
+		font-size: .85em;
+		cursor: pointer;
+		}
+                
+                .external-event input { 
+		float: right;
+		}
+	#calendar-holder .ui-widget-header{
+	font-weight: normal;
+	padding: 3px 3px 3px 3px;
+}
+ 
+#calendar-holder .fc-header-title{
+	font-weight: normal;
+}	
+/*.fc-agenda .fc-event-time {
+}*/
+ .class1
+ {  border: 1px solid cadetblue;
+    background: #ccc;
+}
+	#external-events p {
+		margin: 1.5em 0;
+		font-size: 11px;
+		color: #666;
+		}
+		
+	#external-events p input {
+		margin: 0;
+		vertical-align: middle;
+		}
+  #calendar-holder {
+		float: right;
+		width: 90%;
+		}
+                
+ 
+.class0 {     border: 1px solid rgb(90, 105, 134);background-color: #94A2BE;opacity:0.9} 
+.class0 .fc-event-time {background:  rgb(90, 105, 134);}
+
+.class1 {     border: 1px solid rgb(113, 6, 47);background:#993355; opacity:0.9}  
+.class1 .fc-event-time {background:  rgb(113, 6, 47);}
+
+.class2 {     border: 1px solid rgb(102, 102, 102);;background: #AAAAAA;opacity:0.8} 
+.class2 .fc-event-time {background:rgb(102, 102, 102);}
+
+.class3 {     border: 1px solid rgb(190, 109, 0);;background: #F2A640;opacity:0.8}               
+.class3 .fc-event-time {background:rgb(190, 109, 0);}
+
+.class4 {     border: 1px solid rgb(122, 54, 122);;background: #B373B3;opacity:0.8} 
+.class4 .fc-event-time {background:   rgb(122, 54, 122);}
+
+.class5 {  border: 1px solid rgb(41, 82, 163);background: #668CD9;opacity:0.8} 
+.class5 .fc-event-time {background:   rgb(41, 82, 163);}
+
+.description {height:200px;}
+.nube{ position: absolute;left:0;top:0}
+.popup {
+    background-color:ivory; border:1px solid gray;
+    position:fixed; top:25%; left:25%; display:none; padding: 0px 20px 10px 10px; z-index:100;
+}
+.popup form div{float:left; width:80px; text-align:left;}
+.popup form input{float:left; text-align:left;}
+div.modal-header {background-color: rgb(245, 245, 245);}
+div.date-chooser{margin-top:15px;}
+/*div#ui-datepicker-div{z-index:100;}*/
+.ui-datepicker{ z-index: 9999 !important;}
+ span#dateaddon{height: 15px;
+ padding: 2px 2px;
+font-size: 10px;}
+ i.icon-time{padding:2px;}
+INPUT#datepicker{width:70px;height: 15px;
+padding: 2px 2px;
+margin-bottom: 1px;
+font-size: 10px;
+}
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+   /* background: url("images/ui-bg_flat_55_f8da4e_40x100.png") repeat-x scroll 50% 50% rgb(248, 218, 78);*/
+     background: rgb(248, 218, 78);
+    border: 1px solid rgb(252, 209, 19);
+    color: rgb(145, 86, 8);
+}

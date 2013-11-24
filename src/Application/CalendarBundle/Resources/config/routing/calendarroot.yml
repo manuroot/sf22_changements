@@ -1,0 +1,30 @@
+calendarroot:
+    pattern:  /
+    defaults: { _controller: "ApplicationCalendarBundle:CalendarRoot:index" }
+
+calendarroot_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationCalendarBundle:CalendarRoot:show" }
+
+calendarroot_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationCalendarBundle:CalendarRoot:new" }
+
+calendarroot_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationCalendarBundle:CalendarRoot:create" }
+    requirements: { _method: post }
+
+calendarroot_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationCalendarBundle:CalendarRoot:edit" }
+
+calendarroot_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationCalendarBundle:CalendarRoot:update" }
+    requirements: { _method: post|put }
+
+calendarroot_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationCalendarBundle:CalendarRoot:delete" }
+    requirements: { _method: post|delete }

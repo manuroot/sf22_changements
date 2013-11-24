@@ -70,6 +70,7 @@ class ChronoAbsencesEventEntity extends EventEntity
      $event=parent::toArray();
       $event['user'] = $this->user;
        $event['userid'] = $this->userid;
+       $event['origine'] = 'absence';
     //  $event['absence'] = $this->typeabsence;
      /*if ($this->user != null) {
             $event['user'] = $this->user;

@@ -116,6 +116,12 @@ margin-top: 5px;
 margin-bottom: 1px;
 font-size: 10px;
 }
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+   /* background: url("images/ui-bg_flat_55_f8da4e_40x100.png") repeat-x scroll 50% 50% rgb(248, 218, 78);*/
+     background: rgb(248, 218, 78);
+    border: 1px solid rgb(252, 209, 19);
+    color: rgb(145, 86, 8);
+}
 /*
 .fc-agenda-slots td div {
      height: 10px !important;
@@ -214,7 +220,6 @@ font-size: 10px;
                         url: Routing.generate('calendar_adesignajax_absences'), 
                         type: 'POST',
                         error: function() {
-                        //alert('There was an error while fetching Google Calendar!');
                         },
                                  editable: false,
                     selectable: false,

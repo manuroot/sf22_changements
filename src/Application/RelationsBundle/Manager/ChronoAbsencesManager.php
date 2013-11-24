@@ -70,7 +70,7 @@ class ChronoAbsencesManager extends ChronoAbsencesBaseManager {
         return $this->em->getRepository('ApplicationRelationsBundle:ChronoAbsences');
     }
 
-     public function loadChronoCalendar(CalendarEvent $calendarEvent) {
+     public function loadChronoCalendar(CalendarEvent $calendarEvent,$root_id=null) {
         $startDate = $calendarEvent->getStartDatetime();
         $endDate = $calendarEvent->getEndDatetime();
         $values = array('DISTINCT a,partial c.{id,nomUser}');
@@ -122,6 +122,8 @@ class ChronoAbsencesManager extends ChronoAbsencesBaseManager {
 
         foreach ($calendarEvent->getEvents() as $event) {
             $return_events[] = $event->toArray();
+          //  array_push($return_events, array('source'=>'abnsece'));
+             // $return_events[]['source'] = 'absence';
           //  var_dump($event->toArray());
         }
         

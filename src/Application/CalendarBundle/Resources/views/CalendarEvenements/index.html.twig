@@ -1,0 +1,71 @@
+{% extends "::layout.html.twig" %}
+ 
+
+{% block stylesheets %}
+{{ parent() }}
+    <link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>
+    <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/indexfanta.css') }}" type="text/css" media="all"/>
+    <link rel="stylesheet" href="{{ asset('css/jquery_flicker/jquery-ui-1.9.2.custom.css') }}" />    
+     <link rel="stylesheet" href="{{ asset('jquery/simplecolorpicker/colorPicker.css') }}" type="text/css" media="all"/>
+{% endblock %}
+        
+        
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content_header '' %}
+
+
+{% block title %}
+ 
+{% endblock %}
+        
+
+{% block content %}
+    <h1>CalendarEvenements list</h1>
+
+    <table class="records_list table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Cssclass</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('calendarcategories_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.nom }}</td>
+                <td>{{ entity.description }}</td>
+                <td>{{ entity.cssClass }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('calendarcategories_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('calendarcategories_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('calendarcategories_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+   
+{% endblock %}
+ {% block footer %}  {% endblock %}

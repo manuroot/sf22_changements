@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 use Application\CalendarBundle\Entity\CalendarEvenements;
 use Application\CalendarBundle\Entity\AdesignCalendar;
+use Application\CalendarBundle\Entity\CalendarRoot;
+
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\Secure;
@@ -131,14 +133,20 @@ class CalendarController extends Controller {
              * 
               ========================================= */
             if (!$data['id']) {
+               $entity_root = $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->find("1");
+           
+               // pour le moment ajout au calendar principal
+               
                 $data['title'] = $request->get('title');
                 $entity = new AdesignCalendar($data['title'], $d, $f);
+               if ($entity_root)
+                   $entity->setCalendarid($entity_root);
                 $entity->setUrl('4564');
-                $bgcolor = $request->get('background-color', '#000000');
+                $bgcolor = $request->get('backgroundColor', "#94a2be");
                 $classcss = $request->get('className', 'class1');
                 $description = $request->get('description', 'Pas de description');
                 $allday = $request->get('allDay');
-                $fgcolor = $request->get('background-color', '#FFFFFF');
+                $fgcolor = $request->get('textColor', '#FFFFFF');
                 $entity->setBgColor($bgcolor); //set the background color of the event's label
                 /* if ($allday == 'true')
                   $entity->setAllDay(true);
@@ -177,6 +185,12 @@ class CalendarController extends Controller {
                 $title = $request->get('title');
                 $description = $request->get('description');
                 $classcss = $request->get('className', 'class1');
+                $bgcolor = $request->get('backgroundColor');
+                if ($bgcolor) {
+
+                    $data['backgroundColor'] = $bgcolor;
+                    $entity->setBgColor($bgcolor);
+                }
                 /* fields optionnels dans le post */
                 if ($description) {
                     $entity->setDescription($description);

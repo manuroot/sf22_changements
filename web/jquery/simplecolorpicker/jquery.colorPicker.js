@@ -68,11 +68,13 @@
             $.each(opts.colors, function (i) {
                 swatch = templates.swatch.clone();
 
+
                 if (opts.colors[i] === transparent) {
                     swatch.addClass(transparent).text('X');
                     $.fn.colorPicker.bindPalette(newHexField, swatch, transparent);
                 } else {
                     swatch.css("background-color", "#" + this);
+                   //   console.log("hex="+this)
                     $.fn.colorPicker.bindPalette(newHexField, swatch);
                 }
                 swatch.appendTo(newPalette);
@@ -171,6 +173,7 @@
         toHex : function (color) {
             // If we have a standard or shorthand Hex color, return that value.
             if (color.match(/[0-9A-F]{6}|[0-9A-F]{3}$/i)) {
+               //   console.log("match color="+color);
                 return (color.charAt(0) === "#") ? color : ("#" + color);
 
             // Alternatively, check for RGB color, then convert and return it as Hex.
@@ -229,7 +232,7 @@
         **/
         showPalette : function (palette) {
             var hexColor = selectorOwner.prev("input").val();
-
+            //console.log("showpalette="+hexColor)
             palette.css({
                 top: selectorOwner.offset().top + (selectorOwner.outerHeight()),
                 left: selectorOwner.offset().left
@@ -287,7 +290,7 @@
         */
         bindPalette : function (paletteInput, element, color) {
             color = color ? color : $.fn.colorPicker.toHex(element.css("background-color"));
-
+  //console.log("color bind="+color)
             element.bind({
                 click : function (ev) {
                     lastColor = color;

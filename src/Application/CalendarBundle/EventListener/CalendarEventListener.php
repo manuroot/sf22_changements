@@ -44,11 +44,11 @@ class CalendarEventListener {
             $id = $companyEvent->getId();
             $description = $companyEvent->getDescription();
             //  echo "id $id allday=" .   $companyEvent->getAllDay() . "\n";
-            //  $bg=$companyEvent->getBgColor();
+             $bg=$companyEvent->getBgColor();
             //  $eventEntity->setId($id); // default is false, set to true if this is an all day event
             $eventEntity->setId($id); // default is false, set to true if this is an all day event
             // $eventEntity->setAllDay(true); // default is false, set to true if this is an all day event
-            // $eventEntity->setBgColor($bg); //set the background color of the event's label
+            $eventEntity->setBgColor($bg); //set the background color of the event's label
             $eventEntity->setCssClass($className); //set the background color of the event's label
             $eventEntity->setDescription($description); //set the foreground color of the event's label
             $eventEntity->setFgColor('#FFFFFF'); //set the foreground color of the event's label

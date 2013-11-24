@@ -24,13 +24,9 @@
     <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
     <script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.js') }}"></script>
       <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
-  {# <script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>#}
-  <script type="text/javascript" src="{{ asset('jquery/jquery.xcolor.js') }}"></script>  
-   <script type="text/javascript" src="{{ asset('jquery/simplecolorpicker/jquery.colorPicker.js') }}"></script>
+   <script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>
+      <script type="text/javascript" src="{{ asset('jquery/simplecolorpicker/jquery.colorPicker.js') }}"></script>
        <script type="text/javascript" src="{{ asset('jquery/jqtip2/jquery.qtip.min.js') }}"></script>
-    {#    <script type="text/javascript" src="{{ asset('jquery/tinycolor.js') }}"></script>#}
-       
-        
 <script type="text/javascript">
         var xcolors=["#94a2be","#993355","#aaaaaa","#f2a640","#b373b3","#668cd9"];
         var edit_status = "{{ editstatus|escape('js') }}";
@@ -38,7 +34,7 @@
         var resize_status = edit_status;     
        $(document).ready(function() {
      
-      
+       
         var date = new Date();
 	var d = date.getDate();
 	var m = date.getMonth();
@@ -113,11 +109,8 @@
                 eventSources: [
                     {
                         url: Routing.generate('calendar_adesignajax'), 
-                        type: 'POST',
-                        eventBorderColor:"red",
-                        textColor: 'black' // a non-ajax option*/
+                        type: 'POST'
                     }
-                    
                    /* ,{
                         url: Routing.generate('calendar_adesignajax_absences'), 
                         type: 'POST',
@@ -137,31 +130,21 @@
                 element.attr("description",event.description);
                 var start = $.fullCalendar.formatDate(event.start, "yyyy-MM-dd HH:mm:ss");
                 var end = $.fullCalendar.formatDate(event.end, "yyyy-MM-dd HH:mm:ss");
-                 
-                 var bg=element.css("background-color");
-                  // console.log("render bgcolor="+bg);
-    
-     // var t="#fffddd";
-      // Darken
-//var t = LightenDarkenColor(bg, -50);
-       // t=t.toRgbString();
-     /*  var t = tinycolor.darken(bg).toRgbString();*/
-        var t=$.xcolor.darken(bg,3);
-        console.log("color="+t);
-    
-     element.css('border-color', t); 
-      element.find("div.fc-event-time").css('background-color', t);
-      if (event.origine !=="absence")
+                /* if (event.origine==="absence"){
+                element.attr("allDay",true);
+                } */
+              /*  console.log("id="+event.id+" absence="+event.origine);*/
+                if (event.origine !=="absence")
                         element.find("div.fc-event-time").prepend(" <a class=\"editme\" href=\"#\"><i class=\"icon-wrench\"></i></a> ");
                 /*  var desc="Pas de description";
                 if (event.description =="") desc=event.description;*/
                     var text = "<p>"+event.title+'</p><p>Start: '+start+'<br/>End: '+end+'</p>';
-                /*    element.qtip({
+                    element.qtip({
                         content: {
                             text    : event.description,
                             title   : {
                                 text    : text
-                   
+                              /* ,  button: 'Close'*/
                             }
                         },
                         position: {
@@ -169,9 +152,13 @@
                             at : "bottom center",
                             container : false,
                             viewport : $('#calendar-holder'),
-                          
+                           /* viewport : $('.fc-content'),
+                             container:  $('.fc-content'),*/
                             adjust: {method: 'shift' 
-                         }
+                            /* y: -2,
+                        resize: false // We'll handle it manually*/
+                 
+                            }
                         },
                         style: { 
                             name: 'blue',
@@ -184,10 +171,10 @@
                         },
                         hide: {
                         fixed: true
-                        
+                            /*,delay: 50 */
                         }
-                    }); 
-                    */
+                    }); // end of element.qtip({
+                    
          
         /*.html("Whatever you want the content of the span to be"));*/
         },
@@ -199,7 +186,6 @@
     select: function(start, end, allDay) {
         var eventobjet={'start':start,'end':end,'allDay':allDay};
         $("#titreheader").html("Ajouter un Evenement");
-        console.log("select function: allday=--"+allDay+'--');
         remplirForm(eventobjet);
         $('#createEventModal').modal('show');
         $("#titleName").focus();
@@ -230,10 +216,17 @@
 
     eventClick: function(calEvent, jsEvent, view) {
         console.log("event click");
-        if (edit_status === false) 
-            return;
+        if (edit_status === false) return;
         if (calEvent.origine ==="absence")
             return;
+        /*if (calEvent.editable() == false)
+            return;*/
+        /*
+        var title = prompt('Event Title:', calEvent.title, { buttons: { Ok: true, Cancel: false} });
+          if (title){
+              calEvent.title = title;
+              $('#calendar-holder').fullCalendar('updateEvent',calEvent);
+        }*/
         console.log("id after click="+ calEvent.id);
         var border=$(this).css('border-color');
         $(this).css('border-color', 'red');
@@ -243,15 +236,17 @@
         var boxContentString = "ID=" + calEvent.id + " infos:<br>TITRE: " + calEvent.title + 
                    "<br>Description:<br>" + calEvent.description + "<br>" +
                    "allday=" + calEvent.allDay + "<br>start=" + start + "<br>end=" + end;
-       // plus passer par css
-      // var color_index=0;
+        var color_index=0;
         var cssclasscolor=calEvent.className[0];
-        
-       var bgcolor=calEvent.backgroundColor;
-        console.log("recup color=" + bgcolor);
-          $('#color').val(bgcolor);
-        // color en cours
-        $("div.colorPicker-picker").css('background-color',bgcolor);
+        if (cssclasscolor.length == 6 ){
+            color_index=cssclasscolor.substring(5,6); 
+             console.log("recup index=" + color_index);
+        }
+        var color=getcolorById(color_index);
+        console.log("color=" + color);
+        // picker hexa color associée a la classe css
+        $('#color').val(color);
+        $("div.colorPicker-picker").css('background-color',color);
          bootbox.dialog(boxContentString,[
         //buttons
         {
@@ -326,11 +321,8 @@
         console.log("Drop function titre?=" + copiedEventObject['title']);
         if (title) {
             var dataAjax={
-                'title': title,
-                'start':start,
-                'end': end,
-                'backgroundColor': bg,
-                'className': copiedEventObject['myclass'],
+                'title': title,'start':start,'backgroundColor': bg,
+                'className': copiedEventObject['myclass'],'end': end,
                 'allDay': allDay
             }; 
             createajax('calendar_dropajax',dataAjax,allDay,function (result) { 
@@ -343,23 +335,12 @@
             $(this).remove();
         }
     },
-        
-/*=================================
-*  EVENT RESIZE
-* 
-==================================*/
     eventResize: function(event,dayDelta,minuteDelta,revertFunc) {
         updateajax('calendar_dropajax',event,event['allDay'],function (result) { 
         console.log("resize event");
         });
     }      
 });
-
-/*=================================
-*  REMPLIR FORM
-* 
-==================================*/
-
 function remplirForm(event){
     console.log("REMPLIR FORMULAIRE");
     var start = $.fullCalendar.formatDate(event.start, "yyyy-MM-dd HH:mm:ss");
@@ -367,24 +348,27 @@ function remplirForm(event){
     console.log("start=" + start);
     if (event.title)
         $("#titleName").val(event.title);
-    $('#apptStartTime').val(start);
-    $('#apptEndTime').val(end);
-    //$('#createEventModal').modal('show');
-    var mywhen = start + ' - ' + end;
-    $('#createEventModal #when').text(mywhen);
-    console.log("ok allDay="+event.allDay);
-    $('#apptAllDay').val(event.allDay);
-    if (event.id)
-        $('#apptId').val(event.id);
-    if (event.description)
-        $("#descriptionName").val(event.description);
+        $('#apptStartTime').val(start);
+        $('#apptEndTime').val(end);
+       //$('#createEventModal').modal('show');
+       var mywhen = start + ' - ' + end;
+       $('#createEventModal #when').text(mywhen);
+       if (event.allDay)
+           $('#apptAllDay').val(event.allDay);
+       if (event.id)
+           $('#apptId').val(event.id);
+       if (event.description)
+            $("#descriptionName").val(event.description);
+        // si class css, recup color hexa
+      /* if (event.className)
+            $('#color').val(event.className[0]);
+        
+         console.log("form Color=" + event.className[0]);*/
+     //  $("#titleName").focus();
+
 return true;
+
 }
-    
-/*=================================
-*  SUBMIT FORM
-* 
-==================================*/
     
 function doSubmit(event){
   console.log("submit1 button in doSubmit");
@@ -400,21 +384,20 @@ function doSubmit(event){
     var csscolor=$('#color').val();
     var id= $('#apptId').val();
     //recuperation de la classe associée a la couleur
-   // var color_index=getcolor(csscolor);
+    var color_index=getcolor(csscolor);
     var cssclass='class0';
-  //  if (color_index != -1){cssclass='class' + color_index;
-    // console.log("FOUND COLOR INDEX= " + cssclass);
-  //  }
+    if (color_index != -1){cssclass='class' + color_index;
+     console.log("FOUND COLOR INDEX= " + cssclass);
+ }
     // console.log("id=" + id + " color=" + csscolor + " class=" + cssclass);
      
     console.log("id=" + id + " color=" + csscolor);
     var mallDay= $('#createEventModal #apptAllDay').val();
     if (title) {
-            console.log("allday=" + mallDay + " mstart=" + mstart + " end=" + mend);
+            console.log("allday=" + mallDay + "mstart=" + mstart + " end=" + mend);
            var dataAjax={
                     'title':title,
                     'className':cssclass, 
-                    'backgroundColor':csscolor,
                     'description':description,
                     'start':mstart,
                     'end':mend,
@@ -422,35 +405,41 @@ function doSubmit(event){
                     'allDay': ($('#apptAllDay').val() == "true"),
                   
                 };
-    if (id){
-        console.log("CAS 1 EDIT");
-        //updateajax(route,event,allday,callback) {
-        console.log("dosubmit Appel updateAjax id=" + id);
-        createajax('calendar_dropajax',dataAjax,mallDay,function (result) { 
-            dataAjax['id'] = result['data']['id'];
-            $('#calendar-holder').fullCalendar( 'removeEvents', id );
-            $('#calendar-holder').fullCalendar('renderEvent', dataAjax, false);
-        });  
-        }
-        else{
-            console.log("CAS 2 NEW");
-            createajax('calendar_dropajax',dataAjax,mallDay,function (result) { 
+        if (id){
+                console.log("CAS 1 EDIT");
+            //updateajax(route,event,allday,callback) {
+                console.log("dosubmit Appel updateAjax id=" + id);
+                createajax('calendar_dropajax',dataAjax,mallDay,function (result) { 
                 dataAjax['id'] = result['data']['id'];
+                $('#calendar-holder').fullCalendar( 'removeEvents', id );
                 $('#calendar-holder').fullCalendar('renderEvent', dataAjax, false);
-            });  
-        }
+             /* 
+              dataAjax['id'] = result['data']['id'];
+               $('#calendar-holder').fullCalendar('updateEvent', event, false);*/
+     //$('#calendar-holder').fullCalendar('updateEvent', dataAjax, false);
+ });  
     }
+            else{
+                console.log("CAS 2 NEW");
+              createajax('calendar_dropajax',dataAjax,mallDay,function (result) { 
+              dataAjax['id'] = result['data']['id'];
+            $('#calendar-holder').fullCalendar('renderEvent', dataAjax, false);
+ });  
+            }
+             
+        }
  }
 
 function initForm(){
         $('#calendar-holder').fullCalendar('unselect');	 
         $('#createEventModal').modal('hide');
         $("#titleName").val("");
+        /*$("h3#titreheader").html("TEST");*/
         $("#descriptionName").val("");
         $('#apptId').val("");
         $('#color').val("");
         $("div.colorPicker-picker").css('background-color',getcolorById(0));
-        $('#calendar-holder').fullCalendar('unselect');
+       $('#calendar-holder').fullCalendar('unselect');
 }
    /*========================================================
      *  Fonction: Ajaxs
@@ -621,36 +610,19 @@ function initForm(){
   
     } //Eof:: fucntion remplirSelect
     
-  
-    /* $('#color1').colorPicker(
-{
-       pickerDefault : "FFFFFF",
-
-        // Default color set.
-        colors : [
-            '000000', '993300', '333300', '000080', '333399', '333333', '800000', 'FF6600',
-            '808000', '008000', '008080', '0000FF', '666699', '808080', 'FF0000', 'FF9900'
-            
-        ]
-     });*/
-      /* $.fn.colorPicker.defaults.colors = ['151337', '111111'];*/
+ 
+       /*$('#color').colorPicker();*/
     $('#color').colorPicker(
-         {
-   
-      colors:  ["94A2BE","993355","aaaaaa","f2a640","b373b3","668cd9",
-      '000000', '993300', '333300', '000080', '333399', '333333', '800000', 'FF6600',
-            '808000', '008000', '008080', '0000FF', '666699', '808080', 'FF0000', 'FF9900',
-            '99CC00', '339966', '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00',
-            'FFFF00', '00FF00', '00FFFF', '00CCFF', '993366', 'C0C0C0', 'FF99CC', 'FFCC99',
-            'FFFF99', 'CCFFFF', '99CCFF', 'FFFFFF'],
-             pickerDefault: "#94a2be",
+         {colors:  xcolors,
+        /*{colors:  ["#94a2be","#993355","#aaaaaa","#f2a640","#b373b3","#668cd9"],*/
+             pickerDefault: xcolors[0],
              /*pickerDefault: "#94a2be",*/
    transparency: true,
    onColorChange : function(id, newValue) {
        console.log("ID: " + id + " has been changed to " + newValue);
-   /*   var colors=["#94a2be","#993355","#aaaaaa","#f2a640","#b373b3","#668cd9"];
-    alert(jQuery.inArray(newValue, colors));*/
-  /* alert("value=" + newValue + "array_value=" + getcolor(newValue));*/
+     /*  var colors=["#94a2be","#993355","#aaaaaa","#f2a640","#b373b3","#668cd9"];*/
+  /*  alert(jQuery.inArray(newValue, colors));*/
+   /* alert("value=" + newValue + "array_value=" + getcolor(newValue));*/
     } 
                 
         });
@@ -680,35 +652,7 @@ function initForm(){
     source[0] = newSource[0];
     source[1] = newSource[1];
 }
-function LightenDarkenColor(col, amt) {
-  
-    var usePound = false;
-  
-    if (col[0] == "#") {
-        col = col.slice(1);
-        usePound = true;
-    }
- 
-    var num = parseInt(col,16);
- 
-    var r = (num >> 16) + amt;
- 
-    if (r > 255) r = 255;
-    else if  (r < 0) r = 0;
- 
-    var b = ((num >> 8) & 0x00FF) + amt;
- 
-    if (b > 255) b = 255;
-    else if  (b < 0) b = 0;
- 
-    var g = (num & 0x0000FF) + amt;
- 
-    if (g > 255) g = 255;
-    else if (g < 0) g = 0;
- 
-    return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
-  
-}
+
 });
 </script>
 {% endblock %}
@@ -748,17 +692,11 @@ function LightenDarkenColor(col, amt) {
                  <input type="text" name="title" id="titleName" style="margin: 0 auto;" data-provide="typeahead" data-items="4" data-source="">
             </div>
         </div>
-     {#   <div class="control-group">    
-             <label class="control-label" for="color1">Couleur:</label>
-           <div class="controls">
-            <input id="color1" name="color1" type="text" id="color1"/></div>
-        </div>#}
-             <div class="control-group">    
+        <div class="control-group">    
              <label class="control-label" for="color">Couleur:</label>
            <div class="controls">
             <input id="color" name="color" type="text" id="color"/></div>
         </div>
-         
          <div class="control-group">
             <label class="control-label" for="inputDescription">Description:</label>
             <div class="controls">
@@ -783,15 +721,26 @@ function LightenDarkenColor(col, amt) {
 </div>
 <!----------Form Edit Event ----------------->
 
+    <div class="row">
+    <div class="span4" id='external-events'>
+    
+    </div>
+    <div class="span8" id="calendar-holder">
+    
+
+    </div>
+    </div>
+
+
 <div id='wrap'>
 <div id='external-events'>
     <div class="input-prepend date-chooser">
     <span class="add-on" id="dateaddon"><i class="icon-time"></i></span>
     <input type="text" id="datepicker" /></div>
-<h4> <i class="icon-wrench"></i> Catégories:</h4>
+<h4> <i class="icon-wrench"></i> Evenements:</h4>
 
  {% for entity in evenements %}
-<div class='external-event' style="background-color:{{ entity.cssClass }}">{{ entity.nom }}
+<div class='external-event {{ entity.cssClass }}' myclass="{{ entity.cssClass }}">{{ entity.nom }}
 <input type="checkbox" class="external-checkbox" name="external-checkbox" id="{{ entity.id }}" checked>
 </div>
 {% endfor %}
