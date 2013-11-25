@@ -43,17 +43,13 @@
                 <td><a href="{{ path('calendarcategories_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.nom }}</td>
                 <td>{{ entity.description }}</td>
-                <td>{{ entity.cssClass }}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('calendarcategories_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('calendarcategories_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
+                <td>{{ entity.cssClass }}
+                <div style="width:20px;height:20px;background-color:{{ entity.cssClass}}"></div> 
                 </td>
+                 <td><a href="{{ path('calendarcategories_edit', { 'id': entity.id }) }}">
+                                <img src="{{ asset('bundles/applicationchangements/images/edit.png') }}" alt="edit" width="15px" height="15px" />
+                                </a>
+              
             </tr>
         {% endfor %}
         </tbody>

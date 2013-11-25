@@ -17,9 +17,38 @@
     {{ parent() }}
    <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
   {# <script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>#}
+   <script type="text/javascript" src="{{ asset('jquery/simplecolorpicker/jquery.colorPicker.js') }}"></script>
   <script type="text/javascript" src="{{ asset('jquery/jquery.xcolor.js') }}"></script>  
     <script type="text/javascript" src="{{ asset('jquery/jqtip2/jquery.qtip.min.js') }}"></script>
-    {% endblock %}
+    <script type="text/javascript">
+         
+       $(document).ready(function() {
+     
+      
+    
+    $('#application_calendarbundle_calendarevenements_cssClass').colorPicker(
+         {
+   
+      colors:  ["94A2BE","993355","aaaaaa","f2a640","b373b3","668cd9",
+      '000000', '993300', '333300', '000080', '333399', '333333', '800000', 'FF6600',
+            '808000', '008000', '008080', '0000FF', '666699', '808080', 'FF0000', 'FF9900',
+            '99CC00', '339966', '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00',
+            'FFFF00', '00FF00', '00FFFF', '00CCFF', '993366', 'C0C0C0', 'FF99CC', 'FFCC99',
+            'FFFF99', 'CCFFFF', '99CCFF', 'FFFFFF'],
+             pickerDefault: "#94a2be",
+             /*pickerDefault: "#94a2be",*/
+   transparency: true,
+   onColorChange : function(id, newValue) {
+       console.log("ID: " + id + " has been changed to " + newValue);
+   /*   var colors=["#94a2be","#993355","#aaaaaa","#f2a640","#b373b3","#668cd9"];
+    alert(jQuery.inArray(newValue, colors));*/
+  /* alert("value=" + newValue + "array_value=" + getcolor(newValue));*/
+    } 
+         });
+    });
+</script>
+{% endblock %}
+
 
 {% block content_header '' %}
 
@@ -57,13 +86,8 @@
 
     
     
-    
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('calendarcategories') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
+    <a href="{{ path('calendarcategories') }}" class="btn btn-medium btn-success">Retour</a>
+
+<ul>    <li>{{ form(delete_form) }}</li>
 </ul>
 {% endblock %}
