@@ -21,6 +21,7 @@ class CalendarEvent extends Event
     private $endDatetime;
     
     private $events;
+     private $rootId;
     
     /**
      * Constructor method requires a start and end time for event listeners to use.
@@ -28,10 +29,11 @@ class CalendarEvent extends Event
      * @param \DateTime $start Begin datetime to use
      * @param \DateTime $end End datetime to use
      */
-    public function __construct(\DateTime $start, \DateTime $end)
+    public function __construct(\DateTime $start, \DateTime $end,$root_id=null)
     {
         $this->startDatetime = $start;
         $this->endDatetime = $end;
+         $this->rootId = $root_id;
         $this->events = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -63,6 +65,10 @@ class CalendarEvent extends Event
     public function getEndDatetime()
     {
         return $this->endDatetime;
+    }
+      public function getRootId()
+    {
+        return $this->rootId;
     }
 
 }

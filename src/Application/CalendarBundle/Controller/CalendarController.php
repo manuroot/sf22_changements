@@ -25,7 +25,18 @@ use Application\CalendarBundle\Event\CalendarEvent;
  */
 class CalendarController extends Controller {
 
-    public function getuseridction(Request $request) {
+     protected function getCalendarRoot() {
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        if (!$session->has('calendar_id')) {
+            $session->set('calendar_id', '1');
+        }
+        $id_cal = $session->get('calendar_id');
+        return $id_cal;
+    }
+    
+    
+    public function getuseridction() {
         $user_security = $this->container->get('security.context');
         // authenticated REMEMBERED, FULLY will imply REMEMBERED (NON anonymous)
         if ($user_security->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -38,11 +49,61 @@ class CalendarController extends Controller {
         return $user_id;
     }
 
+    
+    
+      public function usecalendarAction(Request $request) {
+         
+        $em = $this->getDoctrine()->getManager();
+         $session = $request->getSession();
+        if ($request->getMethod() == 'POST') {
+            $data = $request->request->all();
+              var_dump($data);
+foreach($request->request->all() as $req){
+                   var_dump($req);
+}
+
+            echo "post method<br>";
+              $alldatas = $request->request->all();
+          //  $datas = $alldatas["changements_filter"];
+            
+           //  $all=$this->getRequest()->request->all();// to get all POST params.
+                     var_dump($alldatas);
+             $id_cal = $request->get('id');
+            $session->set('calendar_id', '1');
+ 
+        }
+    
+    }
+
+ 
+   
+    
+  
     public function indexadesignAction(Request $request) {
          
-     $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
+         $session = $request->getSession();
+        if ($request->getMethod() == 'POST') {
+/*foreach($request->request->all() as $req){
+                   var_dump($req);
+}*/
+           // echo "post method<br>";
+          //    $alldatas = $request->request->all();
+          //  $datas = $alldatas["changements_filter"];
+            
+           //  $all=$this->getRequest()->request->all();// to get all POST params.
+                   //  var_dump($alldatas);
+             $id_cal = $request->get('id');
+            $session->set('calendar_id', $id_cal);
+ 
+        }
+     elseif (!$session->has('calendar_id')) {
+                    $session->set('calendar_id', '1');
+     }
+     
+     $id_cal = $session->get('calendar_id');
   //  echo "test";  
-    $entity_evements = $em->getRepository('ApplicationCalendarBundle:CalendarEvenements')->myFindAll("1");
+    $entity_evements = $em->getRepository('ApplicationCalendarBundle:CalendarEvenements')->myFindAll($id_cal);
     
    // var_dump($entity_evements);
   //$entity_evements = $em->getRepository('ApplicationCalendarBundle:CalendarEvenements')->findall();
@@ -51,6 +112,9 @@ class CalendarController extends Controller {
     }
 
  
+   
+    
+    
     /**
      * Dispatch a CalendarEvent and return a JSON Response of any events returned.
      *
@@ -71,7 +135,7 @@ class CalendarController extends Controller {
         $endDatetime = new \DateTime();
         $endDatetime->setTimestamp($request->get('end'));
 
-        $events = $this->container->get('event_dispatcher')->dispatch(CalendarEvent::CONFIGURE, new CalendarEvent($startDatetime, $endDatetime))->getEvents();
+        $events = $this->container->get('event_dispatcher')->dispatch(CalendarEvent::CONFIGURE, new CalendarEvent($startDatetime, $endDatetime,$root_calendar))->getEvents();
 
         $response = new \Symfony\Component\HttpFoundation\Response();
         $response->headers->set('Content-Type', 'application/json');
@@ -92,6 +156,14 @@ class CalendarController extends Controller {
 
     public function updatejqCalendarAction(Request $request) {
 
+        
+          $session = $request->getSession();
+                if (!$session->has('calendar_id')) {
+                    $session->set('calendar_id', '1');
+                }
+        $idroot_calendar = $session->get('calendar_id');
+    
+        
         $data = array();
         $em = $this->getDoctrine()->getManager();
         $ret = array();
@@ -137,8 +209,10 @@ class CalendarController extends Controller {
              * 
               ========================================= */
             if (!$data['id']) {
-               $entity_root = $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->find("1");
+               $entity_root = $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->find($idroot_calendar);
            
+               
+          
                // pour le moment ajout au calendar principal
                
                 $data['title'] = $request->get('title');

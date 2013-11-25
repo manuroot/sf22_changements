@@ -4,3 +4,7 @@ _calendar_adesigncalendar:
 _calendar_adesignctegories:
     resource: "@ApplicationCalendarBundle/Resources/config/routing/calendarevenements.yml"
     prefix:   /categoriescalendar
+
+_calendar_rootcalendar:
+    resource: "@ApplicationCalendarBundle/Resources/config/routing/calendarroot.yml"
+    prefix:   /allcalendar

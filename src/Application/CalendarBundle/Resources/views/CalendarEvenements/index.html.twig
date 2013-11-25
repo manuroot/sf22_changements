@@ -46,22 +46,17 @@
                 <td>{{ entity.cssClass }}
                 <div style="width:20px;height:20px;background-color:{{ entity.cssClass}}"></div> 
                 </td>
-                 <td><a href="{{ path('calendarcategories_edit', { 'id': entity.id }) }}">
+                <td> <a href="{{ path('calendarcategories_edit', { 'id': entity.id }) }}">
                                 <img src="{{ asset('bundles/applicationchangements/images/edit.png') }}" alt="edit" width="15px" height="15px" />
                                 </a>
-              
+              </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-        <ul>
-        <li>
-            <a href="{{ path('calendarcategories_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
+<a href="{{ path('calendarcategories_new') }}" class="myleft btn btn-small btn-primary">
+                Créer une nouvelle categorie
+ </a>
    
 {% endblock %}
  {% block footer %}  {% endblock %}

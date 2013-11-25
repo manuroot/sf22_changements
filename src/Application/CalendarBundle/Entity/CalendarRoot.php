@@ -45,6 +45,15 @@ class CalendarRoot {
      */
     protected $nom;
 
+    
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=200, nullable=true)
+     */
+    private $description;
+    
+    
     /**
      * not proprietaire side (mappedby)
      * @var ArrayCollection $categories
@@ -72,6 +81,33 @@ class CalendarRoot {
         $this->nom = $nom;
     }
 
+    
+      /**
+     * Set description
+     *
+     * @param string $description
+     * @return Environnement
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    
+        return $this;
+    }
+
+   
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+    
+    
     /**
      * Add categories
      *

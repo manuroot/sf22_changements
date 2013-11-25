@@ -20,14 +20,38 @@ class CalendarEventListener {
     public function loadEvents(CalendarEvent $calendarEvent) {
         $startDate = $calendarEvent->getStartDatetime();
         $endDate = $calendarEvent->getEndDatetime();
-       $companyEvents = $this->entityManager->getRepository('ApplicationCalendarBundle:AdesignCalendar')
+        $rootId = $calendarEvent->getRootId();
+        
+      //  echo "rootid=$rootId";
+        
+     /*   
+        $query = $this->createQueryBuilder('a')
+                ->select($values)
+                //   ->distinct('a.id')
+                ->leftJoin('a.rootcalendar', 'b');
+        */
+        $values = array('a,b');
+       $query = $this->entityManager->getRepository('ApplicationCalendarBundle:AdesignCalendar')
                         ->createQueryBuilder('a')
+                        ->select($values)
+                 ->leftJoin('a.calendarid', 'b')
                         ->where('a.startDatetime BETWEEN :startDate and :endDate')
                         ->orwhere('a.endDatetime BETWEEN :startDate and :endDate')
                         ->setParameter('startDate', $startDate->format('Y-m-d H:i:s'))
                         ->setParameter('endDate', $endDate->format('Y-m-d H:i:s'))
-                        ->orderBy('a.id')
-                        ->getQuery()->getResult();
+               
+                        //->orderBy('a.id')
+              // ->getQuery()->getResult();
+               ;
+       
+      if (isset($rootId)) {
+            $query->andwhere('b.id = :idRoot')
+             ->setParameter('idRoot', $rootId);
+           // $parameters['idRoot'] = $id_root;
+                        
+            //$query->setParameters($parameters);
+        }
+$companyEvents=$query->getQuery()->getResult();
 
         foreach ($companyEvents as $companyEvent) {
             $eventEntity = new EventEntity(
@@ -36,7 +60,7 @@ class CalendarEventListener {
                             $companyEvent->getEndDatetime(),
                             $companyEvent->getAllDay()
             );
-            //   var_dump($eventEntity);
+          //    var_dump($eventEntity);
 
             $className = $companyEvent->getCssClass();
             //   

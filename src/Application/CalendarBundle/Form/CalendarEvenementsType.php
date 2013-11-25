@@ -16,7 +16,7 @@ class CalendarEvenementsType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('description')
+           ->add('description','textarea')
             ->add('cssClass')
         ;
     }

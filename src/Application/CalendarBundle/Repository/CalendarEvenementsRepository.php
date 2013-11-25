@@ -23,16 +23,16 @@ class CalendarEvenementsRepository extends EntityRepository {
                 ->leftJoin('a.rootcalendar', 'b');
                 //->getQuery()->getResult();
 
-        echo "idroot=$id_root";
+        //echo "idroot=$id_root";
        // $id_root = null;
         if (isset($id_root)) {
-            $query->where('a.id = :idRoot')
+            $query->where('b.id = :idRoot')
              ->setParameter('idRoot', $id_root);
            // $parameters['idRoot'] = $id_root;
                         
             //$query->setParameters($parameters);
         }
-        $query=$query->getQuery()->getResult();
+       // $query=$query->getQuery()->getResult();
 
         //$this->query = $query;
         /*  if (!empty($criteria)) {
@@ -42,7 +42,7 @@ class CalendarEvenementsRepository extends EntityRepository {
        // $query->add('orderBy', 'a.id DESC');
         //$query->add('orderBy', "$sort $dir");
 
-       
+       /*
 foreach ($query as $q) {
 //echo "test";
              $id=$q->getId();
@@ -50,9 +50,10 @@ foreach ($query as $q) {
          // var_dump($q);
           //
           //
-          } 
+          } */
         //   ->getResult();
-        return $query;
+        return $query->getQuery()->getResult();
+      //  return $query;
     }
 
 }
