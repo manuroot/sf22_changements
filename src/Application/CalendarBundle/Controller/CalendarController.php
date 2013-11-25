@@ -41,7 +41,11 @@ class CalendarController extends Controller {
     public function indexadesignAction(Request $request) {
          
      $em = $this->getDoctrine()->getManager();
-  $entity_evements = $em->getRepository('ApplicationCalendarBundle:CalendarEvenements')->findall();
+  //  echo "test";  
+    $entity_evements = $em->getRepository('ApplicationCalendarBundle:CalendarEvenements')->myFindAll("1");
+    
+   // var_dump($entity_evements);
+  //$entity_evements = $em->getRepository('ApplicationCalendarBundle:CalendarEvenements')->findall();
            return $this->render('ApplicationCalendarBundle:Calendar:index_adesign.html.twig', array(
         'evenements'=> $entity_evements));
     }

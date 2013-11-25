@@ -13,13 +13,11 @@ use Symfony\Component\Validator\Constraints\Date;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-
 /**
-* Class for holding a calendar event's details.
-*
-* @author Mike Yudin <mikeyudin@gmail.com>
-*/
-
+ * Class for holding a calendar event's details.
+ *
+ * @author Mike Yudin <mikeyudin@gmail.com>
+ */
 
 /**
  * Changements
@@ -29,53 +27,79 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="Application\CalendarBundle\Repository\AdesignCalendarRootRepository")
  */
+class CalendarRoot {
 
-
-class CalendarRoot
-{
- /**
-    * @var integer
+    /**
+     * @var integer
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
-   
+
     /**
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=50, nullable=false)
      */
     protected $nom;
-    
-    
-    public function __construct()
-    {
-       
+
+    /**
+     * not proprietaire side (mappedby)
+     * @var ArrayCollection $categories
+     * @ORM\OneToMany(targetEntity="CalendarEvenements", mappedBy="rootcalendar",cascade={"persist"})
+     */
+    private $categories;
+
+    public function __construct() {
+        
     }
-    
-    
-    
-    
- 
-    public function setId($id)
-    {
+
+    public function setId($id) {
         $this->id = $id;
     }
-    
-    public function getId()
-    {
+
+    public function getId() {
         return $this->id;
     }
-    
-     public function getNom()
-    {
-        return $this->title;
+
+    public function getNom() {
+        return $this->nom;
     }
-    public function setNom($nom)
-    {
+
+    public function setNom($nom) {
         $this->nom = $nom;
     }
-   
+
+    /**
+     * Add categories
+     *
+     * @param \Application\CalendarBundle\Entity\CalendarEvenements $categories
+     * @return CalendarRoot
+     */
+    public function addCategorie(\Application\CalendarBundle\Entity\CalendarEvenements $categories) {
+        $this->categories[] = $categories;
+
+        return $this;
+    }
+
+    /**
+     * Remove categories
+     *
+     * @param \Application\CalendarBundle\Entity\CalendarEvenements $categories
+     */
+    public function removeCategorie(\Application\CalendarBundle\Entity\CalendarEvenements $categories) {
+        $this->categories->removeElement($categories);
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCategories() {
+        return $this->categories;
+    }
+
 }

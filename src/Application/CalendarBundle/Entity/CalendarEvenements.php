@@ -53,7 +53,16 @@ class CalendarEvenements {
      */
     protected $cssClass;
     
-  
+   /**
+     * @var Region $id_calendar
+     *
+     * @ORM\ManyToOne(targetEntity="CalendarRoot", inversedBy="categories", cascade={"persist", "merge"})
+     * @ORM\JoinColumns({
+     *  @ORM\JoinColumn(name="calendar_id", referencedColumnName="id")
+     * })
+     */
+    protected $rootcalendar;
+ 
     /**
      * Get id
      *
@@ -136,4 +145,29 @@ class CalendarEvenements {
         return $this->cssClass;
     }
     
+
+   
+
+    /**
+     * Set rootcalendar
+     *
+     * @param \Application\CalendarBundle\Entity\CalendarRoot $rootcalendar
+     * @return CalendarEvenements
+     */
+    public function setRootcalendar(\Application\CalendarBundle\Entity\CalendarRoot $rootcalendar = null)
+    {
+        $this->rootcalendar = $rootcalendar;
+    
+        return $this;
+    }
+
+    /**
+     * Get rootcalendar
+     *
+     * @return \Application\CalendarBundle\Entity\CalendarRoot 
+     */
+    public function getRootcalendar()
+    {
+        return $this->rootcalendar;
+    }
 }
