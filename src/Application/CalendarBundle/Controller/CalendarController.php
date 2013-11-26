@@ -84,29 +84,15 @@ foreach($request->request->all() as $req){
         $em = $this->getDoctrine()->getManager();
          $session = $request->getSession();
         if ($request->getMethod() == 'POST') {
-/*foreach($request->request->all() as $req){
-                   var_dump($req);
-}*/
-           // echo "post method<br>";
-          //    $alldatas = $request->request->all();
-          //  $datas = $alldatas["changements_filter"];
-            
-           //  $all=$this->getRequest()->request->all();// to get all POST params.
-                   //  var_dump($alldatas);
              $id_cal = $request->get('id');
             $session->set('calendar_id', $id_cal);
- 
         }
      elseif (!$session->has('calendar_id')) {
                     $session->set('calendar_id', '1');
      }
      
-     $id_cal = $session->get('calendar_id');
-  //  echo "test";  
+    $id_cal = $session->get('calendar_id');
     $entity_evements = $em->getRepository('ApplicationCalendarBundle:CalendarEvenements')->myFindAll($id_cal);
-    
-   // var_dump($entity_evements);
-  //$entity_evements = $em->getRepository('ApplicationCalendarBundle:CalendarEvenements')->findall();
            return $this->render('ApplicationCalendarBundle:Calendar:index_adesign.html.twig', array(
         'evenements'=> $entity_evements));
     }
@@ -122,16 +108,14 @@ foreach($request->request->all() as $req){
      * @return Response
      */
     public function loadjqCalendarAction(Request $request) {
-        
-        
-         $session = $request->getSession();
+
+        $session = $request->getSession();
                 if (!$session->has('calendar_id')) {
                     $session->set('calendar_id', '1');
                 }
         $root_calendar = $session->get('calendar_id');
         $startDatetime = new \DateTime();
         $startDatetime->setTimestamp($request->get('start'));
-
         $endDatetime = new \DateTime();
         $endDatetime->setTimestamp($request->get('end'));
 
@@ -210,12 +194,7 @@ foreach($request->request->all() as $req){
               ========================================= */
             if (!$data['id']) {
                $entity_root = $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->find($idroot_calendar);
-           
-               
-          
-               // pour le moment ajout au calendar principal
-               
-                $data['title'] = $request->get('title');
+                     $data['title'] = $request->get('title');
                 $entity = new AdesignCalendar($data['title'], $d, $f);
                if ($entity_root)
                    $entity->setCalendarid($entity_root);
@@ -275,16 +254,6 @@ foreach($request->request->all() as $req){
                 }
                 $allday = $request->get('allDay');
                 $entity->setAllDay($allday);
-                /* var_dump($title);
-                  var_dump($allday); */
-                /*  if ($allday == 'true'){
-                  $entity->setAllDay(true);
-                  //  $data['allDay']=true;
-                  }
-                  else{
-                  $entity->setAllDay(false);
-                  //   $data['allDay']=false;
-                  } */
                 if ($title)
                     $entity->setTitle($title);
                 if ($classcss) {

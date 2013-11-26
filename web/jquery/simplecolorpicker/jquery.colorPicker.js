@@ -73,8 +73,11 @@
                     swatch.addClass(transparent).text('X');
                     $.fn.colorPicker.bindPalette(newHexField, swatch, transparent);
                 } else {
+                   /* if (newHexField.match(/^#/i)){
+                        console.log("matchinf #"+newHexField);
+                }*/
                     swatch.css("background-color", "#" + this);
-                   //   console.log("hex="+this)
+                      console.log("hex="+this)
                     $.fn.colorPicker.bindPalette(newHexField, swatch);
                 }
                 swatch.appendTo(newPalette);
