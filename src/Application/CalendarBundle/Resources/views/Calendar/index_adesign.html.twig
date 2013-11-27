@@ -651,10 +651,10 @@ var t1=["#ff000","#330000","#660000","#990000","#cc0000","#000000",
       '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00',
       'FFFF00', '00FF00', '00FFFF', '00CCFF', '993366', 'C0C0C0',
       'FF99CC', 'FFCC99', 'FFFF99', 'CCFFFF', '99CCFF', 'FFFFFF'];
-  t=["FFFFFF", "FFDFDF", "FFBFBF","FF9F9F", "FF7F7F","FF5F5F","FF3F3F","FF1F1F","FF0000","DF1F00","C33B00","A75700",
+ /* t=["FFFFFF", "FFDFDF", "FFBFBF","FF9F9F", "FF7F7F","FF5F5F","FF3F3F","FF1F1F","FF0000","DF1F00","C33B00","A75700",
     "8B7300",    "6F8F00",    "53AB00",    "37C700", "1BE300",    "00FF00" ,    "00DF1F",    "00C33B",
     "00A757", "008B73" , "006F8F","0053AB",    "0037C7",    "001BE3",    "0000FF",    "0000df",
-    "0000c3",    "0000a7" , "00008b","00006f",    "000053",    "000037",    "00001b",    "000000"];
+    "0000c3",    "0000a7" , "00008b","00006f",    "000053",    "000037",    "00001b",    "000000"];*/
  /* t = [
    "94A2BE","993355","aaaaaa","f2a640","b373b3","668cd9",
       '000000', '993300', '333300', '000080', '333399', '333333', 
@@ -694,7 +694,7 @@ var t1=["#ff000","#330000","#660000","#990000","#cc0000","#000000",
         var a1colors=$.xcolor.analogous('#da0',16);
        
        var b= $.xcolor.monochromatic("f00",6);
-       var a2colors=$.xcolor.analogous('#CCFFFF',16);
+        tt=$.xcolor.analogous('#da0',32,30);
 /*
 $.each(b, function(key, value){
              console.log("??" + value);
@@ -702,11 +702,11 @@ $.each(b, function(key, value){
                 });*/
                 ////*
    var myRegExp = /#./;
- for (var i in a1colors) {
-        t[i]=a1colors[i].toString();
+ for (var i in tt) {
+        t[i]=tt[i].toString();
         
                     if(myRegExp.test(t[i])){
-                          //console.log("matching #"+newHexField);
+                   console.log("matching #"+t[i]);
                    t[i]=t[i].replace("#","");
                     }
                  
