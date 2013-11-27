@@ -77,7 +77,7 @@
                         console.log("matchinf #"+newHexField);
                 }*/
                     swatch.css("background-color", "#" + this);
-                      console.log("hex="+this)
+                      //console.log("hex="+this)
                     $.fn.colorPicker.bindPalette(newHexField, swatch);
                 }
                 swatch.appendTo(newPalette);

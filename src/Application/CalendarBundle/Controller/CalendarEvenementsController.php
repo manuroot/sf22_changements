@@ -53,10 +53,11 @@ class CalendarEvenementsController extends Controller {
     public function createAction(Request $request) {
         $entity = new CalendarEvenements();
         $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            
             $em->persist($entity);
             $em->flush();
 
@@ -82,7 +83,7 @@ class CalendarEvenementsController extends Controller {
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+      //  $form->add('submit', 'submit', array('label' => 'Create'));
 
         return $form;
     }
