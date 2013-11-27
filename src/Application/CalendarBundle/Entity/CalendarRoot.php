@@ -45,6 +45,28 @@ class CalendarRoot {
      */
     protected $nom;
 
+     /**
+     * @var integer
+     *
+     * @ORM\Column(name="plage", type="integer", length=2, nullable=false)
+     */
+    protected $plage;
+    
+    
+     /**
+     * @var integer
+     *
+     * @ORM\Column(name="starthour", type="integer", length=2, nullable=false)
+     */
+    protected $startHour;
+    
+     /**
+     * @var integer
+     *
+     * @ORM\Column(name="endhour", type="integer", length=2, nullable=false)
+     */
+    protected $endHour;
+    
     
      /**
      * @var string
@@ -80,7 +102,30 @@ class CalendarRoot {
     public function setNom($nom) {
         $this->nom = $nom;
     }
+public function getPlage() {
+        return $this->plage;
+    }
 
+    public function setPlage($plage=30) {
+        $this->plage = $plage;
+    }
+   
+    public function getStartHour() {
+        return $this->startHour;
+    }
+
+    public function setStartHour($hour=7) {
+        $this->startHour = $hour;
+    }
+    
+     public function getEndHour() {
+        return $this->endHour;
+    }
+
+    public function setEndHour($hour=17) {
+        $this->endHour = $hour;
+    }
+    
     
       /**
      * Set description

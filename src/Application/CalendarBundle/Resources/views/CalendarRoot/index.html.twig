@@ -32,6 +32,9 @@
             <tr>
                 <th>Id</th>
                 <th>Nom</th>
+                 <th>Start(Heure)</th>
+                  <th>End(Heure)</th>
+                  <th>Slot (Minutes)</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -42,8 +45,12 @@
                {# <td><a href="{{ path('calendarroot_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>#}
               <td>{{ entity.id }}</td>
                 <td>{{ entity.nom }}</td>
-                
-                  <td> <a href="{{ path('calendarroot_edit', { 'id': entity.id }) }}">
+                 <td>{{ entity.startHour }}</td>
+                <td>{{ entity.endHour }}</td>
+               
+                <td>{{ entity.plage }}</td>
+                 
+                 <td> <a href="{{ path('calendarroot_edit', { 'id': entity.id }) }}">
                                 <img src="{{ asset('bundles/applicationchangements/images/edit.png') }}" alt="edit" width="15px" height="15px" />
                                 </a>
               </td>

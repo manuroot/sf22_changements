@@ -24,18 +24,27 @@
          
        $(document).ready(function() {
      
-      
+    var  tt=$.xcolor.analogous('#da0',32,30);
+    var t=[];
+    var myRegExp = /#./;
+    for (var i in tt) {
+        t[i]=tt[i].toString();
+        if(myRegExp.test(t[i])){
+             console.log("matching #"+t[i]);
+            t[i]=t[i].replace("#","");
+        }
+    }
     
     $('#application_calendarbundle_calendarevenements_cssClass').colorPicker(
          {
-   
-      colors:  ["94A2BE","993355","aaaaaa","f2a640","b373b3","668cd9",
+   colors: t,
+      /*colors:  ["94A2BE","993355","aaaaaa","f2a640","b373b3","668cd9",
       '000000', '993300', '333300', '000080', '333399', '333333', '800000', 'FF6600',
             '808000', '008000', '008080', '0000FF', '666699', '808080', 'FF0000', 'FF9900',
             '99CC00', '339966', '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00',
             'FFFF00', '00FF00', '00FFFF', '00CCFF', '993366', 'C0C0C0', 'FF99CC', 'FFCC99',
-            'FFFF99', 'CCFFFF', '99CCFF', 'FFFFFF'],
-             pickerDefault: "#94a2be",
+            'FFFF99', 'CCFFFF', '99CCFF', 'FFFFFF'],*/
+             pickerDefault: "#ddaa00",
              /*pickerDefault: "#94a2be",*/
    transparency: true,
    onColorChange : function(id, newValue) {
@@ -72,6 +81,8 @@
     <div class="span6"> 
    Couleur <br>
   {{ form_row(edit_form.cssClass) }} 
+   {#{{ form_row(edit_form.rootcalendar) }}#}
+ {#  {{ form_row(edit_form.rootcalendar, { 'attr':{'readonly':'readonly'} }) }}#}
    {{ form_rest(edit_form) }}
  <div id="calendarcolor"></div>
  </div>

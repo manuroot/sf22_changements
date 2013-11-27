@@ -33,12 +33,15 @@
         
 <script type="text/javascript">
    /* jQuery.noConflict();*/
-        var xcolors=["#94a2be","#993355","#aaaaaa","#f2a640","#b373b3","#668cd9"];
-        var edit_status = "{{ editstatus|escape('js') }}";
+       $(document).ready(function() {
+         var xcolors=["#94a2be","#993355","#aaaaaa","#f2a640","#b373b3","#668cd9"];
        // console.log("edit status="+edit_status);
         var resize_status = edit_status;     
-       $(document).ready(function() {
-     
+        var edit_status = "{{ editstatus|escape('js') }}";
+    var plage = "{{ plage|escape('js') }}";
+     var starthour = "{{ starthour|escape('js') }}";
+     var endhour = "{{ endhour|escape('js') }}";
+    console.log("plage horaire="+plage);
        var t=[];
         var date = new Date();
 	var d = date.getDate();
@@ -88,9 +91,9 @@
 	$('#calendar-holder').fullCalendar({
             theme: true,
             firstDay:1,   
-            minTime:7,
-            maxTime:22,
-            slotMinutes: 30,
+            minTime:parseInt(starthour),
+            maxTime:parseInt(endhour),
+            slotMinutes: parseInt(plage),
             defaultEventMinutes: 120,
             editable: edit_status,
             selectable: edit_status,
@@ -135,13 +138,16 @@
                     }  */
                     ],
             eventRender: function(event, element,view) {
+                if (!event.description)
+                    event.description="--";
                 element.attr("description",event.description);
                 var start = $.fullCalendar.formatDate(event.start, "yyyy-MM-dd HH:mm:ss");
                 var end = $.fullCalendar.formatDate(event.end, "yyyy-MM-dd HH:mm:ss");
                  
                  var bg=element.css("background-color");
                 var h=$(element).css('height');
-                 console.log("height="+h);
+                 var w=$(element).css('width');
+                // console.log("height="+h+" width="+w);
                  var longueur=h*2;
                  if(event.allDay===false && (view.name === "agendaDay" || view.name === "agendaWeek") ){
                     element.find(".fc-event-title")
@@ -706,7 +712,7 @@ $.each(b, function(key, value){
         t[i]=tt[i].toString();
         
                     if(myRegExp.test(t[i])){
-                   console.log("matching #"+t[i]);
+                   //console.log("matching #"+t[i]);
                    t[i]=t[i].replace("#","");
                     }
                  
@@ -828,11 +834,18 @@ function LightenDarkenColor(col, amt) {
    {% set editstatus = true %}
 {% else %}
 {% set editstatus = false %}
-    {% endif %}  
+    {% endif %} 
+
+
+{% set plage=rootcal.plage %}
+{% set starthour=rootcal.startHour %}
+{% set endhour=rootcal.endHour %}
+
+
+
 {% block content %}
 
-   
-                   
+                
 
 <!----------Form Edit Event ----------------->
 <div id="createEventModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
@@ -885,10 +898,15 @@ function LightenDarkenColor(col, amt) {
 
 <div id='wrap'>
 <div id='external-events'>
+    <h5> {{ rootcal.nom }}</h5>
+    <hr>
+    <h6>Choix date:</h6>
     <div class="input-prepend date-chooser">
     <span class="add-on" id="dateaddon"><i class="icon-time"></i></span>
     <input type="text" id="datepicker" /></div>
-<h4> <i class="icon-wrench"></i> Catégories:</h4>
+<hr>
+
+<h6> <i class="icon-wrench"></i> Catégories:</h6>
 
  {% for entity in evenements %}
 <div class='external-event' style="background-color:{{ entity.cssClass }}">{{ entity.nom }}

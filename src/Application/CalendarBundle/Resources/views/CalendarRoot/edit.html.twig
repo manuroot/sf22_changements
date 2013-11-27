@@ -27,14 +27,38 @@
 {% block content %}
     <h1>CalendarRoot edit</h1>
 
-    {{ form(edit_form) }}
+ <form  id="form"  action="{{ path('calendarroot_update',{ 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+  
+<div class="row-fluid ">
+  <div class="span4 offset1"> 
+   {{ form_row(edit_form.nom) }}
+  
+   {{ form_row(edit_form.description) }}
+   </div>
+    <div class="span4"> 
+  
+  {{ form_row(edit_form.plage) }} 
+        {{ form_row(edit_form.startHour) }} 
+        {{ form_row(edit_form.endHour) }} 
+   {#{{ form_row(edit_form.rootcalendar) }}#}
+ {#  {{ form_row(edit_form.rootcalendar, { 'attr':{'readonly':'readonly'} }) }}#}
+   {{ form_rest(edit_form) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('calendarroot') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+ </div>
+ </div>
+ <div class="row-fluid">
+    <div class="span6 offset1"> 
+        <button type="submit" class="btn btn-large btn-warning">Valider</button>    
+    </div>
+         <div class="span4 offset1"> 
+ <a href="{{ path('calendarroot') }}" class="btn btn-medium btn-success">Retour</a>
+         </div>
+</div>
+</form>
+
+    
+{#
+        
+    <li>{{ form(delete_form) }}</li>#}
+
 {% endblock %}

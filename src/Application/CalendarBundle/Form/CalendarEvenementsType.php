@@ -18,6 +18,21 @@ class CalendarEvenementsType extends AbstractType
             ->add('nom')
            ->add('description','textarea')
             ->add('cssClass')
+              /*  ->add('rootcalendar', null, array(
+                    'class' => 'ApplicationCalendarBundle:CalendarRoot',
+                    'property' => 'nom',
+                    'multiple' => false,
+                    'expanded' => false,
+                    'required' => true,
+                 // 'disabled' => false,
+                   // 'mapped' => false,
+                 //   '//read_only'=>true,
+                   
+                    'label' => 'Calendrier'
+                 //   'empty_value' => '--- Choisir une option ---'
+                ))*/
+            
+                  
         ;
     }
     

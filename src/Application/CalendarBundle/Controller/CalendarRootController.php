@@ -67,7 +67,7 @@ class CalendarRootController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+       // $form->add('submit', 'submit', array('label' => 'Create'))                ;
 
         return $form;
     }
@@ -146,7 +146,7 @@ class CalendarRootController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+      //  $form->add('submit', 'submit', array('label' => 'Update'));
 
         return $form;
     }
@@ -166,13 +166,14 @@ class CalendarRootController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
+        $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('calendarroot_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('calendarroot'));
         }
+        else {echo "not valid";}
 
         return $this->render('ApplicationCalendarBundle:CalendarRoot:edit.html.twig', array(
             'entity'      => $entity,

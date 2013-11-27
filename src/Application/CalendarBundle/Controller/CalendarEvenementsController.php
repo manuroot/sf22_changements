@@ -36,6 +36,8 @@ class CalendarEvenementsController extends Controller {
         $id_cal = $session->get('calendar_id');
         */
         $id_cal = $this->getCalendarRoot();
+        $rootcalendar= $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->findOneById($id_cal);
+        
         /* echo "idcall=$id_cal";
           exit(1); */
         $entities = $em->getRepository('ApplicationCalendarBundle:CalendarEvenements')->myFindAll($id_cal);
@@ -43,6 +45,7 @@ class CalendarEvenementsController extends Controller {
 
         return $this->render('ApplicationCalendarBundle:CalendarEvenements:index.html.twig', array(
                     'entities' => $entities,
+                    'root_calendar'=>$rootcalendar
         ));
     }
 
@@ -51,17 +54,20 @@ class CalendarEvenementsController extends Controller {
      *
      */
     public function createAction(Request $request) {
+               $em = $this->getDoctrine()->getManager();
         $entity = new CalendarEvenements();
+        
+         $id_cal = $this->getCalendarRoot();
+         $rootcalendar= $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->find($id_cal);
+         if ($rootcalendar)
+               $entity->setRootcalendar($rootcalendar);
         $form = $this->createCreateForm($entity);
         $form->bind($request);
-
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('calendarcategories_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('calendarcategories'));
         }
 
         return $this->render('ApplicationCalendarBundle:CalendarEvenements:new.html.twig', array(
@@ -173,10 +179,20 @@ class CalendarEvenementsController extends Controller {
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find CalendarEvenements entity.');
         }
+        
+        /*if ($request->getMethod() == 'POST') {
+          //  $data = $request->request->all();
+           //   var_dump($data);
+        }*/
+/*foreach($request->request->all() as $req){
+                   var_dump($req);
+}*/
         $deleteForm = $this->createDeleteForm($id);
         //$editForm = $this->createEditForm($entity);
         $editForm = $this->createForm(new CalendarEvenementsType(), $entity);
         $editForm->bind($request);
+       // var_dump($editForm);
+     //   exit(1);
         //$editForm->handleRequest($request);
         if ($editForm->isValid()) {
             $em->persist($entity);

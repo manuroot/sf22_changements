@@ -92,9 +92,12 @@ foreach($request->request->all() as $req){
      }
      
     $id_cal = $session->get('calendar_id');
+    $entity_root = $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->findOneById($id_cal);
+           
     $entity_evements = $em->getRepository('ApplicationCalendarBundle:CalendarEvenements')->myFindAll($id_cal);
            return $this->render('ApplicationCalendarBundle:Calendar:index_adesign.html.twig', array(
-        'evenements'=> $entity_evements));
+        'evenements'=> $entity_evements,
+         'rootcal'=> $entity_root     ));
     }
 
  

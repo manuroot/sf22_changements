@@ -16,6 +16,49 @@ class CalendarRootType extends AbstractType {
         $builder
                 ->add('nom')
                 ->add('description','textarea')
+         ->add('plage', 'choice', array(
+                     'required' => true,
+                    'expanded'=>false,
+                    'multiple'=>false,
+                    'label' => 'Plage',
+                    
+                    'choices' => array(
+                        '15' => '15',
+                        '30' => '30',
+                        '60' => '60',
+                    )
+                ))
+                ->add('startHour', 'choice', array(
+                     'required' => true,
+                    'expanded'=>false,
+                    'multiple'=>false,
+                    'label' => 'Min Heure',
+                    
+                    'choices' => array(
+                        '4' => '4',
+                        '5' => '5',
+                        '6' => '6',
+                         '7' => '7',
+                        '8' => '8',
+                        '9' => '9',
+                    )
+                ))
+                 ->add('endHour', 'choice', array(
+                     'required' => true,
+                    'expanded'=>false,
+                    'multiple'=>false,
+                    'label' => 'Max Heure',
+                    
+                    'choices' => array(
+                        '17' => '17',
+                        '18' => '18',
+                        '19' => '19',
+                         '20' => '20',
+                        '21' => '21',
+                        '22' => '22',
+                        '23' => '23'
+                    )
+                ))
         ;
     }
 
