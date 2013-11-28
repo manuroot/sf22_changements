@@ -5,22 +5,19 @@
     Description:
         Purpose of the stylesheet follows.
 */
-.fc-event{ opacity:0.9} 
            div.container {width:97%;}
           #wrap {
 		width: 100%;
 		margin: 0 auto;
 		}
   #external-events {
-		/*float: left;*/
-              /*  margin-top:50px;*/
-		/*padding: 0 10px;*/
-		/*border: 1px solid #ccc;*/
+		float: left;
+		width: 8%;
+                margin-top:50px;
+		padding: 0 10px;
+		border: 1px solid #ccc;
 		background: #eee;
 		text-align: left;
-              /*  width:auto;*/
-              /*  border: 1px solid black;*/
-               /* min-width:200px;*/
 		}
 		
 	#external-events h4 {
@@ -30,16 +27,12 @@
 		}
 		
 	.external-event { 
-		/*margin: 10px 0;*/
-                margin-bottom:10px;
+		margin: 10px 0;
 		padding: 2px 4px;
 		background: #3366CC;
 		color: #fff;
 		font-size: .85em;
 		cursor: pointer;
-                width:90px;
-                float: left;
-              /*  border: 1px solid black;*/
 		}
                 
                 .external-event input { 
@@ -55,10 +48,10 @@
 }	
 /*.fc-agenda .fc-event-time {
 }*/
- /*.class1
+ .class1
  {  border: 1px solid cadetblue;
     background: #ccc;
-}*/
+}
 	#external-events p {
 		margin: 1.5em 0;
 		font-size: 11px;
@@ -71,10 +64,10 @@
 		}
   #calendar-holder {
 		float: right;
-		/*width: 90%;*/
+		width: 90%;
 		}
                 
- /*
+ 
 .class0 {     border: 1px solid rgb(90, 105, 134);background-color: #94A2BE;opacity:0.9} 
 .class0 .fc-event-time {background:  rgb(90, 105, 134);}
 
@@ -92,8 +85,6 @@
 
 .class5 {  border: 1px solid rgb(41, 82, 163);background: #668CD9;opacity:0.8} 
 .class5 .fc-event-time {background:   rgb(41, 82, 163);}
-*/
-
 
 .description {height:200px;}
 .nube{ position: absolute;left:0;top:0}

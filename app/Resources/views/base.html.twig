@@ -2,7 +2,8 @@
 <html>
     <head>
         <title>{% block headtitle %}I-CHANGE MROOT{% endblock %}</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+       {# <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+         <meta name="viewport" content="width=device-width, initial-scale=1.0">
           {% block stylesheets %}
         {% stylesheets 
               'bootstrap/css/bootstrap.css' 
@@ -48,7 +49,7 @@ body {
      
     </head>
         <body>
-            <div class="container">
+            <div class="container-fluid">
                 <div class="page-header">
                       {{ block('NAVIGATION_BAR') }}
 

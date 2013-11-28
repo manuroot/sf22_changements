@@ -897,49 +897,42 @@ function LightenDarkenColor(col, amt) {
 </div>
 <!----------Form Edit Event ----------------->
 
-<div class="row">
-<div class="span1">
-  <div class="row">
-        <div class="span1">{{ rootcal.nom }}</div>
-        <div class="span1">   <hr>Choix date:</div>
-        <div class="span1">  <div class="input-prepend date-chooser">
-            <span class="add-on" id="dateaddon"><i class="icon-time"></i></span>
-            <input type="text" id="datepicker" /></div>
-            <hr>
-        </div>
-      <div class="span4">
-        <h6> <i class="icon-wrench"></i> Catégories:</h6>
-        </div>
-  </div>
-          <div class="row" id="external-events">
-              <div class="span1">
-      {% for entity in evenements %}
-            <div class="external-event" style="background-color:{{ entity.cssClass }}">{{ entity.nom }}
-            <input type="checkbox" class="external-checkbox" name="external-checkbox" id="{{ entity.id }}" checked>
-            </div>
-        {% endfor %}
-                 </div>  
-                  </div>
-        <div class="row">
-        <div id="external-conges" class="span1">Congés
-        <input type="checkbox" class="external-checkbox" name="external-conges" checked>
-        </div>
-    </div>
- 
- <div class="row">
-    <div class="span2">
-        <br/>
-        <a href="{{ path('calendarcategories') }}" class="myleft btn btn-small btn-primary">Gestion Categories</a>
-        <br/><br/>
-        <a href="{{ path('calendarroot') }}" class="myleft btn btn-small btn-primary">Gestion Calendriers</a>
-        </div>
+<div id='wrap'>
+<div id='external-events'>
+    <h5> {{ rootcal.nom }}</h5>
+    <hr>
+    <h6>Choix date:</h6>
+    <div class="input-prepend date-chooser">
+    <span class="add-on" id="dateaddon"><i class="icon-time"></i></span>
+    <input type="text" id="datepicker" /></div>
+<hr>
+
+<h6> <i class="icon-wrench"></i> Catégories:</h6>
+
+ {% for entity in evenements %}
+<div class='external-event' style="background-color:{{ entity.cssClass }}">{{ entity.nom }}
+<input type="checkbox" class="external-checkbox" name="external-checkbox" id="{{ entity.id }}" checked>
 </div>
+{% endfor %}
+<br/><br/>
+<div id='external-conges class0'>Congés
+<input type="checkbox" class="external-checkbox" name="external-conges" checked>
+
+</div>
+
+
 {#  
 <p>
 <input type='checkbox' id='drop-remove' /> <label for='drop-remove'>remove after drop</label>
 </p>
 #}
-            
+<br/>
+<a href="{{ path('calendarcategories') }}" class="myleft btn btn-small btn-primary">Gestion Categories</a>
+<br/><br/>
+<a href="{{ path('calendarroot') }}" class="myleft btn btn-small btn-primary">Gestion Calendriers</a>
+
+
+</div>
  {#
    <form name="display">
         <input type="checkbox" name="cal_type" id="events" checked>Events</p>
@@ -947,8 +940,7 @@ function LightenDarkenColor(col, amt) {
         <input type="checkbox" name="cal_type" id="goals" checked>Goals</p>
     </form>
 #}
- </div>
-<div id="calendar-holder" class="span11"></div>
+<div id="calendar-holder"></div>
 
 <div style='clear:both'></div>
 </div>
