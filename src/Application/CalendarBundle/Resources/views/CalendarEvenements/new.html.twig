@@ -1,60 +1,60 @@
 {% extends "::layout.html.twig" %}
- 
+
 
 {% block stylesheets %}
 {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
-    <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>
-    <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/indexfanta.css') }}" type="text/css" media="all"/>
-    <link rel="stylesheet" href="{{ asset('css/jquery_flicker/jquery-ui-1.9.2.custom.css') }}" />    
-     <link rel="stylesheet" href="{{ asset('jquery/simplecolorpicker/colorPicker.css') }}" type="text/css" media="all"/>
- 
+<link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
+<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/indexfanta.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('css/jquery_flicker/jquery-ui-1.9.2.custom.css') }}" />    
+<link rel="stylesheet" href="{{ asset('jquery/simplecolorpicker/colorPicker.css') }}" type="text/css" media="all"/>
+
 {% endblock %}
-        
-        
+
+
 {% block javascripts %}
     {{ parent() }}
-   <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
   {# <script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>#}
-   <script type="text/javascript" src="{{ asset('jquery/simplecolorpicker/jquery.colorPicker.js') }}"></script>
-  <script type="text/javascript" src="{{ asset('jquery/jquery.xcolor.js') }}"></script>  
-    <script type="text/javascript" src="{{ asset('jquery/jqtip2/jquery.qtip.min.js') }}"></script>
-    <script type="text/javascript">
-         
-       $(document).ready(function() {
-     
-      
-       var  tt=$.xcolor.analogous('#da0',32,30);
-    var t=[];
-    var myRegExp = /#./;
-    for (var i in tt) {
-        t[i]=tt[i].toString();
-        if(myRegExp.test(t[i])){
-             console.log("matching #"+t[i]);
-            t[i]=t[i].replace("#","");
+<script type="text/javascript" src="{{ asset('jquery/simplecolorpicker/jquery.colorPicker.js') }}"></script>
+<script type="text/javascript" src="{{ asset('jquery/jquery.xcolor.js') }}"></script>  
+<script type="text/javascript" src="{{ asset('jquery/jqtip2/jquery.qtip.min.js') }}"></script>
+<script type="text/javascript">
+
+    $(document).ready(function() {
+
+
+        var tt = $.xcolor.analogous('#da0', 32, 30);
+        var t = [];
+        var myRegExp = /#./;
+        for (var i in tt) {
+            t[i] = tt[i].toString();
+            if (myRegExp.test(t[i])) {
+                console.log("matching #" + t[i]);
+                t[i] = t[i].replace("#", "");
+            }
         }
-    }
-    
-    $('#application_calendarbundle_calendarevenements_cssClass').colorPicker(
-         {
-   colors:t,
-      /*colors:  ["94A2BE","993355","aaaaaa","f2a640","b373b3","668cd9",
-      '000000', '993300', '333300', '000080', '333399', '333333', '800000', 'FF6600',
-            '808000', '008000', '008080', '0000FF', '666699', '808080', 'FF0000', 'FF9900',
-            '99CC00', '339966', '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00',
-            'FFFF00', '00FF00', '00FFFF', '00CCFF', '993366', 'C0C0C0', 'FF99CC', 'FFCC99',
-            'FFFF99', 'CCFFFF', '99CCFF', 'FFFFFF'],*/
-             pickerDefault: "#ddaa00",
-             /*pickerDefault: "#94a2be",*/
-   transparency: true,
-   onColorChange : function(id, newValue) {
-       console.log("ID: " + id + " has been changed to " + newValue);
-   /*   var colors=["#94a2be","#993355","#aaaaaa","#f2a640","#b373b3","#668cd9"];
-    alert(jQuery.inArray(newValue, colors));*/
-  /* alert("value=" + newValue + "array_value=" + getcolor(newValue));*/
-    } 
-         });
+
+        $('#application_calendarbundle_calendarevenements_cssClass').colorPicker(
+                {
+                    colors: t,
+                    /*colors:  ["94A2BE","993355","aaaaaa","f2a640","b373b3","668cd9",
+                     '000000', '993300', '333300', '000080', '333399', '333333', '800000', 'FF6600',
+                     '808000', '008000', '008080', '0000FF', '666699', '808080', 'FF0000', 'FF9900',
+                     '99CC00', '339966', '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00',
+                     'FFFF00', '00FF00', '00FFFF', '00CCFF', '993366', 'C0C0C0', 'FF99CC', 'FFCC99',
+                     'FFFF99', 'CCFFFF', '99CCFF', 'FFFFFF'],*/
+                    pickerDefault: "#ddaa00",
+                    /*pickerDefault: "#94a2be",*/
+                    transparency: true,
+                    onColorChange: function(id, newValue) {
+                        console.log("ID: " + id + " has been changed to " + newValue);
+                        /*   var colors=["#94a2be","#993355","#aaaaaa","#f2a640","#b373b3","#668cd9"];
+                         alert(jQuery.inArray(newValue, colors));*/
+                        /* alert("value=" + newValue + "array_value=" + getcolor(newValue));*/
+                    }
+                });
     });
 </script>
 {% endblock %}
@@ -64,44 +64,42 @@
 
 
 {% block title %}
- 
+
 {% endblock %}
-        
+
 
 {% block content %}
-      <h1>CalendarEvenements creation</h1>
+<h1>CalendarEvenements creation</h1>
 <form  id="form"  action="{{ path('calendarcategories_create') }}" method="post" {{ form_enctype(form) }}>
-  
-<div class="row-fluid ">
-  <div class="span6"> 
+
+    <div class="row-fluid ">
+        <div class="span6"> 
    {{ form_row(form.nom) }}
-  
+
    {{ form_row(form.description) }}
-   </div>
-    <div class="span6"> 
-   Couleur <br>
+        </div>
+        <div class="span6"> 
+            Couleur <br>
   {{ form_row(form.cssClass) }} 
    {{ form_rest(form) }}
- <div id="calendarcolor"></div>
- </div>
- </div>
- <div class="row-fluid">
-    <div class="span12"> 
-        <button type="submit" class="btn btn-large btn-warning">Valider</button>    
+            <div id="calendarcolor"></div>
+        </div>
     </div>
-</div>
-</div>
+    <div class="row-fluid">
+        <div class="span12"> 
+            <button type="submit" class="btn btn-large btn-warning">Valider</button>    
+        </div>
+    </div>
 </form>
 
-    
-    
-    <a href="{{ path('calendarcategories') }}" class="btn btn-medium btn-success">Retour</a>
+
+
+<a href="{{ path('calendarcategories') }}" class="btn btn-medium btn-success">Retour</a>
 
 {% endblock %}
 
-    
-    
-    
-    
-    
-    
+
+
+
+
+
