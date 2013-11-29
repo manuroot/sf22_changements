@@ -40,6 +40,14 @@
         </thead>
         <tbody>
         {% for entity in entities %}
+            {% set flag="None" %}
+             {% if is_granted('ROLE_ADMIN', entity) and  not is_granted('EDIT', entity)  %} 
+            {% set flag="Admin" %}
+            {% else %}
+            {% set flag="User" %}
+            {% endif %}
+            <!-- only for admin or owner -->
+        {% if is_granted('EDIT', entity) or is_granted('ROLE_ADMIN', entity) %} 
             <tr>
               
                {# <td><a href="{{ path('calendarroot_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>#}
@@ -51,7 +59,7 @@
                 <td>{{ entity.plage }}</td>
                  
                  <td> <a href="{{ path('calendarroot_edit', { 'id': entity.id }) }}">
-                                <img src="{{ asset('bundles/applicationchangements/images/edit.png') }}" alt="edit" width="15px" height="15px" />
+                          {{ flag }}      <img src="{{ asset('bundles/applicationchangements/images/edit.png') }}" alt="edit" width="15px" height="15px" />
                                 </a>
               </td>
        
@@ -64,6 +72,7 @@
                   </form>
              </td>
             </tr>
+           {% endif %}
         {% endfor %}
         </tbody>
     </table>

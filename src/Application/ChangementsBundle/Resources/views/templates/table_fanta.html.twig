@@ -5,14 +5,14 @@
                 <thead>
                 <tr class="title">
                {# <script>var menuDownUrl = "{{ asset('bundles/applicationcertificats/images/') }}";</script>#}
-                <th style="50px"  class="sorted">
+                <th style="width:50px"  class="sorted">
                     <a href="{{ path(index_path, {'sort':'a.id','dir':next_dir}) }}">ID</a> 
                      {% if arrow['a.id'] is defined %}
                         <i class={{ arrow['a.id'] }}></i>
                     {% endif %}
                 </th>
 
-                <th style="80px"  class="sorted">
+                <th style="width:80px"  class="sorted">
                     <a href="{{ path(index_path, {'sort':'a.nom','dir':next_dir}) }}">Nom</a> 
                     <i class="icon-list-alt"></i>
                     {% if arrow['a.nom'] is defined %}
@@ -20,7 +20,7 @@
                     {% endif %}
                 </th>
                 {% if is_granted("IS_AUTHENTICATED_FULLY") %}
-                <th style="40px"  class="sorted">
+                <th style="width:40px"  class="sorted">
                     <a href="{{ path(index_path, {'sort':'i.id','dir':next_dir}) }}">Fav</a> 
                     <i class="icon-star"></i>
                     {% if arrow['i.id'] is defined %}
@@ -28,28 +28,28 @@
                     {% endif %}
                     </th>  
                     {% endif %}
-                 <th style="80px"  class="sorted">
+                 <th style="width:80px"  class="sorted">
                     <a href="{{ path(index_path, {'sort':'a.dateDebut','dir':next_dir}) }}">Debut</a> 
                     <i class="icon-time"></i>
                     {% if arrow['a.dateDebut'] is defined %}
                         <i class={{ arrow['a.dateDebut'] }}></i>
                     {% endif %}
                 </th>
-                <th style="80px"  class="sorted">
+                <th style="width:80px"  class="sorted">
                     <a href="{{ path(index_path, {'sort':'a.dateFin','dir':next_dir}) }}">Fin</a> 
                     <i class="icon-time"></i>
                     {% if arrow['a.dateFin'] is defined %}
                     <i class={{ arrow['a.dateFin'] }}></i>
                     {% endif %}
                 </th>
-                 <th style="80px"  class="sorted">
+                 <th style="width:80px"  class="sorted">
                     <a href="{{ path(index_path, {'sort':'b.nomprojet','dir':next_dir}) }}">Projet</a> 
                     <i class="icon-tag"></i>
                     {% if arrow['b.nomprojet'] is defined %}
                     <i class={{ arrow['b.nomprojet'] }}></i>
                     {% endif %}
                 </th>
-                 <th style="30px"  class="sorted">
+                 <th style="width:30px"  class="sorted">
                     <a href="{{ path(index_path, {'sort':'a.demandeur','dir':next_dir}) }}">D</a> 
                     <i class="icon-user"></i>
                     {% if arrow['a.demandeur'] is defined %}
@@ -59,26 +59,26 @@
 
                 
                 
-                <th style="30px"  class="sorted thinfos">
+                <th style="width:30px"  class="sorted thinfos">
     <a class="mytooltip" href="#" rel="tooltip" data-content="{{ infofichiers }}" data-original-title="Information" data-toggle="tooltip">
         <i class="icon-book"></i></a>
                    
                   
                 </th>
-                 <th style="30px"  class="sorted thinfos">
+                 <th style="width:30px"  class="sorted thinfos">
       <a class="mytooltip" href="#" rel="tooltip" data-content="{{ infocomments }}" data-original-title="Information" data-toggle="tooltip">
         <i class="icon-comment"></i></a>
                     
                   
                 </th>
-                 <th style="80px"  class="sorted">
+                 <th style="width:80px"  class="sorted">
                     <a href="{{ path(index_path, {'sort':'e.nomUser','dir':next_dir}) }}">Users</a> 
                     <i class="icon-group"></i>
                     {% if arrow['e.nomUser'] is defined %}
                     <i class={{ arrow['e.nomUser'] }}></i>
                     {% endif %}
                 </th>
-                <th style="80px"  class="sorted">
+                <th style="width:80px"  class="sorted">
                     <a href="{{ path(index_path, {'sort':'d.nom','dir':next_dir}) }}">S</a> 
                     <i class="icon-flag"></i>
                     {% if arrow['d.nom'] is defined %}
@@ -86,21 +86,21 @@
                     {% endif %}
                 </th>
                 
-                 <th style="80px"  class="sorted">
+                 <th style="width:80px"  class="sorted">
                     <a href="{{ path(index_path, {'sort':'a.ticketExt','dir':next_dir}) }}">T_Ext</a> 
                     <i class="icon-tag"></i>
                     {% if arrow['a.ticketExt'] is defined %}
                     <i class={{ arrow['a.ticketExt'] }}></i>
                     {% endif %}
                 </th>
-                 <th style="80px"  class="sorted">
+                 <th style="width:80px"  class="sorted">
                     <a href="{{ path(index_path, {'sort':'a.ticketInt','dir':next_dir}) }}">T_Int</a> 
                     <i class="icon-tag"></i>
                     {% if arrow['a.ticketInt'] is defined %}
                     <i class={{ arrow['a.ticketInt'] }}></i>
                     {% endif %}
                 </th>
-                 <th style="40px"  class="sorted">
+                 <th style="width:40px"  class="sorted">
                     <a href="{{ path(index_path, {'sort':'g.nom','dir':next_dir}) }}">Env</a> 
                     <i class="icon-globe"></i>
                     {% if arrow['g.nom'] is defined %}

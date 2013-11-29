@@ -152,7 +152,7 @@
                 var longueur = h * 2;
                 if (event.allDay === false && (view.name === "agendaDay" || view.name === "agendaWeek")) {
                     element.find(".fc-event-title")
-                            .append("<br><b>" + event.description.substring(0, 20) + "</b>");
+                            .append("<br>" + event.description.substring(0, 20));
                 }
                 //todo : description as height
                 //
