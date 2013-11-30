@@ -67,12 +67,12 @@ class CalendarRootController extends Controller {
          /* ==========================
          * MAJ ALL ENTITIES
          * ========================== */
-        /* $aclManager = $this->get('problematic.acl_manager');
+        $aclManager = $this->get('problematic.acl_manager');
           foreach ($entities as $entity){
           //$aclManager->setClassPermission($entity, MaskBuilder::MASK_OWNER, $user);
           $aclManager->addObjectPermission($entity, MaskBuilder::MASK_OWNER, $user);
           }
-         */
+        
         /* ==========================
          * PRELOAD ACL POUR TWIG
          * ========================== */

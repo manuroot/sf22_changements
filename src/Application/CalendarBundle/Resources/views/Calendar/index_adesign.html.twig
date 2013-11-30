@@ -38,13 +38,13 @@
         // console.log("edit status="+edit_status);
         var resize_status = edit_status;
         var edit_status = "{{ editstatus }}";
-    
+
         var plage = "{{ plage|escape('js') }}";
         var starthour = "{{ starthour|escape('js') }}";
         var endhour = "{{ endhour|escape('js') }}";
         console.log("plage horaire=" + plage);
-console.log("edit status=" + edit_status);
-    var t = [];
+        console.log("edit status=" + edit_status);
+        var t = [];
         var date = new Date();
         var d = date.getDate();
         var m = date.getMonth();
@@ -148,13 +148,13 @@ console.log("edit status=" + edit_status);
                 var end = $.fullCalendar.formatDate(event.end, "yyyy-MM-dd HH:mm:ss");
 
                 var bg = element.css("background-color");
-                var h = $(element).css('height');
-                var w = $(element).css('width');
+                var h = $(element).css('height').replace(/[^-\d\.]/g, '');
+                var w = $(element).css('width').replace(/[^-\d\.]/g, '');
                 // console.log("height="+h+" width="+w);
                 var longueur = h * 2;
                 if (event.allDay === false && (view.name === "agendaDay" || view.name === "agendaWeek")) {
                     element.find(".fc-event-title")
-                            .append("<br>" + event.description.substring(0, 20));
+                            .append("<br>" + event.description.substring(0, longueur));
                 }
                 //todo : description as height
                 //
@@ -210,6 +210,9 @@ console.log("edit status=" + edit_status);
 
                 /*.html("Whatever you want the content of the span to be"));*/
             },
+           /* beforeViewRender: function(view) {
+                $('.fc-event').popover('hide');
+            },*/
             /*==================================
              * 
              * Ajout event 
