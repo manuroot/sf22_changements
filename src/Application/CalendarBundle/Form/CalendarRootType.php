@@ -59,6 +59,7 @@ class CalendarRootType extends AbstractType {
                         '23' => '23'
                     )
                 ))
+                ->add('groupedit',null,array( 'label' => 'Groupe Edition'))
         ;
     }
 

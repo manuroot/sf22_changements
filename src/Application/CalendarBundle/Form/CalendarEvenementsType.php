@@ -18,6 +18,8 @@ class CalendarEvenementsType extends AbstractType
             ->add('nom')
            ->add('description','textarea')
             ->add('cssClass')
+           
+                
               /*  ->add('rootcalendar', null, array(
                     'class' => 'ApplicationCalendarBundle:CalendarRoot',
                     'property' => 'nom',

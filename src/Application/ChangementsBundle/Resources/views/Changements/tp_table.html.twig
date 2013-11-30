@@ -5,7 +5,7 @@
        <script>var menuDownUrl = "{{ asset('bundles/applicationcertificats/images/') }}";</script>
        
                             <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
-                            <th style="min-width:150px" {% if pagination.isSorted('a.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom', 'a.nom') }}
+                            <th  {% if pagination.isSorted('a.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom', 'a.nom') }}
                               <i class=" icon-pencil"></i></th>
                             <th{% if pagination.isSorted('a.dateDebut') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Debut', 'a.dateDebut') }}
                                 <i class=" icon-time"></i></th>

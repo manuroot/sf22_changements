@@ -55,8 +55,12 @@ class CalendarRootController extends Controller {
      */
     public function indexAction() {
         $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->findAll();
+  $user_security = $this->container->get('security.context');
+        // authenticated REMEMBERED, FULLY will imply REMEMBERED (NON anonymous)
+        if ($user_security->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user_id = $this->get('security.context')->getToken()->getUser()->getId();
+        }
+     $entities = $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->myFindAll($user_id);
 
         $securityContext = $this->get('security.context');
         $user = $securityContext->getToken()->getUser();

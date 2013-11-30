@@ -9,8 +9,16 @@
     <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/indexfanta.css') }}" type="text/css" media="all"/>
     <link rel="stylesheet" href="{{ asset('css/jquery_flicker/jquery-ui-1.9.2.custom.css') }}" />    
      <link rel="stylesheet" href="{{ asset('jquery/simplecolorpicker/colorPicker.css') }}" type="text/css" media="all"/>
+     <style>
+         .single {
+         background-color: #f1f1f1;
+         width:auto;
+        }
+
+    </style> 
 {% endblock %}
-        
+    
+
         
 {% block javascripts %}
     {{ parent() }}
@@ -27,7 +35,7 @@
 {% block content %}
     <h1>CalendarRoot edit</h1>
 
- <form  id="form"  action="{{ path('calendarroot_update',{ 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+ <form  id="form" class="single"  action="{{ path('calendarroot_update',{ 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
   
 <div class="row-fluid ">
   <div class="span4 offset1"> 

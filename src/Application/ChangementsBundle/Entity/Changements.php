@@ -181,7 +181,7 @@ class Changements extends AbstractEvent {
      */
     private $idapplis;
 
-    /**
+    /** bidrectionnel ?? NON
      * coté proprietaire (inversedBy)
      * 
      * @ORM\ManyToMany(targetEntity="Application\Sonata\UserBundle\Entity\User",cascade={"persist"})

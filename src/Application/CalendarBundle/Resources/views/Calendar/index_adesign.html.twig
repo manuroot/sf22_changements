@@ -37,12 +37,14 @@
         var xcolors = ["#94a2be", "#993355", "#aaaaaa", "#f2a640", "#b373b3", "#668cd9"];
         // console.log("edit status="+edit_status);
         var resize_status = edit_status;
-        var edit_status = "{{ editstatus|escape('js') }}";
+        var edit_status = "{{ editstatus }}";
+    
         var plage = "{{ plage|escape('js') }}";
         var starthour = "{{ starthour|escape('js') }}";
         var endhour = "{{ endhour|escape('js') }}";
         console.log("plage horaire=" + plage);
-        var t = [];
+console.log("edit status=" + edit_status);
+    var t = [];
         var date = new Date();
         var d = date.getDate();
         var m = date.getMonth();
@@ -245,7 +247,7 @@
 
             eventClick: function(calEvent, jsEvent, view) {
                 console.log("event click");
-                if (edit_status === false)
+                if (edit_status === false || !edit_status)
                     return;
                 if (calEvent.origine === "absence")
                     return;
@@ -929,7 +931,7 @@
                 <input type="checkbox" class="external-checkbox" name="external-conges" checked>
             </div>
         </div>
-
+{% if is_granted("IS_AUTHENTICATED_FULLY") %}
         <div class="row">
             <div class="span2">
                 <br/>
@@ -938,6 +940,7 @@
                 <a href="{{ path('calendarroot') }}" class="myleft btn btn-small btn-primary">Gestion Calendriers</a>
             </div>
         </div>
+{% endif %}
 {#  
 <p>
 <input type='checkbox' id='drop-remove' /> <label for='drop-remove'>remove after drop</label>

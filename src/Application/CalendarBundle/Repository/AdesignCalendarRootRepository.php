@@ -12,6 +12,50 @@ use Doctrine\ORM\EntityRepository;
  */
 class AdesignCalendarRootRepository extends EntityRepository {
 
- 
+   public function myFindAll($id_owner = null) {
+
+       
+        $parameters = array();
+        $values = array('a,b,c');
+        $query = $this->createQueryBuilder('a')
+                ->select($values)
+                //   ->distinct('a.id')
+                
+          ->leftJoin('a.owner', 'b')
+                  ->leftJoin('a.groupedit', 'c');
+                //->getQuery()->getResult();
+
+        //echo "idroot=$id_root";
+       // $id_root = null;
+        if (isset($id_owner)) {
+            $query->where('b.id = :idOwner')
+             ->setParameter('idOwner', $id_owner);
+           // $parameters['idRoot'] = $id_root;
+                        
+            //$query->setParameters($parameters);
+        }
+       // $query=$query->getQuery()->getResult();
+
+        //$this->query = $query;
+        /*  if (!empty($criteria)) {
+          $query = $this->getListBy($criteria);
+          } */
+       // $query->getQuery()->getResult();
+       // $query->add('orderBy', 'a.id DESC');
+        //$query->add('orderBy', "$sort $dir");
+
+       /*
+foreach ($query as $q) {
+//echo "test";
+             $id=$q->getId();
+             echo "id=$id\n";
+         // var_dump($q);
+          //
+          //
+          } */
+        //   ->getResult();
+        return $query->getQuery()->getResult();
+      //  return $query;
+    }
 }
 
