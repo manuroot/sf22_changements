@@ -604,6 +604,7 @@ if($('#searchstatus_1').is(':checked')){
     });
 
     $("#changements_searchfilter_demandeur").select2();
+    $("#changements_searchfilter_idKind").select2();
     /*
      //if submit button is clicked
      $('#submit').click(function () {        

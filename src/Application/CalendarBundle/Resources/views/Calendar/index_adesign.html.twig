@@ -13,6 +13,23 @@
 <link rel="stylesheet" href="{{ asset('jquery/simplecolorpicker/colorPicker.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('jquery/jqtip2/jquery.qtip.min.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('bundles/applicationcalendar/css/calendar.css') }}" type="text/css" media="all"/>
+<style>
+
+@media screen and (min-width: 1600px) {
+    .container {
+        max-width: (1600px - @grid-gutter-width);
+    }
+    .span11 {width:1400px;}
+}
+@media screen and (min-width: 1900px) {
+    .container {
+        max-width: (1900px - @grid-gutter-width);
+    }
+    .span11 {width:1600px;}
+}
+
+
+</style>
 {% endblock %}
 
 
@@ -75,6 +92,12 @@
         $('#external-events div.external-event').each(function() {
             //create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
             // it doesn't need to have a start or end
+            
+             var mybg=$(this). css('background-color');
+             console.log("mybg=")
+               var myborder = $.xcolor.darken(mybg, 3);
+             $(this).css('border-color', myborder);
+              
             var eventObject = {
                 title: $.trim($(this).text()), // use the element's text as the event title
                 'backgroundcolor': $(this).css("background-color"),
@@ -174,6 +197,8 @@
                     element.find("div.fc-event-time").prepend(" <a class=\"editme\" href=\"#\"><i class=\"icon-wrench\"></i></a> ");
                 /*  var desc="Pas de description";
                  if (event.description =="") desc=event.description;*/
+         /*  element.find(".fc-event-time").after($("<span class=\"fc-event-icons\"></span>").html("Whatever you want the content of the span to be"));
+    */
                 var text = "<p>" + event.title + '</p><p>Start: ' + start + '<br/>End: ' + end + '</p>';
                 /*    element.qtip({
                  content: {
@@ -929,11 +954,12 @@
         {% endfor %}
             </div>  
         </div>
-        <div class="row">
+      {#  <div class="row">
             <div id="external-conges" class="span1">Congés
                 <input type="checkbox" class="external-checkbox" name="external-conges" checked>
             </div>
         </div>
+        #}
 {% if is_granted("IS_AUTHENTICATED_FULLY") %}
         <div class="row">
             <div class="span2">

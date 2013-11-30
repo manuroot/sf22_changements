@@ -5,14 +5,14 @@
                 <thead>
                 <tr class="title">
                {# <script>var menuDownUrl = "{{ asset('bundles/applicationcertificats/images/') }}";</script>#}
-                <th style="width:50px"  class="sorted">
+                <th style="width:30px"  class="sorted">
                     <a href="{{ path(index_path, {'sort':'a.id','dir':next_dir}) }}">ID</a> 
                      {% if arrow['a.id'] is defined %}
                         <i class={{ arrow['a.id'] }}></i>
                     {% endif %}
                 </th>
 
-                <th style="min-width:150px"  class="sorted">
+                <th style="min-width:80px"  class="sorted">
                     <a href="{{ path(index_path, {'sort':'a.nom','dir':next_dir}) }}">Nom</a> 
                     <i class="icon-list-alt"></i>
                     {% if arrow['a.nom'] is defined %}
@@ -20,8 +20,8 @@
                     {% endif %}
                 </th>
                 {% if is_granted("IS_AUTHENTICATED_FULLY") %}
-                <th style="min-width:40px"  class="sorted">
-                    <a href="{{ path(index_path, {'sort':'i.id','dir':next_dir}) }}">Fav</a> 
+                <th style="width:40px"  class="sorted">
+                    <a href="{{ path(index_path, {'sort':'i.id','dir':next_dir}) }}">F</a> 
                     <i class="icon-star"></i>
                     {% if arrow['i.id'] is defined %}
                         <i class={{ arrow['i.id'] }}></i>
@@ -78,7 +78,7 @@
                     <i class={{ arrow['e.nomUser'] }}></i>
                     {% endif %}
                 </th>
-                <th style="min-width:80px"  class="sorted">
+                <th style="width:40px"  class="sorted">
                     <a href="{{ path(index_path, {'sort':'d.nom','dir':next_dir}) }}">S</a> 
                     <i class="icon-flag"></i>
                     {% if arrow['d.nom'] is defined %}
