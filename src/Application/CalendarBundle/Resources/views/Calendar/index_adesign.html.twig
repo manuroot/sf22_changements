@@ -15,18 +15,18 @@
 <link rel="stylesheet" href="{{ asset('bundles/applicationcalendar/css/calendar.css') }}" type="text/css" media="all"/>
 <style>
 
-@media screen and (min-width: 1600px) {
-    .container {
-        max-width: (1600px - @grid-gutter-width);
+    @media screen and (min-width: 1600px) {
+        .container {
+            max-width: (1600px - @grid-gutter-width);
+        }
+        .span11 {width:1400px;}
     }
-    .span11 {width:1400px;}
-}
-@media screen and (min-width: 1900px) {
-    .container {
-        max-width: (1900px - @grid-gutter-width);
+    @media screen and (min-width: 1900px) {
+        .container {
+            max-width: (1900px - @grid-gutter-width);
+        }
+        .span11 {width:1600px;}
     }
-    .span11 {width:1600px;}
-}
 
 
 </style>
@@ -92,12 +92,12 @@
         $('#external-events div.external-event').each(function() {
             //create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
             // it doesn't need to have a start or end
-            
-             var mybg=$(this). css('background-color');
-             console.log("mybg=")
-               var myborder = $.xcolor.darken(mybg, 3);
-             $(this).css('border-color', myborder);
-              
+
+            var mybg = $(this).css('background-color');
+            console.log("mybg=")
+            var myborder = $.xcolor.darken(mybg, 3);
+            $(this).css('border-color', myborder);
+
             var eventObject = {
                 title: $.trim($(this).text()), // use the element's text as the event title
                 'backgroundcolor': $(this).css("background-color"),
@@ -197,8 +197,8 @@
                     element.find("div.fc-event-time").prepend(" <a class=\"editme\" href=\"#\"><i class=\"icon-wrench\"></i></a> ");
                 /*  var desc="Pas de description";
                  if (event.description =="") desc=event.description;*/
-         /*  element.find(".fc-event-time").after($("<span class=\"fc-event-icons\"></span>").html("Whatever you want the content of the span to be"));
-    */
+                /*  element.find(".fc-event-time").after($("<span class=\"fc-event-icons\"></span>").html("Whatever you want the content of the span to be"));
+                 */
                 var text = "<p>" + event.title + '</p><p>Start: ' + start + '<br/>End: ' + end + '</p>';
                 /*    element.qtip({
                  content: {
@@ -235,9 +235,9 @@
 
                 /*.html("Whatever you want the content of the span to be"));*/
             },
-           /* beforeViewRender: function(view) {
-                $('.fc-event').popover('hide');
-            },*/
+            /* beforeViewRender: function(view) {
+             $('.fc-event').popover('hide');
+             },*/
             /*==================================
              * 
              * Ajout event 
@@ -934,7 +934,8 @@
 <div class="row">
     <div class="span1">
         <div class="row">
-            <div class="span1">{{ rootcal.nom }}</div>
+            <div class="span1">
+                <span class="label label-info">{{ rootcal.nom }}</span></div>
             <div class="span1">   <hr>Choix date:</div>
             <div class="span1">  <div class="input-prepend date-chooser">
                     <span class="add-on" id="dateaddon"><i class="icon-time"></i></span>
