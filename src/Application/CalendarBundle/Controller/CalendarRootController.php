@@ -106,6 +106,11 @@ class CalendarRootController extends Controller {
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
       if ($form->isValid()) {
+          
+            // retrieving the security identity of the currently logged-in user
+            $securityContext = $this->get('security.context');
+            $user = $securityContext->getToken()->getUser();
+          $entity->setOwner($user);
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
@@ -124,9 +129,6 @@ class CalendarRootController extends Controller {
             $objectIdentity = ObjectIdentity::fromDomainObject($entity);
             $acl = $aclProvider->createAcl($objectIdentity);
 
-            // retrieving the security identity of the currently logged-in user
-            $securityContext = $this->get('security.context');
-            $user = $securityContext->getToken()->getUser();
             $securityIdentity = UserSecurityIdentity::fromAccount($user);
             $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
             $aclProvider->updateAcl($acl);
