@@ -2,17 +2,13 @@
 
 namespace Application\CalendarBundle\Controller;
 
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Session\Session;
-
 use Application\CalendarBundle\Entity\CalendarEvenements;
 use Application\CalendarBundle\Entity\AdesignCalendar;
 use Application\CalendarBundle\Entity\CalendarRoot;
-
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -25,7 +21,7 @@ use Application\CalendarBundle\Event\CalendarEvent;
  */
 class CalendarController extends Controller {
 
-     protected function getCalendarRoot() {
+    protected function getCalendarRoot() {
         $request = $this->getRequest();
         $session = $request->getSession();
         if (!$session->has('calendar_id')) {
@@ -34,8 +30,7 @@ class CalendarController extends Controller {
         $id_cal = $session->get('calendar_id');
         return $id_cal;
     }
-    
-    
+
     public function getuseridction() {
         $user_security = $this->container->get('security.context');
         // authenticated REMEMBERED, FULLY will imply REMEMBERED (NON anonymous)
@@ -49,61 +44,47 @@ class CalendarController extends Controller {
         return $user_id;
     }
 
-    
-    
-      public function usecalendarAction(Request $request) {
-         
+    public function usecalendarAction(Request $request) {
+
         $em = $this->getDoctrine()->getManager();
-         $session = $request->getSession();
+        $session = $request->getSession();
         if ($request->getMethod() == 'POST') {
             $data = $request->request->all();
-              var_dump($data);
-foreach($request->request->all() as $req){
-                   var_dump($req);
-}
+            var_dump($data);
+            foreach ($request->request->all() as $req) {
+                var_dump($req);
+            }
 
             echo "post method<br>";
-              $alldatas = $request->request->all();
-          //  $datas = $alldatas["changements_filter"];
-            
-           //  $all=$this->getRequest()->request->all();// to get all POST params.
-                     var_dump($alldatas);
-             $id_cal = $request->get('id');
+            $alldatas = $request->request->all();
+            //  $datas = $alldatas["changements_filter"];
+            //  $all=$this->getRequest()->request->all();// to get all POST params.
+            var_dump($alldatas);
+            $id_cal = $request->get('id');
             $session->set('calendar_id', '1');
- 
         }
-    
     }
 
- 
-   
-    
-  
     public function indexadesignAction(Request $request) {
-         
+
         $em = $this->getDoctrine()->getManager();
-         $session = $request->getSession();
+        $session = $request->getSession();
         if ($request->getMethod() == 'POST') {
-             $id_cal = $request->get('id');
+            $id_cal = $request->get('id');
             $session->set('calendar_id', $id_cal);
+        } elseif (!$session->has('calendar_id')) {
+            $session->set('calendar_id', '1');
         }
-     elseif (!$session->has('calendar_id')) {
-                    $session->set('calendar_id', '1');
-     }
-     
-    $id_cal = $session->get('calendar_id');
-    $entity_root = $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->findOneById($id_cal);
-           
-    $entity_evements = $em->getRepository('ApplicationCalendarBundle:CalendarEvenements')->myFindAll($id_cal);
-           return $this->render('ApplicationCalendarBundle:Calendar:index_adesign.html.twig', array(
-        'evenements'=> $entity_evements,
-         'rootcal'=> $entity_root     ));
+
+        $id_cal = $session->get('calendar_id');
+        $entity_root = $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->findOneById($id_cal);
+
+        $entity_evements = $em->getRepository('ApplicationCalendarBundle:CalendarEvenements')->myFindAll($id_cal);
+        return $this->render('ApplicationCalendarBundle:Calendar:index_adesign.html.twig', array(
+                    'evenements' => $entity_evements,
+                    'rootcal' => $entity_root));
     }
 
- 
-   
-    
-    
     /**
      * Dispatch a CalendarEvent and return a JSON Response of any events returned.
      *
@@ -113,16 +94,16 @@ foreach($request->request->all() as $req){
     public function loadjqCalendarAction(Request $request) {
 
         $session = $request->getSession();
-                if (!$session->has('calendar_id')) {
-                    $session->set('calendar_id', '1');
-                }
+        if (!$session->has('calendar_id')) {
+            $session->set('calendar_id', '1');
+        }
         $root_calendar = $session->get('calendar_id');
         $startDatetime = new \DateTime();
         $startDatetime->setTimestamp($request->get('start'));
         $endDatetime = new \DateTime();
         $endDatetime->setTimestamp($request->get('end'));
 
-        $events = $this->container->get('event_dispatcher')->dispatch(CalendarEvent::CONFIGURE, new CalendarEvent($startDatetime, $endDatetime,$root_calendar))->getEvents();
+        $events = $this->container->get('event_dispatcher')->dispatch(CalendarEvent::CONFIGURE, new CalendarEvent($startDatetime, $endDatetime, $root_calendar))->getEvents();
 
         $response = new \Symfony\Component\HttpFoundation\Response();
         $response->headers->set('Content-Type', 'application/json');
@@ -133,24 +114,22 @@ foreach($request->request->all() as $req){
             $return_events[] = $event->toArray();
         }
 
-       // var_dump($return_events);
+        // var_dump($return_events);
         $response->setContent(json_encode($return_events));
 
         return $response;
     }
 
-  
-
     public function updatejqCalendarAction(Request $request) {
 
-        
-          $session = $request->getSession();
-                if (!$session->has('calendar_id')) {
-                    $session->set('calendar_id', '1');
-                }
+
+        $session = $request->getSession();
+        if (!$session->has('calendar_id')) {
+            $session->set('calendar_id', '1');
+        }
         $idroot_calendar = $session->get('calendar_id');
-    
-        
+
+
         $data = array();
         $em = $this->getDoctrine()->getManager();
         $ret = array();
@@ -196,17 +175,18 @@ foreach($request->request->all() as $req){
              * 
               ========================================= */
             if (!$data['id']) {
-               $entity_root = $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->find($idroot_calendar);
-                     $data['title'] = $request->get('title');
+                $entity_root = $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->find($idroot_calendar);
+                $data['title'] = $request->get('title');
                 $entity = new AdesignCalendar($data['title'], $d, $f);
-               if ($entity_root)
-                   $entity->setCalendarid($entity_root);
+                if ($entity_root)
+                    $entity->setCalendarid($entity_root);
                 $entity->setUrl('4564');
                 $bgcolor = $request->get('backgroundColor', "#94a2be");
                 $classcss = $request->get('className', 'class1');
                 $description = $request->get('description', 'Pas de description');
                 $allday = $request->get('allDay');
                 $fgcolor = $request->get('textColor', '#FFFFFF');
+
                 $entity->setBgColor($bgcolor); //set the background color of the event's label
                 /* if ($allday == 'true')
                   $entity->setAllDay(true);
@@ -229,8 +209,8 @@ foreach($request->request->all() as $req){
              * 
              *             UPDATE EVENT
              * 
-              ========================================= */ 
-            
+              ========================================= */
+
             else {
                 $entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find($data['id']);
                 if (!$entity) {
@@ -245,6 +225,11 @@ foreach($request->request->all() as $req){
                 $title = $request->get('title');
                 $description = $request->get('description');
                 $classcss = $request->get('className', 'class1');
+                $fgcolor = $request->get('textColor');
+                if ($fgcolor) {
+                    $entity->setFgColor($fgcolor); //set the foreground color of the event's label
+                    $data['textColor'] = $fgcolor;
+                }
                 $bgcolor = $request->get('backgroundColor');
                 if ($bgcolor) {
 
