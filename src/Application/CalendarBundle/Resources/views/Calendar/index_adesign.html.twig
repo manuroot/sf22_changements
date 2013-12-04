@@ -292,14 +292,16 @@
                 // var color_index=0;
                 var cssclasscolor = calEvent.className[0];
 
-                var fgcolor = calEvent.textColor;                
-               // $('#colorfont').val(fgcolor);
+                var fgcolor = calEvent.textColor;       
+               // fgcolor = "#dedede";       
+                $('#colorfont').val(fgcolor);
                  
                 var bgcolor = calEvent.backgroundColor;
-                console.log("recup color=" + bgcolor);
+                console.log("recup color=" + bgcolor + " font color="+fgcolor);
                // $('#color').val(bgcolor);
                 // color en cours
-                $(".color div.colorPicker-picker").css('background-color', bgcolor);
+                $(".colorbg div.colorPicker-picker").css('background-color', bgcolor);
+                
                  $(".colorfont div.colorPicker-picker").css('background-color', fgcolor);
                 bootbox.dialog(boxContentString, [
                     //buttons
@@ -915,7 +917,7 @@ $('#colorfont').colorPicker({
            <div class="controls">
             <input id="color1" name="color1" type="text" id="color1"/></div>
         </div>#}
-            <div class="control-group color">    
+            <div class="control-group  colorbg">    
                 <label class="control-label" for="color">Background Couleur:</label>
                 <div class="controls">
                     <input id="color" name="color" type="text" id="color"/></div>
@@ -967,10 +969,12 @@ $('#colorfont').colorPicker({
         </div>
         <div class="row" id="external-events">
             <div class="span1">
-      {% for entity in evenements %}
+                {% set xx=[] %}
+      {% for key,entity in evenements %}
                 <div class="external-event" style="background-color:{{ entity.cssClass }}">{{ entity.nom }}
                     <input type="checkbox" class="external-checkbox" name="external-checkbox" id="{{ entity.id }}" checked>
                 </div>
+              {#  {{ xx[key]=entity.cssClass }}#}
         {% endfor %}
             </div>  
         </div>
