@@ -1,11 +1,14 @@
 div.colorPicker-picker {
-  height: 16px;
-  width: 16px;
+  /*height: 16px;
+  width: 16px;*/
+  height: 24px;
+  width: 24px;
   padding: 0 !important;
   border: 1px solid #ccc;
-  background: url(arrow.gif) no-repeat top right;
+  /*background: url(arrow.gif) no-repeat top right;*/
   cursor: pointer;
-  line-height: 16px;
+  line-height: 24px;
+   /*line-height: 16px;*/
   font-size:0.75em;
   font-weight:bold;
   text-align: center;
@@ -13,7 +16,7 @@ div.colorPicker-picker {
 
 div.colorPicker-palette {
  /* width: 110px;*/
-    width: 110px;
+    width: 220px;
   position: absolute;
   border: 1px solid #598FEF;
   background-color: #EFEFEF;
@@ -25,13 +28,17 @@ div.colorPicker-palette {
   div.colorPicker_hexWrap input {margin: 5px 2px; padding: 0; font-size: 95%; border: 1px solid #000; width: 65%; }
 
 div.colorPicker-swatch {
-  height: 12px;
-  width: 12px;
+  /*height: 12px;
+  width: 12px;*/
+    height: 24px;
+  width: 24px;
+  
   border: 1px solid #000;
   margin: 2px;
   float: left;
   cursor: pointer;
-  line-height: 12px;
+  line-height: 24px;
+  /* line-height: 12px;*/
   
 background-color:rgb(148, 162, 190);
 /*#94A2BE*/

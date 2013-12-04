@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/indexfanta.css') }}" type="text/css" media="all"/>
-<link rel="stylesheet" href="{{ asset('css/jquery_flicker/jquery-ui-1.9.2.custom.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/jquery_flicker/jquery-ui-1.9.2.custom.css') }}" />    
 <link rel="stylesheet" href="{{ asset('fullcalendar/fullcalendar.css') }}" />
 <link rel="stylesheet" href="{{ asset('fullcalendar/view_calendar.css') }}" />
 <link rel="stylesheet" href="{{ asset('jquery/simplecolorpicker/colorPicker.css') }}" type="text/css" media="all"/>
@@ -28,6 +28,7 @@
         .span11 {width:1600px;}
     }
 
+
 </style>
 {% endblock %}
 
@@ -41,14 +42,16 @@
 <script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.js') }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
   {# <script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>#}
-<script type="text/javascript" src="{{ asset('jquery/jquery.xcolor.js') }}"></script>
+<script type="text/javascript" src="{{ asset('jquery/jquery.xcolor.js') }}"></script>  
 <script type="text/javascript" src="{{ asset('jquery/simplecolorpicker/jquery.colorPicker.js') }}"></script>
 <script type="text/javascript" src="{{ asset('jquery/jqtip2/jquery.qtip.min.js') }}"></script>
-    {# <script type="text/javascript" src="{{ asset('jquery/tinycolor.js') }}"></script>#}
-
+<script type="text/javascript" src="{{ asset('jquery/jquerysimplecolor/jquery.simple-color.min.js') }}"></script>
+{#<script type="text/javascript" src="{{ asset('bundles/applicationcalendar/js/calendar.js') }}"></script>#}
+    {#    <script type="text/javascript" src="{{ asset('jquery/tinycolor.js') }}"></script>#}
 
 <script type="text/javascript">
     /* jQuery.noConflict();*/
+
     $(document).ready(function() {
         var xcolors = ["#94a2be", "#993355", "#aaaaaa", "#f2a640", "#b373b3", "#668cd9"];
         // console.log("edit status="+edit_status);
@@ -58,7 +61,6 @@
         var plage = "{{ plage|escape('js') }}";
         var starthour = "{{ starthour|escape('js') }}";
         var endhour = "{{ endhour|escape('js') }}";
-         var tcategories= {{ xx|json_encode|raw }};
         console.log("plage horaire=" + plage);
         console.log("edit status=" + edit_status);
         var t = [];
@@ -66,14 +68,9 @@
         var d = date.getDate();
         var m = date.getMonth();
         var y = date.getFullYear();
-    
-        /* if (!$('#events').is(':checked')) { // Note "!" sign here (this indicates that the condition is inverted)
-         $(element).removeEvents("rto")
-         }
-         */
         $("#datepicker").datepicker({
             dateFormat: 'yy/mm/dd',
-            // While using year and month change I prefer to use inline date picker like ( <div id="datepicker"></div> )
+            // While using year and month change I prefer to use inline  date picker  like (  <div id="datepicker"></div>   )
             changeMonth: true,
             changeYear: true,
             onChangeMonthYear: function(year, month, inst) {
@@ -85,7 +82,7 @@
                 var date = new Date(dateText);
                 console.log("month=" + date.getMonth());
                 $('#calendar-holder').fullCalendar('gotoDate', date.getFullYear(), date.getMonth(), date.getDate());
-                /* $('#calendar-holder').fullCalendar('gotoDate', date);*/
+                /*  $('#calendar-holder').fullCalendar('gotoDate', date);*/
             }
         });
         /*$(this).find('.fc-event-time').addClass('newclass');*/
@@ -94,26 +91,22 @@
             // it doesn't need to have a start or end
 
             var mybg = $(this).css('background-color');
-             console.log("mybg="+mybg)
-            var myborder_color = $.xcolor.darken(mybg, 3);
-           /* $(this).css('border-color', myborder);*/
-            $(this).css({"border-color": myborder_color, 
-             "border-width":"1px", 
-             "border-style":"solid"});
+            console.log("mybg=" + mybg);
+            var myborder = $.xcolor.darken(mybg, 3);
+            $(this).css('border-color', myborder);
 
             var eventObject = {
                 title: $.trim($(this).text()), // use the element's text as the event title
                 'backgroundcolor': $(this).css("background-color"),
                 'myclass': $(this).attr("myclass")
             };
-            /* console.log("class=" + eventObject.myclass);*/
             // store the Event Object in the DOM element so we can get to it later
             $(this).data('eventObject', eventObject);
             // make the event draggable using jQuery UI
             $(this).draggable({
                 zIndex: 999,
                 revert: true, // will cause the event to go back to its
-                revertDuration: 0 // original position after the drag
+                revertDuration: 0  //  original position after the drag
             });
         });
         $('#calendar-holder').fullCalendar({
@@ -131,7 +124,7 @@
             droppable: edit_status,
             hiddenDays: [],
             unselectAuto: false,
-            /* height: 650,*/
+            /*  height: 650,*/
             defaultView: 'month',
             header: {
                 left: 'prev, next',
@@ -150,7 +143,6 @@
                     eventBorderColor: "red",
                     textColor: 'black' // a non-ajax option*/
                 }
-
             ],
             eventRender: function(event, element, view) {
                 if (!event.description)
@@ -160,62 +152,29 @@
                 var end = $.fullCalendar.formatDate(event.end, "yyyy-MM-dd HH:mm:ss");
 
                 var bg = element.css("background-color");
+                var h = $(element).css('height').replace(/[^-\d\.]/g, '');
+                var w = $(element).css('width').replace(/[^-\d\.]/g, '');
+                // console.log("height="+h+" width="+w);
+                var longueur = h * 2;
                 if (event.allDay === false && (view.name === "agendaDay" || view.name === "agendaWeek")) {
-                    var h = $(element).css('height').replace(/[^-\d\.]/g, '');
-                    var w = $(element).css('width').replace(/[^-\d\.]/g, '');
-                    // console.log("height="+h+" width="+w);
-                    var longueur = (h + w) * 2;
                     element.find(".fc-event-title")
                             .append("<br>" + event.description.substring(0, longueur));
                 }
+
                 var t = $.xcolor.darken(bg, 3);
                 element.css('border-color', t);
                 element.find("div.fc-event-time").css('background-color', t);
                 if (event.origine !== "absence")
                     element.find("div.fc-event-time").prepend(" <a class=\"editme\" href=\"#\"><i class=\"icon-wrench\"></i></a> ");
-                /* var desc="Pas de description";
-                 if (event.description =="") desc=event.description;*/
-                /* element.find(".fc-event-time").after($("<span class=\"fc-event-icons\"></span>").html("Whatever you want the content of the span to be"));
-                 */
                 var text = "<p>" + event.title + '</p><p>Start: ' + start + '<br/>End: ' + end + '</p>';
-                /* element.qtip({
-                 content: {
-                 text : event.description,
-                 title : {
-                 text : text
-                 }
-                 },
-                 position: {
-                 my : "top center",
-                 at : "bottom center",
-                 container : false,
-                 viewport : $('#calendar-holder'),
-                 adjust: {method: 'shift'
-                 }
-                 },
-                 style: {
-                 name: 'blue',
-                 border: {
-                 width: 2,
-                 radius: 2,
-                 color: '#6699CC'
-                 },
-                 width: 300
-                 },
-                 hide: {
-                 fixed: true
-                 }
-                 });
-                 */
 
-                /*.html("Whatever you want the content of the span to be"));*/
             },
             /* beforeViewRender: function(view) {
              $('.fc-event').popover('hide');
              },*/
             /*==================================
-             *
-             * Ajout event
+             * 
+             * Ajout event 
              ==================================*/
             select: function(start, end, allDay) {
                 var eventobjet = {'start': start, 'end': end, 'allDay': allDay};
@@ -231,10 +190,10 @@
                 $("#cancel-button,button.close").click(function(event) {
                     initForm();
                 });
-                /* $('#createEventModal').modal('hide');*/
+                /*  $('#createEventModal').modal('hide');*/
             },
             /*===================================
-             *
+             * 
              * Deplacer Event
              ====================================*/
             eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc) {
@@ -244,7 +203,7 @@
                 });
             },
             /*===================================
-             *
+             * 
              * CLiker/Editer Event
              ====================================*/
 
@@ -265,21 +224,20 @@
                         "allday=" + calEvent.allDay + "<br>start=" + start + "<br>end=" + end;
                 // plus passer par css
                 // var color_index=0;
-                var cssclasscolor = calEvent.className[0];
+                // var cssclasscolor = calEvent.className[0];
 
                 var fgcolor = calEvent.textColor;
+                // fgcolor = "#dedede";       
+                // $('#colorfont').val(fgcolor);
+
                 var bgcolor = calEvent.backgroundColor;
-                // fgcolor = "#dedede";
-                // couleur par defaut si pas de click sur couleurs !!
-                $('#colorfont').val(fgcolor);
-                $('#color').val(bgcolor);
-
                 console.log("recup color=" + bgcolor + " font color=" + fgcolor);
-                // $('#color').val(bgcolor);
-                // color en cours
-                $(".colorbg div.colorPicker-picker").css('background-color', bgcolor);
+                $("#color").val(bgcolor);
+                $("#colorfont").val(fgcolor);
+                $(".color div.simpleColorDisplay").css('background-color', bgcolor);
+                $(".colorfont div.simpleColorDisplay").css('background-color', fgcolor);
+                // $(".colorfont div.colorPicker-picker").css('background-color', fgcolor);
 
-                $(".colorfont div.colorPicker-picker").css('background-color', fgcolor);
                 bootbox.dialog(boxContentString, [
                     //buttons
                     {
@@ -295,13 +253,10 @@
                                 console.log("id before dosubmit call=" + calEvent.id);
                                 doSubmit(calEvent);
                                 console.log("END SUBMIT BUTTON");
-                                // $('#submit-event-update').unbind();
-                                /* console.log("id after dosubmit call="+ calEvent.id);*/
-
                                 initForm();
                             });
                             $("#cancel-button").click(function(event) {
-                                // $('#calendar-holder').fullCalendar('unselect');
+                                //   $('#calendar-holder').fullCalendar('unselect');
                                 initForm();
                             });
                         }
@@ -331,16 +286,16 @@
                     }
                 ]);
                 //$('#calendar-holder').fullCalendar('updateEvent',calEvent);
-                // $(this).find("div.fc-event-time").prepend(" <a class=\"editme\" href=\"#\"><i class=\"icon-wrench\"></i></a> ");
+                //  $(this).find("div.fc-event-time").prepend(" <a class=\"editme\" href=\"#\"><i class=\"icon-wrench\"></i></a> ");
                 $(this).css('border-color', border);
             },
             /*=================================
-             * DROP EXTERNAL EVENT
-             *
+             *  DROP EXTERNAL EVENT
+             * 
              ==================================*/
 
             drop: function(date, allDay) { // this function is called when something is dropped
-                var tempDate = new Date(date); //clone date
+                var tempDate = new Date(date);  //clone date
                 var originalEventObject = $(this).data('eventObject');
                 var copiedEventObject = $.extend({}, originalEventObject);
                 console.log("drop start=" + date);
@@ -371,8 +326,8 @@
                 }
             },
             /*=================================
-             * EVENT RESIZE
-             *
+             *  EVENT RESIZE
+             * 
              ==================================*/
             eventResize: function(event, dayDelta, minuteDelta, revertFunc) {
                 updateajax('calendar_dropajax', event, event['allDay'], function(result) {
@@ -382,8 +337,8 @@
         });
 
         /*=================================
-         * REMPLIR FORM
-         *
+         *  REMPLIR FORM
+         * 
          ==================================*/
 
         function remplirForm(event) {
@@ -408,8 +363,8 @@
         }
 
         /*=================================
-         * SUBMIT FORM
-         *
+         *  SUBMIT FORM
+         * 
          ==================================*/
 
         function doSubmit(event) {
@@ -423,31 +378,25 @@
             var mstart = $('#apptStartTime').val();
             var mend = $('#apptEndTime').val();
             // color en hexa via colorpicker:
-            var csscolor = $('#color').val();
+            var backgroundcolor = $('#color').val();
             var textcolor = $('#colorfont').val();
             var id = $('#apptId').val();
             //recuperation de la classe associée a la couleur
-            // var color_index=getcolor(csscolor);
             var cssclass = 'class0';
-            // if (color_index != -1){cssclass='class' + color_index;
-            // console.log("FOUND COLOR INDEX= " + cssclass);
-            // }
-            // console.log("id=" + id + " color=" + csscolor + " class=" + cssclass);
-
-            console.log("id=" + id + " color=" + csscolor);
+            console.log("id=" + id + " color=" + backgroundcolor + " fontcolor="+ textcolor);
             var mallDay = $('#createEventModal #apptAllDay').val();
             if (title) {
                 console.log("allday=" + mallDay + " mstart=" + mstart + " end=" + mend);
                 var dataAjax = {
                     'title': title,
                     'className': cssclass,
-                    'backgroundColor': csscolor,
+                    'backgroundColor': backgroundcolor,
                     'textColor': textcolor,
                     'description': description,
                     'start': mstart,
                     'end': mend,
                     'id': id,
-                    'allDay': ($('#apptAllDay').val() == "true"),
+                    'allDay': ($('#apptAllDay').val() == "true")
                 };
                 if (id) {
                     console.log("CAS 1 EDIT");
@@ -477,11 +426,11 @@
             $('#apptId').val("");
             $('#color').val("");
             $('#colorfont').val("");
-            $(".color div.colorPicker-picker").css('background-color', getcolorById(0));
+            // $(".color div.colorPicker-picker").css('background-color', getcolorById(0));
             $('#calendar-holder').fullCalendar('unselect');
         }
         /*========================================================
-         * Fonction: Ajaxs
+         *  Fonction: Ajaxs
          ========================================================*/
 
         function updateajax(route, event, allday, callback) {
@@ -524,7 +473,7 @@
 
 
         /*========================================================
-         * Fonction: Delete AJAX
+         *  Fonction: Delete AJAX
          ========================================================*/
 
         function deleteajax(route, event, callback) {
@@ -564,7 +513,7 @@
             var str = "Informations sur l\'evenement<br>";
             var id = datab['id'];
             /* console.log("id=" + id);*/
-            /* http://symvideo:92/452/showxhtml*/
+            /*    http://symvideo:92/452/showxhtml*/
             var url = Routing.generate('calendar_showXhtml', {id: id});
             /*var dataAjax = {'id': id};*/
             $.colorbox({
@@ -579,12 +528,10 @@
                          $("#gridcontainer").reload();
                          }*/
             });
-
-
         }
 
         /*------------------------------------------
-         *
+         * 
          * EDIT WINDOW
          *
          ------------------------------------------*/
@@ -596,7 +543,7 @@
                 var id = data[0];
                 var url = Routing.generate('calendar_edit', {id: id});
 
-                /* var url = Routing.generate('calendar_showXhtml', {id: id});*/
+                /*  var url = Routing.generate('calendar_showXhtml', {id: id});*/
                 /*var dataAjax = {'id': id};*/
                 $.colorbox({
                     iframe: true,
@@ -614,18 +561,13 @@
         }
 
         /*========================================================
-         * Fonction: Ajaxs
+         *  Fonction: Ajaxs
          ========================================================*/
 
         function createajax(route, data, allday, callback) {
             var obj = $(this);
             var datareponse;
             console.log("create ajax request");
-            /*start=data['start'];
-             end=data['end'];*/
-            /* start = $.fullCalendar.formatDate(data['start'], "yyyy-MM-dd HH:mm:ss");
-             end = $.fullCalendar.formatDate(data['end'], "yyyy-MM-dd HH:mm:ss");*/
-
             $.ajax({
                 async: false,
                 url: Routing.generate(route),
@@ -653,16 +595,6 @@
 
         } //Eof:: fucntion remplirSelect
 
-
-        /* $('#color1').colorPicker(
-         {
-         pickerDefault : "FFFFFF",
-         // Default color set.
-         colors : [
-         '000000', '993300', '333300', '000080', '333399', '333333', '800000', 'FF6600',
-         '808000', '008000', '008080', '0000FF', '666699', '808080', 'FF0000', 'FF9900'
-         ]
-         });*/
         var t1 = ["#ff000", "#330000", "#660000", "#990000", "#cc0000", "#000000",
             "94A2BE", "993355", "aaaaaa", "f2a640", "b373b3", "668cd9",
             '000000', '993300', '333300', '000080', '333399', '333333',
@@ -671,107 +603,73 @@
             '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00',
             'FFFF00', '00FF00', '00FFFF', '00CCFF', '993366', 'C0C0C0',
             'FF99CC', 'FFCC99', 'FFFF99', 'CCFFFF', '99CCFF', 'FFFFFF'];
-        /* t=["FFFFFF", "FFDFDF", "FFBFBF","FF9F9F", "FF7F7F","FF5F5F","FF3F3F","FF1F1F","FF0000","DF1F00","C33B00","A75700",
-         "8B7300", "6F8F00", "53AB00", "37C700", "1BE300", "00FF00" , "00DF1F", "00C33B",
-         "00A757", "008B73" , "006F8F","0053AB", "0037C7", "001BE3", "0000FF", "0000df",
-         "0000c3", "0000a7" , "00008b","00006f", "000053", "000037", "00001b", "000000"];*/
-        /* t = [
-         "94A2BE","993355","aaaaaa","f2a640","b373b3","668cd9",
-         '000000', '993300', '333300', '000080', '333399', '333333',
-         '800000', 'FF6600', '808000', '008000', '008080', '0000FF',
-         '666699', '808080', 'FF0000', 'FF9900', '99CC00', '339966',
-         '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00',
-         'FFFF00', '00FF00', '00FFFF', '00CCFF', '993366', 'C0C0C0',
-         'FF99CC', 'FFCC99', 'FFFF99', 'CCFFFF', '99CCFF', 'FFFFFF',
-         '990033', 'ff3366', 'cc0033', 'ff0033', 'ff9999', 'cc3366', 'ffccff', 'cc6699',
-         '993366', '660033', 'cc3399', 'ff99cc', 'ff66cc', 'ff99ff', 'ff6699', 'cc0066',
-         'ff0066', 'ff3399', 'ff0099', 'ff33cc', 'ff00cc', 'ff66ff', 'ff33ff', 'ff00ff',
-         'cc0099', '990066', 'cc66cc', 'cc33cc', 'cc99ff', 'cc66ff', 'cc33ff', '993399',
-         'cc00cc', 'cc00ff', '9900cc', '990099', 'cc99cc', '996699', '663366', '660099',
-         '9933cc', '660066', '9900ff', '9933ff', '9966cc', '330033', '663399', '6633cc',
-         '6600cc', '9966ff', '330066', '6600ff', '6633ff', 'ccccff', '9999ff', '9999cc',
-         '6666cc', '6666ff', '666699', '333366', '333399', '330099', '3300cc', '3300ff',
-         '3333ff', '3333cc', '0066ff', '0033ff', '3366ff', '3366cc', '000066', '000033',
-         '0000ff', '000099', '0033cc', '0000cc', '336699', '0066cc', '99ccff', '6699ff',
-         '003366', '6699cc', '006699', '3399cc', '0099cc', '66ccff', '3399ff', '003399',
-         '0099ff', '33ccff', '00ccff', '99ffff', '66ffff', '33ffff', '00ffff', '00cccc',
-         '009999', '669999', '99cccc', 'ccffff', '33cccc', '66cccc', '339999', '336666',
-         '006666', '003333', '00ffcc', '33ffcc', '33cc99', '00cc99', '66ffcc', '99ffcc',
-         '00ff99', '339966', '006633', '336633', '669966', '66cc66', '99ff99', '66ff66',
-         '339933', '99cc99', '66ff99', '33ff99', '33cc66', '00cc66', '66cc99', '009966',
-         '009933', '33ff66', '00ff66', 'ccffcc', 'ccff99', '99ff66', '99ff33', '00ff33',
-         '33ff33', '00cc33', '33cc33', '66ff33', '00ff00', '66cc33', '006600', '003300',
-         '009900', '33ff00', '66ff00', '99ff00', '66cc00', '00cc00', '33cc00', '339900',
-         '99cc66', '669933', '99cc33', '336600', '669900', '99cc00', 'ccff66', 'ccff33',
-         'ccff00', '999900', 'cccc00', 'cccc33', '333300', '666600', '999933', 'cccc66',
-         '666633', '999966', 'cccc99', 'ffffcc', 'ffff99', 'ffff66', 'ffff33', 'ffff00',
-         'ffcc00', 'ffcc66', 'ffcc33', 'cc9933', '996600', 'cc9900', 'ff9900', 'cc6600',
-         '993300', 'cc6633', '663300', 'ff9966', 'ff6633', 'ff9933', 'ff6600', 'cc3300',
-         '996633', '330000', '663333', '996666', 'cc9999', '993333', 'cc6666', 'ffcccc',
-         'ff3333', 'cc3333', 'ff6666', '660000', '990000', 'cc0000', 'ff0000', 'ff3300',
-         'cc9966', 'ffcc99', 'ffffff', 'cccccc', '999999', '666666', '333333'
-         ]; */
+
         var a1colors = $.xcolor.analogous('#da0', 16);
 
         var b = $.xcolor.monochromatic("f00", 6);
         tt = $.xcolor.analogous('#da0', 32, 30);
-        tt.push("FFFFFF","000000");
-        // append noir et blanc
         /*
          $.each(b, function(key, value){
          console.log("??" + value);
+         
          });*/
         ////*
-        tt=$.merge(tcategories,tt);
         var myRegExp = /#./;
         for (var i in tt) {
             t[i] = tt[i].toString();
-console.log("v="+t[i]);
+
             if (myRegExp.test(t[i])) {
                 //console.log("matching #"+t[i]);
                 t[i] = t[i].replace("#", "");
             }
 
-        }/*
-         dump(t);*/
-        /*
-         $.each(, function(key, value){
-         console.log("??" + jQuery.type(value));
-         // var t=[];
-         // var t=value.replace('11','');
-         // console.log("v=--"+value+"--");
-         // t[key]=value.replace('#','');
-         //allcolors[key]=value.substring(1);
-         });*/
+        }
 
-        var tfont = ["000000", 'FFFFFF', "ded600","de2500"];
-        $('#colorfont').colorPicker({
-            colors: tfont,
-            pickerDefault: "FFFFFF",
-            transparency: true
+        $('#color').simpleColor({
+            cellWidth: 15,
+            cellHeight: 15,
+            livePreview: true,
+            colors: t,
+            boxWidth: "100px",
+            columns: 8,
+            callback: function(hex, element) {
+                //  alert("color picked! " + hex + " for input #" + element.attr('class'));
+            }
         });
-        $('#color').colorPicker(
-                {
-                    colors: t,
-                    /* colors: $.xcolor.monochromatic('#0066FF'),*/
-                    /* ["94A2BE","aaaaaa",'C0C0C0','808080','999999','333333',
-                     'CCFFFF', '99CCFF', "668cd9",'0000FF','333399','33CCCC', '3366FF',
-                     'FF6600','FF0000', '666699',"f2a640",'800000', '808000',
-                     '008000', '008080', 'FF9900', '99CC00', '339966', "993355",
-                     '800080', 'FF00FF', 'FFCC00',"b373b3",
-                     'FFFF00', '00FF00', '00FFFF', '00CCFF', '993366', 'FF99CC',
-                     'FFCC99', 'FFFF99', 'FFFFFF', '993300', '333300', '000080','000000'],*/
-                    pickerDefault: "#94a2be",
-                    /*pickerDefault: "#94a2be",*/
-                    transparency: true,
-                    onColorChange: function(id, newValue) {
-                        console.log("ID: " + id + " has been changed to " + newValue);
-                        /* var colors=["#94a2be","#993355","#aaaaaa","#f2a640","#b373b3","#668cd9"];
-                         alert(jQuery.inArray(newValue, colors));*/
-                        /* alert("value=" + newValue + "array_value=" + getcolor(newValue));*/
-                    }
 
-                });
+
+        var tfont = ["000000", 'FFFFFF'];
+
+        $('#colorfont').simpleColor({
+            cellWidth: 15,
+            cellHeight: 15,
+            livePreview: true,
+            colors: t,
+            boxWidth: "100px",
+            columns: 8,
+            border: '1px solid #fff',
+            callback: function(hex, element) {
+                //  alert("color picked! " + hex + " for input #" + element.attr('class'));
+            }
+        });
+
+
+        /*
+         $('#colorfont').colorPicker({
+         colors: tfont,
+         pickerDefault: "FFFFFF",
+         transparency: true
+         });
+         $('#color').colorPicker(
+         {
+         colors: t,
+         pickerDefault: "#94a2be",
+         transparency: true,
+         onColorChange: function(id, newValue) {
+         console.log("ID: " + id + " has been changed to " + newValue);
+         }
+         
+         });*/
         function dump(obj) {
             var out = '';
             for (var i in obj) {
@@ -781,11 +679,11 @@ console.log("v="+t[i]);
             alert(out);
         }
         function getcolor(value) {
-            /* var colors=["#94a2be","#993355","#aaaaaa","#f2a640","#b373b3","#668cd9"];*/
+            /*  var colors=["#94a2be","#993355","#aaaaaa","#f2a640","#b373b3","#668cd9"];*/
             return jQuery.inArray(value, xcolors);
         }
         function getcolorById(id) {
-            // var colors=["#94a2be","#993355","#aaaaaa","#f2a640","#b373b3","#668cd9"];
+            //  var colors=["#94a2be","#993355","#aaaaaa","#f2a640","#b373b3","#668cd9"];
             if (id <= 5)
                 return xcolors[id];
             else
@@ -848,10 +746,10 @@ console.log("v="+t[i]);
 
 
 {% block title %}
-      {# <span class="icon-stack">
-<i class="icon-check-empty icon-stack-base"></i>
-<i class="icon-calendar"></i>
-</span> Opérations: Calendrier #}
+      {#  <span class="icon-stack">
+            <i class="icon-check-empty icon-stack-base"></i>
+            <i class="icon-calendar"></i>
+        </span>    Opérations: Calendrier #}
 
 {% endblock %}
 
@@ -859,17 +757,15 @@ console.log("v="+t[i]);
    {% set editstatus = true %}
 {% else %}
 {% set editstatus = false %}
-    {% endif %}
+    {% endif %} 
 
 
 {% set plage=rootcal.plage %}
 {% set starthour=rootcal.startHour %}
 {% set endhour=rootcal.endHour %}
-{% set xx =[] %}
-{% for key,entity in evenements %}
-    {% set xx = xx | merge({ (key) :  entity.cssClass}) %}
-{% endfor %}
- {% set xy = ["fffff","dfdfdf","ededdd"] %}
+
+
+
 {% block content %}
 
 
@@ -882,28 +778,42 @@ console.log("v="+t[i]);
     </div>
     <div class="modal-body">
         <form id="eventForm" class="form-horizontal">
-            <div class="control-group">
+            <div class="control-group">    
                 <label class="control-label" for="inputTitle">Titre:</label>
                 <div class="controls">
                     <input type="text" name="title" id="titleName" style="margin: 0 auto;" data-provide="typeahead" data-items="4" data-source="">
                 </div>
             </div>
-     {# <div class="control-group">
-<label class="control-label" for="color1">Couleur:</label>
-<div class="controls">
-<input id="color1" name="color1" type="text" id="color1"/></div>
-</div>#}
-            <div class="control-group colorbg">
+     {#  <div class="control-group">    
+             <label class="control-label" for="color1">Couleur:</label>
+           <div class="controls">
+            <input id="color1" name="color1" type="text"/></div>
+        </div>
+              #}   
+            <div class="control-group color">    
                 <label class="control-label" for="color">Background Couleur:</label>
                 <div class="controls">
-                    <input id="color" name="color" type="text" id="color"/></div>
+                    <input id="color" name="color" type="text"/></div>
+            </div>
+            <div class="control-group colorfont">    
+                <label class="control-label" for="colorfont">Police Couleur:</label>
+                <div class="controls">
+                    <input id="colorfont" name="colorfont" type="text"/></div>
+            </div>
+                  {# 
+            
+            <div class="control-group  colorbg">    
+                <label class="control-label" for="color">Background Couleur:</label>
+                <div class="controls">
+                    <input id="color" name="color" type="text"/></div>
             </div>
 
-            <div class="control-group colorfont">
+                    <div class="control-group colorfont">    
                 <label class="control-label" for="colorfont">Font Couleur:</label>
                 <div class="controls">
-                    <input id="colorfont" name="colorfont" type="text" id="colorfont"/></div>
+                    <input id="colorfont" name="colorfont" type="text"/></div>
             </div>
+#}
             <div class="control-group">
                 <label class="control-label" for="inputDescription">Description:</label>
                 <div class="controls">
@@ -931,11 +841,10 @@ console.log("v="+t[i]);
 <div class="row">
     <div class="span1">
         <div class="row">
-            <div class="span1 external-infos">
-                <span class="label label-info">{{ rootcal.nom }}</span>
-            </div>
-            <div class="span1 external-infos"> <hr>Choix date:</div>
-            <div class="span1 external-infos"> <div class="input-prepend date-chooser">
+            <div class="span1">
+                <span class="label label-info">{{ rootcal.nom }}</span></div>
+            <div class="span1">   <hr>Choix date:</div>
+            <div class="span1">  <div class="input-prepend date-chooser">
                     <span class="add-on" id="dateaddon"><i class="icon-time"></i></span>
                     <input type="text" id="datepicker" /></div>
                 <hr>
@@ -944,25 +853,23 @@ console.log("v="+t[i]);
                 <h6> <i class="icon-wrench"></i> Catégories:</h6>
             </div>
         </div>
-        <div class="row">
-            <div class="span1" id="external-events">
-              {#  {% set xx =[] %}#}
-             {#   {% set xx = evenements.cssClass|merge({ (loop.index0): 'value'}) %} #}
+        <div class="row" id="external-events">
+            <div class="span1">
+              {#  {% set xx=[] %}#}
       {% for key,entity in evenements %}
                 <div class="external-event" style="background-color:{{ entity.cssClass }}">{{ entity.nom }}
                     <input type="checkbox" class="external-checkbox" name="external-checkbox" id="{{ entity.id }}" checked>
                 </div>
-              
+              {#  {{ xx[key]=entity.cssClass }}#}
         {% endfor %}
-               {# {{ dump(xx) }} #}
+            </div>  
+        </div>
+      {#  <div class="row">
+            <div id="external-conges" class="span1">Congés
+                <input type="checkbox" class="external-checkbox" name="external-conges" checked>
             </div>
         </div>
-      {# <div class="row">
-<div id="external-conges" class="span1">Congés
-<input type="checkbox" class="external-checkbox" name="external-conges" checked>
-</div>
-</div>
-#}
+        #}
 {% if is_granted("IS_AUTHENTICATED_FULLY") %}
         <div class="row">
             <div class="span2">
@@ -973,18 +880,18 @@ console.log("v="+t[i]);
             </div>
         </div>
 {% endif %}
-{#
+{#  
 <p>
 <input type='checkbox' id='drop-remove' /> <label for='drop-remove'>remove after drop</label>
 </p>
 #}
 
  {#
-<form name="display">
-<input type="checkbox" name="cal_type" id="events" checked>Events</p>
-<input type="checkbox" name="cal_type" id="rto" checked>Vacations and time-off</p>
-<input type="checkbox" name="cal_type" id="goals" checked>Goals</p>
-</form>
+   <form name="display">
+        <input type="checkbox" name="cal_type" id="events" checked>Events</p>
+        <input type="checkbox" name="cal_type" id="rto" checked>Vacations and time-off</p>
+        <input type="checkbox" name="cal_type" id="goals" checked>Goals</p>
+    </form>
 #}
     </div>
     <div id="calendar-holder" class="span11"></div>
@@ -992,4 +899,4 @@ console.log("v="+t[i]);
     <div style='clear:both'></div>
 </div>
 {% endblock %}
- {% block footer %} {% endblock %}
+ {% block footer %}  {% endblock %}

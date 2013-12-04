@@ -14,6 +14,10 @@
         <group>
             <file>file:/var/www/Symfony_changements/app/config/parameters.yml</file>
             <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/index_adesign.html.twig</file>
+            <file>file:/var/www/Symfony_changements/web/js/compiled/changementsown_changementsfanta_4.js</file>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/public/js/changementsfanta.js</file>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/public/js/changementsown.js</file>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/public/js/changements.js</file>
         </group>
     </open-files>
 </project-private>
