@@ -11,18 +11,19 @@
 		width: 100%;
 		margin: 0 auto;
 		}
-  #external-events {
-		/*float: left;*/
-              /*  margin-top:50px;*/
-		/*padding: 0 10px;*/
-		/*border: 1px solid #ccc;*/
-		background: #eee;
+ /* #external-events {
+	
+                background: gainsboro;
 		text-align: left;
-              /*  width:auto;*/
-              /*  border: 1px solid black;*/
-               /* min-width:200px;*/
+                padding:5px;
+          
 		}
-		
+	  .external-infos {
+	            background: gainsboro;
+		text-align: left;
+                padding:5px;
+        
+		}*/	
 	#external-events h4 {
 		font-size: 16px;
 		margin-top: 0;
