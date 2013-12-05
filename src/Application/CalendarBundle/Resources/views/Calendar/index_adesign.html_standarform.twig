@@ -94,7 +94,7 @@
             // it doesn't need to have a start or end
 
             var mybg = $(this).css('background-color');
-        /*     console.log("mybg="+mybg)*/
+             console.log("mybg="+mybg)
             var myborder_color = $.xcolor.darken(mybg, 3);
            /* $(this).css('border-color', myborder);*/
             $(this).css({"border-color": myborder_color, 
@@ -726,7 +726,7 @@
         var myRegExp = /#./;
         for (var i in tt) {
             t[i] = tt[i].toString();
-/*console.log("v="+t[i]);*/
+console.log("v="+t[i]);
             if (myRegExp.test(t[i])) {
                 //console.log("matching #"+t[i]);
                 t[i] = t[i].replace("#", "");
@@ -882,7 +882,7 @@
         <h3 id="titreheader"></h3>
     </div>
     <div class="modal-body">
-        {#{{ form(form) }}#}
+
         <form id="eventForm" class="form-horizontal">
             <div class="control-group">
                 <label class="control-label" for="inputTitle">Titre:</label>

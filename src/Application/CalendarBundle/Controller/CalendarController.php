@@ -15,6 +15,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 //use ADesigns\CalendarBundle\Event\CalendarEvent;
 use Application\CalendarBundle\Event\CalendarEvent;
 
+use Application\CalendarBundle\Form\CalendarType;
+
 /**
  * Calendar controller.
  *
@@ -68,6 +70,10 @@ class CalendarController extends Controller {
     public function indexadesignAction(Request $request) {
 
         $em = $this->getDoctrine()->getManager();
+        
+         $form = $this->createForm(new CalendarType());
+         
+         
         $session = $request->getSession();
         if ($request->getMethod() == 'POST') {
             $id_cal = $request->get('id');
@@ -82,6 +88,7 @@ class CalendarController extends Controller {
         $entity_evements = $em->getRepository('ApplicationCalendarBundle:CalendarEvenements')->myFindAll($id_cal);
         return $this->render('ApplicationCalendarBundle:Calendar:index_adesign.html.twig', array(
                     'evenements' => $entity_evements,
+             'form' => $form->createView(),
                     'rootcal' => $entity_root));
     }
 

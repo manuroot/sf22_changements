@@ -54,25 +54,28 @@ class CalendarRootController extends Controller {
      *
      */
     public function indexAction() {
+          $idg=array();
         $em = $this->getDoctrine()->getManager();
   $user_security = $this->container->get('security.context');
         // authenticated REMEMBERED, FULLY will imply REMEMBERED (NON anonymous)
         if ($user_security->isGranted('IS_AUTHENTICATED_FULLY')) {
             $user_id = $this->get('security.context')->getToken()->getUser()->getId();
-           /*  $entity_user = $em->getRepository('ApplicationSonataUserBundle:User')->find($user_id);  
-              $n=$entity_user->getGroups();
-        $idg=array();
+        
+            // Recup des groupes du user
+           $entity_user = $em->getRepository('ApplicationSonataUserBundle:User')->find($user_id);  
+              $entity_group=$entity_user->getGroups();
+      
        
-             foreach ($n as $group) {
+             foreach ($entity_group as $group) {
             $idg[] = $group->getId();
-        }*/
+        }
     
         }  
-   //  var_dump($idg);
-    $entities = $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->myFindAll($user_id);
+    // var_dump($idg);
+    $entities = $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->myFindAll($user_id,$idg);
 
         $securityContext = $this->get('security.context');
-        $user = $securityContext->getToken()->getUser();
+     //   $user = $securityContext->getToken()->getUser();
          /* ==========================
          * MAJ ALL ENTITIES
          * ========================== */
