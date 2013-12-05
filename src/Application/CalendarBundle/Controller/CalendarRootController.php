@@ -15,7 +15,7 @@ use Symfony\Component\Security\Acl\Model\AclProviderInterface;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
 use Symfony\Component\Security\Acl\Permission\MaskBuilder;
-
+use Application\Sonata\UserBundle\Entity\User;
 /**
  * CalendarRoot controller.
  *
@@ -59,8 +59,17 @@ class CalendarRootController extends Controller {
         // authenticated REMEMBERED, FULLY will imply REMEMBERED (NON anonymous)
         if ($user_security->isGranted('IS_AUTHENTICATED_FULLY')) {
             $user_id = $this->get('security.context')->getToken()->getUser()->getId();
-        }
-     $entities = $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->myFindAll($user_id);
+           /*  $entity_user = $em->getRepository('ApplicationSonataUserBundle:User')->find($user_id);  
+              $n=$entity_user->getGroups();
+        $idg=array();
+       
+             foreach ($n as $group) {
+            $idg[] = $group->getId();
+        }*/
+    
+        }  
+   //  var_dump($idg);
+    $entities = $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->myFindAll($user_id);
 
         $securityContext = $this->get('security.context');
         $user = $securityContext->getToken()->getUser();
