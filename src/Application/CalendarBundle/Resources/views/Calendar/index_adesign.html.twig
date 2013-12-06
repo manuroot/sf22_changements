@@ -27,7 +27,12 @@
         }
         .span11 {width:1600px;}
     }
-
+#scolor,#scolorfont{border:1px solid black;width:20px;height:20px;}
+.form-horizontal .control-label {
+    float: left;
+    text-align: left;
+}
+   
 </style>
 {% endblock %}
 
@@ -257,15 +262,18 @@
                 console.log("id after click=" + calEvent.id);
                 var border = $(this).css('border-color');
                 $(this).css('border-color', 'red');
-                var start = $.fullCalendar.formatDate(calEvent.start, "yyyy-MM-dd HH:mm:ss");
+              /*  var start = $.fullCalendar.formatDate(calEvent.start, "yyyy-MM-dd HH:mm:ss");
                 var end = $.fullCalendar.formatDate(calEvent.end, "yyyy-MM-dd HH:mm:ss");
-                /*var boxContentString=$("div#createEventModal").html();*/
-                var boxContentString = "ID=" + calEvent.id + " infos:<br>TITRE: " + calEvent.title +
+             */   /*var boxContentString=$("div#createEventModal").html();*/
+                // $('#createShowModal').modal('show');
+                 
+                /*var boxContentString = "ID=" + calEvent.id + " infos:<br>TITRE: " + calEvent.title +
                         "<br>Description:<br>" + calEvent.description + "<br>" +
-                        "allday=" + calEvent.allDay + "<br>start=" + start + "<br>end=" + end;
+                        "allday=" + calEvent.allDay + "<br>start=" + start + "<br>end=" + end;*/
                 // plus passer par css
                 // var color_index=0;
-                var cssclasscolor = calEvent.className[0];
+               
+             /*  var cssclasscolor = calEvent.className[0];
 
                 var fgcolor = calEvent.textColor;
                 var bgcolor = calEvent.backgroundColor;
@@ -275,11 +283,13 @@
                 $('#color').val(bgcolor);
 
                 console.log("recup color=" + bgcolor + " font color=" + fgcolor);
-                // $('#color').val(bgcolor);
                 // color en cours
                 $(".colorbg div.colorPicker-picker").css('background-color', bgcolor);
-
                 $(".colorfont div.colorPicker-picker").css('background-color', fgcolor);
+                */
+                   ShowInfoBox(calEvent); 
+                 var boxContentString=$('#createShowModal').html();
+            
                 bootbox.dialog(boxContentString, [
                     //buttons
                     {
@@ -388,6 +398,20 @@
 
         function remplirForm(event) {
             console.log("REMPLIR FORMULAIRE");
+               //test ajout
+                var fgcolor = event.textColor;
+                var bgcolor = event.backgroundColor;
+                // fgcolor = "#dedede";
+                // couleur par defaut si pas de click sur couleurs !!
+                $('#colorfont').val(fgcolor);
+                $('#color').val(bgcolor);
+
+                console.log("recup color=" + bgcolor + " font color=" + fgcolor);
+                // color en cours
+                $(".colorbg div.colorPicker-picker").css('background-color', bgcolor);
+                $(".colorfont div.colorPicker-picker").css('background-color', fgcolor);
+           //end test     
+                
             var start = $.fullCalendar.formatDate(event.start, "yyyy-MM-dd HH:mm:ss");
             var end = $.fullCalendar.formatDate(event.end, "yyyy-MM-dd HH:mm:ss");
             console.log("start=" + start);
@@ -479,6 +503,21 @@
             $('#colorfont').val("");
             $(".color div.colorPicker-picker").css('background-color', getcolorById(0));
             $('#calendar-holder').fullCalendar('unselect');
+        }
+        
+        
+         function ShowInfoBox(calEvent) {
+                $(this).css('border-color', 'red');
+                var start = $.fullCalendar.formatDate(calEvent.start, "yyyy-MM-dd HH:mm:ss");
+                var end = $.fullCalendar.formatDate(calEvent.end, "yyyy-MM-dd HH:mm:ss");
+                var fgcolor = calEvent.textColor;
+                var bgcolor = calEvent.backgroundColor;
+                    $("#createShowModal #stitle").html(calEvent.title);
+                 $("#createShowModal #sdescription").html(calEvent.description);
+                 $("#createShowModal #stitle").html(calEvent.title);
+                   $("#createShowModal #scolor").css('background-color', bgcolor);
+                   $("#createShowModal #scolorfont").css('background-color', fgcolor);
+                 
         }
         /*========================================================
          * Fonction: Ajaxs
@@ -722,6 +761,13 @@
          console.log("??" + value);
          });*/
         ////*
+       /* var c_tcageories=tcategories.length;
+        for( i=0; i < c_tcageories; i++){
+  //myArray[i];
+  $("div#colorPicker_palette-1 DIV.colorPicker-swatch" ).css('border-color', 'red');
+}*/
+
+
         tt=$.merge(tcategories,tt);
         var myRegExp = /#./;
         for (var i in tt) {
@@ -872,6 +918,50 @@
  {% set xy = ["fffff","dfdfdf","ededdd"] %}
 {% block content %}
 
+<div id="createShowModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+    
+    
+    <div class="modal-body form-horizontal">
+        {#{{ form(form) }}#}
+            <div class="control-group">
+                <label class="control-label" for="inputTitle">Titre:</label>
+                <div class="controls" id="stitle"> </div>
+            </div>
+        
+          <div class="control-group">
+                <label class="control-label" for="inputDescription">Description:</label>
+                <div class="controls" id="sdescription"></div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="scolor">Background Couleur:</label>
+                <div class="controls" id="scolor">    </div>
+            </div>
+            <div class="control-group">
+                  <label class="control-label" for="scolorfont">Background Couleur:</label>
+             
+                <div class="controls" id="scolorfont">                   </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="when">Date:</label>
+                <div class="controls controls-row" id="when" style="margin-top:5px;">
+                </div>
+            </div>
+         
+       
+    </div>
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 <!----------Form Edit Event ----------------->
@@ -904,7 +994,7 @@
             <div class="control-group">
                 <label class="control-label" for="inputDescription">Description:</label>
                 <div class="controls">
-                    <textarea name="description" id="descriptionName" style="height:200px;margin: 0 auto;" data-provide="typeahead" data-items="4" data-source="">
+                    <textarea name="description" id="descriptionName" style="height:100px;margin: 0 auto;" data-provide="typeahead" data-items="4" data-source="">
                     </textarea></div>
             </div>
             <div class="control-group">
