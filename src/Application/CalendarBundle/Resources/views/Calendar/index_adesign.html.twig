@@ -761,10 +761,12 @@
          console.log("??" + value);
          });*/
         ////*
-       /* var c_tcageories=tcategories.length;
+      /* var c_tcageories=tcategories.length;
         for( i=0; i < c_tcageories; i++){
   //myArray[i];
-  $("div#colorPicker_palette-1 DIV.colorPicker-swatch" ).css('border-color', 'red');
+  $("div.colorPicker-swatch" ).css({"border-color": "red", 
+             "border-width":"4px", 
+             "border-style":"solid"});
 }*/
 
 
@@ -924,20 +926,20 @@
     <div class="modal-body form-horizontal">
         {#{{ form(form) }}#}
             <div class="control-group">
-                <label class="control-label" for="inputTitle">Titre:</label>
+                <label class="control-label" for="inputTitle"><i class="icon-calendar"></i>  Titre:</label>
                 <div class="controls" id="stitle"> </div>
             </div>
         
           <div class="control-group">
-                <label class="control-label" for="inputDescription">Description:</label>
+                <label class="control-label" for="inputDescription"><i class="icon-calendar"></i>  Description:</label>
                 <div class="controls" id="sdescription"></div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="scolor">Background Couleur:</label>
+                <label class="control-label" for="scolor"><i class="icon-pencil"></i>  Background Couleur:</label>
                 <div class="controls" id="scolor">    </div>
             </div>
             <div class="control-group">
-                  <label class="control-label" for="scolorfont">Background Couleur:</label>
+                  <label class="control-label" for="scolorfont"><i class="icon-pencil"></i>  Background Couleur:</label>
              
                 <div class="controls" id="scolorfont">                   </div>
             </div>
