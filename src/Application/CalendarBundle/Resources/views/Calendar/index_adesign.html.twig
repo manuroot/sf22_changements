@@ -229,6 +229,7 @@ text-align: center;
              ==================================*/
             select: function(start, end, allDay) {
                 var eventobjet = {'start': start, 'end': end, 'allDay': allDay};
+                initForm();
                 $("#titreheader").html("Ajouter un Evenement");
                 console.log("select function: allday=--" + allDay + '--');
                 remplirForm(eventobjet);
@@ -304,7 +305,7 @@ text-align: center;
                             }
                         },
                         danger: {
-                            label: "Delete!",
+                            label: "Supprimer!",
                             className: "btn-danger",
                             "callback": function(e) {
                                 bootbox.confirm("Etes vous sur de vouloir supprimer cet enregistrement?<br>Titre: "+calEvent.title +"<br>(id="+ calEvent.id + ")", function(result) {
@@ -515,7 +516,8 @@ text-align: center;
             $('#apptId').val("");
             $('#color').val("");
             $('#colorfont').val("");
-            $(".color div.colorPicker-picker").css('background-color', getcolorById(0));
+            $(".color div.colorPicker-picker").css('background-color', "#ddaa00");
+             $(".colorfont div.colorPicker-picker").css('background-color', "#000000");
             $('#calendar-holder').fullCalendar('unselect');
         }
 
