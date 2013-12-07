@@ -9,6 +9,13 @@
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/indexfanta.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('css/jquery_flicker/jquery-ui-1.9.2.custom.css') }}" />    
 <link rel="stylesheet" href="{{ asset('jquery/simplecolorpicker/colorPicker.css') }}" type="text/css" media="all"/>
+ <style>
+         .single {
+         background-color: #f1f1f1;
+         width:auto;
+        }
+
+    </style> 
 {% endblock %}
 
 
@@ -29,7 +36,8 @@
 
 <table class="records_list table table-striped table-bordered">
     <thead>
-        <tr>
+          <tr class="single">
+      
             <th>Id</th>
             <th>Nom</th>
             <th>Start(Heure)</th>
@@ -38,7 +46,7 @@
             <th>Owner</th>
             <th>Groupes Edition</th>
               <th>2eme Groupes Edition</th>
-            <th>Actions</th>
+            <th colspan="2">Actions</th>
         </tr>
     </thead>
     <tbody>

@@ -102,6 +102,13 @@ foreach ($b_days as $value){$days[]=$value;}
             'days'=>$days,
                     'rootcal' => $entity_root));
     }
+    
+    
+ public function dashboardAction(Request $request) {
+
+        return $this->render('ApplicationCalendarBundle:Calendar:dashboard.html.twig', array(
+                  ));
+    }
 
     /**
      * Dispatch a CalendarEvent and return a JSON Response of any events returned.

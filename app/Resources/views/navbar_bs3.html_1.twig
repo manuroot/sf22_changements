@@ -1,0 +1,153 @@
+{% block NAVIGATION_BAR %}
+
+{% set foo = app.request.attributes.get('_route') %}
+{% set foo = foo|split('_') %}
+
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+   <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+      <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span> 
+                <span class="icon-bar"></span> 
+                <span class="icon-bar"></span> 
+                <span class="icon-bar"></span> 
+             {% if is_granted("ROLE_USER") or is_granted("ROLE_ADMIN") %}
+                <span class="icon-bar"></span> 
+                {% endif %}
+                </button>
+           
+             <a class="navbar-brand" href="{{ path('changements_fanta') }}">
+                <i class="fa fa-home"></i>
+            {% block toto %}I-CHANGE(v1.2a){% endblock %}</a>
+ </div>
+
+<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                <ul class="nav pull-right">
+        {% if is_granted("ROLE_USER") or is_granted("ROLE_ADMIN") %}
+                    <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-user"></i> Déconnexion
+                            <b class="caret"></b> </a></li>    
+
+       {% else %}
+                    <li><a href="{{ path('fos_user_security_login') }}"><i class="fa fa-key"></i> Connexion</a></li>
+       {% endif %}
+                </ul>       
+
+
+                <ul class="nav pull-right">
+           {% if is_granted("ROLE_USER") or is_granted("ROLE_ADMIN") %}
+                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"> <i class="fa fa-user"></i>
+    {{ app.user.username }} <b class="caret"></b> </a>
+
+    {% if is_granted("ROLE_ADMIN") %}
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('sonata_admin_dashboard') }}">{{ 'Admin Dashboard' }}</a>
+                        <li><a href="{{ path('sonata_user_profile_edit_authentication') }}">{{ 'Edit Profile' }}</a></li>
+    {% endif %}   
+                    </ul>
+
+    {% endif %}
+
+                </ul>
+
+
+
+
+                <ul class="nav">
+{#======================== Changemements =================#}
+    {% set addoncl="dropdown" %}
+    {% if foo[0] == 'changements' %}  {% set addoncl="dropdown active" %} {% endif %}
+                    <li class="{{addoncl}}">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-white  fa fa-th"></i> Changements<b class="caret"></b> </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('changements_fanta') }}"><i class="fa fa-th-list"></i> {{ 'Opérations DataGrid Fanta'|trans }}</a></li>
+        {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+                            <li><a href="{{ path('changements_myfanta') }}"><i class="fa fa-th-list"></i> {{ 'Opérations DataGrid Favoris'|trans }}</a></li>
+                            <li><a href="{{ path('docchangements') }}"><i class="fa fa-briefcase"></i> {{ 'Fichiers Des Opérations'|trans }}</a></li>
+                            <li><a href="{{ path('changements_comment_mesactivites') }}"><i class="fa fa-pencil"></i> {{ 'Commentaires'|trans }}</a></li>
+
+        {% endif %}
+                            <li><a href="{{ path('changements_apy') }}"><i class="fa fa-th-list"></i> {{ 'Opérations DataGrid APY'|trans }}</a></li>
+                            <li><a href="{{ path('changements_calendar') }}"><i class="fa fa-calendar"></i> {{ 'Calendrier Des Opérations'|trans }}</a></li>
+
+                            <li><a href="{{ path('changements_charts') }}"><i class="fa fa-bar-chart"></i> {{ 'Graphiques'|trans }}</a></li>
+       {#
+        <li><a href="{{ path('wdcalendar_index') }}"><i class="fa fa-calendar"></i> {{ 'Calendrier Des Activités'|trans }}</a></li>
+#}
+                            <li><a href="{{ path('calendar_indexadesign') }}"><i class="fa fa-wrench"></i> {{ 'Calendrier Des Activités(V2)'|trans }}</a></li>
+                            <li><a href="{{ path('wdcalendar_indexadesignchangement') }}"><i class="fa fa-wrench"></i> {{ 'Calendrier Des Opérations(V2)'|trans }}</a></li>
+
+                            <li><a href="{{ path('absences') }}"><i class="fa fa-user"></i> {{ 'Absences'|trans }}</a></li>
+
+
+                        </ul>
+                    </li>
+
+
+    {#======================== Certificats =================#}
+     {% set addoncl="dropdown" %}
+    {% if foo[0] == 'certificatscenter' %}  {% set addoncl="dropdown active" %} {% endif %}
+                    <li class="{{addoncl}}">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-white  fa fa-fire"></i>
+                            Certificats<b class="caret"></b> </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('certificatscenter') }}"><i class="fa fa-th-list"></i> {{ 'PKI-Liste Entrées'|trans }}</a></li>
+                            <li><a href="{{ path('certificatscenter_viewapy') }}"><i class="fa fa-th-list"></i> {{ 'PKI-APY'|trans }}</a></li>
+        {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+                            <li><a href="{{ path('certificatscenter_new') }}"><i class="fa fa-camera"></i> {{ 'Nouveau Fichier'|trans }}</a></li>
+                            <li><a href="{{ path('certificatscenter_check') }}"><i class="fa fa-camera"></i> {{ 'Vérifier Fichier(pki)'|trans }}</a></li>
+                            <li><a href="{{ path('certificatscenter_simplecheck') }}"><i class="fa fa-camera"></i> {{ 'Vérifier Fichier'|trans }}</a></li>
+                            <li><a href="{{ path('certificats_documents') }}"><i class="fa fa-briefcase"></i> {{ 'PKI-Liste Fichiers'|trans }}</a></li>
+                            <li><a href="{{ path('certificats_documents_ajouter') }}"><i class="fa fa-briefcase"></i> {{ 'PKI-Ajouter des Fichiers'|trans }}</a></li>
+
+
+{% endif %}
+                        </ul>
+                    </li>
+
+      {#======================== Projets =================#}
+ {% set addoncl="dropdown" %}
+    {% if foo[0] == 'projets' %}  {% set addoncl="dropdown active" %} {% endif %}
+                    <li class="{{addoncl}}">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-white fa fa-wrench"></i>
+                            Projets<b class="caret"></b> </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('projets') }}"><i class="fa fa-th-list"></i> {{ 'Projets'|trans }}</a></li>
+                            <li><a href="{{ path('projets_documents') }}"><i class="fa fa-briefcase"></i> {{ 'projets_documents'|trans }}</a></li>
+                        </ul>
+                    </li>
+
+    {#======================== Serveurs =================#}
+    {% set addoncl="dropdown" %}
+    {% if foo[0] == 'serveurs' %}  {% set addoncl="dropdown active" %} {% endif %}
+                    <li class="{{addoncl}}">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-white fa fa-th"></i>
+                            Serveurs<b class="caret"></b> </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('serveurs') }}"><i class="fa fa-th-list"></i> {{ 'Serveurs'|trans }}</a></li>
+                            <li><a href="{{ path('serveurs_sites') }}"><i class="fa fa-th-list"></i> {{ 'Serveurs-Sites'|trans }}</a></li> 
+                            <li><a href="{{ path('serveurs_zones') }}"><i class="fa fa-th-list"></i> {{ 'Serveurs-Zones'|trans }}</a></li>
+                        </ul>
+                    </li>
+
+    {#======================== Admin =================#}
+   {% if is_granted("ROLE_ADMIN") %}
+                    <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-white fa fa-wrench"></i>
+                            Administration<b class="caret"></b> </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('chronouser') }}"><i class="fa fa-user"></i> {{ 'Utilisateurs'|trans }}</a></li>
+                            <li><a href="{{ path('chronogroup') }}"><i class="fa fa-group"></i> {{ 'Groupes'|trans }}</a></li>
+                            <li><a href="{{ path('environnement') }}"><i class="fa fa-globe"></i> {{ 'Environnements'|trans }}</a></li>
+                            <li><a href="{{ path('users') }}"><i class="fa fa-group"></i> {{ 'Eservices-Users(FOSUSER)'|trans }}</a></li>                            
+                            <li><a href="{{ path('applications') }}"><i class="fa fa-wrench"></i> {{ 'Applications'|trans }}</a></li>
+                            <li><a href="{{ path('changements_contact') }}"><i class="fa fa-user-md"></i> {{ 'Contacts Clients'|trans }}</a></li>
+
+                        </ul>
+                    </li>
+{% endif %}
+                </ul> 
+            </div>
+      
+</nav>
+{% endblock %}    

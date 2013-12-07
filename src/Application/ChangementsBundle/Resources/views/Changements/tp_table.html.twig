@@ -6,29 +6,29 @@
        
                             <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
                             <th  {% if pagination.isSorted('a.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom', 'a.nom') }}
-                              <i class=" icon-pencil"></i></th>
+                              <i class=" fa fa-pencil"></i></th>
                             <th{% if pagination.isSorted('a.dateDebut') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Debut', 'a.dateDebut') }}
-                                <i class=" icon-time"></i></th>
+                                <i class=" fa fa-time"></i></th>
                             <th{% if pagination.isSorted('a.dateFin') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Fin', 'a.dateFin') }}
-                                <i class=" icon-time"></i></th>
+                                <i class=" fa fa-time"></i></th>
                             <th{% if pagination.isSorted('b.nomprojet') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Projet', 'b.nomprojet') }}
-                              <i class=" icon-tag"></i></th>
+                              <i class=" fa fa-tag"></i></th>
                             <th{% if pagination.isSorted('c.nomUser') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'D', 'c.nomUser') }}
-                                <i class=" icon-user"></i></th>
-                            <th><i class=" icon-book"></i></th>
-                            <th><i class=" icon-pencil"></i></th>
+                                <i class=" fa fa-user"></i></th>
+                            <th><i class=" fa fa-book"></i></th>
+                            <th><i class=" fa fa-pencil"></i></th>
                             {#
                             <th style="min-width:100px" {% if pagination.isSorted('e.nomUser') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Users', 'e.nomUser') }}
-                                <i class=" icon-user"></i><i class=" icon-user"></i></th>#}
-                            <th style="min-width:80px" class="sorted">Users <i class="icon-group" style="color:black"></i></th>
+                                <i class=" fa fa-user"></i><i class=" fa fa-user"></i></th>#}
+                            <th style="min-width:80px" class="sorted">Users <i class="fa fa-group" style="color:black"></i></th>
                             <th style="min-width:30px" {% if pagination.isSorted('d.idStatus.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'F', 'd.idStatus.nom') }}
-                                <i class=" icon-flag"></i></th>
+                                <i class=" fa fa-flag"></i></th>
                              <th style="min-width:50px" {% if pagination.isSorted('a.ticketExt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'T_Ext', 'a.ticketExt') }}
-                                <i class=" icon-tag"></i></th>
+                                <i class=" fa fa-tag"></i></th>
                              <th style="min-width:60px" {% if pagination.isSorted('a.ticketInt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'T_Int', 'a.ticketInt') }}
-                                 <i class=" icon-tag"></i></th>
+                                 <i class=" fa fa-tag"></i></th>
                             <th {% if pagination.isSorted('g.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Env', 'g.nom') }}
-                                <i class=" icon-wrench"></i></th>
+                                <i class=" fa fa-wrench"></i></th>
                             <th colspan="3">Actions</th>
                         </tr>
                     </thead>
@@ -115,7 +115,7 @@
                             
                         <td>
                             <a href="{{ path('changements_comment_show', { 'id': entity.id }) }}">
-                                <i class="icon-pencil" style="color:black"></i>
+                                <i class="fa fa-pencil" style="color:black"></i>
                             </a>
                         </td>
                 </tr>
