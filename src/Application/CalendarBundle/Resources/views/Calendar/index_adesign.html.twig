@@ -304,6 +304,9 @@ text-align: center;
                             label: "Delete!",
                             className: "btn-danger",
                             "callback": function(e) {
+                                bootbox.confirm("Etes vous sur de vouloir supprimer cet enregistrement?<br>Titre: "+calEvent.title +"<br>(id="+ calEvent.id + ")", function(result) {
+
+
                                 var dataAjax = {'id': calEvent.id};
 
                                 deleteajax('calendar_dropajax', dataAjax, function(result) {
@@ -313,6 +316,7 @@ text-align: center;
 
 
                                 });
+                                }); 
                             }
                         },
                         main: {
