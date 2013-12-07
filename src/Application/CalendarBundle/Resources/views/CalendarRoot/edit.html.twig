@@ -40,7 +40,8 @@
 <div class="row-fluid ">
   <div class="span4 offset1"> 
    {{ form_row(edit_form.nom) }}
-  
+   {{ form_row(edit_form.isviewable) }}
+       {{ form_row(edit_form.days) }}
    {{ form_row(edit_form.description) }}
    </div>
     <div class="span4"> 
@@ -48,6 +49,7 @@
   {{ form_row(edit_form.plage) }} 
         {{ form_row(edit_form.startHour) }} 
         {{ form_row(edit_form.endHour) }} 
+        {{ form_row(edit_form.isshared) }}
    {#{{ form_row(edit_form.rootcalendar) }}#}
  {#  {{ form_row(edit_form.rootcalendar, { 'attr':{'readonly':'readonly'} }) }}#}
    {{ form_rest(edit_form) }}

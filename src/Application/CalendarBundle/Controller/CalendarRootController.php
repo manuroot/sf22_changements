@@ -215,7 +215,9 @@ class CalendarRootController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->find($id);
-
+$b_days=$entity->getDays();
+foreach ($b_days as $value){$days[]=$value;}
+var_dump($days);
         $securityContext = $this->get('security.context');
         // Soit owner du record soit admin
         if (false === $securityContext->isGranted('EDIT', $entity)) {

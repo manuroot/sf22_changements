@@ -37,6 +37,7 @@
             <th>Slot (Minutes)</th>
             <th>Owner</th>
             <th>Groupes Edition</th>
+              <th>2eme Groupes Edition</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -61,7 +62,7 @@
             <td>{{ entity.plage }}</td>
    <td>{{ entity.owner }}</td>
             <td> {{ entity.groupedit|join(', ') }}</td>
-        
+         <td> {{ entity.secondgroupedit|join(', ') }}</td>
             <td> <a href="{{ path('calendarroot_edit', { 'id': entity.id }) }}">
                           {{ flag }}      <img src="{{ asset('bundles/applicationchangements/images/edit.png') }}" alt="edit" width="15px" height="15px" />
                 </a>
@@ -84,7 +85,9 @@
     Créer un nouveau calendrier
 </a>
 
-
+<a href="{{ path('calendarusergroup') }}" class="myleft btn btn-small btn-primary">
+    Gérer Mes Groupes
+</a>
 {#
 <form class="useform-1" class="form-horizontal" action="{{ path('calendar_userootcalendar') }}" method="post">
  <p>Votre nom : <input type="text" name="nom" /></p>

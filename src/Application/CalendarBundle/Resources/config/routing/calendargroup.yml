@@ -1,0 +1,34 @@
+calendargroup:
+    pattern:  /
+    defaults: { _controller: "ApplicationCalendarBundle:CalendarGroup:index" }
+    
+calendarusergroup:
+    pattern:  /mesgroupes
+    defaults: { _controller: "ApplicationCalendarBundle:CalendarGroup:indexmesgroupes" }
+    
+calendargroup_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationCalendarBundle:CalendarGroup:show" }
+
+calendargroup_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationCalendarBundle:CalendarGroup:new" }
+
+calendargroup_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationCalendarBundle:CalendarGroup:create" }
+    requirements: { _method: post }
+
+calendargroup_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationCalendarBundle:CalendarGroup:edit" }
+
+calendargroup_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationCalendarBundle:CalendarGroup:update" }
+    requirements: { _method: post|put }
+
+calendargroup_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationCalendarBundle:CalendarGroup:delete" }
+    requirements: { _method: post|delete }

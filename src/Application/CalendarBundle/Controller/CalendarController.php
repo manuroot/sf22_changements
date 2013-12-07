@@ -84,11 +84,22 @@ class CalendarController extends Controller {
 
         $id_cal = $session->get('calendar_id');
         $entity_root = $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->findOneById($id_cal);
-
+$b_days=$entity_root->getDays();
+$days=array();
+foreach ($b_days as $value){$days[]=$value;}
+//var_dump($days);
+        
+         /* $entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find(319);
+                if (!$entity) {
+                    throw $this->createNotFoundException('Unable to find ChangementsContact entity.');
+                }*/
+                
+                
         $entity_evements = $em->getRepository('ApplicationCalendarBundle:CalendarEvenements')->myFindAll($id_cal);
         return $this->render('ApplicationCalendarBundle:Calendar:index_adesign.html.twig', array(
                     'evenements' => $entity_evements,
              'form' => $form->createView(),
+            'days'=>$days,
                     'rootcal' => $entity_root));
     }
 
@@ -148,12 +159,12 @@ class CalendarController extends Controller {
 
             $action = $request->get('action');
             if (isset($action) && $action == "delete") {
-                $entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find($data['id']);
-                if (!$entity) {
+               $entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find($data['id']);
+             /*   if (!$entity) {
                     throw $this->createNotFoundException('Unable to find ChangementsContact entity.');
                 }
                 $em->remove($entity);
-                $em->flush();
+                $em->flush();*/
                 $ret['id'] = $data['id'];
                 $ret['status'] = 'removed';
                 $response = new Response(\json_encode($ret));

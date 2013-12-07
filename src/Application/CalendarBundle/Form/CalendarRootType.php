@@ -59,7 +59,15 @@ class CalendarRootType extends AbstractType {
                         '23' => '23'
                     )
                 ))
-                ->add('groupedit',null,array( 'label' => 'Groupe Edition'))
+                ->add('groupedit',null,array( 'label' => 'Groupe Edition Admin'))
+                  ->add('secondgroupedit',null,array( 'label' => 'Groupe Edition'))
+                 ->add('isviewable', 'checkbox', array('label' => 'Visible Par tous','required' => false))
+                ->add('isshared', 'checkbox', array('label' => 'Partager','required' => false))
+                ->add('days','choice',array( 
+                    'multiple'=>true,
+                    'expanded'=>true,
+                    'choices'=>array('Dimanche','Lundi','Mardi','Mercredi','Jeudi','vendredi','samedi'),
+                    'label' => 'Hidden Days'))
         ;
     }
 

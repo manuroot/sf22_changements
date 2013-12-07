@@ -69,11 +69,6 @@ class CalendarRoot {
     
     
      /**
-     * @ORM\Column(type="array")
-     */
-    protected $days; 
-    
-     /**
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=200, nullable=true)
@@ -111,39 +106,10 @@ class CalendarRoot {
     protected $groupedit;
     
     
-      /**
-     * @var string
-     * 
-     * @ORM\ManyToMany(targetEntity="Application\CalendarBundle\Entity\CalendarGroup")
-     * @ORM\JoinTable(name="wdcalendar_secondroot_groupes",
-     * joinColumns={@ORM\JoinColumn(name="calendarroot_id", referencedColumnName="id")},
-     *   inverseJoinColumns={@ORM\JoinColumn(name="groupe_id", referencedColumnName="id")}
-     * )
-     */
-    protected $secondgroupedit;
     
 
-      /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_shared", type="boolean", nullable=true)
-     */
-    private $isshared;
-    
-   /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_viewable", type="boolean", nullable=true)
-     */
-    private $isviewable;
-    
-    
     public function __construct() {
         $this->groupedit = new ArrayCollection();
-         $this->secondgroupedit = new ArrayCollection();
-         $this->isviewable=true;
-         $this->isshared=true;
-        $this->days=array('Dimanche','Lundi','Mardi','Mercredi','Jeudi','vendredi','samedi');
     }
 
     public function setId($id) {
@@ -316,130 +282,5 @@ public function getPlage() {
         } else {
             throw new \Exception("$groupedit must be an instance of User or ArrayCollection");
         }
-    }
-    
-    
-    
-    //UPDATE table SET column="a:0:{}" WHERE column = "";
-    /**
-     * Add groupedit
-     *
-     * @param \Application\CalendarBundle\Entity\CalendarGroup $groupedit
-     * @return CalendarRoot
-     */
-    public function addSecondgroupedit(\Application\CalendarBundle\Entity\CalendarGroup $groupedit)
-    {
-         if (!$this->secondgroupedit->contains($groupedit)) {
-
-            $this->secondgroupedit->add($groupedit);
-        }
-     //   $this->secondgroupedit[] = $groupedit;
-    
-     //   return $this;
-    }
-
-    /**
-     * Remove groupedit
-     *
-     * @param Application\CalendarBundle\Entity\CalendarGroup $groupedit
-     */
-    public function removeSecondgroupedit(\Application\CalendarBundle\Entity\CalendarGroup $groupedit)
-    {
-         if (!$this->secondgroupedit->contains($groupedit)) {
-            return;
-        }
-        $this->secondgroupedit->removeElement($groupedit);
-    }
-
-    /**
-     * Get groupedit
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getSecondgroupedit()
-    {
-        return $this->secondgroupedit;
-    }
-    
-    public function setSecondgroupedit($groupedit) {
-        if ($groupedit instanceof ArrayCollection || is_array($groupedit)) {
-            foreach ($groupedit as $item) {
-                $this->addSecondgroupedit($item);
-                
-            }
-        } elseif ($groupedit instanceof \Application\CalendarBundle\Entity\CalendarGroup) {
-            $this->addSecondgroupedit($groupedit);
-        } else {
-            throw new \Exception("$groupedit must be an instance of User or ArrayCollection");
-        }
-    }
-    
-     /**
-     * Set isshared
-     *
-     * @param boolean $isshared
-     * @return CalendarGroup
-     */
-    public function setIsshared($isshared=true)
-    {
-        $this->isshared = $isshared;
-    
-        return $this;
-    }
-
-    /**
-     * Get isshared
-     *
-     * @return boolean 
-     */
-    public function getIsshared()
-    {
-        return $this->isshared;
-    }
-
-    /**
-     * Set days
-     *
-     * @param array $days
-     * @return CalendarRoot
-     */
-    public function setDays($days)
-    {
-        $this->days = $days;
-    
-        return $this;
-    }
-
-    /**
-     * Get days
-     *
-     * @return array 
-     */
-    public function getDays()
-    {
-        return $this->days;
-    }
-
-    /**
-     * Set isviewable
-     *
-     * @param boolean $isviewable
-     * @return CalendarRoot
-     */
-    public function setIsviewable($isviewable=true)
-    {
-        $this->isviewable = $isviewable;
-    
-        return $this;
-    }
-
-    /**
-     * Get isviewable
-     *
-     * @return boolean 
-     */
-    public function getIsviewable()
-    {
-        return $this->isviewable;
     }
 }

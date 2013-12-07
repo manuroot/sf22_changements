@@ -17,12 +17,14 @@ class AdesignCalendarRootRepository extends EntityRepository {
         //var_dump($user_groups);
 
         $parameters = array();
-        $values = array('a,b,c');
+        $values = array('a,b,c,d');
         $query = $this->createQueryBuilder('a')
                 ->select($values)
                 //   ->distinct('a.id')
                 ->leftJoin('a.owner', 'b')
-                ->leftJoin('a.groupedit', 'c');
+                ->leftJoin('a.groupedit', 'c')
+                ->leftJoin('a.secondgroupedit', 'd')
+                   ->leftJoin('d.users', 'e');
         /* ------------------------------------
          * Filtrage par user
           ----------------------------------- */
@@ -39,6 +41,21 @@ class AdesignCalendarRootRepository extends EntityRepository {
             $query->orWhere('c.id IN (:idGroupes)')
                     ->setParameter('idGroupes', $user_groups);
         }
+        
+        
+        
+            
+       if (isset($id_user)) {
+            $query->where('b.id = :idUser')
+                    ->setParameter('idUser', $id_user);
+        }
+
+        
+      if (isset($groupes)) {
+            $query->orWhere('e.id IN (:idUsera)')
+                    ->setParameter('idUsera', $id_user);
+      }
+        
         return $query->getQuery()->getResult();
     }
 

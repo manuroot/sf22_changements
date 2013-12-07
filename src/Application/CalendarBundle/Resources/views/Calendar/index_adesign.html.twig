@@ -32,6 +32,7 @@
             float: left;
             text-align: left;
         }
+     
         /*
 #loading {
   width: 100%;
@@ -84,6 +85,7 @@
             var starthour = "{{ starthour|escape('js') }}";
             var endhour = "{{ endhour|escape('js') }}";
              var tcategories= {{ xx|json_encode|raw }};
+               var mydays= {{ days|json_encode|raw }};
             console.log("plage horaire=" + plage);
             console.log("edit status=" + edit_status);
             var t = [];
@@ -154,7 +156,8 @@
                 eventStartEditable: edit_status,
                 eventDurationEditable: edit_status,
                 droppable: edit_status,
-                hiddenDays: [],
+                hiddenDays: mydays,
+               /* hiddenDays: mydays,*/
                 unselectAuto: false,
                 /* height: 650,*/
                 defaultView: 'month',
@@ -807,6 +810,7 @@
 {% set plage=rootcal.plage %}
 {% set starthour=rootcal.startHour %}
 {% set endhour=rootcal.endHour %}
+{#{% set days=rootcal.days %}#}
 {% set xx =[] %}
 {% for key,entity in evenements %}
     {% set xx = xx | merge({ (key) :  entity.cssClass}) %}

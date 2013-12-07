@@ -1,0 +1,108 @@
+{% extends "::layout.html.twig" %}
+ 
+
+{% block stylesheets %}
+{{ parent() }}
+    <link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>
+    <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/indexfanta.css') }}" type="text/css" media="all"/>
+    <link rel="stylesheet" href="{{ asset('css/jquery_flicker/jquery-ui-1.9.2.custom.css') }}" />    
+     <link rel="stylesheet" href="{{ asset('jquery/simplecolorpicker/colorPicker.css') }}" type="text/css" media="all"/>
+ <style>
+    tr.title {
+background-color: #bbbbbb;
+}</style>
+
+{% endblock %}
+        
+        
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content_header '' %}
+
+
+{% block title %}
+ 
+{% endblock %}
+        
+
+{% block content %}
+  
+    <h1>Mes Groupes</h1>
+
+  <table class="records_list table table-striped table-bordered">
+    <thead>
+        <tr class="title">
+                <th>Id</th>
+                <th>Nomgroup</th>
+                <th>Description</th>
+                <th>Email</th>
+                <th>Proprietaire</th>
+                     <th colspan=2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('calendargroup_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.nomGroup }}</td>
+                <td>{{ entity.description }}</td>
+                <td>{{ entity.email }}</td>
+                 <td>{{ entity.owner }}</td>
+                 <td> <a href="{{ path('calendargroup_show', { 'id': entity.id }) }}">
+                           <img src="{{ asset('bundles/applicationcalendar/images/detail.png') }}" alt="edit" width="15px" height="15px" />
+                </a>
+            </td>
+              <td> <a href="{{ path('calendargroup_edit', { 'id': entity.id }) }}">
+                   <img src="{{ asset('bundles/applicationcalendar/images/edit.png') }}" alt="edit" width="15px" height="15px" />
+                </a>
+            </td>
+         
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+     
+            <a href="{{ path('calendargroup_new') }}" class="myleft btn btn-small btn-primary">
+                Créer un nouveau groupe
+            </a>
+    
+      <h1>Follower Groupes</h1>
+    <table class="records_list table table-striped table-bordered">
+    <thead>
+           <tr class="title">
+     
+                <th>Id</th>
+                <th>Nomgroup</th>
+                <th>Description</th>
+                <th>Email</th>
+                <th>Proprietaire</th>
+                <th colspan=2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities_ingroup %}
+            <tr>
+                <td><a href="{{ path('calendargroup_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.nomGroup }}</td>
+                <td>{{ entity.description }}</td>
+                <td>{{ entity.email }}</td>
+                 <td>{{ entity.owner }}</td>
+                 <td> <a href="{{ path('calendargroup_show', { 'id': entity.id }) }}">
+                           <img src="{{ asset('bundles/applicationcalendar/images/detail.png') }}" alt="edit" width="15px" height="15px" />
+                </a>
+            </td>
+              <td> <a href="{{ path('calendargroup_edit', { 'id': entity.id }) }}">
+                   <img src="{{ asset('bundles/applicationcalendar/images/edit.png') }}" alt="edit" width="15px" height="15px" />
+                </a>
+            </td>
+         
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endblock %}

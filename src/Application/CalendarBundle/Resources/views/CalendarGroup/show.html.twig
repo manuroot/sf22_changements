@@ -9,8 +9,16 @@
     <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/indexfanta.css') }}" type="text/css" media="all"/>
     <link rel="stylesheet" href="{{ asset('css/jquery_flicker/jquery-ui-1.9.2.custom.css') }}" />    
      <link rel="stylesheet" href="{{ asset('jquery/simplecolorpicker/colorPicker.css') }}" type="text/css" media="all"/>
+     <style>
+         .single {
+         background-color: #f1f1f1;
+         width:auto;
+        }
+
+    </style> 
 {% endblock %}
-        
+    
+
         
 {% block javascripts %}
     {{ parent() }}
@@ -25,49 +33,40 @@
         
 
 {% block content %}
-    <h1>CalendarRoot creation</h1>
+    <h1>CalendarGroup</h1>
 
- <form  id="form"  action="{{ path('calendarroot_create') }}" method="post" {{ form_enctype(form) }}>
-  
-<div class="row-fluid ">
-  <div class="span4 offset1"> 
-   {{ form_row(form.nom) }}
-       {{ form_row(form.days) }}
-  {{ form_row(form.isshared) }}
-   {{ form_row(form.description) }}
-   </div>
-    <div class="span4"> 
-  
-  {{ form_row(form.plage) }} 
-        {{ form_row(form.startHour) }} 
-        {{ form_row(form.endHour) }} 
-   {#{{ form_row(form.rootcalendar) }}#}
- {#  {{ form_row(form.rootcalendar, { 'attr':{'readonly':'readonly'} }) }}#}
-   {{ form_rest(form) }}
-
- </div>
- </div>
- <div class="row-fluid">
-    <div class="span6 offset1"> 
-        <button type="submit" class="btn btn-large btn-warning">Valider</button>    
-    </div>
-         <div class="span4 offset1"> 
- <a href="{{ path('calendarroot') }}" class="btn btn-medium btn-success">Retour</a>
-         </div>
-</div>
-</form>
-    
-    
-    
-    
-    
-    {{ form(form) }}
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Nomgroup</th>
+                <td>{{ entity.nomGroup }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ entity.description }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ entity.email }}</td>
+            </tr>
+        </tbody>
+    </table>
 
         <ul class="record_actions">
     <li>
-        <a href="{{ path('calendarroot') }}">
+        <a href="{{ path('calendargroup') }}">
             Back to the list
         </a>
     </li>
+    <li>
+        <a href="{{ path('calendargroup_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
 </ul>
 {% endblock %}
