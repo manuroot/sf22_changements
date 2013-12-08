@@ -34,11 +34,7 @@ class CalendarGroupController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('ApplicationCalendarBundle:CalendarGroup')->findAll();
-        
-        
-
+       $entities = $em->getRepository('ApplicationCalendarBundle:CalendarGroup')->findAll();
         return $this->render('ApplicationCalendarBundle:CalendarGroup:index.html.twig', array(
             'entities' => $entities,
         ));
@@ -112,7 +108,7 @@ $entities_ingroup = $em->getRepository('ApplicationCalendarBundle:CalendarGroup'
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+      //  $form->add('submit', 'submit', array('label' => 'Create'));
 
         return $form;
     }
@@ -124,6 +120,7 @@ $entities_ingroup = $em->getRepository('ApplicationCalendarBundle:CalendarGroup'
     public function newAction()
     {
         $entity = new CalendarGroup();
+        //$form = $this->createForm(new CalendarGroupType(), $entity,
         $form   = $this->createCreateForm($entity);
 
         return $this->render('ApplicationCalendarBundle:CalendarGroup:new.html.twig', array(
@@ -160,13 +157,13 @@ $entities_ingroup = $em->getRepository('ApplicationCalendarBundle:CalendarGroup'
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('ApplicationCalendarBundle:CalendarGroup')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find CalendarGroup entity.');
         }
 
+         //  $editForm = $this->createForm(new CalendarGroupType(), $entity);
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
@@ -188,10 +185,10 @@ $entities_ingroup = $em->getRepository('ApplicationCalendarBundle:CalendarGroup'
     {
         $form = $this->createForm(new CalendarGroupType(), $entity, array(
             'action' => $this->generateUrl('calendargroup_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
+            'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+     //   $form->add('submit', 'submit', array('label' => 'Update'));
 
         return $form;
     }
@@ -210,13 +207,14 @@ $entities_ingroup = $em->getRepository('ApplicationCalendarBundle:CalendarGroup'
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
+         $editForm = $this->createForm(new CalendarGroupType(), $entity);
+        //$editForm = $this->createEditForm($entity);
+        $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('calendargroup_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('calendargroup'));
         }
 
         return $this->render('ApplicationCalendarBundle:CalendarGroup:edit.html.twig', array(

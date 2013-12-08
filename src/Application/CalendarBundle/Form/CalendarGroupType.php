@@ -15,11 +15,12 @@ class CalendarGroupType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nomGroup')
-            ->add('description')
-            ->add('email')
-            ->add('users')
-            ->add('owner',null,array('label'=>'Prprietaire'))
+             ->add('owner')
+            ->add('nomGroup',null,array('label'=>'Nom du groupe'))
+            ->add('description',null,array('label'=>'Description'))
+            ->add('email',null,array('label'=>'Email du groupe'))
+            ->add('users',null,array('label'=>'Utilisateurs'))
+          
         ;
     }
     

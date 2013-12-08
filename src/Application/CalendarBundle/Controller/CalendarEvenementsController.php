@@ -59,8 +59,9 @@ class CalendarEvenementsController extends Controller {
         
          $id_cal = $this->getCalendarRoot();
          $rootcalendar= $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->find($id_cal);
-         if ($rootcalendar)
+         if ($rootcalendar){
                $entity->setRootcalendar($rootcalendar);
+         }
         $form = $this->createCreateForm($entity);
         $form->bind($request);
         if ($form->isValid()) {
@@ -134,13 +135,10 @@ class CalendarEvenementsController extends Controller {
      */
     public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('ApplicationCalendarBundle:CalendarEvenements')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find CalendarEvenements entity.');
         }
-
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 

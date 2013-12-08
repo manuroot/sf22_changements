@@ -59,6 +59,7 @@ class CalendarRootType extends AbstractType {
                         '23' => '23'
                     )
                 ))
+                
                 ->add('groupedit',null,array( 'label' => 'Groupe Edition Admin'))
                   ->add('secondgroupedit',null,array( 'label' => 'Groupe Edition'))
                  ->add('isviewable', 'checkbox', array('label' => 'Visible Par tous','required' => false))

@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="{{ asset('jquery/jqtip2/jquery.qtip.min.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('bundles/applicationcalendar/css/calendar.css') }}" type="text/css" media="all"/>
 <style>
-   @media screen and (min-width: 1600px) {
+  /* @media screen and (min-width: 1600px) {
          .container {
              max-width: (1600px - @grid-gutter-width);
          }
@@ -25,7 +25,7 @@
              max-width: (1900px - @grid-gutter-width);
          }
          .col-lg-10 {width:1600px;}
-     }
+     }*/
     #scolor,#scolorfont{border:1px solid black;width:20px;height:20px;}
     .form-horizontal .control-label {
         float: left;
@@ -106,6 +106,9 @@ text-align: center;
          $(element).removeEvents("rto")
          }
          */
+        $(".editme").click(function(event) {
+                   console.log("edit me click");
+                });
         $("#datepicker").datepicker({
             dateFormat: 'yy/mm/dd',
             // While using year and month change I prefer to use inline date picker like ( <div id="datepicker"></div> )
@@ -209,7 +212,7 @@ text-align: center;
                 element.css('border-color', t);
                 element.find("div.fc-event-time").css('background-color', t);
                 if (event.origine !== "absence")
-                    element.find("div.fc-event-time").prepend(" <a class=\"editme\" href=\"#\"><i class=\"icon-wrench\"></i></a> ");
+                    element.find("div.fc-event-time").prepend(" <a class=\"editme\" href=\"#\"><i class=\"glyphicon glyphicon-wrench\"></i></a> ");
                 /* var desc="Pas de description";
                  if (event.description =="") desc=event.description;*/
                 /* element.find(".fc-event-time").after($("<span class=\"fc-event-icons\"></span>").html("Whatever you want the content of the span to be"));
@@ -311,17 +314,13 @@ text-align: center;
                             className: "btn-danger",
                             "callback": function(e) {
                                 bootbox.confirm("Etes vous sur de vouloir supprimer cet enregistrement?<br>Titre: "+calEvent.title +"<br>(id="+ calEvent.id + ")", function(result) {
-
-
-                                var dataAjax = {'id': calEvent.id};
-
-                                deleteajax('calendar_dropajax', dataAjax, function(result) {
-
-                                    console.log("id delete=" + calEvent.id);
-                                    $('#calendar-holder').fullCalendar('removeEvents', calEvent.id);
-
-
-                                });
+                                if (result){
+                                    var dataAjax = {'id': calEvent.id};
+                                    deleteajax('calendar_dropajax', dataAjax, function(result) {
+                                        console.log("id delete=" + calEvent.id);
+                                        $('#calendar-holder').fullCalendar('removeEvents', calEvent.id);
+                                    });
+                                }
                                 }); 
                             }
                         },
@@ -904,33 +903,33 @@ text-align: center;
 
                 <form id="eventForm" class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="inputTitle" class="col-sm-2 control-label">Titre</label>
-                      <div class="col-sm-10">
+                        <label for="inputTitle" class="col-sm-3 control-label">Titre</label>
+                      <div class="col-sm-9">
                        
                             <input type="text" name="title" id="titleName" style="margin: 0 auto;" data-provide="typeahead" data-items="4" data-source="">
                         </div>
                     </div>
                     
                     <div class="form-group colorbg">
-                        <label class="col-sm-2 control-label" for="color">Background Couleur:</label>
-                         <div class="col-sm-10">
+                        <label class="col-sm-3 control-label" for="color">Background Couleur:</label>
+                         <div class="col-sm-9">
                             <input id="color" name="color" type="text" id="color"/></div>
                     </div>
 
                     <div class="form-group colorfont">
-                        <label class="col-sm-2 control-label" for="colorfont">Font Couleur:</label>
-                         <div class="col-sm-10">
+                        <label class="col-sm-3 control-label" for="colorfont">Font Couleur:</label>
+                         <div class="col-sm-9">
                             <input id="colorfont" name="colorfont" type="text" id="colorfont"/></div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label" for="inputDescription">Description:</label>
-                        <div class="col-sm-10">
+                        <label class="col-sm-3 control-label" for="inputDescription">Description:</label>
+                        <div class="col-sm-9">
                             <textarea name="description" id="descriptionName" style="height:100px;margin: 0 auto;" data-provide="typeahead" data-items="4" data-source="">
                             </textarea></div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label" for="when">Date:</label>
-                        <div class="col-sm-10 controls controls-row" id="when" style="margin-top:5px;">
+                        <label class="col-sm-3 control-label" for="when">Date:</label>
+                        <div class="col-sm-9 controls controls-row" id="when" style="margin-top:5px;">
                         </div>
                     </div>
                     <input type="hidden" id="apptStartTime"/>
