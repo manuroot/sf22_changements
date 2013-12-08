@@ -37,10 +37,7 @@
 
   
  <form  id="form" class="single"  action="{{ path('calendargroup_create')}}" method="post" {{ form_enctype(form) }}>
-       {{ form_rest(form) }}
-     <button type="submit" class="btn btn-large btn-warning">Valider</button>    
-    <a href="{{ path('calendargroup') }}" class="btn btn-medium btn-success">Retour</a>
-   {#     
+           
 <div class="row-fluid ">
   <div class="span4 offset1"> 
        {{ form_row(form.nomGroup) }}
@@ -50,7 +47,7 @@
     <div class="span4"> 
   
    {{ form_row(form.users) }}
-    {{ form(form.owner) }}
+    {{ form_row(form.owner) }}
         {{ form_rest(form) }}
       </div>
       </div>  
@@ -61,6 +58,6 @@
          <div class="span1 offset1"> 
  <a href="{{ path('calendargroup') }}" class="btn btn-medium btn-success">Retour</a>
          </div>
-</div>#}
+</div>
    </form>    
 {% endblock %}
