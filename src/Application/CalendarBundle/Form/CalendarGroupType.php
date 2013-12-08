@@ -19,7 +19,7 @@ class CalendarGroupType extends AbstractType
             ->add('description')
             ->add('email')
             ->add('users')
-            ->add('owner')
+            ->add('owner',null,array('label'=>'Prprietaire'))
         ;
     }
     

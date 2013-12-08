@@ -31,18 +31,33 @@
  
 {% endblock %}
         
-
+ 
 {% block content %}
     <h1>CalendarGroup edit</h1>
 
-    {{ form(edit_form) }}
+ <form  id="form" class="single"  action="{{ path('calendargroup_update',{ 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+  
+<div class="row-fluid ">
+  <div class="span4 offset1"> 
+       {{ form_row(edit_form.nomGroup) }}
+   {{ form_row(edit_form.email) }}
+       {{ form_row(edit_form.description) }}
+          </div>
+    <div class="span4"> 
+  
+   {{ form_row(edit_form.users) }}
+    {{ form(edit_form.owner) }}
+      </div>
+      </div>  
+         <div class="row-fluid">
+    <div class="span4 offset1"> 
+        <button type="submit" class="btn btn-large btn-warning">Valider</button>    
+    </div>
+         <div class="span1 offset1"> 
+ <a href="{{ path('calendargroup') }}" class="btn btn-medium btn-success">Retour</a>
+         </div>
+</div>
+   </form>    
+    {#<li>{{ form(delete_form) }}</li>#}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('calendargroup') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
 {% endblock %}
