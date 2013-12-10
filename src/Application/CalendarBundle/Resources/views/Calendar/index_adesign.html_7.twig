@@ -26,9 +26,6 @@
          }
          .col-lg-10 {width:1600px;}
      }*/
-  .btn {
-    margin: 2px;
-}
     #scolor,#scolorfont{border:1px solid black;width:20px;height:20px;}
     .form-horizontal .control-label {
         float: left;
@@ -109,11 +106,8 @@ text-align: center;
          $(element).removeEvents("rto")
          }
          */
-      
         $(".editme").click(function(event) {
-            event.preventDefault();
                    console.log("edit me click");
-                   
                 });
         $("#datepicker").datepicker({
             dateFormat: 'yy/mm/dd',
@@ -211,9 +205,8 @@ text-align: center;
                     var w = $(element).css('width').replace(/[^-\d\.]/g, '');
                     // console.log("height="+h+" width="+w);
                     var longueur = (h + w) * 2;
-                  //  event.description=event.description.replace(/\n/g, "<br />");
                     element.find(".fc-event-title")
-                            .append("<br>" + event.description.substring(0, longueur).replace(/\n/g, "<br />"));
+                            .append("<br>" + event.description.substring(0, longueur));
                 }
                 var t = $.xcolor.darken(bg, 3);
                 element.css('border-color', t);
@@ -272,8 +265,6 @@ text-align: center;
              ====================================*/
 
             eventClick: function(calEvent, jsEvent, view) {
-                
-            
                 console.log("event click");
                 if (edit_status === false || !edit_status)
                     return;
@@ -681,32 +672,6 @@ text-align: center;
             }
         }
 
- /*------------------------------------------
-     * 
-     * EDIT WINDOW
-     *
-     ------------------------------------------*/
-
-    function XEdit(data)
-    {
-        if (data)
-        {
-        var id = data[0];
-          var url = Routing.generate('calendar_edit', {id: id});
-        $.colorbox({
-            iframe: true,
-            transition: "elastic",
-            width: "80%",
-            height: "80%",
-            fastIframe: false,
-            opacity: 0.3,
-            href: url,
-         onClosed:function(){
-              $("#gridcontainer").reload();
-         }
-     });
-        }
-    }
         /*========================================================
          * Fonction: Ajaxs
          ========================================================*/
@@ -973,11 +938,9 @@ text-align: center;
                     <input type="hidden" id="apptId" />
                 </form>
             </div>
-            <div class="modal-footer"><div class="btn-group">
-               
+            <div class="modal-footer">
                 <button class="btn" id="cancel-button" data-dismiss="modal" aria-hidden="true">Cancel</button>
                 <button type="submit" class="btn btn-primary" id="submitButton">Save</button>
-                 </div>
             </div>
         </div>
     </div></div>

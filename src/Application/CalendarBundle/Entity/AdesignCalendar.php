@@ -12,11 +12,6 @@ use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\Constraints\Date;
 use Doctrine\Common\Collections\ArrayCollection;
 use Application\CalendarBundle\Model\BaseAdesignCalendar;
-/**
-* Class for holding a calendar event's details.
-*
-* @author Mike Yudin <mikeyudin@gmail.com>
-*/
 
 
 /**
@@ -31,9 +26,15 @@ use Application\CalendarBundle\Model\BaseAdesignCalendar;
 class AdesignCalendar extends BaseAdesignCalendar
 {
     
-    
-    
-    
+     /**
+    * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    protected $id;
+   
      /**
      * @var \Calendarrootid
      * 
@@ -64,7 +65,15 @@ class AdesignCalendar extends BaseAdesignCalendar
          
     }
 
+     public function setId($id)
+    {
+        $this->id = $id;
+    }
     
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Set calendarid
@@ -153,7 +162,6 @@ class AdesignCalendar extends BaseAdesignCalendar
         $picture->removeIdcalendar($this);
         //removeIdchangement(\Application\ChangementsBundle\Entity\Changements $idchangement) {
     }
-
 
 
 }

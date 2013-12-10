@@ -14,21 +14,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 
 /**
- * BaseEntity class
  * @ORM\MappedSuperclass
  */
 
-
-class BaseAdesignCalendar
+abstract class BaseAdesignCalendar
 {
- /**
-    * @var integer
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    protected $id;
+ 
+   
    
     /**
      * @var string
@@ -79,14 +71,17 @@ class BaseAdesignCalendar
      */
     protected $endDatetime;
     
-    
-       /**
+      /**
      * @var string
      *
      * @ORM\Column(name="description", type="text", nullable=true)
      */
-    private $description;
+    protected $description;
+  
+    
+     
 
+    
        
   /**
      * @var boolean
@@ -175,15 +170,7 @@ class BaseAdesignCalendar
         return $event;
     }
 
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-    
-    public function getId()
-    {
-        return $this->id;
-    }
+   
     
      public function getTitle()
     {
