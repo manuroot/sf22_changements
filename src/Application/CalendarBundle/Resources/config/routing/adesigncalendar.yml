@@ -5,6 +5,11 @@ calendar_adesignajax:
     options:
         expose: true
 
+calendar_adesign_edit:
+    pattern:  /{id}adesignedit
+    defaults: { _controller: "ApplicationCalendarBundle:Calendar:editajaxCalendar" }
+    options:
+        expose: true
         
 calendar_dropajax:
     methods: POST|GET

@@ -87,6 +87,7 @@ text-align: center;
 <script type="text/javascript">
     /* jQuery.noConflict();*/
     $(document).ready(function() {
+        
         var xcolors = ["#94a2be", "#993355", "#aaaaaa", "#f2a640", "#b373b3", "#668cd9"];
         // console.log("edit status="+edit_status);
         var resize_status = edit_status;
@@ -273,7 +274,7 @@ text-align: center;
 
             eventClick: function(calEvent, jsEvent, view) {
                 
-            
+            Edit(calEvent.id);
                 console.log("event click");
                 if (edit_status === false || !edit_status)
                     return;
@@ -657,12 +658,13 @@ text-align: center;
          *
          ------------------------------------------*/
 
-        function Edit(data)
+        function Edit(id)
         {
-            if (data)
+            if (id)
             {
-                var id = data[0];
-                var url = Routing.generate('calendar_edit', {id: id});
+               
+             
+                var url = Routing.generate('calendar_adesign_edit', {id: id});
 
                 /* var url = Routing.generate('calendar_showXhtml', {id: id});*/
                 /*var dataAjax = {'id': id};*/
@@ -675,7 +677,7 @@ text-align: center;
                     opacity: 0.3,
                     href: url,
                     onClosed: function() {
-                        $("#gridcontainer").reload();
+                      //  $("#gridcontainer").reload();
                     }
                 });
             }

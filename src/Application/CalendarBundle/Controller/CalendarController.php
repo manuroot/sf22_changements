@@ -288,43 +288,26 @@ foreach ($b_days as $value){$days[]=$value;}
         return $response;
     }
 
+     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-      /*
-    
-     public function editajaxCalendarAction(Request $request, $id) {
+
+     public function editajaxCalendarAction(Request $request,$id) {
 
         $id = $request->get('id');
         $em = $this->getDoctrine()->getManager();
         $calendar_entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find($id);
         $editForm = $this->createForm(new CalendarType(), $calendar_entity);
 
-        
+     
             
- return $this->render('ApplicationCalendarBundle:Calendar:index_adesign.html.twig', array(
+ return $this->render('ApplicationCalendarBundle:Calendar:edit.html.twig', array(
                  'entity' => $calendar_entity,
                     'action' => 'edit',
                     'button_submit' => 'Modifier',
                     'form' => $editForm->createView(),
       ));
     }
-    
+   /* 
      public function updateAjaxCalendarAction(Request $request, $id) {
 
         $id = $request->get('id');

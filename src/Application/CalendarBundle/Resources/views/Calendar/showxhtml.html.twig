@@ -26,12 +26,12 @@ margin-right:4px;}
 </style>
     {% endblock %}
  
-{% block title %}OPERATION: {{ entity.nom }} 
+{% block title %}OPERATION: {{ entity.title }} 
 {% endblock %}
 
 {% block content %}
 
-
+ {{ form_row(form) }}
 <!----------Form Edit Event ----------------->
 <div id="createEventModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
     
