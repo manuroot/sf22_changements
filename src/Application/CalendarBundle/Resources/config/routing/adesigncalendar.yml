@@ -1,39 +1,46 @@
 calendar_adesignajax:
     methods: POST|GET
-    pattern:  /adesignajax
+    pattern: /adesignajax
     defaults: { _controller: "ApplicationCalendarBundle:Calendar:loadjqCalendar" }
     options:
         expose: true
 
-calendar_adesign_edit:
-    pattern:  /{id}adesignedit
+
+calendar_adesignajax_edit:
+    methods: POST|GET
+    pattern: /{id}/editadesignajax
     defaults: { _controller: "ApplicationCalendarBundle:Calendar:editajaxCalendar" }
     options:
         expose: true
         
+calendar_adesignajax_update:
+    methods: POST|GET
+    pattern: /{id}/updateadesignajax
+    defaults: { _controller: "ApplicationCalendarBundle:Calendar:updateajaxCalendar" }
+    options:
+        expose: true
+        
+        
 calendar_dropajax:
     methods: POST|GET
-    pattern:  /updateajax
+    pattern: /updateajax
     defaults: { _controller: "ApplicationCalendarBundle:Calendar:updatejqCalendar" }
     options:
         expose: true
         
 calendar_indexadesign:
-    pattern:  /
+    pattern: /
     defaults: { _controller: "ApplicationCalendarBundle:Calendar:indexadesign" }
     methods: POST|GET
  
             
 calendar_dashboard:
-    pattern:  /dashboard
+    pattern: /dashboard
     defaults: { _controller: "ApplicationCalendarBundle:Calendar:dashboard" }
     methods: POST|GET
     
 calendar_userootcalendar:
-    pattern:  /usecalendar
+    pattern: /usecalendar
     defaults: { _controller: "ApplicationCalendarBundle:Calendar:usecalendar" }
     methods: POST|GET
     
-     
-     
- 

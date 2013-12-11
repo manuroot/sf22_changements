@@ -18,9 +18,9 @@ use Application\CalendarBundle\Event\CalendarEvent;
 use Application\CalendarBundle\Form\CalendarType;
 
 /**
- * Calendar controller.
- *
- */
+* Calendar controller.
+*
+*/
 class CalendarController extends Controller {
 
     protected function getCalendarRoot() {
@@ -39,7 +39,7 @@ class CalendarController extends Controller {
         if ($user_security->isGranted('IS_AUTHENTICATED_FULLY')) {
             $user = $this->get('security.context')->getToken()->getUser();
             $user_id = $user->getId();
-            //$ret['user'] =  $user_id;
+            //$ret['user'] = $user_id;
         } else {
             $user_id = 0;
         }
@@ -59,8 +59,8 @@ class CalendarController extends Controller {
 
             echo "post method<br>";
             $alldatas = $request->request->all();
-            //  $datas = $alldatas["changements_filter"];
-            //  $all=$this->getRequest()->request->all();// to get all POST params.
+            // $datas = $alldatas["changements_filter"];
+            // $all=$this->getRequest()->request->all();// to get all POST params.
             var_dump($alldatas);
             $id_cal = $request->get('id');
             $session->set('calendar_id', '1');
@@ -90,9 +90,9 @@ foreach ($b_days as $value){$days[]=$value;}
 //var_dump($days);
         
          /* $entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find(319);
-                if (!$entity) {
-                    throw $this->createNotFoundException('Unable to find ChangementsContact entity.');
-                }*/
+if (!$entity) {
+throw $this->createNotFoundException('Unable to find ChangementsContact entity.');
+}*/
                 
                 
         $entity_evements = $em->getRepository('ApplicationCalendarBundle:CalendarEvenements')->myFindAll($id_cal);
@@ -111,11 +111,11 @@ foreach ($b_days as $value){$days[]=$value;}
     }
 
     /**
-     * Dispatch a CalendarEvent and return a JSON Response of any events returned.
-     *
-     * @param Request $request
-     * @return Response
-     */
+* Dispatch a CalendarEvent and return a JSON Response of any events returned.
+*
+* @param Request $request
+* @return Response
+*/
     public function loadjqCalendarAction(Request $request) {
 
         $session = $request->getSession();
@@ -160,18 +160,18 @@ foreach ($b_days as $value){$days[]=$value;}
         $ret = array();
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
 
-            //  $all=$this->getRequest()->request->all();// to get all POST params.
-            //         var_dump($all);
+            // $all=$this->getRequest()->request->all();// to get all POST params.
+            // var_dump($all);
             $data['id'] = $request->get('id');
 
             $action = $request->get('action');
             if (isset($action) && $action == "delete") {
                $entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find($data['id']);
-             /*   if (!$entity) {
-                    throw $this->createNotFoundException('Unable to find ChangementsContact entity.');
-                }
-                $em->remove($entity);
-                $em->flush();*/
+             /* if (!$entity) {
+throw $this->createNotFoundException('Unable to find ChangementsContact entity.');
+}
+$em->remove($entity);
+$em->flush();*/
                 $ret['id'] = $data['id'];
                 $ret['status'] = 'removed';
                 $response = new Response(\json_encode($ret));
@@ -188,17 +188,17 @@ foreach ($b_days as $value){$days[]=$value;}
             $d = \DateTime::createFromFormat($format, $data['start']);
             // $f = \DateTime::createFromFormat($format, $data['end']);
             if (!$data['end'] || $data['end'] == "") {
-                // echo "here";  
+                // echo "here";
                 $f = \DateTime::createFromFormat($format, $data['start']);
             } else {
-                //  echo "ok f";
+                // echo "ok f";
                 $f = \DateTime::createFromFormat($format, $data['end']);
             }
             /* ========================================
-             * 
-             *             NEW EVENT
-             * 
-              ========================================= */
+*
+* NEW EVENT
+*
+========================================= */
             if (!$data['id']) {
                 $entity_root = $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->find($idroot_calendar);
                 $data['title'] = $request->get('title');
@@ -214,9 +214,9 @@ foreach ($b_days as $value){$days[]=$value;}
 
                 $entity->setBgColor($bgcolor); //set the background color of the event's label
                 /* if ($allday == 'true')
-                  $entity->setAllDay(true);
-                  else
-                  $entity->setAllDay(false); */
+$entity->setAllDay(true);
+else
+$entity->setAllDay(false); */
                 $entity->setAllDay($allday);
                 $data['allDay'] = (boolean) $allday;
                 $entity->setCssClass($classcss);
@@ -231,18 +231,18 @@ foreach ($b_days as $value){$days[]=$value;}
                 $data['id'] = $entity->getId();
             }
             /* ========================================
-             * 
-             *             UPDATE EVENT
-             * 
-              ========================================= */
+*
+* UPDATE EVENT
+*
+========================================= */
 
             else {
                 $entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find($data['id']);
                 if (!$entity) {
                     throw $this->createNotFoundException('Unable to find ChangementsContact entity.');
                 }
-                // $this->getRequest()->query->all(); 
-                //to get all GET params and 
+                // $this->getRequest()->query->all();
+                //to get all GET params and
                 //$this->getRequest()->request->all(); to get all POST params.
                 $entity->setStartDatetime($d);
                 $entity->setEndDatetime($f);
@@ -276,7 +276,7 @@ foreach ($b_days as $value){$days[]=$value;}
                 }
                 $em->persist($entity);
                 $em->flush();
-                //  $data['allDay']=(boolean)$allday;
+                // $data['allDay']=(boolean)$allday;
                 $ret['IsSuccess'] = true;
                 $ret['Msg'] = 'update success';
             }
@@ -288,41 +288,87 @@ foreach ($b_days as $value){$days[]=$value;}
         return $response;
     }
 
-     
     
-
-     public function editajaxCalendarAction(Request $request,$id) {
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+ 
+     public function editajaxCalendarAction(Request $request, $id) {
 
         $id = $request->get('id');
         $em = $this->getDoctrine()->getManager();
         $calendar_entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find($id);
         $editForm = $this->createForm(new CalendarType(), $calendar_entity);
 
-     
+         if ($request->getMethod() == 'POST') {
+            //$formData = $this->get('request')->request->all();
+            // var_dump($formData);
+            $editForm->bind($request);
+            if ($editForm->isValid()) {
+                $em->persist($calendar_entity);
+                $em->flush();
+                $session = $this->getRequest()->getSession();
+                $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
+                 $ret['IsSuccess'] = true;
+                $response = new Response(json_encode($ret));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+            }
+        }
             
- return $this->render('ApplicationCalendarBundle:Calendar:edit.html.twig', array(
+ return $this->render('ApplicationCalendarBundle:Calendar:edit_adesign.html.twig', array(
                  'entity' => $calendar_entity,
                     'action' => 'edit',
                     'button_submit' => 'Modifier',
                     'form' => $editForm->createView(),
       ));
     }
-   /* 
-     public function updateAjaxCalendarAction(Request $request, $id) {
+    
+ 
+     public function updateajaxCalendarAction(Request $request, $id) {
 
         $id = $request->get('id');
         $em = $this->getDoctrine()->getManager();
-        $calendar_entity = $em->getRepository('ApplicationChangementsBundle:Calendar')->find($id);
-        $editForm = $this->createForm(new WdcalendarType(), $calendar_entity);
+        $calendar_entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find($id);
+        $editForm = $this->createForm(new CalendarType(), $calendar_entity);
 
-        if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
-
-        }
+        
             
+ return $this->render('ApplicationCalendarBundle:Calendar:edit_adesign.html.twig', array(
+                 'entity' => $calendar_entity,
+                    'action' => 'edit',
+                    'button_submit' => 'Modifier',
+                    'form' => $editForm->createView(),
+      ));
+    }
+    
+    
+    
+  /* public function updateAjaxCalendarAction(Request $request, $id) {
 
-        $response = new Response(json_encode($ret));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }*/
+$id = $request->get('id');
+$em = $this->getDoctrine()->getManager();
+$calendar_entity = $em->getRepository('ApplicationChangementsBundle:Calendar')->find($id);
+$editForm = $this->createForm(new WdcalendarType(), $calendar_entity);
+
+if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
+
+}
+
+$response = new Response(json_encode($ret));
+$response->headers->set('Content-Type', 'application/json');
+return $response;
+}*/
 }
 

@@ -1,0 +1,242 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
+<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/indexfanta.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('css/jquery_flicker/jquery-ui-1.9.2.custom.css') }}" />
+<link rel="stylesheet" href="{{ asset('fullcalendar/fullcalendar.css') }}" />
+<link rel="stylesheet" href="{{ asset('fullcalendar/view_calendar.css') }}" />
+<link rel="stylesheet" href="{{ asset('jquery/simplecolorpicker/colorPicker.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('jquery/jqtip2/jquery.qtip.min.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bundles/applicationcalendar/css/calendar.css') }}" type="text/css" media="all"/>
+
+<style type="text/css">
+
+    div.btxt{padding-bottom:10px;}   
+    .mypad {margin-left:4px;
+            margin-right:4px;}
+    input#startDatetime,input#endDatetime{width:150px;}
+    #description{
+        background-color: #eaeaea;padding:10px;
+        border:1px solid black;
+    } 
+
+    .mywell {
+        min-height:100px;
+        border:1px solid blue;
+        padding:10px;
+        margin:5px;
+        background-color: #dedede;
+        border-style: solid;
+        border-color: rgb(0, 0, 0);
+        box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05) inset, 0px 1px 0px rgba(255, 255, 255, 0.1);
+    }
+    textarea#description {
+        width: 100%;
+        min-height: 200px;
+        background-color: white;
+    }
+</style>
+    {% endblock %}
+
+
+
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ parent() }}
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script type="text/javascript" src="{{ asset('select2/select2.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
+<script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
+  {# <script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>#}
+<script type="text/javascript" src="{{ asset('jquery/jquery.xcolor.js') }}"></script>
+<script type="text/javascript" src="{{ asset('jquery/simplecolorpicker/jquery.colorPicker.js') }}"></script>
+<script type="text/javascript" src="{{ asset('jquery/jqtip2/jquery.qtip.min.js') }}"></script>
+
+<script type="text/javascript">
+    /* jQuery.noConflict();*/
+    $(document).ready(function() {
+        var t = [];
+        $("#endDatetime").datepicker({
+            minDate: "-5Y",
+            maxDate: "+10Y",
+            changeMonth: true,
+            changeYear: true,
+            showWeek: true,
+            firstDay: 1,
+            numberOfMonths: 1,
+            dateFormat: "yy-mm-dd 08:00",
+            onClose: function(selectedDate) {
+                $("#form_bis").datepicker("option", "minDate", selectedDate);
+            }
+        });
+        $("#startDatetime").datepicker({
+            maxDate: "+5Y",
+            minDate: "-5Y",
+            changeMonth: true,
+            changeYear: true,
+            numberOfMonths: 1,
+            showWeek: true,
+            firstDay: 1,
+            dateFormat: "yy-mm-dd 17:00",
+            onClose: function(selectedDate) {
+                $("#form_bis").datepicker("option", "minDate", selectedDate);
+            }
+        });
+
+
+        var xcolors = ["#94a2be", "#993355", "#aaaaaa", "#f2a640", "#b373b3", "#668cd9"];
+
+        var t1 = ["#ff000", "#330000", "#660000", "#990000", "#cc0000", "#000000",
+            "94A2BE", "993355", "aaaaaa", "f2a640", "b373b3", "668cd9",
+            '000000', '993300', '333300', '000080', '333399', '333333',
+            '800000', 'FF6600', '808000', '008000', '008080', '0000FF',
+            '666699', '808080', 'FF0000', 'FF9900', '99CC00', '339966',
+            '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00',
+            'FFFF00', '00FF00', '00FFFF', '00CCFF', '993366', 'C0C0C0',
+            'FF99CC', 'FFCC99', 'FFFF99', 'CCFFFF', '99CCFF', 'FFFFFF'];
+
+        var a1colors = $.xcolor.analogous('#da0', 16);
+
+        var b = $.xcolor.monochromatic("f00", 6);
+        tt = $.xcolor.analogous('#da0', 32, 30);
+        tt.push("FFFFFF", "000000");
+        // append noir et blanc
+        /*
+         $.each(b, function(key, value){
+         console.log("??" + value);
+         });*/
+        ////*
+        //  var c_tcageories = tcategories.length;
+        /* for( i=0; i < c_tcageories; i++){
+         //myArray[i];
+         $("div.colorPicker-swatch" ).css({"border-color": "red", 
+         "border-width":"4px", 
+         "border-style":"solid"});
+         }*/
+        // tt = $.merge(tcategories, tt);
+        var myRegExp = /#./;
+        for (var i in tt) {
+            t[i] = tt[i].toString();
+            /*console.log("v="+t[i]);*/
+            if (myRegExp.test(t[i])) {
+                //console.log("matching #"+t[i]);
+                t[i] = t[i].replace("#", "");
+            }
+
+        }
+        var tfont = ["000000", 'FFFFFF', "ded600", "de2500"];
+        $("#fgColor").colorPicker({
+            //colors: tfont,
+            //   pickerDefault: "FFFFFF",
+            transparency: true
+        });
+        $('#bgColor').colorPicker(
+                {
+                    /*colors: t,
+                     pickerDefault: "#94a2be",*/
+                    /*pickerDefault: "#94a2be",*/
+                    transparency: true,
+                    onColorChange: function(id, newValue) {
+                        console.log("ID: " + id + " has been changed to " + newValue);
+                    }
+
+                });
+        //Callback handler for form submit event
+
+
+
+
+        $("#myform").submit(function(e)
+        {
+            //  e.preventDefault(); //Prevent Default action.
+            var id = $(this).attr("data-id");
+
+            var url = Routing.generate('calendar_adesignajax_edit', {id: id});
+
+            console.log("submit data");
+            var formObj = $(this);
+             myVar=false;
+            $.ajax({
+                async: false,
+                type: "POST",
+                cache: false,
+                url: url,
+                data: $(this).serialize(),
+                success: function(reponse) {
+                      myVar = reponse;
+               },
+                error: function(e) {
+                     
+                     /*    console.log(e.message);
+                     datareponse = e.message;*/
+                }
+            });
+             
+          //  parent.jQuery.colorbox.close(myVar);
+            return myVar;
+
+            /*  var myclone=Routing.generate('changements_edit'
+             parent.window.location.replace(myclone);*/
+              
+        });
+
+    });
+</script>
+{% endblock %}
+
+
+
+{% block title %}OPERATION: {{ entity.title }} (id= {{entity.id}})
+{% endblock %}
+
+{% block content %}
+
+
+{% if action == 'edit' %}
+<form  id="myform"  data-id="{{ entity.id }}" action="{{ path('calendar_adesignajax_edit',{ 'id': entity.id }) }}" method="post" {{ form_enctype(form) }}>
+{% else %}
+
+    <form  id="myform"  action="{{ path('calendar_create') }}" method="post" {{ form_enctype(form) }}>
+
+{% endif %}
+
+        <div class="row-fluid ">
+            <div class="span4"> 
+   {{ form_row(form.title) }}
+
+    {{ form_row(form.startDatetime) }} 
+
+    {{ form_row(form.endDatetime) }} 
+
+            </div>
+
+            <div class="span3">
+  {{ form_row(form.bgColor) }}
+
+  {{ form_row(form.fgColor) }}     
+            </div>
+            <div class="span4">
+   {{ form_row(form.description) }} 
+
+{{ form_rest(form) }}
+
+            </div>
+        </div>
+
+        <div class="row-fluid">
+            <div class="span10"> 
+                <button type="submit" class="btn btn-large btn-warning">{{ button_submit }}</button>    
+            </div>
+        </div>
+    </form>
+    <!----------Form Edit Event ----------------->
+
+{% endblock %}
+     {% block footer %} {% endblock %}
