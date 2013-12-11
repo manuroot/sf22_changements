@@ -24,10 +24,31 @@ class CalendarType extends AbstractType {
                 ->add('title','text',array('label'=>'Titre'))
                 ->add('bgColor','text',array('label'=>'Background Color'))
                 ->add('fgColor','text',array('label'=>'Font Color'))
-                ->add('startDatetime','hidden')
-                ->add('endDatetime','hidden')
+               // ->add('startDatetime','hidden')
+              //  ->add('endDatetime','hidden')
                 ->add('description', 'textarea')
                 ->add('cssClass','hidden')
+                    ->add('endDatetime', 'datetime', array(
+                    'label' => 'Date Fin',
+                    'widget' => 'single_text',
+                    'input' => 'datetime',
+                    'format' => 'yyyy-MM-dd HH:mm',
+                    'widget_addon' => array(
+                        'icon' => 'time',
+                        'type' => 'prepend'
+                    ),
+                ))
+                ->add('startDatetime', 'datetime', array(
+                    'label' => 'Date Debut',
+                    'widget' => 'single_text',
+                    'input' => 'datetime',
+                    'format' => 'yyyy-MM-dd HH:mm',
+                    'widget_addon' => array(
+                        'icon' => 'time',
+                        'type' => 'prepend'
+                    ),
+                    'required' => false,
+                ))
 
         ;
     }

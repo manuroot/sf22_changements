@@ -5,6 +5,21 @@ calendar_adesignajax:
     options:
         expose: true
 
+
+calendar_adesignajax_edit:
+    methods: POST|GET
+    pattern:  /{id}/editadesignajax
+    defaults: { _controller: "ApplicationCalendarBundle:Calendar:editajaxCalendar" }
+    options:
+        expose: true
+        
+calendar_adesignajax_update:
+    methods: POST|GET
+    pattern:  /{id}/updateadesignajax
+    defaults: { _controller: "ApplicationCalendarBundle:Calendar:updateajaxCalendar" }
+    options:
+        expose: true
+        
         
 calendar_dropajax:
     methods: POST|GET

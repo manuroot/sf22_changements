@@ -303,12 +303,40 @@ foreach ($b_days as $value){$days[]=$value;}
     
     
     
-    
-    
-    
-      /*
-    
+ 
      public function editajaxCalendarAction(Request $request, $id) {
+
+        $id = $request->get('id');
+        $em = $this->getDoctrine()->getManager();
+        $calendar_entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find($id);
+        $editForm = $this->createForm(new CalendarType(), $calendar_entity);
+
+         if ($request->getMethod() == 'POST') {
+            //$formData = $this->get('request')->request->all();
+            //  var_dump($formData);
+            $editForm->bind($request);
+            if ($editForm->isValid()) {
+                $em->persist($calendar_entity);
+                $em->flush();
+                $session = $this->getRequest()->getSession();
+                $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
+                 $ret['IsSuccess'] = true;
+                $response = new Response(json_encode($ret));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+            }
+        }
+            
+ return $this->render('ApplicationCalendarBundle:Calendar:edit_adesign.html.twig', array(
+                 'entity' => $calendar_entity,
+                    'action' => 'edit',
+                    'button_submit' => 'Modifier',
+                    'form' => $editForm->createView(),
+      ));
+    }
+    
+ 
+     public function updateajaxCalendarAction(Request $request, $id) {
 
         $id = $request->get('id');
         $em = $this->getDoctrine()->getManager();
@@ -317,7 +345,7 @@ foreach ($b_days as $value){$days[]=$value;}
 
         
             
- return $this->render('ApplicationCalendarBundle:Calendar:index_adesign.html.twig', array(
+ return $this->render('ApplicationCalendarBundle:Calendar:edit_adesign.html.twig', array(
                  'entity' => $calendar_entity,
                     'action' => 'edit',
                     'button_submit' => 'Modifier',
@@ -325,7 +353,9 @@ foreach ($b_days as $value){$days[]=$value;}
       ));
     }
     
-     public function updateAjaxCalendarAction(Request $request, $id) {
+    
+    
+  /*   public function updateAjaxCalendarAction(Request $request, $id) {
 
         $id = $request->get('id');
         $em = $this->getDoctrine()->getManager();

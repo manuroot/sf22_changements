@@ -274,6 +274,8 @@ text-align: center;
             eventClick: function(calEvent, jsEvent, view) {
                 
             
+           // Edit(calEvent);
+         
                 console.log("event click");
                 if (edit_status === false || !edit_status)
                     return;
@@ -657,27 +659,34 @@ text-align: center;
          *
          ------------------------------------------*/
 
-        function Edit(data)
+        function Edit(calEvent)
         {
-            if (data)
+            if (calEvent)
             {
-                var id = data[0];
-                var url = Routing.generate('calendar_edit', {id: id});
+                var id = calEvent.id;
+                var url = Routing.generate('calendar_adesignajax_edit', {id: id});
 
                 /* var url = Routing.generate('calendar_showXhtml', {id: id});*/
                 /*var dataAjax = {'id': id};*/
                 $.colorbox({
                     iframe: true,
                     transition: "elastic",
-                    width: "80%",
-                    height: "80%",
+                    width: "70%",
+                    height: "70%",
                     fastIframe: false,
                     opacity: 0.3,
                     href: url,
-                    onClosed: function() {
-                        $("#gridcontainer").reload();
+                    onClosed: function(data) {
+                        console.log("data="+data);
+                   /*      $('#calendar-holder').fullCalendar('removeEvents', id);*/
+                     //   $('#calendar-holder').fullCalendar('renderEvent', data, false);
+                     $('#calendar-holder').fullCalendar('refetchEvents');
+                    //    $("#gridcontainer").reload();
                     }
-                });
+                }
+                        
+                    
+                    );
             }
         }
 
@@ -948,13 +957,13 @@ text-align: center;
                     <div class="form-group colorbg">
                         <label class="col-sm-3 control-label" for="color">Background Couleur:</label>
                          <div class="col-sm-9">
-                            <input id="color" name="color" type="text" id="color"/></div>
+                            <input id="color" name="color" type="text"/></div>
                     </div>
 
                     <div class="form-group colorfont">
                         <label class="col-sm-3 control-label" for="colorfont">Font Couleur:</label>
                          <div class="col-sm-9">
-                            <input id="colorfont" name="colorfont" type="text" id="colorfont"/></div>
+                            <input id="colorfont" name="colorfont" type="text"/></div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="inputDescription">Description:</label>
@@ -984,16 +993,21 @@ text-align: center;
 <!----------Form Edit Event ----------------->
 
 <div class="row">
+     
     <div class="pad-left col-md-4  col-lg-2">
-        <div class="external-infos input-group">
-            <span class="label label-info"><i class="icon-calendar"></i> {{ rootcal.nom }}</span>
+         <button type="button" class="btn btn-primary btn-md"><i class="glyphicon glyphicon-calendar"></i> {{ rootcal.nom }}</button>
+      {#  <div class="external-infos input-group">
+            <span class="label label-info"><i class="glyphicon glyphicon-calendar"></i> {{ rootcal.nom }}</span>
         </div>
-
-
-        <div class="input-prepend date-chooser">
-            <span class="add-on" id="dateaddon"><i class="icon-time"></i></span>
+#}
+        <div class="input-group input-group-md">
+   <div class="input-prepend date-chooser">
+            <span class="add-on" id="dateaddon"><i class="glyphicon glyphicon-time"></i> Date</span>
             <input id="datepicker" type="text"></div>
 
+</div>
+
+       
 
                            {#
                             <div class="input-group external-infos">
