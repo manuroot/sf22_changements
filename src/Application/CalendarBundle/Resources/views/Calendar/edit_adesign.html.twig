@@ -163,6 +163,7 @@
             console.log("submit data");
             var formObj = $(this);
              myVar=false;
+             var mydata=$(this).serialize();
             $.ajax({
                 async: false,
                 type: "POST",
@@ -171,6 +172,7 @@
                 data: $(this).serialize(),
                 success: function(reponse) {
                       myVar = reponse;
+                       console.log( "data="+mydata );
                },
                 error: function(e) {
                      
@@ -179,7 +181,7 @@
                 }
             });
              
-          //  parent.jQuery.colorbox.close(myVar);
+           parent.jQuery.colorbox.close();
             return myVar;
 
             /*  var myclone=Routing.generate('changements_edit'

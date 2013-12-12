@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class CalendarEvenementsType extends AbstractType
+class CalendarCategoriesType extends AbstractType
 {
         /**
      * @param FormBuilderInterface $builder
@@ -44,7 +44,7 @@ class CalendarEvenementsType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Application\CalendarBundle\Entity\CalendarEvenements'
+            'data_class' => 'Application\CalendarBundle\Entity\CalendarCategories'
         ));
     }
 
@@ -53,6 +53,6 @@ class CalendarEvenementsType extends AbstractType
      */
     public function getName()
     {
-        return 'application_calendarbundle_calendarevenements';
+        return 'application_calendarbundle_CalendarCategories';
     }
 }

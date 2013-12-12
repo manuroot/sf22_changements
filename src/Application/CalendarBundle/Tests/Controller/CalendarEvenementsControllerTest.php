@@ -4,7 +4,7 @@ namespace Application\CalendarBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class CalendarEvenementsControllerTest extends WebTestCase
+class CalendarCategoriesControllerTest extends WebTestCase
 {
     /*
     public function testCompleteScenario()
@@ -19,7 +19,7 @@ class CalendarEvenementsControllerTest extends WebTestCase
 
         // Fill in the form and submit it
         $form = $crawler->selectButton('Create')->form(array(
-            'application_calendarbundle_calendarevenementstype[field_name]'  => 'Test',
+            'application_calendarbundle_CalendarCategoriestype[field_name]'  => 'Test',
             // ... other fields to fill
         ));
 
@@ -33,7 +33,7 @@ class CalendarEvenementsControllerTest extends WebTestCase
         $crawler = $client->click($crawler->selectLink('Edit')->link());
 
         $form = $crawler->selectButton('Edit')->form(array(
-            'application_calendarbundle_calendarevenementstype[field_name]'  => 'Foo',
+            'application_calendarbundle_CalendarCategoriestype[field_name]'  => 'Foo',
             // ... other fields to fill
         ));
 

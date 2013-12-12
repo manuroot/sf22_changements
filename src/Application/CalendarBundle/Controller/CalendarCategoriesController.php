@@ -4,14 +4,14 @@ namespace Application\CalendarBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Application\CalendarBundle\Entity\CalendarEvenements;
-use Application\CalendarBundle\Form\CalendarEvenementsType;
+use Application\CalendarBundle\Entity\CalendarCategories;
+use Application\CalendarBundle\Form\CalendarCategoriesType;
 
 /**
- * CalendarEvenements controller.
+ * CalendarCategories controller.
  *
  */
-class CalendarEvenementsController extends Controller {
+class CalendarCategoriesController extends Controller {
 
     protected function getCalendarRoot() {
         $request = $this->getRequest();
@@ -24,7 +24,7 @@ class CalendarEvenementsController extends Controller {
     }
 
     /**
-     * Lists all CalendarEvenements entities.
+     * Lists all CalendarCategories entities.
      *
      */
     public function indexAction(Request $request) {
@@ -40,22 +40,22 @@ class CalendarEvenementsController extends Controller {
         
         /* echo "idcall=$id_cal";
           exit(1); */
-        $entities = $em->getRepository('ApplicationCalendarBundle:CalendarEvenements')->myFindAll($id_cal);
-        //$entities = $em->getRepository('ApplicationCalendarBundle:CalendarEvenements')->findAll();
+        $entities = $em->getRepository('ApplicationCalendarBundle:CalendarCategories')->myFindAll($id_cal);
+        //$entities = $em->getRepository('ApplicationCalendarBundle:CalendarCategories')->findAll();
 
-        return $this->render('ApplicationCalendarBundle:CalendarEvenements:index.html.twig', array(
+        return $this->render('ApplicationCalendarBundle:CalendarCategories:index.html.twig', array(
                     'entities' => $entities,
                     'root_calendar'=>$rootcalendar
         ));
     }
 
     /**
-     * Creates a new CalendarEvenements entity.
+     * Creates a new CalendarCategories entity.
      *
      */
     public function createAction(Request $request) {
                $em = $this->getDoctrine()->getManager();
-        $entity = new CalendarEvenements();
+        $entity = new CalendarCategories();
         
          $id_cal = $this->getCalendarRoot();
          $rootcalendar= $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->find($id_cal);
@@ -71,21 +71,21 @@ class CalendarEvenementsController extends Controller {
             return $this->redirect($this->generateUrl('calendarcategories'));
         }
 
-        return $this->render('ApplicationCalendarBundle:CalendarEvenements:new.html.twig', array(
+        return $this->render('ApplicationCalendarBundle:CalendarCategories:new.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),
         ));
     }
 
     /**
-     * Creates a form to create a CalendarEvenements entity.
+     * Creates a form to create a CalendarCategories entity.
      *
-     * @param CalendarEvenements $entity The entity
+     * @param CalendarCategories $entity The entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(CalendarEvenements $entity) {
-        $form = $this->createForm(new CalendarEvenementsType(), $entity, array(
+    private function createCreateForm(CalendarCategories $entity) {
+        $form = $this->createForm(new CalendarCategoriesType(), $entity, array(
             'action' => $this->generateUrl('calendarcategories_create'),
             'method' => 'POST',
         ));
@@ -96,53 +96,53 @@ class CalendarEvenementsController extends Controller {
     }
 
     /**
-     * Displays a form to create a new CalendarEvenements entity.
+     * Displays a form to create a new CalendarCategories entity.
      *
      */
     public function newAction() {
-        $entity = new CalendarEvenements();
+        $entity = new CalendarCategories();
         $form = $this->createCreateForm($entity);
 
-        return $this->render('ApplicationCalendarBundle:CalendarEvenements:new.html.twig', array(
+        return $this->render('ApplicationCalendarBundle:CalendarCategories:new.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),
         ));
     }
 
     /**
-     * Finds and displays a CalendarEvenements entity.
+     * Finds and displays a CalendarCategories entity.
      *
      */
     public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('ApplicationCalendarBundle:CalendarEvenements')->find($id);
+        $entity = $em->getRepository('ApplicationCalendarBundle:CalendarCategories')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find CalendarEvenements entity.');
+            throw $this->createNotFoundException('Unable to find CalendarCategories entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('ApplicationCalendarBundle:CalendarEvenements:show.html.twig', array(
+        return $this->render('ApplicationCalendarBundle:CalendarCategories:show.html.twig', array(
                     'entity' => $entity,
                     'delete_form' => $deleteForm->createView(),));
     }
 
     /**
-     * Displays a form to edit an existing CalendarEvenements entity.
+     * Displays a form to edit an existing CalendarCategories entity.
      *
      */
     public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('ApplicationCalendarBundle:CalendarEvenements')->find($id);
+        $entity = $em->getRepository('ApplicationCalendarBundle:CalendarCategories')->find($id);
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find CalendarEvenements entity.');
+            throw $this->createNotFoundException('Unable to find CalendarCategories entity.');
         }
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('ApplicationCalendarBundle:CalendarEvenements:edit.html.twig', array(
+        return $this->render('ApplicationCalendarBundle:CalendarCategories:edit.html.twig', array(
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
@@ -150,14 +150,14 @@ class CalendarEvenementsController extends Controller {
     }
 
     /**
-     * Creates a form to edit a CalendarEvenements entity.
+     * Creates a form to edit a CalendarCategories entity.
      *
-     * @param CalendarEvenements $entity The entity
+     * @param CalendarCategories $entity The entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createEditForm(CalendarEvenements $entity) {
-        $form = $this->createForm(new CalendarEvenementsType(), $entity, array(
+    private function createEditForm(CalendarCategories $entity) {
+        $form = $this->createForm(new CalendarCategoriesType(), $entity, array(
             'action' => $this->generateUrl('calendarcategories_update', array('id' => $entity->getId())),
             'method' => 'POST',
         ));
@@ -168,14 +168,14 @@ class CalendarEvenementsController extends Controller {
     }
 
     /**
-     * Edits an existing CalendarEvenements entity.
+     * Edits an existing CalendarCategories entity.
      *
      */
     public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('ApplicationCalendarBundle:CalendarEvenements')->find($id);
+        $entity = $em->getRepository('ApplicationCalendarBundle:CalendarCategories')->find($id);
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find CalendarEvenements entity.');
+            throw $this->createNotFoundException('Unable to find CalendarCategories entity.');
         }
         
         /*if ($request->getMethod() == 'POST') {
@@ -187,7 +187,7 @@ class CalendarEvenementsController extends Controller {
 }*/
         $deleteForm = $this->createDeleteForm($id);
         //$editForm = $this->createEditForm($entity);
-        $editForm = $this->createForm(new CalendarEvenementsType(), $entity);
+        $editForm = $this->createForm(new CalendarCategoriesType(), $entity);
         $editForm->bind($request);
        // var_dump($editForm);
      //   exit(1);
@@ -198,7 +198,7 @@ class CalendarEvenementsController extends Controller {
             return $this->redirect($this->generateUrl('calendarcategories'));
         }
         //else{echo "not valide<br>";} 
-        return $this->render('ApplicationCalendarBundle:CalendarEvenements:edit.html.twig', array(
+        return $this->render('ApplicationCalendarBundle:CalendarCategories:edit.html.twig', array(
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
@@ -206,7 +206,7 @@ class CalendarEvenementsController extends Controller {
     }
 
     /**
-     * Deletes a CalendarEvenements entity.
+     * Deletes a CalendarCategories entity.
      *
      */
     public function deleteAction(Request $request, $id) {
@@ -215,10 +215,10 @@ class CalendarEvenementsController extends Controller {
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('ApplicationCalendarBundle:CalendarEvenements')->find($id);
+            $entity = $em->getRepository('ApplicationCalendarBundle:CalendarCategories')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find CalendarEvenements entity.');
+                throw $this->createNotFoundException('Unable to find CalendarCategories entity.');
             }
 
             $em->remove($entity);
@@ -229,7 +229,7 @@ class CalendarEvenementsController extends Controller {
     }
 
     /**
-     * Creates a form to delete a CalendarEvenements entity by id.
+     * Creates a form to delete a CalendarCategories entity by id.
      *
      * @param mixed $id The entity id
      *

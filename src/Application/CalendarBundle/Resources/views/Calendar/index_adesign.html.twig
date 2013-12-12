@@ -274,7 +274,7 @@ text-align: center;
 
             eventClick: function(calEvent, jsEvent, view) {
                 
-            Edit(calEvent.id);
+            Edit(calEvent);
                 console.log("event click");
                 if (edit_status === false || !edit_status)
                     return;
@@ -658,26 +658,54 @@ text-align: center;
          *
          ------------------------------------------*/
 
-        function Edit(id)
+        function Edit(calevent)
         {
+            var id=calevent.id;
             if (id)
             {
                
              
-                var url = Routing.generate('calendar_adesign_edit', {id: id});
+                var url = Routing.generate('calendar_adesignajax_edit', {id: id});
 
                 /* var url = Routing.generate('calendar_showXhtml', {id: id});*/
                 /*var dataAjax = {'id': id};*/
                 $.colorbox({
                     iframe: true,
                     transition: "elastic",
-                    width: "70%",
-                    height: "70%",
+                    width: "60%",
+                    height: "60%",
                     fastIframe: false,
                     opacity: 0.3,
                     href: url,
                     onClosed: function() {
                       //  $("#gridcontainer").reload();
+                       var dataAjax = {'id': id};
+                       $.ajax({
+                async: false,
+                url: Routing.generate('calendar_adesignajax_getevent'),
+                type: "POST",
+                dataType: "json",
+                /* data: dataAjax,*/
+                data: dataAjax,
+                success: function(reponse) {
+
+                    datareponse = reponse;
+                    var id = reponse['data']['id'];
+                    console.log("in success id=" + id);
+                    reponse['data']['start']=calevent.start;
+                    reponse['data']['end']=calevent.end;
+                         $('#calendar-holder').fullCalendar('removeEvents', id);
+                        $('#calendar-holder').fullCalendar('renderEvent', reponse['data'], false);
+                 
+
+
+                },
+                error: function(e) {
+                    console.log(e.message);
+                    datareponse = e.message;
+
+                }
+            });
                     }
                 }
                         

@@ -259,7 +259,7 @@ fos_user:
   
 
 fos_js_routing:
-     routes_to_expose: [ calendar_adesign_edit,changements_showXhtml,wdcalendar_index,calendar_showXhtml,changements_clone, changements_edit, fos_user_security_logout,fos_user_security_login,changements_fanta,changements_updatexhtml_changement,certificatscenter_updatexhtml_certificats,serveurs_updatexhtml_status,certificatscenter_listbyprojet,changements_listbyprojet,changements_minicalendar,ajax_checkuser,ajax_nom_certfiles ]  
+     routes_to_expose: [ calendar_adesignajax_edit,changements_showXhtml,wdcalendar_index,calendar_showXhtml,changements_clone, changements_edit, fos_user_security_logout,fos_user_security_login,changements_fanta,changements_updatexhtml_changement,certificatscenter_updatexhtml_certificats,serveurs_updatexhtml_status,certificatscenter_listbyprojet,changements_listbyprojet,changements_minicalendar,ajax_checkuser,ajax_nom_certfiles ]  
     
 #==================================================
 #  TINYMCE

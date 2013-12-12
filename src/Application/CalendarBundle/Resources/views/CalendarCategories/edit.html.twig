@@ -36,12 +36,12 @@
         for (var i in tt) {
             t[i] = tt[i].toString();
             if (myRegExp.test(t[i])) {
-                console.log("matching #" + t[i]);
+              /*  console.log("matching #" + t[i]);*/
                 t[i] = t[i].replace("#", "");
             }
         }
 
-        $('#application_calendarbundle_calendarevenements_cssClass').colorPicker(
+        $('#application_calendarbundle_CalendarCategories_cssClass').colorPicker(
                 {
                     colors: t,
                     /*colors:  ["94A2BE","993355","aaaaaa","f2a640","b373b3","668cd9",
@@ -74,7 +74,7 @@
 
 
 {% block content %}
-<h1>CalendarEvenements edit</h1>
+<h1>CalendarCategories edit</h1>
 
 <form  id="form" class="single"  action="{{ path('calendarcategories_update',{ 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
 

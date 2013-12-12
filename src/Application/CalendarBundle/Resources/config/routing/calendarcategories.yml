@@ -1,0 +1,30 @@
+calendarcategories:
+    pattern:  /
+    defaults: { _controller: "ApplicationCalendarBundle:CalendarCategories:index" }
+
+calendarcategories_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationCalendarBundle:CalendarCategories:show" }
+
+calendarcategories_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationCalendarBundle:CalendarCategories:new" }
+
+calendarcategories_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationCalendarBundle:CalendarCategories:create" }
+    requirements: { _method: post }
+
+calendarcategories_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationCalendarBundle:CalendarCategories:edit" }
+
+calendarcategories_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationCalendarBundle:CalendarCategories:update" }
+    requirements: { _method: post|put }
+
+calendarcategories_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationCalendarBundle:CalendarCategories:delete" }
+    requirements: { _method: post|delete }

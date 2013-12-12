@@ -14,14 +14,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 
 /**
- * CalendarEvenements
+ * CalendarCategories
  *
  * @ORM\Table(name="wdcalendar_evenements")
  * @ORM\HasLifecycleCallbacks
- * @ORM\Entity(repositoryClass="Application\CalendarBundle\Repository\CalendarEvenementsRepository")
+ * @ORM\Entity(repositoryClass="Application\CalendarBundle\Repository\CalendarCategoriesRepository")
  */
 
-class CalendarEvenements {
+class CalendarCategories {
   /**
      * @var integer
      *
@@ -152,7 +152,7 @@ class CalendarEvenements {
      * Set rootcalendar
      *
      * @param \Application\CalendarBundle\Entity\CalendarRoot $rootcalendar
-     * @return CalendarEvenements
+     * @return CalendarCategories
      */
     public function setRootcalendar(\Application\CalendarBundle\Entity\CalendarRoot $rootcalendar = null)
     {

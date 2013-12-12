@@ -1,4 +1,4 @@
-{% extends "::layout.html.twig" %}
+{% extends "::layout_bs3.html.twig" %}
  
 
 {% block stylesheets %}
@@ -14,6 +14,13 @@
          background-color: #f1f1f1;
          width:auto;
         }
+        #form {margin-bottom:10px;}
+body {
+    margin-left:5px;margin-right:5px;
+}
+    .container{margin-left:10px;margin-right:10px;}
+    .container-fluid{margin-left:10px;margin-right:10px;}
+
 
     </style> 
 {% endblock %}
@@ -31,20 +38,26 @@
  
 {% endblock %}
         
+    
+    
 
 {% block content %}
-    <h1>CalendarRoot edit</h1>
+   <h1><center> <span class="fa-stack fa-lg">
+  <i class="fa fa-square-o fa-stack-2x"></i>
+  <i class="fa fa-calendar-o fa-stack-1x"></i>
+</span>
+Edition Calendrier ({{entity.nom}})</center></h1>
 
- <form  id="form" class="single"  action="{{ path('calendarroot_update',{ 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+ <form  id="form" action="{{ path('calendarroot_update',{ 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
   
-<div class="row-fluid ">
-  <div class="span4 offset1"> 
+<div class="row">
+  <div class="col-sm-2 col-sm-offset-1 single"> 
    {{ form_row(edit_form.nom) }}
    {{ form_row(edit_form.isviewable) }}
        {{ form_row(edit_form.days) }}
    {{ form_row(edit_form.description) }}
    </div>
-    <div class="span4"> 
+    <div class="col-sm-2 col-sm-offset-1 single"> 
   
   {{ form_row(edit_form.plage) }} 
         {{ form_row(edit_form.startHour) }} 
@@ -55,20 +68,19 @@
    {{ form_rest(edit_form) }}
 
  </div>
- </div>
- <div class="row-fluid">
-    <div class="span6 offset1"> 
+
+      <div class="col-sm-1 single"> 
+    
         <button type="submit" class="btn btn-large btn-warning">Valider</button>    
     </div>
-         <div class="span4 offset1"> 
- <a href="{{ path('calendarroot') }}" class="btn btn-medium btn-success">Retour</a>
-         </div>
+          
 </div>
+     
 </form>
-
-    
+<a href="{{ path('calendarroot') }}" class="btn btn-medium btn-success">Retour</a>
+    <a href="{{ path('calendar_indexadesign') }}" class="myleft btn btn-small btn-primary">Retour Calendrier</a>    
 {#
         
     <li>{{ form(delete_form) }}</li>#}
 
-{% endblock %}
+{% endblock %} {% block footer %} {% endblock %}

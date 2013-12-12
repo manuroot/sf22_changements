@@ -84,7 +84,7 @@ class CalendarRoot {
     /**
      * not proprietaire side (mappedby)
      * @var ArrayCollection $categories
-     * @ORM\OneToMany(targetEntity="CalendarEvenements", mappedBy="rootcalendar",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="CalendarCategories", mappedBy="rootcalendar",cascade={"persist"})
      */
     private $categories;
      /**
@@ -215,10 +215,10 @@ public function getPlage() {
     /**
      * Add categories
      *
-     * @param \Application\CalendarBundle\Entity\CalendarEvenements $categories
+     * @param \Application\CalendarBundle\Entity\CalendarCategories $categories
      * @return CalendarRoot
      */
-    public function addCategorie(\Application\CalendarBundle\Entity\CalendarEvenements $categories) {
+    public function addCategorie(\Application\CalendarBundle\Entity\CalendarCategories $categories) {
         $this->categories[] = $categories;
 
         return $this;
@@ -227,9 +227,9 @@ public function getPlage() {
     /**
      * Remove categories
      *
-     * @param \Application\CalendarBundle\Entity\CalendarEvenements $categories
+     * @param \Application\CalendarBundle\Entity\CalendarCategories $categories
      */
-    public function removeCategorie(\Application\CalendarBundle\Entity\CalendarEvenements $categories) {
+    public function removeCategorie(\Application\CalendarBundle\Entity\CalendarCategories $categories) {
         $this->categories->removeElement($categories);
     }
 

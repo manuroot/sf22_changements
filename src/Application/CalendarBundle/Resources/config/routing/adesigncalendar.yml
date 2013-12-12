@@ -13,6 +13,14 @@ calendar_adesignajax_edit:
     options:
         expose: true
         
+calendar_adesignajax_getevent:
+    methods: POST|GET
+    pattern: /geteventadedesignajax
+    defaults: { _controller: "ApplicationCalendarBundle:Calendar:getEventCalendar" }
+    options:
+        expose: true
+
+
 calendar_adesignajax_update:
     methods: POST|GET
     pattern: /{id}/updateadesignajax

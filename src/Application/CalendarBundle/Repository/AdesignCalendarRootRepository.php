@@ -12,32 +12,34 @@ use Doctrine\ORM\EntityRepository;
  */
 class AdesignCalendarRootRepository extends EntityRepository {
 
-    public function myFindAll($id_owner = null, $user_groups = array()) {
+    public function myFindAll($id_user = null, $user_groups = array()) {
 
         //var_dump($user_groups);
 
         $parameters = array();
-        $values = array('a,b,c,d');
+           //$values = array('a,b,c,d');
+        $values = array('a,b,d');
         $query = $this->createQueryBuilder('a')
                 ->select($values)
                 //   ->distinct('a.id')
                 ->leftJoin('a.owner', 'b')
-                ->leftJoin('a.groupedit', 'c')
+            //    ->leftJoin('a.groupedit', 'c')
                 ->leftJoin('a.secondgroupedit', 'd')
                    ->leftJoin('d.users', 'e');
         /* ------------------------------------
          * Filtrage par user
           ----------------------------------- */
 
-        if (isset($id_owner)) {
-            $query->where('b.id = :idOwner')
-                    ->setParameter('idOwner', $id_owner);
+       if (isset($id_user)) {
+            $query->where('b.id = :idUser')
+                   ->orWhere('e.id = :idUser')
+                    ->setParameter('idUser', $id_user);
         }
         /* ------------------------------------
          * Filtrage par groupes
           ----------------------------------- */
 
-        if (isset($user_groups)) {
+    /* if (isset($user_groups)) {
             $query->orWhere('c.id IN (:idGroupes)')
                     ->setParameter('idGroupes', $user_groups);
         }
@@ -54,7 +56,7 @@ class AdesignCalendarRootRepository extends EntityRepository {
       if (isset($groupes)) {
             $query->orWhere('e.id IN (:idUsera)')
                     ->setParameter('idUsera', $id_user);
-      }
+      }*/
         
         return $query->getQuery()->getResult();
     }
