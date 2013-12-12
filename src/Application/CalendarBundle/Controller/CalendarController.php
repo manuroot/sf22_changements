@@ -162,8 +162,8 @@ class CalendarController extends Controller {
             $entity->getBgColor(); //set the background color of the event's label
             $data['allDay'] = (boolean) $entity->getAllDay();
              $data['title'] = $entity->getTitle();
-         //   $data['start'] = $entity->getstartDatetime()->toString();
-          //   $data['end']  = $entity->getendDatetime()->toString();
+            $data['start'] = $entity->getstartDatetime()->format('Y-m-d H:i:s');
+             $data['end']  = $entity->getendDatetime()->format('Y-m-d H:i:s');
           
             $data['className'] = $entity->getCssClass();
             $data['backgroundColor'] = $entity->getBgColor();

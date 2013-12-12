@@ -672,8 +672,8 @@ text-align: center;
                 $.colorbox({
                     iframe: true,
                     transition: "elastic",
-                    width: "60%",
-                    height: "60%",
+                    width: "80%",
+                    height: "80%",
                     fastIframe: false,
                     opacity: 0.3,
                     href: url,
@@ -692,8 +692,8 @@ text-align: center;
                     datareponse = reponse;
                     var id = reponse['data']['id'];
                     console.log("in success id=" + id);
-                    reponse['data']['start']=calevent.start;
-                    reponse['data']['end']=calevent.end;
+                   /* reponse['data']['start']=calevent.start;
+                    reponse['data']['end']=calevent.end;*/
                          $('#calendar-holder').fullCalendar('removeEvents', id);
                         $('#calendar-holder').fullCalendar('renderEvent', reponse['data'], false);
                  
@@ -714,33 +714,16 @@ text-align: center;
             }
         }
 
- /*------------------------------------------
-     * 
-     * EDIT WINDOW
-     *
-     ------------------------------------------*/
 
-    function XEdit(data)
-    {
-        if (data)
-        {
-        var id = data[0];
-          var url = Routing.generate('calendar_edit', {id: id});
-        $.colorbox({
-            iframe: true,
-            transition: "elastic",
-            width: "80%",
-            height: "80%",
-            fastIframe: false,
-            opacity: 0.3,
-            href: url,
-         onClosed:function(){
-              $("#gridcontainer").reload();
-         }
-     });
-        }
-    }
         /*========================================================
+         * Fonction: Ajaxs
+         ========================================================*/
+
+        function upedatedtedeventajax(route, data, allday, callback) {
+
+}
+
+/*========================================================
          * Fonction: Ajaxs
          ========================================================*/
 
