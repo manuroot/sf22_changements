@@ -1,6 +1,4 @@
-{% extends "::base.html.twig" %}
-
-{% form_theme form with 'ApplicationChangementsBundle:Form:tpl_form.html.twig' %}
+{% extends "::base_bs3.html.twig" %}
 
 {% block stylesheets %}
 {{ parent() }}
@@ -15,21 +13,16 @@
 <link rel="stylesheet" href="{{ asset('jquery/jqtip2/jquery.qtip.min.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('bundles/applicationcalendar/css/calendar.css') }}" type="text/css" media="all"/>
 
-
 <style type="text/css">
 
     div.btxt{padding-bottom:10px;}   
     .mypad {margin-left:4px;
             margin-right:4px;}
-    /* input#startDatetime,input#endDatetime{width:150px;}*/
+    input#startDatetime,input#endDatetime{width:150px;}
     #description{
-        background-color: #eaeaea;
-        /*padding:10px;*/
+        background-color: #eaeaea;padding:10px;
         border:1px solid black;
     } 
-
-    #submit{ bottom:0px;  margin-bottom:7px;
-             vertical-align: bottom;}
 
     .mywell {
         min-height:100px;
@@ -42,18 +35,9 @@
         box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05) inset, 0px 1px 0px rgba(255, 255, 255, 0.1);
     }
     textarea#description {
-        width: 95%;
+        width: 50%;
         min-height: 200px;
         background-color: white;
-    }
-    body {
-
-        margin-left:25px;margin-right:25px;
-    }
-    .page-header {
-        padding-bottom: 1px;
-        margin-top: 1px;
-
     }
 </style>
     {% endblock %}
@@ -74,7 +58,6 @@
 <script type="text/javascript" src="{{ asset('jquery/jquery.xcolor.js') }}"></script>
 <script type="text/javascript" src="{{ asset('jquery/simplecolorpicker/jquery.colorPicker.js') }}"></script>
 <script type="text/javascript" src="{{ asset('jquery/jqtip2/jquery.qtip.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('bundles/applicationcalendar/js/collectionfiles.js') }}"></script>
 
 <script type="text/javascript">
     /* jQuery.noConflict();*/
@@ -169,7 +152,9 @@
 
 
 
-      $("#myform").submit(function(e){
+
+        $("#myform").submit(function(e)
+        {
             //  e.preventDefault(); //Prevent Default action.
             var id = $(this).attr("data-id");
 
@@ -177,33 +162,31 @@
 
             console.log("submit data");
             var formObj = $(this);
-            myVar = false;
-            var mydata = $(this).serialize();
+             myVar=false;
+             var mydata=$(this).serialize();
             $.ajax({
                 async: false,
                 type: "POST",
-              /* enctype: 'multipart/form-data',*/
-             contentType:attr( "enctype", "multipart/form-data" ),
                 cache: false,
                 url: url,
                 data: $(this).serialize(),
                 success: function(reponse) {
-                    myVar = reponse;
-                    console.log("data=" + mydata);
-                },
+                      myVar = reponse;
+                       console.log( "data="+mydata );
+               },
                 error: function(e) {
-
-                    //  console.log(e.message);
-                    // datareponse = e.message;
+                     
+                     /*    console.log(e.message);
+                     datareponse = e.message;*/
                 }
             });
-
-            parent.jQuery.colorbox.close();
+             
+           parent.jQuery.colorbox.close();
             return myVar;
 
-            //  var myclone=Routing.generate('changements_edit'
-            // parent.window.location.replace(myclone);
-
+            /*  var myclone=Routing.generate('changements_edit'
+             parent.window.location.replace(myclone);*/
+              
         });
 
     });
@@ -211,9 +194,14 @@
 {% endblock %}
 
 
-{% block title %}{% endblock %}
+
+{% block title %}OPERATION: {{ entity.title }} (id= {{entity.id}})
+{% endblock %}
 
 {% block content %}
+
+
+
 
 {% if action == 'edit' %}
 <form  id="myform"  class="form-horizontal" role="form" data-id="{{ entity.id }}" action="{{ path('calendar_adesignajax_edit',{ 'id': entity.id }) }}" method="post" {{ form_enctype(form) }}>
@@ -221,78 +209,44 @@
 
     <form  id="myform" class="form-horizontal" role="form" action="{{ path('calendar_create') }}" method="post" {{ form_enctype(form) }}>
 
-
-
-
 {% endif %}
 
-        <fieldset>
-            <legend><center>OPERATION: {{ entity.title }} (id= {{entity.id}})</center></legend>
-
-            <div class='row'>
-                <div class='col-xs-3'>    
-                    <div class='form-group'>{{ form_row(form.title) }}</div>
-                </div>
-                <div class='col-xs-3'>    
-                    <div class='form-group'>{{ form_row(form.startDatetime) }}{{ form_row(form.endDatetime) }}</div>
-                </div>
-                <div class='col-xs-4'>
-                    <div class='form-group'>{{ form_row(form.bgColor) }}{{ form_row(form.fgColor) }}</div>
+           <label>Please fill the form</label>
+            <br><br>
+            <div class="form-group">
+                <div class="col-lg-7 col-sm-7">
+                   {{ form_row(form.title) }}
                 </div>
             </div>
 
-            <div class='row'>  
-                <div class='col-xs-12'>
-                    <div class='form-group'>{{ form_row(form.description) }}</div>
+            <div class="form-group">
+                <div class="col-lg-7 col-sm-7">
+                    {{ form_row(form.startDatetime) }} 
+                        {{ form_row(form.endDatetime) }} 
+              </div>
+            </div>
+
+             <div class="form-group">
+                <div class="col-lg-7 col-sm-7">
+                    {{ form_row(form.bgColor) }}
+{{ form_row(form.fgColor) }}  
+              </div>
+            </div>
+
+            
+            
+            <div class="form-group">
+                <div class="col-lg-10 col-sm-10">
+                {{ form_row(form.description) }} 
+                {{ form_rest(form) }}
                 </div>
             </div>
-            <div class='row'>  
-                <div class='col-xs-4'>
-                    <div class='form-group'>
-                        <button type="submit" class="btn btn-primary" id="submit">{{ button_submit }}</button>
-                    </div>
-                </div>
 
-            </div>
-        </fieldset>
-
-        <ul class="tags" data-prototype="{{ form_widget(form.picture.vars.prototype)|e }}">
-                        {% for tag in form.picture %}
-            <li> 
-                        {{ form_errors(tag.file) }}
-                        {{ form_widget(tag.file) }}
-                        {{ form_errors(tag.name) }}
-                        {{ form_widget(tag.name) }}
-                        {#  {{ form_widget(tag.OriginalFilename) }}#}
-            </li>
-                        {% endfor %}
-        </ul>
-{{ form_rest(form) }}
-
-    </form>
-
-
-{#=====================================================================
-                   LES FICHIERS DE LA DEMANDE
-=====================================================================#}
-
-
-    <h3><center>Liste des Fichiers associés</center></h3>
-    <table class="table table-bordered table-hover">
-        <thead>
-            <tr class="title"><th>id</th><th>Nom</th><th>Path</th></tr>
-        </thead>
-        <tbody>
-    {% for fic in entity.picture %}
-            <tr class="closed">
-                <td>{{ fic.id }}</td>
-                <td>{{ fic.name }}</td>
-                <td><a href="{{ path('docchangements_download', { 'id': fic.id }) }}">{{ fic.path }}</a></td>
-            </tr>
-    {% endfor %}
-        </tbody>
-    </table>   
-    <!----------Form Edit Event ----------------->
+            <button type="submit" class="btn btn-primary" id="submit" style="margin-left: 20px">{{ button_submit }}</button>
+</form>
+        
+        
+ <!----------Form Edit Event ----------------->
 
 {% endblock %}
      {% block footer %} {% endblock %}

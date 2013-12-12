@@ -54,7 +54,11 @@ background-color: #fff;
 z-index: 99;
 text-align: center;
 }*/
-
+#descriptionName{
+       /* background-color: #eaeaea;*/
+        width:80%;
+        border:1px solid black;
+    } 
     #loading-image {
         position: absolute;
         top: 50%;
@@ -87,7 +91,13 @@ text-align: center;
 <script type="text/javascript">
     /* jQuery.noConflict();*/
     $(document).ready(function() {
-        
+    /*  $('#openBtn').click(function(){
+	$('#myModal').modal({show:true})
+}); 
+$("#myModal").draggable({
+    handle: "#header-d"
+});*/
+
         var xcolors = ["#94a2be", "#993355", "#aaaaaa", "#f2a640", "#b373b3", "#668cd9"];
         // console.log("edit status="+edit_status);
         var resize_status = edit_status;
@@ -302,6 +312,13 @@ text-align: center;
                                 $("#titreheader").html("Editer un Evenement (id=" + calEvent.id + ")");
                                 remplirForm(calEvent);
                                 $('#createEventModal').modal('show');
+                                
+                                   $("#createShowModal").draggable({
+    handle: ".modal-header"
+});
+        $("#createShowModal").draggable({
+    handle: ".modal-header"
+});
                                 $("#submitButton").unbind('click');
                                 $("#submitButton").click(function(e) {
                                     console.log("SUBMIT BUTTON");
@@ -393,7 +410,8 @@ text-align: center;
                 });
             }
         });
-        /*------------------------------------------
+     
+            /*------------------------------------------
          * VIEW WINDOW
          *------------------------------------------*/
         function View(ids)
@@ -672,11 +690,12 @@ text-align: center;
                 $.colorbox({
                     iframe: true,
                     transition: "elastic",
-                    width: "80%",
+                    width: "70%",
                     height: "80%",
                     fastIframe: false,
                     opacity: 0.3,
                     href: url,
+                    
                     onClosed: function() {
                       //  $("#gridcontainer").reload();
                        var dataAjax = {'id': id};
@@ -893,6 +912,27 @@ text-align: center;
 {% endfor %}
  {% set xy = ["fffff","dfdfdf","ededdd"] %}
 {% block content %}
+{#
+<a data-toggle="modal" href="#myModal" class="btn btn-primary">Launch modal</a>
+
+<div class="modal" id="myModal">
+	<div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" id="header-d">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title">Modal title</h4>
+        </div>
+        <div class="modal-body">
+          Content for the dialog / modal goes here.
+        </div>
+        <div class="modal-footer">
+          <a href="#" data-dismiss="modal" class="btn">Close</a>
+          <a href="#" class="btn btn-primary">Save changes</a>
+        </div>
+      </div>
+    </div>
+</div>
+#}
 <div id="loading" class="hide" >
     <img id="loading-image" src="{{ asset('bootstrap/img/loading.gif') }}" alt="Loading..." />
 </div>
@@ -1032,8 +1072,9 @@ text-align: center;
               {#  {% set xx =[] %}#}
              {#   {% set xx = evenements.cssClass|merge({ (loop.index0): 'value'}) %} #}
       {% for key,entity in evenements %}
-            <div class="external-event" style="background-color:{{ entity.cssClass }}">{{ entity.nom }}
-                <input type="checkbox" class="external-checkbox" name="external-checkbox" id="{{ entity.id }}" checked>
+            <div class="external-event" style="background-color:{{ entity.cssClass }}">
+                {#  <input type="checkbox" class="external-checkbox" name="external-checkbox" id="{{ entity.id }}" checked>#}
+                <div  class="external-checkbox" name="external-checkbox" id="{{ entity.id }}">{{ entity.nom }}</div>
             </div>
 
         {% endfor %}

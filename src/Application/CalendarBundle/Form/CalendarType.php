@@ -49,6 +49,20 @@ class CalendarType extends AbstractType {
                     ),
                     'required' => false,
                 ))
+                
+                 ->add('picture', 'collection', array(
+                    'type' => new CalendarDocumentsType(),
+                    'allow_add' => true,
+                    'by_reference' => false,
+                    'allow_delete' => true,
+                       'prototype' => true,
+                      'label'=>false,
+                   /*'attr' => array(
+                'class' => 'span5'
+            )*/
+                   // 'prototype' => true,
+                    //'prototype_name' => '__name__'
+                    ))
 
         ;
     }
@@ -58,6 +72,12 @@ class CalendarType extends AbstractType {
 */
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
+            'data_class' => 'Application\CalendarBundle\Entity\AdesignCalendar',
+            'cascade_validation' => true,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            // a unique key to help generate the secret token
+            'intention'       => 'task_item',
          // 'data_class' => 'Application\CalendarBundle\Entity\AdesignCalendar'
         ));
     }
