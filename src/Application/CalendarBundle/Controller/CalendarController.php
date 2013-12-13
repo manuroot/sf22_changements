@@ -335,7 +335,7 @@ class CalendarController extends Controller {
                 $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
                 $ret['IsSuccess'] = true;
                 $response = new Response(json_encode($ret));
-                $response->headers->set('Content-Type', 'application/json');
+              $response->headers->set('Content-Type', 'application/json');
                 return $response;
             }
         }

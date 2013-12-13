@@ -18,7 +18,6 @@
 
 <style type="text/css">
 
-input[id*='picture_'] {float:left;color:red;margin-right:5px; }
     div.btxt{padding-bottom:10px;}   
     .mypad {margin-left:4px;
             margin-right:4px;}
@@ -168,73 +167,48 @@ input[id*='picture_'] {float:left;color:red;margin-right:5px; }
 
                 });
         //Callback handler for form submit event
-  var options = { 
-        target:        '#output2',   // target element(s) to be updated with server response 
-        beforeSubmit:  showRequest,  // pre-submit callback 
-        success:       showResponse  // post-submit callback 
-        // other available options: 
-        //url:       url         // override for form's 'action' attribute 
-        //type:      type        // 'get' or 'post', override for form's 'method' attribute 
-        //dataType:  null        // 'xml', 'script', or 'json' (expected server response type) 
-        //clearForm: true        // clear all form fields after successful submit 
-        //resetForm: true        // reset the form after successful submit 
- 
-        // $.ajax options can be used here too, for example: 
-        //timeout:   3000 
-    }; 
-  
-    
-    // bind to the form's submit event 
-    $('#myform').submit(function() { 
-        // inside event callbacks 'this' is the DOM element so we first 
-        // wrap it in a jQuery object and then invoke ajaxSubmit 
-        $(this).ajaxSubmit(options); 
- 
-        // !!! Important !!! 
-        // always return false to prevent standard browser submit and page navigation 
-        return false; 
-    }); 
 
- 
-// pre-submit callback 
-function showRequest(formData, jqForm, options) { 
-    // formData is an array; here we use $.param to convert it to a string to display it 
-    // but the form plugin does this for you automatically when it submits the data 
-    var queryString = $.param(formData); 
- 
-    // jqForm is a jQuery object encapsulating the form element.  To access the 
-    // DOM element for the form do this: 
-    // var formElement = jqForm[0]; 
- 
-    alert('About to submit: \n\n' + queryString); 
- 
-    // here we could return false to prevent the form from being submitted; 
-    // returning anything other than false will allow the form submit to continue 
-    return true; 
-} 
- function processJson(data) { 
-    // 'data' is the json object returned from the server 
-       console.log("reponse");
-    alert(data.message); 
-}
-// post-submit callback 
-function showResponse(responseText, statusText, xhr, $form)  { 
-    // for normal html responses, the first argument to the success callback 
-    // is the XMLHttpRequest object's responseText property 
- 
-    // if the ajaxSubmit method was passed an Options Object with the dataType 
-    // property set to 'xml' then the first argument to the success callback 
-    // is the XMLHttpRequest object's responseXML property 
- 
-    // if the ajaxSubmit method was passed an Options Object with the dataType 
-    // property set to 'json' then the first argument to the success callback 
-    // is the json data object returned by the server 
- 
-    alert('status: ' + statusText + '\n\nresponseText: \n' + responseText + 
-        '\n\nThe output div should have already been updated with the responseText.'); 
-   parent.jQuery.colorbox.close();
-} 
 
+ /*$("#myform").attr( "enctype", "multipart/form-data" ).attr( "encoding", "multipart/form-data" );*/
+ var enc=$("#myform").attr( "enctype");
+      $("#myform").submit(function(e){
+             e.preventDefault(); //Prevent Default action.
+            var id = $(this).attr("data-id");
+
+            var url = Routing.generate('calendar_adesignajax_edit', {id: id});
+
+            console.log("submit data");
+            var formObj = $(this);
+            myVar = false;
+            var mydata = $(this).serialize();
+            $.ajax({
+                async: false,
+                type: "POST",
+             /* enctype: enc,*/
+        contentType:$(this).attr( "enctype"),
+                /*contentType: enc,*/
+                /*contentType: false,*/
+                cache: false,
+                url: url,
+                data: $(this).serialize(),
+                success: function(reponse) {
+                    myVar = reponse;
+                    console.log("data=" + mydata);
+                },
+                error: function(e) {
+
+                    //  console.log(e.message);
+                    // datareponse = e.message;
+                }
+            });
+
+            parent.jQuery.colorbox.close();
+            return myVar;
+
+            //  var myclone=Routing.generate('changements_edit'
+            // parent.window.location.replace(myclone);
+
+        });
 
     });
 </script>
@@ -244,7 +218,6 @@ function showResponse(responseText, statusText, xhr, $form)  {
 {% block title %}{% endblock %}
 
 {% block content %}
-<div id="output2"></div>
 
 {% if action == 'edit' %}
 
@@ -288,19 +261,6 @@ function showResponse(responseText, statusText, xhr, $form)  {
             </div>
         </fieldset>
 
-        {# <table class="tags" data-prototype="{{ form_widget(form.picture.vars.prototype)|e }}">
-         
-                        {% for tag in form.picture %}
-            <tr> 
-                <td>  {{ form_errors(tag.file) }}
-                        {{ form_widget(tag.file) }}
-                </td>
-                      <td>    {{ form_errors(tag.name) }}
-                        {{ form_widget(tag.name) }}
-                      </td>  
-            </tr>
-                        {% endfor %}
-      </table>#}
         <ul class="tags" data-prototype="{{ form_widget(form.picture.vars.prototype)|e }}">
                         {% for tag in form.picture %}
             <li> 
