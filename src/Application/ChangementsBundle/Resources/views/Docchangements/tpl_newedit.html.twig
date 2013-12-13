@@ -70,6 +70,16 @@
                 </td></tr>
 </table>
 </form>
+     
+     
+     {% if action == 'edit' %} 
+        
+        <form   action="{{ path('docchangements_delete', { 'id': entity.id }) }}" method="post" {{ form_enctype(delete_form) }}>
+        {{ form(delete_form) }}
+                 {{ form_rest(delete_form) }}
+       <button type="submit" class="btn btn-medium btn-danger">Delete</button>
+       </form>
+        {% endif %}
 {% endblock %}
 
 

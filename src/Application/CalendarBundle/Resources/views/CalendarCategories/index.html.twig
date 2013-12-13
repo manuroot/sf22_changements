@@ -1,4 +1,4 @@
-{% extends "::layout.html.twig" %}
+{% extends "::layout_bs3.html.twig" %}
  
 
 {% block stylesheets %}
@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/indexfanta.css') }}" type="text/css" media="all"/>
     <link rel="stylesheet" href="{{ asset('css/jquery_flicker/jquery-ui-1.9.2.custom.css') }}" />    
      <link rel="stylesheet" href="{{ asset('jquery/simplecolorpicker/colorPicker.css') }}" type="text/css" media="all"/>
+<style>
+ tr{background-color:white;}
+</style>
 {% endblock %}
         
         
@@ -27,7 +30,7 @@
 {% block content %}
     <h1>Catégories ({{ root_calendar.nom }})</h1>
 
-    <table class="records_list table table-striped table-bordered">
+    <table class="table  table-striped table-hover table-bordered">
         <thead>
             <tr>
                 <th>Id</th>

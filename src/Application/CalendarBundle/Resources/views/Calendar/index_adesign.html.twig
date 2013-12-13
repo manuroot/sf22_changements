@@ -18,7 +18,7 @@
          .container {
              max-width: (1600px - @grid-gutter-width);
          }
-         .col-lg-10 {width:1400px;}
+     *   .col-lg-10 {width:1400px;}
      }
      @media screen and (min-width: 1900px) {
          .container {
@@ -26,6 +26,18 @@
          }
          .col-lg-10 {width:1600px;}
      }*/
+   @media screen and (min-width: 300px) {
+         .container-fluid {
+            padding-top:100px;
+         }
+         
+     }
+     @media screen and (min-width: 1200px) {
+         .container-fluid {
+            padding-top:20px;
+         }
+         
+     }
   .btn {
     margin: 2px;
 }

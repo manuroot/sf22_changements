@@ -372,7 +372,8 @@ class Docchangements {
      */
     public function removeUpload() {
         if ($file = $this->getAbsolutePath()) {
-            if (file_exists($file))
+          echo "test remove fic";
+          if (file_exists($file))
                 unlink($file);
         }
     }

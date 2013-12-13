@@ -616,7 +616,7 @@ $parameters=array();
                 $openssl = new MyOpenSsl();
                 $url_download = $this->generateUrl('certificatscenter_download', array('id'=> $id_fichier /* parameters */));
                 $url_delete = $this->generateUrl('certificats_documents_delete', array('id'=> $id_fichier /* parameters */));
-                 $url_delete = $this->generateUrl('certificats_documents_delete', array('id'=> $id_fichier /* parameters */));
+              //   $url_delete = $this->generateUrl('certificats_documents_delete', array('id'=> $id_fichier /* parameters */));
                 $certificats=$openssl->Parse_x509_light($fic);
                 $certificats['fields']['id'] = $id_fichier;
                 $certificats['fields']['name'] =  $original_name;
