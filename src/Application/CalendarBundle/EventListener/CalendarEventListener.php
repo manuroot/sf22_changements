@@ -30,10 +30,12 @@ class CalendarEventListener {
                 //   ->distinct('a.id')
                 ->leftJoin('a.rootcalendar', 'b');
         */
-        $values = array('a,b');
+         $values = array('a,b,c');
+       // $values = array('a,b,count(if(c.id IS NOT NULL,1,NULL)) as cid');
        $query = $this->entityManager->getRepository('ApplicationCalendarBundle:AdesignCalendar')
                         ->createQueryBuilder('a')
                         ->select($values)
+                ->leftJoin('a.picture', 'c')
                  ->leftJoin('a.calendarid', 'b')
                         ->where('a.startDatetime BETWEEN :startDate and :endDate')
                         ->orwhere('a.endDatetime BETWEEN :startDate and :endDate')

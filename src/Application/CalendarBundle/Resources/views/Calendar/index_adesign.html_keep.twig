@@ -328,7 +328,9 @@ text-align: center;
                                 $("#createShowModal").draggable({
                                     handle: ".modal-header"
                                 });
-                             
+                                $("#createShowModal").draggable({
+                                    handle: ".modal-header"
+                                });
                                 $("#submitButton").unbind('click');
                                 $("#submitButton").click(function(e) {
                                     console.log("SUBMIT BUTTON");
