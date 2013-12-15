@@ -64,7 +64,7 @@ input[id*='picture_'] {float:left;color:red;margin-right:5px; }
 
 {% block javascripts %}
     {{ parent() }}
-    {{ parent() }}
+    
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 <script type="text/javascript" src="{{ asset('select2/select2.min.js') }}"></script>
@@ -245,19 +245,32 @@ function showResponse(responseText, statusText, xhr, $form)  {
 
 {% block content %}
 
- 
-<div id="output2"></div>
-
+ <div class="row">
+    <div class="col-md-6">
+        
 {% if action == 'edit' %}
 
 <form  id="myform"  class="form-horizontal" role="form" data-id="{{ entity.id }}" action="{{ path('calendar_adesignajax_edit',{ 'id': entity.id }) }}" method="post" {{ form_enctype(form) }}>
 {% else %}
-    <form  id="myform" class="form-horizontal" role="form" action="{{ path('calendar_create') }}" method="post" {{ form_enctype(form) }}>
-{% endif %}
-        <fieldset>
-            <legend><center>OPERATION: {{ entity.title }} (id= {{entity.id}})</center></legend>
 
-            <div class='row'>
+    <form  id="myform" class="form-horizontal" role="form" action="{{ path('calendar_create') }}" method="post" {{ form_enctype(form) }}>
+
+
+
+
+{% endif %}
+
+      <h3>Tabs</h3>
+        <!-- tabs -->
+        <div class="tabbable">
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#one" data-toggle="tab">Principal</a></li>
+            <li><a href="#two" data-toggle="tab">Two</a></li>
+            <li><a href="#twee" data-toggle="tab">Fichier</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="one">
+                   <div class='row'>
                 <div class='col-xs-3'>    
                     <div class='form-group'>{{ form_row(form.title) }}</div>
                 </div>
@@ -282,43 +295,15 @@ function showResponse(responseText, statusText, xhr, $form)  {
                 </div>
 
             </div>
-        </fieldset>
-
-        {# <table class="tags" data-prototype="{{ form_widget(form.picture.vars.prototype)|e }}">
-         
-                        {% for tag in form.picture %}
-            <tr> 
-                <td>  {{ form_errors(tag.file) }}
-                        {{ form_widget(tag.file) }}
-                </td>
-                      <td>    {{ form_errors(tag.name) }}
-                        {{ form_widget(tag.name) }}
-                      </td>  
-            </tr>
-                        {% endfor %}
-      </table>#}
-        <ul class="tags" data-prototype="{{ form_widget(form.picture.vars.prototype)|e }}">
-                        {% for tag in form.picture %}
-            <li> 
-                        {{ form_errors(tag.file) }}
-                        {{ form_widget(tag.file) }}
-                        {{ form_errors(tag.name) }}
-                        {{ form_widget(tag.name) }}
-                        {#  {{ form_widget(tag.OriginalFilename) }}#}
-            </li>
-                        {% endfor %}
-        </ul>
-{{ form_rest(form) }}
-
-    </form>
-
-
-{#=====================================================================
-                   LES FICHIERS DE LA DEMANDE
-=====================================================================#}
-
-
-    <h3><center>Liste des Fichiers associés</center></h3>
+            </div>
+              
+              
+           
+              
+            <div class="tab-pane" id="two">   
+              
+              
+              <h3><center>Liste des Fichiers associés</center></h3>
     <table class=" table-striped table-bordered table-hover">
         <thead>
             <tr class="title"><th>id</th><th>Nom</th><th>Path</th></tr>
@@ -333,6 +318,35 @@ function showResponse(responseText, statusText, xhr, $form)  {
     {% endfor %}
         </tbody>
     </table>   
+            </div>
+            <div class="tab-pane" id="twee">  <ul class="tags" data-prototype="{{ form_widget(form.picture.vars.prototype)|e }}">
+                        {% for tag in form.picture %}
+            <li> 
+                        {{ form_errors(tag.file) }}
+                        {{ form_widget(tag.file) }}
+                        {{ form_errors(tag.name) }}
+                        {{ form_widget(tag.name) }}
+                        {% endfor %}
+        
+                        {#  {{ form_widget(tag.OriginalFilename) }}#}
+            </li>
+            </ul>
+{{ form_rest(form) }}
+               </div>
+           </div>
+        </div>
+        <!-- /tabs -->
+       
+    </form>
+
+
+
+{#=====================================================================
+                   LES FICHIERS DE LA DEMANDE
+=====================================================================#}
+
+
+    
     <!----------Form Edit Event ----------------->
 
 {% endblock %}

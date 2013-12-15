@@ -192,17 +192,19 @@ class Changements extends AbstractEvent {
      * @GRID\Column(title="Favoris",field="idusers.nomUser:GroupConcat", size="20",title="Users", filter="select")
      */
     private $idfavoris;
- 
-   
-     /**
+
+    /**
      * coté proprietaire (inversedBy)
      * 
      * @ORM\ManyToMany(targetEntity="Application\RelationsBundle\Entity\ChronoUser", inversedBy="idchangement",cascade={"persist"})
      * @ORM\OrderBy({"nomUser" = "ASC"})
      * @ORM\JoinTable(name="changements_users")
+     * @GRID\Column(title="Users",field="idusers.nomUser:GroupConcat", size="20",title="Users", filter="select")
      */
     private $idusers;
-  
+
+    //  * @GRID\Column(field="idusers.nomUser:GroupConcat", size="20",title="Users", filter="select")
+// @GRID\Column(title="Users", field="idusers.nomUser:GroupConcat", size="20", visible=true, sortable=true, filtrable="true")
 
     /**
      * @var \ChronoUser
@@ -538,7 +540,6 @@ class Changements extends AbstractEvent {
     public function __construct() {
         // ????????
         $this->idusers = new ArrayCollection();
-        $this->xidusers = new ArrayCollection();
         $this->idapplis = new ArrayCollection();
         $this->picture = new ArrayCollection();
         $this->idEnvironnement = new ArrayCollection();
@@ -620,14 +621,7 @@ class Changements extends AbstractEvent {
     public function getIdusers() {
         return $this->idusers;
     }
- /**
-     * Get xidusers
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getIdxusers() {
-        return $this->idxusers;
-    }
+
     public function __toString() {
         return $this->getNom();    // this will not look good if SonataAdminBundle uses this ;)
     }

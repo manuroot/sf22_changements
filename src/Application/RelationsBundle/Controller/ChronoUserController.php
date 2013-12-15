@@ -41,13 +41,15 @@ class ChronoUserController extends Controller {
      *
      */
     public function showAction($id) {
+   
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('ApplicationRelationsBundle:ChronoUser')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find ChronoUser entity.');
         }
+        
+       // echo "eeeeeee" . $entity->getInfos();
         $deleteForm = $this->createDeleteForm($id);
         return $this->render('ApplicationRelationsBundle:ChronoUser:show.html.twig', array(
                     'entity' => $entity,

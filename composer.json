@@ -34,6 +34,7 @@
         "knplabs/knp-paginator-bundle": "dev-master",
         "craue/formflow-bundle": "dev-master",
         "sonata-project/easy-extends-bundle": "dev-master",
+        "sonata-project/core-bundle": "~2.2@dev",
         "sonata-project/cache-bundle": "dev-master",
         "sonata-project/admin-bundle": "dev-master",
         "sonata-project/block-bundle": "dev-master",

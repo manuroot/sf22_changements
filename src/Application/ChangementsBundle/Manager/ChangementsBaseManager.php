@@ -8,6 +8,7 @@ abstract class ChangementsBaseManager
     {
         $this->em->persist($entity);
         $this->em->flush();
+       $this->em->refresh($entity);
     }
      protected function removeAndFlush($entity)
     {

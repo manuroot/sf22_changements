@@ -99,7 +99,12 @@ color: red;
     <div class="span3 mywell">
         <div class="btxt">  <i class="icon-user-md icon-2x"></i>  Contact Client: {{ entity.contact }}</div>
        <div class="btxt">   <i class="icon-user icon-2x"></i>  Demandeur: {{ entity.demandeur }}</div>
-     <div class="btxt">     <i class="icon-group icon-2x"></i>  Utilisateurs: {{ entity.idusers|join(', ') }}</div>
+     <div class="btxt">     <i class="icon-group icon-2x"></i>  Utilisateurs: {{ entity.idusers|join(', ') }}
+     
+     11
+     
+      {% for u in entity.idusers %}{{ u.email }}{% endfor %}
+     </div>
     </div>     
     <div class="span3 mywell">
        <div class="btxt">   <i class="icon-time  icon-2x"></i> Date Demande 
@@ -129,8 +134,11 @@ color: red;
 </div>   
         <div class="span3 mywell">
                <div class="btxt">  <i class="icon-globe  icon-2x"></i> Environnements:  {{ entity.idEnvironnement|join(', ') }}</div>  
+               
+                 {% for u in entity.idEnvironnement %}{{ u.description }}{% endfor %}
         <div class="btxt">  <i class="icon-tag  icon-2x"></i> Projet: {{ entity.idProjet }}</div>
           <div class="btxt">  <i class="icon-archive  icon-2x"></i> Applications: {{ entity.idapplis|join(', ') }} </div>  
+        
           <div class="btxt">    <i class="icon-tag icon-2x"></i> Ticket Externe: {{ entity.ticketExt }}</div>
           <div class="btxt">     <i class="icon-tag icon-2x"></i> Ticket Interne: {{ entity.ticketInt }}</div>
         </div>

@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Application\ChangementsBundle\Entity\Changements;
 use Application\RelationsBundle\Entity\Document;
+use Application\RelationsBundle\Entity\ChronoUser;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Application\ChangementsBundle\Form\ChangementsType;
 use Application\ChangementsBundle\Form\ChangementsFilesForEntityType;
@@ -461,28 +462,34 @@ class ChangementsController extends Controller {
         $datas_session = $session->get('calendar_dates');
         $form = $this->createForm(new CalendarType($em));
         if ($request->getMethod() == 'POST') {
-           
+
             $dataform = $request->get('changements_calendar_form');
             $parameters = $dataform;
-           
-       
+
+
             $session->set('calendar_dates', $dataform);
             $current_year = $dataform['publishedAt']['year'];
             $current_month = $dataform['publishedAt']['month'];
             if ($request->get('submit') == "next") {
-                if ($current_month == 12){$current_month =1;$current_year+=1;}
-                else {$current_month +=1;}
-                   $dataform['publishedAt']['year']=$current_year;
-             $dataform['publishedAt']['month']=$current_month;
-                 }
-            elseif ($request->get('submit') == "previous") {
-                 if ($current_month == 1){$current_month =12;$current_year-=1;}
-                else { $current_month =$current_month-1;}
-               $dataform['publishedAt']['year']=$current_year;
-             $dataform['publishedAt']['month']=$current_month;
-             
+                if ($current_month == 12) {
+                    $current_month = 1;
+                    $current_year+=1;
+                } else {
+                    $current_month +=1;
+                }
+                $dataform['publishedAt']['year'] = $current_year;
+                $dataform['publishedAt']['month'] = $current_month;
+            } elseif ($request->get('submit') == "previous") {
+                if ($current_month == 1) {
+                    $current_month = 12;
+                    $current_year-=1;
+                } else {
+                    $current_month = $current_month - 1;
+                }
+                $dataform['publishedAt']['year'] = $current_year;
+                $dataform['publishedAt']['month'] = $current_month;
             }
-                //  print_r($dataform);exit(1);
+            //  print_r($dataform);exit(1);
             $form->bind($dataform);
         } elseif (isset($datas_session)) {
             // echo "data set<br>";
@@ -531,14 +538,14 @@ class ChangementsController extends Controller {
         $source = new Entity('ApplicationChangementsBundle:Changements');
         $source->manipulateRow(
                 function ($row) {
-                    $currenta = $row->getField('idStatus.nom');
-                    if ($currenta == 'open') {
-                        $row->setColor('#dff0d8;');
-                    } elseif ($currenta == 'en preparation') {
-                        $row->setColor('#EDF3FE');
-                    }
-                    return $row;
-                }
+            $currenta = $row->getField('idStatus.nom');
+            if ($currenta == 'open') {
+                $row->setColor('#dff0d8;');
+            } elseif ($currenta == 'en preparation') {
+                $row->setColor('#EDF3FE');
+            }
+            return $row;
+        }
         );
         $grid = $this->container->get('grid');
         // Attach the source to the grid
@@ -573,7 +580,16 @@ class ChangementsController extends Controller {
      *
      */
     public function showAction($id) {
-        $entity = $this->get('changement.common.manager')->loadChangement($id);
+        $entity = $this->get('changement.common.manager')->checkandloadChangement($id);
+        foreach ($entity->getIdusers() as $u) {
+            /* echo "id=" . $u->getId() . "-- ";
+              echo "mail=--" . (string) $u->getNomUser() . "-- <br>";
+              var_dump($u->getTelephone());
+              var_dump($u->getInfos());
+              var_dump($u->getBureau());
+              echo "mail=--" .  $u->getTelephone() . "-- <br>";
+             */
+        }
         $deleteForm = $this->createDeleteForm($id);
         return $this->render('ApplicationChangementsBundle:Changements:show.html.twig', array(
                     'entity' => $entity,
@@ -612,37 +628,36 @@ class ChangementsController extends Controller {
     public function newcloneAction($id) {
         $entity = $this->get('changement.common.manager')->loadChangement($id);
         $copy = clone $entity;
-       /* $em = $this->getDoctrine()->getManager();
-        $em->persist($copy);
-        $em->flush();*/
+        /* $em = $this->getDoctrine()->getManager();
+          $em->persist($copy);
+          $em->flush(); */
         $copy->setDateDebut(null);
         $copy->setDateFin(null);
         $copy->setIdStatus(null);
         $copy->setTicketExt(null);
         $copy->setTicketInt(null);
-        
-        
-        $id=$copy->getId();
-       $editForm = $this->createForm(new ChangementsType(), $copy);
+
+
+        $id = $copy->getId();
+        $editForm = $this->createForm(new ChangementsType(), $copy);
         $deleteForm = $this->createDeleteForm($id);
-    //   return $this->get('router')->generate('changements_update', array('id' => $id));
-    //  return $this->redirect($this->generateUrl('changements_edit', array('id' => $id)));
-   /* return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
+        //   return $this->get('router')->generate('changements_update', array('id' => $id));
+        //  return $this->redirect($this->generateUrl('changements_edit', array('id' => $id)));
+        /* return $this->render('ApplicationChangementsBundle:Changements:edit.html.twig', array(
+          'entity' => $copy,
+          //  'form' => $editForm->createView(),
+          'edit_form' => $editForm->createView(),
+          'delete_form' => $deleteForm->createView(),
+          'is_clone' => 'yes'
+          )); */
+
+        return $this->render('ApplicationChangementsBundle:Changements:new.html.twig', array(
                     'entity' => $copy,
-                //  'form' => $editForm->createView(),
-                    'edit_form' => $editForm->createView(),
-                    'delete_form' => $deleteForm->createView(),
-                    'is_clone' => 'yes'
-        ));*/
-    
-       return $this->render('ApplicationChangementsBundle:Changements:new.html.twig', array(
-                    'entity' => $copy,
-                //  'form' => $editForm->createView(),
+                    //  'form' => $editForm->createView(),
                     'form' => $editForm->createView(),
                     //'delete_form' => $deleteForm->createView(),
                     'is_clone' => 'yes'
         ));
-  
     }
 
     /**
@@ -708,6 +723,74 @@ class ChangementsController extends Controller {
         ));
     }
 
+    protected function testy() {
+
+
+
+        $em = $this->getDoctrine()->getManager();
+        $entity_c = $this->get('changement.common.manager')->loadChangement(580);
+        //  $entity_c = $em->getRepository('ApplicationChangementsBundle:Changements')->find(580);
+        echo "<br>11=";
+        foreach ($entity_c->getIdusers() as $u) {
+
+            if (!$u) {
+                throw $this->createNotFoundException('Unable to find ChronoUser entity.');
+            }
+            echo $u->getId() . "--" . $u->getInfos() . $u->getEmail();
+        }
+    }
+
+    public function xsendemailAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $this->get('changement.common.manager')->mygetusers($id);
+
+        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find("580");
+
+
+        $user_id = $this->getuserid();
+        if (!isset($user_id)) {
+            throw $this->createNotFoundException('Unable to find Changements entity.');
+        }
+        $entity_user = $em->getRepository('ApplicationSonataUserBundle:User')->find($user_id);
+
+
+        $demandeur = $entity_user->getUsername();
+        echo "demandeur=$demandeur";
+        //  $users = $entity->getIdusers();
+        $title = $entity->getNom();
+        $subject = "Création d'une demande de changement" . ": " . $title;
+        echo "subject=$subject";
+        $message = \Swift_Message::newInstance()
+                ->setSubject($subject)
+                ->setFrom($demandeur . '@pc-supervision.fr');
+        echo "<br>";
+        foreach ($entity->getIdEnvironnement() as $u) {
+
+            //  echo "id=--" . (string) $u->getEmail() . "-- <br>";
+            echo "id=--" . $u->getDescription() . "-- <br>";
+        }
+        $entity = $em->getRepository('ApplicationChangementsBundle:Changements')->find("580");
+
+        foreach ($entity->getIdUsers() as $u) {
+
+            //  echo "id=--" . (string) $u->getEmail() . "-- <br>";
+            echo "id=--" . $u->getEmail() . "-- <br>";
+        }
+
+
+
+        $message->setBody(
+                $this->renderView(
+                        'ApplicationChangementsBundle:Changements:email.txt.twig', array(
+                    'entity' => $entity)
+        ));
+        //  return new Response($message);
+        //   var_dump($message);
+        //   exit(1);
+        // $this->get('mailer')->send($message); 
+        return $message;
+    }
+
     /**
      * Creates a new Changements entity.
      *
@@ -723,15 +806,27 @@ class ChangementsController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
+           
 
             $id = $entity->getId();
             $session = $request->getSession();
+             $session->getFlashBag()->add('notice', 'Email envoyé!');
             $session->getFlashBag()->add('warning', "Enregistrement $id ajouté aux opérations");
             // ajoute des messages flash
+            $manager = $this->get('changement.common.manager');
+              $mess = $manager->sendemailChangement($id);
+             $mess->setBody(
+                $this->renderView(
+                        'ApplicationChangementsBundle:Changements:email.html.twig', array(
+                             'message'=> 'AJOUT:',
+                    'entity' => $entity)
+        ));
+            $this->get('mailer')->send($mess);
             return $this->check_retour();
         }
         return $this->render('ApplicationChangementsBundle:Changements:new.html.twig', array(
                     'entity' => $entity,
+                   
                     'form' => $form->createView(),
         ));
     }
@@ -779,17 +874,35 @@ class ChangementsController extends Controller {
     public function updateAction(Request $request, $id) {
 
         $manager = $this->get('changement.common.manager');
-        $entity = $manager->loadChangement($id);
-        $deleteForm = $this->createDeleteForm($id);
+        $entity = $manager->checkandloadChangement($id);
+        //??
+        //$entity = $manager->loadChangement($id);
         $editForm = $this->createForm(new ChangementsType(), $entity);
+        $deleteForm = $this->createDeleteForm($id);
+
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
-            // $this->get('changement.common.manager')->saveChangement($entity);
             $manager->saveChangement($entity);
+            $mess = $manager->sendemailChangement($id,"update");
+             $mess->setBody(
+                $this->renderView(
+                        'ApplicationChangementsBundle:Changements:email.html.twig', array(
+                              'message'=> 'UPDATE:',
+                    'entity' => $entity)
+        ),'text/html');
+             //$message->setContentType("text/html")
+           
+            /*   $em = $this->getDoctrine()->getManager();
+              $entity_c = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
+             */
+var_dump($mess->getTo());
+            exit(1);
+             $this->get('mailer')->send($mess);
             $session = $this->getRequest()->getSession();
+             $session->getFlashBag()->add('notice', 'Email envoyé! (de ' . $mess->getFrom() . ')');
+
             $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
-            //    return $this->redirect($this->generateUrl('changements_fanta'));
             return $this->check_retour();
         }
 
@@ -1369,9 +1482,9 @@ class ChangementsController extends Controller {
         $arrow[$sort] = $next_dir == "DESC" ? 'icon-arrow-up' : 'icon-arrow-down';
         //$routeName = $request->get('_route');
         //echo "route=$routeName";exit(1);
-       // if ($routeName != "changements_fanta")
-       //     $parameters['operation']=1;
-            
+        // if ($routeName != "changements_fanta")
+        //     $parameters['operation']=1;
+
         $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getJoinedBy($sort, $dir, $parameters);
 
         $adapter = new DoctrineORMAdapter($query);
@@ -1397,10 +1510,10 @@ class ChangementsController extends Controller {
             throw new NotFoundHttpException();
             // throw $this->createNotFoundException('Unable to find entity.');
         }
-         //if ($routeName != "changements_fanta")
-             //   $currenttwig='indexfanta.html.twig';
+        //if ($routeName != "changements_fanta")
+        //   $currenttwig='indexfanta.html.twig';
         // else 
-          //      $currenttwig='indexfanta.html.twig';
+        //      $currenttwig='indexfanta.html.twig';
         return $this->render('ApplicationChangementsBundle:Changements:indexfanta.html.twig', array(
                     'pagerfanta' => $pagerfanta,
                     'entities' => $q,
@@ -1571,4 +1684,3 @@ class ChangementsController extends Controller {
     }
 
 }
-

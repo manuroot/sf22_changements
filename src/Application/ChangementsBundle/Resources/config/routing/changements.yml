@@ -130,3 +130,8 @@ templates1:
     pattern:  /templates1
     defaults: { _controller: "ApplicationChangementsBundle:Changements:templates1" }
     methods: POST|GET
+
+changements_xsendemail:
+    pattern:  /{id}/sendemail
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:xsendemail" }
+

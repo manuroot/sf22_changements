@@ -38,6 +38,8 @@ services:
            - { name: twig.extension }
 
 swiftmailer:
-  disable_delivery:  true
+  disable_delivery:  false
+  # a remettre pour dev (pas denvoi de mail 
+  #disable_delivery:  true
 #swiftmailer:
 #    delivery_address: me@example.com

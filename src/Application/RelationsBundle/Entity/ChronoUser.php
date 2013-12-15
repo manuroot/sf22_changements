@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Application\RelationsBundle\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -15,6 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="Application\RelationsBundle\Repository\ChronoUserRepository")
  * @UniqueEntity(fields="nomUser", message="Ce nom existe déjà...")
  */
+
+
 
 class ChronoUser
 {
@@ -95,7 +96,16 @@ class ChronoUser
     private $idchangement;
 
        public function __toString() {
-        return $this->getNomUser();    // this will not look good if SonataAdminBundle uses this ;)
+       return $this->nomUser;    // this will not look good if SonataAdminBundle uses this ;)
+    }
+    
+   
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idchangement = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -131,7 +141,6 @@ class ChronoUser
         return $this->nomUser;
     }
 
-  
     /**
      * Set infos
      *
@@ -223,14 +232,30 @@ class ChronoUser
     {
         return $this->email;
     }
+
     /**
-     * Constructor
+     * Set idgroup
+     *
+     * @param \Application\RelationsBundle\Entity\ChronoUsergroup $idgroup
+     * @return ChronoUser
      */
-    public function __construct()
+    public function setIdgroup(\Application\RelationsBundle\Entity\ChronoUsergroup $idgroup)
     {
-        $this->idchangement = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+        $this->idgroup = $idgroup;
     
+        return $this;
+    }
+
+    /**
+     * Get idgroup
+     *
+     * @return \Application\RelationsBundle\Entity\ChronoUsergroup 
+     */
+    public function getIdgroup()
+    {
+        return $this->idgroup;
+    }
+
     /**
      * Add idchangement
      *
@@ -262,53 +287,5 @@ class ChronoUser
     public function getIdchangement()
     {
         return $this->idchangement;
-    }
-
-    /**
-     * Set idusers
-     *
-     * @param \Application\RelationsBundle\Entity\ChronoUsergroup $idusers
-     * @return ChronoUser
-     */
-    public function setIdusers(\Application\RelationsBundle\Entity\ChronoUsergroup $idusers)
-    {
-        $this->idusers = $idusers;
-    
-        return $this;
-    }
-
-    /**
-     * Get idusers
-     *
-     * @return \Application\RelationsBundle\Entity\ChronoUsergroup 
-     */
-    public function getIdusers()
-    {
-        return $this->idusers;
-    }
-
-  
-
-    /**
-     * Set idgroup
-     *
-     * @param \Application\RelationsBundle\Entity\ChronoUsergroup $idgroup
-     * @return ChronoUser
-     */
-    public function setIdgroup(\Application\RelationsBundle\Entity\ChronoUsergroup $idgroup)
-    {
-        $this->idgroup = $idgroup;
-    
-        return $this;
-    }
-
-    /**
-     * Get idgroup
-     *
-     * @return \Application\RelationsBundle\Entity\ChronoUsergroup 
-     */
-    public function getIdgroup()
-    {
-        return $this->idgroup;
     }
 }

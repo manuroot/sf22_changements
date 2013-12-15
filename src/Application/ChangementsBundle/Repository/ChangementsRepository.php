@@ -115,10 +115,11 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         ;
         return $query;
     }
+  
 
     public function myFindaIdAll($id) {
         $parameters = array();
-        $values = array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,h');
+        $values = array('a,partial b.{id,nomprojet},partial c.{id,nomUser,email,infos},partial d.{id,nom,description},f,h');
 
         $query = $this->createQueryBuilder('a')
                 ->select($values)
@@ -469,6 +470,8 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         return $year;
     }
 
+    
+    
     public function GetYears() {
 
         $result = array();

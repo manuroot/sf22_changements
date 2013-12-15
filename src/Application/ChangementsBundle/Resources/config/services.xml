@@ -15,6 +15,7 @@
 
 <service id="changement.common.manager" class="Application\ChangementsBundle\Manager\ChangementsManager">
    <argument type="service" id="doctrine.orm.entity_manager" />
+   <argument type="service" id="security.context" />
 </service>
 
  <service id="application.form.flow.new.changement" class="Application\ChangementsBundle\Form\ChangementsFlow"
