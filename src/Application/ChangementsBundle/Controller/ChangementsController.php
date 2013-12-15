@@ -896,13 +896,14 @@ class ChangementsController extends Controller {
             /*   $em = $this->getDoctrine()->getManager();
               $entity_c = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
              */
-var_dump($mess->getTo());
-            exit(1);
+           // var_dump($mess->getFrom());
+            //exit(1);
              $this->get('mailer')->send($mess);
             $session = $this->getRequest()->getSession();
-             $session->getFlashBag()->add('notice', 'Email envoyé! (de ' . $mess->getFrom() . ')');
+             
 
             $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
+            $session->getFlashBag()->add('notice', "id=$id: Email envoyé");
             return $this->check_retour();
         }
 

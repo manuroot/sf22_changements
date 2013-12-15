@@ -51,12 +51,12 @@ CalendarRoot list</center></h1>
       
             <th>Id</th>
             <th>Nom</th>
-            <th>Start(Heure)</th>
-            <th>End(Heure)</th>
-            <th>Slot (Minutes)</th>
+            <th class="hidden-xs hidden-sm">Start(Heure)</th>
+            <th  class="hidden-xs hidden-sm">End(Heure)</th>
+            <th class="hidden-xs hidden-sm">Slot (Minutes)</th>
             <th>Owner</th>
            {# <th>Groupes Edition</th>#}
-              <th>Groupes Edition</th>
+              <th class="hidden-xs">Groupes Edition</th>
             <th colspan="2">Actions</th>
         </tr>
     </thead>
@@ -76,13 +76,13 @@ CalendarRoot list</center></h1>
                {# <td><a href="{{ path('calendarroot_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>#}
             <td>{{ entity.id }}</td>
             <td>{{ entity.nom }}</td>
-             <td>{{ entity.startHour }}</td>
-            <td>{{ entity.endHour }}</td>
+             <td  class="hidden-xs hidden-sm">{{ entity.startHour }}</td>
+            <td  class="hidden-xs hidden-sm">{{ entity.endHour }}</td>
 
-            <td>{{ entity.plage }}</td>
+            <td class="hidden-xs hidden-sm" >{{ entity.plage }}</td>
    <td>{{ entity.owner }}</td>
           {#  <td> {{ entity.groupedit|join(', ') }}</td>#}
-         <td> {{ entity.secondgroupedit|join(', ') }}</td>
+         <td class="hidden-xs hidden-sm"> {{ entity.secondgroupedit|join(', ') }}</td>
             <td> 
                  {% if is_granted('ROLE_ADMIN') %} 
                 <span class="fa-stack fa-lg">

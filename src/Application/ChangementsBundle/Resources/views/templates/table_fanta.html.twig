@@ -5,7 +5,7 @@
                 <thead>
                 <tr class="title">
                {# <script>var menuDownUrl = "{{ asset('bundles/applicationcertificats/images/') }}";</script>#}
-                <th style="width:30px"  class="sorted">
+                <th style="width:30px"  class="sorted ">
                     <a href="{{ path(index_path, {'sort':'a.id','dir':next_dir}) }}">ID</a> 
                      {% if arrow['a.id'] is defined %}
                         <i class={{ arrow['a.id'] }}></i>
@@ -35,21 +35,21 @@
                         <i class={{ arrow['a.dateDebut'] }}></i>
                     {% endif %}
                 </th>
-                <th style="min-width:80px"  class="sorted">
+                <th style="min-width:80px"  class="sorted hidden-phone">
                     <a href="{{ path(index_path, {'sort':'a.dateFin','dir':next_dir}) }}">Fin</a> 
                     <i class="icon-time"></i>
                     {% if arrow['a.dateFin'] is defined %}
                     <i class={{ arrow['a.dateFin'] }}></i>
                     {% endif %}
                 </th>
-                 <th style="min-width:80px"  class="sorted">
+                 <th style="min-width:80px"  class="sorted hidden-phone">
                     <a href="{{ path(index_path, {'sort':'b.nomprojet','dir':next_dir}) }}">Projet</a> 
                     <i class="icon-tag"></i>
                     {% if arrow['b.nomprojet'] is defined %}
                     <i class={{ arrow['b.nomprojet'] }}></i>
                     {% endif %}
                 </th>
-                 <th style="min-width:30px"  class="sorted">
+                 <th style="min-width:30px"  class="sorted hidden-phone hidden-tablet">
                     <a href="{{ path(index_path, {'sort':'a.demandeur','dir':next_dir}) }}">D</a> 
                     <i class="icon-user"></i>
                     {% if arrow['a.demandeur'] is defined %}
@@ -59,19 +59,19 @@
 
                 
                 
-                <th style="min-width:30px"  class="sorted thinfos">
+                <th style="min-width:30px"  class="sorted thinfos hidden-phone hidden-tablet">
     <a class="mytooltip" href="#" rel="tooltip" data-content="{{ infofichiers }}" data-original-title="Information" data-toggle="tooltip">
         <i class="icon-book"></i></a>
                    
                   
                 </th>
-                 <th style="min-width:30px"  class="sorted thinfos">
+                 <th style="min-width:30px"  class="sorted thinfos  hidden-phone hidden-tablet">
       <a class="mytooltip" href="#" rel="tooltip" data-content="{{ infocomments }}" data-original-title="Information" data-toggle="tooltip">
         <i class="icon-comment"></i></a>
                     
                   
                 </th>
-                 <th style="min-width:80px"  class="sorted">
+                 <th style="min-width:80px"  class="sorted hidden-phone hidden-tablet">
                     <a href="{{ path(index_path, {'sort':'e.nomUser','dir':next_dir}) }}">Users</a> 
                     <i class="icon-group"></i>
                     {% if arrow['e.nomUser'] is defined %}
@@ -86,21 +86,21 @@
                     {% endif %}
                 </th>
                 
-                 <th style="min-width:80px"  class="sorted">
+                 <th style="min-width:80px" class="sorted hidden-phone hidden-tablet">
                     <a href="{{ path(index_path, {'sort':'a.ticketExt','dir':next_dir}) }}">T_Ext</a> 
                     <i class="icon-tag"></i>
                     {% if arrow['a.ticketExt'] is defined %}
                     <i class={{ arrow['a.ticketExt'] }}></i>
                     {% endif %}
                 </th>
-                 <th style="min-width:80px"  class="sorted">
+                 <th style="min-width:80px"  class="sorted hidden-phone hidden-tablet">
                     <a href="{{ path(index_path, {'sort':'a.ticketInt','dir':next_dir}) }}">T_Int</a> 
                     <i class="icon-tag"></i>
                     {% if arrow['a.ticketInt'] is defined %}
                     <i class={{ arrow['a.ticketInt'] }}></i>
                     {% endif %}
                 </th>
-                 <th style="min-width:40px"  class="sorted">
+                 <th style="min-width:40px"  class="sorted hidden-phone">
                     <a href="{{ path(index_path, {'sort':'g.nom','dir':next_dir}) }}">Env</a> 
                     <i class="icon-globe"></i>
                     {% if arrow['g.nom'] is defined %}
@@ -169,10 +169,10 @@
      {% endif %}
    
     <td>{{ entity.dateDebut|date('Y-m-d') }}</td>
-    <td>{% if entity.dateFin  %}{{ entity.dateFin|date('Y-m-d') }}{% else %}---{% endif %}</td>
-    <td>{{ entity.idProjet.nomprojet }}</td>
-    <td>{{ entity.demandeur.nomUser }}</td>
-    <td>
+    <td class="hidden-phone">{% if entity.dateFin  %}{{ entity.dateFin|date('Y-m-d') }}{% else %}---{% endif %}</td>
+    <td class="hidden-phone">{{ entity.idProjet.nomprojet }}</td>
+    <td class="hidden-phone hidden-tablet">{{ entity.demandeur.nomUser }}</td>
+    <td class="hidden-phone hidden-tablet">
         {% if entity.picture|length > 0  %}
          <img src="{{ asset('bundles/applicationchangements/images/wordx.gif') }}" alt="show" width="12px" height="12px"/>x {{  entity.picture|length }}
         {% else %}
@@ -180,13 +180,13 @@
         {% endif %}
     </td>
    
-     <td> {% if entity.comments|length > 0  %}
+     <td class=" hidden-phone hidden-tablet"> {% if entity.comments|length > 0  %}
                 {{ entity.comments|length }}
             {% else %}
             -
         {% endif %}
         </td>
-    <td>{{ entity.idusers|join(', ') }}</td>
+    <td class=" hidden-phone hidden-tablet">{{ entity.idusers|join(', ') }}</td>
     <td style="min-width:45px"> 
         {% if entity.idStatus.description != 'closed' %}
             {% set c_status = "open" %}
@@ -203,9 +203,9 @@
                   <img src="{{ asset('bundles/applicationchangements/images/') }}{{ c_img }}" alt="show" width="15px" height="15px"/>
                   </a>
    </td> 
-   <td> {{ entity.ticketExt }}   </td>
-   <td> {{ entity.ticketInt }}   </td>
-   <td>{% for envir in entity.idEnvironnement %}{{ envir }} <br>{% endfor %}</td>
+   <td class="hidden-phone hidden-tablet"> {{ entity.ticketExt }}   </td>
+   <td class="hidden-phone hidden-tablet"> {{ entity.ticketInt }}   </td>
+   <td class="hidden-phone">{% for envir in entity.idEnvironnement %}{{ envir }} <br>{% endfor %}</td>
    <td style="min-width:18px"> 
      
     <a class="tooltip_show editme" rel="tooltip" data-content="{{ text_show }}" data-original-title="Information" data-toggle="tooltip" href="{{ path('changements_showXhtml', { 'id': entity.id }) }}">

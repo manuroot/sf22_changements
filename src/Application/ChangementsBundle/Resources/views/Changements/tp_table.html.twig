@@ -13,7 +13,7 @@
                                 <i class=" fa fa-time"></i></th>
                             <th{% if pagination.isSorted('b.nomprojet') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Projet', 'b.nomprojet') }}
                               <i class=" fa fa-tag"></i></th>
-                            <th{% if pagination.isSorted('c.nomUser') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'D', 'c.nomUser') }}
+                            <th{% if pagination.isSorted('c.nomUser') %} class="sorted visible-desktop"{% endif %}>{{ knp_pagination_sortable(pagination, 'D', 'c.nomUser') }}
                                 <i class=" fa fa-user"></i></th>
                             <th><i class=" fa fa-book"></i></th>
                             <th><i class=" fa fa-pencil"></i></th>
@@ -23,9 +23,9 @@
                             <th style="min-width:80px" class="sorted">Users <i class="fa fa-group" style="color:black"></i></th>
                             <th style="min-width:30px" {% if pagination.isSorted('d.idStatus.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'F', 'd.idStatus.nom') }}
                                 <i class=" fa fa-flag"></i></th>
-                             <th style="min-width:50px" {% if pagination.isSorted('a.ticketExt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'T_Ext', 'a.ticketExt') }}
+                             <th style="min-width:50px" {% if pagination.isSorted('a.ticketExt') %} class="sorted visible-desktop"{% endif %}>{{ knp_pagination_sortable(pagination, 'T_Ext', 'a.ticketExt') }}
                                 <i class=" fa fa-tag"></i></th>
-                             <th style="min-width:60px" {% if pagination.isSorted('a.ticketInt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'T_Int', 'a.ticketInt') }}
+                             <th style="min-width:60px" {% if pagination.isSorted('a.ticketInt') %} class="sorted visible-desktop"{% endif %}>{{ knp_pagination_sortable(pagination, 'T_Int', 'a.ticketInt') }}
                                  <i class=" fa fa-tag"></i></th>
                             <th {% if pagination.isSorted('g.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Env', 'g.nom') }}
                                 <i class=" fa fa-wrench"></i></th>
@@ -68,7 +68,7 @@
                                    {# {{ entity.picture|length }}#}
                                 </td>
                             <td>{{ entity.comments|length }}</td>
-                            <td>
+                            <td class="sorted visible-desktop">
                                 {{ entity.idusers|join(', ') }}   
                                 {#% for user in entity.idusers %} {{ user.nomUser }}
                                 {% endfor %#}
@@ -88,8 +88,8 @@
                                     </a>
                                {% endif %}
                             </td> 
-                            <td> {{ entity.ticketExt }}   </td>
-                            <td> {{ entity.ticketInt }}   </td>
+                            <td class="sorted visible-desktop"> {{ entity.ticketExt }}   </td>
+                            <td class="sorted visible-desktop"> {{ entity.ticketInt }}   </td>
                              <td>
                                 {% for envir in entity.idEnvironnement %}
                                     {{ envir }} <br>

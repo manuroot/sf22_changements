@@ -35,23 +35,24 @@ background-color: #bbbbbb;
 
   <table class="records_list table table-striped table-bordered">
     <thead>
-        <tr class="title">
+         <tr class="single">
                 <th>Id</th>
                 <th>Nomgroup</th>
-                <th>Description</th>
-                <th>Email</th>
-                <th>Proprietaire</th>
-                     <th colspan=2">Actions</th>
+                <th class="hidden-xs hidden-sm">Description</th>
+                <th class="hidden-xs hidden-sm">Email</th>
+                <th class="hidden-xs">Proprietaire</th>
+               <th colspan="2">Actions</th>
             </tr>
+        
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
                 <td><a href="{{ path('calendargroup_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.nomGroup }}</td>
-                <td>{{ entity.description }}</td>
-                <td>{{ entity.email }}</td>
-                 <td>{{ entity.owner }}</td>
+                <td class="hidden-xs hidden-sm">{{ entity.description }}</td>
+                 <td class="hidden-xs hidden-sm">{{ entity.email }}</td>
+                  <td class="hidden-xs">{{ entity.owner }}</td>
                  <td> <a href="{{ path('calendargroup_show', { 'id': entity.id }) }}">
                            <img src="{{ asset('bundles/applicationcalendar/images/detail.png') }}" alt="edit" width="15px" height="15px" />
                 </a>

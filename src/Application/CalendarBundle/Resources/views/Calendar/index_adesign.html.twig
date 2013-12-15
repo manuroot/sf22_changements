@@ -51,21 +51,6 @@
     }
     .container{margin-left:10px;margin-right:10px;}
     .container-fluid{margin-left:10px;margin-right:10px;}
-
-
-    /*
-#loading {
-width: 100%;
-height: 100%;
-top: 0px;
-left: 0px;
-position: fixed;
-display: block;
-opacity: 0.1;
-background-color: #fff;
-z-index: 99;
-text-align: center;
-}*/
     #descriptionName{
         /* background-color: #eaeaea;*/
         width:80%;
@@ -78,9 +63,8 @@ text-align: center;
         width:70px;height:70px;
         z-index: 100;
     }
-    #box-buttons{padding:4px;background-color: whitesmoke;margin-top:5px;margin-bottom:20px;}
-    div#external-events{background-color: whitesmoke;padding:4px;margin-bottom:10px;}
-
+    #dateselector,#box-buttons,div#external-events{background-color: whitesmoke;padding:4px;margin-bottom:10px;}
+    #dateselector{width:100%;margin-top:10px;}
 </style>
 {% endblock %}
 
@@ -1056,7 +1040,7 @@ text-align: center;
             <span class="label label-info"><i class="glyphicon glyphicon-calendar"></i> {{ rootcal.nom }}</span>
         </div>
 #}
-        <div class="input-group input-group-md">
+        <div class="input-group input-group-md" id="dateselector">
             <div class="input-prepend date-chooser">
                 <span class="add-on" id="dateaddon"><i class="glyphicon glyphicon-time"></i> Date</span>
                 <input id="datepicker" type="text"></div>
