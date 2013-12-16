@@ -70,6 +70,18 @@ class CalendarController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
+/*
+        $startDatetime = new \DateTime();
+        $startDatetime->setTimestamp("1385334000");
+        $endDatetime = new \DateTime();
+        $endDatetime->setTimestamp("1388790000");
+
+        $events = $this->container->get('event_dispatcher')->dispatch(CalendarEvent::CONFIGURE, new CalendarEvent($startDatetime, $endDatetime, 1))->getEvents();
+     //  var_dump($events);
+             return $this->render('ApplicationCalendarBundle:Calendar:index_test.html.twig', array(
+                  ));
+  //      exit(1);
+*/
         $form = $this->createForm(new CalendarType());
 
 
@@ -153,6 +165,7 @@ class CalendarController extends Controller {
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
             $data['id'] = $request->get('id');
             $entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find($data['id']);
+            
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find ChangementsContact entity.');
             }
@@ -161,16 +174,19 @@ class CalendarController extends Controller {
             $data['id'] = $entity->getId();
             $entity->getBgColor(); //set the background color of the event's label
             $data['allDay'] = (boolean) $entity->getAllDay();
-             $data['title'] = $entity->getTitle();
+            $data['title'] = $entity->getTitle();
             $data['start'] = $entity->getstartDatetime()->format('Y-m-d H:i:s');
-             $data['end']  = $entity->getendDatetime()->format('Y-m-d H:i:s');
-          
+            $data['end'] = $entity->getendDatetime()->format('Y-m-d H:i:s');
+
             $data['className'] = $entity->getCssClass();
+             $data['className'] = $entity->getCssClass();
+              $data['nbfiles'] = $entity->getNbPicture();
+             
             $data['backgroundColor'] = $entity->getBgColor();
             $data['description'] = $entity->getDescription();
             $data['textColor'] = $entity->getFgColor(); //set the foregr
             $ret['data'] = $data;
-         $response = new Response(\json_encode($ret));
+            $response = new Response(\json_encode($ret));
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
@@ -335,7 +351,7 @@ class CalendarController extends Controller {
                 $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
                 $ret['IsSuccess'] = true;
                 $response = new Response(json_encode($ret));
-              $response->headers->set('Content-Type', 'application/json');
+                $response->headers->set('Content-Type', 'application/json');
                 return $response;
             }
         }

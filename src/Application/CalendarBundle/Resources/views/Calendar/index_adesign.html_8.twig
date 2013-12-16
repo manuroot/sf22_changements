@@ -234,7 +234,7 @@
                 if (event.origine !== "absence")
                     element.find("div.fc-event-time").prepend(" <a class=\"editme\" href=\"#\"><i class=\"glyphicon glyphicon-wrench\"></i></a> ");
                 
-                if (event.nbfiles !== "0" &&  event.nbfiles !== undefined) 
+                  if (event.nbfiles !== "0")
                     element.find("div.fc-event-time").append(" <i class=\"glyphicon glyphicon-book\"></i>"+event.nbfiles);
            
            
@@ -292,7 +292,7 @@
 
             eventClick: function(calEvent, jsEvent, view) {
 
-                
+                Edit(calEvent);
                 console.log("event click");
                 if (edit_status === false || !edit_status)
                     return;
@@ -317,8 +317,7 @@
                             label: "Edit",
                             className: "btn-success",
                             callback: function(e) {
-                                Edit(calEvent);
-                              /*  $("#titreheader").html("Editer un Evenement (id=" + calEvent.id + ")");
+                                $("#titreheader").html("Editer un Evenement (id=" + calEvent.id + ")");
                                 remplirForm(calEvent);
                                 $('#createEventModal').modal('show');
 
@@ -333,14 +332,14 @@
                                     doSubmit(calEvent);
                                     console.log("END SUBMIT BUTTON");
                                     // $('#submit-event-update').unbind();
-                                   
+                                    /* console.log("id after dosubmit call="+ calEvent.id);*/
 
                                     initForm();
                                 });
                                 $("#cancel-button").click(function(event) {
                                     // $('#calendar-holder').fullCalendar('unselect');
                                     initForm();
-                                });*/
+                                });
                             }
                         },
                         danger: {
@@ -947,10 +946,10 @@
     <div class="modal-dialog">
         <div class="modal-content">
 
- {# 
+
             <div class="modal-body form-horizontal">
 
-              <div class="form-group">
+                <div class="form-group">
                     <label class="col-sm-2 control-label" for="inputTitle"><i class="icon-calendar"></i>  Titre:</label>
                     <div class="col-sm-10 controls" id="stitle"> </div>
                 </div>
@@ -976,9 +975,7 @@
                 </div>
 
 
-            </div>
-#}
-{#
+            </div>{#
  <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
          <button type="button" class="btn btn-warning" >Editer</button>
@@ -1002,7 +999,7 @@
 
                 <form id="eventForm" class="form-horizontal" role="form">
                     <div class="form-group">
-                       <label for="inputTitle" class="col-sm-3 control-label">Titre</label>
+                        <label for="inputTitle" class="col-sm-3 control-label">Titre</label>
                         <div class="col-sm-9">
 
                             <input type="text" name="title" id="titleName" style="margin: 0 auto;" data-provide="typeahead" data-items="4" data-source="">

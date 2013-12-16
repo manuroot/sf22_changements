@@ -107,6 +107,10 @@ class AdesignCalendar extends BaseAdesignCalendar
         return $this->picture;
     }
 
+    public function getNbPicture() {
+        return count($this->picture);
+    }
+    
     /**
      * Add picture
      *

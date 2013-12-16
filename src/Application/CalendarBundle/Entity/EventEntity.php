@@ -49,6 +49,10 @@ class EventEntity
      */
     protected $endDatetime;
     
+      /**
+     * @var integer 
+     */
+    protected $nbfiles;
     
         /**
      * @var string
@@ -112,7 +116,9 @@ class EventEntity
          if ($this->description !== null) {
             $event['description'] = $this->description;
         }
-        
+         if ($this->nbfiles !== null) {
+            $event['nbfiles'] = $this->nbfiles;
+        }
         
         $event['allDay'] = $this->allDay;
         
@@ -128,6 +134,17 @@ class EventEntity
     {
         return $this->id;
     }
+    
+     public function setNbfiles($nbfiles)
+    {
+        $this->nbfiles = $nbfiles;
+    }
+    
+    public function getNbfiles()
+    {
+        return $this->nbfiles;
+    }
+    
     
     
      public function setDescription($description) {

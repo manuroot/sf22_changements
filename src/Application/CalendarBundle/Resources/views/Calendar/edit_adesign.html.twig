@@ -274,14 +274,7 @@ function showResponse(responseText, statusText, xhr, $form)  {
                     <div class='form-group'>{{ form_row(form.description) }}</div>
                 </div>
             </div>
-            <div class='row'>  
-                <div class='col-xs-4'>
-                    <div class='form-group'>
-                        <button type="submit" class="btn btn-primary" id="submit">{{ button_submit }}</button>
-                    </div>
-                </div>
-
-            </div>
+           
         </fieldset>
 
         {# <table class="tags" data-prototype="{{ form_widget(form.picture.vars.prototype)|e }}">
@@ -297,7 +290,7 @@ function showResponse(responseText, statusText, xhr, $form)  {
             </tr>
                         {% endfor %}
       </table>#}
-            Prototype
+        
         <ul class="tags" data-prototype="{{ form_widget(form.picture.vars.prototype)|e }}">
                         {% for tag in form.picture %}
             <li> 
@@ -309,6 +302,16 @@ function showResponse(responseText, statusText, xhr, $form)  {
             </li>
                         {% endfor %}
         </ul>
+           <fieldset>
+         <div class='row'>  
+                <div class='col-xs-4'>
+                    <div class='form-group'>
+                        <button type="submit" class="btn btn-primary" id="submit">{{ button_submit }}</button>
+                    </div>
+                </div>
+
+            </div>
+        </fieldset>
 {{ form_rest(form) }}
 
     </form>
