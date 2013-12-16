@@ -87,7 +87,7 @@ width:150px;
                                            <i class="icon-user"></i></th>
      
                 
-                <th{% if pagination.isSorted('a.path') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom Physique', 'a.path') }}
+                <th class="sorted hidden-phone" >{{ knp_pagination_sortable(pagination, 'Nom Physique', 'a.path') }}
                                            <i class="icon-user"></i></th>
      
                 <th>Lien</th>
@@ -114,7 +114,7 @@ width:150px;
                 
                 
                 {%  if (entity.path is defined) and entity.path is not empty %}
-                            <td>  --{{ entity.path }}--</td>
+                            <td  class="sorted hidden-phone">  --{{ entity.path }}--</td>
                             <td>
                           <a class="fichier" href="{{ path('download_filesprojet_route', { 'id': entity.id }) }}">
                              <i class="icon-download-alt"></i></a></td>
