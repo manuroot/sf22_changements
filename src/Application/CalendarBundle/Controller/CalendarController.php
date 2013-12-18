@@ -70,18 +70,20 @@ class CalendarController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-/*
-        $startDatetime = new \DateTime();
-        $startDatetime->setTimestamp("1385334000");
-        $endDatetime = new \DateTime();
-        $endDatetime->setTimestamp("1388790000");
 
-        $events = $this->container->get('event_dispatcher')->dispatch(CalendarEvent::CONFIGURE, new CalendarEvent($startDatetime, $endDatetime, 1))->getEvents();
-     //  var_dump($events);
-             return $this->render('ApplicationCalendarBundle:Calendar:index_test.html.twig', array(
-                  ));
-  //      exit(1);
-*/
+
+        /*
+          $startDatetime = new \DateTime();
+          $startDatetime->setTimestamp("1385334000");
+          $endDatetime = new \DateTime();
+          $endDatetime->setTimestamp("1388790000");
+
+          $events = $this->container->get('event_dispatcher')->dispatch(CalendarEvent::CONFIGURE, new CalendarEvent($startDatetime, $endDatetime, 1))->getEvents();
+          //  var_dump($events);
+          return $this->render('ApplicationCalendarBundle:Calendar:index_test.html.twig', array(
+          ));
+          //      exit(1);
+         */
         $form = $this->createForm(new CalendarType());
 
 
@@ -94,6 +96,11 @@ class CalendarController extends Controller {
         }
 
         $id_cal = $session->get('calendar_id');
+
+        // $calendar_entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->myFindNewEvent(26400,$id_cal);
+
+
+
         $entity_root = $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->findOneById($id_cal);
         $b_days = $entity_root->getDays();
         $days = array();
@@ -165,7 +172,7 @@ class CalendarController extends Controller {
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
             $data['id'] = $request->get('id');
             $entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find($data['id']);
-            
+
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find ChangementsContact entity.');
             }
@@ -179,9 +186,9 @@ class CalendarController extends Controller {
             $data['end'] = $entity->getendDatetime()->format('Y-m-d H:i:s');
 
             $data['className'] = $entity->getCssClass();
-             $data['className'] = $entity->getCssClass();
-              $data['nbfiles'] = $entity->getNbPicture();
-             
+            $data['className'] = $entity->getCssClass();
+            $data['nbfiles'] = $entity->getNbPicture();
+
             $data['backgroundColor'] = $entity->getBgColor();
             $data['description'] = $entity->getDescription();
             $data['textColor'] = $entity->getFgColor(); //set the foregr
@@ -190,6 +197,50 @@ class CalendarController extends Controller {
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
+    }
+
+    public function neweventjqCalendarAction(Request $request) {
+
+        /*   if (!$session->has('calendar_id')) {
+          $id_calendar=1;
+          }else {
+          $id_calendar = $session->get('calendar_id');
+          } */
+        $id_calendar = 1;
+        $ret = array();
+        $session = $request->getSession();
+        if (!$session->has('calendar_id')) {
+            $ret['status'] = false;
+        } else {
+
+            $em = $this->getDoctrine()->getManager();
+            $new_events = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->myFindNewEvent(120, $id_calendar);
+            $return_events = array();
+            $response = new \Symfony\Component\HttpFoundation\Response();
+            $response->headers->set('Content-Type', 'application/json');
+            // var_dump($new_events);
+            foreach ($new_events as $event) {
+                $return_events[] = $event->toArray();
+            }
+
+            if ($return_events) {
+                $ret['status'] = true;
+            } else {
+                $ret['status'] = false;
+            }
+            $ret['data'] = $return_events;
+            //var_dump($return_events);
+            $response->setContent(json_encode($ret));
+
+            return $response;
+            //requete qui va bien !!
+        }
+
+
+
+        $response = new Response(json_encode($ret));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     public function updatejqCalendarAction(Request $request) {
@@ -250,6 +301,16 @@ class CalendarController extends Controller {
                 $entity = new AdesignCalendar($data['title'], $d, $f);
                 if ($entity_root)
                     $entity->setCalendarid($entity_root);
+                //--------------------
+                // Set user
+                //--------------------
+
+                $securityContext = $this->get('security.context');
+                $user = $securityContext->getToken()->getUser();
+                $entity->setUser($user);
+
+
+
                 $entity->setUrl('4564');
                 $bgcolor = $request->get('backgroundColor', "#94a2be");
                 $classcss = $request->get('className', 'class1');
@@ -269,6 +330,9 @@ class CalendarController extends Controller {
 
                 $entity->setDescription($description);
                 $entity->setFgColor($fgcolor); //set the foreground color of the event's label
+                //--------------------
+                // Persit and flush
+                //--------------------
                 $em->persist($entity);
                 $em->flush();
                 $ret['IsSuccess'] = true;

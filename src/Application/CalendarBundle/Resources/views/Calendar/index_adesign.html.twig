@@ -4,7 +4,7 @@
 
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
-<link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
+<link rel="stylesheet" href="{{ asset('bootstrap3/css/jquery.pnotify.default.css') }}" type="text/css" />
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/colorbox.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/indexfanta.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('css/jquery_flicker/jquery-ui-1.9.2.custom.css') }}" />
@@ -77,7 +77,7 @@
 <script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
 <script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.js') }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/jquery.colorbox.js') }}"></script>
-  {# <script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>#}
+<script type="text/javascript" src="{{ asset('bootstrap3/js/jquery.pnotify.js') }}"></script>
 <script type="text/javascript" src="{{ asset('jquery/jquery.xcolor.js') }}"></script>
 <script type="text/javascript" src="{{ asset('jquery/simplecolorpicker/jquery.colorPicker.js') }}"></script>
 <script type="text/javascript" src="{{ asset('jquery/jqtip2/jquery.qtip.min.js') }}"></script>
@@ -210,12 +210,28 @@
             eventRender: function(event, element, view) {
                 if (!event.description)
                     event.description = "--";
-                
+
                 /* if (!event.nbfiles)
-                    event.nbfiles = "--";*/
-             //   console.log("id="+event.id + "nbfic="+event.nbfiles);
-                
-                
+                 event.nbfiles = "--";*/
+                //   console.log("id="+event.id + "nbfic="+event.nbfiles);
+                // retrieve the dropped element's stored Event Object
+
+                //==========================================================
+                // TEST
+                //==========================================================
+                /*
+                 var originalEventObject = event.data('eventObject');
+                 
+                 // we need to copy it, so that multiple events don't have a reference to the same object
+                 var copiedEventObject = $.extend({}, originalEventObject);
+                 
+                 // Push the event into the array
+                 arrayOfEvents.push(copiedEventObject);
+                 
+                 */
+
+
+
                 element.attr("description", event.description);
                 var start = $.fullCalendar.formatDate(event.start, "yyyy-MM-dd HH:mm:ss");
                 var end = $.fullCalendar.formatDate(event.end, "yyyy-MM-dd HH:mm:ss");
@@ -235,12 +251,12 @@
                 element.find("div.fc-event-time").css('background-color', t);
                 if (event.origine !== "absence")
                     element.find("div.fc-event-time").prepend(" <a class=\"editme\" href=\"#\"><i class=\"glyphicon glyphicon-wrench\"></i></a> ");
-                
-                if (event.nbfiles !== "0" &&  event.nbfiles !== undefined) 
-                    element.find("div.fc-event-time").append(" <i class=\"glyphicon glyphicon-book\"></i>"+event.nbfiles);
-           
-           
-           
+
+                if (event.nbfiles !== "0" && event.nbfiles !== undefined)
+                    element.find("div.fc-event-time").append(" <i class=\"glyphicon glyphicon-book\"></i>" + event.nbfiles);
+
+
+
                 /* var desc="Pas de description";
                  if (event.description =="") desc=event.description;*/
                 /* element.find(".fc-event-time").after($("<span class=\"fc-event-icons\"></span>").html("Whatever you want the content of the span to be"));
@@ -271,6 +287,9 @@
                 $("#submitButton").click(function(event) {
                     doSubmit(event);
                     initForm();
+                    var message = "<br>Start: " + start + "<br>Fin: " + end;
+                    notify('Evenement ajouté', message, "success");
+
                 });
                 $("#cancel-button,button.close").click(function(event) {
                     initForm();
@@ -285,6 +304,7 @@
                 console.log("drop: move event");
                 updateajax('calendar_dropajax', event, event['allDay'], function(result) {
                     console.log("event single drop result=" + result);
+
                 });
             },
             /*===================================
@@ -294,7 +314,7 @@
 
             eventClick: function(calEvent, jsEvent, view) {
 
-                
+
                 console.log("event click");
                 if (edit_status === false || !edit_status)
                     return;
@@ -320,29 +340,29 @@
                             className: "btn-success",
                             callback: function(e) {
                                 Edit(calEvent);
-                              /*  $("#titreheader").html("Editer un Evenement (id=" + calEvent.id + ")");
-                                remplirForm(calEvent);
-                                $('#createEventModal').modal('show');
-
-                                $("#createShowModal").draggable({
-                                    handle: ".modal-header"
-                                });
-                             
-                                $("#submitButton").unbind('click');
-                                $("#submitButton").click(function(e) {
-                                    console.log("SUBMIT BUTTON");
-                                    console.log("id before dosubmit call=" + calEvent.id);
-                                    doSubmit(calEvent);
-                                    console.log("END SUBMIT BUTTON");
-                                    // $('#submit-event-update').unbind();
-                                   
-
-                                    initForm();
-                                });
-                                $("#cancel-button").click(function(event) {
-                                    // $('#calendar-holder').fullCalendar('unselect');
-                                    initForm();
-                                });*/
+                                /*  $("#titreheader").html("Editer un Evenement (id=" + calEvent.id + ")");
+                                 remplirForm(calEvent);
+                                 $('#createEventModal').modal('show');
+                                 
+                                 $("#createShowModal").draggable({
+                                 handle: ".modal-header"
+                                 });
+                                 
+                                 $("#submitButton").unbind('click');
+                                 $("#submitButton").click(function(e) {
+                                 console.log("SUBMIT BUTTON");
+                                 console.log("id before dosubmit call=" + calEvent.id);
+                                 doSubmit(calEvent);
+                                 console.log("END SUBMIT BUTTON");
+                                 // $('#submit-event-update').unbind();
+                                 
+                                 
+                                 initForm();
+                                 });
+                                 $("#cancel-button").click(function(event) {
+                                 // $('#calendar-holder').fullCalendar('unselect');
+                                 initForm();
+                                 });*/
                             }
                         },
                         danger: {
@@ -420,6 +440,77 @@
             }
         });
 
+
+
+        //setInterval(myFunction, 30000);
+        setInterval(function()
+        {
+
+            $.ajax({
+                type: "POST",
+                url: Routing.generate('calendar_neweventajax'),
+                datatype: "html",
+                success: function(datas)
+                {
+
+                    if (datas.status === true) {
+                        console.log("ok return datas");
+                        $.each(datas.data, function(key, value) {
+                            console.log("id=" + value.id);
+                         var start = value.start;
+                            var end = value.end;
+                            //  var end=value.end.toString('yyyy-MM-dd')
+                            var message = "id=" + value.id + " \ntitre=" + value.title + "\nstart=" + start + "\nend=" + end;
+                            var similarEvents = $('#calendar-holder').fullCalendar('clientEvents', value.id);
+                            console.log("length=" + similarEvents.length);
+                            if (similarEvents.length == 0) {
+                                $('#calendar-holder').fullCalendar('renderEvent', datas.data[key], false);
+                                notify("nouveaux evenements", message, "success");
+
+                            }
+                            else {
+                                $('#calendar-holder').fullCalendar('removeEvents', value.id);
+                                $('#calendar-holder').fullCalendar('renderEvent', datas.data[key], false);
+                                notify("update evenements", message, "error");
+
+                            }
+                            /*for(i in similarEvents){
+                             console.log("idoki="+similarEvents[i].id);
+                             }*/
+                            //similarEvents = similarEvents[0];
+                            //    console.log("id=" + similarEvents.id);
+                            // if (similarEvents)
+
+                        });
+
+                    }
+                },
+                error: function(e) {
+                    myVar = false;
+                }
+            });
+            //1000=1s
+        }, 120000);
+        // }, 120000);
+
+        /*------------------------------------------
+         * VIEW WINDOW
+         *------------------------------------------*/
+        function notify(title, message, mytype) {
+            mytype = mytype || "success";
+
+            $.pnotify({
+                title: 'Evenement ajouté',
+                text: message,
+                animation: 'show',
+                nonblock_opacity: 0.2,
+                type: mytype,
+                styling: 'bootstrap',
+                icon: 'glyphicon glyphicon-flag',
+                width: '350px',
+                opacity: .9
+            });
+        }
         /*------------------------------------------
          * VIEW WINDOW
          *------------------------------------------*/
@@ -1004,7 +1095,7 @@
 
                 <form id="eventForm" class="form-horizontal" role="form">
                     <div class="form-group">
-                       <label for="inputTitle" class="col-sm-3 control-label">Titre</label>
+                        <label for="inputTitle" class="col-sm-3 control-label">Titre</label>
                         <div class="col-sm-9">
 
                             <input type="text" name="title" id="titleName" style="margin: 0 auto;" data-provide="typeahead" data-items="4" data-source="">

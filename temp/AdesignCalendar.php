@@ -58,20 +58,6 @@ class AdesignCalendar extends BaseAdesignCalendar
      */
     protected $picture;
     
-       /**
-        * unidirectionnel
-     * @var \Application\Sonata\UserBundle\Entity\User
-     *
-     * @ORM\ManyToOne(targetEntity="Application\Sonata\UserBundle\Entity\User")
-     * @ORM\OrderBy({"username" = "ASC"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="owner", nullable=true,referencedColumnName="id")
-     * })
-     */
-    private $user;
-    
-
-    
      public function __construct($title, \DateTime $startDatetime, \DateTime $endDatetime = null, $allDay = false)
     {
          parent::__construct($title,$startDatetime,$endDatetime, $allDay);
@@ -89,28 +75,6 @@ class AdesignCalendar extends BaseAdesignCalendar
         return $this->id;
     }
 
-     
-/**
-     * Set user
-     *
-     * @param \Application\Sonata\UserBundle\Entity\User $user
-     * @return Epost
-     */
-    public function setUser(\Application\Sonata\UserBundle\Entity\User $user = null) {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \Application\Sonata\UserBundle\Entity\User 
-     */
-    public function getUser() {
-        return $this->user;
-    }
-    
     /**
      * Set calendarid
      *

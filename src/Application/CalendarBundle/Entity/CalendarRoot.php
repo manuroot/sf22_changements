@@ -87,6 +87,7 @@ class CalendarRoot {
      * @ORM\OneToMany(targetEntity="CalendarCategories", mappedBy="rootcalendar",cascade={"persist"})
      */
     private $categories;
+    
      /**
      * @var \Application\Sonata\UserBundle\Entity\User
      *

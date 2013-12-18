@@ -78,8 +78,13 @@ abstract class BaseAdesignCalendar
      */
     protected $description;
   
-    
-     
+         
+ /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="added_date", type="datetime", nullable=false)
+     */
+    protected $addedDate;
 
     
        
@@ -95,6 +100,7 @@ abstract class BaseAdesignCalendar
     {
         $this->title = $title;
         $this->startDatetime = $startDatetime;
+        $this->addedDate = new \DateTime('now');
         $this->setAllDay($allDay);
          
         if ($endDatetime === null && $this->allDay === false) {
@@ -262,5 +268,27 @@ abstract class BaseAdesignCalendar
         return $this->allDay;
     }
 
-  
+  /**
+     * Set addedDate
+     *
+     * @param \DateTime $addedDate
+     * @return CertificatsCenter
+     */
+    public function setAddedDate($addedDate)
+    {
+        $this->addedDate = $addedDate;
+    
+        return $this;
+    }
+
+    /**
+     * Get addedDate
+     *
+     * @return \DateTime 
+     */
+    public function getAddedDate()
+    {
+        return $this->addedDate;
+    }
+
 }

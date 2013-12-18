@@ -28,6 +28,15 @@ calendar_adesignajax_update:
     options:
         expose: true
         
+
+                
+calendar_neweventajax:
+    methods: POST|GET
+    pattern: /neweventjqeajax
+    defaults: { _controller: "ApplicationCalendarBundle:Calendar:neweventjqCalendar" }
+    options:
+        expose: true
+        
         
 calendar_dropajax:
     methods: POST|GET
