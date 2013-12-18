@@ -442,13 +442,27 @@
 
 
 
+        /*------------------------------------------
+         * VIEW WINDOW
+         *------------------------------------------*/
         //setInterval(myFunction, 30000);
         setInterval(function()
         {
 
+var start= $('#calendar-holder').fullCalendar('getView').start;
+
+var end= $('#calendar-holder').fullCalendar('getView').end;
+var dataAjax = {
+                       
+                        'start': start,
+                        'end': end,
+                      };
+
             $.ajax({
+                 url: Routing.generate('calendar_neweventajax'),
                 type: "POST",
-                url: Routing.generate('calendar_neweventajax'),
+                dataType: "json",
+                data:dataAjax,
                 datatype: "html",
                 success: function(datas)
                 {
@@ -490,8 +504,8 @@
                 }
             });
             //1000=1s
-        }, 120000);
-        // }, 120000);
+        //}, 120000);
+         }, 10000);
 
         /*------------------------------------------
          * VIEW WINDOW

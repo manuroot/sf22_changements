@@ -27,8 +27,14 @@ class CalendarEventListener {
                 ->select($values)
                 ->leftJoin('a.picture', 'c')
                 ->leftJoin('a.calendarid', 'b')
-                ->where('a.startDatetime BETWEEN :startDate and :endDate')
-                ->orwhere('a.endDatetime BETWEEN :startDate and :endDate')
+               // ->where('a.startDatetime BETWEEN :startDate and :endDate')
+              //  ->orwhere('a.endDatetime BETWEEN :startDate and :endDate')
+               ->where('(a.startDatetime BETWEEN :startDate and :endDate OR a.endDatetime BETWEEN :startDate and :endDate) OR (a.startDatetime <= (:startDate)  AND a.endDatetime >= (:endDate))')
+            //   ->ordwhere('a.startDatetime <= (:startDate)  AND a.endDatetime >= (:endDate)')
+
+//  ->ordwhere('a.startDatetime <= (:startDate)  AND a.endDatetime >= (:endDate)')
+                
+                
                 ->setParameter('startDate', $startDate->format('Y-m-d H:i:s'))
                 ->setParameter('endDate', $endDate->format('Y-m-d H:i:s'))
         ;

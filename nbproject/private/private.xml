@@ -14,14 +14,7 @@
         <group>
             <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/index_adesign.html.twig</file>
             <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/EventListener/CalendarEventListener.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Controller/CalendarController.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Repository/AdesignCalendarRepository.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Event/CalendarEvent.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Repository/ChangementsRepository.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/config/routing/adesigncalendar.yml</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/public/js/jquery.colorbox.js</file>
             <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Entity/AdesignCalendar.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Model/BaseAdesignCalendar.php</file>
         </group>
     </open-files>
 </project-private>

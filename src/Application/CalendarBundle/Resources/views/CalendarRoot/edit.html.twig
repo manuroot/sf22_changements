@@ -56,51 +56,67 @@ Edition Calendrier ({{entity.nom}})</center></h1>
  
   
 <div class="row">
-  <div class="col-sm-2 col-sm-offset-1 single"> 
+  <div class="col-sm-5 col-sm-offset-1"> 
        {{ form_label(edit_form.nom) }}
        {{ form_widget(edit_form.nom, {'attr': {'class': 'form-control'}}) }}
         {{ form_label(edit_form.isviewable) }}
         {{ form_widget(edit_form.isviewable, {'attr': {'class': 'form-control'}}) }}
+        <div class="row-fluid">
   {{ form_label(edit_form.days) }}
          {{ form_widget(edit_form.days, {'attr': {'class': 'form-control'}}) }}
     {{ form_label(edit_form.description) }}
           {{ form_widget(edit_form.description, {'attr': {'class': 'form-control'}}) }}
+        </div>  
+        
   
    </div>
-    <div class="col-sm-2 col-sm-offset-1 single"> 
+    <div class="col-sm-2 col-sm-offset-1"> 
     {{ form_label(edit_form.plage) }}
    {{ form_widget(edit_form.plage, {'attr': {'class': 'form-control'}}) }}
-    {{ form_label(edit_form.plage) }}
+    {{ form_label(edit_form.startHour) }}
 
-        {{ form_row(edit_form.startHour) }} 
-      {{ form_label(edit_form.endHour) }}
+   {{ form_widget(edit_form.startHour, {'attr': {'class': 'form-control'}}) }}
+     {{ form_label(edit_form.endHour) }}
+   
+       {{ form_widget(edit_form.endHour, {'attr': {'class': 'form-control'}}) }}
+     
 
-        {{ form_row(edit_form.endHour) }} 
+     
 
    {{ form_label(edit_form.isshared) }}
-        {{ form_row(edit_form.isshared) }}
+          {{ form_widget(edit_form.isshared, {'attr': {'class': 'form-control'}}) }}
+
    {#{{ form_row(edit_form.rootcalendar) }}#}
  {#  {{ form_row(edit_form.rootcalendar, { 'attr':{'readonly':'readonly'} }) }}#}
+          
+{{ form_label(edit_form.secondgroupedit) }}
+          {{ form_widget(edit_form.secondgroupedit, {'attr': {'class': 'form-control'}}) }}
+          
+      
+          
    {{ form_rest(edit_form) }}
 
  </div>
-
-      <div class="col-sm-1"> 
-    
-        <button type="submit" class="btn btn-large btn-warning">Valider</button>    
-    </div>
+    <br>
+</div>
+     <div class="row">
+  <div class="col-sm-5 col-sm-offset-1"> 
+        <button type="submit" class="btn btn-large btn-warning form-control">Valider</button>    
           
 </div>
-     
+  </div>   
 </form>
     <br><br>
    <div class="row">
-  <div class="col-sm-2 col-sm-offset-1"> 
+  <div class="col-sm-5 col-sm-offset-1"> 
 
-<a href="{{ path('calendarroot') }}" class="btn btn-medium btn-success">Retour</a>
-    <a href="{{ path('calendar_indexadesign') }}" class="myleft btn btn-small btn-primary">Retour Calendrier</a>    
+<a href="{{ path('calendarroot') }}" class="btn btn-medium btn-success form-control">Retour</a>
+  <br><br>
+    <a href="{{ path('calendar_indexadesign') }}" class="myleft btn btn-small btn-primary form-control">Retour Calendrier</a>    
 {#
         
     <li>{{ form(delete_form) }}</li>#}
   </div></div>
+    
+    
 {% endblock %} {% block footer %} {% endblock %}

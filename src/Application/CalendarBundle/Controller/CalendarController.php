@@ -206,6 +206,20 @@ class CalendarController extends Controller {
           }else {
           $id_calendar = $session->get('calendar_id');
           } */
+        
+        
+          $d = $request->get('start');
+          $f = $request->get('end');
+           $format = 'Y-m-d H:i:s';
+         //    echo "d=$d\nf=$f\n";
+             $start = date($format, strtotime($d));
+              $end = date($format, strtotime($f));
+            /*$d1 = date_format($d, $format);
+            $f1 = date_format($f, $format);
+             */
+        //   echo "d=$start\nf=$end\n";
+            
+            
         $id_calendar = 1;
         $ret = array();
         $session = $request->getSession();
@@ -214,7 +228,7 @@ class CalendarController extends Controller {
         } else {
 
             $em = $this->getDoctrine()->getManager();
-            $new_events = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->myFindNewEvent(120, $id_calendar);
+            $new_events = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->myFindNewEvent(120, $id_calendar,$start,$end);
             $return_events = array();
             $response = new \Symfony\Component\HttpFoundation\Response();
             $response->headers->set('Content-Type', 'application/json');
@@ -274,7 +288,6 @@ class CalendarController extends Controller {
                 $response->headers->set('Content-Type', 'application/json');
                 return $response;
             }
-
 
 
 
