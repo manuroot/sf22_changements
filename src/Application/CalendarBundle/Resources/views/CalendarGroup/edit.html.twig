@@ -1,6 +1,9 @@
 {% extends "::layout.html.twig" %}
 
 
+{% form_theme form with 'ApplicationCalendarBundle:Form:tpl_form.html.twig' %}
+
+
 {% block stylesheets %}
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
