@@ -1,7 +1,7 @@
 {% extends "::layout_bs3.html.twig" %}
  
 
-{% form_theme edit_form with 'ApplicationCalendarBundle:Form:tpl_form.html.twig' %}
+{% form_theme edit_form with 'ApplicationCalendarBundle:Form:bootstrap3_form.html.twig' %}
 
 
 {% block stylesheets %}
@@ -57,20 +57,27 @@ Edition Calendrier ({{entity.nom}})</center></h1>
   
 <div class="row">
   <div class="col-sm-2 col-sm-offset-1 single"> 
+       {{ form_label(edit_form.nom) }}
        {{ form_widget(edit_form.nom, {'attr': {'class': 'form-control'}}) }}
+        {{ form_label(edit_form.isviewable) }}
         {{ form_widget(edit_form.isviewable, {'attr': {'class': 'form-control'}}) }}
-  
+  {{ form_label(edit_form.days) }}
          {{ form_widget(edit_form.days, {'attr': {'class': 'form-control'}}) }}
-  
+    {{ form_label(edit_form.description) }}
           {{ form_widget(edit_form.description, {'attr': {'class': 'form-control'}}) }}
   
    </div>
     <div class="col-sm-2 col-sm-offset-1 single"> 
-  
+    {{ form_label(edit_form.plage) }}
    {{ form_widget(edit_form.plage, {'attr': {'class': 'form-control'}}) }}
- 
+    {{ form_label(edit_form.plage) }}
+
         {{ form_row(edit_form.startHour) }} 
+      {{ form_label(edit_form.endHour) }}
+
         {{ form_row(edit_form.endHour) }} 
+
+   {{ form_label(edit_form.isshared) }}
         {{ form_row(edit_form.isshared) }}
    {#{{ form_row(edit_form.rootcalendar) }}#}
  {#  {{ form_row(edit_form.rootcalendar, { 'attr':{'readonly':'readonly'} }) }}#}
