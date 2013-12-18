@@ -57,14 +57,18 @@ Edition Calendrier ({{entity.nom}})</center></h1>
   
 <div class="row">
   <div class="col-sm-2 col-sm-offset-1 single"> 
-   {{ form_row(edit_form.nom) }}
-   {{ form_row(edit_form.isviewable) }}
-       {{ form_row(edit_form.days) }}
-   {{ form_row(edit_form.description) }}
+       {{ form_widget(edit_form.nom, {'attr': {'class': 'form-control'}}) }}
+        {{ form_widget(edit_form.isviewable, {'attr': {'class': 'form-control'}}) }}
+  
+         {{ form_widget(edit_form.days, {'attr': {'class': 'form-control'}}) }}
+  
+          {{ form_widget(edit_form.description, {'attr': {'class': 'form-control'}}) }}
+  
    </div>
     <div class="col-sm-2 col-sm-offset-1 single"> 
   
-  {{ form_row(edit_form.plage) }} 
+   {{ form_widget(edit_form.plage, {'attr': {'class': 'form-control'}}) }}
+ 
         {{ form_row(edit_form.startHour) }} 
         {{ form_row(edit_form.endHour) }} 
         {{ form_row(edit_form.isshared) }}
@@ -74,7 +78,7 @@ Edition Calendrier ({{entity.nom}})</center></h1>
 
  </div>
 
-      <div class="col-sm-1 single"> 
+      <div class="col-sm-1"> 
     
         <button type="submit" class="btn btn-large btn-warning">Valider</button>    
     </div>
@@ -82,10 +86,14 @@ Edition Calendrier ({{entity.nom}})</center></h1>
 </div>
      
 </form>
+    <br><br>
+   <div class="row">
+  <div class="col-sm-2 col-sm-offset-1"> 
+
 <a href="{{ path('calendarroot') }}" class="btn btn-medium btn-success">Retour</a>
     <a href="{{ path('calendar_indexadesign') }}" class="myleft btn btn-small btn-primary">Retour Calendrier</a>    
 {#
         
     <li>{{ form(delete_form) }}</li>#}
-
+  </div></div>
 {% endblock %} {% block footer %} {% endblock %}
