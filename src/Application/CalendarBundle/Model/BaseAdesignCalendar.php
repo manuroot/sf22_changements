@@ -86,7 +86,13 @@ abstract class BaseAdesignCalendar
      */
     protected $addedDate;
 
-    
+     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated_date", type="datetime", nullable=false)
+     */
+    private $updatedDate;
+
        
   /**
      * @var boolean
@@ -101,6 +107,8 @@ abstract class BaseAdesignCalendar
         $this->title = $title;
         $this->startDatetime = $startDatetime;
         $this->addedDate = new \DateTime('now');
+    $this->updatedDate = new \DateTime('now');
+ 
         $this->setAllDay($allDay);
          
         if ($endDatetime === null && $this->allDay === false) {
@@ -109,7 +117,28 @@ abstract class BaseAdesignCalendar
         
         $this->endDatetime = $endDatetime;
     }
+    /**
+     * Get addedDate
+     *
+     * @return \DateTime 
+     */
+    public function getUpdatedDate()
+    {
+        return $this->updatedDate;
+    }
+
+    /**
+     * Set addedDate
+     *
+     * @param \DateTime $updatedDate
+     * @return CertificatsCenter
+     */
+    public function setUpdatedDate(\DateTime $updatedDate)
+    {
+        $this->updatedDate = $updatedDate;
     
+        return $this;
+    }
     
      /**
      * Set description

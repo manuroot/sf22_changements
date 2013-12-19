@@ -70,13 +70,14 @@ class AdesignCalendar extends BaseAdesignCalendar
      */
     private $user;
     
+     
 
     
      public function __construct($title, \DateTime $startDatetime, \DateTime $endDatetime = null, $allDay = false)
     {
          parent::__construct($title,$startDatetime,$endDatetime, $allDay);
          $this->picture = new ArrayCollection();
-         
+   
     }
 
      public function setId($id)
@@ -90,6 +91,15 @@ class AdesignCalendar extends BaseAdesignCalendar
     }
 
      
+   /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue() {
+       
+        $this->setUpdatedDate(new \DateTime());
+     
+    }
+    
 /**
      * Set user
      *

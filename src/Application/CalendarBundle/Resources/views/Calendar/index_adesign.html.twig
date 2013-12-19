@@ -95,6 +95,7 @@
          $("#myModal").draggable({
          handle: "#header-d"
          });*/
+         
 
         var xcolors = ["#94a2be", "#993355", "#aaaaaa", "#f2a640", "#b373b3", "#668cd9"];
         // console.log("edit status="+edit_status);
@@ -614,7 +615,7 @@ var dataAjax = {
             // if (color_index != -1){cssclass='class' + color_index;
             // console.log("FOUND COLOR INDEX= " + cssclass);
             // }
-            // console.log("id=" + id + " color=" + csscolor + " class=" + cssclass);
+             console.log( " color=" + csscolor + " fgcolor=" + textcolor);
 
             console.log("id=" + id + " color=" + csscolor);
             var mallDay = $('#createEventModal #apptAllDay').val();
@@ -657,11 +658,12 @@ var dataAjax = {
             $("#titleName").val("");
             $("#descriptionName").val("");
             $('#apptId').val("");
-            $('#color').val("");
-            $('#colorfont').val("");
+            $('input#color').val("#94a2be");
+            $('input#colorfont').val("#FFFFFF");
             $(".color div.colorPicker-picker").css('background-color', "#ddaa00");
             $(".colorfont div.colorPicker-picker").css('background-color', "#000000");
             $('#calendar-holder').fullCalendar('unselect');
+             console.log( " color=" +   $('#color').val() + " font="  + $('#colorfont').val());
         }
 
 
@@ -935,7 +937,7 @@ var dataAjax = {
         var tfont = ["000000", 'FFFFFF', "ded600", "de2500"];
         $('#colorfont').colorPicker({
             colors: tfont,
-            pickerDefault: "FFFFFF",
+            pickerDefault: "#FFFFFF",
             transparency: true
         });
         $('#color').colorPicker(
@@ -993,6 +995,7 @@ var dataAjax = {
             source[0] = newSource[0];
             source[1] = newSource[1];
         }
+        
     });
 </script>
 {% endblock %}
