@@ -34,13 +34,13 @@ monolog:
 assetic:
     debug:          %kernel.debug%
     #pour le dev
-    use_controller: false
+    use_controller: true
     #bundles:        [ ]
     bundles:        [ ApplicationChangementsBundle,ApplicationCertificatsBundle,ApplicationRelationsBundle ]
     #bundles:        [ ApplicationChangementsBundle,SonataNewsBundle ]
-    java: /usr/bin/java
+    #java: /usr/bin/java
     #java: "C:\ProgramFiles\Java\jre6\bin\java.exe"
-    #java: "C:\\Program Files\\Java\\jre6\\bin\\java.exe"
+    java: "C:\\Program Files\\Java\\jre6\\bin\\java.exe"
     filters:
         cssrewrite: ~
        # cssembed:
@@ -48,7 +48,7 @@ assetic:
          #   apply_to: "\.css$|\.less$"
         yui_css:
             jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar
-         #   apply_to: "\.css$"
+            apply_to: "\.css$"
         yui_js:
             jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar
        # closure:

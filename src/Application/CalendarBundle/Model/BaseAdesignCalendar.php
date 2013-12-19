@@ -12,118 +12,107 @@ use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\Constraints\Date;
 use Doctrine\Common\Collections\ArrayCollection;
 
-
 /**
  * @ORM\MappedSuperclass
  */
+abstract class BaseAdesignCalendar {
 
-abstract class BaseAdesignCalendar
-{
- 
-   
-   
     /**
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=50, nullable=false)
      */
     protected $title;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="url", type="string", length=50, nullable=true)
      */
     protected $url;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="bgcolor", type="string", length=50, nullable=false)
      */
     protected $bgColor;
-    
-   /**
+
+    /**
      * @var string
      *
      * @ORM\Column(name="fgcolor", type="string", length=50, nullable=false)
      */
     protected $fgColor;
-    
-   /**
+
+    /**
      * @var string
      *
      * @ORM\Column(name="cssclass", type="string", length=50, nullable=true)
      */
     protected $cssClass;
-    
-   /**
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_debut", type="datetime", nullable=false)
      */
     protected $startDatetime;
-    
-     /**
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_fin", type="datetime", nullable=false)
      */
     protected $endDatetime;
-    
-      /**
+
+    /**
      * @var string
      *
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     protected $description;
-  
-         
- /**
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="added_date", type="datetime", nullable=false)
      */
     protected $addedDate;
 
-     /**
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="updated_date", type="datetime", nullable=false)
      */
     private $updatedDate;
 
-       
-  /**
+    /**
      * @var boolean
      *
      * @ORM\Column(name="allday", type="boolean", nullable=true)
      */
     protected $allDay = false;
-    
-    
-    public function __construct($title, \DateTime $startDatetime, \DateTime $endDatetime = null, $allDay = false)
-    {
+
+    public function __construct($title, \DateTime $startDatetime, \DateTime $endDatetime = null, $allDay = false) {
         $this->title = $title;
         $this->startDatetime = $startDatetime;
         $this->addedDate = new \DateTime('now');
-    $this->updatedDate = new \DateTime('now');
- 
+        $this->updatedDate = new \DateTime('now');
         $this->setAllDay($allDay);
-         
         if ($endDatetime === null && $this->allDay === false) {
             throw new \InvalidArgumentException("Must specify an event End DateTime if not an all day event.");
         }
-        
+
         $this->endDatetime = $endDatetime;
     }
+
     /**
      * Get addedDate
      *
      * @return \DateTime 
      */
-    public function getUpdatedDate()
-    {
+    public function getUpdatedDate() {
         return $this->updatedDate;
     }
 
@@ -133,14 +122,13 @@ abstract class BaseAdesignCalendar
      * @param \DateTime $updatedDate
      * @return CertificatsCenter
      */
-    public function setUpdatedDate(\DateTime $updatedDate)
-    {
+    public function setUpdatedDate(\DateTime $updatedDate) {
         $this->updatedDate = $updatedDate;
-    
+
         return $this;
     }
-    
-     /**
+
+    /**
      * Set description
      *
      * @param string $description
@@ -161,37 +149,34 @@ abstract class BaseAdesignCalendar
         return $this->description;
     }
 
-    
-    
     /**
-* Convert calendar event details to an array
-*
-* @return array $event
-*/
-    public function toArray()
-    {
+     * Convert calendar event details to an array
+     *
+     * @return array $event
+     */
+    public function toArray() {
         $event = array();
-        
+
         if ($this->id !== null) {
             $event['id'] = $this->id;
         }
-        
+
         $event['title'] = $this->title;
         $event['start'] = $this->startDatetime->format("Y-m-d\TH:i:sP");
-        
+
         if ($this->url !== null) {
             $event['url'] = $this->url;
         }
-        
+
         if ($this->bgColor !== null) {
             $event['backgroundColor'] = $this->bgColor;
             $event['borderColor'] = $this->bgColor;
         }
-        
+
         if ($this->fgColor !== null) {
             $event['textColor'] = $this->fgColor;
         }
-        
+
         if ($this->cssClass !== null) {
             $event['className'] = $this->cssClass;
         }
@@ -199,114 +184,93 @@ abstract class BaseAdesignCalendar
         if ($this->endDatetime !== null) {
             $event['end'] = $this->endDatetime->format("Y-m-d\TH:i:sP");
         }
-        
+
         $event['allDay'] = $this->allDay;
-        
+
         return $event;
     }
 
-   
-    
-     public function getTitle()
-    {
+    public function getTitle() {
         return $this->title;
     }
-    public function setTitle($title)
-    {
+
+    public function setTitle($title) {
         $this->title = $title;
     }
-    
-    public function setUrl($url)
-    {
+
+    public function setUrl($url) {
         $this->url = $url;
     }
-    
-    public function getUrl()
-    {
+
+    public function getUrl() {
         return $this->url;
     }
-    
-    public function setBgColor($color)
-    {
+
+    public function setBgColor($color) {
         $this->bgColor = $color;
     }
-    
-    public function getBgColor()
-    {
+
+    public function getBgColor() {
         return $this->bgColor;
     }
-    
-    public function setFgColor($color)
-    {
+
+    public function setFgColor($color) {
         $this->fgColor = $color;
     }
-    
-    public function getFgColor()
-    {
+
+    public function getFgColor() {
         return $this->fgColor;
     }
-    
-    public function setCssClass($classcss)
-    {
+
+    public function setCssClass($classcss) {
         $this->cssClass = $classcss;
     }
-    
-    public function getCssClass()
-    {
+
+    public function getCssClass() {
         return $this->cssClass;
     }
-    
-    public function setStartDatetime(\DateTime $start)
-    {
+
+    public function setStartDatetime(\DateTime $start) {
         $this->startDatetime = $start;
     }
-    
-    public function getStartDatetime()
-    {
+
+    public function getStartDatetime() {
         return $this->startDatetime;
     }
-    
-    public function setEndDatetime(\DateTime $end)
-    {
+
+    public function setEndDatetime(\DateTime $end) {
         $this->endDatetime = $end;
     }
-    
-    public function getEndDatetime()
-    {
+
+    public function getEndDatetime() {
         return $this->endDatetime;
     }
-    
-    public function setAllDay($allDay = false)
-    {
-       //   echo "allday en entree entity=--" . $allDay . "--";
-    if ($allDay === 'true' || $allDay === true){
-      //  echo "TRUE";
-        $this->allDay = true;
+
+    public function setAllDay($allDay = false) {
+        //   echo "allday en entree entity=--" . $allDay . "--";
+        if ($allDay === 'true' || $allDay === true) {
+            //  echo "TRUE";
+            $this->allDay = true;
+        } else {
+            $this->allDay = false;
+            //   echo "FALSE";
+        }
+        //  $this->allDay = (boolean) $allDay;
     }
-        
-    else{
-    $this->allDay = false;
- //   echo "FALSE";
-    
-    }
-      //  $this->allDay = (boolean) $allDay;
-    }
-    
-    public function getAllDay()
-    {
+
+    public function getAllDay() {
         return $this->allDay;
     }
 
-  /**
+    /**
      * Set addedDate
      *
      * @param \DateTime $addedDate
      * @return CertificatsCenter
      */
-    public function setAddedDate($addedDate)
-    {
+    public function setAddedDate($addedDate) {
         $this->addedDate = $addedDate;
-    
+
         return $this;
     }
 
@@ -315,8 +279,7 @@ abstract class BaseAdesignCalendar
      *
      * @return \DateTime 
      */
-    public function getAddedDate()
-    {
+    public function getAddedDate() {
         return $this->addedDate;
     }
 
