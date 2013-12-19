@@ -80,13 +80,16 @@ abstract class BaseAdesignCalendar {
      */
     protected $addedDate;
 
-    /**
+ /**
      * @var \DateTime
      *
      * @ORM\Column(name="updated_date", type="datetime", nullable=false)
      */
-    private $updatedDate;
+    protected $updatedDate;
 
+    
+    
+    
     /**
      * @var boolean
      *
@@ -107,26 +110,7 @@ abstract class BaseAdesignCalendar {
         $this->endDatetime = $endDatetime;
     }
 
-    /**
-     * Get addedDate
-     *
-     * @return \DateTime 
-     */
-    public function getUpdatedDate() {
-        return $this->updatedDate;
-    }
-
-    /**
-     * Set addedDate
-     *
-     * @param \DateTime $updatedDate
-     * @return CertificatsCenter
-     */
-    public function setUpdatedDate(\DateTime $updatedDate) {
-        $this->updatedDate = $updatedDate;
-
-        return $this;
-    }
+   
 
     /**
      * Set description
@@ -283,4 +267,28 @@ abstract class BaseAdesignCalendar {
         return $this->addedDate;
     }
 
+     /**
+     * Set updatedDate
+     *
+     * @param \DateTime $updatedDate
+     * @return CertificatsCenter
+     */
+    public function setUpdatedDate($updatedDate) {
+        $this->updatedDate = $updatedDate;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedDate
+     *
+     * @return \DateTime 
+     */
+    public function getUpdatedDate() {
+        return $this->updatedDate;
+    }
+    
+    
+    
+   
 }

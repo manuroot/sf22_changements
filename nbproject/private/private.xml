@@ -12,18 +12,10 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Repository/CalendarRepository.php</file>
             <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/index_adesign.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/EventListener/CalendarEventListener.php</file>
-            <file>file:/var/www/Symfony_changements/vendor/adesigns/calendar-bundle/ADesigns/CalendarBundle/Controller/CalendarController.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Controller/CalendarController.php</file>
             <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Controller/CalendarController.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Repository/AdesignCalendarRepository.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Controller/ChangementsController.php</file>
-            <file>file:/var/www/Symfony_changements/vendor/adesigns/calendar-bundle/ADesigns/CalendarBundle/Resources/config/services.xml</file>
-            <file>file:/var/www/Symfony_changements/vendor/adesigns/calendar-bundle/ADesigns/CalendarBundle/Entity/EventEntity.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/config/routing/changements.yml</file>
             <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Entity/AdesignCalendar.php</file>
+            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Model/BaseAdesignCalendar.php</file>
         </group>
     </open-files>
 </project-private>

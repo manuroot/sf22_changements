@@ -96,7 +96,7 @@ class AdesignCalendar extends BaseAdesignCalendar
      */
     public function setUpdatedAtValue() {
        
-        $this->setUpdatedDate(new \DateTime());
+     $this->setUpdatedDate(new \DateTime());
      
     }
     

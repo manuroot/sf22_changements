@@ -97,6 +97,8 @@
          });*/
 
         var tfont = ["000000", 'FFFFFF', "ded600", "de2500"];
+        $("#color").val("#ddeeff");
+        $("#colorfont").val("#ffffff");
         var xcolors = ["#94a2be", "#993355", "#aaaaaa", "#f2a640", "#b373b3", "#668cd9"];
         // console.log("edit status="+edit_status);
         var resize_status = edit_status;
@@ -110,10 +112,18 @@
         console.log("plage horaire=" + plage);
         console.log("edit status=" + edit_status);
         var t = [];
-        /*
+         var t1 = ["#ff000", "#330000", "#660000", "#990000", "#cc0000", "#000000",
+            "94A2BE", "993355", "aaaaaa", "f2a640", "b373b3", "668cd9",
+            '000000', '993300', '333300', '000080', '333399', '333333',
+            '800000', 'FF6600', '808000', '008000', '008080', '0000FF',
+            '666699', '808080', 'FF0000', 'FF9900', '99CC00', '339966',
+            '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00',
+            'FFFF00', '00FF00', '00FFFF', '00CCFF', '993366', 'C0C0C0',
+            'FF99CC', 'FFCC99', 'FFFF99', 'CCFFFF', '99CCFF', 'FFFFFF'];
+
         var a1colors = $.xcolor.analogous('#da0', 16);
+
         var b = $.xcolor.monochromatic("f00", 6);
-        */
         tt = $.xcolor.analogous('#da0', 32, 30);
         tt.push("FFFFFF", "000000");
         // append noir et blanc
@@ -140,8 +150,6 @@
             }
 
         }
-       // $("#color").val(tfont[0]);
-      //  $("#colorfont").val(t[0]);
         var date = new Date();
         var d = date.getDate();
         var m = date.getMonth();
@@ -695,16 +703,11 @@
             /* reinit couleurs 
              * id et div background
              */
-            var myfg="#"+tfont[0];
-            var mybg="#"+t[0];
-      /*   $("#color").val("#"+tfont[0]);
-      $("#colorfont").val("#"+t[0]);*/
-   
-            $("#color").val(mybg);
-            $("#colorfont").val(myfg);
+            $("#color").val("#ddeeff");
+            $("#colorfont").val("#ffffff");
 
-            $(".color div.colorPicker-picker").css('background-color', mybg);
-            $(".colorfont div.colorPicker-picker").css('background-color', myfg);
+            $(".color div.colorPicker-picker").css('background-color', "#ddeeff");
+            $(".colorfont div.colorPicker-picker").css('background-color', "#ffffff");
 
 
             //  $("#color").val("94a2be");
