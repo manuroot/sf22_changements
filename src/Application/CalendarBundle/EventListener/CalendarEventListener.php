@@ -30,6 +30,7 @@ class CalendarEventListener {
                // ->where('a.startDatetime BETWEEN :startDate and :endDate')
               //  ->orwhere('a.endDatetime BETWEEN :startDate and :endDate')
                ->where('(a.startDatetime BETWEEN :startDate and :endDate OR a.endDatetime BETWEEN :startDate and :endDate) OR (a.startDatetime <= (:startDate)  AND a.endDatetime >= (:endDate))')
+               
             //   ->ordwhere('a.startDatetime <= (:startDate)  AND a.endDatetime >= (:endDate)')
 
 //  ->ordwhere('a.startDatetime <= (:startDate)  AND a.endDatetime >= (:endDate)')

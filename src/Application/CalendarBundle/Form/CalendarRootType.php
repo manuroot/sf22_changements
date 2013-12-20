@@ -56,7 +56,8 @@ class CalendarRootType extends AbstractType {
                          '20' => '20',
                         '21' => '21',
                         '22' => '22',
-                        '23' => '23'
+                        '23' => '23',
+                        '24' => '24',
                     )
                 ))
                 
