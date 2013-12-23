@@ -29,7 +29,7 @@ class ChangementsManager extends ChangementsBaseManager {
     }
 
     public function checkandloadChangement($changementId) {
-        
+
         $entity = $this->getRepository()->find($changementId);
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Changements entity.');
@@ -70,9 +70,10 @@ class ChangementsManager extends ChangementsBaseManager {
       }
      */
 
-     public function refresh(Changements $changements) {
+    public function refresh(Changements $changements) {
         $this->em->refresh($changements);
     }
+
     public function getRepository() {
         return $this->em->getRepository('ApplicationChangementsBundle:Changements');
     }
@@ -85,20 +86,22 @@ class ChangementsManager extends ChangementsBaseManager {
         foreach ($changement->getIdUsers() as $u) {
 
             //  echo "id=--" . (string) $u->getEmail() . "-- <br>";
-            echo "id=--" . $u->getEmail() . "-- <br>";
+            //   echo "id=--" . $u->getEmail() . "-- <br>";
         }
         return;
     }
 
-    public function sendemailChangement($id) {
-        
+    public function sendemailChangement($id, $debug = false, $email_to = null) {
+
         $changement = $this->checkandloadChangement($id);
-       // $this->refresh($changement);
+        // $this->refresh($changement);
         if ($this->securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
             $user = $this->securityContext->getToken()->getUser();
             $user_id = $user->getId();
-            $demandeur=$user->getUsername();
-        }else {return false;}
+            $demandeur = $user->getUsername();
+        } else {
+            return false;
+        }
         // Recup entity user connected
         $user = $this->em->getRepository('ApplicationSonataUserBundle:User')->find($user_id);
         if (!$user) {
@@ -106,32 +109,37 @@ class ChangementsManager extends ChangementsBaseManager {
         }
 
 
-      //  $demandeur = $user->getUsername();
-     //   echo "demandeur=$demandeur<br>";
+        //  $demandeur = $user->getUsername();
+        //   echo "demandeur=$demandeur<br>";
         //  $users = $entity->getIdusers();
         $title = $changement->getNom();
         $subject = "Création d'une demande de changement" . ": " . $title;
-       // echo "subject=$subject<br>";
+        // echo "subject=$subject<br>";
 
         $message = \Swift_Message::newInstance()
                 ->setSubject($subject)
                 ->setFrom('manuel.rottereau@pc-supervision.fr');
-                //->setFrom($demandeur . '@pc-supervision.fr');
-        $send_users = $changement->getIdusers();
-        //$setto='manuel.rottereau@sesam-vitale.fr';
-      //  echo "setto=$setto";
-        
-         $setto='mroot72000@yahoo.fr';
-         $message->setTo($setto);
-        /*foreach ($send_users as $u) {
-            $message->setTo($u->getEmail());
-         //   echo "id=" . $u->getId() . "-- ";
-          //  echo "mailto=--" . (string) $u->getEmail() . "-- <br>";
-        }*/
+        if ($debug == true && $email_to != NULL) {
 
-   /*     echo "<br>";
-echo "---------End<br>";
-*/
+            $message->setTo($email_to);
+        } else {
+            $send_users = $changement->getIdusers();
+            foreach ($send_users as $u) {
+                $message->setTo($u->getEmail());
+                //   echo "id=" . $u->getId() . "-- ";
+                //  echo "mailto=--" . (string) $u->getEmail() . "-- <br>";
+            }
+        }
+        //->setFrom($demandeur . '@pc-supervision.fr');
+        //$setto='manuel.rottereau@sesam-vitale.fr';
+        //  echo "setto=$setto";
+
+
+
+
+        /*     echo "<br>";
+          echo "---------End<br>";
+         */
         return $message;
     }
 

@@ -24,6 +24,8 @@ class Configuration implements ConfigurationInterface
             ->integerNode('session_timeout')->defaultValue(3600)->end()
             ->scalarNode('redirect_to')->defaultNull()->end()
             ->scalarNode('expired_response')->defaultNull()->end()
+             ->scalarNode('email_state')->defaultValue(false)->end()
+            ->scalarNode('email_to')->defaultNull()->end()
             ->end();
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for

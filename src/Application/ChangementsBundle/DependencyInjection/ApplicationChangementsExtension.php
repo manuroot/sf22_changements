@@ -27,6 +27,8 @@ class ApplicationChangementsExtension extends Extension
         $container->setParameter('application_changements.session_timeout', $config['session_timeout']);
         $container->setParameter('application_changements.redirect_to', $config['redirect_to']);
         $container->setParameter('application_changements.expired_response', $config['expired_response']);
+        $container->setParameter('application_changements.email_state', $config['email_state']);
+         $container->setParameter('application_changements.email_to', $config['email_to']);
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
         //$loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));

@@ -806,27 +806,28 @@ class ChangementsController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-           
+
 
             $id = $entity->getId();
             $session = $request->getSession();
-             $session->getFlashBag()->add('notice', 'Email envoyé!');
+            $session->getFlashBag()->add('notice', 'Email envoyé!');
             $session->getFlashBag()->add('warning', "Enregistrement $id ajouté aux opérations");
             // ajoute des messages flash
             $manager = $this->get('changement.common.manager');
-              $mess = $manager->sendemailChangement($id);
-             $mess->setBody(
-                $this->renderView(
-                        'ApplicationChangementsBundle:Changements:email.html.twig', array(
-                             'message'=> 'AJOUT:',
-                    'entity' => $entity)
-        ),'text/html');
+            $email_state = $this->container->getParameter('application_changements.email_state');
+            $email_to = $this->container->getParameter('application_changements.email_to');
+            $mess = $manager->sendemailChangement($id, $email_state, $email_to);
+            $mess->setBody(
+                    $this->renderView(
+                            'ApplicationChangementsBundle:Changements:email.html.twig', array(
+                        'message' => 'AJOUT:',
+                        'entity' => $entity)
+                    ), 'text/html');
             $this->get('mailer')->send($mess);
             return $this->check_retour();
         }
         return $this->render('ApplicationChangementsBundle:Changements:new.html.twig', array(
                     'entity' => $entity,
-                   
                     'form' => $form->createView(),
         ));
     }
@@ -884,23 +885,26 @@ class ChangementsController extends Controller {
 
         if ($editForm->isValid()) {
             $manager->saveChangement($entity);
-            $mess = $manager->sendemailChangement($id);
-             $mess->setBody(
-                $this->renderView(
-                        'ApplicationChangementsBundle:Changements:email.html.twig', array(
-                              'message'=> 'UPDATE:',
-                    'entity' => $entity)
-        ),'text/html');
-             //$message->setContentType("text/html")
-           
+            $email_state = $this->container->getParameter('application_changements.email_state');
+            $email_to = $this->container->getParameter('application_changements.email_to');
+            $mess = $manager->sendemailChangement($id, $email_state, $email_to);
+
+            $mess->setBody(
+                    $this->renderView(
+                            'ApplicationChangementsBundle:Changements:email.html.twig', array(
+                        'message' => 'UPDATE:',
+                        'entity' => $entity)
+                    ), 'text/html');
+            //$message->setContentType("text/html")
+
             /*   $em = $this->getDoctrine()->getManager();
               $entity_c = $em->getRepository('ApplicationChangementsBundle:Changements')->find($id);
              */
-           // var_dump($mess->getFrom());
+            // var_dump($mess->getFrom());
             //exit(1);
-             $this->get('mailer')->send($mess);
+            $this->get('mailer')->send($mess);
             $session = $this->getRequest()->getSession();
-             
+
 
             $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
             $session->getFlashBag()->add('notice', "id=$id: Email envoyé");
