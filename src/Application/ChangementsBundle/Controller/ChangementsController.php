@@ -820,7 +820,7 @@ class ChangementsController extends Controller {
                         'ApplicationChangementsBundle:Changements:email.html.twig', array(
                              'message'=> 'AJOUT:',
                     'entity' => $entity)
-        ));
+        ),'text/html');
             $this->get('mailer')->send($mess);
             return $this->check_retour();
         }
@@ -884,7 +884,7 @@ class ChangementsController extends Controller {
 
         if ($editForm->isValid()) {
             $manager->saveChangement($entity);
-            $mess = $manager->sendemailChangement($id,"update");
+            $mess = $manager->sendemailChangement($id);
              $mess->setBody(
                 $this->renderView(
                         'ApplicationChangementsBundle:Changements:email.html.twig', array(

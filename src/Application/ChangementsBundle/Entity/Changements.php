@@ -578,12 +578,13 @@ class Changements extends AbstractEvent {
          $this->picture = new ArrayCollection();
         
           $users = new ArrayCollection();
-        $all_users = $this->getIdusers();  echo "fdsfsd";
+        $all_users = $this->getIdusers();  
+      //  echo "fdsfsd";
         foreach ($all_users as $us) {
-            echo $us->getId();
+         //   echo $us->getId();
             $users[] = $us->getEmail();
         }
-       var_dump($users);
+     //  var_dump($users);
         $this->idusers = $users;
          
         }
