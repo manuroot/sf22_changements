@@ -18,19 +18,14 @@
             </bookmark>
             <bookmark id="3">
                 <name/>
-                <line>687</line>
+                <line>688</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Form/CalendarType.php</file>
             <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/index_adesign.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Controller/CalendarController.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Form/CalendarRootType.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Entity/AdesignCalendar.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Model/BaseAdesignCalendar.php</file>
         </group>
     </open-files>
 </project-private>

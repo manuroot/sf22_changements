@@ -111,9 +111,9 @@
         console.log("edit status=" + edit_status);
         var t = [];
         /*
-        var a1colors = $.xcolor.analogous('#da0', 16);
-        var b = $.xcolor.monochromatic("f00", 6);
-        */
+         var a1colors = $.xcolor.analogous('#da0', 16);
+         var b = $.xcolor.monochromatic("f00", 6);
+         */
         tt = $.xcolor.analogous('#da0', 32, 30);
         tt.push("FFFFFF", "000000");
         // append noir et blanc
@@ -140,8 +140,8 @@
             }
 
         }
-       // $("#color").val(tfont[0]);
-      //  $("#colorfont").val(t[0]);
+        // $("#color").val(tfont[0]);
+        //  $("#colorfont").val(t[0]);
         var date = new Date();
         var d = date.getDate();
         var m = date.getMonth();
@@ -219,7 +219,7 @@
             weekMode: 'variable',
             /* hiddenDays: mydays,*/
             unselectAuto: false,
-           /* height: 800,*/
+            /* height: 800,*/
             defaultView: 'month',
             header: {
                 left: 'prev, next',
@@ -488,6 +488,7 @@
             var dataAjax = {
                 'start': start,
                 'end': end,
+                'timer': '90',
             };
 
             $.ajax({
@@ -511,13 +512,13 @@
                             console.log("length=" + similarEvents.length);
                             if (similarEvents.length == 0) {
                                 $('#calendar-holder').fullCalendar('renderEvent', datas.data[key], false);
-                                notify("nouveaux evenements", message, "success");
+                                notify("Evenement ajouté", message, "error");
 
                             }
                             else {
                                 $('#calendar-holder').fullCalendar('removeEvents', value.id);
                                 $('#calendar-holder').fullCalendar('renderEvent', datas.data[key], false);
-                                notify("update evenements", message, "error");
+                                notify("Evenement mis à jour", message, "success");
 
                             }
                             /*for(i in similarEvents){
@@ -546,7 +547,7 @@
             mytype = mytype || "success";
 
             $.pnotify({
-                title: 'Evenement ajouté',
+                title: title,
                 text: message,
                 animation: 'show',
                 nonblock_opacity: 0.2,
@@ -695,11 +696,11 @@
             /* reinit couleurs 
              * id et div background
              */
-            var myfg="#"+tfont[0];
-            var mybg="#"+t[0];
-      /*   $("#color").val("#"+tfont[0]);
-      $("#colorfont").val("#"+t[0]);*/
-   
+            var myfg = "#" + tfont[0];
+            var mybg = "#" + t[0];
+            /*   $("#color").val("#"+tfont[0]);
+             $("#colorfont").val("#"+t[0]);*/
+
             $("#color").val(mybg);
             $("#colorfont").val(myfg);
 
@@ -757,12 +758,24 @@
                 type: "POST",
                 dataType: "json",
                 data: newObject,
+                beforeSend: function() {
+                    // this is where we append a loading imagefunction(bool) {
+
+                    $('#loading').show();
+
+                },
+                complete: function() {
+                    $('#loading').hide();
+
+                },
                 success: function(reponse) {
+                    //   $('#loading').hide();
                     datareponse = reponse;
 
                 },
                 error: function(e) {
                     console.log(e.message);
+                    //  $('#loading').hide();
                     datareponse = e.message;
 
                 }
@@ -944,7 +957,7 @@
             callback(datareponse);
 
         } //Eof:: fucntion remplirSelect
-     
+
 
         /*var tfont = ["000000", 'FFFFFF', "ded600", "de2500"];*/
         $('#colorfont').colorPicker({
@@ -1265,4 +1278,6 @@
     <div style='clear:both'></div>
 </div>
 {% endblock %}
+{#
  {% block footer %} {% endblock %}
+#}

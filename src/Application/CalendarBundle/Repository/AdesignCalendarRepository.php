@@ -58,11 +58,13 @@ class AdesignCalendarRepository extends EntityRepository {
                 //   ->distinct('a.id')
                 ->leftJoin('a.calendarid', 'b')
                 ->where('a.addedDate BETWEEN :startDate and :endDate')
+                ->orwhere('a.updatedDate BETWEEN :startDate and :endDate')
                 ->setParameter('startDate', $date_last)
                 ->setParameter('endDate', $date_now);
 
         if (isset($start) && isset($end)) {
             $qu->andwhere('(a.startDatetime BETWEEN :start and :end OR a.endDatetime BETWEEN :start and :end) OR (a.startDatetime <= (:start)  AND a.endDatetime >= (:end))')
+                    
                 //    ->ordwhere('a.startDatetime <= (:start)  AND a.endDatetime >= (:end)')
                     ->setParameter('start', $start)
                     ->setParameter('end', $end);

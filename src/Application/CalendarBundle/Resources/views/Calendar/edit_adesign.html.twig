@@ -82,6 +82,12 @@ input[id*='picture_'] {float:left;color:red;margin-right:5px; }
     /* jQuery.noConflict();*/
     $(document).ready(function() {
         var t = [];
+       var tcategories = {{ xx|json_encode|raw }};
+        var c_tcageories = tcategories.length;
+       
+       /* $.each(tcategories, function(key, value){
+         console.log("v=" + value);
+         });*/
         $("#endDatetime").datepicker({
             minDate: "-5Y",
             maxDate: "+10Y",
@@ -126,20 +132,7 @@ input[id*='picture_'] {float:left;color:red;margin-right:5px; }
         var b = $.xcolor.monochromatic("f00", 6);
         tt = $.xcolor.analogous('#da0', 32, 30);
         tt.push("FFFFFF", "000000");
-        // append noir et blanc
-        /*
-         $.each(b, function(key, value){
-         console.log("??" + value);
-         });*/
-        ////*
-        //  var c_tcageories = tcategories.length;
-        /* for( i=0; i < c_tcageories; i++){
-         //myArray[i];
-         $("div.colorPicker-swatch" ).css({"border-color": "red", 
-         "border-width":"4px", 
-         "border-style":"solid"});
-         }*/
-        // tt = $.merge(tcategories, tt);
+        tt = $.merge(tcategories, tt);
         var myRegExp = /#./;
         for (var i in tt) {
             t[i] = tt[i].toString();
@@ -150,16 +143,19 @@ input[id*='picture_'] {float:left;color:red;margin-right:5px; }
             }
 
         }
+       
+       console.log("nb_element="+c_tcageories);
+       
         var tfont = ["000000", 'FFFFFF', "ded600", "de2500"];
         $("#fgColor").colorPicker({
-            //colors: tfont,
+            colors: tfont,
             //   pickerDefault: "FFFFFF",
             transparency: true
         });
         $('#bgColor').colorPicker(
                 {
-                    /*colors: t,
-                     pickerDefault: "#94a2be",*/
+                    colors: t,
+                    /* pickerDefault: "#94a2be",*/
                     /*pickerDefault: "#94a2be",*/
                     transparency: true,
                     onColorChange: function(id, newValue) {
@@ -167,6 +163,10 @@ input[id*='picture_'] {float:left;color:red;margin-right:5px; }
                     }
 
                 });
+                
+           $("#colorPicker_palette-1 div.colorPicker-swatch").slice(0,c_tcageories).css({"width": "22px", "height": "22px", "border-color": "black",
+            "border-width": "2px",
+            "border-style": "solid"});
         //Callback handler for form submit event
   var options = { 
         target:        '#output2',   // target element(s) to be updated with server response 
@@ -240,11 +240,14 @@ function showResponse(responseText, statusText, xhr, $form)  {
 </script>
 {% endblock %}
 
+{% set xx =[] %}
+{% for key,entity in evenements %}
+    {% set xx = xx | merge({ (key) :  entity.cssClass}) %}
+{% endfor %}
 
 {% block title %}{% endblock %}
 
 {% block content %}
-
  
 <div id="output2"></div>
 

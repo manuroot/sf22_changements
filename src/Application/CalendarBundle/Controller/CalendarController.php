@@ -210,6 +210,7 @@ class CalendarController extends Controller {
         
           $d = $request->get('start');
           $f = $request->get('end');
+          $timer= $request->get('timer',60);
            $format = 'Y-m-d H:i:s';
          //    echo "d=$d\nf=$f\n";
              $start = date($format, strtotime($d));
@@ -228,7 +229,7 @@ class CalendarController extends Controller {
         } else {
 
             $em = $this->getDoctrine()->getManager();
-            $new_events = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->myFindNewEvent(120, $id_calendar,$start,$end);
+            $new_events = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->myFindNewEvent($timer, $id_calendar,$start,$end);
             $return_events = array();
             $response = new \Symfony\Component\HttpFoundation\Response();
             $response->headers->set('Content-Type', 'application/json');
@@ -417,6 +418,15 @@ class CalendarController extends Controller {
         $calendar_entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find($id);
         $editForm = $this->createForm(new CalendarType(), $calendar_entity);
 
+      
+             $session = $request->getSession();
+   
+        $id_cal = $session->get('calendar_id');
+if ($id_cal){
+$entity_evements = $em->getRepository('ApplicationCalendarBundle:CalendarCategories')->myFindAll($id_cal);}
+else
+{ $entity_evements =array();}
+
         if ($request->getMethod() == 'POST') {
             //$formData = $this->get('request')->request->all();
             // var_dump($formData);
@@ -435,6 +445,7 @@ class CalendarController extends Controller {
 
         return $this->render('ApplicationCalendarBundle:Calendar:edit_adesign.html.twig', array(
                     'entity' => $calendar_entity,
+            'evenements' => $entity_evements,
                     'action' => 'edit',
                     'button_submit' => 'Modifier',
                     'form' => $editForm->createView(),
