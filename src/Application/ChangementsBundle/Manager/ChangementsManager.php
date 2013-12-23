@@ -118,15 +118,15 @@ class ChangementsManager extends ChangementsBaseManager {
                 ->setFrom('manuel.rottereau@pc-supervision.fr');
                 //->setFrom($demandeur . '@pc-supervision.fr');
         $send_users = $changement->getIdusers();
-        $setto='manuel.rottereau@sesam-vitale.fr';
+        //$setto='manuel.rottereau@sesam-vitale.fr';
       //  echo "setto=$setto";
-         $message->setTo($setto);
+        // $message->setTo($setto);
         
-       /* foreach ($send_users as $u) {
+        foreach ($send_users as $u) {
             $message->setTo($u->getEmail());
-            echo "id=" . $u->getId() . "-- ";
-            echo "mailto=--" . (string) $u->getEmail() . "-- <br>";
-        }*/
+         //   echo "id=" . $u->getId() . "-- ";
+          //  echo "mailto=--" . (string) $u->getEmail() . "-- <br>";
+        }
 
    /*     echo "<br>";
 echo "---------End<br>";
