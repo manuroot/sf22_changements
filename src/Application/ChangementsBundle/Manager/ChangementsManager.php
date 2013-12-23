@@ -115,10 +115,10 @@ class ChangementsManager extends ChangementsBaseManager {
 
         $message = \Swift_Message::newInstance()
                 ->setSubject($subject)
-                ->setFrom('momo@pc-supervision.fr');
+                ->setFrom('manuel.rottereau@pc-supervision.fr');
                 //->setFrom($demandeur . '@pc-supervision.fr');
         $send_users = $changement->getIdusers();
-        $setto='mroot72000@yahoo.fr';
+        $setto='manuel.rottereau@sesam-vitale.fr';
       //  echo "setto=$setto";
          $message->setTo($setto);
         
