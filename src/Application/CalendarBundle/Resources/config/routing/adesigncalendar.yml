@@ -60,4 +60,8 @@ calendar_userootcalendar:
     pattern: /usecalendar
     defaults: { _controller: "ApplicationCalendarBundle:Calendar:usecalendar" }
     methods: POST|GET
-    
+  
+calendar_documents_download:
+    pattern:  /{id}/download/
+    defaults: { _controller: "ApplicationCalendarBundle:Calendar:download" }
+  

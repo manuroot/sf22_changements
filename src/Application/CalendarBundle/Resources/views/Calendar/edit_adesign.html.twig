@@ -56,6 +56,9 @@ input[id*='picture_'] {float:left;color:red;margin-right:5px; }
         margin-top: 1px;
 
     }
+    
+ tr{background-color:white;}
+
 </style>
     {% endblock %}
 
@@ -251,6 +254,17 @@ function showResponse(responseText, statusText, xhr, $form)  {
  
 <div id="output2"></div>
 
+{#=====================================================================
+                   LES FICHIERS DE LA DEMANDE
+=====================================================================#}
+<div class="tabbable">
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#one" data-toggle="tab">Edition</a></li>
+            <li><a href="#two" data-toggle="tab">Fichiers</a></li>
+           
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="one">
 {% if action == 'edit' %}
 
 <form  id="myform"  class="form-horizontal" role="form" data-id="{{ entity.id }}" action="{{ path('calendar_adesignajax_edit',{ 'id': entity.id }) }}" method="post" {{ form_enctype(form) }}>
@@ -319,28 +333,50 @@ function showResponse(responseText, statusText, xhr, $form)  {
 
     </form>
 
+            </div>
+               <div class="tab-pane" id="two">   
 
-{#=====================================================================
-                   LES FICHIERS DE LA DEMANDE
-=====================================================================#}
-
+                   <div class='row'>
+                <div class='col-xs-9'>    
 
     <h3><center>Liste des Fichiers associés</center></h3>
-    <table class=" table-striped table-bordered table-hover">
+   
+   
+    
+    
+    <table class="table  table-striped table-hover table-bordered">
         <thead>
-            <tr class="title"><th>id</th><th>Nom</th><th>Path</th></tr>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Fichier</th>
+                
+            </tr>
         </thead>
         <tbody>
-    {% for fic in entity.picture %}
+       
+             {% for fic in entity.picture %}
             <tr class="closed">
                 <td>{{ fic.id }}</td>
                 <td>{{ fic.name }}</td>
-                <td><a href="{{ path('docchangements_download', { 'id': fic.id }) }}">{{ fic.path }}</a></td>
+                <td><a href="{{ path('calendar_documents_download', { 'id': fic.id }) }}">{{ fic.path }}</a></td>
             </tr>
     {% endfor %}
+            
+       
         </tbody>
-    </table>   
+    </table>
     <!----------Form Edit Event ----------------->
+    <br><br>
+     </div>
+                </div>
+
+            </div>
+              </div>
+      </div>
+
+
+
 
 {% endblock %}
      {% block footer %} {% endblock %}

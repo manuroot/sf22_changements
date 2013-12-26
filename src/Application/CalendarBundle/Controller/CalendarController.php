@@ -484,4 +484,64 @@ else
       $response->headers->set('Content-Type', 'application/json');
       return $response;
       } */
+    public function downloadAction($id) {
+         
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('ApplicationCalendarBundle:DocCalendar')->find($id);
+      
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Docchangements entity.');
+        }
+        $request = $this->get('request');
+        $url = $request->headers->get("referer");
+        $message="\nContacter l'administrateur";
+        $session = $request->getSession();
+      //  $url=$session->get('buttonretour');
+        if (!isset($url)){
+            $url='calendar_indexadesign';   
+        }
+     //   $path = $entity->getUploadRootDir();
+        $filename=$entity->getPath();
+        $realname=$entity->getOriginalFilename();
+        // si existe pas, tant pis on prend le nom physique
+        if (!isset($realname)){
+            $realname=$filename;
+        }
+        $path = $this->get('kernel')->getRootDir() . "/../web/uploads/calendars/";
+
+        // Flush in "safe" mode to enforce an Exception if keys are not unique
+
+         //if (!file_exists($path . $filename)) {
+        if (!file_exists($path . $filename)) {
+            $session->getFlashBag()->add('warning', "Le fichier $realname n 'existe pas (code 1). $message");
+              return new RedirectResponse($url);
+        }
+           if (!is_readable($path . $filename)){
+                  $session->getFlashBag()->add('info', "Le fichier $realname n 'est pas lisible (code 2). $message");
+                    return new RedirectResponse($url);
+             }
+        
+
+     try {
+            $content = file_get_contents($path . $filename);
+        } catch (\ErrorException $e) {
+            $session->getFlashBag()->add('notice', "Le fichier $realname n 'existe pas (code 2). $message");
+            return $this->redirect($this->generateUrl($url));
+        }
+         $response = new Response();
+
+        //set headers
+        $response->headers->set('Content-Type', 'mime/type');
+        $response->headers->set('Content-Disposition', 'attachment;filename="' . $realname);
+        //$response->headers->set('Content-Length',filesize($filename));
+        //$session = $this->getRequest()->getSession();
+        $session->getFlashBag()->add('notice', "Le fichier $realname a ete téléchargé");
+
+        $response->setContent($content);
+        return $response;
+       /*
+          return $this->render('ApplicationChangementsBundle:errors:errorsxhtml.html.twig', array(
+                    'message' => "Le fichier n'existe pas 3<br>Contacter l'administrateur"));*/
+           
+    }
 }
