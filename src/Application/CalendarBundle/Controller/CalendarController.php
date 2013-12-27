@@ -278,12 +278,12 @@ class CalendarController extends Controller {
             $action = $request->get('action');
             if (isset($action) && $action == "delete") {
                 $entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find($data['id']);
-                /* if (!$entity) {
+                 if (!$entity) {
                   throw $this->createNotFoundException('Unable to find ChangementsContact entity.');
                   }
                   $em->remove($entity);
-                  $em->flush(); */
-                $ret['id'] = $data['id'];
+                  $em->flush(); 
+                 $ret['id'] = $data['id'];
                 $ret['status'] = 'removed';
                 $response = new Response(\json_encode($ret));
                 $response->headers->set('Content-Type', 'application/json');
