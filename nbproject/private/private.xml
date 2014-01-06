@@ -32,13 +32,13 @@
             <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/DependencyInjection/Configuration.php</file>
             <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/views/Changements/newflow.html.twig</file>
             <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/edit_adesign_testtabs.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Entity/Changements.php</file>
             <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/config/routing/changements.yml</file>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Entity/Changements.php</file>
             <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Manager/ChangementsManager.php</file>
             <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/config/routing/docchangements.yml</file>
             <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/edit_adesign.html.twig</file>
-            <file>file:/var/www/Symfony_changements/app/config/config.yml</file>
             <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/index_adesign.html.twig</file>
+            <file>file:/var/www/Symfony_changements/app/config/config.yml</file>
             <file>file:/var/www/Symfony_changements/vendor/craue/formflow-bundle/Craue/FormFlowBundle/Resources/views/FormFlow/stepList.html.twig</file>
             <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/config/routing.yml</file>
             <file>file:/var/www/Symfony_changements/app/config/config_dev.yml</file>
