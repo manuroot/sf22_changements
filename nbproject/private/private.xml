@@ -2,6 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="3">
         <file>
+            <url>src/Application/ChangementsBundle/Resources/views/Changements/indexpost.html.twig</url>
+            <bookmark id="1">
+                <name/>
+                <line>13</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
             <url>src/Application/CalendarBundle/Resources/views/Calendar/index_adesign.html.twig</url>
             <bookmark id="2">
                 <name/>
@@ -14,38 +22,12 @@
                 <key/>
             </bookmark>
         </file>
-        <file>
-            <url>src/Application/ChangementsBundle/Resources/views/Changements/indexpost.html.twig</url>
-            <bookmark id="1">
-                <name/>
-                <line>13</line>
-                <key/>
-            </bookmark>
-        </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/Symfony_changements/vendor/craue/formflow-bundle/Craue/FormFlowBundle/Resources/views/FormFlow/stepList_content.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/DependencyInjection/ApplicationChangementsExtension.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Controller/CalendarController.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Controller/ChangementsController.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/DependencyInjection/Configuration.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/views/Changements/newflow.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/edit_adesign_testtabs.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/config/routing/changements.yml</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Entity/Changements.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Manager/ChangementsManager.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/config/routing/docchangements.yml</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/edit_adesign.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/index_adesign.html.twig</file>
-            <file>file:/var/www/Symfony_changements/app/config/config.yml</file>
-            <file>file:/var/www/Symfony_changements/vendor/craue/formflow-bundle/Craue/FormFlowBundle/Resources/views/FormFlow/stepList.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/config/routing.yml</file>
-            <file>file:/var/www/Symfony_changements/app/config/config_dev.yml</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/edit.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/config/routing/adesigncalendar.yml</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/CalendarCategories/index.html.twig</file>
-            <file>file:/var/www/Symfony_changements/vendor/craue/formflow-bundle/Craue/FormFlowBundle/Resources/views/FormFlow/stepList_customization.html.twig</file>
+            <file>file:/var/www/Symfony_changements/composer.json</file>
+            <file>file:/var/www/Symfony_changements/clearinstall_dev.sh</file>
+            <file>file:/var/www/Symfony_changements/app/AppKernel.php</file>
         </group>
     </open-files>
 </project-private>
