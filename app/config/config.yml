@@ -308,3 +308,24 @@ oneup_uploader:
 #    jquery_path: %kernel.root_dir%/../vendor/jquery/jquery/jquery-1.9.1.js
 
 #a_designs_calendar:   []
+
+
+ivory_ck_editor:
+    default_config: full
+    configs:
+        full:
+            toolbar: full
+            allowedContent: true
+            entities: false
+            filebrowserBrowseRoute: elfinder
+        standard:
+            toolbar: standard
+            allowedContent: true
+            entities: false
+            filebrowserBrowseRoute: elfinder
+        basic:
+            toolbar: basic
+            allowedContent: true
+            entities: false
+            filebrowserBrowseRoute: elfinder
+

@@ -27,12 +27,13 @@ class AppKernel extends Kernel {
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             new APY\DataGridBundle\APYDataGridBundle(),
             // FOSUSER   
+             new \Sonata\CoreBundle\SonataCoreBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             // SONATA
             new Sonata\jQueryBundle\SonatajQueryBundle(),
             new Sonata\AdminBundle\SonataAdminBundle(),
             new Sonata\BlockBundle\SonataBlockBundle(),
-            new Sonata\CacheBundle\SonataCacheBundle(),
+            //new Sonata\CacheBundle\SonataCacheBundle(),
             new Sonata\MarkItUpBundle\SonataMarkItUpBundle(),
             new Sonata\UserBundle\SonataUserBundle('FOSUserBundle'),
             new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
@@ -41,7 +42,7 @@ class AppKernel extends Kernel {
             new Sonata\MediaBundle\SonataMediaBundle(),
             new Sonata\FormatterBundle\SonataFormatterBundle(),
             
-            new \Sonata\CoreBundle\SonataCoreBundle(),
+           
             //new Sonata\NewsBundle\SonataNewsBundle(),
             new FrequenceWeb\Bundle\CalendRBundle\FrequenceWebCalendRBundle(),
             new Knp\Bundle\MarkdownBundle\KnpMarkdownBundle(),
@@ -59,6 +60,7 @@ class AppKernel extends Kernel {
             new Application\CertificatsBundle\ApplicationCertificatsBundle(),
             new Application\ChangementsBundle\ApplicationChangementsBundle(),
             new Application\RelationsBundle\ApplicationRelationsBundle(),
+            new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
             //new Ivory\GoogleMapBundle\IvoryGoogleMapBundle(),
             //====================================================
             // FORM FILTER

@@ -35,7 +35,8 @@
         "craue/formflow-bundle": "dev-master",
         "sonata-project/easy-extends-bundle": "dev-master",
         "sonata-project/core-bundle": "~2.2@dev",
-        "sonata-project/cache-bundle": "dev-master",
+        "sonata-project/cache-bundle": "2.2.*@dev",
+        
         "sonata-project/admin-bundle": "dev-master",
         "sonata-project/block-bundle": "dev-master",
         "sonata-project/doctrine-extensions": "1.0.0",
@@ -77,7 +78,8 @@
          "oneup/uploader-bundle": "dev-master",
          "punkave/symfony2-file-uploader-bundle": "1.0.*@dev",
           "problematic/acl-manager-bundle": "dev-master",
-          "fr3d/ldap-bundle": "2.0.*@dev"
+          "fr3d/ldap-bundle": "2.0.*@dev",
+          "egeloen/ckeditor-bundle": "2.2.1"
 
 
     },
