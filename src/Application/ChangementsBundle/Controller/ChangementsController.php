@@ -1549,6 +1549,8 @@ class ChangementsController extends Controller {
 
         $parameters = array();
         $em = $this->getDoctrine()->getManager();
+        $changements_nb_status = $em->getRepository('ApplicationChangementsBundle:Changements')->getStatusForRequeteBuilder();
+      
         // Pour les favoris
         // echo "user_id=$user_id";
         //  exit(1);
@@ -1651,6 +1653,7 @@ class ChangementsController extends Controller {
                     'nb_pages' => $nb_pages,
                     'nbResults' => $nbResults,
                     'user_id' => $user_id,
+             'nb_status' => $changements_nb_status
         ));
     }
 

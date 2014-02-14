@@ -50,7 +50,7 @@ $builder
                 ))*/
         
         /*  ->add('ticketInt', 'genemu_jqueryautocompleter_entity', array(
-                   'label' => 'Ticket Externe',  
+                   'label' => 'Ticket Samy',  
                   'widget_addon' => array(
                   'icon' => 'tag',
                   'type' => 'prepend'
@@ -69,7 +69,7 @@ $builder
             
               ->add('ticketExt', null, array(
                   
-                    'label' => 'Ticket Externe',
+                    'label' => 'Ticket Samy',
                   
                   'attr' => array(
                            'style' => 'width:150px',
@@ -86,13 +86,13 @@ $builder
                         'placeholder' => 'ex: 12345 (5 a 10 car.)'
                                     ),
                      
-                    'label' => 'Ticket Interne',
+                    'label' => 'Ticket CF',
                     'widget_addon' => array(
                         'icon' => 'tag',
                         'type' => 'prepend'
                     ),))
-                  /* ->add('ticketExt',null,array('label'=>'Ticket Externe'))
-                  ->add('ticketInt',array('label'=>'Ticket Interne')) */
+                  /* ->add('ticketExt',null,array('label'=>'Ticket Samy'))
+                  ->add('ticketInt',array('label'=>'Ticket CF')) */
                 ->add('dateDebut', 'datetime', array(
                     'label' => 'Date début',
                     'widget' => 'single_text',

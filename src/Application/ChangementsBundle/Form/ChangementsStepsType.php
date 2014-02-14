@@ -54,7 +54,7 @@ class ChangementsStepsType extends AbstractType {
                             'attr' => array(
                            'placeholder' => 'ex: [1-XXXXXX | XXXXX]'
                                     ),
-                           'label'=>'Ticket Externe',
+                           'label'=>'Ticket Samy',
                              'widget_addon' => array(
                                 'icon' => 'tag',
                                 'type' => 'prepend'
@@ -72,7 +72,7 @@ class ChangementsStepsType extends AbstractType {
                             'attr' => array(
                            'placeholder' => 'ex: 12345 (5 a 10 car.)'
                                     ),
-                           'label'=>'Ticket Interne',
+                           'label'=>'Ticket CF',
                              'widget_addon' => array(
                                 'icon' => 'tag',
                                 'type' => 'prepend'
@@ -95,7 +95,7 @@ class ChangementsStepsType extends AbstractType {
                            'attr' => array(
                            'placeholder' => 'ex: [1-XXXXXX | XXXXX]'
                                     ),
-                           'label'=>'Ticket Externe',
+                           'label'=>'Ticket Samy',
                              'widget_addon' => array(
                                 'icon' => 'tag',
                                 'type' => 'prepend'
@@ -109,7 +109,7 @@ class ChangementsStepsType extends AbstractType {
                            'placeholder' => 'ex: 12345 (5 a 10 car.)'
                                     ),
                  
-                   'label'=>'Ticket Interne',
+                   'label'=>'Ticket CF',
                              'widget_addon' => array(
                                 'icon' => 'tag',
                                 'type' => 'prepend'

@@ -110,7 +110,7 @@ class ChangementsFilterAmoiType extends AbstractType {
 
                 /* ->add('ticketExt','text',array(
                   'attr' => array('style' => 'width:120px'),
-                  'label'=>'Ticket Externe',
+                  'label'=>'Ticket Samy',
                   'widget_addon' => array(
                   'icon' => 'tag',
                   'type' => 'prepend'
@@ -118,7 +118,7 @@ class ChangementsFilterAmoiType extends AbstractType {
                   'mapped'=>false,'required'=>false)) */
                 ->add('ticketInt', 'genemu_jqueryautocomplete_text', array(
                     'attr' => array('style' => 'width:120px'),
-                    'label' => 'Ticket Interne',
+                    'label' => 'Ticket CF',
                     'widget_addon' => array(
                         'icon' => 'tag',
                         'type' => 'prepend'
@@ -130,7 +130,7 @@ class ChangementsFilterAmoiType extends AbstractType {
                 ))
                 ->add('ticketExt', 'genemu_jqueryautocomplete_text', array(
                     'attr' => array('style' => 'width:120px'),
-                    'label' => 'Ticket Externe',
+                    'label' => 'Ticket Samy',
                     'widget_addon' => array(
                         'icon' => 'tag',
                         'type' => 'prepend'
@@ -145,7 +145,7 @@ class ChangementsFilterAmoiType extends AbstractType {
 
                 /*    ->add('ticketInt', 'text', array(
                   'attr' => array('style' => 'width:120px'),
-                  'label' => 'Ticket Interne',
+                  'label' => 'Ticket CF',
                   'widget_addon' => array(
                   'icon' => 'tag',
                   'type' => 'prepend'
