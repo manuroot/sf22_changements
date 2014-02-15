@@ -488,7 +488,7 @@ $(document).ready(function() {
     function format(state) {
         if (!state.id)
             return state.text; // optgroup
-        return "<img width='10px' class='flag' src='" + img_s_path + state.id.toLowerCase() + ".png'/> " + state.text;
+        return "<img width='15px' class='flag' src='" + img_s_path + state.id.toLowerCase() + ".png'/> " + state.text;
     }
 $("#searchstatus_idStatus").select2({
         placeholder: "-- Statut(s) --",

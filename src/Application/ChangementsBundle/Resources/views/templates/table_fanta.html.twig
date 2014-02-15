@@ -87,14 +87,14 @@
                 </th>
                 
                  <th style="min-width:80px" class="sorted hidden-phone hidden-tablet">
-                    <a href="{{ path(index_path, {'sort':'a.ticketExt','dir':next_dir}) }}">T_Samy</a> 
+                    <a href="{{ path(index_path, {'sort':'a.ticketExt','dir':next_dir}) }}">{{ ticket.externe }}</a> 
                     <i class="icon-tag"></i>
                     {% if arrow['a.ticketExt'] is defined %}
                     <i class={{ arrow['a.ticketExt'] }}></i>
                     {% endif %}
                 </th>
                  <th style="min-width:80px"  class="sorted hidden-phone hidden-tablet">
-                    <a href="{{ path(index_path, {'sort':'a.ticketInt','dir':next_dir}) }}">T_CF</a> 
+                    <a href="{{ path(index_path, {'sort':'a.ticketInt','dir':next_dir}) }}">{{ ticket.interne }}</a> 
                     <i class="icon-tag"></i>
                     {% if arrow['a.ticketInt'] is defined %}
                     <i class={{ arrow['a.ticketInt'] }}></i>

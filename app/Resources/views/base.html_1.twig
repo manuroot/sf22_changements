@@ -13,7 +13,7 @@
               'css/font-awesome.min.css' 
               '@ApplicationCentralBundle/Resources/public/css/main.css' 
   output='css/compiled/mainjquery.css' filter='cssrewrite' %}
-        
+         {#output='css/compiled/mainjquery.css' filter='?yui_css , cssrewrite' %}#}
         <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
         {% endstylesheets %}
        {#
@@ -73,8 +73,13 @@
 
             </div>
             <div id="content">
+              
+                  <div class="container">
+     <div class="row">
+        <div class="span12">
                 <center><h1>   {% block title %}CERTIFICATS{% endblock %}
                     </h1></center>
+             </div> </div> </div>
                 {% block content %}
 
                 {% endblock %}

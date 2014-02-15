@@ -48,7 +48,7 @@ assetic:
          #   apply_to: "\.css$|\.less$"
         yui_css:
             jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar
-            #apply_to: "\.css$"
+            apply_to: "\.css$"
         yui_js:
             jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar
        # closure:

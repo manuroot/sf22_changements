@@ -78,6 +78,7 @@
                     </li>
 
       {#======================== Projets =================#}
+                    {#
  {% set addoncl="dropdown" %}
     {% if foo[0] == 'projets' %}  {% set addoncl="dropdown active" %} {% endif %}
                     <li class="{{addoncl}}">
@@ -88,7 +89,7 @@
                             <li><a href="{{ path('projets_documents') }}"><i class="fa fa-briefcase"></i> {{ 'projets_documents'|trans }}</a></li>
                         </ul>
                     </li>
-
+#}
     {#======================== Serveurs =================#}
     {% set addoncl="dropdown" %}
     {% if foo[0] == 'serveurs' %}  {% set addoncl="dropdown active" %} {% endif %}
@@ -110,7 +111,10 @@
                             <li><a href="{{ path('chronouser') }}"><i class="fa fa-user"></i> {{ 'Utilisateurs'|trans }}</a></li>
                             <li><a href="{{ path('chronogroup') }}"><i class="fa fa-group"></i> {{ 'Groupes'|trans }}</a></li>
                             <li><a href="{{ path('environnement') }}"><i class="fa fa-globe"></i> {{ 'Environnements'|trans }}</a></li>
-                            <li><a href="{{ path('users') }}"><i class="fa fa-group"></i> {{ 'Eservices-Users(FOSUSER)'|trans }}</a></li>                            
+                            <li><a href="{{ path('users') }}"><i class="fa fa-group"></i> {{ 'Eservices-Users(FOSUSER)'|trans }}</a></li> 
+                                 <li><a href="{{ path('projets') }}"><i class="fa fa-th-list"></i> {{ 'Projets'|trans }}</a></li>
+                            <li><a href="{{ path('projets_documents') }}"><i class="fa fa-briefcase"></i> {{ 'projets_documents'|trans }}</a></li>
+                       
                             <li><a href="{{ path('applications') }}"><i class="fa fa-wrench"></i> {{ 'Applications'|trans }}</a></li>
                             <li><a href="{{ path('changements_contact') }}"><i class="fa fa-user-md"></i> {{ 'Contacts Clients'|trans }}</a></li>
 
