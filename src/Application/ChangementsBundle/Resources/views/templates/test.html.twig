@@ -1,0 +1,111 @@
+{% form_theme search_form with 'ApplicationChangementsBundle:Form:tpl_searchform.html.twig' %}
+  
+  {# <script>var menuDownUrl = "{{ asset('bundles/applicationcertificats/images/') }}";</script>#}
+            
+{% macro icon_class( type ) %}
+  {% set type_class_map = {
+    like: 'icon-user'
+  } %}
+  {{ type_class_map[type] }}
+{% endmacro %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    {% javascripts 
+    '@ApplicationChangementsBundle/Resources/public/js/jquery.cookie.js'
+    '@ApplicationChangementsBundle/Resources/public/js/changementsown.js'
+    '@ApplicationChangementsBundle/Resources/public/js/jquery.colorbox.js'
+    '@ApplicationChangementsBundle/Resources/public/js/changementsfanta.js'
+      output='js/compiled/changementsown.js' filter='?yui_js' %}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+<script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
+<script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
+ <script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>
+
+  {{ form_javascript(search_form) }}
+{% endblock %}
+
+
+  {% block stylesheets %}
+    
+
+{{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
+    <link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/indexfanta.css') }}" type="text/css" media="all"/>
+    
+<style>
+   .popover {
+	max-width: 300px;
+        min-width:150px;
+	width: auto;
+}
+div.etat { position:relative;float:right;margin-right:10px;}
+   .show_favoris  {margin-left: 50px;}
+   .my-star>i { color: yellow; }
+   .my-nice-button>i { color: blue; }
+    *.icon-silver {color: silver}
+     *.icon-blue {color: blue}
+        </style>   
+    {{ form_stylesheet(search_form) }}
+{% endblock %}
+
+{% block content_header '' %}
+
+{% block title %}
+               
+        <span class="icon-stack">
+            <i class="icon-check-empty icon-stack-base"></i>
+            <i class="icon-table"></i>
+        </span>    PLANNING DES OPERATIONS 
+    
+        <a id="mytitleb" class="mytitleb btn btn-medium btn-info" href="#">
+            <i class="icon-info-sign icon-2x"></i> <div class="montext">{{ nbResults }}</div></a> 
+          
+        <div id="popover-head" class="hide">Opérations:</div>
+<div id="popover-content" class="hide mycontent" > 
+    <h4>
+      {% for key, value in nb_status %}
+   
+          <img src="{{ asset('bundles/applicationchangements/images/') }}{{ key }}.png" alt="show" width="20px" height="20px"/><div class="etat">{{ value }}</div>
+        <br/>{% endfor %}</h4>
+    </div>  
+      
+{% endblock %}
+
+{% block content %}
+
+{% set dateright = '30' %}
+{% set date_right_warning= '+' ~  dateright ~ 'days' %}
+{#{% set date_right_warning= '+15days' %}#}
+
+{% include 'ApplicationChangementsBundle:templates:flash.html.twig' %}
+      
+  
+{% include 'ApplicationChangementsBundle:templates:container_search.html.twig' 
+        with {
+            'form_path': 'changements_fanta',
+            'status_form':status_form,
+            'search_form': search_form,'box':"showhideboxown",
+            'new_flow_path': 'changements_newflowstart',
+            'new_path': 'changements_newchangement',
+            'new_text':"Ajouter une Opération",
+            'fav':"s_fanta",
+            'include_html_search':  'ApplicationChangementsBundle:Changements:indexsearchsimple_form.html.twig'
+        }
+%}
+
+        <div id="matable">           
+{% include 'ApplicationChangementsBundle:templates:table_fanta.html.twig'   %}
+            </div>
+            <div class="pagination" align="center">
+            {{ pagerfanta(pagerfanta, 'twitter_bootstrap') }}
+            </div>
+         <br>
+{% endblock %}

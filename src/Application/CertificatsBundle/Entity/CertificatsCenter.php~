@@ -15,21 +15,24 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Application\RelationsBundle\Entity\Projet;
 use Application\RelationsBundle\Entity\Applis;
-use Application\RelationsBundle\Entity\FileType;
-
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
-
+use Application\CertificatsBundle\Entity\CertificatsFiletype;
+use Symfony\Component\HttpFoundation\File\File;
+use Application\CertificatsBundle\Entity\CertificatsFiles;
 /**
  * CertificatsCenter
  *
  * @ORM\Table(name="certificats_center")
- * @ORM\Entity(repositoryClass="Application\CertificatsBundle\Entity\CertificatsCenterRepository")
+ * @ORM\Entity(repositoryClass="Application\CertificatsBundle\Repository\CertificatsCenterRepository")
  * @ORM\HasLifecycleCallbacks()
- * @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,typeCert.fileType,idapplis.nomapplis:GroupConcat",groupBy={"id"}) 
+ * @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,warningFile,project.nomprojet,idEnvironnement.nom,typeCert.fileType",groupBy={"id"}) 
  */
 
 
-// * @GRID\Source(groupBy={"id"}) 
+// * keep:
+//  * @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,idEnvironnement.nom,typeCert.fileType,idapplis.nomapplis:GroupConcat",groupBy={"id"}) 
+// @GRID\Source(groupBy={"id"}) 
+// * @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,warningFile,project.nomprojet,idEnvironnement.nom,typeCert.fileType",groupBy={"id"}) 
+
 // //* @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,typeCert.fileType,idapplis.nomapplis:GroupConcat",groupBy={"id"}) 
 //* @GRID\Source(columns="id,fileName,cnName,endTime,serverName,serviceName,project.nomprojet,typeCert.fileType,idapplis.nomapplis:GroupConcat",groupBy={"id"}) 
 class CertificatsCenter
@@ -144,6 +147,8 @@ class CertificatsCenter
      * @var boolean
      *
      * @ORM\Column(name="warning_file", type="boolean", nullable=true)
+     * @GRID\Column(field="warningFile", title="W",size="10",filter="select",selectFrom="query")
+  
      */
     private $warningFile;
     
@@ -161,37 +166,38 @@ class CertificatsCenter
     */
     private $project;
 
+// @ORM\OneToOne(targetEntity="\Application\CertificatsBundle\Entity\CertificatsFiles",mappedBy="certificats",cascade={"persist","remove"}), 
+    
      /**
       * 
-     * @ORM\OneToOne(targetEntity="\Application\CertificatsBundle\Entity\CertificatsFiles",inversedBy = "certificats",cascade={"persist"}), 
-     * @ORM\JoinColumn(name = "fichier", nullable = true, referencedColumnName = "id")
+     * @ORM\ManyToOne(targetEntity="\Application\CertificatsBundle\Entity\CertificatsFiles", inversedBy="certificats",cascade={"persist","remove"}), 
+      * 
+     * @ORM\JoinColumn(name = "fichier", nullable = true, referencedColumnName = "id",onDelete="set null")
      */
     protected $fichier;
     
-      /**
-     * @Assert\File(
-     *     maxSize="1M",
-     *     mimeTypes={"image/png", "image/jpeg", "image/pjpeg"}
-     * )
-     * @Vich\UploadableField(mapping="product_image", fileNameProperty="imageName")
-     *
-     * @var File $image
-     */
-    protected $image;
+   
 
-    /**
-     * @ORM\Column(type="string", length=255, name="image_name")
-     *
-     * @var string $imageName
+
+     /**
+     * @var string
+     * 
+     * @ORM\ManyToOne(targetEntity="Application\RelationsBundle\Entity\Environnements")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idEnvironnement", referencedColumnName="id")
+     * })
+     * @GRID\Column(field="idEnvironnement.nom", filterable=true,size="20",title="Env", operator={"eq"},filter="select",selectFrom="query")
      */
-    protected $imageName;
+    private $idEnvironnement;
+  
+     // @GRID\Column(field="idEnvironnement.nom", filterable=false,size="20",title="Env", operator="eq",filter="select",selectFrom="query")
     
     
     //* @OrderBy({"name" = "ASC"})
     /**
      * @var \Filetype
      *
-     * @ORM\ManyToOne(targetEntity="\Application\RelationsBundle\Entity\Filetype")
+     * @ORM\ManyToOne(targetEntity="\Application\CertificatsBundle\Entity\CertificatsFiletype")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="type_cert", referencedColumnName="id")
      * })
@@ -205,12 +211,15 @@ class CertificatsCenter
      * @ORM\ManyToMany(targetEntity="\Application\RelationsBundle\Entity\Applis", inversedBy="idprojets",cascade={"persist"})
      * @ORM\OrderBy({"nomapplis" = "ASC"})
      * @ORM\JoinTable(name="certificats_xapplis")
+    
      *
      */
     private $idapplis;
     // agarder
     //      *  @Grid\Column(type="text",title="Applis2",field="idapplis.nomapplis:GroupConcat",operators={"like"}, operatorsVisible=false, filterable=false,operatorsVisible=true,selectFrom="query")
       //    @Grid\Column(type="text",title="Applis1",size="30",field="idapplis.nomapplis:GroupConcat",  selectExpanded=true , operatorsVisible=true,selectFrom="query")
+   //  *  @Grid\Column(type="array",title="Applis2",field="idapplis.nomapplis", operatorsVisible=true, filterable=true,selectFrom="query")
+    //    
     //    *  @Grid\Column(type="text",title="Applis2",size="30",field="idapplis.nomapplis:GroupConcat",joinType="inner",operators={"eq","neq","nlike","lt","like"}, operatorsVisible=true,selectFrom="query",groupBy={"id"})
   //  @Grid\Column(type="text",title="Applis1",size="30",field="idapplis.nomapplis",joinType="inner",selectFrom="values",groupBy={"id"})
     // @Grid\Column(type="extended_text",field="idapplis.nomapplis:GroupConcat", title="Applis",filter="select", selectMulti="false", )
@@ -263,6 +272,12 @@ class CertificatsCenter
         return $this->description;
     }
 
+ 
+     public function __toString() {
+        return $this->getFileName();    
+    }
+    
+    
    public function __construct()
   {
     $this->addedDate = new \DateTime('now');
@@ -564,10 +579,10 @@ class CertificatsCenter
     /**
      * Set typeCert
      *
-     * @param \Application\RelationsBundle\Entity\Filetype $typeCert
+     * @param \Application\CertificatsBundle\Entity\CertificatsFiletype $typeCert
      * @return CertificatsCenter
      */
-    public function setTypeCert(\Application\RelationsBundle\Entity\Filetype $typeCert = null)
+    public function setTypeCert(\Application\CertificatsBundle\Entity\CertificatsFiletype $typeCert = null)
     {
         $this->typeCert = $typeCert;
     
@@ -577,7 +592,7 @@ class CertificatsCenter
     /**
      * Get typeCert
      *
-     * @return \Application\RelationsBundle\Entity\Filetype 
+     * @return \Application\CertificatsBundle\Entity\CertificatsFiletype
      */
     public function getTypeCert()
     {
@@ -727,7 +742,34 @@ ORDER BY
      */
 
     
-    
+  
+     
+   
+    /**
+     * Remove fichier
+     *
+     * @param 
+     */
+     /**
+     * Remove fichier
+     *
+     * @param Docchangements $picture
+     */
+    public function removeFichier(\Application\CertificatsBundle\Entity\CertificatsFiles $fichier){
+        if (!$this->fichier->contains($fichier)) {
+            return;
+        }
+        $this->fichier->removeElement($fichier);
+
+       // $fichier->removeIdchangement($this);
+      
+        }
+        
+    /*public function removePicture(Docchangements $picture)
+    {
+        $this->picture->removeElement($picture);
+    }
+    */
     
      /**
      * Add fichier
@@ -735,7 +777,7 @@ ORDER BY
      * @param \Application\CertificatsBundle\Entity\CertificatsFiles $fichier
      * @return CertificatsFiles
      */
-    public function addFichier(\Application\CertificatsBundle\Entity\CertificatsFiles $fichier) {
+    public function addFichier(CertificatsFiles $fichier=null) {
         $this->fichier = $fichier;
 
         return $this;
@@ -746,8 +788,13 @@ ORDER BY
      * @param \Application\CertificatsBundle\Entity\CertificatsFiles $fichier
      * @return CertificatsCenter
      */
-    public function setFichier(\Application\CertificatsBundle\Entity\CertificatsFiles $fichier = null)
+    public function setFichier(CertificatsFiles $fichier = null)
     {
+          /* if ($item instanceof CertificatsFiles) {
+            $this->addFichier($item);
+        } else {
+            throw new \Exception("$items must be an instance of Applus or ArrayCollection");
+        }*/
         $this->fichier = $fichier;
     
         return $this;
@@ -761,5 +808,31 @@ ORDER BY
     public function getFichier()
     {
         return $this->fichier;
+    }
+
+ 
+    
+     /**
+     * Set environnement
+     *
+     * @param \Application\RelationsBundle\Entity\Environnements $idEnvironnement
+     * @return CertificatsCenter
+     */
+    
+    public function setIdEnvironnement(\Application\RelationsBundle\Entity\Environnements $idEnvironnement = null)
+    {
+        $this->idEnvironnement = $idEnvironnement;
+    
+        return $this;
+    }
+
+    /**
+     * Get environnement
+     *
+     * @return \Application\RelationsBundle\Entity\Environnements 
+     */
+    public function getIdEnvironnement()
+    {
+        return $this->idEnvironnement;
     }
 }

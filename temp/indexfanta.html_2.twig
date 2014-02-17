@@ -1,0 +1,341 @@
+{% extends "ApplicationChangementsBundle::layout.html.twig" %}
+{% form_theme search_form with 'ApplicationChangementsBundle:Form:tpl_searchform.html.twig' %}
+
+  {# <script>var menuDownUrl = "{{ asset('bundles/applicationcertificats/images/') }}";</script>#}
+            
+{% macro icon_class( type ) %}
+  {% set type_class_map = {
+    like: 'icon-user'
+  } %}
+  {{ type_class_map[type] }}
+{% endmacro %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    {% javascripts 
+    '@ApplicationChangementsBundle/Resources/public/js/jquery.cookie.js'
+    '@ApplicationChangementsBundle/Resources/public/js/changementsown.js'
+    '@ApplicationChangementsBundle/Resources/public/js/jquery.colorbox.js'
+    '@ApplicationChangementsBundle/Resources/public/js/changementsfanta.js'
+      output='js/compiled/changementsown.js' filter='?yui_js' %}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+<script type="text/javascript" src="{{ asset('select2/select2.js') }}"></script>
+<script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
+ <script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>
+
+  {{ form_javascript(search_form) }}
+{% endblock %}
+
+
+  {% block stylesheets %}
+    
+
+{{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>
+    <link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/indexfanta.css') }}" type="text/css" media="all"/>
+    
+<style>
+   .popover {
+	max-width: 300px;
+        min-width:150px;
+	width: auto;
+}
+div.etat { position:relative;float:right;margin-right:10px;}
+   .show_favoris  {margin-left: 50px;}
+   .my-star>i { color: yellow; }
+   .my-nice-button>i { color: blue; }
+    *.icon-silver {color: silver}
+     *.icon-blue {color: blue}
+        </style>   
+    {{ form_stylesheet(search_form) }}
+{% endblock %}
+
+{% block content_header '' %}
+
+{% block title %}
+               
+        <span class="icon-stack">
+            <i class="icon-check-empty icon-stack-base"></i>
+            <i class="icon-table"></i>
+        </span>    PLANNING DES OPERATIONS 
+    
+        <a id="mytitleb" class="mytitleb btn btn-medium btn-info" href="#">
+            <i class="icon-info-sign icon-2x"></i> <div class="montext">{{ nbResults }}</div></a> 
+          
+        <div id="popover-head" class="hide">Opérations:</div>
+<div id="popover-content" class="hide mycontent" > 
+    <h4>
+      {% for key, value in nb_status %}
+   
+          <img src="{{ asset('bundles/applicationchangements/images/') }}{{ key }}.png" alt="show" width="20px" height="20px"/><div class="etat">{{ value }}</div>
+        <br/>{% endfor %}</h4>
+    </div>  
+      
+{% endblock %}
+
+{% block content %}
+
+{% set dateright = '30' %}
+{% set date_right_warning= '+' ~  dateright ~ 'days' %}
+{#{% set date_right_warning= '+15days' %}#}
+
+{% include 'ApplicationChangementsBundle:templates:flash.html.twig' %}
+      
+  
+{% include 'ApplicationChangementsBundle:templates:container_search.html.twig' 
+        with {
+            'form_path': 'changements_fanta',
+            'status_form':status_form,
+            'search_form': search_form,'box':"showhideboxown",
+            'new_flow_path': 'changements_newflowstart',
+            'new_path': 'changements_newchangement',
+            'new_text':"Ajouter une Opération",
+            'fav':"s_fanta",
+            'include_html_search':  'ApplicationChangementsBundle:Changements:indexsearchsimple_form.html.twig'
+        }
+%}
+
+        <div id="matable">           
+{% include 'ApplicationChangementsBundle:templates:table_fanta.html.twig'   %}
+
+ {% set itemsa = { 
+        'a.id': ['50px','icon-time','ID',1],
+        'a.nom':['80px','icon-user','Nom',1],
+        'i.id':['40px','icon-star','Fav.',1,"user"],
+        'a.dateDebut': ['80px','icon-time','Debut',1],
+        'a.dateFin': ['80px','icon-time','Fin',1],
+        'b.nomprojet': ['80px','icon-tag','Projet',1],
+        'a.demandeur': ['30px','icon-user','D',1],
+        'fichiers': ['30px','icon-book','D',0],
+        'commentaires': ['20px','icon-pencil','C',1],
+        'e.nomUser': ['80px','icon-group','Users',1],
+        'd.nom':['30px','icon-flag','F',1],
+        'a.ticketExt': ['80px','icon-tag','T_Ext',1],
+        'a.ticketInt': ['70px','icon-tag',' T_Int',1],
+        'g.nom': ['40px','icon-tag','Env',1],
+ } %}      
+
+       
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                <tr class="title">
+                 <th style="50px"  class="sorted">
+                    <a href="{{ path('changements_fanta', {'sort':'a.id','dir':next_dir}) }}">ID</a> 
+                     {% if arrow['a.id'] is defined %}
+                        <i class={{ arrow['a.id'] }}></i>
+                    {% endif %}
+                </th>
+
+                <th style="80px"  class="sorted">
+                    <a href="{{ path('changements_fanta', {'sort':'a.nom','dir':next_dir}) }}">Nom</a> 
+                    <i class="icon-user"></i>
+                    {% if arrow['a.nom'] is defined %}
+                        <i class={{ arrow['a.nom'] }}></i>
+                    {% endif %}
+                </th>
+                {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+                <th style="40px"  class="sorted">
+                    <a href="{{ path('changements_fanta', {'sort':'i.id','dir':next_dir}) }}">Fav</a> 
+                    <i class="icon-star"></i>
+                    {% if arrow['i.id'] is defined %}
+                        <i class={{ arrow['i.id'] }}></i>
+                    {% endif %}
+                    </th>  
+                    {% endif %}
+                 <th style="80px"  class="sorted">
+                    <a href="{{ path('changements_fanta', {'sort':'a.dateDebut','dir':next_dir}) }}">Debut</a> 
+                    <i class="icon-time"></i>
+                    {% if arrow['a.dateDebut'] is defined %}
+                        <i class={{ arrow['a.dateDebut'] }}></i>
+                    {% endif %}
+                </th>
+                <th style="80px"  class="sorted">
+                    <a href="{{ path('changements_fanta', {'sort':'a.dateFin','dir':next_dir}) }}">Fin</a> 
+                    <i class="icon-time"></i>
+                    {% if arrow['a.dateFin'] is defined %}
+                    <i class={{ arrow['a.dateFin'] }}></i>
+                    {% endif %}
+                </th>
+                 <th style="80px"  class="sorted">
+                    <a href="{{ path('changements_fanta', {'sort':'b.nomprojet','dir':next_dir}) }}">Projet</a> 
+                    <i class="icon-tag"></i>
+                    {% if arrow['b.nomprojet'] is defined %}
+                    <i class={{ arrow['b.nomprojet'] }}></i>
+                    {% endif %}
+                </th>
+                 <th style="30px"  class="sorted">
+                    <a href="{{ path('changements_fanta', {'sort':'a.demandeur','dir':next_dir}) }}">D</a> 
+                    <i class="icon-user"></i>
+                    {% if arrow['a.demandeur'] is defined %}
+                    <i class={{ arrow['a.demandeur'] }}></i>
+                    {% endif %}
+                </th>
+                
+                <th style="30px"  class="sorted">
+                  
+                    <i class="icon-book"></i>
+                  
+                </th>
+                 <th style="30px"  class="sorted">
+                    <a href="{{ path('changements_fanta', {'sort':'a.demandeur','dir':next_dir}) }}">F</a> 
+                    <i class="icon-tag"></i>
+                    {% if arrow['a.demandeur'] is defined %}
+                    <i class={{ arrow['a.demandeur'] }}></i>
+                    {% endif %}
+                </th>
+                 <th style="80px"  class="sorted">
+                    <a href="{{ path('changements_fanta', {'sort':'e.nomUser','dir':next_dir}) }}">Users</a> 
+                    <i class="icon-group"></i>
+                    {% if arrow['e.nomUser'] is defined %}
+                    <i class={{ arrow['e.nomUser'] }}></i>
+                    {% endif %}
+                </th>
+                <th style="80px"  class="sorted">
+                    <a href="{{ path('changements_fanta', {'sort':'d.nom','dir':next_dir}) }}">S</a> 
+                    <i class="icon-flag"></i>
+                    {% if arrow['d.nom'] is defined %}
+                    <i class={{ arrow['d.nom'] }}></i>
+                    {% endif %}
+                </th>
+                
+                 <th style="80px"  class="sorted">
+                    <a href="{{ path('changements_fanta', {'sort':'a.ticketExt','dir':next_dir}) }}">T_Ext</a> 
+                    <i class="icon-tag"></i>
+                    {% if arrow['a.ticketExt'] is defined %}
+                    <i class={{ arrow['a.ticketExt'] }}></i>
+                    {% endif %}
+                </th>
+                 <th style="80px"  class="sorted">
+                    <a href="{{ path('changements_fanta', {'sort':'a.ticketInt','dir':next_dir}) }}">T_Int</a> 
+                    <i class="icon-tag"></i>
+                    {% if arrow['a.ticketInt'] is defined %}
+                    <i class={{ arrow['a.ticketInt'] }}></i>
+                    {% endif %}
+                </th>
+                 <th style="40px"  class="sorted">
+                    <a href="{{ path('changements_fanta', {'sort':'g.nom','dir':next_dir}) }}">Env</a> 
+                    <i class="icon-tag"></i>
+                    {% if arrow['g.nom'] is defined %}
+                    <i class={{ arrow['g.nom'] }}></i>
+                    {% endif %}
+                </th>
+        <th colspan="4">Actions</th>
+                        </tr>
+               </thead>
+    <tbody>
+    {% for entity in  pagerfanta.currentPageResults %}
+         {% set text_comment = "<p>Editer/Voir les commentaires de cet enregistrement (id=" ~ entity.id  ~ ")" %}
+         {% set text_edit= "<p>Editer cet enregistrement (id=" ~ entity.id  ~ ")" %}
+        {% set text_show= "<p>Afficher les détails de cet enregistrement (id=" ~ entity.id  ~ ")" %}
+        {% if entity.idStatus.description == 'closed' %} 
+            <tr class="myclosed">
+       
+        {% else %}
+            {% if entity.idStatus.description == 'prepare' or  entity.idStatus.description == 'wait'%} 
+                <tr class="prepare">
+            {% else %}
+                <tr class="success">
+            {% endif %}
+        {% endif %}
+
+   <td>{{ entity.id }}</td>
+   <td><a href="{{ path('changements_show', { 'id': entity.id }) }}">{{ entity.nom }}</a></td>
+         
+                                  
+        <td>   
+      {% set myfavori = 0 %}
+      {% for favoris in entity.idfavoris  if myfavori==0 %}
+          {% if favoris.id ==  user_id %}
+            {% set myfavori = 1 %}
+       
+         {% endif %}
+     {% endfor %}
+          {% if myfavori == 0 %}
+           <a class="favoris" rel="tooltip" data-placement="bottom" data-content="Ajouter cet enregistrement de vos favoris" data-original-title="Information" data-toggle="tooltip" data-id="{{entity.id}}" data-name="{{entity.nom}}" data-status="{{ myfavori }}" href="#here">
+             
+                 <img src="{{ asset('bundles/applicationchangements/images/star-off.png') }}" alt="show" width="15px" height="15px" />
+                {% else %}
+                    <a class="favoris" rel="tooltip" data-placement="bottom" data-content="Supprimer cet enregistrement de vos favoris" data-original-title="Information" data-toggle="tooltip" data-id="{{entity.id}}" data-name="{{entity.nom}}" data-status="{{ myfavori }}" href="#here">
+             
+                  <img src="{{ asset('bundles/applicationchangements/images/star-on.png') }}" alt="show" width="15px" height="15px" />
+                {% endif %}
+        </a>
+    </td>       
+     {% endif %}
+   
+    <td>{{ entity.dateDebut|date('Y-m-d') }}</td>
+    <td>{% if entity.dateFin  %}{{ entity.dateFin|date('Y-m-d') }}{% else %}---{% endif %}</td>
+    <td>{{ entity.idProjet.nomprojet }}</td>
+    <td>{{ entity.demandeur.nomUser }}</td>
+    <td>
+        {% if entity.picture|length > 0  %}
+            <img src="{{ asset('bundles/applicationchangements/images/wordx.gif') }}" alt="show" width="12px" height="12px"/>x {{  entity.picture|length }}
+        {% else %}
+            -
+        {% endif %}
+    </td>
+   
+    <td>{{ entity.comments|length }}</td>
+    <td>{{ entity.idusers|join(', ') }}</td>
+    <td style="min-width:45px"> 
+        {% if entity.idStatus.description != 'closed' %}
+            {% set c_status = "open" %}
+        {% else %}                                                                        
+            {% set c_status = "closed" %}
+        {% endif %}
+         {% if is_granted("ROLE_USER") %}
+             {% set ok_status = "okstatus" %}
+            {% else %}
+             {% set ok_status = "nokstatus" %}
+          {% endif %}
+         {% set c_img =  entity.idStatus.id ~ '.png' %}                                   
+                  <a class="{{ ok_status }} {{ c_status }}" data-name="{{entity.nom}}" data-id="{{entity.id}}"  href="#{{ entity.id }}">
+                  <img src="{{ asset('bundles/applicationchangements/images/') }}{{ c_img }}" alt="show" width="15px" height="15px"/>
+                  </a>
+   </td> 
+   <td> {{ entity.ticketExt }}   </td>
+   <td> {{ entity.ticketInt }}   </td>
+   <td>{% for envir in entity.idEnvironnement %}{{ envir }} <br>{% endfor %}</td>
+   <td style="min-width:18px"> 
+     
+    <a class="tooltip_show editme" rel="tooltip" data-content="{{ text_show }}" data-original-title="Information" data-toggle="tooltip" href="{{ path('changements_showXhtml', { 'id': entity.id }) }}">
+    <img src="{{ asset('bundles/applicationchangements/images/detail.png') }}" alt="show" width="15px" height="15px" />
+    </a>
+   </td>
+
+   {% if is_granted("ROLE_USER") %}
+   <td style="min-width:18px">
+       <a class="tooltip_edit"  rel="tooltip" data-content="{{ text_edit }}" data-original-title="Information" data-toggle="tooltip"
+       href="{{ path('changements_edit', { 'id': entity.id }) }}">
+        <img src="{{ asset('bundles/applicationchangements/images/edit.png') }}" alt="edit" width="15px" height="15px" />
+    </a>
+   </td>
+  
+  {% endif %}
+   <td>
+  <a class="tooltip_comments"  rel="tooltip" data-content="{{ text_comment }}" data-original-title="Information" data-toggle="tooltip"
+      href="{{ path('changements_comment_show', { 'id': entity.id }) }}">
+     <i class="icon-pencil" style="color:black"></i>
+     </a>
+  </td>
+
+</tr>
+{% endfor %}
+            </tbody>
+            </table>  
+ 
+            </div>
+            <div class="pagination" align="center">
+            {#<div class="pagerfanta">#}
+            {#{{ pagerfanta(pagerfanta, 'default') }}#}
+            {{ pagerfanta(pagerfanta, 'twitter_bootstrap') }}
+            </div>
+         <br>
+{% endblock %}
