@@ -1,7 +1,8 @@
 _changements:
     resource: "@ApplicationChangementsBundle/Resources/config/routing/changements.yml"
     prefix:   /
-
+    
+    
 _changements_contact:
     resource: "@ApplicationChangementsBundle/Resources/config/routing/changementsContact.yml"
     prefix:   /contact

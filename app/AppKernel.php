@@ -27,7 +27,7 @@ class AppKernel extends Kernel {
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             new APY\DataGridBundle\APYDataGridBundle(),
             // FOSUSER   
-             new \Sonata\CoreBundle\SonataCoreBundle(),
+             new Sonata\CoreBundle\SonataCoreBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             // SONATA
             new Sonata\jQueryBundle\SonatajQueryBundle(),

@@ -3,6 +3,11 @@
 # Changements Indexes: fanta par defaut
 #--------------------------------------------------------------- 
 
+changements_dashboard:
+    pattern:  /dashboard
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:indexdashboard" }
+    
+    
 changements_fanta:
     pattern:  /
     defaults: { _controller: "ApplicationChangementsBundle:Changements:indexfanta" }
