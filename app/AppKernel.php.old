@@ -27,7 +27,7 @@ class AppKernel extends Kernel {
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             new APY\DataGridBundle\APYDataGridBundle(),
             // FOSUSER   
-             new Sonata\CoreBundle\SonataCoreBundle(),
+		new Sonata\CoreBundle\SonataCoreBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             // SONATA
             new Sonata\jQueryBundle\SonatajQueryBundle(),
@@ -41,13 +41,13 @@ class AppKernel extends Kernel {
             new Sonata\IntlBundle\SonataIntlBundle(),
             new Sonata\MediaBundle\SonataMediaBundle(),
             new Sonata\FormatterBundle\SonataFormatterBundle(),
-
-
+            
+           
             //new Sonata\NewsBundle\SonataNewsBundle(),
             new FrequenceWeb\Bundle\CalendRBundle\FrequenceWebCalendRBundle(),
             new Knp\Bundle\MarkdownBundle\KnpMarkdownBundle(),
             new Craue\FormFlowBundle\CraueFormFlowBundle(),
- new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
+            new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
             new Genemu\Bundle\FormBundle\GenemuFormBundle(),
@@ -92,10 +92,10 @@ class AppKernel extends Kernel {
             // CALENDARS
             //====================================================
             //new ADesigns\CalendarBundle\ADesignsCalendarBundle(),
-		,
+,
             new Application\CalendarBundle\ApplicationCalendarBundle(),
              new Problematic\AclManagerBundle\ProblematicAclManagerBundle()
-   );
+        );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
             //  $bundles[] = new Acme\DemoBundle\AcmeDemoBundle();

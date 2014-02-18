@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
      # Sonata Bundles
+    - { resource: sonata/sonata_core.yml }
     - { resource: sonata/sonata_admin.yml }
     - { resource: sonata/sonata_doctrine.yml }
     - { resource: sonata/sonata_user.yml }
