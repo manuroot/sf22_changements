@@ -101,12 +101,15 @@
 
 {% block title %}
 
-<span class="icon-stack">
+    <div class="row">
+        <div class="span9" style="text-align:right;">
+            <span class="icon-stack">
     <i class="icon-check-empty icon-stack-base"></i>
     <i class="icon-table"></i>
 </span>    PLANNING DES OPERATIONS 
-      
-<a id="mytitleb" class="firstbutton mytitleb btn btn-medium btn-info" href="#">
+        </div>
+        <div class="span3">
+            <a id="mytitleb" class="firstbutton mytitleb btn btn-medium btn-info" href="#">
     <i class="icon-pencil icon-2x"></i> <div class="montext">{{ nbResults }}</div>
 </a> 
 <a class="mytooltip-header btn btn-small btn-info" href="{{ path('wdcalendar_indexadesignchangement') }}" rel="tooltip" data-content="Calendrier" data-original-title="Information" data-toggle="tooltip">
@@ -116,12 +119,14 @@
 <a class="mytooltip-header btn btn-small btn-info" href="{{ path('docchangements') }}" rel="tooltip" data-content="Fichiers" data-original-title="Information" data-toggle="tooltip">
     <i class="icon-file-text-alt icon-2x"></i>
 </a> 
-
-
         
 <a class="mytooltip-header btn btn-small btn-info" href="{{ path('changements_charts') }}" rel="tooltip" data-content="Graphiques" data-original-title="Information" data-toggle="tooltip">
     <i class="icon-bar-chart icon-2x"></i>
 </a> 
+            
+        </div>
+    </div>
+
 
 
 <div id="popover-content" class="hide mycontent" > 
