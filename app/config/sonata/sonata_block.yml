@@ -14,3 +14,6 @@ sonata_block:
         sonata.media.block.media:
         sonata.media.block.gallery:
         sonata.media.block.feature_media:
+            
+#parameters:
+#    sonata.user.admin.user.class: Application\Sonata\UserBundle\Admin\UserAdmin

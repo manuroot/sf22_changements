@@ -3,25 +3,25 @@
 {% block javascripts %}
 {{ parent() }}
 {{ tinymce_init() }}
- <script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>
- <script>
- $().ready(function() {
-	// validate the comment form when it is submitted
-	
-    $('.alert').each(function() {
-        var html = $(this).html();
-        $.pnotify({
-            title: 'Flash Message',
-            text: html,
-            animation: 'show',
-            nonblock_opacity: 0.2,
-            type: 'error',
-            icon: 'icon-flag',
-            width: '350px',
-            opacity: .9
+<script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>
+<script>
+    $().ready(function() {
+        // validate the comment form when it is submitted
+
+        $('.alert').each(function() {
+            var html = $(this).html();
+            $.pnotify({
+                title: 'Flash Message',
+                text: html,
+                animation: 'show',
+                nonblock_opacity: 0.2,
+                type: 'error',
+                icon: 'icon-flag',
+                width: '350px',
+                opacity: .9
+            });
         });
     });
-});
 </script>
 
 {% endblock %}
@@ -35,49 +35,61 @@
 <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
 {% endstylesheets %}
 #}
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
- 
-  <link rel="stylesheet" href="{{ asset('css/compiled/changements.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
+
+<link rel="stylesheet" href="{{ asset('css/compiled/changements.css') }}" type="text/css" media="all"/>
 <style>
-         td.single {
-         font-style: italic;    
-         font-weight: bold;
-         background-color: red;
-         color:blue;
-        }
-      div.btxt{padding-bottom:10px;}   
- div.btxt:hover {
-/*padding-left:5px;
-font-weight: bold;*/
-color: red;
-}  
-           .mypad {margin-left:4px;
-                  margin-right:4px;}
+    td.single {
+        font-style: italic;    
+        font-weight: bold;
+        background-color: red;
+        color:blue;
+    }
+    div.btxt{padding-bottom:10px;}   
+    div.btxt:hover {
+        /*padding-left:5px;
+        font-weight: bold;*/
+        color: red;
+    }  
+    .mypad {margin-left:4px;
+            margin-right:4px;}
     #description{background-color: #eaeaea;padding:10px;
-            border:1px solid black;} 
-    
+                 border:1px solid black;} 
+
     .mywell {
-            min-height:200px;
-            border:1px solid blue;
-   /* border-color: rgb(220, 220, 220);*/
-    padding:10px;
-   margin:5px;
-   background-color: #dedede;
-   /* background-image: linear-gradient(to bottom, #cadefb 0%, #9b9c9c 100%);
-    background-repeat: repeat-x;*/
-    border-style: solid;
-    border-color: rgb(0, 0, 0);
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05) inset, 0px 1px 0px rgba(255, 255, 255, 0.1);
-  
-}
- </style>
+        min-height:200px;
+        border:1px solid blue;
+        /* border-color: rgb(220, 220, 220);*/
+        padding:10px;
+        margin:5px;
+        background-color: #dedede;
+        /* background-image: linear-gradient(to bottom, #cadefb 0%, #9b9c9c 100%);
+         background-repeat: repeat-x;*/
+        border-style: solid;
+        border-color: rgb(0, 0, 0);
+        box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05) inset, 0px 1px 0px rgba(255, 255, 255, 0.1);
+
+    }
+</style>
  {% endblock %}
 
       {% block content_header '' %}
-{% block title %}DETAILS CHANGEMENT:  {{ entity.nom }} {% endblock %}
+
+{% block title %}
+
+<div class="row">
+    <div class="span8">
+        <span class="icon-stack">
+            <i class="icon-check-empty icon-stack-base"></i>
+            <i class="icon-table"></i>
+        </span>    DETAILS DU CHANGEMENT: {{ entity.nom }}
+    </div>
+
+</div>
+ {% endblock %}
 {% block content %}
 {% include 'ApplicationChangementsBundle:templates:flash.html.twig' %}
-      
+
 <br> <br> 
 <a href="{{ path('changements_fanta') }}" class="btn btn-medium btn-success">Retour</a>
 
@@ -91,66 +103,66 @@ color: red;
 
 <div class="row mypad">
     <div class="span3 mywell">
-       <div class="btxt"> <i class="icon-th-list icon-2x"></i> Id: {{ entity.id }}</div>
+        <div class="btxt"> <i class="icon-th-list icon-2x"></i> Id: {{ entity.id }}</div>
         <div class="btxt">  <i class="icon-pencil  icon-2x"></i> Nom: {{ entity.nom }}</div>
-       <div class="btxt">  <i class="icon-wrench  icon-2x"></i> Type Demande: {{ entity.idKind }}</div>
-         <div class="btxt">  <i class="icon-question-sign  icon-2x"></i> Status: {{ entity.idStatus }}</div>
+        <div class="btxt">  <i class="icon-wrench  icon-2x"></i> Type Demande: {{ entity.idKind }}</div>
+        <div class="btxt">  <i class="icon-question-sign  icon-2x"></i> Status: {{ entity.idStatus }}</div>
     </div>
     <div class="span3 mywell">
         <div class="btxt">  <i class="icon-user-md icon-2x"></i>  Contact Client: {{ entity.contact }}</div>
-       <div class="btxt">   <i class="icon-user icon-2x"></i>  Demandeur: {{ entity.demandeur }}</div>
-     <div class="btxt">     <i class="icon-group icon-2x"></i>  Utilisateurs: {{ entity.idusers|join(', ') }}
-     
-     11
-     
+        <div class="btxt">   <i class="icon-user icon-2x"></i>  Demandeur: {{ entity.demandeur }}</div>
+        <div class="btxt">     <i class="icon-group icon-2x"></i>  Utilisateurs: {{ entity.idusers|join(', ') }}
+
+            11
+
       {% for u in entity.idusers %}{{ u.email }}{% endfor %}
-     </div>
+        </div>
     </div>     
     <div class="span3 mywell">
-       <div class="btxt">   <i class="icon-time  icon-2x"></i> Date Demande 
+        <div class="btxt">   <i class="icon-time  icon-2x"></i> Date Demande 
         {% if entity.dateDemande is not null %}
             {{ entity.dateDemande|date('Y-m-d') }}
         {% else %}
-             --
+            --
         {% endif %}
-      </div>
-       <div class="btxt">   <i class="icon-time icon-2x"></i> Date Début: {{ entity.dateDebut|date('Y-m-d H:i:s') }}
-           </div>
-       
-      <div class="btxt">    <i class="icon-time icon-2x"></i> Date Fin: {{ entity.dateFin|date('Y-m-d H:i:s') }}
-      </div>
-     <div class="btxt">     <i class="icon-time icon-2x"></i> Date COMEP 
+        </div>
+        <div class="btxt">   <i class="icon-time icon-2x"></i> Date Début: {{ entity.dateDebut|date('Y-m-d H:i:s') }}
+        </div>
+
+        <div class="btxt">    <i class="icon-time icon-2x"></i> Date Fin: {{ entity.dateFin|date('Y-m-d H:i:s') }}
+        </div>
+        <div class="btxt">     <i class="icon-time icon-2x"></i> Date COMEP 
         {% if entity.dateComep is not null %}{{ entity.dateComep|date('Y-m-d H:i:s') }}
         {% else %}
-        Aucune
+            Aucune
         {% endif %}
         </div>
-       <div class="btxt">   <i class="icon-time icon-2x"></i> Date VSR: {% if entity.dateVsr is not null %}
+        <div class="btxt">   <i class="icon-time icon-2x"></i> Date VSR: {% if entity.dateVsr is not null %}
                {{ entity.dateVsr|date('Y-m-d H:i:s') }}
                       {% else %}
-                    Aucune
+            Aucune
             {% endif %}
-            </div>
-</div>   
-        <div class="span3 mywell">
-               <div class="btxt">  <i class="icon-globe  icon-2x"></i> Environnements:  {{ entity.idEnvironnement|join(', ') }}</div>  
-               
+        </div>
+    </div>   
+    <div class="span3 mywell">
+        <div class="btxt">  <i class="icon-globe  icon-2x"></i> Environnements:  {{ entity.idEnvironnement|join(', ') }}</div>  
+
                  {% for u in entity.idEnvironnement %}{{ u.description }}{% endfor %}
         <div class="btxt">  <i class="icon-tag  icon-2x"></i> Projet: {{ entity.idProjet }}</div>
-          <div class="btxt">  <i class="icon-archive  icon-2x"></i> Applications: {{ entity.idapplis|join(', ') }} </div>  
-        
-          <div class="btxt">    <i class="icon-tag icon-2x"></i> Ticket Samy: {{ entity.ticketExt }}</div>
-          <div class="btxt">     <i class="icon-tag icon-2x"></i> Ticket CF: {{ entity.ticketInt }}</div>
-        </div>
+        <div class="btxt">  <i class="icon-archive  icon-2x"></i> Applications: {{ entity.idapplis|join(', ') }} </div>  
+
+        <div class="btxt">    <i class="icon-tag icon-2x"></i> Ticket Samy: {{ entity.ticketExt }}</div>
+        <div class="btxt">     <i class="icon-tag icon-2x"></i> Ticket CF: {{ entity.ticketInt }}</div>
+    </div>
 </div>
 
 <br/>
 <div class="row">
-     <div id="description" class="span8 offset2 ">  
+    <div id="description" class="span8 offset2 ">  
    {{ entity.description|raw }}
-  </div>
+    </div>
 </div>
-  
+
         {#
         <tr>
                
@@ -193,27 +205,27 @@ color: red;
 
                        <!-- <a href="{#{ asset('bundles/my/Resources/public/pdf/dok.pdf') }#}">Download PDF!</a>-->
 
-               
 
-            <h3><center>Fichiers de la demande</center></h3>
-            <table class="table table-bordered table-hover table-striped">
-                     <tr class="title"><th class="title">id</th><th class="title">Nom</th><th class="title">Date Maj</th><th class="title">Lien</th></tr>
-                </thead>
+
+<h3><center>Fichiers de la demande</center></h3>
+<table class="table table-bordered table-hover table-striped">
+    <tr class="title"><th class="title">id</th><th class="title">Nom</th><th class="title">Date Maj</th><th class="title">Lien</th></tr>
+</thead>
                {% for fic in entity.picture %}
-                <tr> 
-                    <td>{{ fic.id }}</td>
-                    <td>{{ fic.name }}</td>
-                    <td>{{ fic.updatedAt|date('Y-m-d H') ~ 'h' }}</td>
-                     <td><a class="fichier" href="{{ path('docchangements_download', { 'id': fic.id }) }}">
-                             <i class="icon-download-alt"></i></a></td>
-                    
+<tr> 
+    <td>{{ fic.id }}</td>
+    <td>{{ fic.name }}</td>
+    <td>{{ fic.updatedAt|date('Y-m-d H') ~ 'h' }}</td>
+    <td><a class="fichier" href="{{ path('docchangements_download', { 'id': fic.id }) }}">
+            <i class="icon-download-alt"></i></a></td>
+
              {#       <td><a href="{{ path('download_route', { 'filename': fic.path }) }}">{{ fic.path }}</a></td>#}
 
                        <!-- <a href="{#{ asset('bundles/my/Resources/public/pdf/dok.pdf') }#}">Download PDF!</a>-->
 
-                </tr>
+</tr>
        {% endfor %}
-            </tbody>
-        </table>
+</tbody>
+</table>
 
 {% endblock %}
