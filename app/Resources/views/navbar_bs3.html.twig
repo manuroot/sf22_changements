@@ -32,64 +32,31 @@
                     <li class="{{addoncl}}">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-white  fa fa-th"></i> Changements<b class="caret"></b> </a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ path('changements_fanta') }}"><i class="fa fa-th-list"></i> {{ 'Opérations DataGrid Fanta'|trans }}</a></li>
+                            <li><a href="{{ path('changements_fanta') }}"><i class="fa fa-th-list"></i> {{ 'Liste Des Changements'|trans }}</a></li>
         {% if is_granted("IS_AUTHENTICATED_FULLY") %}
-                            <li><a href="{{ path('changements_myfanta') }}"><i class="fa fa-th-list"></i> {{ 'Opérations DataGrid Favoris'|trans }}</a></li>
-                            <li><a href="{{ path('docchangements') }}"><i class="fa fa-briefcase"></i> {{ 'Fichiers Des Opérations'|trans }}</a></li>
-                            <li><a href="{{ path('changements_comment_mesactivites') }}"><i class="fa fa-pencil"></i> {{ 'Commentaires'|trans }}</a></li>
+                            <li><a href="{{ path('changements_myfanta') }}"><i class="fa fa-th-list"></i> {{ 'Liste Des Favoris'|trans }}</a></li>
+                            <li><a href="{{ path('docchangements') }}"><i class="fa fa-briefcase"></i> {{ 'Fichiers Des Changements'|trans }}</a></li>
+                            <li><a href="{{ path('changements_comment_mesactivites') }}"><i class="fa fa-pencil"></i> {{ 'Liste des Commentaires'|trans }}</a></li>
 
         {% endif %}
-                            <li><a href="{{ path('changements_apy') }}"><i class="fa fa-th-list"></i> {{ 'Opérations DataGrid APY'|trans }}</a></li>
-                            <li><a href="{{ path('changements_calendar') }}"><i class="fa fa-calendar"></i> {{ 'Calendrier Des Opérations'|trans }}</a></li>
+                                                     <li><a href="{{ path('changements_calendar') }}"><i class="fa fa-calendar"></i> {{ 'Calendrier Des Opérations'|trans }}</a></li>
 
-                            <li><a href="{{ path('changements_charts') }}"><i class="fa fa-bar-chart-o"></i> {{ 'Graphiques'|trans }}</a></li>
+                            <li><a href="{{ path('changements_charts') }}"><i class="fa fa-bar-chart-o"></i> {{ 'Graphiques des Changements'|trans }}</a></li>
        {#
         <li><a href="{{ path('wdcalendar_index') }}"><i class="fa fa-calendar"></i> {{ 'Calendrier Des Activités'|trans }}</a></li>
 #}
-                            <li><a href="{{ path('calendar_indexadesign') }}"><i class="fa fa-wrench"></i> {{ 'Calendrier Des Activités(V2)'|trans }}</a></li>
-                            <li><a href="{{ path('wdcalendar_indexadesignchangement') }}"><i class="fa fa-wrench"></i> {{ 'Calendrier Des Opérations(V2)'|trans }}</a></li>
+                           {# <li><a href="{{ path('calendar_indexadesign') }}"><i class="fa fa-wrench"></i> {{ 'Calendrier Des Activités(V2)'|trans }}</a></li>#}
+{#                            <li><a href="{{ path('wdcalendar_indexadesignchangement') }}"><i class="fa fa-wrench"></i> {{ 'Calendrier Des Changements CTI'|trans }}</a></li>
 
                             <li><a href="{{ path('absences') }}"><i class="fa fa-user"></i> {{ 'Absences'|trans }}</a></li>
-
-
-                        </ul>
-                    </li>
-
-
-    {#======================== Certificats =================#}
-     {% set addoncl="dropdown" %}
-    {% if foo[0] == 'certificatscenter' %}  {% set addoncl="dropdown active" %} {% endif %}
-                    <li class="{{addoncl}}">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-white  fa fa-fire"></i>
-                            Certificats<b class="caret"></b> </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{ path('certificatscenter') }}"><i class="fa fa-th-list"></i> {{ 'PKI-Liste Entrées'|trans }}</a></li>
-                            <li><a href="{{ path('certificatscenter_viewapy') }}"><i class="fa fa-th-list"></i> {{ 'PKI-APY'|trans }}</a></li>
-        {% if is_granted("IS_AUTHENTICATED_FULLY") %}
-                            <li><a href="{{ path('certificatscenter_new') }}"><i class="fa fa-camera"></i> {{ 'Nouveau Fichier'|trans }}</a></li>
-                            <li><a href="{{ path('certificatscenter_check') }}"><i class="fa fa-camera"></i> {{ 'Vérifier Fichier(pki)'|trans }}</a></li>
-                            <li><a href="{{ path('certificatscenter_simplecheck') }}"><i class="fa fa-camera"></i> {{ 'Vérifier Fichier'|trans }}</a></li>
-                            <li><a href="{{ path('certificats_documents') }}"><i class="fa fa-briefcase"></i> {{ 'PKI-Liste Fichiers'|trans }}</a></li>
-                            <li><a href="{{ path('certificats_documents_ajouter') }}"><i class="fa fa-briefcase"></i> {{ 'PKI-Ajouter des Fichiers'|trans }}</a></li>
-
-
-{% endif %}
-                        </ul>
-                    </li>
-
-      {#======================== Projets =================#}
-                    {#
- {% set addoncl="dropdown" %}
-    {% if foo[0] == 'projets' %}  {% set addoncl="dropdown active" %} {% endif %}
-                    <li class="{{addoncl}}">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-white fa fa-wrench"></i>
-                            Projets<b class="caret"></b> </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{ path('projets') }}"><i class="fa fa-th-list"></i> {{ 'Projets'|trans }}</a></li>
-                            <li><a href="{{ path('projets_documents') }}"><i class="fa fa-briefcase"></i> {{ 'projets_documents'|trans }}</a></li>
-                        </ul>
-                    </li>
 #}
+
+                        </ul>
+                    </li>
+
+
+ 
+
     {#======================== Serveurs =================#}
     {% set addoncl="dropdown" %}
     {% if foo[0] == 'serveurs' %}  {% set addoncl="dropdown active" %} {% endif %}
