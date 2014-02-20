@@ -43,7 +43,7 @@
     {% if is_granted("ROLE_ADMIN") %}
                     <ul class="dropdown-menu">
                         <li><a href="{{ path('sonata_admin_dashboard') }}">{{ 'Admin Dashboard' }}</a>
-                                <li><a href="{{ path('fos_user_profile_edit') }}">{{ 'Edit Profile' }}</a></li>
+                        <li><a href="{{ path('fos_user_profile_edit') }}">{{ 'Edit Profile' }}</a></li>
                {#        <li><a href="{{ path('sonata_user_profile_edit_authentication') }}">{{ 'Edit Profile' }}</a></li>#}
     {% endif %}   
                     </ul>
@@ -62,24 +62,22 @@
                     <li class="{{addoncl}}">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-white  icon-th"></i> Changements<b class="caret"></b> </a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ path('changements_fanta') }}"><i class="icon-th-list"></i> {{ 'Opérations DataGrid Fanta'|trans }}</a></li>
+                            <li><a href="{{ path('changements_fanta') }}"><i class="icon-th-list"></i> {{ 'Liste Des Changements'|trans }}</a></li>
         {% if is_granted("IS_AUTHENTICATED_FULLY") %}
-                            <li><a href="{{ path('changements_myfanta') }}"><i class="icon-th-list"></i> {{ 'Opérations DataGrid Favoris'|trans }}</a></li>
-                            <li><a href="{{ path('docchangements') }}"><i class="icon-briefcase"></i> {{ 'Fichiers Des Opérations'|trans }}</a></li>
-                            <li><a href="{{ path('changements_comment_mesactivites') }}"><i class="icon-pencil"></i> {{ 'Commentaires'|trans }}</a></li>
+                            <li><a href="{{ path('changements_myfanta') }}"><i class="icon-th-list"></i> {{ 'Liste Des Favoris'|trans }}</a></li>
+                            <li><a href="{{ path('docchangements') }}"><i class="icon-briefcase"></i> {{ 'Fichiers Des Changements'|trans }}</a></li>
+                            <li><a href="{{ path('changements_comment_mesactivites') }}"><i class="icon-pencil"></i> {{ 'Liste des Commentaires'|trans }}</a></li>
 
         {% endif %}
-                            <li><a href="{{ path('changements_apy') }}"><i class="icon-th-list"></i> {{ 'Opérations DataGrid APY'|trans }}</a></li>
-                            <li><a href="{{ path('changements_calendar') }}"><i class="icon-calendar"></i> {{ 'Calendrier Des Opérations'|trans }}</a></li>
 
-                            <li><a href="{{ path('changements_charts') }}"><i class="icon-bar-chart"></i> {{ 'Graphiques'|trans }}</a></li>
+
+                            <li><a href="{{ path('changements_charts') }}"><i class="icon-bar-chart"></i> {{ 'Graphiques des Changements'|trans }}</a></li>
        {#
         <li><a href="{{ path('wdcalendar_index') }}"><i class="icon-calendar"></i> {{ 'Calendrier Des Activités'|trans }}</a></li>
 #}
-                            <li><a href="{{ path('calendar_indexadesign') }}"><i class="icon-wrench"></i> {{ 'Calendrier Des Activités(V2)'|trans }}</a></li>
-                            <li><a href="{{ path('wdcalendar_indexadesignchangement') }}"><i class="icon-wrench"></i> {{ 'Calendrier Des Opérations(V2)'|trans }}</a></li>
 
-                            <li><a href="{{ path('absences') }}"><i class="icon-user"></i> {{ 'Absences'|trans }}</a></li>
+                            <li><a href="{{ path('wdcalendar_indexadesignchangement') }}"><i class="icon-wrench"></i> {{ 'Calendrier Des Changements CTI'|trans }}</a></li>
+                            <li><a href="{{ path('calendar_indexadesign') }}"><i class="icon-wrench"></i> {{ 'Calendrier Des Activités(V2)'|trans }}</a></li>
 
 
                         </ul>
@@ -142,24 +140,26 @@
                             <li><a href="{{ path('chronogroup') }}"><i class="icon-group"></i> {{ 'Groupes'|trans }}</a></li>
                             <li><a href="{{ path('environnement') }}"><i class="icon-globe"></i> {{ 'Environnements'|trans }}</a></li>
                             <li><a href="{{ path('users') }}"><i class="icon-group"></i> {{ 'Eservices-Users(FOSUSER)'|trans }}</a></li>  
-                             <li><a href="{{ path('projets') }}"><i class="icon-th-list"></i> {{ 'Projets'|trans }}</a></li>
+                            <li><a href="{{ path('projets') }}"><i class="icon-th-list"></i> {{ 'Projets'|trans }}</a></li>
                             <li><a href="{{ path('projets_documents') }}"><i class="icon-briefcase"></i> {{ 'projets_documents'|trans }}</a></li>
-                
+
                             <li><a href="{{ path('applications') }}"><i class="icon-wrench"></i> {{ 'Applications'|trans }}</a></li>
                             <li><a href="{{ path('changements_contact') }}"><i class="icon-user-md"></i> {{ 'Contacts Clients'|trans }}</a></li>
-                            
-                            
-                            
-                             <li><a href="{{ path('certificatscenter') }}"><i class="icon-th-list"></i> {{ 'PKI-Liste Entrées'|trans }}</a></li>
+
+
+
+                            <li><a href="{{ path('certificatscenter') }}"><i class="icon-th-list"></i> {{ 'PKI-Liste Entrées'|trans }}</a></li>
                             <li><a href="{{ path('certificatscenter_viewapy') }}"><i class="icon-th-list"></i> {{ 'PKI-APY'|trans }}</a></li>
-     
+
                             <li><a href="{{ path('certificatscenter_new') }}"><i class="icon-camera"></i> {{ 'Nouveau Fichier'|trans }}</a></li>
                             <li><a href="{{ path('certificatscenter_check') }}"><i class="icon-camera"></i> {{ 'Vérifier Fichier(pki)'|trans }}</a></li>
                             <li><a href="{{ path('certificatscenter_simplecheck') }}"><i class="icon-camera"></i> {{ 'Vérifier Fichier'|trans }}</a></li>
                             <li><a href="{{ path('certificats_documents') }}"><i class="icon-briefcase"></i> {{ 'PKI-Liste Fichiers'|trans }}</a></li>
                             <li><a href="{{ path('certificats_documents_ajouter') }}"><i class="icon-briefcase"></i> {{ 'PKI-Ajouter des Fichiers'|trans }}</a></li>
 
-
+                            <li><a href="{{ path('changements_apy') }}"><i class="icon-th-list"></i> {{ 'Opérations DataGrid APY'|trans }}</a></li>
+                            <li><a href="{{ path('changements_calendar') }}"><i class="icon-calendar"></i> {{ 'Calendrier Des Opérations'|trans }}</a></li>
+                            <li><a href="{{ path('absences') }}"><i class="icon-user"></i> {{ 'Absences'|trans }}</a></li>
 
 
                         </ul>
