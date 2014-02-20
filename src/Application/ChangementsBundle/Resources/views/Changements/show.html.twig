@@ -53,8 +53,13 @@
     }  
     .mypad {margin-left:4px;
             margin-right:4px;}
-    #description{background-color: #eaeaea;padding:10px;
-                 border:1px solid black;} 
+    #description{
+        background-color: whitesmoke;
+      /*  background-color: #eaeaea;*/
+        padding:10px;
+        border:1px dashed black;
+    } 
+    
 
     .mywell {
         min-height:200px;
@@ -78,7 +83,7 @@
 {% block title %}
 
 <div class="row">
-    <div class="span8">
+    <div class="span12">
         <span class="icon-stack">
             <i class="icon-check-empty icon-stack-base"></i>
             <i class="icon-table"></i>
@@ -112,10 +117,7 @@
         <div class="btxt">  <i class="icon-user-md icon-2x"></i>  Contact Client: {{ entity.contact }}</div>
         <div class="btxt">   <i class="icon-user icon-2x"></i>  Demandeur: {{ entity.demandeur }}</div>
         <div class="btxt">     <i class="icon-group icon-2x"></i>  Utilisateurs: {{ entity.idusers|join(', ') }}
-
-            11
-
-      {% for u in entity.idusers %}{{ u.email }}{% endfor %}
+    {% for u in entity.idusers %}{{ u.email }}{% endfor %}
         </div>
     </div>     
     <div class="span3 mywell">
@@ -158,11 +160,14 @@
 
 <br/>
 <div class="row">
-    <div id="description" class="span8 offset2 ">  
+    <div class="span12">  
+     <h3><center><i class="icon-book icon-2x"></i>  Description de la Demande</center></h3></div>
+   
+    <div id="description" class="span12">  
    {{ entity.description|raw }}
     </div>
 </div>
-
+<br>
         {#
         <tr>
                
@@ -205,10 +210,15 @@
 
                        <!-- <a href="{#{ asset('bundles/my/Resources/public/pdf/dok.pdf') }#}">Download PDF!</a>-->
 
+<div class="row">
+    <div class="span12">  
 
-
-<h3><center>Fichiers de la demande</center></h3>
-<table class="table table-bordered table-hover table-striped">
+<h3><center><i class="icon-file-alt icon-2x"></i>  Fichiers de la demande</center></h3>
+    </div>
+    </div>
+<div class="row">
+    <div class="span12">  
+        <table class="table table-bordered table-hover table-striped">
     <tr class="title"><th class="title">id</th><th class="title">Nom</th><th class="title">Date Maj</th><th class="title">Lien</th></tr>
 </thead>
                {% for fic in entity.picture %}
@@ -227,5 +237,6 @@
        {% endfor %}
 </tbody>
 </table>
-
+  </div>
+    </div>
 {% endblock %}
