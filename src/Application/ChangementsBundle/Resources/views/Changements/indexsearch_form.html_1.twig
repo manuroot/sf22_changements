@@ -1,0 +1,30 @@
+  <form  class="form" action="{{ path(tpl_path) }}" method="GET" {{ form_enctype(search_form) }}>
+           <table class="table tablesearch">
+            <tbody>
+                <tr class="success_search">
+                    <td>
+                             
+    {{ form_errors(search_form.nom) }}
+    {{ form_label(search_form.nom, 'Nom'|trans) }}
+    {{ form_widget(search_form.nom) }}
+                        
+    {{ form_errors(search_form.dateDebut) }}
+    {{ form_label(search_form.dateDebut) }}
+    {{ form_widget(search_form.dateDebut) }}
+   {{ form_errors(search_form.dateFin) }}
+    {{ form_label(search_form.dateFin) }}
+    {{ form_widget(search_form.dateFin) }}
+  
+    </td>
+  <td>
+    
+                                        
+{{ form_rest(search_form) }}</td>
+   </tr>
+    <tr class="single"><td colspan="2">
+     <input type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="filter" />
+    <input type="submit" name="submit-filter" class="btn btn-medium btn-danger" value="reset" />
+         </tr></tbody></table>
+ </form>
+
+ 

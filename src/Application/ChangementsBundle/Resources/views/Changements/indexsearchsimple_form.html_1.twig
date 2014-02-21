@@ -1,0 +1,51 @@
+<form  id="thesearchform" class="form" action="{{ path(tpl_path) }}" method="POST" {{ form_enctype(search_form) }}>
+   <table class="table-mybordered">
+
+    <tr><td class="calendar">
+    {{ form_row(search_form.nom) }}
+      <br/>
+    {{ form_row(search_form.description) }}
+  
+     {{ form_row(search_form.idusers) }}
+        {#<input id="changements_searchfilter_idusers_cl" class="btn-info" type="button" value="Clear"></input>#}
+    {{ form_row(search_form.demandeur) }}
+   
+    </td>
+    <td class="calendar central"> 
+        Date Début Opération
+        <div class="first">{{ form_row(search_form.dateDebut) }}</div>
+        <div class="second">{{ form_row(search_form.dateDebut_max) }}</div>
+    <br><br>
+       Date Fin Opération
+        <div class="first">{{ form_row(search_form.dateFin) }}</div>
+       <div class="second">{{ form_row(search_form.dateFin_max) }} </div>
+         <br><br>
+          <div class="txtfirst">Ticket Samy </div>
+          <div class="txtsecond">Ticket CF</div>
+        <br />
+       <div class="first">{{ form_widget(search_form.ticketExt) }}</div>
+       <div class="second">{{ form_widget(search_form.ticketInt ) }} </div>
+      
+ 
+     </td>
+    <td class="calendar">
+         {{ form_row(search_form.idEnvironnement) }}
+        {#         <input id="changements_searchfilter_idEnvironnement_cl" class="btn-info" type="button" value="Clear"></input>
+        #}
+ {{ form_row(search_form.idProjet) }}
+          {#      <input id="changements_searchfilter_idProjet_cl" class="btn-info" type="button" value="Clear"></input>
+           #}  
+
+{# {{ form_row(search_form.idStatus) }}#}
+         {#   <input id="changements_searchfilter_idStatus_cl" class="btn-info" type="button" value="Clear"></input>
+             #}
+    
+    {{ form_rest(search_form) }}</td>
+    </tr>
+    <tr><td class="calendar" colspan="3">
+       <button id="filter" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="filter" >
+          <i class="icon-search icon-mesfiltres"></i>  Filtrer</button>
+    </tr>
+    </tbody>
+    </table>
+ </form>
