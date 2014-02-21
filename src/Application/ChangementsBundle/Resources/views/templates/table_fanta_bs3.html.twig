@@ -14,7 +14,7 @@
 
                 <th style="min-width:80px"  class="sorted">
                     <a href="{{ path(index_path, {'sort':'a.nom','dir':next_dir}) }}">Nom</a> 
-                    <i class="icon-list-alt"></i>
+                    <span class="glyphicon glyphicon-list-alt"></span>
                     {% if arrow['a.nom'] is defined %}
                         <i class={{ arrow['a.nom'] }}></i>
                     {% endif %}
@@ -22,7 +22,7 @@
                 {% if is_granted("IS_AUTHENTICATED_FULLY") %}
                 <th style="width:40px"  class="sorted">
                     <a href="{{ path(index_path, {'sort':'i.id','dir':next_dir}) }}">F</a> 
-                    <i class="icon-star"></i>
+                    <span class="glyphicon glyphicon-star"></span>
                     {% if arrow['i.id'] is defined %}
                         <i class={{ arrow['i.id'] }}></i>
                     {% endif %}
@@ -30,28 +30,28 @@
                     {% endif %}
                  <th style="min-width:80px"  class="sorted">
                     <a href="{{ path(index_path, {'sort':'a.dateDebut','dir':next_dir}) }}">Debut</a> 
-                    <i class="icon-time"></i>
+                    <span class="glyphicon glyphicon-time"></span>
                     {% if arrow['a.dateDebut'] is defined %}
                         <i class={{ arrow['a.dateDebut'] }}></i>
                     {% endif %}
                 </th>
                 <th style="min-width:80px"  class="sorted hidden-phone">
                     <a href="{{ path(index_path, {'sort':'a.dateFin','dir':next_dir}) }}">Fin</a> 
-                    <i class="icon-time"></i>
+                    <span class="glyphicon glyphicon-time"></span>
                     {% if arrow['a.dateFin'] is defined %}
                     <i class={{ arrow['a.dateFin'] }}></i>
                     {% endif %}
                 </th>
                  <th style="min-width:80px"  class="sorted hidden-phone">
                     <a href="{{ path(index_path, {'sort':'b.nomprojet','dir':next_dir}) }}">Projet</a> 
-                    <i class="icon-tag"></i>
+                    <span class="glyphicon glyphicon-tag"></span>
                     {% if arrow['b.nomprojet'] is defined %}
                     <i class={{ arrow['b.nomprojet'] }}></i>
                     {% endif %}
                 </th>
                  <th style="min-width:30px"  class="sorted hidden-phone hidden-tablet">
                     <a href="{{ path(index_path, {'sort':'a.demandeur','dir':next_dir}) }}">D</a> 
-                    <i class="icon-user"></i>
+                    <span class="glyphicon glyphicon-user"></span>
                     {% if arrow['a.demandeur'] is defined %}
                     <i class={{ arrow['a.demandeur'] }}></i>
                     {% endif %}
@@ -61,26 +61,26 @@
                 
                 <th style="min-width:30px"  class="sorted thinfos hidden-phone hidden-tablet">
     <a class="mytooltip" href="#" rel="tooltip" data-content="{{ infofichiers }}" data-original-title="Information" data-toggle="tooltip">
-        <i class="icon-book"></i></a>
+        <span class="glyphicon glyphicon-book"></span></a>
                    
                   
                 </th>
                  <th style="min-width:30px"  class="sorted thinfos  hidden-phone hidden-tablet">
       <a class="mytooltip" href="#" rel="tooltip" data-content="{{ infocomments }}" data-original-title="Information" data-toggle="tooltip">
-        <i class="icon-comment"></i></a>
+        <span class="glyphicon glyphicon-comment"></span></a>
                     
                   
                 </th>
                  <th style="min-width:80px"  class="sorted hidden-phone hidden-tablet">
                     <a href="{{ path(index_path, {'sort':'e.nomUser','dir':next_dir}) }}">Users</a> 
-                    <i class="icon-group"></i>
+                    <span class="glyphicon glyphicon-group"></span>
                     {% if arrow['e.nomUser'] is defined %}
                     <i class={{ arrow['e.nomUser'] }}></i>
                     {% endif %}
                 </th>
                 <th style="width:40px"  class="sorted">
                     <a href="{{ path(index_path, {'sort':'d.nom','dir':next_dir}) }}">S</a> 
-                    <i class="icon-flag"></i>
+                    <span class="glyphicon glyphicon-flag"></span>
                     {% if arrow['d.nom'] is defined %}
                     <i class={{ arrow['d.nom'] }}></i>
                     {% endif %}
@@ -88,21 +88,21 @@
                 
                  <th style="min-width:80px" class="sorted hidden-phone hidden-tablet">
                     <a href="{{ path(index_path, {'sort':'a.ticketExt','dir':next_dir}) }}">{{ ticket.externe }}</a> 
-                    <i class="icon-tag"></i>
+                    <span class="glyphicon glyphicon-tag"></span>
                     {% if arrow['a.ticketExt'] is defined %}
                     <i class={{ arrow['a.ticketExt'] }}></i>
                     {% endif %}
                 </th>
                  <th style="min-width:80px"  class="sorted hidden-phone hidden-tablet">
                     <a href="{{ path(index_path, {'sort':'a.ticketInt','dir':next_dir}) }}">{{ ticket.interne }}</a> 
-                    <i class="icon-tag"></i>
+                    <span class="glyphicon glyphicon-tag"></span>
                     {% if arrow['a.ticketInt'] is defined %}
                     <i class={{ arrow['a.ticketInt'] }}></i>
                     {% endif %}
                 </th>
                  <th style="min-width:40px"  class="sorted hidden-phone">
                     <a href="{{ path(index_path, {'sort':'g.nom','dir':next_dir}) }}">Env</a> 
-                    <i class="icon-globe"></i>
+                    <span class="glyphicon glyphicon-globe"></span>
                     {% if arrow['g.nom'] is defined %}
                     <i class={{ arrow['g.nom'] }}></i>
                     {% endif %}
@@ -118,17 +118,16 @@
             
 {#=============================== TR =================================#}
         {% set trclass= "" %}
-         {% if entity.idStatus.description == 'closed' %} 
+        {% if entity.idStatus.description == 'closed' %} 
             {% set trclass= "myclosed" %}
         {# sinon: open prepare ou wait #}
-          {% elseif entity.idStatus.description == 'prepare' or  entity.idStatus.description == 'REPORTE'%} 
+        {% else %}
+            {% if entity.idStatus.description == 'prepare' or  entity.idStatus.description == 'wait'%} 
               {% set trclass= "prepare" %}
-       {% elseif entity.idStatus.description == 'cancelled'%} 
-                {% set trclass= "error" %}
-             {% else %}
-{% set trclass= "success" %}
+            {% else %}
+                {% set trclass= "success" %}
+            {% endif %}
         {% endif %}
-        
        
         {% if isfavoris is defined %}
             <tr class="{{ trclass }}" id="{{ entity.id }}">
@@ -233,7 +232,7 @@
   
 <td><a class="tooltip_comments"  rel="tooltip" data-content="{{ text_comment }}" data-original-title="Information" data-toggle="tooltip"
       href="{{ path('changements_comment_show', { 'id': entity.id }) }}">
-     <i class="icon-comment-alt" style="color:black"></i>
+     <span class="glyphicon glyphicon-comment-alt" style="color:black"></span>
      </a>
    </td>
 {#------------------------------------------------------------

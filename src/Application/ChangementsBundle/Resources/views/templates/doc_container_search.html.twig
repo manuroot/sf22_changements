@@ -7,28 +7,13 @@
 <div id="ShowHideContainer">
 
     <form id="target" class="form-horizontal" action="{{ path(form_path) }}" method="POST" {{ form_enctype(search_form) }}>
-        <a id="ShowHideButton">
+  {#    <a id="ShowHideButton">
             <button id="show" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
                 <i class="icon-search icon-mesfiltres"></i> Afficher Filtres</button>
         </a>
-        <button type="submit" id="reset" name="submit-filter" class="btn btn-medium btn-warning" value="reset" >
+      #}  <button type="submit" id="reset" name="submit-filter" class="btn btn-medium btn-warning" value="reset" >
             <i class="icon-minus-sign icon-mesfiltres"></i>Effacer Filtres</button>
-                    {#
-                    <button type="submit" id="reset" name="submit-open" class="btn btn-medium btn-warning" value="open" >
-                      <img src="{{ asset('bundles/applicationchangements/images/cadenas-souvert.png') }}" alt="show" width="15px" height="15px"/>
-                      </button>
-                    
-                      <button type="submit" id="reset" name="submit-open" class="btn btn-medium btn-warning" value="prepare" >
-                      <img src="{{ asset('bundles/applicationchangements/images/cadenas-sbleu.png') }}" alt="show" width="15px" height="15px"/>
-                      </button>
-                    
-                    <button type="submit" id="reset" name="submit-open" class="btn btn-medium btn-warning" value="closed" >
-                      <img src="{{ asset('bundles/applicationchangements/images/cadenas-sferme.png') }}" alt="show" width="15px" height="15px"/>
-                      </button>
-                    
-                                #}      
-
-
+   
     {% if is_granted("ROLE_ADMIN") %}
     {#{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}#}
             <a href="{{ path(new_path) }}" class=" ajoutchange btn btn-medium btn-primary">

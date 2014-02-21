@@ -1,12 +1,13 @@
 {% extends "ApplicationChangementsBundle::layout.html.twig" %}
+{#{% extends "::layout_bs3.html.twig" %}#}
 {% form_theme search_form with 'ApplicationChangementsBundle:Form:tpl_searchform.html.twig' %}
 
 
   {# <script>var menuDownUrl = "{{ asset('bundles/applicationcertificats/images/') }}";</script>#}
 
-{% macro icon_class( type ) %}
+{% macro glyphicon_class( type ) %}
   {% set type_class_map = {
-    like: 'icon-user'
+    like: 'glyphicon-user'
   } %}
   {{ type_class_map[type] }}
 {% endmacro %}
@@ -48,6 +49,7 @@
     *.icon-blue {color: blue}
     /*  .js #ShowHideContainer {display: none;}*/
     .first,#contain-matable,#footer {display: none;}
+    tr.error {background-color: red;}
     /*
     tr.title { background-color:rgba(0,119,204,0.8);}
      tr.title i{ color:black;}
@@ -148,7 +150,7 @@
 
 <div id="dialog" class="hidden" title="Votre session va expirer !">
     <p>
-        <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>
+        <span class="ui-glyphicon ui-glyphicon-alert" style="float:left; margin:0 7px 50px 0;"></span>
         Vous serez déconnecté dans <span id="dialog-countdown" style="font-weight:bold"></span> seconds.
     </p>
 

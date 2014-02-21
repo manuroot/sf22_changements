@@ -282,7 +282,8 @@ function View(datab)
     <h4> <i class="icon-wrench"></i> Evenements:</h4>
      {% for entity in evenements %}
 <div class='external-event class{{ entity.id }}' myclass="class{{ entity.id }}">{{ entity.nom|upper }}
-<input type="checkbox" class="external-checkbox" name="external-checkbox" id="{{ entity.id }}" checked>
+    <div class="external-checkbox" name="external-checkbox" id="{{ entity.id }}"></div>
+{#<input type="checkbox" class="external-checkbox" name="external-checkbox" id="{{ entity.id }}" checked>#}
 </div>
  {% endfor %}
  </div>
