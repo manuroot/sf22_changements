@@ -60,7 +60,7 @@
         border:1px dashed black;
     } 
     
-
+    .mywell i.icon-2x {color:darkblue;}
     .mywell {
         min-height:200px;
         border:1px solid blue;
@@ -76,6 +76,33 @@
 
     }
       i.icon-2x {padding-right:10px;}
+     .box-titre {
+text-transform: uppercase;
+font-size: 85%;
+white-space: nowrap;
+overflow: hidden;
+-ms-text-overflow: ellipsis;
+-o-text-overflow: ellipsis;
+text-overflow: ellipsis;
+color: white;
+/*color: #5b5b5b;*/
+background-color: black;
+opacity:0.6;
+/*background-color: #dbdbdb;teal*/
+border-bottom: 1px solid #cecece;
+padding: 5px;
+margin-bottom: 10px;
+}
+@media (min-width: 1200px){
+ .mywell { min-heigh:600px;}
+}
+@media (min-width: 1500px){
+.span3 {
+width: 400px;
+
+}
+ .mywell { min-heigh:400px;}
+}
 </style>
  {% endblock %}
 
@@ -109,19 +136,39 @@
 
 <div class="row mypad">
     <div class="span3 mywell">
+         <div class="box">
+              <div class="box-titre">
+                  Données Principales
+                     </div>
+              <div class="box-content">
         <div class="btxt"> <i class="icon-th-list icon-2x"></i> Id: {{ entity.id }}</div>
         <div class="btxt">  <i class="icon-pencil  icon-2x"></i> Nom: {{ entity.nom }}</div>
         <div class="btxt">  <i class="icon-wrench  icon-2x"></i> Type Demande: {{ entity.idKind }}</div>
         <div class="btxt">  <i class="icon-question-sign  icon-2x"></i> Status: {{ entity.idStatus }}</div>
+       </div>
+         </div>
     </div>
     <div class="span3 mywell">
-        <div class="btxt">  <i class="icon-user-md icon-2x"></i>  Contact Client: {{ entity.contact }}</div>
+         <div class="box">
+              <div class="box-titre">
+                  Les Utilsateurs
+                     </div>
+              <div class="box-content">
         <div class="btxt">   <i class="icon-user icon-2x"></i>  Demandeur: {{ entity.demandeur }}</div>
-        <div class="btxt">     <i class="icon-group icon-2x"></i>  Utilisateurs: {{ entity.idusers|join(', ') }}
+        <div class="btxt">     <i class="icon-group icon-2x"></i>  Utilisateurs: {{ entity.idusers|join(', ') }}</div>
+         <div class="btxt">  <i class="icon-user-md icon-2x"></i>  Contact Client: {{ entity.contact }}</div>
     {% for u in entity.idusers %}{{ u.email }}{% endfor %}
         </div>
     </div>     
+             </div>   
+    
+    
     <div class="span3 mywell">
+         <div class="box">
+              <div class="box-titre">
+                  Les Dates
+                     </div>
+              <div class="box-content">
         <div class="btxt">   <i class="icon-time  icon-2x"></i> Date Demande 
         {% if entity.dateDemande is not null %}
             {{ entity.dateDemande|date('Y-m-d') }}
@@ -147,7 +194,13 @@
             {% endif %}
         </div>
     </div>   
+              </div>    </div>   
     <div class="span3 mywell">
+         <div class="box">
+              <div class="box-titre">
+                  Options Avancées
+                     </div>
+              <div class="box-content">
         <div class="btxt">  <i class="icon-globe  icon-2x"></i> Environnements:  {{ entity.idEnvironnement|join(', ') }}</div>  
 
                  {% for u in entity.idEnvironnement %}{{ u.description }}{% endfor %}
@@ -157,10 +210,11 @@
         <div class="btxt">    <i class="icon-tag icon-2x"></i> Ticket Samy: {{ entity.ticketExt }}</div>
         <div class="btxt">     <i class="icon-tag icon-2x"></i> Ticket CF: {{ entity.ticketInt }}</div>
     </div>
-</div>
+</div></div>
 
 <br/>
 <div class="row">
+    
     <div class="span12">  
      <h3><center><i class="icon-book icon-2x"></i>  Description de la Demande</center></h3></div>
    

@@ -1,6 +1,6 @@
 body{
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size: 12px;
+	font-size: 14px;
 }
 
 #content_wrapper{
@@ -15,7 +15,7 @@ body{
 }
 
 .btn{
-	font-size: 85%
+	font-size: 85%;
 	margin-top: 10px;
 }
 

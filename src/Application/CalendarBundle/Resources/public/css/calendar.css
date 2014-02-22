@@ -6,76 +6,76 @@
         Purpose of the stylesheet follows.
 */
 .fc-event{ opacity:0.9} 
-           div.container {width:97%;}
-          #wrap {
-		width: 100%;
-		margin: 0 auto;
-		}
- /* #external-events {
-	
-                background: gainsboro;
-		text-align: left;
-                padding:5px;
-          
-		}
-	  .external-infos {
-	            background: gainsboro;
-		text-align: left;
-                padding:5px;
-        
-		}*/	
-	#external-events h4 {
-		font-size: 16px;
-		margin-top: 0;
-		padding-top: 1em;
-		}
-		
-	.external-event { 
-		/*margin: 10px 0;*/
-                margin-bottom:10px;
-		padding: 2px 4px;
-		background: #3366CC;
-		color: #fff;
-		font-size: .85em;
-		cursor: pointer;
-                width:90px;
-                float: left;
-              /*  border: 1px solid black;*/
-		}
-                
-                .external-event input { 
-		float: right;
-		}
-	#calendar-holder .ui-widget-header{
-	font-weight: normal;
-	padding: 3px 3px 3px 3px;
+div.container {width:97%;}
+#wrap {
+    width: 100%;
+    margin: 0 auto;
 }
- 
+/* #external-events {
+       
+               background: gainsboro;
+               text-align: left;
+               padding:5px;
+         
+               }
+         .external-infos {
+                   background: gainsboro;
+               text-align: left;
+               padding:5px;
+       
+               }*/	
+#external-events h4 {
+    font-size: 16px;
+    margin-top: 0;
+    padding-top: 1em;
+}
+
+.external-event { 
+    /*margin: 10px 0;*/
+    margin-bottom:10px;
+    padding: 2px 4px;
+    background: #3366CC;
+    color: #fff;
+    font-size: .85em;
+    cursor: pointer;
+    width:90px;
+    float: left;
+    /*  border: 1px solid black;*/
+}
+
+.external-event input { 
+    float: right;
+}
+#calendar-holder .ui-widget-header{
+    font-weight: normal;
+    padding: 3px 3px 3px 3px;
+}
+
 #calendar-holder .fc-header-title{
-	font-weight: normal;
+    font-weight: normal;
 }	
 /*.fc-agenda .fc-event-time {
 }*/
- /*.class1
- {  border: 1px solid cadetblue;
-    background: #ccc;
+/*.class1
+{  border: 1px solid cadetblue;
+   background: #ccc;
 }*/
-	#external-events p {
-		margin: 1.5em 0;
-		font-size: 11px;
-		color: #666;
-		}
-		
-	#external-events p input {
-		margin: 0;
-		vertical-align: middle;
-		}
-  #calendar-holder {
-		float: right;
-		/*width: 90%;*/
-		}
-                
- /*
+#external-events p {
+    margin: 1.5em 0;
+    font-size: 11px;
+    color: #666;
+}
+
+#external-events p input {
+    margin: 0;
+    vertical-align: middle;
+}
+#calendar-holder {
+    float: right;
+    /*width: 90%;*/
+}
+
+/*
 .class0 {     border: 1px solid rgb(90, 105, 134);background-color: #94A2BE;opacity:0.9} 
 .class0 .fc-event-time {background:  rgb(90, 105, 134);}
 
@@ -108,18 +108,22 @@ div.modal-header {background-color: rgb(245, 245, 245);}
 div.date-chooser{margin-top:15px;}
 /*div#ui-datepicker-div{z-index:100;}*/
 .ui-datepicker{ z-index: 9999 !important;}
- span#dateaddon{height: 15px;
- padding: 2px 2px;
-font-size: 10px;}
- i.icon-time{padding:2px;}
-INPUT#datepicker{width:70px;height: 15px;
-padding: 2px 2px;
-margin-bottom: 1px;
-font-size: 10px;
+span#dateaddon{
+    /*height: 15px;*/
+               padding: 2px 2px;
+/*               font-size: 10px;*/
+}
+i.icon-time{padding:2px;}
+INPUT#datepicker{
+    /*width:70px;
+    height: 15px;*/
+    padding: 2px 2px;
+    margin-bottom: 1px;
+    font-size: 14px;
 }
 .ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
-   /* background: url("images/ui-bg_flat_55_f8da4e_40x100.png") repeat-x scroll 50% 50% rgb(248, 218, 78);*/
-     background: rgb(248, 218, 78);
+    /* background: url("images/ui-bg_flat_55_f8da4e_40x100.png") repeat-x scroll 50% 50% rgb(248, 218, 78);*/
+    background: rgb(248, 218, 78);
     border: 1px solid rgb(252, 209, 19);
     color: rgb(145, 86, 8);
 }

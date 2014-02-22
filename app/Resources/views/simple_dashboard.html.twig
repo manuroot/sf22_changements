@@ -23,6 +23,40 @@
         
         .panel-content {padding:10px;margin:5px}
         .btn-group-justified {padding:10px;margin:5px}
+    
+        
+        .nav li:nth-child(6n+1) {
+background: rgb(208, 101, 3);
+}
+@media (min-width: 50em){
+.nav li {
+float: left;
+width: 16.66666666666667%;
+text-align: center;
+-webkit-transition: border .5s;
+-moz-transition: border .5s;
+-o-transition: border .5s;
+-ms-transition: border .5s;
+transition: border .5s;
+}
+}
+.fa {
+padding-top: 1.4em;
+}
+a, li {
+-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+a.btn-primary-hover:hover {padding-bottom:30px;}
+/*.icon-team, .icon-blog, .icon-home, .icon-portfolio, .icon-services, .icon-contact, .icon-menu {
+font-family: 'fa';
+speak: none;
+font-style: normal;
+font-weight: normal;
+font-variant: normal;
+text-transform: none;
+line-height: 1;
+-webkit-font-smoothing: antialiased;
+}*/
         </style>
         {% endblock %}
     
@@ -98,7 +132,7 @@
                   <div class="panel-content">
                     
                       <div class="btn-group btn-group-justified">
-                         <a href="{{ path('changements_fanta') }}" class="btn btn-primary col-sm-3">
+                         <a href="{{ path('changements_fanta') }}" class="btn btn-primary btn-primary-hover col-sm-3">
                             <i class="fa fa-th-list fa-2x"></i> 
                           
                           <p>Changements</p>
@@ -268,6 +302,61 @@
       </div><!--/row-->
   	</div><!--/col-span-9-->
 </div>
+    
+    <div class="main clearfix">
+				<nav id="menu" class="nav"><button type="button" id="menutoggle" class="navtoogle" aria-hidden="true"><i aria-hidden="true" class="icon-menu"> </i> Menu</button>					
+					<ul>
+						<li>
+							<a href="http://plugins.compzets.com">
+								<span class="icon">
+									<i aria-hidden="true" class="fa fa-home"></i>
+								</span>
+								<span>Home</span>
+							</a>
+						</li>
+						<li>
+							<a href="#" onclick="$('#section-2').animatescroll();">
+								<span class="icon"> 
+									<i aria-hidden="true" class="fa fa-home"></i>
+								</span>
+								<span>What is it?</span>
+							</a>
+						</li>
+						<li>
+							<a href="#" onclick="$('#section-3').animatescroll();">
+								<span class="icon">
+									<i aria-hidden="true" class="fa fa-home"></i>
+								</span>
+								<span>Options</span>
+							</a>
+						</li>
+						<li>
+							<a href="#" onclick="$('#section-4').animatescroll();">
+								<span class="icon">
+									<i aria-hidden="true" class="icon-blog"></i>
+								</span>
+								<span>Easing Effects</span>
+							</a>
+						</li>
+						<li>
+							<a href="#" onclick="$('#section-5').animatescroll();">
+								<span class="icon">
+									<i aria-hidden="true" class="icon-team"></i>
+								</span>
+								<span>Usage</span>
+							</a>
+						</li>
+						<li>
+							<a href="#" onclick="$('#section-6').animatescroll();">
+								<span class="icon">
+									<i aria-hidden="true" class="icon-contact"></i>
+								</span>
+								<span>About Me</span>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
 </div>
 <!-- /Main -->
 
@@ -301,6 +390,8 @@
         <script type="text/javascript" src="{{ asset('jquery/jquery.ui.datepicker.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bootstrap3/js/bootstrap.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bootstrap3/js/bootbox.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/animatedscroll/animatescroll.js') }}"></script>
+     
       {% endblock %}
     
            

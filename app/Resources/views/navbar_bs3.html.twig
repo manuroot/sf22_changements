@@ -4,122 +4,121 @@
 {% set foo = foo|split('_') %}
 
 <nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
-   <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-      <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span> 
-                <span class="icon-bar"></span> 
-                <span class="icon-bar"></span> 
-                <span class="icon-bar"></span> 
-                 <span class="icon-bar"></span> 
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span> 
+            <span class="icon-bar"></span> 
+            <span class="icon-bar"></span> 
+            <span class="icon-bar"></span> 
+            <span class="icon-bar"></span> 
              {% if is_granted("ROLE_USER") or is_granted("ROLE_ADMIN") %}
-                <span class="icon-bar"></span> 
+            <span class="icon-bar"></span> 
                 {% endif %}
-                </button>
-           
-             <a class="navbar-brand" href="{{ path('changements_fanta') }}">
-                <i class="fa fa-home"></i>
+        </button>
+
+        <a class="navbar-brand" href="{{ path('changements_fanta') }}">
+            <i class="fa fa-home"></i>
             {% block toto %}I-CHANGE(v1.2a){% endblock %}</a>
- </div>
+    </div>
 
-<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-  <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav">
 {#======================== Changemements =================#}
     {% set addoncl="dropdown" %}
     {% if foo[0] == 'changements' %}  {% set addoncl="dropdown active" %} {% endif %}
-                    <li class="{{addoncl}}">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-white  fa fa-th"></i> Changements<b class="caret"></b> </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{ path('changements_fanta') }}"><i class="fa fa-th-list"></i> {{ 'Liste Des Changements'|trans }}</a></li>
+            <li class="{{addoncl}}">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-th-list"></span> Changements<b class="caret"></b> </a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ path('changements_fanta') }}"><span class="glyphicon glyphicon-th-list"></span> {{ 'Liste Des Changements'|trans }}</a></li>
         {% if is_granted("IS_AUTHENTICATED_FULLY") %}
-                            <li><a href="{{ path('changements_myfanta') }}"><i class="fa fa-th-list"></i> {{ 'Liste Des Favoris'|trans }}</a></li>
-                            <li><a href="{{ path('docchangements') }}"><i class="fa fa-briefcase"></i> {{ 'Fichiers Des Changements'|trans }}</a></li>
-                            <li><a href="{{ path('changements_comment_mesactivites') }}"><i class="fa fa-pencil"></i> {{ 'Liste des Commentaires'|trans }}</a></li>
+                    <li><a href="{{ path('changements_myfanta') }}"><span class="glyphicon glyphicon-th-list"></span> {{ 'Liste Des Favoris'|trans }}</a></li>
+                    <li><a href="{{ path('docchangements') }}"><span class="glyphicon glyphicon-briefcase"></span> {{ 'Fichiers Des Changements'|trans }}</a></li>
+                    <li><a href="{{ path('changements_comment_mesactivites') }}"><span class="glyphicon glyphicon-pencil"></span> {{ 'Liste des Commentaires'|trans }}</a></li>
 
         {% endif %}
-                                                     <li><a href="{{ path('changements_calendar') }}"><i class="fa fa-calendar"></i> {{ 'Calendrier Des Opérations'|trans }}</a></li>
 
-                            <li><a href="{{ path('changements_charts') }}"><i class="fa fa-bar-chart-o"></i> {{ 'Graphiques des Changements'|trans }}</a></li>
+
+                    <li><a href="{{ path('changements_charts') }}"><span class="fa fa-bar-chart-o"></span> {{ 'Graphiques des Changements'|trans }}</a></li>
        {#
-        <li><a href="{{ path('wdcalendar_index') }}"><i class="fa fa-calendar"></i> {{ 'Calendrier Des Activités'|trans }}</a></li>
-#}
-                           {# <li><a href="{{ path('calendar_indexadesign') }}"><i class="fa fa-wrench"></i> {{ 'Calendrier Des Activités(V2)'|trans }}</a></li>#}
-{#                            <li><a href="{{ path('wdcalendar_indexadesignchangement') }}"><i class="fa fa-wrench"></i> {{ 'Calendrier Des Changements CTI'|trans }}</a></li>
-
-                            <li><a href="{{ path('absences') }}"><i class="fa fa-user"></i> {{ 'Absences'|trans }}</a></li>
+        <li><a href="{{ path('wdcalendar_index') }}"><span class="glyphicon glyphicon-calendar"></i> {{ 'Calendrier Des Activités'|trans }}</a></li>
 #}
 
-                        </ul>
-                    </li>
+                    <li><a href="{{ path('wdcalendar_indexadesignchangement') }}"><span class="glyphicon glyphicon-wrench"></span>{{ 'Calendrier Des Changements CTI'|trans }}</a></li>
+                    <li><a href="{{ path('calendar_indexadesign') }}"><span class="glyphicon glyphicon-wrench"></span> {{ 'Calendrier Des Activités'|trans }}</a></li>
 
 
- 
+                </ul>
+            </li>
+
+
+
 
     {#======================== Serveurs =================#}
     {% set addoncl="dropdown" %}
     {% if foo[0] == 'serveurs' %}  {% set addoncl="dropdown active" %} {% endif %}
-                    <li class="{{addoncl}}">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-white fa fa-th"></i>
-                            Serveurs<b class="caret"></b> </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{ path('serveurs') }}"><i class="fa fa-th-list"></i> {{ 'Serveurs'|trans }}</a></li>
-                            <li><a href="{{ path('serveurs_sites') }}"><i class="fa fa-th-list"></i> {{ 'Serveurs-Sites'|trans }}</a></li> 
-                            <li><a href="{{ path('serveurs_zones') }}"><i class="fa fa-th-list"></i> {{ 'Serveurs-Zones'|trans }}</a></li>
-                        </ul>
-                    </li>
+            <li class="{{addoncl}}">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-white fa fa-th"></i>
+                    Serveurs<b class="caret"></b> </a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ path('serveurs') }}"><i class="fa fa-th-list"></i> {{ 'Serveurs'|trans }}</a></li>
+                    <li><a href="{{ path('serveurs_sites') }}"><i class="fa fa-th-list"></i> {{ 'Serveurs-Sites'|trans }}</a></li> 
+                    <li><a href="{{ path('serveurs_zones') }}"><i class="fa fa-th-list"></i> {{ 'Serveurs-Zones'|trans }}</a></li>
+                </ul>
+            </li>
 
     {#======================== Admin =================#}
    {% if is_granted("ROLE_ADMIN") %}
-                    <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-white fa fa-wrench"></i>
-                            Administration<b class="caret"></b> </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{ path('chronouser') }}"><i class="fa fa-user"></i> {{ 'Utilisateurs'|trans }}</a></li>
-                            <li><a href="{{ path('chronogroup') }}"><i class="fa fa-group"></i> {{ 'Groupes'|trans }}</a></li>
-                            <li><a href="{{ path('environnement') }}"><i class="fa fa-globe"></i> {{ 'Environnements'|trans }}</a></li>
-                            <li><a href="{{ path('users') }}"><i class="fa fa-group"></i> {{ 'Eservices-Users(FOSUSER)'|trans }}</a></li> 
-                                 <li><a href="{{ path('projets') }}"><i class="fa fa-th-list"></i> {{ 'Projets'|trans }}</a></li>
-                            <li><a href="{{ path('projets_documents') }}"><i class="fa fa-briefcase"></i> {{ 'projets_documents'|trans }}</a></li>
-                       
-                            <li><a href="{{ path('applications') }}"><i class="fa fa-wrench"></i> {{ 'Applications'|trans }}</a></li>
-                            <li><a href="{{ path('changements_contact') }}"><i class="fa fa-user-md"></i> {{ 'Contacts Clients'|trans }}</a></li>
+            <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-white fa fa-wrench"></i>
+                    Administration<b class="caret"></b> </a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ path('chronouser') }}"><i class="fa fa-user"></i> {{ 'Utilisateurs'|trans }}</a></li>
+                    <li><a href="{{ path('chronogroup') }}"><i class="fa fa-group"></i> {{ 'Groupes'|trans }}</a></li>
+                    <li><a href="{{ path('environnement') }}"><i class="fa fa-globe"></i> {{ 'Environnements'|trans }}</a></li>
+                    <li><a href="{{ path('users') }}"><i class="fa fa-group"></i> {{ 'Eservices-Users(FOSUSER)'|trans }}</a></li> 
+                    <li><a href="{{ path('projets') }}"><i class="fa fa-th-list"></i> {{ 'Projets'|trans }}</a></li>
+                    <li><a href="{{ path('projets_documents') }}"><i class="fa fa-briefcase"></i> {{ 'projets_documents'|trans }}</a></li>
 
-                        </ul>
-                    </li>
+                    <li><a href="{{ path('applications') }}"><i class="fa fa-wrench"></i> {{ 'Applications'|trans }}</a></li>
+                    <li><a href="{{ path('changements_contact') }}"><i class="fa fa-user-md"></i> {{ 'Contacts Clients'|trans }}</a></li>
+
+                </ul>
+            </li>
 {% endif %}
-                </ul> 
-    
-      
-                <ul class="nav navbar-nav navbar-right">
+        </ul> 
+
+
+        <ul class="nav navbar-nav navbar-right">
                     {% if is_granted("ROLE_USER") or is_granted("ROLE_ADMIN") %}
-                    <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-user"></i> Déconnexion</a></li>    
-                            
+            <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-user"></i> Déconnexion</a></li>    
+
        {% else %}
-                    <li><a href="{{ path('fos_user_security_login') }}"><i class="fa fa-key"></i> Connexion</a></li>
+            <li><a href="{{ path('fos_user_security_login') }}"><i class="fa fa-key"></i> Connexion</a></li>
        {% endif %}
-           
-                   
+
+
 
     {% if is_granted("ROLE_ADMIN") %}
-              <li class="dropdown"> 
-                   <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ app.user.username }} <b class="caret"></b></a>
-      
-      
-   
+            <li class="dropdown"> 
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ app.user.username }} <b class="caret"></b></a>
+
+
+
 
                 <ul class="dropdown-menu">
                     <li><a href="{{ path('sonata_admin_dashboard') }}">{{ 'Admin Dashboard' }}</a></li>
-                    
+
                     <li><a href="{{ path('fos_user_profile_edit') }}">{{ 'Edit Profile' }}</a></li>
                      {#   <li><a href="{{ path('sonata_user_profile_edit_authentication') }}">{{ 'Edit Profile' }}</a></li>#}
-               </ul>
-              </li>
-              </ul>
-    
-  {% endif %}  
                 </ul>
-            </div>
-      
+            </li>
+        </ul>
+
+  {% endif %}  
+        </ul>
+    </div>
+
 </nav>
 {% endblock %}    

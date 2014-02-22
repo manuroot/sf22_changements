@@ -12,57 +12,33 @@
               'css/font-awesome-4.0.3/css/font-awesome.min.css' 
               '@ApplicationCentralBundle/Resources/public/css/main.css' 
   output='css/compiled/mainjquerybs3.css' filter='?yui_css , cssrewrite' %}
-        
+
         <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
         {% endstylesheets %}
-       {#
 
-'css/font-awesome-4.0.3/css/font-awesome.min.css' 
- <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.css') }}" type="text/css" />
-        <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-responsive.css') }}" type="text/css" />
-        <link rel="stylesheet" href="{{ asset('css/jquery-ui-1.9.2.custom.css') }}" type="text/css" media="all"/>
-        <link rel="stylesheet" href="{{ asset('bundles/whiteoctoberpagerfanta/css/pagerfantaDefault.css') }}" type="text/css" media="all" />
-        <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}" type="text/css" />
-       #}
         <!--[if IE 7]>
     <link rel="stylesheet" href="{{ asset('css/font-awesome-ie7.css') }}">
     <![endif]--> 
         <style type="text/css">
             #content{ position:relative;}
             #bs-example-navbar-collapse-1{margin-right:20px;}
-            /*     
-              
-           body {
-               background:url('images/background11a.png') no-repeat center center fixed; 
-                   -webkit-background-size: cover;
-                   -moz-background-size: cover;
-                   -o-background-size: cover;
-                   background-size: cover;
-               font-size: 14px;
-            
-           }*/
-   #footer {
-              border: 1px solid #ccc; 
-              clear: both; 
-              text-align: center; 
-              padding: 10px; 
-              color: #aaa;
-              
-    position:relative;
-    bottom:5px;
-    width:99%;
-    margin:auto;
-    margin-top:20px;
-    height:40px;   /* Height of the footer */
-    background:#eaeaea;
-}  
+
+            #footer {
+                border: 1px solid #ccc; 
+                clear: both; 
+                text-align: center; 
+                padding: 10px; 
+                color: #aaa;
+
+                position:relative;
+                bottom:5px;
+                width:99%;
+                margin:auto;
+                margin-top:20px;
+                height:40px;   /* Height of the footer */
+                background:#eaeaea;
+            }  
         </style>
-       {# {% stylesheets 
-                  '@ApplicationCentralBundle/Resources/public/css/main.css' 
-                output='css/compiled/main.css' filter='?yui_css , cssrewrite' %}
-            <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
-        {% endstylesheets %}#}
-{# filter='?yui_css' en dev #}
         {% endblock %}
 
     </head>
@@ -82,8 +58,8 @@
                              {% block footer %}
 
             <div id="footer">
-              <p align="center"><i class="icon-pencil"></i> 
-            <a href="mailto: mroot72000@yahoo.fr?Subject=Hello" target="_top">
+                <p align="center"><i class="icon-pencil"></i> 
+                    <a href="mailto: mroot72000@yahoo.fr?Subject=Hello" target="_top">
             {{ 'mroot72000@yahoo.fr'|trans }}</a>  © 2013</p>
             </div>        
 
