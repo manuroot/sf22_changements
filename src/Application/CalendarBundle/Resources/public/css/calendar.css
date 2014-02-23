@@ -38,7 +38,7 @@ div.container {width:97%;}
     color: #fff;
     font-size: .85em;
     cursor: pointer;
-    width:90px;
+    width:100%;
     float: left;
     /*  border: 1px solid black;*/
 }

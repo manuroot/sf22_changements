@@ -885,6 +885,8 @@ class ChangementsController extends Controller {
 
         if ($editForm->isValid()) {
             $manager->saveChangement($entity);
+            /* pas d'envoi a l'update*/
+            /*
             $email_state = $this->container->getParameter('application_changements.email_state');
             $email_to = $this->container->getParameter('application_changements.email_to');
             $mess = $manager->sendemailChangement($id, $email_state, $email_to);
@@ -895,6 +897,7 @@ class ChangementsController extends Controller {
                         'message' => 'UPDATE:',
                         'entity' => $entity)
                     ), 'text/html');
+            */
             //$message->setContentType("text/html")
 
             /*   $em = $this->getDoctrine()->getManager();
@@ -902,7 +905,8 @@ class ChangementsController extends Controller {
              */
             // var_dump($mess->getFrom());
             //exit(1);
-            $this->get('mailer')->send($mess);
+           // $this->get('mailer')->send($mess);
+            
             $session = $this->getRequest()->getSession();
 
 
