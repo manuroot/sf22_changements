@@ -157,7 +157,7 @@ width: 400px;
         <div class="btxt">   <i class="icon-user icon-2x"></i>  Demandeur: {{ entity.demandeur }}</div>
         <div class="btxt">     <i class="icon-group icon-2x"></i>  Utilisateurs: {{ entity.idusers|join(', ') }}</div>
          <div class="btxt">  <i class="icon-user-md icon-2x"></i>  Contact Client: {{ entity.contact }}</div>
-    {% for u in entity.idusers %}{{ u.email }}{% endfor %}
+   {# {% for u in entity.idusers %}{{ u.email }}{% endfor %}#}
         </div>
     </div>     
              </div>   
