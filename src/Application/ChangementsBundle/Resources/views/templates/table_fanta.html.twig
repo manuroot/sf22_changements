@@ -175,7 +175,11 @@
     <td class="hidden-phone hidden-tablet">{{ entity.demandeur.nomUser }}</td>
     <td class="hidden-phone hidden-tablet">
         {% if entity.picture|length > 0  %}
-         <img src="{{ asset('bundles/applicationchangements/images/wordx.gif') }}" alt="show" width="12px" height="12px"/>x {{  entity.picture|length }}
+        <a class="tooltip_show editme" href="{{ path('changements_showXhtmlFichiers', { 'id': entity.id }) }}">
+     <img src="{{ asset('bundles/applicationchangements/images/wordx.gif') }}" alt="show" width="12px" height="12px"/>x {{  entity.picture|length }}
+    </a>
+        
+        
         {% else %}
             -
         {% endif %}

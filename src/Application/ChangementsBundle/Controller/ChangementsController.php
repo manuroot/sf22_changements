@@ -603,6 +603,15 @@ class ChangementsController extends Controller {
                     'entity' => $entity,
                     'delete_form' => $deleteForm->createView(),));
     }
+    
+    public function showXhtmlFichiersAction($id) {
+        $entity = $this->get('changement.common.manager')->loadChangement($id);
+        $deleteForm = $this->createDeleteForm($id);
+        return $this->render('ApplicationChangementsBundle:Changements:showxhtml.html.twig', array(
+                    'entity' => $entity,
+                    'active_file' => 'files',
+                    'delete_form' => $deleteForm->createView(),));
+    }
 
     /**
      * Displays a form to create a new Changements entity.

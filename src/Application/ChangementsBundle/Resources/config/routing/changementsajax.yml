@@ -37,7 +37,12 @@ changements_minicalendar:
     defaults: { _controller: "ApplicationChangementsBundle:Changements:CalendarEvents" }
     options:
         expose: true
-        
+    
+    
+changements_showXhtmlFichiers:
+    pattern:  /{id}/showxhtmlfiles
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:showXhtmlFichiers" }
+
 changements_showXhtml:
     pattern:  /{id}/showxhtml
     defaults: { _controller: "ApplicationChangementsBundle:Changements:showXhtml" }
