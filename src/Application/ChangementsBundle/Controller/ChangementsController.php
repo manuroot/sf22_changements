@@ -166,8 +166,9 @@ class ChangementsController extends Controller {
         $session->set('buttonretour', 'changements_post');
         list($filterForm, $query, $message) = $this->filter();
         $queryBuilder = $query->getQuery();
-        if ($message)
+        if ($message){
             $session->getFlashBag()->add('warning', "$message");
+    }
         $pagination = $this->createpaginator($queryBuilder, 15);
         return $this->render('ApplicationChangementsBundle:Changements:indexpost.html.twig', array(
                     'search_form' => $filterForm->createView(),
@@ -599,6 +600,12 @@ class ChangementsController extends Controller {
     public function showXhtmlAction($id) {
         $entity = $this->get('changement.common.manager')->loadChangement($id);
         $deleteForm = $this->createDeleteForm($id);
+     /*      $request = $this->getRequest();
+        $session = $request->getSession();
+    */
+    //        $session = $this->getRequest()->getSession();
+      
+            
         return $this->render('ApplicationChangementsBundle:Changements:showxhtml.html.twig', array(
                     'entity' => $entity,
                     'delete_form' => $deleteForm->createView(),));

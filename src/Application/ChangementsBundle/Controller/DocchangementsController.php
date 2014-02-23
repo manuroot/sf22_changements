@@ -15,7 +15,7 @@ use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Application\ChangementsBundle\Form\DocchangementsFilterType;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Symfony\Component\HttpFoundation\RedirectResponse; 
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Docchangements controller.
@@ -23,27 +23,27 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  */
 class DocchangementsController extends Controller {
 
-    public function getRefererRoute()
-  {
-    $request = $this->getRequest();
+    public function getRefererRoute() {
+        $request = $this->getRequest();
 
-    //look for the referer route
-    $referer = $request->headers->get('referer');
-    $lastPath = substr($referer, strpos($referer, $request->getBaseUrl()));
-    $lastPath = str_replace($request->getBaseUrl(), '', $lastPath);
+        //look for the referer route
+        $referer = $request->headers->get('referer');
+        $lastPath = substr($referer, strpos($referer, $request->getBaseUrl()));
+        $lastPath = str_replace($request->getBaseUrl(), '', $lastPath);
 
-    $matcher = $this->get('router')->getMatcher();
-    $parameters = $matcher->match($lastPath);
-    $route = $parameters['_route'];
+        $matcher = $this->get('router')->getMatcher();
+        $parameters = $matcher->match($lastPath);
+        $route = $parameters['_route'];
 
-    return $route;
-  }
-     // ====================================================================
+        return $route;
+    }
+
+    // ====================================================================
     // 
     //  CREATION DU PAGINATOR / Pagerfanta
     // 
     //  =================================================================== 
- private function mypager($adapter = null, $max = 5, $page = 1) {
+    private function mypager($adapter = null, $max = 5, $page = 1) {
         if (isset($adapter)) {
             $pagerfanta = new Pagerfanta($adapter);
             $pagerfanta->setMaxPerPage($max);
@@ -53,21 +53,22 @@ class DocchangementsController extends Controller {
             return null;
         }
     }
-    private function createpaginator($query, $num_perpage = 5,$count=null) {
+
+    private function createpaginator($query, $num_perpage = 5, $count = null) {
 
         $paginator = $this->get('knp_paginator');
         //$paginator->setUseOutputWalkers(true);
-         $query=$query->getQuery();
+        $query = $query->getQuery();
         $pagename = 'page'; // Set custom page variable name
         $page = $this->get('request')->query->get($pagename, 1); // Get custom page variable
 
-        if (isset($count)){
-           $total = 10;
-       $query->setHint('knp_paginator.count', $total);
+        if (isset($count)) {
+            $total = 10;
+            $query->setHint('knp_paginator.count', $total);
         }
-          $pagination = $paginator->paginate(
+        $pagination = $paginator->paginate(
                 $query, $page, $num_perpage, array('pageParameterName' => $pagename,
-                    'distinct'=>true,
+            'distinct' => true,
             "sortDirectionParameterName" => "dir",
             'sortFieldParameterName' => "sort")
         );
@@ -75,6 +76,7 @@ class DocchangementsController extends Controller {
         $pagination->setSortableTemplate('ApplicationChangementsBundle:pagination:sortable_link.html.twig');
         return $pagination;
     }
+
     /**
      * Lists all Docchangements entities.
      *
@@ -88,50 +90,48 @@ class DocchangementsController extends Controller {
         $pagination = $paginator->paginate(
                 $query, $this->get('request')->query->get('page', 1)/* page number */, 10/* limit per page */
         );
-          $pagination->setTemplate('ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig');
+        $pagination->setTemplate('ApplicationChangementsBundle:pagination:twitter_bootstrap_pagination.html.twig');
         return $this->render('ApplicationChangementsBundle:Docchangements:index.html.twig', array(
                     'pagination' => $pagination,
-                ));
+        ));
     }
-    
-       //==============================================
+
+    //==============================================
     //          INDEX FANTA
     // 
     //==============================================
 
-     public function indexfantaAction(Request $request) {
+    public function indexfantaAction(Request $request) {
 
-     $em = $this->getDoctrine()->getManager();
-       $parameters = array();
+        $em = $this->getDoctrine()->getManager();
+        $parameters = array();
         $request = $this->getRequest();
         $session = $request->getSession();
         $session->set('buttonretour', 'docchangements');
         $searchForm = $this->createForm(new DocchangementsFilterType());
-     if ($request->getMethod() == 'POST'){
-        if ($request->get('submit-filter') == "reset") {
-            $session->remove('docchangementFilternew');
-        }
-        elseif ($request->get('submit-filter') == "filter") {
-            $alldatas = $request->request->all();
-            $datas = $alldatas["docchangements_searchfilter"];
-            $parameters = $datas;
-            $session->set('docchangementFilternew', $datas);
-            $searchForm->bind($datas);
-        }
-     }
-        else {
+        if ($request->getMethod() == 'POST') {
+            if ($request->get('submit-filter') == "reset") {
+                $session->remove('docchangementFilternew');
+            } elseif ($request->get('submit-filter') == "filter") {
+                $alldatas = $request->request->all();
+                $datas = $alldatas["docchangements_searchfilter"];
+                $parameters = $datas;
+                $session->set('docchangementFilternew', $datas);
+                $searchForm->bind($datas);
+            }
+        } else {
             if ($session->has('docchangementFilternew')) {
                 $datas = $session->get('docchangementFilternew');
                 $parameters = $datas;
                 $searchForm->bind($datas);
             }
         }
-          // ajouter session + masquer parametres
+        // ajouter session + masquer parametres
         $sort = $this->get('request')->query->get('sort', 'a.id');
         $dir = $this->get('request')->query->get('dir', 'DESC');
 
-        $next_dir= ($dir == 'DESC') ? 'ASC' : 'DESC';
-        $arrow[$sort]= $next_dir=="DESC" ? 'icon-arrow-up' : 'icon-arrow-down' ;
+        $next_dir = ($dir == 'DESC') ? 'ASC' : 'DESC';
+        $arrow[$sort] = $next_dir == "DESC" ? 'icon-arrow-up' : 'icon-arrow-down';
         $page = $this->get('request')->query->get('page', 1); // Get custom page variable
         $query = $em->getRepository('ApplicationChangementsBundle:Docchangements')->getListBy($parameters);
         $adapter = new DoctrineORMAdapter($query);
@@ -143,33 +143,30 @@ class DocchangementsController extends Controller {
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
-        
-         return $this->render('ApplicationChangementsBundle:Docchangements:indexfanta.html.twig', array(
-                   'pagerfanta' => $pagerfanta,
+
+        return $this->render('ApplicationChangementsBundle:Docchangements:indexfanta.html.twig', array(
+                    'pagerfanta' => $pagerfanta,
                     'entities' => $q,
-            'next_dir'=>$next_dir,
-             'search_form' => $searchForm->createView(),
-            'arrow'=>$arrow
+                    'next_dir' => $next_dir,
+                    'search_form' => $searchForm->createView(),
+                    'arrow' => $arrow
         ));
-         
-        
     }
-    
-    
- public function indexAction(Request $request) {
+
+    public function indexAction(Request $request) {
 
         //  $entity = new Changements();
-      $em = $this->getDoctrine()->getManager();
-   /*      $json = $em->getRepository('ApplicationChangementsBundle:Docchangements')->findAjaxValue(array('nom' => 'ab'));
-    exit(1);*/
+        $em = $this->getDoctrine()->getManager();
+        /*      $json = $em->getRepository('ApplicationChangementsBundle:Docchangements')->findAjaxValue(array('nom' => 'ab'));
+          exit(1); */
         $parameters = array();
-       
+
         $request = $this->getRequest();
         $session = $request->getSession();
         $session->set('buttonretour', 'docchangements');
-      
+
         $searchForm = $this->createForm(new DocchangementsFilterType());
-     
+
         if ($request->getMethod() === 'POST' && $request->get('submit-filter') === "reset") {
             $session->remove('docchangementFilternew');
         } elseif ($request->getMethod() === 'POST' && $request->get('submit-filter') === "filter") {
@@ -185,30 +182,30 @@ class DocchangementsController extends Controller {
                 $searchForm->bind($datas);
             }
         }
-          //  list($query,$count) = $em->getRepository('ApplicationChangementsBundle:Docchangements')->getListBy($parameters);
+        //  list($query,$count) = $em->getRepository('ApplicationChangementsBundle:Docchangements')->getListBy($parameters);
         /*
          * 
          * Ajout du order pour manytomany !!
          * 
          * 
          */
-       $query = $em->getRepository('ApplicationChangementsBundle:Docchangements')->getListBy($parameters);
-    $pagination = $this->createpaginator($query, 25);
-    $total = $pagination->getTotalItemCount();
-     //$pagination = $this->createpaginator($query, 15,$count);
+        $query = $em->getRepository('ApplicationChangementsBundle:Docchangements')->getListBy($parameters);
+        $pagination = $this->createpaginator($query, 25);
+        $total = $pagination->getTotalItemCount();
+        //$pagination = $this->createpaginator($query, 15,$count);
         return $this->render('ApplicationChangementsBundle:Docchangements:index.html.twig', array(
                     'search_form' => $searchForm->createView(),
                     'pagination' => $pagination,
                     'total' => $total,
         ));
     }
-    
+
     public function indexoAction() {
         $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('ApplicationChangementsBundle:Docchangements')->findAll();
         return $this->render('ApplicationChangementsBundle:Docchangements:index.html.twig', array(
                     'entities' => $entities,
-                ));
+        ));
     }
 
     /**
@@ -238,7 +235,7 @@ class DocchangementsController extends Controller {
         return $this->render('ApplicationChangementsBundle:Docchangements:new.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),
-                ));
+        ));
     }
 
     /**
@@ -252,15 +249,15 @@ class DocchangementsController extends Controller {
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-               /* ===================================================     
+            /* ===================================================     
              *  ENLEVER: PAS DE MODIF DE CHANGEMENT ICI !!!! 
              * 
-             ===================================================== */
-            
-          // on ajoute cote changement
-                /* foreach ($entity->getIdchangement() AS $changement){
-                     $changement->addPicture($entity);
-                 }*/
+              ===================================================== */
+
+            // on ajoute cote changement
+            /* foreach ($entity->getIdchangement() AS $changement){
+              $changement->addPicture($entity);
+              } */
             // on persite coté document
             $em->persist($entity);
             $em->flush();
@@ -269,7 +266,7 @@ class DocchangementsController extends Controller {
         return $this->render('ApplicationChangementsBundle:Docchangements:new.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),
-                ));
+        ));
     }
 
     /**
@@ -290,7 +287,7 @@ class DocchangementsController extends Controller {
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
-                ));
+        ));
     }
 
     /**
@@ -299,7 +296,7 @@ class DocchangementsController extends Controller {
      *
      */
     public function updateAction(Request $request, $id) {
-      
+
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('ApplicationChangementsBundle:Docchangements')->find($id);
         $current_changements = clone $entity->getIdchangement();
@@ -313,21 +310,21 @@ class DocchangementsController extends Controller {
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
-             // on vide cote changement
+            // on vide cote changement
             // ou passer par byreference a false dans le formulaire
             /* ===================================================     
              *  ENLEVER: PAS DE MODIF DE CHANGEMENT ICI !!!! 
              * 
-             ===================================================== */
-            /*foreach ( $current_changements as $change ){
-                    $change->getPicture()->removeElement( $entity );
-                    $em->persist($change);
-                }
-                  //$entity = $em->getRepository('ApplicationChangementsBundle:Docchangements')->find($id);
-                  // on ajoute cote changement
-                 foreach ($entity->getIdchangement() AS $changement){
-                     $changement->addPicture($entity);
-                 }*/
+              ===================================================== */
+            /* foreach ( $current_changements as $change ){
+              $change->getPicture()->removeElement( $entity );
+              $em->persist($change);
+              }
+              //$entity = $em->getRepository('ApplicationChangementsBundle:Docchangements')->find($id);
+              // on ajoute cote changement
+              foreach ($entity->getIdchangement() AS $changement){
+              $changement->addPicture($entity);
+              } */
             // on persite coté document
             $em->persist($entity);
             $em->flush();
@@ -340,10 +337,9 @@ class DocchangementsController extends Controller {
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
-                ));
+        ));
     }
 
-        
     /**
      * Displays a form to edit an existing Changements entity.
      *
@@ -354,7 +350,7 @@ class DocchangementsController extends Controller {
     public function deleteAction(Request $request, $id) {
         $form = $this->createDeleteForm($id);
         $form->bind($request);
-       if ($form->isValid()) {
+        if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('ApplicationChangementsBundle:Docchangements')->find($id);
 
@@ -375,66 +371,75 @@ class DocchangementsController extends Controller {
         ;
     }
 
-     public function downloadAction($id) {
-         
+    public function downloadAction($id) {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('ApplicationChangementsBundle:Docchangements')->find($id);
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Docchangements entity.');
         }
-        
+
         $request = $this->get('request');
-        
-       
+
+
         $url = $request->headers->get("referer");
-      
-    
-    $message="\nContacter l'administrateur";
-    
-     //   $url='docchangements';
+
+
+        $message = "\nContacter l'administrateur";
+
+        //   $url='docchangements';
         $session = $request->getSession();
-      //  $url=$session->get('buttonretour');
-        if (!isset($url))
-            $url='docchangements';    
-     //   $path = $entity->getUploadRootDir();
-        $filename=$entity->getPath();
-        $realname=$entity->getOriginalFilename();
+        //  $url=$session->get('buttonretour');
+        if (!isset($url)) {
+            $url = 'docchangements';
+        }
+        //   $path = $entity->getUploadRootDir();
+        $filename = $entity->getPath();
+        $realname = $entity->getOriginalFilename();
         // si existe pas, tant pis on prend le nom physique
-        if (!isset($realname))
-            $realname=$filename;
+        if (!isset($realname)) {
+            $realname = $filename;
+        }
         $path = $this->get('kernel')->getRootDir() . "/../web/uploads/documents/";
 
         // Flush in "safe" mode to enforce an Exception if keys are not unique
-
-         //if (!file_exists($path . $filename)) {
+        //if (!file_exists($path . $filename)) {
         if (!file_exists($path . $filename)) {
-            $session->getFlashBag()->add('warning', "Le fichier $realname n 'existe pas (code 1). $message");
-              return new RedirectResponse($url);
-             /*$this->render('ApplicationChangementsBundle:errors:errorsxhtml.html.twig', array(
-                    'message' => "Le fichier n'existe pas<br>Contacter l'administrateur"
-                  ));*/
-            //return $this->redirect($this->generateUrl('changements_fanta'));
-          
-        }
-           if (!is_readable($path . $filename)){
-                  $session->getFlashBag()->add('info', "Le fichier $realname n 'est pas lisible (code 2). $message");
-                    return new RedirectResponse($url);
-             
+            $session->getFlashBag()->add('notice', "Le fichier $realname n 'existe pas (code 1). $message");
+            /*    echo "fichier existe pas <br> url refer=$url";
+            exit(1);*/
+            return new RedirectResponse($url);
             /* $this->render('ApplicationChangementsBundle:errors:errorsxhtml.html.twig', array(
-                    'message' => "Le fichier n'est pas lisible<br>Contacter l'administrateur"
-                  ));*/
-             }
-        
+              'message' => "Le fichier n'existe pas<br>Contacter l'administrateur"
+              )); */
+            //return $this->redirect($this->generateUrl('changements_fanta'));
+         
+        }
+        if (!is_readable($path . $filename)) {
+            $session->getFlashBag()->add('info', "Le fichier $realname n 'est pas lisible (code 2). $message");
+           /* echo "fichier non lisible";
+            exit(1);*/
+            return new RedirectResponse($url);
 
-     try {
+            /* $this->render('ApplicationChangementsBundle:errors:errorsxhtml.html.twig', array(
+              'message' => "Le fichier n'est pas lisible<br>Contacter l'administrateur"
+              )); */
+        }
+        /*
+        echo "file=" . $path . $filename . "<br>";
+        echo "passed tests ??";
+        exit(1);
+         * 
+         */
+        try {
             $content = file_get_contents($path . $filename);
         } catch (\ErrorException $e) {
             $session->getFlashBag()->add('notice', "Le fichier $realname n 'existe pas (code 2). $message");
             return $this->redirect($this->generateUrl($url));
         }
-         $response = new Response();
+        $response = new Response();
 
         //set headers
+
         $response->headers->set('Content-Type', 'mime/type');
         $response->headers->set('Content-Disposition', 'attachment;filename="' . $realname);
         //$response->headers->set('Content-Length',filesize($filename));
@@ -443,24 +448,21 @@ class DocchangementsController extends Controller {
 
         $response->setContent($content);
         return $response;
-       /*
+        /*
           return $this->render('ApplicationChangementsBundle:errors:errorsxhtml.html.twig', array(
-                    'message' => "Le fichier n'existe pas 3<br>Contacter l'administrateur"));*/
-           
+          'message' => "Le fichier n'existe pas 3<br>Contacter l'administrateur")); */
     }
-    
-    
-public function DocChangementsNomAjaxAction(Request $request) {
+
+    public function DocChangementsNomAjaxAction(Request $request) {
         $term = $request->get('term');
-       /* $alldatas = $request->request->all();
-       print_r($alldatas);*/
-      //  echo "term=$term";
+        /* $alldatas = $request->request->all();
+          print_r($alldatas); */
+        //  echo "term=$term";
         $em = $this->getDoctrine()->getManager();
         $json = $em->getRepository('ApplicationChangementsBundle:Docchangements')->findAjaxValue(array('nom' => $term));
         $response = new Response(json_encode($json));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
-    
-    
-        }
+
+}
