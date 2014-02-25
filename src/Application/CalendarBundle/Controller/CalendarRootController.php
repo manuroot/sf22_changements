@@ -49,6 +49,21 @@ class CalendarRootController extends Controller {
         return $result;
     }
 
+    
+     /**
+     * Lists all CalendarRoot public entities.
+     *
+     */
+    public function indexPublicAction() {
+        
+          $em = $this->getDoctrine()->getManager();
+ 
+    $entities = $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->FindPublicCalendars();
+
+         return $this->render('ApplicationCalendarBundle:CalendarRoot:indexpublic.html.twig', array(
+                    'entities' => $entities,
+        ));
+    }
     /**
      * Lists all CalendarRoot entities.
      *
@@ -74,7 +89,7 @@ class CalendarRootController extends Controller {
     // var_dump($idg);
     $entities = $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->myFindAll($user_id,$idg);
 
-        $securityContext = $this->get('security.context');
+      //  $securityContext = $this->get('security.context');
      //   $user = $securityContext->getToken()->getUser();
          /* ==========================
          * MAJ ALL ENTITIES

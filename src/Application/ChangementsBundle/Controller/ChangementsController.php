@@ -927,7 +927,7 @@ class ChangementsController extends Controller {
 
 
             $session->getFlashBag()->add('warning', "Enregistrement $id update successfull");
-            $session->getFlashBag()->add('notice', "id=$id: Email envoyé");
+        //    $session->getFlashBag()->add('notice', "id=$id: Email envoyé");
             return $this->check_retour();
         }
 

@@ -55,7 +55,6 @@ CalendarRoot list</center></h1>
             <th  class="hidden-xs hidden-sm">End(Heure)</th>
             <th class="hidden-xs hidden-sm">Slot (Minutes)</th>
             <th>Owner</th>
-             <th>Public</th>
            {# <th>Groupes Edition</th>#}
               <th class="hidden-xs">Groupes Edition</th>
             <th colspan="2">Actions</th>
@@ -69,11 +68,10 @@ CalendarRoot list</center></h1>
             {% else %}
             {% set flag="User" %}
             {% endif %}
+         <tr class="active">
         <!-- only for admin or owner -->
     {#     {% if is_granted('EDIT', entity) or is_granted('ROLE_ADMIN', entity) %} #}
-           {% if  entity.owner  == app.user.username %}
-              <tr  class="warning"> {% else %} <tr class="active">
-                  {% endif %}
+        
                {# <td><a href="{{ path('calendarroot_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>#}
             <td>{{ entity.id }}</td>
             <td>{{ entity.nom }}</td>
@@ -81,38 +79,9 @@ CalendarRoot list</center></h1>
             <td  class="hidden-xs hidden-sm">{{ entity.endHour }}</td>
 
             <td class="hidden-xs hidden-sm" >{{ entity.plage }}</td>
-   <td>{{ entity.owner }}</td>
-   <td>
-    {% if entity.isviewable == 1 %}
-         <i class="fa fa-eye fa-2x"></i>
-{% else %}
-         <i class="fa fa-eye-slash fa-2x"></i>
-{% endif %}
-</td>
+ <td>{{ entity.owner }}</td>
           {#  <td> {{ entity.groupedit|join(', ') }}</td>#}
-         <td class="hidden-xs hidden-sm"> {{ entity.secondgroupedit|join(', ') }}</td>
-            <td> 
-                 {% if is_granted('ROLE_ADMIN') %} 
-                <span class="fa-stack fa-lg">
-  <i class="fa fa-square-o fa-stack-2x"></i>
-  <i class="fa fa-user fa-stack-1x"></i>
-</span>
-
-
-     
-           <a href="{{ path('calendarroot_edit', { 'id': entity.id }) }}">
-                             <img src="{{ asset('bundles/applicationchangements/images/edit.png') }}" alt="edit" width="15px" height="15px" />
-                </a>
-                {% else %}
-                
-                 {% if  entity.owner  == app.user.username %}
-                        <a href="{{ path('calendarroot_edit', { 'id': entity.id }) }}">
-                          {#{{ flag }} #} 
-                            <img src="{{ asset('bundles/applicationchangements/images/edit.png') }}" alt="edit" width="15px" height="15px" />
-                </a>
-                {% endif %}
-                {% endif %}
-            </td>
+         <td class="hidden-xs hidden-sm"> {{ entity.secondgroupedit|join(', ') }}</td>  
 
             <td>
                 <form class="useform-{{ entity.id }}" class="form-horizontal" action="{{ path('calendar_indexadesign') }}" method="post">
@@ -127,25 +96,6 @@ CalendarRoot list</center></h1>
         {% endfor %}
     </tbody>
 </table>
-<a href="{{ path('calendarroot_new') }}" class="myleft btn btn-small btn-primary">
-    Créer un nouveau calendrier
-</a>
-
-<a href="{{ path('calendarusergroup') }}" class="myleft btn btn-small btn-primary">
-    Gérer Mes Groupes
-</a>
-{#
-<form class="useform-1" class="form-horizontal" action="{{ path('calendar_userootcalendar') }}" method="post">
- <p>Votre nom : <input type="text" name="nom" /></p>
- <p>Votre âge : <input type="text" name="age" /></p>
- <input type="hidden" name="id" value="1"/>
- <p><input type="submit" value="OK"></p>
-
-                  
-                  <button type="submit" class="btn btn-small btn-warning">Utiliser</button>  
-                    
-                  </form>
- #}
 <a href="{{ path('calendar_indexadesign') }}" class="myleft btn btn-small btn-primary">Retour Calendrier</a>    
     
     {% endblock %}

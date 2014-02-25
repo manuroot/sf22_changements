@@ -12,6 +12,16 @@ use Doctrine\ORM\EntityRepository;
  */
 class AdesignCalendarRootRepository extends EntityRepository {
 
+     public function FindPublicCalendars() {
+         $view=1;
+           $query = $this->createQueryBuilder('a')
+            ->where('a.isviewable = :ispublic')
+            ->setParameter('ispublic', $view);
+             return $query->getQuery()->getResult();
+     }
+    
+    
+    
     public function myFindAll($id_user = null, $user_groups = array()) {
 
         //var_dump($user_groups);

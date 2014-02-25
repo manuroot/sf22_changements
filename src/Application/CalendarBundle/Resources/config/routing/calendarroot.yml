@@ -2,6 +2,11 @@ calendarroot:
     pattern:  /
     defaults: { _controller: "ApplicationCalendarBundle:CalendarRoot:index" }
 
+calendarroot_public:
+    pattern:  /public
+    defaults: { _controller: "ApplicationCalendarBundle:CalendarRoot:indexPublic" }
+
+
 calendarroot_show:
     pattern:  /{id}/show
     defaults: { _controller: "ApplicationCalendarBundle:CalendarRoot:show" }

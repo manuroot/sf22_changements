@@ -343,6 +343,7 @@
             /*===================================
              *
              * CLiker/Editer Event
+             * A changer pour user not connected !!!
              ====================================*/
 
             eventClick: function(calEvent, jsEvent, view) {
@@ -356,17 +357,26 @@
                 console.log("id after click=" + calEvent.id);
                 var border = $(this).css('border-color');
                 $(this).css('border-color', 'red');
+                // ne sert plus
                 ShowInfoBox(calEvent);
 
-
+/* test ??? */
+ var boxmessage =  calEvent.description;
+ /* var boxContentString = $('#createShowModal .modal-content').html(calEvent.description);*/
+  /*$('#createShowModal .modal-content').html(calEvent.description);*/
+  /*console.log("description ??=" + calEvent.description);*/
                 /*    $(".modal-header h3").html("Evenement");*/
+              /*  var boxContentString = "<p>zrererze</p>");*/
+                /*var boxContentString = $('#createShowModal .modal-content').append("zrererze");*/
+/*var boxContentString = $('#createShowModal .modal-body').replace("zrererze");*/
 
-                var boxContentString = $('#createShowModal .modal-content').html();
-
+/*$(this).find(".modal-body").append("test");*/
 
                 bootbox.dialog({
-                    message: boxContentString,
-                    title: "Evenement: " + calEvent.title + " (" + calEvent.id + ")",
+               /*   message: boxContentString,*/
+                    message: boxmessage,
+                    title: "Evenement: " + calEvent.title + " (" + calEvent.id + ")",  
+                   /* content: 'Actual content',*/
                     buttons: {
                         success: {
                             label: "Edit",
@@ -717,6 +727,7 @@
 
 
         function ShowInfoBox(calEvent) {
+            console.log("show infobox params");
             $(this).css('border-color', 'red');
             var start = $.fullCalendar.formatDate(calEvent.start, "yyyy-MM-dd HH:mm:ss");
             var end = $.fullCalendar.formatDate(calEvent.end, "yyyy-MM-dd HH:mm:ss");
@@ -989,7 +1000,7 @@
                 out += i + ": " + obj[i] + "\n";
             }
 
-            alert(out);
+          /*  alert(out);*/
         }
         function getcolor(value) {
             /* var colors=["#94a2be","#993355","#aaaaaa","#f2a640","#b373b3","#668cd9"];*/
@@ -1064,7 +1075,6 @@
 {% block content %}
 
 
-
 {#
 <a data-toggle="modal" href="#myModal" class="btn btn-primary">Launch modal</a>
 
@@ -1089,52 +1099,21 @@
 <div id="loading" >
     <img id="loading-image" src="{{ asset('bootstrap/img/loading.gif') }}" alt="Loading..." />
 </div>
+
 <div id="createShowModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
 
     <div class="modal-dialog">
-        <div class="modal-content">
-
- {# 
-            <div class="modal-body form-horizontal">
-
-              <div class="form-group">
-                    <label class="col-sm-2 control-label" for="inputTitle"><i class="icon-calendar"></i>  Titre:</label>
-                    <div class="col-sm-10 controls" id="stitle"> </div>
-                </div>
-
-
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" for="inputDescription"><i class="icon-calendar"></i>  Description:</label>
-                    <div class="col-sm-10 controls" id="sdescription"></div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="scolor"><i class="icon-pencil"></i>  Background Couleur:</label>
-                    <div class="col-sm-8 controls" id="scolor"></div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="scolorfont"><i class="icon-pencil"></i>  Font Couleur:</label>
-
-                    <div class="col-sm-8 controls" id="scolorfont"></div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" for="when">Date:</label>
-                    <div class="col-sm-10 controls controls-row" id="when" style="margin-top:5px;">
-                    </div>
-                </div>
-
-
-            </div>
-#}
-{#
- <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
-         <button type="button" class="btn btn-warning" >Editer</button>
-          <button type="button" class="btn btn-danger" >Supprimer</button>
-      
-      </div>#}
+        <div class="modal-dialog">
+            <div class="modal-content"><div>kmlklm</div>
+                <div class="modal-body"><div class="bootbox-body"></div>
+                {#><div class="modal-footer"><button data-bb-handler="success" type="button" class="btn btn-success">Edit</button><button data-bb-handler="danger" type="button" class="btn btn-danger">
+                        Supprimer!</button><button data-bb-handler="main" type="button" class="btn btn-primary">Cancel</button></div></div></div>
+        <div class="modal-content">#}
+         
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+</div><!-- /.modal --></div><!-- /.modal -->
 
 <!----------Form NEW Event ----------------->
 <div id="createEventModal" class="modal">
@@ -1214,15 +1193,6 @@
         </div>
 
 
-
-                           {#
-                            <div class="input-group external-infos">
-  <span class="input-group-addon"><i class="fa fa-time"></i></span>
-   <input type="text" class="form-control" placeholder="Date" id="datepicker" />
-                            </div>
-
-                      #}
-
         <h6> <i class="icon-wrench"></i> Catégories:</h6>
 
 
@@ -1258,7 +1228,17 @@
             </div>
         </div>
 
+
+{% else %}
+        <div id="box-buttons">
+
+            <div class="input-group"> 
+                <a href="{{ path('calendarroot_public') }}" class="myleft btn btn-small btn-primary"><i class="fa fa-calendar"></i> Calendriers Publics</a>
+            </div>
+        </div>
+
 {% endif %}
+
 {#
 <p>
 <input type='checkbox' id='drop-remove' /> <label for='drop-remove'>remove after drop</label>

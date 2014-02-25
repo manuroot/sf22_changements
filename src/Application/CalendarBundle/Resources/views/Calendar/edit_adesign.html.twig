@@ -209,7 +209,8 @@ function showRequest(formData, jqForm, options) {
     // DOM element for the form do this: 
     // var formElement = jqForm[0]; 
  
-    alert('About to submit: \n\n' + queryString); 
+ // A remettre pour le debug
+  /*  alert('About to submit: \n\n' + queryString); */
  
     // here we could return false to prevent the form from being submitted; 
     // returning anything other than false will allow the form submit to continue 
@@ -218,7 +219,7 @@ function showRequest(formData, jqForm, options) {
  function processJson(data) { 
     // 'data' is the json object returned from the server 
        console.log("reponse");
-    alert(data.message); 
+  /*  alert(data.message); */
 }
 // post-submit callback 
 function showResponse(responseText, statusText, xhr, $form)  { 
@@ -233,8 +234,8 @@ function showResponse(responseText, statusText, xhr, $form)  {
     // property set to 'json' then the first argument to the success callback 
     // is the json data object returned by the server 
  
-    alert('status: ' + statusText + '\n\nresponseText: \n' + responseText + 
-        '\n\nThe output div should have already been updated with the responseText.'); 
+   /* alert('status: ' + statusText + '\n\nresponseText: \n' + responseText + 
+        '\n\nThe output div should have already been updated with the responseText.'); */
    parent.jQuery.colorbox.close();
 } 
 
@@ -288,7 +289,7 @@ function showResponse(responseText, statusText, xhr, $form)  {
 
             <div class='row'>  
                 <div class='col-xs-12'>
-                    <div class='form-group'>{{ form_row(form.description) }}</div>
+                    <div class='form-group'>{{ form_row(form.description|raw) }}</div>
                 </div>
             </div>
            
