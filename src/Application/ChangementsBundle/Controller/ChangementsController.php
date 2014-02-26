@@ -826,13 +826,15 @@ class ChangementsController extends Controller {
 
             $id = $entity->getId();
             $session = $request->getSession();
-            $session->getFlashBag()->add('notice', 'Email envoyé!');
+            
             $session->getFlashBag()->add('warning', "Enregistrement $id ajouté aux opérations");
             // ajoute des messages flash
+            $session->getFlashBag()->add('notice', 'Email envoyé!');
             $manager = $this->get('changement.common.manager');
             $email_state = $this->container->getParameter('application_changements.email_state');
             $email_to = $this->container->getParameter('application_changements.email_to');
-            $mess = $manager->sendemailChangement($id, $email_state, $email_to);
+            
+           $mess = $manager->sendemailChangement($id, $email_state, $email_to);
             $mess->setBody(
                     $this->renderView(
                             'ApplicationChangementsBundle:Changements:email.html.twig', array(

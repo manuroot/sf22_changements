@@ -98,7 +98,7 @@ class ChangementsManager extends ChangementsBaseManager {
         if ($this->securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
             $user = $this->securityContext->getToken()->getUser();
             $user_id = $user->getId();
-            $demandeur = $user->getUsername();
+           // $demandeur = $user->getUsername();
         } else {
             return false;
         }
