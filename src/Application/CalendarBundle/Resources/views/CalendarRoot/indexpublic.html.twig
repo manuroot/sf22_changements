@@ -9,20 +9,20 @@
 <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/indexfanta.css') }}" type="text/css" media="all"/>
 <link rel="stylesheet" href="{{ asset('css/jquery_flicker/jquery-ui-1.9.2.custom.css') }}" />    
 <link rel="stylesheet" href="{{ asset('jquery/simplecolorpicker/colorPicker.css') }}" type="text/css" media="all"/>
- <style>
-         .single {
-         background-color: #f1f1f1;
-         width:auto;
-        }
-    
-body {
-    margin-left:5px;margin-right:5px;
-}
+<style>
+    .single {
+        background-color: #f1f1f1;
+        width:auto;
+    }
+
+    body {
+        margin-left:5px;margin-right:5px;
+    }
     .container{margin-left:10px;margin-right:10px;}
     .container-fluid{margin-left:10px;margin-right:10px;}
 
 
-    </style> 
+</style> 
 {% endblock %}
 
 
@@ -39,16 +39,16 @@ body {
 
 
 {% block content %}
-    <h1><center> <span class="fa-stack fa-lg">
-  <i class="fa fa-square-o fa-stack-2x"></i>
-  <i class="fa fa-calendar-o fa-stack-1x"></i>
-</span>
-CalendarRoot list</center></h1>
+<h1><center> <span class="fa-stack fa-lg">
+            <i class="fa fa-square-o fa-stack-2x"></i>
+            <i class="fa fa-calendar-o fa-stack-1x"></i>
+        </span>
+        CalendarRoot list</center></h1>
 
 <table class="table table-bordered table-hover">
     <thead>
-          <tr class="single">
-      
+        <tr class="single">
+
             <th>Id</th>
             <th>Nom</th>
             <th class="hidden-xs hidden-sm">Start(Heure)</th>
@@ -56,48 +56,36 @@ CalendarRoot list</center></h1>
             <th class="hidden-xs hidden-sm">Slot (Minutes)</th>
             <th>Owner</th>
            {# <th>Groupes Edition</th>#}
-              <th class="hidden-xs">Groupes Edition</th>
+            <th class="hidden-xs">Groupes Edition</th>
             <th colspan="2">Actions</th>
         </tr>
     </thead>
     <tbody>
         {% for entity in entities %}
             {% set flag="None" %}
-             {% if is_granted('ROLE_ADMIN', entity) and  not is_granted('EDIT', entity)  %} 
-            {% set flag="Admin" %}
-            {% else %}
-            {% set flag="User" %}
-            {% endif %}
-         <tr class="active">
-        <!-- only for admin or owner -->
-    {#     {% if is_granted('EDIT', entity) or is_granted('ROLE_ADMIN', entity) %} #}
-        
-               {# <td><a href="{{ path('calendarroot_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>#}
+        <tr class="active">
             <td>{{ entity.id }}</td>
             <td>{{ entity.nom }}</td>
-             <td  class="hidden-xs hidden-sm">{{ entity.startHour }}</td>
+            <td  class="hidden-xs hidden-sm">{{ entity.startHour }}</td>
             <td  class="hidden-xs hidden-sm">{{ entity.endHour }}</td>
 
             <td class="hidden-xs hidden-sm" >{{ entity.plage }}</td>
- <td>{{ entity.owner }}</td>
-          {#  <td> {{ entity.groupedit|join(', ') }}</td>#}
-         <td class="hidden-xs hidden-sm"> {{ entity.secondgroupedit|join(', ') }}</td>  
-
+            <td>{{ entity.owner }}</td>
+            <td class="hidden-xs hidden-sm"> {{ entity.secondgroupedit|join(', ') }}</td>  
             <td>
                 <form class="useform-{{ entity.id }}" class="form-horizontal" action="{{ path('calendar_indexadesign') }}" method="post">
 
                     <input type="hidden" name="id" value="{{ entity.id }}"/>
-                      <button type="submit" class="btn btn-small btn-warning" style="color: black;"><span class="glyphicon glyphicon-hand-right"></span> Use</button>    
+                    <button type="submit" class="btn btn-small btn-warning" style="color: black;"><span class="glyphicon glyphicon-hand-right"></span> Use</button>    
 
                 </form>
             </td>
         </tr>
-      {#     {% endif %} #}
         {% endfor %}
     </tbody>
 </table>
 <a href="{{ path('calendar_indexadesign') }}" class="myleft btn btn-small btn-primary">Retour Calendrier</a>    
-    
+
     {% endblock %}
 {#
  {% block footer %} {% endblock %}
