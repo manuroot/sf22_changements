@@ -822,14 +822,15 @@ class ChangementsController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-
-
-            $id = $entity->getId();
+            echo "here";exit(1);
+              $id = $entity->getId();
             $session = $request->getSession();
             
             $session->getFlashBag()->add('warning', "Enregistrement $id ajouté aux opérations");
             // ajoute des messages flash
-            $session->getFlashBag()->add('notice', 'Email envoyé!');
+           /*
+             $session->getFlashBag()->add('notice', 'Email envoyé!');
+            
             $manager = $this->get('changement.common.manager');
             $email_state = $this->container->getParameter('application_changements.email_state');
             $email_to = $this->container->getParameter('application_changements.email_to');
@@ -842,6 +843,8 @@ class ChangementsController extends Controller {
                         'entity' => $entity)
                     ), 'text/html');
             $this->get('mailer')->send($mess);
+            * */
+           
             return $this->check_retour();
         }
         return $this->render('ApplicationChangementsBundle:Changements:new.html.twig', array(
