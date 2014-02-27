@@ -23,7 +23,19 @@ sonata_media:
                 big:   { width: 500 , quality: 70}
                 mini: { width: 50 , quality: 70}
 
-      
+        changements_files:
+            download:
+                strategy: sonata.media.security.superadmin_strategy
+                mode: http
+            providers:
+                - sonata.media.provider.image
+                - sonata.media.provider.file
+            formats:
+                small: { width: 100 , quality: 70}
+                big:   { width: 500 , quality: 70}
+                mini: { width: 50 , quality: 70}
+
+                
         news:
             download:
                 strategy: sonata.media.security.superadmin_strategy

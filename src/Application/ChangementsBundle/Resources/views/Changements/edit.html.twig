@@ -35,7 +35,9 @@
         }
 
         .mytiny {width:30%;}
-        .tinymce {height:300px;}
+        
+      /* .cke_contents { height: 400px !important; }*/
+        .tinymce {height:500px;}
         td.description {text-align:center;vertical-align:middle;}
         .lastcol {max-width:200px}
         /*select#changements_idapplis,select#changements_idusers{height:200px;}*/
@@ -103,7 +105,7 @@ width:98%;
 
 {% block javascripts %}
 {{ parent() }}
-{{ tinymce_init() }}
+{#{{ tinymce_init() }}#}
          <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
         <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/applicationchangements/js/datenew.js') }}"></script>
@@ -233,7 +235,8 @@ $.each($(".select2-container"), function (i, n) {
                 </tr>
                 <tr>
                     <td class="calendar description" colspan="3">
-                        {{ form_row(edit_form.description,{ 'attr': {'class': 'tinymce'} }) }}
+                         {{ form_row(edit_form.description,{ 'attr': {'class': 'tinymce'} }) }}
+                        
                         </td>
                </tr>
 {#=====================================================================

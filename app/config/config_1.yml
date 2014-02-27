@@ -315,6 +315,26 @@ oneup_uploader:
 
 
 ivory_ck_editor:
+    default_config: full
+    configs:
+        full:
+            toolbar: full
+            allowedContent: true
+            entities: false
+            filebrowserBrowseRoute: elfinder
+        standard:
+            toolbar: standard
+            allowedContent: true
+            entities: false
+            filebrowserBrowseRoute: elfinder
+        basic:
+            toolbar: basic
+            allowedContent: true
+            entities: false
+            filebrowserBrowseRoute: elfinder
+
+
+ivory_ck_editor:
     default_config: default
     configs:
         default:
@@ -330,7 +350,7 @@ ivory_ck_editor:
             filebrowserImageUploadRoute: admin_sonata_media_media_ckeditor_upload
             filebrowserImageUploadRouteParameters:
                 provider: sonata.media.provider.image
-                #context: my-context # Optional, to upload in a custom context
+                context: my-context # Optional, to upload in a custom context
         my_config:
             filebrowserBrowseRoute: admin_sonata_media_media_ckeditor_browser
             filebrowserImageBrowseRoute: admin_sonata_media_media_ckeditor_browser
@@ -339,12 +359,12 @@ ivory_ck_editor:
                 provider: sonata.media.provider.image
             filebrowserUploadRoute: admin_sonata_media_media_ckeditor_upload
             filebrowserUploadRouteParameters:
-                provider: sonata.media.provider.image
+                provider: sonata.media.provider.file
             # Upload file as image when sending a file from the image dialog
             filebrowserImageUploadRoute: admin_sonata_media_media_ckeditor_upload
             filebrowserImageUploadRouteParameters:
                 provider: sonata.media.provider.image
-                context: changements_files
+                context: my-context # Optional, to upload in a custom context
                 
             full:
               toolbar: full

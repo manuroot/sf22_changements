@@ -339,7 +339,7 @@ ivory_ck_editor:
                 provider: sonata.media.provider.image
             filebrowserUploadRoute: admin_sonata_media_media_ckeditor_upload
             filebrowserUploadRouteParameters:
-                provider: sonata.media.provider.image
+                provider: sonata.media.provider.file
             # Upload file as image when sending a file from the image dialog
             filebrowserImageUploadRoute: admin_sonata_media_media_ckeditor_upload
             filebrowserImageUploadRouteParameters:

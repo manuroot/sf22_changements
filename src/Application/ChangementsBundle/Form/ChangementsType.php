@@ -142,14 +142,22 @@ $builder
                     ),
                     'required' => true,
                 ))
+        ->add('description', 'ckeditor', array(
+                    'config_name' => 'my_config',
+            
+                ))
         
-        ->add('description', 'textarea', array(
+      /*  ->add('description', 'textarea', array(
         'attr' => array(
             'class' => 'tinymce',
             'data-theme' => 'advanced' // simple, advanced, bbcode
         ),
               'required' => false,
-    ))
+    ))*/
+        
+        
+        
+        
        //  ->add('description', 'textarea')
               /*  ->add('description', 'textarea', array(
                     'attr' => array(
