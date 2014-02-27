@@ -115,7 +115,7 @@ $builder
                     'required' => false,
                 ))
                 ->add('dateComep', 'date', array(
-                    'label' => 'Date Comep',
+                    'label' => 'Date de Comep',
                     'widget' => 'single_text',
                     'widget_addon' => array(
                         'icon' => 'time',
@@ -124,7 +124,7 @@ $builder
                     'required' => false,
                 ))
                 ->add('dateVsr', 'date', array(
-                    'label' => 'Date VSR',
+                    'label' => 'Date de VSR',
                     'widget' => 'single_text',
                     'widget_addon' => array(
                         'icon' => 'time',
@@ -134,7 +134,7 @@ $builder
                 ))
         
          ->add('dateDemande', 'date', array(
-                    'label' => 'Date Demande',
+                    'label' => 'Date Demande (CTI)',
                     'widget' => 'single_text',
                     'widget_addon' => array(
                         'icon' => 'time',
