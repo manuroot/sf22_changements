@@ -1,0 +1,49 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Todolist list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Text</th>
+                <th>Name</th>
+                <th>Xyz</th>
+                <th>Date</th>
+                <th>Wh</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('todolist_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.text }}</td>
+                <td>{{ entity.name }}</td>
+                <td>{{ entity.xyz }}</td>
+                <td>{% if entity.date %}{{ entity.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.wh }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('todolist_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('todolist_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('todolist_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

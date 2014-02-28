@@ -1,0 +1,86 @@
+<form role="form" id="thesearchform" class="form" action="{{ path(tpl_path) }}" method="POST" {{ form_enctype(search_form) }}>
+    <div class="row">
+  <div class="col-xs-2">
+     <div class="form-group">
+    <label for="exampleInputEmail1"> {{ form_label(search_form.nom) }}</label>
+    {{ form_widget(search_form.nom) }}
+  </div>
+  </div>
+  <div class="col-xs-3">
+   <div class="form-group">
+    <label>Password</label>
+     <div class="first">{{ form_row(search_form.dateDebut) }}</div>
+  </div>
+       <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+  </div>
+  </div>
+  <div class="col-xs-4">
+     <div class="form-group">
+    <label for="exampleInputFile">File input</label>
+    <input type="file" id="exampleInputFile">
+    <p class="help-block">Example block-level help text here.</p>
+  </div>
+  </div>
+</div>
+  
+ 
+ 
+  <div class="checkbox">
+    <label>
+      <input type="checkbox"> Check me out
+    </label>
+  </div>
+
+    <table class="table-mybordered">
+
+    <tr><td class="calendar">
+   
+      <br/>
+        {{ form_row(search_form.idusers) }}
+    {{ form_row(search_form.description) }}
+  
+   
+        {#<input id="changements_searchfilter_idusers_cl" class="btn-info" type="button" value="Clear"></input>#}
+    {{ form_row(search_form.demandeur) }}
+   
+    </td>
+    <td class="calendar central"> 
+        Date Début Opération
+       
+        <div class="second">{{ form_row(search_form.dateDebut_max) }}</div>
+    <br><br>
+       Date Fin Opération
+        <div class="first">{{ form_row(search_form.dateFin) }}</div>
+       <div class="second">{{ form_row(search_form.dateFin_max) }} </div>
+         <br><br>
+          <div class="txtfirst">Ticket Samy </div>
+          <div class="txtsecond">Ticket CF</div>
+        <br />
+       <div class="first">{{ form_widget(search_form.ticketExt) }}</div>
+       <div class="second">{{ form_widget(search_form.ticketInt ) }} </div>
+      
+ 
+     </td>
+    <td class="calendar">
+         {{ form_row(search_form.idEnvironnement) }}
+        {#         <input id="changements_searchfilter_idEnvironnement_cl" class="btn-info" type="button" value="Clear"></input>
+        #}
+ {{ form_row(search_form.idProjet) }}
+          {#      <input id="changements_searchfilter_idProjet_cl" class="btn-info" type="button" value="Clear"></input>
+           #}  
+
+{# {{ form_row(search_form.idStatus) }}#}
+         {#   <input id="changements_searchfilter_idStatus_cl" class="btn-info" type="button" value="Clear"></input>
+             #}
+    
+    {{ form_rest(search_form) }}</td>
+    </tr>
+    <tr><td class="calendar" colspan="3">
+       <button id="filter" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="filter" >
+          <i class="icon-search icon-mesfiltres"></i>  Filtrer</button>
+    </tr>
+    </tbody>
+    </table>
+ </form>

@@ -1,0 +1,30 @@
+categoriesnotes:
+    pattern:  /
+    defaults: { _controller: "ApplicationMyNotesBundle:NotesCategories:index" }
+
+categoriesnotes_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationMyNotesBundle:NotesCategories:show" }
+
+categoriesnotes_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationMyNotesBundle:NotesCategories:new" }
+
+categoriesnotes_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationMyNotesBundle:NotesCategories:create" }
+    requirements: { _method: post }
+
+categoriesnotes_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationMyNotesBundle:NotesCategories:edit" }
+
+categoriesnotes_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationMyNotesBundle:NotesCategories:update" }
+    requirements: { _method: post }
+
+categoriesnotes_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationMyNotesBundle:NotesCategories:delete" }
+    requirements: { _method: post }

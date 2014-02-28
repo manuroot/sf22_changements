@@ -1,0 +1,20 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Todolist creation</h1>
+
+    <form action="{{ path('todolist_create') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+        <p>
+            <button type="submit">Create</button>
+        </p>
+    </form>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('todolist') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}

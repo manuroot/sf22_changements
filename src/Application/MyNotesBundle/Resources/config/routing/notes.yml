@@ -1,0 +1,68 @@
+notes:
+    pattern: /
+    defaults: { _controller: "ApplicationMyNotesBundle:Notes:index" }
+
+notessticky:
+    pattern: /sticky
+    defaults: { _controller: "ApplicationMyNotesBundle:Notes:indexsticky" }
+
+notesisotpe:
+    pattern: /isotope
+    defaults: { _controller: "ApplicationMyNotesBundle:Notes:indexisotope" }
+
+notestodolist:
+    pattern: /todo
+    defaults: { _controller: "ApplicationMyNotesBundle:Notes:indextodo" }
+ 
+notestodolista:
+    pattern: /todoa
+    defaults: { _controller: "ApplicationMyNotesBundle:Notes:indextodoa" }
+    
+notesupdatepos:
+    pattern: /updatepos
+    defaults: { _controller: "ApplicationMyNotesBundle:Notes:updatepos" }
+    requirements: { _method: post }
+
+notes_ajax_delete:
+    pattern: /ajaxdelete
+    defaults: { _controller: "ApplicationMyNotesBundle:Notes:ajaxdelete" }
+    requirements: { _method: post }
+    
+    
+notesfanta:
+    pattern: /fanta/{page}
+    defaults: { _controller: ApplicationMyNotesBundle:Notes:viewfanta,page: 1 }
+    requirements:
+       _method: GET
+       page: \d+
+
+notesapy:
+    pattern: /apy
+    defaults: { _controller: ApplicationMyNotesBundle:Notes:viewapy }
+       
+notes_show:
+    pattern: /{id}/show
+    defaults: { _controller: "ApplicationMyNotesBundle:Notes:show" }
+
+notes_new:
+    pattern: /new
+    defaults: { _controller: "ApplicationMyNotesBundle:Notes:new" }
+
+notes_create:
+    pattern: /create
+    defaults: { _controller: "ApplicationMyNotesBundle:Notes:create" }
+    requirements: { _method: post }
+
+notes_edit:
+    pattern: /{id}/edit
+    defaults: { _controller: "ApplicationMyNotesBundle:Notes:edit" }
+
+notes_update:
+    pattern: /{id}/update
+    defaults: { _controller: "ApplicationMyNotesBundle:Notes:update" }
+    requirements: { _method: post }
+
+notes_delete:
+    pattern: /{id}/delete
+    defaults: { _controller: "ApplicationMyNotesBundle:Notes:delete" }
+   # requirements: { _method: post }

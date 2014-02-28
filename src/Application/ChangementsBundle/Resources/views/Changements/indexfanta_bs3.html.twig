@@ -1,0 +1,188 @@
+{#{% extends "ApplicationChangementsBundle::layout.html.twig" %}#}
+{% extends "::layout_bs3.html.twig" %}
+{% form_theme search_form with 'ApplicationChangementsBundle:Form:tpl_searchform.html.twig' %}
+
+
+  {# <script>var menuDownUrl = "{{ asset('bundles/applicationcertificats/images/') }}";</script>#}
+
+{% macro glyphicon_class( type ) %}
+  {% set type_class_map = {
+    like: 'glyphicon-user'
+  } %}
+  {{ type_class_map[type] }}
+{% endmacro %}
+
+
+  {% block stylesheets %}
+
+
+{{ parent() }}
+{% stylesheets 
+                'bundles/applicationchangements/css/sliding.css' 
+                'bundles/applicationchangements/css/changements.css' 
+               'bundles/applicationchangements/css/colorbox.css' 
+
+                output='bundles/applicationchangements/css/ccpchangements.css' filter='?yui_css' %}
+<link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
+{% endstylesheets %}
+
+<link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
+<link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/indexfanta.css') }}" type="text/css" media="all"/>
+
+<style>
+    a.firstbutton{ margin-left:20px;}
+    .popover {
+        max-width: 300px;
+        min-width:150px;
+        width: auto;
+    }
+    
+.popover-content {
+ font-size:14px;
+}
+    div.etat { position:relative;float:right;margin-right:10px;}
+    .show_favoris  {float:right;margin-right: 20px;}
+    .my-star>i { color: yellow; }
+    .my-nice-button>i { color: blue; }
+    *.icon-silver {color: silver}
+    *.icon-blue {color: blue}
+    /*  .js #ShowHideContainer {display: none;}*/
+    .first,#contain-matable,#footer {display: none;}
+    tr.error {background-color: red;}
+    /*
+    tr.title { background-color:rgba(0,119,204,0.8);}
+     tr.title i{ color:black;}
+     tr.title a{ color:black;}*/
+    /* .second {display: none;}*/
+</style>   
+    {{ form_stylesheet(search_form) }}
+
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script type="text/javascript" src="{{ asset('select2/select2.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
+<script type="text/javascript" src="{{ asset('jquery/idletime/jquery.idletimer.js') }}"></script>
+<script type="text/javascript" src="{{ asset('jquery/idletime/jquery.idletimeout.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/idletimer.js') }}"></script>
+    {% javascripts 
+    '@ApplicationChangementsBundle/Resources/public/js/jquery.cookie.js'
+    '@ApplicationChangementsBundle/Resources/public/js/changementsown.js'
+    '@ApplicationChangementsBundle/Resources/public/js/jquery.colorbox.js'
+    '@ApplicationChangementsBundle/Resources/public/js/changementsfanta.js'
+      output='js/compiled/changementsown.js' filter='?yui_js' %}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+<script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>
+    {{ form_javascript(search_form) }}
+<script type="text/javascript">
+    /* $(document).onload(function() { $("div#matable").hide();});*/
+    $(document).ready(function() {
+        $('select#changements_searchfilter_idStatus').removeClass('hidden');
+        /* $("select#changements_searchfilter_idStatus").show("fade");*/
+        $(".first").show("fade");
+
+        $("div#contain-matable").show("fade");
+        $("div#footer").show("fade");
+         $("a.mytooltip-header").popover(
+            {html: true, delay: {show: 300, hide: 300}, placement: 'bottom', trigger: 'hover'}
+    );
+    
+        /* $("a.mytooltip-header").popover({delay: {show: 300, hide: 300}, placement: 'bottom', trigger: 'hover'});*/
+         
+        /*  $(".second").show("fade",800);*/
+        /* $("#matable").show();*/
+        // Stuff to do as soon as the DOM is ready
+    });
+</script>  
+{% endblock %}
+
+{% block content_header '' %}
+
+{% block title %}
+
+    <div class="row">
+        <div class="col-lg-8" style="text-align:right;">
+            <span class="icon-stack">
+    <i class="icon-check-empty icon-stack-base"></i>
+    <i class="icon-table"></i>
+</span>    PLANNING DES OPERATIONS 
+        </div>
+        <div class="col-lg-4">
+            <a id="mytitleb" class="firstbutton mytitleb btn btn-medium btn-info" href="#">
+    <i class="glyphicon glyphicon-pencil icon-2x"></i> <div class="montext">{{ nbResults }}</div>
+</a> 
+<a class="mytooltip-header btn btn-small btn-info" href="{{ path('wdcalendar_indexadesignchangement') }}" rel="tooltip" data-content="Calendrier" data-original-title="Information" data-toggle="tooltip">
+    <i class="glyphicon glyphicon-calendar icon-2x"></i>
+</a> 
+        
+<a class="mytooltip-header btn btn-small btn-info" href="{{ path('docchangements') }}" rel="tooltip" data-content="Fichiers" data-original-title="Information" data-toggle="tooltip">
+    <i class="glyphicon glyphicon-file icon-2x"></i>
+</a> 
+        
+<a class="mytooltip-header btn btn-small btn-info" href="{{ path('changements_charts') }}" rel="tooltip" data-content="Graphiques" data-original-title="Information" data-toggle="tooltip">
+    <i class="glyphicon glyphicon-barcode icon-2x"></i>
+</a> 
+            
+        </div>
+    </div>
+
+
+
+<div id="popover-content" class="hide mycontent" > 
+    <h4>
+        Statut des Demandes<br>
+      {% for key, value in nb_status %}
+
+        <img src="{{ asset('bundles/applicationchangements/images/') }}{{ key }}.png" alt="show" width="20px" height="20px"/><div class="etat">{{ value }}</div>
+        <br/>{% endfor %}</h4>
+</div>  
+
+{% endblock %}
+
+{% block content %}
+
+<div id="dialog" class="hidden" title="Votre session va expirer !">
+    <p>
+        <span class="ui-glyphicon ui-glyphicon-alert" style="float:left; margin:0 7px 50px 0;"></span>
+        Vous serez déconnecté dans <span id="dialog-countdown" style="font-weight:bold"></span> seconds.
+    </p>
+
+    <p>Voulez-vous continuer votre session?</p>
+</div>
+
+{% set dateright = '30' %}
+{% set date_right_warning= '+' ~  dateright ~ 'days' %}
+{#{% set date_right_warning= '+15days' %}#}
+
+{% include 'ApplicationChangementsBundle:templates:flash.html.twig' %}
+
+
+{% include 'ApplicationChangementsBundle:templates:container_search.html.twig' 
+        with {
+            'form_path': 'changements_fanta',
+            'status_form':status_form,
+            'search_form': search_form,'box':"showhideboxown",
+            'new_flow_path': 'changements_newflowstart',
+            'new_path': 'changements_newchangement',
+            'new_text':"Ajouter une Opération",
+            'fav':"s_fanta",
+            'include_html_search':  'ApplicationChangementsBundle:Changements:indexsearchsimple_form.html.twig'
+        }
+%}
+<div id="contain-matable">
+    <div id="matable">           
+{% include 'ApplicationChangementsBundle:templates:table_fanta.html.twig' with { 'index_path': 'changements_fanta' }%}  
+    </div>
+    <div class="pagination" align="center">
+            {{ pagerfanta(pagerfanta, 'twitter_bootstrap') }}
+    </div>
+    <br>
+</div>   
+{% endblock %}

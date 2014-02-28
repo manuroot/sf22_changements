@@ -1,0 +1,86 @@
+{% extends "ApplicationMyNotesBundle::layout.html.twig" %}
+
+{% block javascripts %}
+{{ parent() }}
+{% endblock %}
+
+{% block title %}{{ parent() }} Liste- {% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+
+ <a href="{{ path('notes_new') }}" class="btn  btn-warning">Ajouter Note</a>
+<br><br>
+
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+       
+    
+<tr>
+{# sorting of properties based on query components #}
+    <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
+    <th{% if pagination.isSorted('a.text') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Text', 'a.text') }}</th>
+      <th{% if pagination.isSorted('a.name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'name', 'a.text') }}</th>  
+      <th{% if pagination.isSorted('a.xyz') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'xyz', 'a.name') }}</th>
+      <th{% if pagination.isSorted('a.dt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Dt', 'a.dt') }}</th>
+      <th{% if pagination.isSorted('a.wh') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Proprio', 'a.wh') }}</th>
+      <th{% if pagination.isSorted('a.proprio') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Proprio', 'a.proprio') }}</th>
+        <th{% if pagination.isSorted('a.classement') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'classement', 'a.classement') }}</th>
+        
+          <th{% if pagination.isSorted('c.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Color', 'c.nom') }}</th>
+          <th{% if pagination.isSorted('b.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Categories', 'b.nom') }}</th>
+          
+        <th>View</th>          <th>Edit</th> <th>Delete</th>
+</tr>
+</thead>
+{# table body #}
+{% for entity in pagination %}
+<!--<tr {% if loop.index is odd %}class="color"{% endif %}>-->
+             {#% debug entities.categories%#}
+            <tr>
+
+                <td>{{ entity.id }}</td>
+                <td>{{ entity.text }}</td>
+                <td>{{ entity.name }}</td>
+                <td>{{ entity.xyz }}</td>
+                <td>{% if entity.dt %}{{ entity.dt|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ entity.wh }}</td>
+                <td>{{ entity.proprietaire }}</td>
+                <td>{{ entity.classement }}</td>
+          <td>{{ entity.color.nom }}</td>
+             <td>{{ entity.categories.nom }}</td>
+                   <td>
+                    <a href="{{ path('notes_show', { 'id': entity.id }) }}">
+                        <img src="{{ asset('bundles/applicationmynotes/images/detail.png') }}" alt="notes_show" width="15" height="15" />
+                    </a>
+                </td>
+                <td>
+
+
+                    <a href="{{ path('notes_edit', { 'id': entity.id }) }}">
+                        <img src="{{ asset('bundles/applicationmynotes/images/edit.png') }}" alt="notes_edit" width="15" height="15" />
+                    </a>
+                </td>
+                <td>
+
+
+                    <a href="{{ path('notes_delete', { 'id': entity.id }) }}">
+                        <img src="{{ asset('bundles/applicationmynotes/images/delete.png') }}" alt="notes_delete" width="15" height="15" />
+                    </a>
+                </td>
+
+            </tr>
+    {% endfor %}
+
+
+</table>
+
+{# display navigation #}
+<!--<div class="navigation">-->
+   
+    {{ knp_pagination_render(pagination) }}
+<!--</div>-->
+
+
+{% endblock %}

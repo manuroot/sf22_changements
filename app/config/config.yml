@@ -351,11 +351,14 @@ ivory_ck_editor:
               allowedContent: true
               entities: false
               filebrowserBrowseRoute: elfinder
+              
+        simple_config:
             standard:
                 toolbar: standard
                 allowedContent: true
                 entities: false
                 filebrowserBrowseRoute: elfinder
+        basic_config:
             basic:
                toolbar: basic
                allowedContent: true

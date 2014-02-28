@@ -1,0 +1,57 @@
+{% extends "ApplicationMyNotesBundle::layouttodo.html.twig" %}
+
+  {% block stylesheets %}
+   {{parent()}}
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.css') }}" type="text/css" />
+        <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-responsive.css') }}" type="text/css" />
+   
+     <link rel="stylesheet" href="{{ asset('bundles/applicationepost/css/sliding.css') }}" type="text/css" media="all"/>
+   <link rel="stylesheet" href="{{ asset('css/jquery-ui-1.9.2.custom.css') }}" type="text/css" media="all"/>
+      <link rel="stylesheet" href="{{ asset('bundles/applicationmynotes/css/todo.css') }}" type="text/css" media="all"/>
+
+ {% endblock %}
+
+{% block title %}{{ parent() }} Liste- {% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+
+ <a href="{{ path('notes_new') }}" class="btn btn-warning">Ajouter Note</a>
+<br><br>
+
+
+    
+<div id="main">
+     	<h1>Ma TODO-LIST</h1>
+
+		<div class="shoppingList">
+                  <ul>  
+                    {% for entity in pagination %}
+                      {#{{ entity.text|raw }}#}
+                      {% set mypos = entity.xyz|split('x') %}
+                     {% set mysize = entity.wh|split('x') %}
+<!--<tr {% if loop.index is odd %}class="color"{% endif %}>-->
+             {#% debug entities.categories%#}
+                          <li>{{entity.text|raw}}</li>
+   
+    
+    {% endfor %}
+			
+		</div>
+<div class="done"></div>
+</div>
+{% endblock %}
+
+	
+
+         
+    {% block javascripts %}
+   <script src="{{ asset('jquery/jquery-1.8.3.js') }}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{ asset('jquery/jquery-ui-1.9.2.custom.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bootstrap/js/bootstrap.js') }}"></script>
+     <script type="text/javascript" src="{{ asset('bundles/applicationmynotes/js/jquery.shoppingList.js') }}"></script>
+ <script type="text/javascript" src="{{ asset('bundles/applicationmynotes/js/script.js') }}"></script>
+ 
+{% endblock %}
+ 

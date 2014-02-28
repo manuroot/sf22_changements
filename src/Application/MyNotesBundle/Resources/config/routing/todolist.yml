@@ -1,0 +1,30 @@
+todolist:
+    pattern:  /
+    defaults: { _controller: "ApplicationMyNotesBundle:Todolist:index" }
+
+todolist_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationMyNotesBundle:Todolist:show" }
+
+todolist_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationMyNotesBundle:Todolist:new" }
+
+todolist_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationMyNotesBundle:Todolist:create" }
+    requirements: { _method: post }
+
+todolist_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationMyNotesBundle:Todolist:edit" }
+
+todolist_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationMyNotesBundle:Todolist:update" }
+    requirements: { _method: post|put }
+
+todolist_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationMyNotesBundle:Todolist:delete" }
+    requirements: { _method: post|delete }

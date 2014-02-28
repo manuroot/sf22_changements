@@ -1,0 +1,96 @@
+{% extends "ApplicationMyNotesBundle::layouttodo.html.twig" %}
+
+  {% block stylesheets %}
+   {{parent()}}
+     <link rel="stylesheet" href="{{ asset('bundles/applicationmynotes/css/style.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bundles/applicationmynotes/css/devheart-examples.css') }}" type="text/css" media="all"/>
+{#
+http://devheart.org/examples/jquery-customizable-layout-using-drag-and-drop/2-saving-and-loading-items/index.html
+#}
+<style>
+h2 {
+    margin:2px;
+    background-color: #d1d1d1;
+    border: 1px solid #000000;
+}
+
+</style>
+ {% endblock %}
+
+{% block title %}{{ parent() }} Liste- {% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+
+ <a href="{{ path('notes_new') }}" class="btn btn-warning">Ajouter Note</a>
+<br><br>
+
+
+    
+<div id="main">
+     <div class="dhe-example-section" id="ex-2-1">
+		<div class="dhe-example-section-header">
+			<h3 class="dhe-h3 dhe-example-title">NOTES</h3>
+			<div class="dhe-example-description">Get a string representing the items (re-order the items to see that it changes).</div>
+		</div>
+		<div class="dhe-example-section-content">
+
+			<!-- BEGIN: XHTML for example 2.1 -->
+
+			<div id="example-2-1">
+
+<p><input class="input-button" id="btn-get" value="Get items" type="submit"></p>
+<p><input class="input-button" id="btn-get" value="Save items" type="submit"></p>
+
+				<div class="column left first">
+                                  
+  <h2>col1</h2>	
+			<ul class="sortable-list ui-sortable">
+		 {% for entity in pagination %}
+                      {% set mypos = entity.xyz|split('x') %}
+                     {% set mysize = entity.wh|split('x') %}
+                      <li style="" class="sortable-item" id="{{entity.id}}">{{entity.name}}({{entity.id}})</li>
+    {% endfor %}     
+                          </ul>
+	</div>
+
+				<div class="column left">
+                                    <h2>col2</h2>
+
+					<ul class="sortable-list ui-sortable">
+						<li class="sortable-item" id="C">Sortable item C</li><li style="" class="sortable-item" id="A">Sortable item A</li><li style="" class="sortable-item" id="B">Sortable item B</li>
+						
+					</ul>
+
+				</div>
+
+				<div class="column left">
+                                    <h2>col3</h2>
+
+					<ul class="sortable-list ui-sortable">
+						<li style="" class="sortable-item" id="D">Sortable item D</li>
+					</ul>
+			</div>
+		</div>
+			<div class="clearer">&nbsp;</div>
+		</div>
+	</div>
+        
+
+{% endblock %}
+
+	
+
+         
+    {% block javascripts %}
+    <script src="{{ asset('jquery/jquery-1.8.3.js') }}" type="text/javascript"></script>
+    {#<script type="text/javascript" src="{{ asset('bootstrap/js/bootstrap.js') }}"></script>#}
+    <script type="text/javascript" src="{{ asset('jquery/jquery-ui-1.9.2.custom.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/applicationmynotes/js/jquery_cookies.js') }}"></script>
+      <script type="text/javascript" src="{{ asset('bundles/applicationmynotes/js/todolist.js') }}"></script>
+      {#
+    <script type="text/javascript" src="{{ asset('bootstrap/js/bootstrap.js') }}"></script>
+  #}
+{% endblock %}
+ 

@@ -60,6 +60,7 @@ class AppKernel extends Kernel {
             new Application\CertificatsBundle\ApplicationCertificatsBundle(),
             new Application\ChangementsBundle\ApplicationChangementsBundle(),
             new Application\RelationsBundle\ApplicationRelationsBundle(),
+             new Application\MyNotesBundle\ApplicationMyNotesBundle(),
             new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
             //new Ivory\GoogleMapBundle\IvoryGoogleMapBundle(),
             //====================================================

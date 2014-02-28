@@ -23,26 +23,11 @@ sonata_media:
                 big:   { width: 500 , quality: 70}
                 mini: { width: 50 , quality: 70}
 
-        changements_files:
+        changement_files:
             download:
-                strategy: sonata.media.security.superadmin_strategy
+                strategy: sonata.media.security.connected_strategy
                 mode: http
             providers:
-                - sonata.media.provider.image
-                - sonata.media.provider.file
-            formats:
-                small: { width: 100 , quality: 70}
-                big:   { width: 500 , quality: 70}
-                mini: { width: 50 , quality: 70}
-
-                
-        news:
-            download:
-                strategy: sonata.media.security.superadmin_strategy
-                mode: http
-            providers:
-                - sonata.media.provider.dailymotion
-                - sonata.media.provider.youtube
                 - sonata.media.provider.image
                 - sonata.media.provider.file
 
@@ -50,17 +35,8 @@ sonata_media:
                 small: { width: 150 , quality: 95}
                 big:   { width: 500 , quality: 90}
                 mini: { width: 50 , quality: 70}
-        avatar:
-            download:
-                strategy: sonata.media.security.superadmin_strategy
-                mode: http
-            providers:
-                - sonata.media.provider.image
+               
         
-            formats:
-                small: { width: 150 , quality: 95}
-                big:   { width: 500 , quality: 90}
-                mini: { width: 50 , quality: 70}
     cdn:
         server:
             path:      /uploads/media # http://media.sonata-project.org
@@ -111,6 +87,9 @@ sonata_media:
             cdn:        sonata.media.cdn.server
             generator:  sonata.media.generator.default
             thumbnail:  sonata.media.thumbnail.format
+            allowed_extensions: ['jpg', 'png', 'gif', 'jpeg']
+            allowed_mime_types: ['image/pjpeg','image/jpeg','image/png','image/x-png', 'image/gif']
+          
 
         youtube:
             resizer:    sonata.media.resizer.simple

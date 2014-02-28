@@ -14,7 +14,9 @@ application_calendar:
     resource: "@ApplicationCalendarBundle/Resources/config/routing.yml"
     prefix:   /
     
-    
+notes:
+    resource: '@ApplicationMyNotesBundle/Resources/config/routing.yml'
+    prefix: /notes  
 central_routes:
     resource: "@ApplicationCentralBundle/Resources/config/routing.yml"
     prefix:   /

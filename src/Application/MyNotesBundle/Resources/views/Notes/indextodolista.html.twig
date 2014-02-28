@@ -1,0 +1,88 @@
+{% extends "ApplicationMyNotesBundle::layouttodo.html.twig" %}
+
+  {% block stylesheets %}
+   {{parent()}}
+   <link rel="stylesheet" href="{{ asset('bundles/applicationmynotes/css/style.css') }}" type="text/css" media="all"/>
+ 
+
+
+{#
+http://devheart.org/examples/jquery-customizable-layout-using-drag-and-drop/2-saving-and-loading-items/index.html
+#}
+{% endblock %}
+
+   
+{% block title %}{{ parent() }} Liste- {% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+ 
+    {# <div class="dhe-example-section" id="ex-2-1">#}
+		<div class="dhe-example-section-header">
+			<h3 class="dhe-h3 dhe-example-title">NOTES</h3>
+			
+    
+    <a href="{{ path('notes_new') }}" class="btn btn-warning">Ajouter Note</a>
+    <input class="input-button btn btn-warning" id="btn-get" value="Get items" type="submit">
+    <input class="input-button btn btn-warning" id="btn-save" value="Save items" type="submit">
+    <div class='trash'>Corbeille</div> 
+    
+    </div>
+        
+		<div class="dhe-example-section-content">
+
+			<!-- BEGIN: XHTML for example 2.1 -->
+
+<div id="example-2-1">
+
+
+
+<div class="column left first">
+    <h3 class="color-red">URGENT</h3>	
+		<ul class="sortable-list ui-sortable">
+		{% for entity in pagination %}
+                    {% set mypos = entity.xyz|split('x') %}
+                    {% set mysize = entity.wh|split('x') %}
+                    <li style="" class="sortable-item widget color-red" id="{{entity.id}}">
+                    <span class="check unchecked"></span>
+                    {{entity.name}}({{entity.id}})</li>
+                {% endfor %}     
+                </ul>
+</div>
+
+<div class="column left">
+    <h3 class="color-blue">IMPORTANT</h3>
+    <ul class="sortable-list ui-sortable">
+        <li class="sortable-item widget color-blue" id="C">
+        <span class="check unchecked"></span>Sortable item C</li>
+    </ul>
+</div>
+
+<div class="column left">
+    <h3 class="color-yellow">STANDARD</h3>
+    <ul class="sortable-list ui-sortable">
+        <li style="" class="sortable-item widget color-yellow" id="D">
+        <span class="check unchecked"></span>
+        Sortable item D
+        </li>
+    </ul>
+</div>
+
+</div>
+<div class="clearer">&nbsp;</div>
+</div>
+
+
+{% endblock %}
+
+	
+
+         
+    {% block javascripts %}
+    <script src="{{ asset('jquery/jquery-1.10.0.js') }}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{ asset('jquery/jquery-ui-1.9.2.custom.min.js') }}"></script>
+     <script type="text/javascript" src="{{ asset('bootstrap/js/bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/applicationmynotes/js/jquery.cookie.js') }}"></script>
+      <script type="text/javascript" src="{{ asset('bundles/applicationmynotes/js/todolist.js') }}"></script>
+{% endblock %}

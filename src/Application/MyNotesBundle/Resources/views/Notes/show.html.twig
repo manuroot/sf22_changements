@@ -1,0 +1,54 @@
+{% extends "ApplicationMyNotesBundle::layout.html.twig" %}
+
+{% block title %}Symfony 2.1- Demos {% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+
+<h1>Notes</h1>
+
+<table class="table table-striped table-bordered table-hover">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Text</th>
+            <td>{{ entity.text }}</td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td>{{ entity.name }}</td>
+        </tr>
+        <tr>
+            <th>Xyz</th>
+            <td>{{ entity.xyz }}</td>
+        </tr>
+        <tr>
+            <th>Dt</th>
+            <td>{{ entity.dt|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Wh</th>
+            <td>{{ entity.wh }}</td>
+        </tr>
+        <tr>
+            <th>Proprietaire</th>
+            <td>{{ entity.proprietaire }}</td>
+        </tr>
+        <tr>
+            <th>Classement</th>
+            <td>{{ entity.classement }}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<a href="{{ path('notes') }}" class="btn btn-success">Retour</a>
+<a href="{{ path('notes_edit', { 'id': entity.id }) }}" class="btn  btn-warning">Editer</a>
+<a href="{{ path('notes_delete', { 'id': entity.id }) }}" class="btn btn-danger">Supprimer</a>
+<br> <br> 
+
+{% endblock %}

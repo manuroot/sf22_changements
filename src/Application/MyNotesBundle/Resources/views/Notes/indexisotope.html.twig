@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>iNettuts - Welcome!</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.css') }}" type="text/css" />
+        <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-responsive.css') }}" type="text/css" />
+         <link rel="stylesheet" href="{{ asset('css/jquery-ui-1.9.2.custom.css') }}" type="text/css" media="all"/>
+        <link rel="stylesheet" href="{{ asset('bundles/applicationmynotes/css/sliding.css') }}" type="text/css" media="all"/>
+ <link rel="stylesheet" href="{{ asset('bundles/applicationmynotes/css/isotope.css') }}" type="text/css" media="all"/>
+{% endblock %} 
+
+
+                                
+                                
+                                
+
+        </head>
+
+
+ <body>
+
+{% use '::navbar.html.twig' %}
+
+           
+                <div class="page-header">
+                      {{ block('NAVIGATION_BAR') }}
+
+                    </div>
+
+                    <section id="options" class="clearfix">
+                        <div class="option-combo">
+                        {#    <h2>Filter:</h2>#}
+                            <ul id="filter" class="option-set clearfix" data-option-key="filter">
+                                <li><a href="#show-all" data-option-value="*" class="selected">Urgent</a></li>
+                                <li><a href="#open" data-option-value=".open">Intermediaire</a></li>
+                                <li><a href="#closed" data-option-value=".closed">Simple</a></li>
+<li><a href="#examples" data-option-value=".unknown">A Classer</a></li>
+                          </ul>
+                        </div>
+     {#                   <div class="option-combo">
+                 <ul id="sort-by" class="option-set clearfix" data-option-key="sortBy">
+
+                                      <li><a href="#name">name</a></li>
+                                    <li><a href="#number">number</a></li>
+                                    <li><a href="#star">STARS</a></li>
+                                 </ul>
+                        </div>#}
+                            
+     <div class="option-combo">
+     {# <h2>Sort:</h2>#}
+      <ul id="sort" class="option-set clearfix" data-option-key="sort">
+        <li><a href="#mixed" data-option-value="number" class="selected">mixed</a></li>
+        <li><a href="#original" data-option-value="original-order">original</a></li>
+        <li><a href="#alphabetical" data-option-value="alphabetical">alphabetical</a></li>
+      </ul>
+    </div>
+      <div class="option-combo">
+     {#   <h3>Sort direction</h3>#}
+    <ul id="sort-direction" class="option-set clearfix" data-option-key="sortAscending">
+       
+      <li><a href="#sortAscending=true" data-option-value="true" class="selected">
+               <i class="icon-arrow-up"></i></a></li>
+      <li><a href="#sortAscending=false" data-option-value="false">
+               <i class="icon-arrow-down"></i></a></li>
+    </ul>
+    </div>
+                            
+    <div class="option-combo">
+                            {#<h2>Layout: </h2>#}
+                            <ul id="layouts" class="option-set clearfix" data-option-key="layoutMode">
+                                <li><a href="#masonry" data-option-value="masonry" class="selected">masonry</a></li>
+                                <li><a href="#fitRows" data-option-value="fitRows">fitRows</a></li>
+                                <li><a href="#straightDown" data-option-value="straightDown">straightDown</a></li>
+                            </ul>
+                        </div>
+                    </section>
+ 
+     
+ {{ knp_pagination_render(pagination) }}
+  <div id="container" class="clickable clearfix">
+      {# <div class="container">#}
+      
+     
+      
+      
+{% for entity in pagination %}
+          
+          <div class="element open {{ entity.color }}">  
+                     
+<!--<tr {% if loop.index is odd %}class="color"{% endif %}>-->
+             {#% debug entities.categories%#}
+   <div class="note zoomTarget {{ entity.color }}" id="{{ entity.id }}">
+   <div class="bar_titre" style="width:100%;">
+   <div class="categories">{{ entity.categories.nom }}</div>
+   <div class="delnote"><a  class="deltsticky ui-icon ui-icon-trash" id="{{ entity.id }}" href="#"></a></div>
+   </div>
+   <textarea class="area-note" id="stickynote-{{ entity.id }}">{{entity.text}}</textarea>
+    <div class="author"></div>
+    </div>
+          <h5 class="sonata-blog-post-title">
+
+
+                                                         <a href="#">
+                          {{ entity.proprietaire }}</a>
+                                                    
+                                                </h5>
+
+                                                <div class="sonata-blog-post-abtract">
+                                                  {{entity.text }}
+                                                </div>
+                                                <br>
+</div>
+ 
+
+         {% endfor %}
+                           
+  
+  
+</div>
+          {{ knp_pagination_render(pagination) }}   
+  
+   
+
+
+   {% block javascripts %}
+         <script src="{{ asset('jquery/jquery-1.10.0.js') }}" type="text/javascript"></script>
+         <script type="text/javascript" src="{{ asset('jquery/jquery-ui-1.9.2.custom.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bootstrap/js/bootstrap.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('jquery/jquery.easing.1.3.js') }}"></script>
+       {# <script src="{{ asset('jquery/shapeshift/vendor/jquery.touch-punch.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('jquery/shapeshift/jquery.shapeshift.js') }}" type="text/javascript"></script>
+        #}
+        <script type="text/javascript" src="{{ asset('js/isotope/jquery.isotope.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('bundles/applicationmynotes/js/isotope.js') }}"></script>
+  
+  
+  
+  {% endblock %}
+ </body>
+  </html>
+

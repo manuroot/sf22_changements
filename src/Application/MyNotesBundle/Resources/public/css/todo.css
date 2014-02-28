@@ -1,0 +1,161 @@
+ body{
+	padding:50px;
+	background-color:#F0F0F0;
+	font-family:Georgia,"Times New Roman","Bitstream Charter",Times,serif;
+	color:#093E56;
+}
+
+h1{
+	font-style:italic;
+	text-shadow:0 1px 0 #ccc;
+	font-weight:normal;
+}
+
+a{
+	outline:none
+}
+
+ .shoppingList{
+     float: left;
+     	margin:0;
+	background:url("/images/notebook.gif") repeat;
+	font-style:normal;
+	padding:60px 0 0 40px;
+	width:400px;
+	height:448px;
+	position:relative;
+}
+
+.done{
+	margin:0;
+        float: left;
+    	background:url("/images/notebook.gif") repeat;
+	font-style:normal;
+        margin-left:20px;
+	padding:60px 0 0 40px;
+	width:400px;
+	height:448px;
+	position:relative;
+}
+
+.shoppingList ul{
+	margin:0;
+	padding:0;	
+	list-style:none;
+	position:relative;
+	padding-top:17px;
+}
+
+.shoppingList li{
+	font-size:1.2em;
+	position:relative;
+	text-shadow:none;
+	clear:both;
+}
+
+.shoppingList li .count{
+	float:right;
+	padding-right:20px;
+}
+
+.shoppingList li .item{
+	cursor:pointer;
+}
+
+.shoppingList li .check{
+	width:16px;
+	height:25px;
+	line-height:25px;
+	float:left;
+	margin-right:50px;
+	cursor:pointer;
+}
+
+.shoppingList li .unchecked{
+	background:url("/images/item_unchecked.png") center center no-repeat;
+}
+
+.shoppingList li .checked{
+	background:url("/images/tick_circle.png") center center no-repeat;
+}
+
+.shoppingList li.bought .item{
+	text-decoration:line-through;
+	color:#888;
+	font-style:italic
+}
+
+.shoppingList .trash{
+	position:absolute;
+	bottom:70px;
+	height:60px;
+	background:#ddd;
+	-moz-box-shadow:0 0 0.5em #666;
+	width:330px;
+	opacity:0.6;
+	filter : alpha(opacity=60);
+    -moz-opacity : 0.6; 
+	line-height:60px;
+	font-style:italic;
+	text-shadow:0 1px 0 #ccc;
+	font-size:1.5em;
+	background:#eee url("/images/trash.png") 2.5em center no-repeat;
+	padding-left:100px
+}
+
+.shoppingList .hover{
+	opacity:0.7;
+	filter : alpha(opacity=70);
+    -moz-opacity : 0.7; 
+	color:#fff;
+	background-color:#cd6a76
+}
+
+.shoppingList .deleted{
+	background-color:#70cc57;
+	opacity:0.7;
+	filter : alpha(opacity=70);
+    -moz-opacity : 0.7; 
+	color:#fff;
+}
+
+.shoppingList .add{
+	position:absolute;
+	bottom:20px;
+}
+
+.shoppingList .add .addValue{
+	width:400px;
+	margin-right:5px;
+	background-color:#f5f2d5;
+	-moz-box-shadow:0 0 0.5em #666;
+	padding:5px;
+	border:1px solid #ccc;
+	font-family:Georgia,"Times New Roman","Bitstream Charter",Times,serif;
+	color:#093E56;
+	font-size:1.3em;
+}
+
+.shoppingList .add .addBtn{
+	background-color:#093E56;
+	-moz-box-shadow:0 0 0.5em #666;
+	padding:2px;
+	border:1px solid #ccc;
+	color:#fff;
+	-moz-border-radius:0.2em;
+	padding:5px 8px;
+	*padding:0;
+	cursor:pointer;
+	font-size:1.3em;
+	font-family:Georgia,"Times New Roman","Bitstream Charter",Times,serif;
+}
+
+/*** DRAG ***/
+
+.shoppingList li.ui-sortable-helper{
+	cursor:-moz-grabbing;
+}
+
+.shoppingList li.ui-sortable-helper .check, .shoppingList li.ui-sortable-helper .count{
+	visibility:hidden
+}

@@ -1,0 +1,29 @@
+{% extends app.request.isXmlHttpRequest ? 'ApplicationMyNotesBundle::layoutajax.html.twig' : 'ApplicationMyNotesBundle::layout.html.twig' %}
+
+
+{% block javascripts %}
+{{ parent() }}
+{{ tinymce_init() }}
+{% endblock %}
+
+
+{% block title %}Sticky Notes: Edition{% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+{% if app.request.isXmlHttpRequest == '' %}
+
+{% endif %}
+<br>
+<form class="form-horizontal" action="{{ path('notes_create')}}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <p>
+        <button type="submit" class="modifier btn btn-warning">Ajouter</button>
+ 
+        <a href="{{ path('notes') }}" class="btn btn-small btn-success">Retour</a>
+
+    </p>
+</form>
+
+{% endblock %}

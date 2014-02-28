@@ -1,0 +1,30 @@
+colornotes:
+    pattern:  /
+    defaults: { _controller: "ApplicationMyNotesBundle:NotesColor:index" }
+
+colornotes_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationMyNotesBundle:NotesColor:show" }
+
+colornotes_new:
+    pattern:  /new
+    defaults: { _controller: "ApplicationMyNotesBundle:NotesColor:new" }
+
+colornotes_create:
+    pattern:  /create
+    defaults: { _controller: "ApplicationMyNotesBundle:NotesColor:create" }
+    requirements: { _method: post }
+
+colornotes_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ApplicationMyNotesBundle:NotesColor:edit" }
+
+colornotes_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ApplicationMyNotesBundle:NotesColor:update" }
+    requirements: { _method: post }
+
+colornotes_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationMyNotesBundle:NotesColor:delete" }
+    requirements: { _method: post }

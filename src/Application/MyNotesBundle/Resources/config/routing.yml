@@ -1,0 +1,18 @@
+application_my_notes:
+    resource: "@ApplicationMyNotesBundle/Resources/config/routing/notes.yml"
+    prefix:   /
+ 
+ 
+notes_genemu:
+    pattern:  /genemu
+    defaults: { _controller: "ApplicationMyNotesBundle:Notes:indexgenemu" }
+    requirements: { _method: get }
+
+   
+application_my_notescategories:
+    resource: "@ApplicationMyNotesBundle/Resources/config/routing/notescategories.yml"
+    prefix:   /notescategories
+
+application_my_notescolor:
+    resource: "@ApplicationMyNotesBundle/Resources/config/routing/notescolor.yml"
+    prefix:   /notescolor

@@ -254,7 +254,10 @@ function showResponse(responseText, statusText, xhr, $form)  {
 {% block content %}
  
 <div id="output2"></div>
-
+ <div class='row'>    
+ <div class='col-lg-12 col-sm-8 col-xs-4'>    
+    <h3><center><span class="glyphicon glyphicon-wrench"> </span> OPERATION: {{ entity.title }} (id= {{entity.id}})</center></h3>
+ </div></div>
 {#=====================================================================
                    LES FICHIERS DE LA DEMANDE
 =====================================================================#}
@@ -273,8 +276,6 @@ function showResponse(responseText, statusText, xhr, $form)  {
     <form  id="myform" class="form-horizontal" role="form" action="{{ path('calendar_create') }}" method="post" {{ form_enctype(form) }}>
 {% endif %}
         <fieldset>
-            <legend><center>OPERATION: {{ entity.title }} (id= {{entity.id}})</center></legend>
-
             <div class='row'>
                 <div class='col-xs-3'>    
                     <div class='form-group'>{{ form_row(form.title) }}</div>

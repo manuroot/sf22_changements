@@ -1,0 +1,87 @@
+   
+<div id="ShowHideContainer">
+
+{#
+ <form id="target1" class="form-horizontal" action="{{ path(form_path) }}" method="POST" {{ form_enctype(status_form) }}>
+  {{ form_widget(status_form.idStatus ) }}
+     </form>  
+#}
+        
+    <form id="target" class="form-horizontal" action="{{ path(form_path) }}" method="POST" {{ form_enctype(search_form) }}>
+        <a id="ShowHideButton">
+            <button id="show" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
+                <i class="icon-search icon-mesfiltres"></i> Afficher Filtres</button>
+        </a>
+        <button type="submit" id="reset" name="submit-filter" class="btn btn-medium btn-warning" value="reset" >
+            <i class="icon-minus-sign icon-mesfiltres"></i>Effacer Filtres</button>
+           
+
+              {#  <input id="searchstatus_1" class="" type="checkbox" value="1" name="changements_searchstatus[idStatus][]">
+        <img src="{{ asset('bundles/applicationchangements/images/cadenas-souvert.png') }}" alt="show" width="15px" height="15px"/>
+    </input>
+     
+
+    <input id="searchstatus_2" class="" type="checkbox" value="2" name="changements_searchstatus[idStatus][]">
+     <img src="{{ asset('bundles/applicationchangements/images/cadenas-sferme.png') }}" alt="show" width="15px" height="15px"/>
+</input>
+
+ <input id="searchstatus_3" class="" type="checkbox" value="3" name="changements_searchstatus[idStatus][]">
+     <img src="{{ asset('bundles/applicationchangements/images/cadenas-sbleu.png') }}" alt="show" width="15px" height="15px"/>
+</input>
+#}
+             {#       <button type="submit" id="reset" name="submit-open" class="btn btn-medium btn-warning" value="open" >
+                      <img src="{{ asset('bundles/applicationchangements/images/cadenas-souvert.png') }}" alt="show" width="15px" height="15px"/>
+                      </button>
+                    
+                      <button type="submit" id="reset" name="submit-open" class="btn btn-medium btn-warning" value="prepare" >
+                      <img src="{{ asset('bundles/applicationchangements/images/cadenas-sbleu.png') }}" alt="show" width="15px" height="15px"/>
+                      </button>
+                    
+                    <button type="submit" id="reset" name="submit-open" class="btn btn-medium btn-warning" value="closed" >
+                      <img src="{{ asset('bundles/applicationchangements/images/cadenas-sferme.png') }}" alt="show" width="15px" height="15px"/>
+                      </button>
+                    
+                #}                    
+
+{{ form_widget(search_form.idStatus,{'attr': {'form': 'thesearchform'}}) }}
+<button id="filter" form="thesearchform" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="filter" >
+          <i class="icon-search icon-mesfiltres"></i></button>
+          
+          
+          {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+            
+        <a href="{{ path(new_flow_path) }}" class=" ajoutchange btn btn-medium btn-primary">
+            <i class=" glyphicon glyphicon-plus-sign icon-mesfiltres"></i> {{ new_text }}(flow)
+        </a>
+             <a href="{{ path(new_path) }}" class=" ajoutchange btn btn-medium btn-primary">
+            <i class=" glyphicon glyphicon-plus icon-mesfiltres"></i> {{ new_text }}(quick)
+        </a>
+                  {% if fav is defined %}
+             {% if fav == 's_fanta'%}
+                <a href="{{ path("changements_myfanta") }}" class="show_favoris btn btn-medium btn-primary my-star">
+                    <i class="icon-star"></i> Favoris
+                </a>
+             {% else %}
+                 <a href="{{ path("changements_fanta") }}" class="show_favoris btn btn-medium btn-primary">
+                    <i class="icon-circle-arrow-right"></i> Index
+                </a>
+            {% endif %}
+            {% endif %}
+        {% endif %}
+
+    </form>
+
+       
+        {#<div id="showhideboxown" class="hidden">#}
+        <div id="{{ box }}" class="hidden">
+        <div class="first">
+          {% include include_html_search with {'tpl_path':form_path } %}
+            </div>                 
+             
+            <div class="second hidden-tablet hidden-phone" id="minidatepicker"></div>
+           
+             
+          </div>
+   </div> 
+           
+ <br class="clear" />
