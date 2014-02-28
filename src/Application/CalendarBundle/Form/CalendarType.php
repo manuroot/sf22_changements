@@ -28,7 +28,7 @@ class CalendarType extends AbstractType {
               // ->add('endDatetime','hidden')
                /* ->add('description', 'textarea')*/
                   ->add('description', 'ckeditor', array(
-                    'config_name' => 'basic_config',
+                     'config_name' => 'my_config',
             
                 ))
                 ->add('cssClass','hidden')
