@@ -125,7 +125,7 @@
                 box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05) inset, 0px 1px 0px rgba(255, 255, 255, 0.1);
 
             }
-            .mywell i {padding-right:10px;}
+            .mywell i {padding-right:10px;} .badge {font-size:18px;margin:10px;}
         </style>
 
         {% endblock %}
@@ -185,6 +185,8 @@
 
     {% block content %}
 
+{% set c_img =  entity.idStatus.id ~ '.png' %}                                   
+  
         <h2><center>
                 <span class="icon-stack">
                     <i class="icon-check-empty icon-stack-base"></i>
@@ -237,7 +239,11 @@
                         <div class="btxt"> <i class="icon-th-list icon-2x"></i> Id: {{ entity.id }}</div>
                         <div class="btxt">  <i class="icon-pencil  icon-2x"></i> Nom: {{ entity.nom }}</div>
                         <div class="btxt">  <i class="icon-wrench  icon-2x"></i> Type Demande: {{ entity.idKind }}</div>
-                        <div class="btxt">  <i class="icon-question-sign  icon-2x"></i> Status: {{ entity.idStatus }}</div>
+                          <div class="btxt">  <i class="icon-question-sign  icon-2x"></i> Status: 
+
+            <span class="badge badge-info large">   <img src="{{ asset('bundles/applicationchangements/images/') }}{{ c_img }}" alt="show" width="15px" height="15px"/>  {{ entity.idStatus }}
+                </span>
+</div>
                     </div>
                     <div class="span4 mywell">
                         <div class="btxt">  <i class="icon-user-md icon-2x"></i>  Contact Client: {{ entity.contact }}</div>

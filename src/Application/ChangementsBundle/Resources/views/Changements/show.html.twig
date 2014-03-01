@@ -36,8 +36,10 @@
 {% endstylesheets %}
 #}
 <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
-
-<link rel="stylesheet" href="{{ asset('css/compiled/changements.css') }}" type="text/css" media="all"/>
+{#
+  <link rel="stylesheet" href="{{ asset('bundles/applicationchangements/css/ccpchangements.css') }}" type="text/css" media="all"/>#}
+  
+{#<link rel="stylesheet" href="{{ asset('css/compiled/changements.css') }}" type="text/css" media="all"/>#}
 <style>
     td.single {
         font-style: italic;    
@@ -102,7 +104,8 @@ width: 400px;
 
 }
  .mywell { min-heigh:400px;}
-}
+ }
+ .badge {font-size:18px;padding:10px;}
 </style>
  {% endblock %}
 
@@ -134,6 +137,10 @@ width: 400px;
 
 <br> <br> 
 
+ 
+{% set c_img =  entity.idStatus.id ~ '.png' %}                                   
+  
+ 
 <div class="row mypad">
     <div class="span3 mywell">
          <div class="box">
@@ -144,10 +151,14 @@ width: 400px;
         <div class="btxt"> <i class="icon-th-list icon-2x"></i> Id: {{ entity.id }}</div>
         <div class="btxt">  <i class="icon-pencil  icon-2x"></i> Nom: {{ entity.nom }}</div>
         <div class="btxt">  <i class="icon-wrench  icon-2x"></i> Type Demande: {{ entity.idKind }}</div>
-        <div class="btxt">  <i class="icon-question-sign  icon-2x"></i> Status: {{ entity.idStatus }}</div>
+        <div class="btxt">  <i class="icon-tags  icon-2x"></i> Status: 
+
+            <span class="badge badge-info large">   <img src="{{ asset('bundles/applicationchangements/images/') }}{{ c_img }}" alt="show" width="15px" height="15px"/>  {{ entity.idStatus }}
+                </span>
+</div>
        </div>
-         </div>
-    </div>
+         </div></div>
+  
     <div class="span3 mywell">
          <div class="box">
               <div class="box-titre">
@@ -211,7 +222,7 @@ width: 400px;
         <div class="btxt">     <i class="icon-tag icon-2x"></i> Ticket CF: {{ entity.ticketInt }}</div>
     </div>
 </div></div>
-
+  </div>
 <br/>
 <div class="row">
     
