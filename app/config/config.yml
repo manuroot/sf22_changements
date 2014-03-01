@@ -356,7 +356,19 @@ ivory_ck_editor:
                 toolbar: standard
                 allowedContent: true
                 entities: false
-                filebrowserBrowseRoute: elfinder
+                filebrowserBrowseRoute: admin_sonata_media_media_ckeditor_browser
+                filebrowserImageBrowseRoute: admin_sonata_media_media_ckeditor_browser
+               # Display images by default when clicking the image dialog browse button
+                filebrowserImageBrowseRouteParameters:
+                provider: sonata.media.provider.image
+                filebrowserUploadRoute: admin_sonata_media_media_ckeditor_upload
+                filebrowserUploadRouteParameters:
+                provider: sonata.media.provider.file
+                # Upload file as image when sending a file from the image dialog
+                filebrowserImageUploadRoute: admin_sonata_media_media_ckeditor_upload
+                filebrowserImageUploadRouteParameters:
+                provider: sonata.media.provider.image
+                
         basic_config:
                toolbar: basic
                allowedContent: true

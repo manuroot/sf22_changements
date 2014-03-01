@@ -29,7 +29,7 @@ class CalendarType extends AbstractType {
               //  ->add('description', 'textarea')
                // ->add('description', 'ckeditor')
                 ->add('description', 'ckeditor', array(
-                     'config_name' => 'basic_config',
+                     'config_name' => 'simple_config',
             
                 ))
                 ->add('cssClass','hidden')
