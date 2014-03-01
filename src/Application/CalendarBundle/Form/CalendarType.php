@@ -26,9 +26,10 @@ class CalendarType extends AbstractType {
                 ->add('fgColor','text',array('label'=>'Font Color'))
                // ->add('startDatetime','hidden')
               // ->add('endDatetime','hidden')
-               /* ->add('description', 'textarea')*/
-                  ->add('description', 'ckeditor', array(
-                     'config_name' => 'my_config',
+              //  ->add('description', 'textarea')
+               // ->add('description', 'ckeditor')
+                ->add('description', 'ckeditor', array(
+                     'config_name' => 'basic_config',
             
                 ))
                 ->add('cssClass','hidden')

@@ -27,18 +27,28 @@
         <group>
             <file>file:/var/www/Symfony_changements/app/config/config_1.yml</file>
             <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Form/CalendarType.php</file>
+            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Controller/CalendarGroupController.php</file>
+            <file>file:/var/www/Symfony_changements/app/Resources/views/navbar.html.twig</file>
             <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/index_adesign_bs3.html.twig</file>
             <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/index_adesign.html-111.twig</file>
             <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/index_adesign.html_workprogress.twig</file>
+            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Repository/CalendarGroupRepository.php</file>
             <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/index_adesign.html_colorPicker.twig</file>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/views/templates/table_fanta.html.twig</file>
             <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/edit_adesign.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/index_adesign.html.twig</file>
             <file>file:/var/www/Symfony_changements/app/config/config.yml</file>
+            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/index_adesign.html.twig</file>
+            <file>file:/var/www/Symfony_changements/app/Resources/views/navbar_bs3.html.twig</file>
             <file>file:/var/www/Symfony_changements/app/config/config_2.yml</file>
             <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Form/ChangementsType.php</file>
             <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/index_adesign.html_keep.twig</file>
             <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/index_adesign.html_standarform.twig</file>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/views/Changements/new.html.twig</file>
+            <file>file:/var/www/Symfony_changements/app/config/config_dev.yml</file>
+            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/CalendarCategories/edit.html.twig</file>
             <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/edit.html.twig</file>
+            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/CalendarCategories/index.html.twig</file>
+            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/CalendarRoot/index.html.twig</file>
         </group>
     </open-files>
 </project-private>
