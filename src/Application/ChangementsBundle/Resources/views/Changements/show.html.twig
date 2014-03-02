@@ -227,13 +227,16 @@ width: 400px;
 <div class="row">
     
     <div class="span12">  
-     <h3><center><i class="icon-book icon-2x"></i>  Description de la Demande</center></h3></div>
+     <h3><center><i class="icon-book icon-2x"></i>  Description de la Demande</center></h3>
+    </div>
    
     <div id="description" class="span12">  
    {{ entity.description|raw }}
     </div>
 </div>
 <br>
+
+
         {#
         <tr>
                
@@ -305,4 +308,48 @@ width: 400px;
 </table>
   </div>
     </div>
+
+<div class="row">
+    <div class="span12">  
+
+<h3><center><i class="icon-comments icon-2x"></i>  Activités</center></h3>
+    </div>
+    </div>
+
+{% if entity.comments|length > 0 %}
+        {% for comment in entity.comments %}
+<div class="row">
+    <div class="span3">  
+
+                                <i class="icon-user"></i> {{ comment.user }}
+    </div>
+    <div class="span3">  
+                                <i class="icon-time"></i> {{ comment.created|date('l, F j, Y') }}
+    </div>
+    <div class="span3">  
+
+                                <span class="badge badge-warning">{{ comment.categorie }} </span>
+    </div>
+    </div>    
+<div class="row">
+    <div class="span12 well">  
+                 
+
+   {% if comment.comment|length == "" %} ---{% else %}
+            {{ comment.comment|raw }}
+                {% endif %}
+    </div>
+    </div>   
+       {% endfor %}
+                
+
+             {% else %}
+<div class="row">
+    <div class="span3">
+                <h4>Aucune activité pour cette demande</h4>
+                    </div>
+    </div>   
+{%endif %}
+                   
+                
 {% endblock %}

@@ -25,30 +25,33 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/Symfony_changements/app/config/config_1.yml</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Form/CalendarType.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Controller/CalendarGroupController.php</file>
-            <file>file:/var/www/Symfony_changements/app/Resources/views/navbar.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/index_adesign_bs3.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/index_adesign.html-111.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/index_adesign.html_workprogress.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Repository/CalendarGroupRepository.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/index_adesign.html_colorPicker.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/views/templates/table_fanta.html.twig</file>
+            <file>file:/var/www/Symfony_changements/src/Application/MyNotesBundle/Resources/config/routing/notescategories.yml</file>
+            <file>file:/var/www/Symfony_changements/src/Application/MyNotesBundle/Resources/views/Notes/index.html.twig</file>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/views/Changements/index-uploader.html.twig</file>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/views/Changements/indexsearch_form.html.twig</file>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Controller/ChangementsController.php</file>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Entity/Changements.php</file>
+            <file>file:/var/www/Symfony_changements/web/jquery/jqtip2/jquery.qtip.css</file>
             <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/edit_adesign.html.twig</file>
-            <file>file:/var/www/Symfony_changements/app/config/config.yml</file>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/views/Changements/index-shapeshift.html.twig</file>
+            <file>file:/var/www/Symfony_changements/src/Application/MyNotesBundle/Form/NotesType.php</file>
+            <file>file:/var/www/Symfony_changements/src/Application/MyNotesBundle/Form/NotesCategoriesType.php</file>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/views/Changements/indexfanta.html.twig</file>
+            <file>file:/var/www/Symfony_changements/src/Application/MyNotesBundle/Resources/views/Notes/indexsticky.html.twig</file>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Entity/Docchangements.php</file>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/views/Changements/showxhtml.html.twig</file>
+            <file>file:/var/www/Symfony_changements/src/Application/MyNotesBundle/Resources/views/layoutsticky.html.twig</file>
+            <file>file:/var/www/Symfony_changements/src/Application/MyNotesBundle/Resources/views/NotesCategories/index.html.twig</file>
+            <file>file:/var/www/Symfony_changements/src/Application/MyNotesBundle/Resources/views/Notes/indexisotope.html.twig</file>
+            <file>file:/var/www/Symfony_changements/web/jquery/jqtip2/jquery.qtip.min.css</file>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/views/templates/table_fanta.html.twig</file>
             <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/index_adesign.html.twig</file>
-            <file>file:/var/www/Symfony_changements/app/Resources/views/navbar_bs3.html.twig</file>
-            <file>file:/var/www/Symfony_changements/app/config/config_2.yml</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Form/ChangementsType.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/index_adesign.html_keep.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/index_adesign.html_standarform.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/views/Changements/new.html.twig</file>
-            <file>file:/var/www/Symfony_changements/app/config/config_dev.yml</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/CalendarCategories/edit.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/edit.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/CalendarCategories/index.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/CalendarRoot/index.html.twig</file>
+            <file>file:/var/www/Symfony_changements/web/jquery/jqtip2/jquery.qtip.js</file>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/views/Changements/show.html.twig</file>
+            <file>file:/var/www/Symfony_changements/src/Application/MyNotesBundle/Resources/config/routing/notes.yml</file>
+            <file>file:/var/www/Symfony_changements/src/Application/MyNotesBundle/Form/NotesColorType.php</file>
+            <file>file:/var/www/Symfony_changements/src/Application/MyNotesBundle/Resources/config/routing.yml</file>
+            <file>file:/var/www/Symfony_changements/src/Application/MyNotesBundle/Resources/views/NotesCategories/new.html.twig</file>
         </group>
     </open-files>
 </project-private>
