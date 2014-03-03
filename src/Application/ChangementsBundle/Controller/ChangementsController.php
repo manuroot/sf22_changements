@@ -822,7 +822,7 @@ class ChangementsController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-            echo "here";exit(1);
+          //  echo "here";exit(1);
               $id = $entity->getId();
             $session = $request->getSession();
             
@@ -1544,6 +1544,7 @@ class ChangementsController extends Controller {
         //   $currenttwig='indexfanta.html.twig';
         // else 
         //      $currenttwig='indexfanta.html.twig';
+        /*return $this->render('ApplicationChangementsBundle:Changements:indexfanta_bs3.html.twig', array(*/
         return $this->render('ApplicationChangementsBundle:Changements:indexfanta.html.twig', array(
                     'pagerfanta' => $pagerfanta,
                     'entities' => $q,

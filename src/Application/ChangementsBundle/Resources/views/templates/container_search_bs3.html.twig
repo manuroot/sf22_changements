@@ -9,11 +9,13 @@
         
     <form id="target" class="form-horizontal" action="{{ path(form_path) }}" method="POST" {{ form_enctype(search_form) }}>
         <a id="ShowHideButton">
-            <button id="show" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="show" >
-                <i class="icon-search icon-mesfiltres"></i> Afficher Filtres</button>
+            <button id="show" type="submit" name="submit-filter" class="btn btn-warning" value="show" >
+                <i class="glyphicon glyphicon-search icon-mesfiltres"></i> Afficher Filtres</button>
         </a>
-        <button type="submit" id="reset" name="submit-filter" class="btn btn-medium btn-warning" value="reset" >
-            <i class="icon-minus-sign icon-mesfiltres"></i>Effacer Filtres</button>
+        <button type="submit" id="reset" name="submit-filter" class="btn btn-warning" value="reset" >
+            
+                 <i class=" glyphicon glyphicon-plus-sign icon-mesfiltres"></i> Effacer Filtres</button>
+        
            
 
               {#  <input id="searchstatus_1" class="" type="checkbox" value="1" name="changements_searchstatus[idStatus][]">
@@ -44,8 +46,8 @@
                 #}                    
 
 {{ form_widget(search_form.idStatus,{'attr': {'form': 'thesearchform'}}) }}
-<button id="filter" form="thesearchform" type="submit" name="submit-filter" class="btn btn-medium btn-warning" value="filter" >
-          <i class="icon-search icon-mesfiltres"></i></button>
+<button id="filter" form="thesearchform" type="submit" name="submit-filter" class="btn btn-medium btn-warning filter" value="filter" >
+          <i class="glyphicon glyphicon-search icon-mesfiltres"></i></button>
           
           
           {% if is_granted("IS_AUTHENTICATED_FULLY") %}

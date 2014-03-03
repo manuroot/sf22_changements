@@ -440,7 +440,7 @@ $(document).ready(function() {
         //$("#changements_searchfilter_dateDebut").html(date.toString());
         $("input#changements_searchfilter_dateDebut").val(date);
         $("input#changements_searchfilter_dateDebut_max").val(date);
-        $("button#filter").trigger("click");
+        $("button.filter").trigger("click");
         /*  $(".form").submit();*/
 
         /*var dataAjax = {

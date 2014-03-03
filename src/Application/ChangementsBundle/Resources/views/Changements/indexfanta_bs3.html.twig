@@ -164,7 +164,7 @@
 {% include 'ApplicationChangementsBundle:templates:flash.html.twig' %}
 
 
-{% include 'ApplicationChangementsBundle:templates:container_search.html.twig' 
+{% include 'ApplicationChangementsBundle:templates:container_search_bs3.html.twig' 
         with {
             'form_path': 'changements_fanta',
             'status_form':status_form,
@@ -173,12 +173,12 @@
             'new_path': 'changements_newchangement',
             'new_text':"Ajouter une Opération",
             'fav':"s_fanta",
-            'include_html_search':  'ApplicationChangementsBundle:Changements:indexsearchsimple_form.html.twig'
+            'include_html_search':  'ApplicationChangementsBundle:Changements:indexsearchsimple_form_bs3.html.twig'
         }
 %}
 <div id="contain-matable">
     <div id="matable">           
-{% include 'ApplicationChangementsBundle:templates:table_fanta.html.twig' with { 'index_path': 'changements_fanta' }%}  
+{% include 'ApplicationChangementsBundle:templates:table_fanta_bs3.html.twig' with { 'index_path': 'changements_fanta' }%}  
     </div>
     <div class="pagination" align="center">
             {{ pagerfanta(pagerfanta, 'twitter_bootstrap') }}

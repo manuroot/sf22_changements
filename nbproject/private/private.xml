@@ -2,14 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="3">
         <file>
-            <url>src/Application/ChangementsBundle/Resources/views/Changements/indexpost.html.twig</url>
-            <bookmark id="1">
-                <name/>
-                <line>13</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
             <url>src/Application/CalendarBundle/Resources/views/Calendar/index_adesign.html.twig</url>
             <bookmark id="2">
                 <name/>
@@ -22,36 +14,24 @@
                 <key/>
             </bookmark>
         </file>
+        <file>
+            <url>src/Application/ChangementsBundle/Resources/views/Changements/indexpost.html.twig</url>
+            <bookmark id="1">
+                <name/>
+                <line>13</line>
+                <key/>
+            </bookmark>
+        </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/Symfony_changements/src/Application/MyNotesBundle/Resources/config/routing/notescategories.yml</file>
-            <file>file:/var/www/Symfony_changements/src/Application/MyNotesBundle/Resources/views/Notes/index.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/views/Changements/index-uploader.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/views/Changements/indexsearch_form.html.twig</file>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/views/templates/container_search_bs3.html.twig</file>
+            <file>file:/var/www/Symfony_changements/web/js/compiled/changementsown_changementsfanta_4.js</file>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/public/js/changementsfanta.js</file>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/public/js/changementsown.js</file>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/views/templates/table_fanta_bs3.html.twig</file>
             <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Controller/ChangementsController.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Entity/Changements.php</file>
-            <file>file:/var/www/Symfony_changements/web/jquery/jqtip2/jquery.qtip.css</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/edit_adesign.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/views/Changements/index-shapeshift.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/MyNotesBundle/Form/NotesType.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/MyNotesBundle/Form/NotesCategoriesType.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/views/Changements/indexfanta.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/MyNotesBundle/Resources/views/Notes/indexsticky.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Entity/Docchangements.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/views/Changements/showxhtml.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/MyNotesBundle/Resources/views/layoutsticky.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/MyNotesBundle/Resources/views/NotesCategories/index.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/MyNotesBundle/Resources/views/Notes/indexisotope.html.twig</file>
-            <file>file:/var/www/Symfony_changements/web/jquery/jqtip2/jquery.qtip.min.css</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/views/templates/table_fanta.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/index_adesign.html.twig</file>
-            <file>file:/var/www/Symfony_changements/web/jquery/jqtip2/jquery.qtip.js</file>
-            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/views/Changements/show.html.twig</file>
-            <file>file:/var/www/Symfony_changements/src/Application/MyNotesBundle/Resources/config/routing/notes.yml</file>
-            <file>file:/var/www/Symfony_changements/src/Application/MyNotesBundle/Form/NotesColorType.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/MyNotesBundle/Resources/config/routing.yml</file>
-            <file>file:/var/www/Symfony_changements/src/Application/MyNotesBundle/Resources/views/NotesCategories/new.html.twig</file>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Resources/views/Changements/indexfanta_bs3.html.twig</file>
         </group>
     </open-files>
 </project-private>

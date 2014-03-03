@@ -64,7 +64,7 @@ $("a.editme").colorbox({
     });
 
 
-    $('#filter').click(function() {
+    $('.filter').click(function() {
         $.cookie('actiffiltera', 1, {expires: 365});
     });
 
