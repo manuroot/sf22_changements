@@ -1251,6 +1251,25 @@ class ChangementsController extends Controller {
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
+    
+      //==============================================
+    //          REQUETES AJAX
+    // 
+    //==============================================
+
+    public function TicketPbmAjaxAction(Request $request) {
+        $term = $request->get('term');
+        $em = $this->getDoctrine()->getManager();
+        $entity_ticket = $em->getRepository('ApplicationChangementsBundle:Changements')->findAjaxValue(array('ticketPbm' => $term));
+        $json = array();
+        foreach ($entity_ticket->getQuery()->getResult() as $ticket) {
+            if (!in_array((string) $ticket->getTicketPbm(), $json))
+                array_push($json, (string) $ticket->getTicketPbm());
+        }
+        $response = new Response(json_encode($json));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
 
     //==============================================
     //          REQUETES AJAX

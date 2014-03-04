@@ -91,10 +91,26 @@ $builder
                         'icon' => 'tag',
                         'type' => 'prepend'
                     ),))
+        
+         ->add('ticketPbm', null, array(
+                     'attr' => array(
+                          'style' => 'width:150px',
+                        'placeholder' => 'ex: 12345 (5 a 10 car.)'
+                                    ),
+                     
+                    'label' => 'Ticket Pbm',
+                    'widget_addon' => array(
+                        'icon' => 'tag',
+                        'type' => 'prepend'
+                    ),))
+        
+        
+        
+        
                   /* ->add('ticketExt',null,array('label'=>'Ticket Samy'))
                   ->add('ticketInt',array('label'=>'Ticket CF')) */
                 ->add('dateDebut', 'datetime', array(
-                    'label' => 'Date début',
+                    'label' => 'Date Opération',
                     'widget' => 'single_text',
                     'input' => 'datetime',
                     'format' => 'yyyy-MM-dd HH:mm',
@@ -104,7 +120,7 @@ $builder
                     ),
                 ))
                 ->add('dateFin', 'datetime', array(
-                    'label' => 'Date Fin',
+                    'label' => 'Date Fin (cloture)',
                     'widget' => 'single_text',
                     'input' => 'datetime',
                     'format' => 'yyyy-MM-dd HH:mm',

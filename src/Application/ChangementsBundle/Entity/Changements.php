@@ -269,6 +269,20 @@ class Changements extends AbstractEvent {
      * @var integer $ticket_int
      */
     private $ticketInt;
+    
+     /**
+     * @ORM\Column(type="integer", length=5, name="ticket_problem", nullable=true)
+     * @GRID\Column(type="text",field="ticketPbm", title="Ticket_Pbm",size="10")
+     *  * @Assert\Regex(
+     * pattern="/^[0-9]{5,6}/",
+     *     match=true,
+     *     message="patterns autorisées ex: 12345 (5 a 10 car.)"
+     * )
+     * @var integer $ticket_int
+     */
+    private $ticketPbm;
+    
+    
 
     /* //**
       //* @Assert\File(
@@ -878,6 +892,31 @@ class Changements extends AbstractEvent {
     public function getTicketInt() {
         return $this->ticketInt;
     }
+    
+    
+     /**
+     * Set ticketInt
+     *
+     * @param integer $ticketInt
+     * @return Changements
+     */
+    public function setTicketPbm($ticketPbm) {
+        $this->ticketPbm = $ticketPbm;
+
+        return $this;
+    }
+
+    /**
+     * Get ticketInt
+     *
+     * @return Changements 
+     */
+    public function getTicketPbm() {
+        return $this->ticketPbm;
+    }
+    
+    
+    
 
     /**
      * Set statusFile

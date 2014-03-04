@@ -128,6 +128,18 @@ class ChangementsFilterAmoiType extends AbstractType {
                     'route_name' => 'ajax_ticketint',
                     'class' => 'Changements',
                 ))
+                ->add('ticketPbm', 'genemu_jqueryautocomplete_text', array(
+                    'attr' => array('style' => 'width:120px'),
+                    'label' => 'Ticket Pbm',
+                    'widget_addon' => array(
+                        'icon' => 'tag',
+                        'type' => 'prepend'
+                    ),
+                    'configs' => array('minLength' => 2),
+                    'mapped' => false, 'required' => false,
+                    'route_name' => 'ajax_ticketpbm',
+                    'class' => 'Changements',
+                ))
                 ->add('ticketExt', 'genemu_jqueryautocomplete_text', array(
                     'attr' => array('style' => 'width:120px'),
                     'label' => 'Ticket Samy',

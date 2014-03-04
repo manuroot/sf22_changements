@@ -17,6 +17,13 @@ ajax_ticketint:
     pattern:  /ajaxticketint
     methods: POST|GET
     defaults: { _controller: "ApplicationChangementsBundle:Changements:TicketIntAjax" }
+
+    
+ajax_ticketpbm:
+    pattern:  /ajaxticketpbm
+    methods: POST|GET
+    defaults: { _controller: "ApplicationChangementsBundle:Changements:TicketPbmAjax" }
+    
     
 ajax_description:
     pattern:  /ajaxdescription

@@ -103,6 +103,7 @@ class ChangementsStepsType extends AbstractType {
                            ))
                     
                     
+                    
               ->add('ticketInt',null,array(
                 //   'render_required_asterisk'=>true,
                       'attr' => array(
@@ -115,7 +116,19 @@ class ChangementsStepsType extends AbstractType {
                                 'type' => 'prepend'
                             ),))
                                
-                                   
+              ->add('ticketPbm',null,array(
+                //   'render_required_asterisk'=>true,
+                      'attr' => array(
+                           'placeholder' => 'ex: 12345 (5 a 10 car.)'
+                                    ),
+                 
+                   'label'=>'Ticket CF Pbm',
+                             'widget_addon' => array(
+                                'icon' => 'tag',
+                                'type' => 'prepend'
+                            ),))
+                    
+                    
                      ->add('dateDemande', 'date', array(
                             'label' => 'Date Demande',
                             'widget' => 'single_text',
