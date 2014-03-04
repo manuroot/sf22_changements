@@ -211,7 +211,7 @@
 {% endif %}
 
             <ul>
-                <li><a href="#tabs-1" class="mytab"> <i class="icon-user icon-mesfiltres"></i>  Données Principales</a></li>
+                <li><a href="#tabs-1" class="mytab"> <i class="icon-user icon-2x icon-mesfiltres"></i>  Données Principales</a></li>
       {% if active_file is defined %}
                 <li class="ui-tabs-active">
       {% else %}
@@ -219,11 +219,11 @@
     {% endif %}
 
 
-                    <a href="#tabs-2" class="mytab" ><i class="icon-book icon-mesfiltres"></i>  Fichiers ({{ entity.picture|length }})</a></li>
+                    <a href="#tabs-2" class="mytab" ><i class="icon-book icon-2x icon-mesfiltres"></i>  Fichiers ({{ entity.picture|length }})</a></li>
 
-                <li><a href="#tabs-3" class="mytab" ><i class="icon-pencil icon-mesfiltres"></i>  Activites({{ entity.comments|length }})</a></li>
+                <li><a href="#tabs-3" class="mytab" ><i class="icon-pencil icon-2x icon-mesfiltres"></i>  Activites({{ entity.comments|length }})</a></li>
 
-                <li><a href="#tabs-4" class="mytab" ><i class="icon-question-sign icon-mesfiltres"></i>  Description</a></li>
+                <li><a href="#tabs-4" class="mytab" ><i class="icon-question-sign icon-2x icon-mesfiltres"></i>  Description</a></li>
 {#
  
       
@@ -238,17 +238,17 @@
                     <div class="span5 mywell">
                         <div class="btxt"> <i class="icon-th-list icon-2x"></i> Id: {{ entity.id }}</div>
                         <div class="btxt">  <i class="icon-pencil  icon-2x"></i> Nom: {{ entity.nom }}</div>
-                        <div class="btxt">  <i class="icon-wrench  icon-2x"></i> Type Demande: {{ entity.idKind }}</div>
-                          <div class="btxt">  <i class="icon-question-sign  icon-2x"></i> Status: 
+                        <div class="btxt">  <i class="icon-question-sign  icon-2x"></i> Type Demande: {{ entity.idKind }}</div>
+                          <div class="btxt">  <i class="icon-wrench  icon-2x"></i> Status: 
 
             <span class="badge badge-info large">   <img src="{{ asset('bundles/applicationchangements/images/') }}{{ c_img }}" alt="show" width="15px" height="15px"/>  {{ entity.idStatus }}
                 </span>
 </div>
                     </div>
                     <div class="span4 mywell">
-                        <div class="btxt">  <i class="icon-user-md icon-2x"></i>  Contact Client: {{ entity.contact }}</div>
                         <div class="btxt">   <i class="icon-user icon-2x"></i>  Demandeur: {{ entity.demandeur }}</div>
                         <div class="btxt">     <i class="icon-group icon-2x"></i>  Utilisateurs: {{ entity.idusers|join(', ') }}</div>
+                        <div class="btxt">  <i class="icon-user-md icon-2x"></i>  Contact Client: {{ entity.contact }}</div>
                     </div>  
                 </div>
 
