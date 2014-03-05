@@ -86,6 +86,10 @@ doctrine:
        #     default:
        #         mappings:
        #             SonataMediaBundle: ~
+       # a verifier ?????????????????
+        #query_cache_driver: apc
+        #metadata_cache_driver: apc
+        #result_cache_driver: apc
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true
         dql:
