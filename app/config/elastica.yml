@@ -1,0 +1,50 @@
+fos_elastica:
+    clients:
+        default: { host: localhost, port: 9200 }
+    #serializer:
+     #   callback_class: FOS\ElasticaBundle\Serializer\Callback
+      #  serializer: serializer
+    indexes:
+        doc_changements:
+           client: default
+           types:
+                docs:
+                    mappings: 
+                       id: ~ 
+                       name: ~
+                       createdAt: 
+                          type: "date"
+                       updatedAt: 
+                          type: "date"
+                       OriginalFilename:
+                           type: "string"
+                    persistence:
+                        driver: orm # orm, mongodb, propel are available
+                        model:  Application\ChangementsBundle\Entity\Docchangements
+                        provider: ~
+                        listener: ~ 
+                        finder: ~
+                            #query_builder_method: elasicsearch_findAll
+        changements:
+           client: default
+           types:
+                main:
+                    mappings: 
+                       id: ~ 
+                       nom: ~
+                       ticketExt: ~
+                       ticketInt: ~
+                       dateDebut:  ~
+                       demandeur: ~
+                       idProjet: ~
+                       idEnvironnement: ~
+                       description: ~
+                    persistence:
+                        driver: orm # orm, mongodb, propel are available
+                        model:  Application\ChangementsBundle\Entity\Changements
+                        provider: ~
+                        listener: ~ 
+                        finder: ~
+                            #query_builder_method: elasicsearch_findAll
+             
+                   

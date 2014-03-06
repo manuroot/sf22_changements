@@ -10,6 +10,7 @@ imports:
     - { resource: sonata/sonata_formatter.yml }
    #- { resource: sonata/sonata_news.yml }
     - { resource: genemu/genemu.yml }
+    - { resource: elastica.yml }
   #  - { resource: sonata/sonata_page.yml }
    
 #==================================================
@@ -377,4 +378,8 @@ ivory_ck_editor:
                toolbar: basic
                allowedContent: true
                entities: false
+        
                
+
+
+   

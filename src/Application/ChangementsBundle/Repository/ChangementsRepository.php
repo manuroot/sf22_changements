@@ -175,6 +175,23 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         return $query;
         //->getQuery();
     }
+    
+    
+      public function elasicsearch_findAll($criteria = array()) {
+
+        $parameters = array();
+        $values = array('partial a.{id,dateDebut,dateFin,nom}');
+        $query = $this->createQueryBuilder('a')
+                ->select($values)
+                ->distinct('a.id');
+
+        $query->add('orderBy', 'a.id DESC');
+        //$query->add('orderBy', "$sort $dir");
+        return $query;
+        //->getQuery();
+    }
+    
+    
 
     public function findAjaxValue($criteria) {
         $parameters = array();

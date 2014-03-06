@@ -82,7 +82,8 @@
           "problematic/acl-manager-bundle": "dev-master",
           "fr3d/ldap-bundle": "2.0.*@dev",
           "egeloen/ckeditor-bundle": "2.2.1",
-          "michelf/php-markdown": "1.4.*@dev"
+          "michelf/php-markdown": "1.4.*@dev",
+          "friendsofsymfony/elastica-bundle": "3.0.*@dev"
 
 
     },
