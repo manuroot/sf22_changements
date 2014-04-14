@@ -100,6 +100,10 @@ class ChangementsFilterAmoiType extends AbstractType {
                         'type' => 'prepend'
                     ),
                     'mapped' => false, 'required' => false))
+                  
+                ->add('iscti', 'checkbox', array('label' => 'Opération CTI','required' => false,
+                  // 'attr'     => array('checked'   => 'checked')
+                    ))
 
 
                 /*  ->add('ticketExt','text',array('widget_addon' => array(

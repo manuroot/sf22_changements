@@ -75,7 +75,7 @@ class AppKernel extends Kernel {
             new FOS\RestBundle\FOSRestBundle(),
             //new FOS\CommentBundle\FOSCommentBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle($this),
-             new FOS\ElasticaBundle\FOSElasticaBundle(),
+          //   new FOS\ElasticaBundle\FOSElasticaBundle(),
             //====================================================
             // FORM JS VALIDATION
             //====================================================

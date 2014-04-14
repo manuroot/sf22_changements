@@ -1497,7 +1497,7 @@ class ChangementsController extends Controller {
                 $session->remove('changementControllerFilternew');
                 $alldatas = $request->request->all();
                 $datas = $alldatas["changements_searchfilter"];
-                // print_r($datas);exit(1);
+               //     echo "submit filter<br"; print_r($datas);exit(1);
                 $parameters = $datas;
                 $session->set('changementControllerFilternew', $datas);
                 $searchForm->bind($datas);
@@ -1622,7 +1622,7 @@ class ChangementsController extends Controller {
                 $session->remove('changementControllerFilternew');
                 $alldatas = $request->request->all();
                 $datas = $alldatas["changements_searchfilter"];
-                // print_r($datas);exit(1);
+                 //echo "submit filter<br"; print_r($datas);exit(1);
                 $parameters = $datas;
                 $session->set('changementControllerFilternew', $datas);
                 $searchForm->bind($datas);

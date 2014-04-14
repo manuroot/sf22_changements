@@ -303,6 +303,14 @@ class Changements extends AbstractEvent {
      */
     private $astreinte;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="iscti", type="boolean", nullable=true)
+     */
+    private $iscti;
+    
+    
      /**
      * @var boolean
      *
@@ -560,6 +568,7 @@ class Changements extends AbstractEvent {
         $this->idfavoris = new ArrayCollection();
         $this->dateDemande = new \DateTime('now');
         $this->astreinte = false;
+         $this->iscti = true;
          $this->operation = NULL;
         //   $this->idapplis = new \Doctrine\Common\Collections\ArrayCollection();
         /*         $this->uid = $uid;
@@ -917,7 +926,26 @@ class Changements extends AbstractEvent {
     }
     
     
-    
+    /**
+     * Set iscti
+     *
+     * @param boolean $iscti
+     * @return integer 
+     */
+    public function setIscti($iscti) {
+        $this->iscti = $iscti;
+
+        return $this;
+    }
+
+    /**
+     * Get iscti
+     *
+     * @return boolean 
+     */
+    public function getIscti() {
+        return $this->iscti;
+    } 
 
     /**
      * Set statusFile

@@ -85,7 +85,7 @@
                     <i class={{ arrow['d.nom'] }}></i>
                     {% endif %}
                 </th>
-                
+                {#{% if {{ a.iscti }}  %}#}
                  <th style="min-width:80px" class="sorted hidden-phone hidden-tablet">
                     <a href="{{ path(index_path, {'sort':'a.ticketExt','dir':next_dir}) }}">{{ ticket.externe }}</a> 
                     <i class="icon-tag"></i>
@@ -93,6 +93,7 @@
                     <i class={{ arrow['a.ticketExt'] }}></i>
                     {% endif %}
                 </th>
+                {#{% endif %}#}
                  <th style="min-width:80px"  class="sorted hidden-phone hidden-tablet">
                     <a href="{{ path(index_path, {'sort':'a.ticketInt','dir':next_dir}) }}">{{ ticket.interne }}</a> 
                     <i class="icon-tag"></i>

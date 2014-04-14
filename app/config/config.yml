@@ -10,7 +10,7 @@ imports:
     - { resource: sonata/sonata_formatter.yml }
    #- { resource: sonata/sonata_news.yml }
     - { resource: genemu/genemu.yml }
-    - { resource: elastica.yml }
+  #  - { resource: elastica.yml }
   #  - { resource: sonata/sonata_page.yml }
    
 #==================================================
