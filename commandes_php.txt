@@ -4,3 +4,5 @@ php app/console assetic:dump doctrine:schema:update --dump-sql
 D:\APPLIX\xamp\xampp\php\php.exe app/console assetic:dump --env=dev --no-debug
 D:\APPLIX\xamp\xampp\php\php.exe app/console assets:install web
 php app/console assetic:dump --env=prod --no-debug
+
+D:\APPLIX\wamp\bin\php\php5.4.12\php.exe assetic:dump --env=dev --no-debug

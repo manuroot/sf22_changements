@@ -50,7 +50,11 @@ calendar_indexadesign:
     defaults: { _controller: "ApplicationCalendarBundle:Calendar:indexadesign" }
     methods: POST|GET
  
-            
+calendar_indexadesign_datagrid:
+    pattern: /grid
+    defaults: { _controller: "ApplicationCalendarBundle:Calendar:indexdatagridadesign" }
+    methods: POST|GET
+    
 calendar_dashboard:
     pattern: /dashboard
     defaults: { _controller: "ApplicationCalendarBundle:Calendar:dashboard" }

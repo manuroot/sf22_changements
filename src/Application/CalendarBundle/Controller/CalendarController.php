@@ -16,6 +16,18 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Application\CalendarBundle\Event\CalendarEvent;
 use Application\CalendarBundle\Form\CalendarType;
 
+use APY\DataGridBundle\Grid\Source\Entity;
+use APY\DataGridBundle\Grid\Grid;
+use APY\DataGridBundle\Grid\Column\ActionsColumn;
+use APY\DataGridBundle\Grid\Action\MassAction;
+use APY\DataGridBundle\Grid\Action\DeleteMassAction;
+use APY\DataGridBundle\Grid\Action\RowAction;
+use APY\DataGridBundle\Grid\Column\TextColumn;
+use APY\DataGridBundle\Grid\Column\DateColumn;
+use APY\DataGridBundle\Grid\Export\CSVExport;
+use APY\DataGridBundle\Grid\Export\ExcelExport;
+use Ob\HighchartsBundle\Highcharts\Highchart;
+
 /**
  * Calendar controller.
  *
@@ -66,6 +78,18 @@ class CalendarController extends Controller {
         }
     }
 
+    public function indexdatagridadesignAction(Request $request) {
+          $em = $this->getDoctrine()->getManager();
+           $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getJoinedBy($sort, $dir, $parameters);
+
+        $adapter = new DoctrineORMAdapter($query);
+        //$adapter->setDistinct(false);
+        // sur changement categories avec filtres la page n'est peut etre
+        // plus dispo (avec les sessions) !!!!!!!!!!
+        // A debugger
+        $pagerfanta = $this->mypager($adapter, 20);
+        $nb_pages = $pagerfanta->getNbPages();
+    }
     public function indexadesignAction(Request $request) {
 
         $em = $this->getDoctrine()->getManager();
