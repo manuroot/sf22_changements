@@ -14,6 +14,23 @@ use Application\CalendarBundle\Event\CalendarEvent;
  */
 class AdesignCalendarRepository extends EntityRepository {
 
+      public function myFindaAll($id = null) {
+     
+        $query = $this->createQueryBuilder('a')
+                ->select(array('a,b'))
+                ->leftJoin('a.calendarid', 'b')
+                ->orderBy('a.id', 'DESC');
+        if (isset($id)) {
+            $query->andwhere('b.id = :myid');
+            $query->setParameter('myid', $id);
+        }
+        ;
+         return $query;
+        //->getQuery();
+        
+        //return $query->getQuery()->getResult();
+    }
+
     public function myFindaIdAll($id) {
         /*       $parameters = array();
           $values = array('a,partial b.{id,nomprojet},partial c.{id,nomUser},partial d.{id,nom,description},f,h');

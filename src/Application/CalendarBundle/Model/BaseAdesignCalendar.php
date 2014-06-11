@@ -56,6 +56,7 @@ abstract class BaseAdesignCalendar {
      * @var \DateTime
      *
      * @ORM\Column(name="date_debut", type="datetime", nullable=false)
+     @GRID\Column(title="Start", size="40",format="Y-m-d h:i",type="datetime")
      */
     protected $startDatetime;
 
@@ -63,6 +64,7 @@ abstract class BaseAdesignCalendar {
      * @var \DateTime
      *
      * @ORM\Column(name="date_fin", type="datetime", nullable=false)
+     *  @GRID\Column(title="end", size="40",format="Y-m-d h:i",type="datetime")
      */
     protected $endDatetime;
 

@@ -78,6 +78,61 @@ class CalendarController extends Controller {
         }
     }
 
+          public function indexapydatagridAction($page=1) {
+       $session = $this->getRequest()->getSession();
+        // ajoute des messages flash
+        $session->set('buttonretour', 'calendar_apy');
+        $source = new Entity('ApplicationCalendarBundle:AdesignCalendar');
+       
+        $grid = $this->container->get('grid');
+        // Attach the source to the grid
+        $grid->setSource($source);
+
+        $grid->setId('changementsgrid');
+        $grid->addExport(new CSVExport('CSV Export', 'Operations', array('delimiter' => ';'), 'Windows-1252'));
+        $grid->addExport(new ExcelExport('Excel Export', 'Operations', array('delimiter' => ';'), 'Windows-1252'));
+
+        $grid->setPersistence(false);
+        $grid->setDefaultOrder('id', 'desc');
+        // Set the selector of the number of items per page
+        $grid->setLimits(array(50));
+
+
+        // Set the default page
+        $grid->setPage($page);
+        $grid->addMassAction(new DeleteMassAction());
+        $grid->setActionsColumnSize(70);
+        // $grid->setDefaultFilters(array('idEnvironnement.nom:AtGroupConcat' => array('operator' => 'like')));
+        $myRowActiona = new RowAction('Edit', 'changements_edit', false, '_self', array('class' => "btn btn-mini btn-warning"));
+        $grid->addRowAction($myRowActiona);
+        $myRowAction = new RowAction('Delete', 'changements_delete', true, '_self', array('class' => "btn btn-mini btn-danger"));
+        //$myRowAction = new RowAction('Delete', 'certificatscenter_delete', true, '_self',array('class' => 'deleteme'));
+        $grid->addRowAction($myRowAction);
+        // Return the response of the grid to the template
+               
+        return $grid->getGridResponse('ApplicationCalendarBundle:Calendar:indexapy.html.twig');     
+}
+
+
+       public function indexdatagridAction(Request $request) {
+            $em = $this->getDoctrine()->getManager();
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        $session->set('buttonretour', 'projets');
+
+        // $entities = $em->getRepository('ApplicationRelationsBundle:Projet')->findAll();
+        $entities = $em->getRepository('ApplicationRelationsBundle:Projet')->myFindAll();
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $entities, $this->get('request')->query->get('page', 1)/* page number */, 15/* limit per page */
+        );
+        $pagination->setSortableTemplate('ApplicationRelationsBundle:pagination:sortable_link.html.twig');
+
+        $pagination->setTemplate('ApplicationRelationsBundle:pagination:sliding.html.twig');
+        return $this->render('ApplicationRelationsBundle:Projet:index.html.twig', array(
+                    'pagination' => $pagination,
+        ));
+}
     public function indexdatagridadesignAction(Request $request) {
           $em = $this->getDoctrine()->getManager();
            $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getJoinedBy($sort, $dir, $parameters);

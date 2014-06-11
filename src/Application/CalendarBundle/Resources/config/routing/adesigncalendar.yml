@@ -5,7 +5,6 @@ calendar_adesignajax:
     options:
         expose: true
 
-
 calendar_adesignajax_edit:
     methods: POST|GET
     pattern: /{id}/editadesignajax
@@ -49,7 +48,14 @@ calendar_indexadesign:
     pattern: /
     defaults: { _controller: "ApplicationCalendarBundle:Calendar:indexadesign" }
     methods: POST|GET
- 
+    
+calendar_indexadesign:
+    pattern: /apygrid
+    defaults: { _controller: "ApplicationCalendarBundle:Calendar:indexapydatagrid" }
+    methods: POST|GET
+    
+     
+
 calendar_indexadesign_datagrid:
     pattern: /grid
     defaults: { _controller: "ApplicationCalendarBundle:Calendar:indexdatagridadesign" }

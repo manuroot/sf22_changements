@@ -20,8 +20,11 @@ use Application\CalendarBundle\Model\BaseAdesignCalendar;
  * @ORM\Table(name="wdcalendar_adesignmain")
  * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="Application\CalendarBundle\Repository\AdesignCalendarRepository")
+ * @GRID\Source(columns="id,startDatetime,endDatetime,user.username,calendarid.nom")
  */
 
+
+    
 
 class AdesignCalendar extends BaseAdesignCalendar
 {
@@ -32,6 +35,7 @@ class AdesignCalendar extends BaseAdesignCalendar
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @GRID\Column(title="id", size="10", type="text",filterable="false")
      */
     protected $id;
    
@@ -43,6 +47,7 @@ class AdesignCalendar extends BaseAdesignCalendar
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="calendarid", referencedColumnName="id")
      * })
+      * @GRID\Column(field="calendarid.nom", title="Calendrier",size="30",filter="select",selectFrom="query")
      */
     private $calendarid;
     
@@ -67,6 +72,7 @@ class AdesignCalendar extends BaseAdesignCalendar
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="owner", nullable=true,referencedColumnName="id")
      * })
+     * @GRID\Column(field="user.username", title="user",size="20",filter="select",selectFrom="query")
      */
     private $user;
     
