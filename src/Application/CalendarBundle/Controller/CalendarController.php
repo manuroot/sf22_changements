@@ -15,7 +15,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 //use ADesigns\CalendarBundle\Event\CalendarEvent;
 use Application\CalendarBundle\Event\CalendarEvent;
 use Application\CalendarBundle\Form\CalendarType;
-
 use APY\DataGridBundle\Grid\Source\Entity;
 use APY\DataGridBundle\Grid\Grid;
 use APY\DataGridBundle\Grid\Column\ActionsColumn;
@@ -78,12 +77,12 @@ class CalendarController extends Controller {
         }
     }
 
-          public function indexapydatagridAction($page=1) {
-       $session = $this->getRequest()->getSession();
+    public function indexapydatagridAction($page = 1) {
+        $session = $this->getRequest()->getSession();
         // ajoute des messages flash
         $session->set('buttonretour', 'calendar_apy');
         $source = new Entity('ApplicationCalendarBundle:AdesignCalendar');
-       
+
         $grid = $this->container->get('grid');
         // Attach the source to the grid
         $grid->setSource($source);
@@ -103,19 +102,18 @@ class CalendarController extends Controller {
         $grid->addMassAction(new DeleteMassAction());
         $grid->setActionsColumnSize(70);
         // $grid->setDefaultFilters(array('idEnvironnement.nom:AtGroupConcat' => array('operator' => 'like')));
-        $myRowActiona = new RowAction('Edit', 'changements_edit', false, '_self', array('class' => "btn btn-mini btn-warning"));
+        $myRowActiona = new RowAction('Edit', 'calendar_adesignajax_edit', false, '_self', array('class' => "btn btn-mini btn-warning"));
         $grid->addRowAction($myRowActiona);
         $myRowAction = new RowAction('Delete', 'changements_delete', true, '_self', array('class' => "btn btn-mini btn-danger"));
         //$myRowAction = new RowAction('Delete', 'certificatscenter_delete', true, '_self',array('class' => 'deleteme'));
         $grid->addRowAction($myRowAction);
         // Return the response of the grid to the template
-               
-        return $grid->getGridResponse('ApplicationCalendarBundle:Calendar:indexapy.html.twig');     
-}
 
+        return $grid->getGridResponse('ApplicationCalendarBundle:Calendar:indexapy.html.twig');
+    }
 
-       public function indexdatagridAction(Request $request) {
-            $em = $this->getDoctrine()->getManager();
+    public function indexdatagridAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $session = $request->getSession();
         $session->set('buttonretour', 'projets');
@@ -132,10 +130,11 @@ class CalendarController extends Controller {
         return $this->render('ApplicationRelationsBundle:Projet:index.html.twig', array(
                     'pagination' => $pagination,
         ));
-}
+    }
+
     public function indexdatagridadesignAction(Request $request) {
-          $em = $this->getDoctrine()->getManager();
-           $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getJoinedBy($sort, $dir, $parameters);
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->getRepository('ApplicationChangementsBundle:Changements')->getJoinedBy($sort, $dir, $parameters);
 
         $adapter = new DoctrineORMAdapter($query);
         //$adapter->setDistinct(false);
@@ -145,6 +144,7 @@ class CalendarController extends Controller {
         $pagerfanta = $this->mypager($adapter, 20);
         $nb_pages = $pagerfanta->getNbPages();
     }
+
     public function indexadesignAction(Request $request) {
 
         $em = $this->getDoctrine()->getManager();
@@ -285,21 +285,21 @@ class CalendarController extends Controller {
           }else {
           $id_calendar = $session->get('calendar_id');
           } */
-        
-        
-          $d = $request->get('start');
-          $f = $request->get('end');
-          $timer= $request->get('timer',60);
-           $format = 'Y-m-d H:i:s';
-         //    echo "d=$d\nf=$f\n";
-             $start = date($format, strtotime($d));
-              $end = date($format, strtotime($f));
-            /*$d1 = date_format($d, $format);
-            $f1 = date_format($f, $format);
-             */
+
+
+        $d = $request->get('start');
+        $f = $request->get('end');
+        $timer = $request->get('timer', 60);
+        $format = 'Y-m-d H:i:s';
+        //    echo "d=$d\nf=$f\n";
+        $start = date($format, strtotime($d));
+        $end = date($format, strtotime($f));
+        /* $d1 = date_format($d, $format);
+          $f1 = date_format($f, $format);
+         */
         //   echo "d=$start\nf=$end\n";
-            
-            
+
+
         $id_calendar = 1;
         $ret = array();
         $session = $request->getSession();
@@ -308,7 +308,7 @@ class CalendarController extends Controller {
         } else {
 
             $em = $this->getDoctrine()->getManager();
-            $new_events = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->myFindNewEvent($timer, $id_calendar,$start,$end);
+            $new_events = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->myFindNewEvent($timer, $id_calendar, $start, $end);
             $return_events = array();
             $response = new \Symfony\Component\HttpFoundation\Response();
             $response->headers->set('Content-Type', 'application/json');
@@ -357,12 +357,12 @@ class CalendarController extends Controller {
             $action = $request->get('action');
             if (isset($action) && $action == "delete") {
                 $entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find($data['id']);
-                 if (!$entity) {
-                  throw $this->createNotFoundException('Unable to find ChangementsContact entity.');
-                  }
-                  $em->remove($entity);
-                  $em->flush(); 
-                 $ret['id'] = $data['id'];
+                if (!$entity) {
+                    throw $this->createNotFoundException('Unable to find ChangementsContact entity.');
+                }
+                $em->remove($entity);
+                $em->flush();
+                $ret['id'] = $data['id'];
                 $ret['status'] = 'removed';
                 $response = new Response(\json_encode($ret));
                 $response->headers->set('Content-Type', 'application/json');
@@ -496,15 +496,13 @@ class CalendarController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $calendar_entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find($id);
         $editForm = $this->createForm(new CalendarType(), $calendar_entity);
-
-      
-             $session = $request->getSession();
-   
+        $session = $request->getSession();
         $id_cal = $session->get('calendar_id');
-if ($id_cal){
-$entity_evements = $em->getRepository('ApplicationCalendarBundle:CalendarCategories')->myFindAll($id_cal);}
-else
-{ $entity_evements =array();}
+        if ($id_cal) {
+            $entity_evements = $em->getRepository('ApplicationCalendarBundle:CalendarCategories')->myFindAll($id_cal);
+        } else {
+            $entity_evements = array();
+        }
 
         if ($request->getMethod() == 'POST') {
             //$formData = $this->get('request')->request->all();
@@ -524,7 +522,7 @@ else
 
         return $this->render('ApplicationCalendarBundle:Calendar:edit_adesign.html.twig', array(
                     'entity' => $calendar_entity,
-            'evenements' => $entity_evements,
+                    'evenements' => $entity_evements,
                     'action' => 'edit',
                     'button_submit' => 'Modifier',
                     'form' => $editForm->createView(),
@@ -563,51 +561,51 @@ else
       $response->headers->set('Content-Type', 'application/json');
       return $response;
       } */
+
     public function downloadAction($id) {
-         
+
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('ApplicationCalendarBundle:DocCalendar')->find($id);
-      
+
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Docchangements entity.');
         }
         $request = $this->get('request');
         $url = $request->headers->get("referer");
-        $message="\nContacter l'administrateur";
+        $message = "\nContacter l'administrateur";
         $session = $request->getSession();
-      //  $url=$session->get('buttonretour');
-        if (!isset($url)){
-            $url='calendar_indexadesign';   
+        //  $url=$session->get('buttonretour');
+        if (!isset($url)) {
+            $url = 'calendar_indexadesign';
         }
-     //   $path = $entity->getUploadRootDir();
-        $filename=$entity->getPath();
-        $realname=$entity->getOriginalFilename();
+        //   $path = $entity->getUploadRootDir();
+        $filename = $entity->getPath();
+        $realname = $entity->getOriginalFilename();
         // si existe pas, tant pis on prend le nom physique
-        if (!isset($realname)){
-            $realname=$filename;
+        if (!isset($realname)) {
+            $realname = $filename;
         }
         $path = $this->get('kernel')->getRootDir() . "/../web/uploads/calendars/";
 
         // Flush in "safe" mode to enforce an Exception if keys are not unique
-
-         //if (!file_exists($path . $filename)) {
+        //if (!file_exists($path . $filename)) {
         if (!file_exists($path . $filename)) {
             $session->getFlashBag()->add('warning', "Le fichier $realname n 'existe pas (code 1). $message");
-              return new RedirectResponse($url);
+            return new RedirectResponse($url);
         }
-           if (!is_readable($path . $filename)){
-                  $session->getFlashBag()->add('info', "Le fichier $realname n 'est pas lisible (code 2). $message");
-                    return new RedirectResponse($url);
-             }
-        
+        if (!is_readable($path . $filename)) {
+            $session->getFlashBag()->add('info', "Le fichier $realname n 'est pas lisible (code 2). $message");
+            return new RedirectResponse($url);
+        }
 
-     try {
+
+        try {
             $content = file_get_contents($path . $filename);
         } catch (\ErrorException $e) {
             $session->getFlashBag()->add('notice', "Le fichier $realname n 'existe pas (code 2). $message");
             return $this->redirect($this->generateUrl($url));
         }
-         $response = new Response();
+        $response = new Response();
 
         //set headers
         $response->headers->set('Content-Type', 'mime/type');
@@ -618,9 +616,9 @@ else
 
         $response->setContent($content);
         return $response;
-       /*
+        /*
           return $this->render('ApplicationChangementsBundle:errors:errorsxhtml.html.twig', array(
-                    'message' => "Le fichier n'existe pas 3<br>Contacter l'administrateur"));*/
-           
+          'message' => "Le fichier n'existe pas 3<br>Contacter l'administrateur")); */
     }
+
 }

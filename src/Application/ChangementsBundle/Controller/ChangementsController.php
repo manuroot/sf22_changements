@@ -561,6 +561,11 @@ class ChangementsController extends Controller {
         // Set the selector of the number of items per page
         $grid->setLimits(array(50));
 
+      /* $grid->setDefaultFilters(array(
+    
+    'id' => array('isNull' => 'your_init_value1'), // Use the default operator of the column
+    
+    ));*/
 
         // Set the default page
         $grid->setPage($page);

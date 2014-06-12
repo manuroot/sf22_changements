@@ -114,7 +114,7 @@ var mesdates=[
 {% include 'ApplicationChangementsBundle:templates:flash.html.twig' %}
 
   {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-            <a href="{{ path('changements_newflowstart') }}" class=" ajoutchange btn btn-medium btn-primary">
+            <a href="{{ path('calendar_neweventajax') }}" class=" ajoutchange btn btn-medium btn-primary">
                 <i class=" icon-plus"></i> Ajouter une activité (todo)
             </a>
         {% endif %}

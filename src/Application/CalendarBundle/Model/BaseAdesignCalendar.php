@@ -21,6 +21,7 @@ abstract class BaseAdesignCalendar {
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=50, nullable=false)
+     * @GRID\Column(type="text",field="title", title="Titre",size="12")
      */
     protected $title;
 

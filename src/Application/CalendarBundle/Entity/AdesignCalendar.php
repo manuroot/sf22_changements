@@ -20,7 +20,7 @@ use Application\CalendarBundle\Model\BaseAdesignCalendar;
  * @ORM\Table(name="wdcalendar_adesignmain")
  * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="Application\CalendarBundle\Repository\AdesignCalendarRepository")
- * @GRID\Source(columns="id,startDatetime,endDatetime,user.username,calendarid.nom")
+ * @GRID\Source(columns="id,title,startDatetime,endDatetime,user.username,calendarid.nom")
  */
 
 
@@ -62,6 +62,20 @@ class AdesignCalendar extends BaseAdesignCalendar
      * )
      */
     protected $picture;
+    
+    
+    /**
+     * 
+     * mapped:ok, coté proprietaire ??
+     * One direction
+     * @var \idstatus
+     *
+     * @ORM\ManyToOne(targetEntity="\Application\ChangementsBundle\Entity\ChangementsStatus")
+     * @ORM\OrderBy({"nom" = "ASC"})
+     * @ORM\JoinColumn(name="id_status", referencedColumnName="id",nullable=true)
+     * @GRID\Column(field="idStatus.nom", title="Status",size="10",filter="select",selectFrom="query")
+     */
+    private $idStatus;
     
        /**
         * unidirectionnel
@@ -219,5 +233,25 @@ class AdesignCalendar extends BaseAdesignCalendar
         //removeIdchangement(\Application\ChangementsBundle\Entity\Changements $idchangement) {
     }
 
+  /**
+     * Set idProject
+     *
+     * @param \Application\ChangementsBundle\Entity\ChangementsStatut $idStatus
+     * @return Changements
+     */
+    public function setIdStatus(\Application\ChangementsBundle\Entity\ChangementsStatus $idStatus = null) {
+        $this->idStatus = $idStatus;
 
+        return $this;
+    }
+
+    /**
+     * Get idProject
+     *
+     * @return \Application\ChangementsBundle\Entity\ChangementsStatus 
+     */
+    public function getIdStatus() {
+        return $this->idStatus;
+    }
+    
 }

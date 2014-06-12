@@ -47,14 +47,14 @@ class Changements extends AbstractEvent {
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @GRID\Column(title="id", size="10", type="text",filterable="false")
+     * @GRID\Column(title="id", size="10",type="text",filterable="false")
      */
     private $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=50, nullable=false)
+     * @ORM\Column(name="nom", type="string",length=50, nullable=false)
      * @ORM\OrderBy({"nom" = "ASC"})
      * @Assert\Length(
      *      min = "5",
@@ -65,7 +65,7 @@ class Changements extends AbstractEvent {
      *  Au maximum {{ limit }} caracteres"
      * )
      *
-     * @GRID\Column(field="nom", title="Nom",size="80")
+     * @GRID\Column(field="nom", operators={"like", "nlike","rlike","llike","isNull","isNotNull"},title="Nom",size="80")
      */
     private $nom;
 
