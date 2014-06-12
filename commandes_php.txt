@@ -1,3 +1,7 @@
+https://github.com/Abhoryo/APYDataGridBundle/blob/master/Resources/doc/grid_configuration/set_data.md
+
+
+
 php app/console assetic:dump --env=prod --no-debug
 php app/console assetic:dump doctrine:schema:update --dump-sql
 
