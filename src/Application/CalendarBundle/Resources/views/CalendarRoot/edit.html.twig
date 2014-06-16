@@ -23,7 +23,7 @@ body {
 }
     .container{margin-left:10px;margin-right:10px;}
     .container-fluid{margin-left:10px;margin-right:10px;}
-
+ .row-fluid-all {  padding:10px;  background-color: #f1f1f1;}
 
     </style> 
 {% endblock %}
@@ -51,7 +51,7 @@ body {
 </span>
 Edition Calendrier ({{entity.nom}})</center></h1>
 
-   
+   <div class="row-fluid-all">
  <form  class="form-horizontal" role="form" action="{{ path('calendarroot_update',{ 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
  
   
@@ -70,7 +70,7 @@ Edition Calendrier ({{entity.nom}})</center></h1>
         
   
    </div>
-    <div class="col-sm-2 col-sm-offset-1"> 
+    <div class="col-sm-3 col-sm-offset-1"> 
     {{ form_label(edit_form.plage) }}
    {{ form_widget(edit_form.plage, {'attr': {'class': 'form-control'}}) }}
     {{ form_label(edit_form.startHour) }}
@@ -106,6 +106,7 @@ Edition Calendrier ({{entity.nom}})</center></h1>
 </div>
   </div>   
 </form>
+   </div>
     <br><br>
    <div class="row">
   <div class="col-sm-5 col-sm-offset-1"> 

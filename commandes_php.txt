@@ -109,3 +109,9 @@ Confirm automatic update of your Kernel [yes]? <enter>
 Enabling the bundle inside the Kernel: OK
 Confirm automatic update of the Routing [yes]? <enter>
 Importing the bundle routing resource: OK
+
+#===============================
+GIT
+#===============================
+git pull http://github.com/manuroot/sf22_changements.git
+git commit -m "calendar update"

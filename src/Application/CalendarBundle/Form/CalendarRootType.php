@@ -23,9 +23,9 @@ class CalendarRootType extends AbstractType {
                     'label' => 'Plage',
                     
                     'choices' => array(
-                        '15' => '15',
-                        '30' => '30',
-                        '60' => '60',
+                        '15' => '15mn',
+                        '30' => '30mn',
+                        '60' => '60mn',
                     )
                 ))
                 ->add('startHour', 'choice', array(
@@ -35,12 +35,15 @@ class CalendarRootType extends AbstractType {
                     'label' => 'Min Heure',
                     
                     'choices' => array(
-                        '4' => '4',
-                        '5' => '5',
-                        '6' => '6',
-                         '7' => '7',
-                        '8' => '8',
-                        '9' => '9',
+                        '1'=>'1h',
+                        '2'=>'2h',
+                        '3'=>'3h',
+                        '4' => '4h',
+                        '5' => '5h',
+                        '6' => '6h',
+                         '7' => '7h',
+                        '8' => '8h',
+                        '9' => '9h',
                     )
                 ))
                  ->add('endHour', 'choice', array(
@@ -50,14 +53,14 @@ class CalendarRootType extends AbstractType {
                     'label' => 'Max Heure',
                     
                     'choices' => array(
-                        '17' => '17',
-                        '18' => '18',
-                        '19' => '19',
-                         '20' => '20',
-                        '21' => '21',
-                        '22' => '22',
-                        '23' => '23',
-                        '24' => '24',
+                        '17' => '17h',
+                        '18' => '18h',
+                        '19' => '19h',
+                         '20' => '20h',
+                        '21' => '21h',
+                        '22' => '22h',
+                        '23' => '23h',
+                        '24' => '24h',
                     )
                 ))
                 
