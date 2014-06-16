@@ -236,7 +236,7 @@ $builder
                     'empty_value' => '--- Choisir une option ---'
                 ));
                     
-                  $builder->add('iscti', 'checkbox', array('label' => 'Opération CTI','required' => false));
+                  $builder->add('iscti', 'checkbox', array('label' => 'Opération Hors CTI','required' => false));
                   $builder->add('astreinte', 'checkbox', array('label' => 'Astreinte','required' => false));
                   
                $factory = $builder->getFormFactory();

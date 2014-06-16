@@ -233,11 +233,13 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         $parameters = array();
         //return $query;
         // si pas coché (false) alors afficher hors ctif
-        $iscti=( isset($criteria['iscti']) ? $criteria['iscti']  : false );
-        echo "cti=$iscti<br>";
-        $query->andWhere('a.iscti = (:iscti)');
+       // $iscti=( isset($criteria['iscti']) ? 0 );
+         if (isset($criteria['iscti'])) {
+       
+        $query->andWhere('a.iscti = 1');
+         }
          //  $query->distinct('GroupConcat(g.nom) AS kak');
-            $parameters['iscti'] = $iscti;
+        //   $parameters['iscti'] = $iscti;
      
         
         if (isset($criteria['idEnvironnement'])) {
@@ -584,6 +586,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
             $query = $this->getListBy($criteria);
         }
         else {
+             $query->andWhere('a.iscti = 0');
             
         }
 

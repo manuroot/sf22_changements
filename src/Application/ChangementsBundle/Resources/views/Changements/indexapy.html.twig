@@ -65,7 +65,11 @@ width: 80px;
 display: inline-block;
 text-align: right;
 }
-.mgrid-search-action {margin-left:20px;margin-top:10px;padding-left:10px;width: 300px;}
+
+.mgrid-search-action {margin-left:20px;margin-top:10px;padding-left:10px;padding-top:10px;width: 300px;}
+.grid_header {
+    margin: 0 0px;
+}
 /*  .mgrid-search-action button{position:relative;}*/  </style>
 {% endblock %}
 
@@ -179,14 +183,15 @@ var mesdates=[
           </div>          
                         
             <div class="mgrid-search-action">
-                <button type="submit" class="btn btn-small btn-primary" value="{{ 'Search'|trans }}">
-                <i class="icon-minus-sign"></i> Filtrer</button>
+                <button type="submit" class="btn btn-medium btn-primary" value="{{ 'Search'|trans }}">
+                <i class="icon-plus-sign"></i> Filtrer</button>
                 
-                  <button type="button" class="btn btn-small btn-danger" value="{{ 'Reset'|trans }}" onclick="return {{ grid.hash }}_reset();"/>
+                  <button type="button" class="btn btn-medium btn-danger" value="{{ 'Reset'|trans }}" onclick="return {{ grid.hash }}_reset();"/>
                 <i class="icon-minus-sign"></i> Reset</button>
            </div>
         </form>
     </div>
+<br>
 {% endif %}
 {% endblock grid_search %}
     

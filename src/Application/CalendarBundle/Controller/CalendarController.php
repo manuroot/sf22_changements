@@ -87,7 +87,7 @@ class CalendarController extends Controller {
         // Attach the source to the grid
         $grid->setSource($source);
 
-        $grid->setId('changementsgrid');
+        $grid->setId('calendargrid');
         $grid->addExport(new CSVExport('CSV Export', 'Operations', array('delimiter' => ';'), 'Windows-1252'));
         $grid->addExport(new ExcelExport('Excel Export', 'Operations', array('delimiter' => ';'), 'Windows-1252'));
 
