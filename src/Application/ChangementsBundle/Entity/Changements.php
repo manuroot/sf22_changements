@@ -65,7 +65,7 @@ class Changements extends AbstractEvent {
      *  Au maximum {{ limit }} caracteres"
      * )
      *
-     * @GRID\Column(field="nom", operators={"like", "nlike","rlike","llike","isNull","isNotNull"},title="Nom",size="80")
+     * @GRID\Column(field="nom", operators={"like", "nlike","rlike","llike","isNull","isNotNull"},title="Nom",size="180")
      */
     private $nom;
 

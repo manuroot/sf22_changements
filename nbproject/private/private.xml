@@ -25,19 +25,13 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/APPLIX/NetbeansProjets/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/showxhtml.html.twig</file>
             <file>file:/D:/APPLIX/NetbeansProjets/Symfony_changements/src/Application/CalendarBundle/Resources/views/Calendar/indexapy.html.twig</file>
             <file>file:/D:/APPLIX/NetbeansProjets/Symfony_changements/src/Application/CalendarBundle/Resources/config/routing/adesigncalendar.yml</file>
-            <file>file:/D:/APPLIX/NetbeansProjets/Symfony_changements/src/Application/ChangementsBundle/Resources/views/Changements/indexapy.html.twig</file>
-            <file>file:/D:/APPLIX/NetbeansProjets/Symfony_changements/app/config/parameters.yml</file>
-            <file>file:/D:/APPLIX/NetbeansProjets/Symfony_changements/src/Application/ChangementsBundle/Controller/ChangementsController.php</file>
-            <file>file:/D:/APPLIX/NetbeansProjets/Symfony_changements/src/Application/Sonata/UserBundle/Entity/User.php</file>
             <file>file:/D:/APPLIX/NetbeansProjets/Symfony_changements/src/Application/CalendarBundle/Controller/CalendarController.php</file>
+            <file>file:/D:/APPLIX/NetbeansProjets/Symfony_changements/src/Application/ChangementsBundle/Repository/ChangementsRepository.php</file>
             <file>file:/D:/APPLIX/NetbeansProjets/Symfony_changements/src/Application/CalendarBundle/Entity/AdesignCalendar.php</file>
-            <file>file:/D:/APPLIX/NetbeansProjets/Symfony_changements/src/Application/ChangementsBundle/Entity/Changements.php</file>
-            <file>file:/D:/APPLIX/NetbeansProjets/Symfony_changements/src/Application/CalendarBundle/Resources/config/routing.yml</file>
-            <file>file:/D:/APPLIX/NetbeansProjets/Symfony_changements/src/Application/CalendarBundle/Resources/config/routing/calendarroot.yml</file>
             <file>file:/D:/APPLIX/NetbeansProjets/Symfony_changements/src/Application/CalendarBundle/Model/BaseAdesignCalendar.php</file>
-            <file>file:/D:/APPLIX/NetbeansProjets/Symfony_changements/src/Application/CalendarBundle/Entity/CalendarRoot.php</file>
         </group>
     </open-files>
 </project-private>

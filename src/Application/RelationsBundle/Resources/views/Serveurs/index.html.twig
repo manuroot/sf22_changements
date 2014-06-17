@@ -134,9 +134,9 @@ width:150px;
                             <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
                             <th{% if pagination.isSorted('a.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom', 'a.nom') }}
                               <i class="icon-pencil"></i></th>
-                           <th{% if pagination.isSorted('a.nom_dns') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom DNS', 'a.nom_dns') }}
+                        {#   <th{% if pagination.isSorted('a.nom_dns') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom DNS', 'a.nom_dns') }}
                               <i class="icon-pencil"></i></th>
-                             <th{% if pagination.isSorted('a.description') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Description', 'a.description') }}
+                           #}  <th{% if pagination.isSorted('a.description') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Description', 'a.description') }}
                                           <i class="icon-pencil"></i></th>
                             <th{% if pagination.isSorted('a.ip_in') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'IP_In', 'a.ip_in') }}
                             <i class="icon-user"></i></th>
@@ -175,7 +175,7 @@ width:150px;
              {% endif %}   
              <td><a href="{{ path('serveurs_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.nom }}</td>
-              <td>{{ entity.nomDns }}</td>
+            {#  <td>{{ entity.nomDns }}</td>#}
            
               <td>{{ entity.description }}</td>
            <td>{{ entity.ipIn }}</td>

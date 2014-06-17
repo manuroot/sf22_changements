@@ -49,6 +49,7 @@ body {
                 <th>Id</th>
                 <th>Nom</th>
                 <th>Description</th>
+                  <th>FontCssclass</th>
                 <th>Cssclass</th>
                 <th>Actions</th>
             </tr>
@@ -59,6 +60,10 @@ body {
                 <td><a href="{{ path('calendarcategories_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.nom }}</td>
                 <td>{{ entity.description }}</td>
+                     <td>{{ entity.fontcssClass }}
+                <div style="width:20px;height:20px;background-color:{{ entity.fontcssClass}}"></div> 
+                </td>
+                
                 <td>{{ entity.cssClass }}
                 <div style="width:20px;height:20px;background-color:{{ entity.cssClass}}"></div> 
                 </td>

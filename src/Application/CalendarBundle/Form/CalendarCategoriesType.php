@@ -18,7 +18,7 @@ class CalendarCategoriesType extends AbstractType
             ->add('nom')
            ->add('description','textarea')
             ->add('cssClass')
-           
+              ->add('fontcssClass')
                 
               /*  ->add('rootcalendar', null, array(
                     'class' => 'ApplicationCalendarBundle:CalendarRoot',

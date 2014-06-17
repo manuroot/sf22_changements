@@ -192,7 +192,6 @@
             var eventObject = {
                 title: $.trim($(this).text()), // use the element's text as the event title
                 'backgroundcolor': $(this).css("background-color"),
-                'color': $(this).css("color"),
                 'myclass': $(this).attr("myclass")
             };
             /* console.log("class=" + eventObject.myclass);*/
@@ -452,7 +451,7 @@ var a=0;
             },
             /*=================================
              * DROP EXTERNAL EVENT
-             * Deplacement categorie vers calendrier
+             *
              ==================================*/
 
             drop: function(date, allDay) { // this function is called when something is dropped
@@ -462,19 +461,17 @@ var a=0;
                 console.log("drop start=" + date);
                 var title = copiedEventObject['title'];
                 var bg = copiedEventObject['backgroundcolor'];
-                var fg = copiedEventObject['color'];
                 start = $.fullCalendar.formatDate(date, "yyyy-MM-dd HH:mm:ss");
                 end = new Date(tempDate.setHours(tempDate.getHours() + 2));
                 end = $.fullCalendar.formatDate(end, "yyyy-MM-dd HH:mm:ss");
-                console.log("color ??=" + fg + "Drop function titre?=" + copiedEventObject['title']);
+                console.log("Drop function titre?=" + copiedEventObject['title']);
                 if (title) {
                     var dataAjax = {
                         'title': title,
                         'start': start,
                         'end': end,
                         'backgroundColor': bg,
-                        /*'textColor': "#ffffff",*/
-                        'textColor': fg,
+                        'textColor': "#ffffff",
                         'className': copiedEventObject['myclass'],
                         'allDay': allDay
                     };
@@ -1147,14 +1144,6 @@ var a=0;
     <img id="loading-image" src="{{ asset('bootstrap/img/loading.gif') }}" alt="Loading..." />
 </div>
 
-<!--------Form NEW Event-------------------- 
-1ere Modale d'edtion/delete/vue sur clic
-evenement existant
-valeurs sont chargées en javascript:
-   f()eventClick
--------------------------------------------->
-
-
 <div id="createShowModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
 
     
@@ -1213,10 +1202,7 @@ valeurs sont chargées en javascript:
 
 </div><!-- /.modal -->
 
-<!----------Form NEW Event 
-Nouvel evebement lors d'un clic dans caledrier
-------------------->
-
+<!----------Form NEW Event ----------------->
 <div id="createEventModal" class="modal fade">
 
     <div class="modal-dialog">
@@ -1276,20 +1262,12 @@ Nouvel evebement lors d'un clic dans caledrier
             </div>
         </div>
     </div></div>
-<!----------Form Edit Event -----------------
-panneau de gauche: categories et boutons:
-- Categories
-- Calendriers
-- Options
-
----------------------------------------------->
+<!----------Form Edit Event ----------------->
 
 <div class="row">
 
     <div class="pad-left col-md-4  col-lg-2">
-        <center>
-            <span class="label label-primary large" style="font-size:18px;"><i class="glyphicon glyphicon-calendar"></i>  {{ rootcal.nom }}</span>
-        </center>
+        <center><span class="label label-primary large" style="font-size:18px;"><i class="glyphicon glyphicon-calendar"></i>  {{ rootcal.nom }}</span></center>
         
       {#  <div class="external-infos input-group">
             <span class="label label-info"><i class="glyphicon glyphicon-calendar"></i> {{ rootcal.nom }}</span>
@@ -1311,9 +1289,9 @@ panneau de gauche: categories et boutons:
               {#  {% set xx =[] %}#}
              {#   {% set xx = evenements.cssClass|merge({ (loop.index0): 'value'}) %} #}
       {% for key,entity in evenements %}
-            <div class="external-event" style="background-color:{{ entity.cssClass }}; color:{{ entity.fontcssClass }}">
+            <div class="external-event" style="background-color:{{ entity.cssClass }}">
                 {#  <input type="checkbox" class="external-checkbox" name="external-checkbox" id="{{ entity.id }}" checked>#}
-                <div  class="external-checkbox" name="external-checkbox" id="{{ entity.id }}" style="color:{{ entity.fontcssClass }}">{{ entity.nom }}</div>
+                <div  class="external-checkbox" name="external-checkbox" id="{{ entity.id }}">{{ entity.nom }}</div>
             </div>
 
         {% endfor %}

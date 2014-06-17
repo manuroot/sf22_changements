@@ -10,12 +10,12 @@
 <link rel="stylesheet" href="{{ asset('css/jquery_flicker/jquery-ui-1.9.2.custom.css') }}" />    
 <link rel="stylesheet" href="{{ asset('jquery/simplecolorpicker/colorPicker.css') }}" type="text/css" media="all"/>
 <style>
-         .single {
-         background-color: #f1f1f1;
-         width:auto;
-        }
+    .single {
+        background-color: #f1f1f1;
+        width:auto;
+    }
 
-    </style> 
+</style> 
 {% endblock %}
 
 
@@ -30,7 +30,7 @@
 
     $(document).ready(function() {
 
-
+        var tfont = ["000000", 'FFFFFF', "ded600", "de2500"];
         var tt = $.xcolor.analogous('#da0', 32, 30);
         var t = [];
         var myRegExp = /#./;
@@ -61,6 +61,20 @@
                         /* alert("value=" + newValue + "array_value=" + getcolor(newValue));*/
                     }
                 });
+                
+                
+                 $('#application_calendarbundle_CalendarCategories_fontcssClass').colorPicker(
+                {
+                    colors: tfont,
+                    pickerDefault: "#000000",
+                    transparency: true,
+                    onColorChange: function(id, newValue) {
+                        console.log("ID: " + id + " has been changed to " + newValue);
+                    }
+                });
+                
+                
+                
     });
 </script>
 {% endblock %}
@@ -75,7 +89,7 @@
 
 
 {% block content %}
-<h1>CalendarCategories creation</h1>
+<h1>AJOUTER CATEGORIE</h1>
 <form  id="form" class="single"  action="{{ path('calendarcategories_create') }}" method="post" {{ form_enctype(form) }}>
 
     <div class="row-fluid ">
@@ -87,6 +101,7 @@
         <div class="span5"> 
             Couleur <br>
   {{ form_row(form.cssClass) }} 
+   {{ form_row(form.fontcssClass) }} 
    {{ form_rest(form) }}
             <div id="calendarcolor"></div>
         </div>
@@ -95,7 +110,7 @@
         <div class="span6 offset1"> 
             <button type="submit" class="btn btn-large btn-warning">Valider</button>    
         </div>
-          <div class="span4"> 
+        <div class="span4"> 
             <a href="{{ path('calendarcategories') }}" class="btn btn-medium btn-success">Retour</a>
         </div>
     </div>

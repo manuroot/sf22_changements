@@ -30,6 +30,7 @@
 
     $(document).ready(function() {
 
+        var tfont = ["000000", 'FFFFFF', "ded600", "de2500"];
         var tt = $.xcolor.analogous('#da0', 32, 30);
         var t = [];
         var myRegExp = /#./;
@@ -60,6 +61,17 @@
                         /* alert("value=" + newValue + "array_value=" + getcolor(newValue));*/
                     }
                 });
+                $('#application_calendarbundle_CalendarCategories_fontcssClass').colorPicker(
+                {
+                    colors: tfont,
+                   pickerDefault: "#000000",
+                    transparency: true,
+                    onColorChange: function(id, newValue) {
+                        console.log("ID: " + id + " has been changed to " + newValue);
+                    }
+                });
+                 
+                
     });
 </script>
 {% endblock %}
@@ -74,7 +86,7 @@
 
 
 {% block content %}
-<h1>CalendarCategories edit</h1>
+<h1>EDITION CATEGORIES</h1>
 
 <form  id="form" class="single"  action="{{ path('calendarcategories_update',{ 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
 
@@ -87,6 +99,7 @@
         <div class="span5"> 
             Couleur <br>
   {{ form_row(edit_form.cssClass) }} 
+  {{ form_row(edit_form.fontcssClass) }} 
    {#{{ form_row(edit_form.rootcalendar) }}#}
  {#  {{ form_row(edit_form.rootcalendar, { 'attr':{'readonly':'readonly'} }) }}#}
    {{ form_rest(edit_form) }}

@@ -53,6 +53,14 @@ class CalendarCategories {
      */
     protected $cssClass;
     
+        /**
+     * @var string
+     *
+     * @ORM\Column(name="fontcssclass", type="string", length=50, nullable=true)
+     */
+    protected $fontcssClass;
+    
+    
    /**
      * @var Region $id_calendar
      *
@@ -146,6 +154,19 @@ class CalendarCategories {
     }
     
 
+     public function setFontcssClass($fontclasscss)
+    {
+        $this->fontcssClass = $fontclasscss;
+    }
+    
+    public function getFontcssClass()
+    {
+        return $this->fontcssClass;
+    }
+    
+    
+    
+    
    
 
     /**

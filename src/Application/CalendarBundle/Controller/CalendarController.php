@@ -80,7 +80,7 @@ class CalendarController extends Controller {
     public function indexapydatagridAction($page = 1) {
         $session = $this->getRequest()->getSession();
         // ajoute des messages flash
-        $session->set('buttonretour', 'calendar_apy');
+        $session->set('buttonretour', 'calendar_indexadesign');
         $source = new Entity('ApplicationCalendarBundle:AdesignCalendar');
 
         $grid = $this->container->get('grid');
