@@ -19,6 +19,8 @@ calendar_adesignajax_getevent:
     options:
         expose: true
 
+calendar_adesign_delete
+
 
 calendar_adesignajax_update:
     methods: POST|GET

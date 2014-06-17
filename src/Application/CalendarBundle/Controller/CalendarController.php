@@ -104,7 +104,7 @@ class CalendarController extends Controller {
         // $grid->setDefaultFilters(array('idEnvironnement.nom:AtGroupConcat' => array('operator' => 'like')));
         $myRowActiona = new RowAction('Edit', 'calendar_adesignajax_edit', false, '_self', array('class' => "btn btn-mini btn-warning"));
         $grid->addRowAction($myRowActiona);
-        $myRowAction = new RowAction('Delete', 'changements_delete', true, '_self', array('class' => "btn btn-mini btn-danger"));
+        $myRowAction = new RowAction('Delete', 'calendar_adesign_delete', true, '_self', array('class' => "btn btn-mini btn-danger"));
         //$myRowAction = new RowAction('Delete', 'certificatscenter_delete', true, '_self',array('class' => 'deleteme'));
         $grid->addRowAction($myRowAction);
         // Return the response of the grid to the template
@@ -620,5 +620,35 @@ class CalendarController extends Controller {
           return $this->render('ApplicationChangementsBundle:errors:errorsxhtml.html.twig', array(
           'message' => "Le fichier n'existe pas 3<br>Contacter l'administrateur")); */
     }
+    
+    
+    
+    
+//updateentityfiles
+    /**
+     * Deletes a Changements entity.
+     *
+     * @Secure(roles="ROLE_ADMIN")
+     */
+    public function deleteAction(Request $request, $id) {
+        $form = $this->createDeleteForm($id);
+        $form->bind($request);
+
+        if ($form->isValid()) {
+            $this->get('changement.common.manager')->deleteChangement($id);
+            return $this->check_retour();
+        }
+        return $this->redirect($this->generateUrl('changements_posttest'));
+    }
+
+    private function createDeleteForm($id) {
+        return $this->createFormBuilder(array('id' => $id))
+                        ->add('id', 'hidden')
+                        ->getForm()
+        ;
+    }
+    
+    
+    
 
 }
