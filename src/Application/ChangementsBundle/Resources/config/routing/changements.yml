@@ -97,12 +97,12 @@ changements_clone:
 changements_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "ApplicationChangementsBundle:Changements:delete" }
-    requirements: { _method: post }
+    requirements: { _method: POST|GET }
    
 changements_update:
     pattern:  /{id}/update
     defaults: { _controller: "ApplicationChangementsBundle:Changements:update" }
-    requirements: { _method: post }
+    requirements: { _method: POST }
  
 #---------------------------------------------------------------
 # Nouveau changement par flow/normal

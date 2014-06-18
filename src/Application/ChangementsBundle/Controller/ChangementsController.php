@@ -965,7 +965,7 @@ class ChangementsController extends Controller {
             $this->get('changement.common.manager')->deleteChangement($id);
             return $this->check_retour();
         }
-        return $this->redirect($this->generateUrl('changements_posttest'));
+        return $this->redirect($this->generateUrl('changements_fanta'));
     }
 
     private function createDeleteForm($id) {
