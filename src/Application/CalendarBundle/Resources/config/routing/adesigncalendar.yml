@@ -11,7 +11,19 @@ calendar_adesignajax_edit:
     defaults: { _controller: "ApplicationCalendarBundle:Calendar:editajaxCalendar" }
     options:
         expose: true
+  
+calendar_adesign_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ApplicationCalendarBundle:Calendar:show" }
         
+
+
+calendar_adesign_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ApplicationCalendarBundle:Calendar:delete" }
+    requirements: { _method: post }
+   
+   
 calendar_adesignajax_getevent:
     methods: POST|GET
     pattern: /geteventadedesignajax

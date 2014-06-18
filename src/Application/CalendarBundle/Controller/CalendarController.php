@@ -622,7 +622,27 @@ class CalendarController extends Controller {
     }
     
     
-    
+    /*
+     * 
+        $id = $request->get('id');
+        $em = $this->getDoctrine()->getManager();
+        $calendar_entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find($id);
+        $editForm = $this->createForm(new CalendarType(), $calendar_entity);
+        $session = $request->getSession();
+        $id_cal = $session->get('calendar_id');
+        if ($id_cal) {
+            $entity_evements = $em->getRepository('ApplicationCalendarBundle:CalendarCategories')->myFindAll($id_cal);
+        } else {
+            $entity_evements = array();
+        }
+
+        if ($request->getMethod() == 'POST') {
+            //$formData = $this->get('request')->request->all();
+            // var_dump($formData);
+            $editForm->bind($request);
+            if ($editForm->isValid()) {
+                $em->persist($calendar_entity);
+     */
     
 //updateentityfiles
     /**
@@ -631,11 +651,15 @@ class CalendarController extends Controller {
      * @Secure(roles="ROLE_ADMIN")
      */
     public function deleteAction(Request $request, $id) {
+        
+        $em = $this->getDoctrine()->getManager();
+        $calendar_entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find($id);
+        
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 
         if ($form->isValid()) {
-            $this->get('changement.common.manager')->deleteChangement($id);
+           /* $this->get('changement.common.manager')->deleteChangement($id);*/
             return $this->check_retour();
         }
         return $this->redirect($this->generateUrl('changements_posttest'));
@@ -648,6 +672,20 @@ class CalendarController extends Controller {
         ;
     }
     
+    
+      /**
+     * Finds and displays a CalendarCategories entity.
+     *
+     */
+    public function showAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find($id);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Calendar entity.');
+        }
+        return $this->render('ApplicationCalendarBundle:Calendar:show.html.twig', array('entity' => $entity ));
+    }
+
     
     
 

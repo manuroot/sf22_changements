@@ -1,0 +1,163 @@
+/*div#second{ float:left;}*/
+  /*div.txtfirst{ width:auto;float:left;
+  margin:4px;border-color:red;}
+    div.txtsecond{ float:left;border-width:10px;margin:4px;border-color:red;}*/
+    div.txtfirst{ width:170px;float:left;}
+    div.txtsecond{ float:left;}
+    
+    
+  .ui-pnotify-history-container {
+    position: absolute;
+    top: 0px;
+    right: 280px;
+    width: 100px;
+    }
+    .ui-pnotify {
+top: 50px;
+right: 25px;
+position: absolute;
+height: auto;
+/* Ensures notices are above everything */
+z-index: 9999;
+}
+    td.central {min-width:350px;}
+  
+    
+             div#showhideboxown{
+                 width:100%;
+                 height:360px;min-height:300px;
+                 /*border-width: 4px;margin:4px;border-color:red;
+             background-color:blue;*/
+             }
+             /* .aa{width:400px; background-color:blue;}*/
+            th.sorted{color: rgb(0, 136, 204);
+                      text-decoration: none;}
+            .ui-autocomplete { max-height: 200px; overflow-y: scroll; overflow-x: hidden;}
+            
+            td{
+                font-size: 12px;
+               /* font-family: 'Times New Roman',Times,serif;*/
+                /* border-collapse: separate;*/
+                  font-family: 'Times New Roman',Times,serif;
+            }
+            select option:hover {
+                background-color: #b6d1fd;
+            }
+            tr.edition {background-color: moccasin;}
+            
+            div#s2id_searchstatus_idStatus{
+                 width:400px;
+                
+            }
+              /* #s2id_autogen2.select2-input.select2-default {*/
+           select#searchstatus_idStatus,
+              select#changements_searchfilter_idEnvironnement,
+            select#changements_searchfilter_idProjet,
+            select#changements_searchfilter_idusers, 
+            select#changements_searchfilter_idStatus,
+            div#s2id_changements_searchfilter_idEnvironnement,
+             div#s2id_changements_searchfilter_idProjet,div#s2id_changements_searchfilter_idStatus,
+             id#s2id_autogen1,
+             div#s2id_changements_searchfilter_idusers {
+           
+           width:200px;
+        /*   min-width:167px;max-width:200px;*/
+            }
+          /*  select#changements_searchfilter_idusers{
+                height:150px;}*/
+            label,.mondiv { color:#02195e; font-size: 12px;
+                            font-weight: normal;
+                            line-height: 20px;}
+
+            /* select#changements_searchfilter_idStatus{
+               }*/
+            .select2-choice {
+                    width:167px;
+            }
+            div#mybutton {
+
+                padding-top: 130px; 
+                margin-left: 5px;
+            }
+            div.pagerfanta nav{ margin:auto;width:auto;}
+            div.toto label input, div.toto label {
+                float: left;
+            }
+
+            div.toto label input {
+                clear: left;
+            }
+            th i{
+                color: #333333;
+                font-size:14px; }
+            .montext {
+                /*   color: #fff;*/
+                /* text-shadow: 5px 5px 1px red;*/
+                padding-bottom:4px;
+                padding-top:4px;
+                padding-left:5px;
+                font-size: 1.5em;
+                float: right;
+            }
+            div#myform  {
+              padding-left: 0px;
+               margin-left:1px;
+                width:100%;
+                position:relative;
+                /*float:left;*/
+                background-color: gray;
+            }
+            form.form {
+             /*width:500px;*/
+            margin-left:0px;
+            float:left;
+           /* height:250px;*/
+            }
+            
+               div#minidatepicker {
+                 font-size: 110%;
+                 /* margin-left:5px;*/
+                  padding-right:30px;
+                  margin-bottom:20px;
+                  width:250px;
+                  height:250px;float:right;
+                
+         /*  border: 1px solid #000000;*/
+            }
+            /* override free days background in jquery ui datepicker */
+          
+        /* override free days background in jquery ui datepicker */
+    
+      /* td.ui-datepicker-today:after{
+    content: "Today"
+}*/
+   
+          .free-day {
+                background: #2e9500;
+            }
+        /* div#minidatepicker {
+             
+                font-size: 120%;
+                width:300px;
+                height:200px;
+                  float:left;
+                  }
+                  */
+            .free-day a {
+                opacity: 0.7;
+            }
+
+            .clear { clear:both; }
+            a.btn,button.btn {
+                padding-bottom:5px;margin-bottom:5px;
+            }
+            a.btn.btn-medium.btn-info {
+            width:80px;}
+           
+            i.icon-info-sign icon-2x {
+              padding-left:1px;}
+  
+           a.favoris:hover, a.open img:hover, a.closed img:hover {border:2px;border-color:#666666;padding-left:5px;}
+           .modal-backdrop, .modal-backdrop.fade.in {
+    opacity: 0.3;
+}

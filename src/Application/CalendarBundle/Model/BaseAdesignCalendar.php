@@ -57,7 +57,7 @@ abstract class BaseAdesignCalendar {
      * @var \DateTime
      *
      * @ORM\Column(name="date_debut", type="datetime", nullable=false)
-     @GRID\Column(title="Start", size="40",format="Y-m-d h:i",type="datetime")
+      @GRID\Column(title="Start", size="40",format="Y-m-d h:i",type="datetime")
      */
     protected $startDatetime;
 
@@ -83,16 +83,13 @@ abstract class BaseAdesignCalendar {
      */
     protected $addedDate;
 
- /**
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="updated_date", type="datetime", nullable=false)
      */
     protected $updatedDate;
 
-    
-    
-    
     /**
      * @var boolean
      *
@@ -112,8 +109,6 @@ abstract class BaseAdesignCalendar {
 
         $this->endDatetime = $endDatetime;
     }
-
-   
 
     /**
      * Set description
@@ -270,7 +265,7 @@ abstract class BaseAdesignCalendar {
         return $this->addedDate;
     }
 
-     /**
+    /**
      * Set updatedDate
      *
      * @param \DateTime $updatedDate
@@ -290,8 +285,5 @@ abstract class BaseAdesignCalendar {
     public function getUpdatedDate() {
         return $this->updatedDate;
     }
-    
-    
-    
-   
+
 }

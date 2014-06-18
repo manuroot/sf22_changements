@@ -1,88 +1,71 @@
-{% extends "::base.html.twig" %}
-
+{% extends "::layout.html.twig" %}
 {% block stylesheets %}
 {{ parent() }}
-<style type="text/css">
-   
- div.btxt{padding-bottom:10px;}   
-.mypad {margin-left:4px;
-margin-right:4px;}
+<link rel="stylesheet" href="{{ asset('select2/select2.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bootstrap/css/jquery.pnotify.default.css') }}" type="text/css" />
+<link rel="stylesheet" href="{{ asset('bundles/applicationcalendar/css/colorbox.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('bundles/applicationcalendar/css/indexfanta.css') }}" type="text/css" media="all"/>
+<link rel="stylesheet" href="{{ asset('css/jquery_flicker/jquery-ui-1.9.2.custom.css') }}" />    
+<link rel="stylesheet" href="{{ asset('jquery/simplecolorpicker/colorPicker.css') }}" type="text/css" media="all"/>
+<style>
+    table {margin:auto;}
+    th {
+        font-style: italic;    
+        font-weight: bold;
+        background-color: #DEDEDE;
+        color:blue;
+        width:auto;
+        border-width: 5px;border-color:black;
+    }
 
-#description{
-    background-color: #eaeaea;padding:10px;
-    border:1px solid black;
-} 
-    
-.mywell {
-   min-height:100px;
-   border:1px solid blue;
-   padding:10px;
-   margin:5px;
-   background-color: #dedede;
-    border-style: solid;
-    border-color: rgb(0, 0, 0);
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05) inset, 0px 1px 0px rgba(255, 255, 255, 0.1);
- }
+
+    .table th {
+        font-weight: bold;
+        padding-left: 4px;
+        padding-right: 4px;
+        padding-top: 4px;
+        border-top: 1px solid #C9C6C6;
+        /* padding-bottom: 12px; */
+    }
+
 </style>
-    {% endblock %}
- 
-{% block title %}OPERATION: {{ entity.title }} 
 {% endblock %}
+
+{% block javascripts %}{{ parent() }}{% endblock %}
+{% block content_header '' %}
+
+{% block title %}{% endblock %}
+
 
 {% block content %}
 
- {{ form_row(form) }}
-<!----------Form Edit Event ----------------->
-<div id="createEventModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
-    
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-        <h3 id="titreheader"></h3>
-    </div>
-    
-    <div class="modal-body">
-        {#{{ form(form) }}#}
-        <form id="eventForm" class="form-horizontal">
-            <div class="control-group">
-                <label class="control-label" for="inputTitle">Titre:</label>
-                <div class="controls">
-                    <input type="text" name="title" id="titleName" style="margin: 0 auto;" data-provide="typeahead" data-items="4" data-source="">
-                </div>
-            </div>
-            <div class="control-group colorbg">
-                <label class="control-label" for="color">Background Couleur:</label>
-                <div class="controls">
-                    <input id="color" name="color" type="text" id="color"/></div>
-            </div>
 
-            <div class="control-group colorfont">
-                <label class="control-label" for="colorfont">Font Couleur:</label>
-                <div class="controls">
-                    <input id="colorfont" name="colorfont" type="text" id="colorfont"/></div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="inputDescription">Description:</label>
-                <div class="controls">
-                    <textarea name="description" id="descriptionName" style="height:200px;margin: 0 auto;" data-provide="typeahead" data-items="4" data-source="">
-                    </textarea></div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="when">Date:</label>
-                <div class="controls controls-row" id="when" style="margin-top:5px;">
-                </div>
-            </div>
-            <input type="hidden" id="apptStartTime"/>
-            <input type="hidden" id="apptEndTime"/>
-            <input type="hidden" id="apptAllDay" />
-            <input type="hidden" id="apptId" />
-        </form>
-    </div>
-    <div class="modal-footer">
-        <button class="btn" id="cancel-button" data-dismiss="modal" aria-hidden="true">Cancel</button>
-        <button type="submit" class="btn btn-primary" id="submitButton">Save</button>
-    </div>
-</div>
-<!----------Form Edit Event ----------------->
- 
+<h1><center> <i class="icon-wrench"> </i> Calendrier Activité: {{ entity.title }} ({{ entity.id }})</center></h1>
+<br>
+<table class="table table-bordered">
+    <tbody>
+        <tr><th>Id</th><td>{{ entity.id }}</td></tr>
+        <tr><th><i class="icon-pencil icon-2x"></i> Titre</th><td>{{ entity.title }}</td></tr>
+        <tr><th><i class="icon-pencil icon-2x"></i> Description</th><td>{{ entity.description }}</td></tr>
+        <tr><th><i class="icon-user icon-2x"></i> User</th><td>{{ entity.user }}</td></tr>
+        <tr><th> <i class="icon-time icon-2x"></i> Date Début</th><td>{{ entity.startDatetime|date('Y-m-d H:i:s') }}</td></tr>
+        <tr><th> <i class="icon-time icon-2x"></i> Date Fin</th><td>{{ entity.endDatetime|date('Y-m-d H:i:s') }}</td> </tr>
+        <tr><th> <i class="icon-time icon-2x"></i> Date Ajout</th><td>{{ entity.addedDate|date('Y-m-d H:i:s') }}</td></tr>
+        <tr><th> <i class="icon-time icon-2x"></i> Date update</th><td>{{ entity.updatedDate|date('Y-m-d H:i:s') }}</td></tr>
+        <tr><th><i class="icon-pencil icon-2x"></i> Url</th><td>{{ entity.url }}</td></tr>
+        <tr><th><i class="icon-pencil icon-2x"></i> Cssclass</th><td>{{ entity.cssClass }}</td></tr>
+        <tr><th><i class="icon-pencil icon-2x"></i> FGColor</th><td>{{ entity.fgColor }}</td></tr>
+        <tr><th><i class="icon-pencil icon-2x"></i> BGcolor</th><td>{{ entity.bgColor }}</td></tr>
+    </tbody>
+</table>
+
+<a href="{{ path('calendar_indexadesign_apydatagrid') }}" class="btn btn-medium btn-success">
+    <i class="icon-left-arrow"></i>   Retour DataGrid
+</a>
+
+<a href="{{ path('calendar_adesignajax_edit', { 'id': entity.id }) }}" class="btn btn-medium btn-warning">
+    <i class="icon-pencil"></i>   Edit
+</a>
+
+
 {% endblock %}
-     {% block footer %} {% endblock %}
