@@ -32,6 +32,8 @@ class CalendarType extends AbstractType {
                      'config_name' => 'simple_config',
             
                 ))
+                
+                   ->add('idStatus', 'checkbox', array('label' => 'Checked','required' => false))
                 ->add('cssClass','hidden')
                     ->add('endDatetime', 'datetime', array(
                     'label' => 'Date Fin',

@@ -119,8 +119,15 @@
 </form>
 
 
+    <form action="{{ path('calendarcategories_delete', { 'id': entity.id }) }}" method="post">
+        {{ form_errors(delete_form) }}
+        {{ form_rest(delete_form) }}
+        <div style="text-align:right">
+            <button type="submit"  class="btn btn-medium btn-danger" onclick="if(!confirm('Are you sure?')) { return false; }">Supprimer Catégorie</button>
+        </div>
+        </form>
 
-
+{#
 {{ form(delete_form) }}
-
+#}
 {% endblock %}

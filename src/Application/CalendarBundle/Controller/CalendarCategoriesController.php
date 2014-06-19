@@ -3,6 +3,7 @@
 namespace Application\CalendarBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Application\CalendarBundle\Entity\CalendarCategories;
 use Application\CalendarBundle\Form\CalendarCategoriesType;
@@ -12,6 +13,30 @@ use Application\CalendarBundle\Form\CalendarCategoriesType;
  *
  */
 class CalendarCategoriesController extends Controller {
+    /* ====================================================================
+     *
+     * SECURITY
+     *
+      =================================================================== */
+
+    private function getuserid() {
+
+        $user_security = $this->container->get('security.context');
+        // authenticated REMEMBERED, FULLY will imply REMEMBERED (NON anonymous)
+        if ($user_security->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $this->get('security.context')->getToken()->getUser();
+            $user_id = $user->getId();
+        } else {
+            $user_id = 0;
+        }
+        return $user_id;
+    }
+
+    /* ====================================================================
+     *
+     * ROOT CALENDAR
+     *
+      =================================================================== */
 
     protected function getCalendarRoot() {
         $request = $this->getRequest();
@@ -23,54 +48,42 @@ class CalendarCategoriesController extends Controller {
         return $id_cal;
     }
 
-    /**
+    /*     * ================================================================
      * Lists all CalendarCategories entities.
      *
-     */
+      =============================================================== */
+
     public function indexAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-       /* $session = $request->getSession();
-        if (!$session->has('calendar_id')) {
-            $session->set('calendar_id', '1');
-        }
-        $id_cal = $session->get('calendar_id');
-        */
         $id_cal = $this->getCalendarRoot();
-        $rootcalendar= $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->findOneById($id_cal);
-        
-        /* echo "idcall=$id_cal";
-          exit(1); */
+        $rootcalendar = $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->findOneById($id_cal);
         $entities = $em->getRepository('ApplicationCalendarBundle:CalendarCategories')->myFindAll($id_cal);
-        //$entities = $em->getRepository('ApplicationCalendarBundle:CalendarCategories')->findAll();
-
         return $this->render('ApplicationCalendarBundle:CalendarCategories:index.html.twig', array(
                     'entities' => $entities,
-                    'root_calendar'=>$rootcalendar
+                    'root_calendar' => $rootcalendar
         ));
     }
 
-    /**
+    /*     * =====================================================================
      * Creates a new CalendarCategories entity.
      *
-     */
+      ====================================================================== */
+
     public function createAction(Request $request) {
-               $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $entity = new CalendarCategories();
-        
-         $id_cal = $this->getCalendarRoot();
-         $rootcalendar= $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->find($id_cal);
-         if ($rootcalendar){
-               $entity->setRootcalendar($rootcalendar);
-         }
+        $id_cal = $this->getCalendarRoot();
+        $rootcalendar = $em->getRepository('ApplicationCalendarBundle:CalendarRoot')->find($id_cal);
+        if ($rootcalendar) {
+            $entity->setRootcalendar($rootcalendar);
+        }
         $form = $this->createCreateForm($entity);
         $form->bind($request);
         if ($form->isValid()) {
             $em->persist($entity);
             $em->flush();
-
             return $this->redirect($this->generateUrl('calendarcategories'));
         }
-
         return $this->render('ApplicationCalendarBundle:CalendarCategories:new.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),
@@ -89,9 +102,6 @@ class CalendarCategoriesController extends Controller {
             'action' => $this->generateUrl('calendarcategories_create'),
             'method' => 'POST',
         ));
-
-      //  $form->add('submit', 'submit', array('label' => 'Create'));
-
         return $form;
     }
 
@@ -115,15 +125,11 @@ class CalendarCategoriesController extends Controller {
      */
     public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('ApplicationCalendarBundle:CalendarCategories')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find CalendarCategories entity.');
         }
-
         $deleteForm = $this->createDeleteForm($id);
-
         return $this->render('ApplicationCalendarBundle:CalendarCategories:show.html.twig', array(
                     'entity' => $entity,
                     'delete_form' => $deleteForm->createView(),));
@@ -177,20 +183,20 @@ class CalendarCategoriesController extends Controller {
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find CalendarCategories entity.');
         }
-        
-        /*if ($request->getMethod() == 'POST') {
+
+        /* if ($request->getMethod() == 'POST') {
           //  $data = $request->request->all();
-           //   var_dump($data);
-        }*/
-/*foreach($request->request->all() as $req){
-                   var_dump($req);
-}*/
+          //   var_dump($data);
+          } */
+        /* foreach($request->request->all() as $req){
+          var_dump($req);
+          } */
         $deleteForm = $this->createDeleteForm($id);
         //$editForm = $this->createEditForm($entity);
         $editForm = $this->createForm(new CalendarCategoriesType(), $entity);
         $editForm->bind($request);
-       // var_dump($editForm);
-     //   exit(1);
+        // var_dump($editForm);
+        //   exit(1);
         //$editForm->handleRequest($request);
         if ($editForm->isValid()) {
             $em->persist($entity);
@@ -211,7 +217,8 @@ class CalendarCategoriesController extends Controller {
      */
     public function deleteAction(Request $request, $id) {
         $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
+        /*   $form->handleRequest($request); */
+        $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -228,6 +235,45 @@ class CalendarCategoriesController extends Controller {
         return $this->redirect($this->generateUrl('calendarcategories'));
     }
 
+    //==============================================
+    //          REQUETES AJAX
+    // 
+    //==============================================
+    public function deleteajaxAction() {
+        $request = $this->get('request');
+        if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
+            $id = $request->request->get('id');
+            $user_security = $this->container->get('security.context');
+            // authenticated REMEMBERED, FULLY will imply REMEMBERED (NON anonymous)
+            if (!$user_security->isGranted('IS_AUTHENTICATED_FULLY')) {
+                
+            }
+            $user_id = $this->getuserid();
+            if (!isset($user_id)) {
+                $array['mystatus'] = "false";
+             /*   throw $this->createNotFoundException('Unable to find Changements entity.');*/
+                $response = new Response(json_encode($array));
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+            }
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('ApplicationCalendarBundle:CalendarCategories')->find($id);
+            if (!$entity) {
+            /*    throw $this->createNotFoundException('Unable to find CalendarCategories entity.');*/
+                $array['mystatus'] = "notremoved";
+                $response = new Response(json_encode($array));
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+            }
+            $array['mystatus'] = "removed";
+            $em->remove($entity);
+            $em->flush();
+            $response = new Response(json_encode($array));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+    }
+
     /**
      * Creates a form to delete a CalendarCategories entity by id.
      *
@@ -235,11 +281,25 @@ class CalendarCategoriesController extends Controller {
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id) {
+    private function createDeleteForm1($id) {
         return $this->createFormBuilder()
                         ->setAction($this->generateUrl('calendarcategories_delete', array('id' => $id)))
                         ->setMethod('DELETE')
-                        ->add('submit', 'submit', array('label' => 'Delete'))
+                        /*   ->add('submit', 'submit', array('label' => 'Delete')) */
+                        ->getForm()
+        ;
+    }
+
+    /**
+     * Creates a form to delete a Serveurs entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm($id) {
+        return $this->createFormBuilder(array('id' => $id))
+                        ->add('id', 'hidden')
                         ->getForm()
         ;
     }

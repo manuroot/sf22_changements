@@ -28,3 +28,10 @@ calendarcategories_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "ApplicationCalendarBundle:CalendarCategories:delete" }
     requirements: { _method: post|delete }
+    
+calendarcategories_deleteajax:
+    pattern:  /deletecategoriesajax/
+    defaults: { _controller: "ApplicationCalendarBundle:CalendarCategories:deleteajax" }
+    options:
+        expose: true
+        

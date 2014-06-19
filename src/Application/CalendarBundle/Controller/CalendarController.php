@@ -210,6 +210,7 @@ class CalendarController extends Controller {
 
     /**
      * Dispatch a CalendarEvent and return a JSON Response of any events returned.
+     * chargement de la page web (ajax) + update indexadesgin.html.twig
      *
      * @param Request $request
      * @return Response

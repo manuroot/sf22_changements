@@ -30,7 +30,7 @@ class CalendarGroupType extends AbstractType
                     'property' => 'username',
                     'multiple' => false,
                     'required' => false,
-                    'label' => 'Username',
+                    'label' => 'Proprietaire',
                     'empty_value' => '--- Choisir une option ---'
                 ))
             

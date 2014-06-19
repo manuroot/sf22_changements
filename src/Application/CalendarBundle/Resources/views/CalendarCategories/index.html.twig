@@ -17,30 +17,194 @@ body {
 }
     .container{margin-left:10px;margin-right:10px;}
     .container-fluid{margin-left:10px;margin-right:10px;}
+      .table {margin-top:10px;}
+      a > i.fa {color:black;}
 </style>
 {% endblock %}
         
         
 {% block javascripts %}
     {{ parent() }}
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script type="text/javascript" src="{{ asset('select2/select2.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('select2/select2_locale_fr.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bootstrap/js/jquery.pnotify.min.js') }}"></script>
+
+
+<script type="text/javascript">
+    /* $(document).onload(function() { $("div#matable").hide();});*/
+      $(document).ready(function() {
+        /* $("select#changements_searchfilter_idStatus").show("fade");*/
+       $("a.mytooltip-header").popover(
+            {html: true, delay: {show: 300, hide: 300}, placement: 'bottom', trigger: 'hover'}
+    );
+    var img_path = '/bundles/applicationchangements/images/';
+    var img_s_path = 'bundles/applicationchangements/images/';
+
+    $.fn.extend({
+        hasClasses: function(selectors) {
+            var self = this;
+            for (i in selectors) {
+                if ($(self).hasClass(selectors[i]))
+                    return true;
+            }
+            return false;
+        }
+    });
+
+  
+
+    $("#mytitleb").popover({
+        html: true,
+        delay: {show: 300, hide: 300},
+        placement: 'bottom',
+        trigger: 'hover',
+        title: function() {
+            return $("#popover-head").html();
+        },
+        content: function() {
+
+            return $("#popover-content").html();
+        }
+    });
+
+
+    $("a.favoris").popover({delay: {show: 300, hide: 300}, placement: 'bottom', trigger: 'hover'});
+    $("a.tooltip_comments,a.tooltip_edit,a.tooltip_show").popover(
+            {html: true, delay: {show: 300, hide: 300}, placement: 'left', trigger: 'hover'}
+    );
+           $("th.thinfos > a.mytooltip").popover(
+            {html: true, delay: {show: 300, hide: 1000}, placement: 'top', trigger: 'hover'}
+    );
+
+    /*========================================================
+     *  Ajout de favoris
+     ========================================================*/
+
+    $("td > a.supprimer").click(function(event) {
+
+        var url_login = Routing.generate('fos_user_security_login');
+        var dataAjax = {from: 'favoris'};
+     var chck = checkuser(dataAjax);
+           if (chck === false) {
+         window.location.replace(url_login);
+        }
+        else {
+             if ($(this).hasClass("supprimer")) {
+                var id = $(this).attr("data-id");
+                var name = $(this).attr("data-name");
+                var obj = $(this);
+                var message = "Supprimer la catégorie id= " + id ;
+                console.log(" id=" + id);
+                var mess = "<i class='icon-wrench icon-2x'></i><br><h3>" + message + "</h3><p>nom=" + name + "</p>";
+                bootbox.confirm(mess, function(checkstr) {
+                    console.log("confirm result=" + checkstr);
+                      if (checkstr === true) {
+                        /*$(this).data('data-status',new_status);*/
+                        var dataAjax = {id: id};
+                        MettreAJour(dataAjax, obj);
+                    }
+
+                });
+                return true;
+            }
+            /* pas de class favoris*/
+            else {
+                return false;
+            }
+        }
+        /*});*/
+
+    });
+    
+    /*========================================================
+     *  Fonction: checkuser
+     ========================================================*/
+       function checkuser(dataAjax) {
+                        
+        $.ajax({
+            data: dataAjax,
+            url: Routing.generate('ajax_checkuser'),
+            async: false,
+            type: "POST",
+            cache: false,
+            success: function(data)
+            {
+                myVar = data.status;
+            },
+             error: function(e) {
+            myVar=false;
+             }
+        });
+        return myVar;
+    }
+    
+    
+    /*========================================================
+     *  Fonction: ajout au favoris
+     ========================================================*/
+    function MettreAJour(dataAjax, obj) {
+        $.ajax({
+            url: Routing.generate('calendarcategories_deleteajax'),
+            type: "POST",
+            data: dataAjax,
+            dataType: "json",
+            success: function(reponse) {
+                var img_favori = "";
+              var id = obj.attr("data-id");
+              var message="id=" + id + "not removed";
+                console.log("before id =" + id);
+                if (reponse['mystatus'] === "removed") {
+                    var mytr = obj.closest("tr#" + id);
+                    mytr.fadeTo(600, 0, function() {
+                        $(this).remove();
+                    });
+                    message= message + "removed";
+                    console.log("remove tr id=" + id);
+                 }
+                else {
+                       message= message + "not removed";
+                    img_favori = "star-on.png";
+                }
+
+                console.log("reponse:" + reponse['mystatus']);
+                $.pnotify({
+                    title: 'Suppression enregistrement',
+                    text: message,
+                    animation: 'show',
+                    nonblock_opacity: 0.2,
+                    type: 'success',
+                    icon: 'icon-flag',
+                    width: '350px',
+                    opacity: .9
+                });
+            },
+            error: function(e) {
+                console.log(e.message);
+            }
+        });  //Eof:: ajax 
+//return;
+    } //Eof:: fucntion remplirSelect
+    });  
+    </script>  
 {% endblock %}
 
+
+    
 {% block content_header '' %}
-
-
-{% block title %}
- 
-{% endblock %}
+{% block title %}{% endblock %}
         
 
 {% block content %}
 
-
  <div class='row'>    
- <div class='col-lg-12 col-sm-8 col-xs-4'>    
-    <h1><span class="glyphicon glyphicon-wrench"> </span> Catégories ({{ root_calendar.nom }})</h1>
+ <div class='col-lg-12 col-sm-12 col-xs-12'>    
+     <h1><center><span class="glyphicon glyphicon-wrench"> </span> Catégories ({{ root_calendar.nom }})</center></h1>
  </div></div>
 
+ <div class='row'>    
+ <div class='col-lg-12 col-sm-12 col-xs-12'>    
     
 
     <table class="table  table-striped table-hover table-bordered">
@@ -51,12 +215,13 @@ body {
                 <th>Description</th>
                   <th>FontCssclass</th>
                 <th>Cssclass</th>
-                <th>Actions</th>
+                <th colspan="2">Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
-            <tr>
+           
+           <tr  id="{{ entity.id }}">
                 <td><a href="{{ path('calendarcategories_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.nom }}</td>
                 <td>{{ entity.description }}</td>
@@ -68,17 +233,24 @@ body {
                 <div style="width:20px;height:20px;background-color:{{ entity.cssClass}}"></div> 
                 </td>
                 <td> <a href="{{ path('calendarcategories_edit', { 'id': entity.id }) }}">
-                                <img src="{{ asset('bundles/applicationchangements/images/edit.png') }}" alt="edit" width="15px" height="15px" />
+                     <i class="fa fa-pencil-square-o fa-2x"></i>         
                                 </a>
               </td>
-            </tr>
+              <td> 
+                <a href="#" class="supprimer" rel="tooltip" data-placement="bottom" data-content="Ajouter cet enregistrement a vos favoris" data-original-title="Information" data-toggle="tooltip" data-id="{{entity.id}}" data-name="{{entity.nom}}">
+           
+              <i class="fa fa-trash-o fa-2x"></i>
+                </a>
+              </td>
+                 
+           </tr>
         {% endfor %}
         </tbody>
     </table>
 <a href="{{ path('calendarcategories_new') }}" class="myleft btn btn-small btn-primary">Créer une nouvelle categorie</a>
     
 <a href="{{ path('calendar_indexadesign') }}" class="myleft btn btn-small btn-primary">Retour Calendrier</a>    
-    
+    </div></div>
    
 {% endblock %}
 {#
