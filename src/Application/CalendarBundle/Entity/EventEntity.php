@@ -60,6 +60,9 @@ class EventEntity
      */
     
     protected $description;
+    
+    protected $idStatus;
+            
     /**
      * @var boolean Is this an all day event?
      */
@@ -96,7 +99,12 @@ class EventEntity
         if ($this->url !== null) {
             $event['url'] = $this->url;
         }
+        if ($this->idStatus !== null) {
+            $event['idStatus'] = $this->idStatus;
+            
+        }
         
+                
         if ($this->bgColor !== null) {
             $event['backgroundColor'] = $this->bgColor;
             $event['borderColor'] = $this->bgColor;
@@ -232,4 +240,16 @@ class EventEntity
     {
         return $this->allDay;
     }
+    
+      public function setIdStatus($idStatus = false)
+    {
+        $this->idStatus = (boolean) $idStatus;
+    }
+    
+    public function getIdStatus()
+    {
+        return $this->idStatus;
+    }
+    
+    
 }
