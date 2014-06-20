@@ -59,6 +59,13 @@ php app/console fos:user:promote testuser ROLE_ADMIN
 php app/console fos:user:demote testuser ROLE_ADMIN
 php app/console fos:user:change-password testuser newp@ssword
 
+#===========================
+Composer
+#===========================
+
+# updater version du composer
+php composer.phar self-update
+
 php composer require sonata-project/user-bundle --no-update
 php composer require sonata-project/doctrine-orm-admin-bundle  --no-update # optional
 php composer update
@@ -115,3 +122,9 @@ GIT
 #===============================
 git pull http://github.com/manuroot/sf22_changements.git
 git commit -m "calendar update"
+
+#===============================
+ROUTES
+#===============================
+
+php app/console router:debug

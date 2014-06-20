@@ -153,14 +153,14 @@ body {
             success: function(reponse) {
                 var img_favori = "";
               var id = obj.attr("data-id");
-              var message="id=" + id + "not removed";
+              var message="id=" + id ;
                 console.log("before id =" + id);
-                if (reponse['mystatus'] === "removed") {
+                if (reponse['mystatus'] === " removed") {
                     var mytr = obj.closest("tr#" + id);
                     mytr.fadeTo(600, 0, function() {
                         $(this).remove();
                     });
-                    message= message + "removed";
+                  
                     console.log("remove tr id=" + id);
                  }
                 else {
