@@ -54,6 +54,7 @@ class CalendarEventListener {
             $eventEntity->setFgColor($v['a_fgColor']);
             $eventEntity->setBgColor($v['a_bgColor']);
             $eventEntity->setCssClass($v['a_cssClass']);
+             $eventEntity->setIdStatus($v['a_idStatus']);
             $nbfic=(isset($v['num']) ? $v['num'] : "0");
              $eventEntity->setNbfiles($nbfic);
             $eventEntity->setDescription($v['a_description']); //set the foreground color of the event's label

@@ -177,6 +177,12 @@
             }
         });
         /*$(this).find('.fc-event-time').addClass('newclass');*/
+        
+        /*=============================================================================
+         *  Deplacer event vers calendar
+         * 
+         * 
+         */
         $('#external-events div.external-event').each(function() {
             //create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
             // it doesn't need to have a start or end
@@ -667,7 +673,7 @@ var a=0;
             $('#createEventModal').hide();
             console.log("submit button");
             var title = $("#titleName").val();
-            var description = $("#descriptionName").val();
+            var description = $("#descriAppel Edit eventptionName").val();
             var mstart = $('#apptStartTime').val();
             var mend = $('#apptEndTime').val();
             // color en hexa via colorpicker:
@@ -886,6 +892,10 @@ var a=0;
         /*------------------------------------------
          *
          * EDIT WINDOW
+         * 
+         * edition d'un enregistrement
+         * Appel de edit_adesign.html.twig
+         * avec la route calendar_adesignajax_edit
          *
          ------------------------------------------*/
 

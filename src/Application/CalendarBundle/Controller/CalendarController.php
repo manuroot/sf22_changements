@@ -493,20 +493,17 @@ class CalendarController extends Controller {
 
     public function editajaxCalendarAction(Request $request, $id) {
 
+        // Recuperation de enregistrement $id
         $id = $request->get('id');
         $em = $this->getDoctrine()->getManager();
         $calendar_entity = $em->getRepository('ApplicationCalendarBundle:AdesignCalendar')->find($id);
         $editForm = $this->createForm(new CalendarType(), $calendar_entity);
         $session = $request->getSession();
         $id_cal = $session->get('calendar_id');
-        if ($id_cal) {
-            $entity_evements = $em->getRepository('ApplicationCalendarBundle:CalendarCategories')->myFindAll($id_cal);
-        } else {
-            $entity_evements = array();
-        }
+       
 
         if ($request->getMethod() == 'POST') {
-            //$formData = $this->get('request')->request->all();
+          //  $formData = $this->get('request')->request->all();
             // var_dump($formData);
             $editForm->bind($request);
             if ($editForm->isValid()) {
@@ -520,7 +517,12 @@ class CalendarController extends Controller {
                 return $response;
             }
         }
-
+        /*???? */
+         if ($id_cal) {
+            $entity_evements = $em->getRepository('ApplicationCalendarBundle:CalendarCategories')->myFindAll($id_cal);
+        } else {
+            $entity_evements = array();
+        }
         return $this->render('ApplicationCalendarBundle:Calendar:edit_adesign.html.twig', array(
                     'entity' => $calendar_entity,
                     'evenements' => $entity_evements,
@@ -530,6 +532,7 @@ class CalendarController extends Controller {
         ));
     }
 
+    /* ????*/
     public function updateajaxCalendarAction(Request $request, $id) {
 
         $id = $request->get('id');

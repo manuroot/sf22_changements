@@ -350,6 +350,7 @@ ivory_ck_editor:
             filebrowserImageUploadRouteParameters:
                 provider: sonata.media.provider.image
                 context: changements_files
+            allowedContent : true
                 
             full:
               toolbar: full

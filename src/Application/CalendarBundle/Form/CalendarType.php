@@ -26,10 +26,14 @@ class CalendarType extends AbstractType {
                 ->add('fgColor','text',array('label'=>'Font Color'))
                // ->add('startDatetime','hidden')
               // ->add('endDatetime','hidden')
-              //  ->add('description', 'textarea')
-               // ->add('description', 'ckeditor')
-                ->add('description', 'ckeditor', array(
+              /*  ->add('description', 'textarea')*/
+              /*  ->add('description', 'ckeditor')*/
+              /*  ->add('description', 'ckeditor', array(
                      'config_name' => 'simple_config',
+            
+                ))*/
+                 ->add('description', 'ckeditor', array(
+                    'config_name' => 'my_config',
             
                 ))
                 
@@ -93,7 +97,8 @@ class CalendarType extends AbstractType {
 * @return string
 */
     public function getName() {
-        return ;
+    //    return 'adesigncal';
+        return;
     }
 
 }

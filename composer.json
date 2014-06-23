@@ -82,7 +82,7 @@
          "punkave/symfony2-file-uploader-bundle": "1.0.*@dev",
           "problematic/acl-manager-bundle": "dev-master",
           "fr3d/ldap-bundle": "2.0.*@dev",
-          "egeloen/ckeditor-bundle": "2.2.1",
+         "egeloen/ckeditor-bundle": "2.3.*@dev",
           "michelf/php-markdown": "1.4.*@dev",
           "friendsofsymfony/elastica-bundle": "3.0.*@dev"
 

@@ -4,6 +4,8 @@
 #}
 {% form_theme form with 'ApplicationCalendarBundle:Form:tpl_form.html.twig' %}
 
+
+
 {% block stylesheets %}
 
 {{ parent() }}
@@ -240,9 +242,19 @@ input[id*='picture_'] {float:left;color:red;margin-right:5px; }
         //timeout:   3000 
     }; 
   
-    
+   
+
+      /*  function CKupdate() {
+            for (instance in CKEDITOR.instances)
+                CKEDITOR.instances[instance].updateElement();
+            return true;
+        }*/
     // bind to the form's submit event 
-    $('#myform').submit(function() { 
+ $('#myform').submit(function() { 
+      for (instance in CKEDITOR.instances) {
+    CKEDITOR.instances[instance].updateElement();
+}
+        //cke_1_contents
         // inside event callbacks 'this' is the DOM element so we first 
         // wrap it in a jQuery object and then invoke ajaxSubmit 
         $(this).ajaxSubmit(options); 
@@ -252,7 +264,30 @@ input[id*='picture_'] {float:left;color:red;margin-right:5px; }
         return false; 
     }); 
 
- 
+
+//console.log("v="+v);
+/*
+ * Ajouter cas update ou create
+ */
+/*$('#myform').submit(function (e) {
+   // e.preventDefault();
+       for (instance in CKEDITOR.instances) {
+    CKEDITOR.instances[instance].updateElement();
+}
+          //var v=$("#myform").attr('data-id'); 
+$.ajax({             
+type: 'post',
+dataType: 'json',
+url: Routing.generate('calendar_adesignajax_edit', {'id':$("#myform").attr('data-id')}),
+data: $('#myform').serialize(),
+success: function () {
+ alert('form was submitted');
+}
+    });
+
+    return false;
+});*/
+
 // pre-submit callback 
 function showRequest(formData, jqForm, options) { 
     // formData is an array; here we use $.param to convert it to a string to display it 
@@ -345,6 +380,8 @@ function showResponse(responseText, statusText, xhr, $form)  {
 
             <div class='row'>  
                 <div class='col-xs-12'>
+                  {#  <div class='form-group'>{{ form_row(form.description,{ 'attr': {'class': 'tinymce'} }) }}</div>#}
+                         {#<div class='form-group'>{{ form_row(form.description) }}</div>#}
                     <div class='form-group'>{{ form_row(form.description|raw) }}</div>
                 </div>
             </div>

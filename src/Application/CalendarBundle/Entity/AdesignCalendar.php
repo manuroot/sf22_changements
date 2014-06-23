@@ -20,10 +20,10 @@ use Application\CalendarBundle\Model\BaseAdesignCalendar;
  * @ORM\Table(name="wdcalendar_adesignmain")
  * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="Application\CalendarBundle\Repository\AdesignCalendarRepository")
- * @GRID\Source(columns="id,title,startDatetime,endDatetime,user.username,calendarid.nom")
+ * @GRID\Source(columns="id,title,startDatetime,endDatetime,user.username,calendarid.nom,idStatus")
  */
 
-
+ 
     
 
 class AdesignCalendar extends BaseAdesignCalendar
@@ -64,18 +64,15 @@ class AdesignCalendar extends BaseAdesignCalendar
     protected $picture;
     
     
-    /**
-     * 
-     * mapped:ok, coté proprietaire ??
-     * One direction
-     * @var \idstatus
+  
+       /**
+     * @var boolean
      *
-     * @ORM\ManyToOne(targetEntity="\Application\ChangementsBundle\Entity\ChangementsStatus")
-     * @ORM\OrderBy({"nom" = "ASC"})
-     * @ORM\JoinColumn(name="id_status", referencedColumnName="id",nullable=true)
-     * @GRID\Column(field="idStatus.nom", title="Status",size="10",filter="select",selectFrom="query")
+     * @GRID\Column(name="status", type="boolean", nullable=true, values={"1"="A Valider","0"="Vérifié"})
      */
     private $idStatus;
+    
+    
     
        /**
         * unidirectionnel
@@ -233,25 +230,26 @@ class AdesignCalendar extends BaseAdesignCalendar
         //removeIdchangement(\Application\ChangementsBundle\Entity\Changements $idchangement) {
     }
 
-  /**
-     * Set idProject
+    /**
+     * Set iscti
      *
-     * @param \Application\ChangementsBundle\Entity\ChangementsStatut $idStatus
-     * @return Changements
+     * @param boolean $idStatus
+     * @return integer 
      */
-    public function setIdStatus(\Application\ChangementsBundle\Entity\ChangementsStatus $idStatus = null) {
+    public function setIdStatus($idStatus) {
         $this->idStatus = $idStatus;
 
         return $this;
     }
 
     /**
-     * Get idProject
+     * Get idstatus
      *
-     * @return \Application\ChangementsBundle\Entity\ChangementsStatus 
+     * @return boolean 
      */
     public function getIdStatus() {
         return $this->idStatus;
     }
     
-}
+    
+    }
