@@ -67,6 +67,7 @@ class AdesignCalendar extends BaseAdesignCalendar
   
        /**
      * @var boolean
+      * @ORM\Column(name="status", type="boolean", nullable=true)
      *
      * @GRID\Column(name="status", type="boolean", nullable=true, values={"1"="A Valider","0"="Vérifié"})
      */

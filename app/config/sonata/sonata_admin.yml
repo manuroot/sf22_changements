@@ -26,3 +26,6 @@ sonata_admin:
 
         # default values of block templates, they should extend the base_block template
         list_block: SonataAdminBundle:Block:block_admin_list.html.twig
+    options:
+       use_select2:    true # disable select2
+
