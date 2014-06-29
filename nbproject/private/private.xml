@@ -25,25 +25,29 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Repository/ChangementsCommentsRepository.php</file>
+            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/EventListener/CalendarEventListener.php</file>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/DependencyInjection/ApplicationChangementsExtension.php</file>
             <file>file:/var/www/Symfony_changements/composer.json</file>
             <file>file:/var/www/Symfony_changements/app/config/sonata/sonata_core.yml</file>
             <file>file:/var/www/Symfony_changements/src/Application/Sonata/AdminBundle/ApplicationSonataAdminBundle.php</file>
-            <file>file:/var/www/Symfony_changements/vendor/sonata-project/admin-bundle/Resources/views/ajax_layout.html.twig</file>
-            <file>file:/var/www/Symfony_changements/vendor/sonata-project/admin-bundle/Resources/views/standard_layout.html.twig</file>
             <file>file:/var/www/Symfony_changements/src/Application/Sonata/MediaBundle/Controller/MediaController.php</file>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/DependencyInjection/Configuration.php</file>
             <file>file:/var/www/Symfony_changements/app/config/sonata/sonata_block.yml</file>
             <file>file:/var/www/Symfony_changements/app/config/sonata/sonata_user.yml</file>
             <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Entity/Changements.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/Sonata/UserBundle/Form/UserType.php</file>
             <file>file:/var/www/Symfony_changements/app/AppKernel.php</file>
             <file>file:/var/www/Symfony_changements/app/config/config.yml</file>
-            <file>file:/var/www/Symfony_changements/vendor/sonata-project/admin-bundle/Resources/views/empty_layout.html.twig</file>
             <file>file:/var/www/Symfony_changements/src/Application/Sonata/MediaBundle/Form/MediaType.php</file>
+            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Repository/AdesignCalendarRepository.php</file>
+            <file>file:/var/www/Symfony_changements/src/Application/ChangementsBundle/Repository/ChangementsRepository.php</file>
             <file>file:/var/www/Symfony_changements/app/config/sonata/sonata_admin.yml</file>
             <file>file:/var/www/Symfony_changements/src/Application/Sonata/UserBundle/Entity/User.php</file>
-            <file>file:/var/www/Symfony_changements/src/Application/Sonata/UserBundle/ApplicationSonataUserBundle.php</file>
+            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Entity/AdesignCalendar.php</file>
             <file>file:/var/www/Symfony_changements/src/Application/Sonata/UserBundle/Admin/UserAdmin.php</file>
+            <file>file:/var/www/Symfony_changements/src/Application/Sonata/UserBundle/ApplicationSonataUserBundle.php</file>
             <file>file:/var/www/Symfony_changements/app/config/sonata/sonata_media.yml</file>
+            <file>file:/var/www/Symfony_changements/src/Application/CalendarBundle/Controller/CalendarRootController.php</file>
         </group>
     </open-files>
 </project-private>
