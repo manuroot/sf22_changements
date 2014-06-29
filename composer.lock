@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "f93bd30b01bb36e4b27be810669a6ee4",
+    "hash": "3c39401c308367de28802b611cb37027",
     "packages": [
         {
             "name": "adesigns/calendar-bundle",
@@ -204,12 +204,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/craue/CraueFormFlowBundle.git",
-                "reference": "d3d3aaf6f01a0f172404f020a78de318c262ae64"
+                "reference": "2008110313b6052ab074ec49058e973b3bb21866"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craue/CraueFormFlowBundle/zipball/d3d3aaf6f01a0f172404f020a78de318c262ae64",
-                "reference": "d3d3aaf6f01a0f172404f020a78de318c262ae64",
+                "url": "https://api.github.com/repos/craue/CraueFormFlowBundle/zipball/2008110313b6052ab074ec49058e973b3bb21866",
+                "reference": "2008110313b6052ab074ec49058e973b3bb21866",
                 "shasum": ""
             },
             "require": {
@@ -231,7 +231,7 @@
             },
             "autoload": {
                 "psr-0": {
-                    "Craue\\FormFlowBundle": ""
+                    "Craue\\FormFlowBundle\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -254,7 +254,7 @@
                 "Symfony2",
                 "form"
             ],
-            "time": "2014-06-20 10:27:14"
+            "time": "2014-06-26 13:34:14"
         },
         {
             "name": "dflydev/markdown",
@@ -982,41 +982,43 @@
         },
         {
             "name": "egeloen/ckeditor-bundle",
-            "version": "dev-master",
+            "version": "2.3.2",
+            "target-dir": "Ivory/CKEditorBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egeloen/IvoryCKEditorBundle.git",
-                "reference": "2a91d41157632470a9e2c6cfb01a67f4cd2acb4b"
+                "reference": "5aba72b1b525f9365744898e96cfb15ed3c99a2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egeloen/IvoryCKEditorBundle/zipball/2a91d41157632470a9e2c6cfb01a67f4cd2acb4b",
-                "reference": "2a91d41157632470a9e2c6cfb01a67f4cd2acb4b",
+                "url": "https://api.github.com/repos/egeloen/IvoryCKEditorBundle/zipball/5aba72b1b525f9365744898e96cfb15ed3c99a2e",
+                "reference": "5aba72b1b525f9365744898e96cfb15ed3c99a2e",
                 "shasum": ""
             },
             "require": {
                 "egeloen/json-builder": "~1.0",
-                "php": ">=5.3.3",
+                "php": ">=5.3.0",
                 "symfony/form": "~2.1",
                 "symfony/framework-bundle": "~2.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.0",
+                "phpunit/phpunit": "~3.7",
                 "satooshi/php-coveralls": "~0.6",
-                "twig/twig": "~1.12"
+                "twig/twig": "~1.0"
             },
             "suggest": {
-                "twig/twig": "Allows to use twig templates"
+                "helios-ag/fm-elfinder-bundle": "Allows to use the elfinder as CKEditor file manager",
+                "twig/twig": "Allows to use Ivory CKEditor twig templates"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Ivory\\CKEditorBundle\\": ""
+                "psr-0": {
+                    "Ivory\\CKEditorBundle": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1033,7 +1035,7 @@
             "keywords": [
                 "CKEditor"
             ],
-            "time": "2014-06-25 18:51:04"
+            "time": "2014-06-17 13:25:40"
         },
         {
             "name": "egeloen/google-map",
@@ -1421,12 +1423,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSElasticaBundle.git",
-                "reference": "ffa73db1d231e014ce3456fa5b7cb2a13d320c10"
+                "reference": "ad37a2835688ec88171caa893e3ae0e7ac4a1191"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/ffa73db1d231e014ce3456fa5b7cb2a13d320c10",
-                "reference": "ffa73db1d231e014ce3456fa5b7cb2a13d320c10",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/ad37a2835688ec88171caa893e3ae0e7ac4a1191",
+                "reference": "ad37a2835688ec88171caa893e3ae0e7ac4a1191",
                 "shasum": ""
             },
             "require": {
@@ -1504,7 +1506,7 @@
                 "propel",
                 "search"
             ],
-            "time": "2014-06-25 03:27:53"
+            "time": "2014-06-27 05:08:56"
         },
         {
             "name": "friendsofsymfony/jsrouting-bundle",
@@ -1794,12 +1796,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/genemu/GenemuFormBundle.git",
-                "reference": "7c3add87302a2736e9bede87342ba5a383cef491"
+                "reference": "af36b33d798c3ddca2ea475d09beee3385626a73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/genemu/GenemuFormBundle/zipball/7c3add87302a2736e9bede87342ba5a383cef491",
-                "reference": "7c3add87302a2736e9bede87342ba5a383cef491",
+                "url": "https://api.github.com/repos/genemu/GenemuFormBundle/zipball/af36b33d798c3ddca2ea475d09beee3385626a73",
+                "reference": "af36b33d798c3ddca2ea475d09beee3385626a73",
                 "shasum": ""
             },
             "require": {
@@ -1855,7 +1857,7 @@
                 "extra form",
                 "form"
             ],
-            "time": "2014-06-25 16:39:56"
+            "time": "2014-06-26 19:06:37"
         },
         {
             "name": "imagine/imagine",
@@ -3448,17 +3450,17 @@
         },
         {
             "name": "ob/highcharts-bundle",
-            "version": "dev-master",
+            "version": "1.0.1",
             "target-dir": "Ob/HighchartsBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/marcaube/ObHighchartsBundle.git",
-                "reference": "d40c456a6c0d7f084acc0247e0df86de61e3a150"
+                "reference": "519d8c6724807b99459a5ca439c21455bbdb2c2c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marcaube/ObHighchartsBundle/zipball/d40c456a6c0d7f084acc0247e0df86de61e3a150",
-                "reference": "d40c456a6c0d7f084acc0247e0df86de61e3a150",
+                "url": "https://api.github.com/repos/marcaube/ObHighchartsBundle/zipball/519d8c6724807b99459a5ca439c21455bbdb2c2c",
+                "reference": "519d8c6724807b99459a5ca439c21455bbdb2c2c",
                 "shasum": ""
             },
             "require": {
@@ -3467,11 +3469,6 @@
                 "zendframework/zend-json": "2.1.*@dev"
             },
             "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
             "autoload": {
                 "psr-0": {
                     "Ob\\HighchartsBundle": ""
@@ -3499,7 +3496,7 @@
                 "marcaube",
                 "ob"
             ],
-            "time": "2014-06-19 13:29:58"
+            "time": "2013-11-08 15:28:36"
         },
         {
             "name": "oneup/uploader-bundle",
@@ -4178,12 +4175,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataAdminBundle.git",
-                "reference": "6f89ad785a31f07d2c4f8d27258a7bb6e9904960"
+                "reference": "cfc6c9055bf30e6d6fd5c79cc429c98e2cb13c3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/6f89ad785a31f07d2c4f8d27258a7bb6e9904960",
-                "reference": "6f89ad785a31f07d2c4f8d27258a7bb6e9904960",
+                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/cfc6c9055bf30e6d6fd5c79cc429c98e2cb13c3d",
+                "reference": "cfc6c9055bf30e6d6fd5c79cc429c98e2cb13c3d",
                 "shasum": ""
             },
             "require": {
@@ -4249,7 +4246,7 @@
                 "bootstrap",
                 "sonata"
             ],
-            "time": "2014-06-25 12:08:54"
+            "time": "2014-06-26 13:40:25"
         },
         {
             "name": "sonata-project/block-bundle",
@@ -5950,12 +5947,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dustin10/VichUploaderBundle.git",
-                "reference": "326e51293bd70ea29b7ceedecc35cbe13c5f2d6d"
+                "reference": "ba88a3d9dda41751f13145aa09530a27cdf48ec8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dustin10/VichUploaderBundle/zipball/326e51293bd70ea29b7ceedecc35cbe13c5f2d6d",
-                "reference": "326e51293bd70ea29b7ceedecc35cbe13c5f2d6d",
+                "url": "https://api.github.com/repos/dustin10/VichUploaderBundle/zipball/ba88a3d9dda41751f13145aa09530a27cdf48ec8",
+                "reference": "ba88a3d9dda41751f13145aa09530a27cdf48ec8",
                 "shasum": ""
             },
             "require": {
@@ -6007,7 +6004,7 @@
                 "file uploads",
                 "upload"
             ],
-            "time": "2014-06-25 17:46:56"
+            "time": "2014-06-26 18:17:23"
         },
         {
             "name": "white-october/pagerfanta-bundle",
@@ -6455,7 +6452,6 @@
         "savvy/filternator-bundle": 20,
         "jms/serializer-bundle": 20,
         "friendsofsymfony/comment-bundle": 20,
-        "ob/highcharts-bundle": 20,
         "knplabs/knp-markdown-bundle": 20,
         "adesigns/calendar-bundle": 20,
         "friendsofsymfony/jsrouting-bundle": 20,

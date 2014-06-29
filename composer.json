@@ -74,7 +74,7 @@
         "savvy/filternator-bundle": "dev-master",
         "jms/serializer-bundle": "0.12.*@dev",
         "friendsofsymfony/comment-bundle": "2.0.*@dev",
-        "ob/highcharts-bundle": "dev-master",
+"ob/highcharts-bundle": "1.0.1",
         "knplabs/knp-markdown-bundle": "1.2.*@dev",
         "adesigns/calendar-bundle": "dev-master",
         "friendsofsymfony/jsrouting-bundle": "1.1.*@dev",
