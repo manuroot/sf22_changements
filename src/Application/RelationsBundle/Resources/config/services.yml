@@ -2,7 +2,7 @@ services:
    application.relations.admin.projet:
       class: Application\RelationsBundle\Admin\ProjetAdmin
       tags:
-        - { name: sonata.admin, manager_type: orm, group: Projets, label: Liste des Projets }
+        - { name: sonata.admin, manager_type: orm, group: Infos, label: Liste des Projets }
       arguments: [null, Application\RelationsBundle\Entity\Projet, ApplicationRelationsBundle:ProjetAdmin]   
 
    chronoabsences.common.manager:

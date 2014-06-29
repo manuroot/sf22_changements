@@ -33,6 +33,11 @@ security:
                 failure_path:   null
             logout:
                 path:           /admin/logout
+# logout:    
+ #       path: /logout
+  #      target: /
+   #     invalidate_session: false
+
             anonymous:    true
         # -> end custom configuration
  

@@ -4,7 +4,28 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+<parameters>
+ 
+<parameter key="sonata.changements.admin.contact.class">Application\ChangementsBundle\Admin\ChangementsContactAdmin</parameter>
+<parameter key="sonata.changements.admin.contact.entity">Application\ChangementsBundle\Entity\ChangementsContact</parameter>
+<parameter key="sonata.changements.admin.contact.ncontroller">ApplicationChangementsBundle:ChangementsContactAdmin</parameter>
+<parameter key="sonata.changements.admin.contact.controller">SonataAdminBundle:CRUD</parameter>
+<parameter key="sonata.changements.admin.contact.admin.groupname">Infos</parameter>
+</parameters>
+
+
+
 <services>
+
+    <service id="sonata.changements.admin.contact" class="%sonata.changements.admin.contact.class%">
+ 
+<tag name="sonata.admin" manager_type="orm" group="%sonata.changements.admin.contact.admin.groupname%" label="Contacts Externes"/>
+ <argument />
+ <argument>%sonata.changements.admin.contact.entity%</argument>
+ <argument>%sonata.changements.admin.contact.ncontroller%</argument>
+ </service>
+
+
     <service id="application_epost_twig_extension" class="Application\ChangementsBundle\Twig\Extensions\ApplicationChangementsExtension">
     <tag name="twig.extension" />
 </service>
@@ -40,6 +61,12 @@
             <argument type="service" id="security.context"/>
             <tag name="kernel.event_subscriber"/>
         </service>
+
+ 
+
+
+
+
       <!--
         <service id="changements.calendar_listener" class="Application\ChangementsBundle\EventListener\CalendarEventListener">
             <argument type="service" id="doctrine.orm.entity_manager" />

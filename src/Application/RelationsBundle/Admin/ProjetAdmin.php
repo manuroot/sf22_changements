@@ -10,7 +10,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Knp\Menu\ItemInterface as MenuItemInterface;
-use Application\RelationsBundle\Entity\CertificatsProjet;
+use Application\RelationsBundle\Entity\Projet;
 
 class ProjetAdmin extends Admin {
 
@@ -35,18 +35,20 @@ break;
 }
  
 }*/
+/* Show
+*/
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
      *
      * @return void
      */
-    protected function configureShowField(ShowMapper $showMapper) {
+    protected function configureshowField(ShowMapper $showMapper) {
         $showMapper
-       ->with('Détail de l\'enregistrement')
-         ->add('id')
+     //  ->with('Détail de l\'enregistrement')
+        // ->add('id')
                 ->add('nomprojet')
-                ->add('description')
-                ->end()
+            //    ->add('description')
+          //      ->end()
  ;
                   
     }
@@ -85,7 +87,7 @@ break;
           ->add('id')
                    ->add('nomprojet')
                      ->add('description')
-             //   ->addIdentifier('nomprojet')
+              // ->addIdentifier('nomprojet')
               
                 ->add('_action', 'actions', array(
                     'actions' => array(
