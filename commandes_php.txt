@@ -123,6 +123,10 @@ GIT
 git pull http://github.com/manuroot/sf22_changements.git
 git commit -m "calendar update"
 
+git status -s
+git commit -am 'changes to hello file'
+git push -u origin master
+
 #===============================
 ROUTES
 #===============================
