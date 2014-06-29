@@ -45,6 +45,7 @@ break;
        ->with('Détail de l\'enregistrement')
          ->add('id')
                 ->add('nomprojet')
+                ->add('description')
                 ->end()
  ;
                   
@@ -60,6 +61,7 @@ break;
                 ->with('General')
               //    ->add('id')
                 ->add('nomprojet')
+                 ->add('description')
                 //page edit supplément
                 ->setHelps(array(
                     'nomprojet' => 'Titre du Projet',
@@ -82,6 +84,7 @@ break;
         $listMapper
           ->add('id')
                    ->add('nomprojet')
+                     ->add('description')
              //   ->addIdentifier('nomprojet')
               
                 ->add('_action', 'actions', array(
@@ -101,7 +104,8 @@ break;
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
         $datagridMapper
-                ->add('nomprojet');
+                ->add('nomprojet')
+                  ->add('description');
 
         //  ->add('tags', null, array('field_options' => array('expanded' => true, 'multiple' => true)))
         ;
