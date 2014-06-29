@@ -237,7 +237,7 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
          if (isset($criteria['iscti'])) {
        
         $query->andWhere('a.iscti = 1');
-         }
+         }else {$query->andWhere('a.iscti = 0');}
          //  $query->distinct('GroupConcat(g.nom) AS kak');
         //   $parameters['iscti'] = $iscti;
      
@@ -585,10 +585,10 @@ class ChangementsRepository extends EntityRepository implements ProviderInterfac
         if (!empty($criteria)) {
             $query = $this->getListBy($criteria);
         }
-        else {
+        /*else {
              $query->andWhere('a.iscti = 0');
             
-        }
+        }*/
 
  
 

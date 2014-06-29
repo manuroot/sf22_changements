@@ -136,7 +136,6 @@ class Changements extends AbstractEvent {
      *   @ORM\JoinColumn(name="id_projet", referencedColumnName="id",nullable=false)
      * })
      * @GRID\Column(field="idProjet.nomprojet", title="Projet",size="20",filter="select",selectFrom="query")
-
      */
     private $idProjet;
 //selectMulti="false",
@@ -568,7 +567,7 @@ class Changements extends AbstractEvent {
         $this->idfavoris = new ArrayCollection();
         $this->dateDemande = new \DateTime('now');
         $this->astreinte = false;
-         $this->iscti = true;
+         $this->iscti = false;
          $this->operation = NULL;
         //   $this->idapplis = new \Doctrine\Common\Collections\ArrayCollection();
         /*         $this->uid = $uid;

@@ -33,7 +33,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="Application\ChangementsBundle\Repository\ChangementsCommentsRepository")
  * @GRID\Source(columns="id,user.username,user.id,changement.nomUser.username,changement.id,
- changement.idProjet.nomprojet,changement.demandeur.nomUser,created,updated,categorie.nom,approved",groupBy={"id"})
+ * changement.idProjet.nomprojet,changement.demandeur.nomUser,created,updated,categorie.nom,approved",groupBy={"id"})
  */
 
 class ChangementsComments {
@@ -80,8 +80,7 @@ class ChangementsComments {
      * @ORM\JoinColumn(name="changement_id", referencedColumnName="id")
      * @GRID\Column(field="changement.id", title="Changement",size="20",filter="select",selectFrom="query")
     * @GRID\Column(field="changement.idProjet.nomprojet", type="text",title="Projet",size="20",filter="select",selectFrom="query"))
-   
-     * @GRID\Column(field="changement.demandeur.nomUser", title="Demandeur",size="20",filter="select",selectFrom="query")
+    * @GRID\Column(field="changement.demandeur.nomUser", title="Demandeur",size="20",filter="select",selectFrom="query")
      */
     protected $changement;
 

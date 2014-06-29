@@ -101,7 +101,7 @@ class ChangementsFilterAmoiType extends AbstractType {
                     ),
                     'mapped' => false, 'required' => false))
                   
-                ->add('iscti', 'checkbox', array('label' => 'Opération CTI','required' => false,
+                ->add('iscti', 'checkbox', array('label' => 'Opération Hors CTI','required' => false,
                   // 'attr'     => array('checked'   => 'checked')
                     ))
 
