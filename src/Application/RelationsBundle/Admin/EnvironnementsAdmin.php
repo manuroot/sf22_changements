@@ -10,9 +10,9 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Knp\Menu\ItemInterface as MenuItemInterface;
-use Application\RelationsBundle\Entity\Projet;
+use Application\RelationsBundle\Entity\environnements;
 
-class ProjetAdmin extends Admin {
+class EnvironnementsAdmin extends Admin {
 
  /* public function getTemplate($name)
  
@@ -47,7 +47,7 @@ break;
      //  ->with('Détail de l\'enregistrement')
         // ->add('id')
           
-                ->add('nomprojet')
+                ->add('nom')
                     ->add('description')
             //    ->add('description')
           //      ->end()
@@ -64,11 +64,11 @@ break;
         $formMapper
                 ->with('General')
               //    ->add('id')
-                ->add('nomprojet')
+                ->add('nom')
                  ->add('description')
                 //page edit supplément
                 ->setHelps(array(
-                    'nomprojet' => 'Titre du Projet',
+                    'nom' => 'Environnement',
                     'keywords' => 'Set the keywords of a web page',
                 ))
              /*   ->add('image', 'sonata_type_model_list', array('required' => false),
@@ -87,9 +87,9 @@ break;
     protected function configureListFields(ListMapper $listMapper) {
         $listMapper
           ->add('id')
-                   ->add('nomprojet')
+                   ->add('nom')
                      ->add('description')
-              // ->addIdentifier('nomprojet')
+              // ->addIdentifier('nom')
               
                 ->add('_action', 'actions', array(
                     'actions' => array(
@@ -108,7 +108,7 @@ break;
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
         $datagridMapper
-                ->add('nomprojet')
+                ->add('nom')
                   ->add('description');
 
         //  ->add('tags', null, array('field_options' => array('expanded' => true, 'multiple' => true)))

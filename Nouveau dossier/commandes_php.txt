@@ -132,29 +132,3 @@ ROUTES
 #===============================
 
 php app/console router:debug
-
-
-#===============================
-ETENDRE SONATAADMIN
-#===============================
-
-// in your admin class
-public function getTemplate($name)
-{
-    switch ($name) {
-        case 'edit':
-            return 'AcmeMyBundle::my-custom-edit.html.twig';
-            break;
-        default:
-            return parent::getTemplate($name);
-            break;
-    }
-}
-ou
-
-copier views de sonataadminbundle sous
-/app/Resources/sonataAdminBundle/views/
-
-ou 
-etendre sonataadmin et copier views de sonataadminbundle sous
-dans views

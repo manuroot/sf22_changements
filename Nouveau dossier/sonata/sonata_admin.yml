@@ -8,8 +8,6 @@
 sonata_admin:
     security:
         handler: sonata.admin.security.handler.role
-    title:                Adm Sonata
-    title_logo:           bundles/sonataadmin/logo_title.png
     templates:
         layout:  SonataAdminBundle::standard_layout.html.twig
         ajax:    SonataAdminBundle::ajax_layout.html.twig
@@ -39,13 +37,5 @@ sonata_admin:
         search_result_block: SonataAdminBundle:Block:block_search_result.html.twig
 
     options:
-        html5_validate:                         true      # use html5 validation
-        confirm_exit:                           true      # enabled confirmation when quitting with unsaved changes
-        use_select2:                            true      # enable select2
-        use_icheck:                             true      # enable iCheck
-        dropdown_number_groups_per_colums:      2         # max items per column in dropdown menu (add button in top nav)
-        title_mode:           'both'                      # 'both', 'single_text' or 'single_image'
-        
-  
-   
+       use_select2:    true # disable select2
 

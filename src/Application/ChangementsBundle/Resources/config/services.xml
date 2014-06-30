@@ -25,7 +25,14 @@
  <argument>%sonata.changements.admin.contact.ncontroller%</argument>
  </service>
 
-
+ <service id="sonata.changements.admin.status" class="Application\ChangementsBundle\Admin\ChangementsStatusAdmin">
+ <tag name="sonata.admin" manager_type="orm" group="%sonata.changements.admin.contact.admin.groupname%" label="Status"/>
+ <argument />
+ <argument>Application\ChangementsBundle\Entity\ChangementsStatus</argument>
+ <argument>ApplicationChangementsBundle:ChangementsStatusAdmin</argument>
+ </service>
+ 
+ 
     <service id="application_epost_twig_extension" class="Application\ChangementsBundle\Twig\Extensions\ApplicationChangementsExtension">
     <tag name="twig.extension" />
 </service>

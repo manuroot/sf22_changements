@@ -2,7 +2,7 @@
 
 // src/Tutorial/BlogBundle/Admin/PostAdmin.php
 
-namespace Application\RelationsBundle\Admin;
+namespace Application\ChangementsBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -10,9 +10,19 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Knp\Menu\ItemInterface as MenuItemInterface;
-use Application\RelationsBundle\Entity\Projet;
+use Application\ChangementsBundle\Entity\ChangementsStatus;
 
-class ProjetAdmin extends Admin {
+class ChangementsStatusAdmin extends Admin {
+
+  protected $baseRouteName = 'contacts';
+
+  public function getTemplate($name)
+ 
+{
+      return parent::getTemplate($name);
+
+   
+    }
 
  /* public function getTemplate($name)
  
@@ -42,15 +52,21 @@ break;
      *
      * @return void
      */
-    protected function configureShowFields(ShowMapper $showMapper) {
+  protected function configureShowFields(ShowMapper $showMapper) {
         $showMapper
-     //  ->with('Détail de l\'enregistrement')
+    ->with('Détail de l\'enregistrement')
         // ->add('id')
-          
-                ->add('nomprojet')
-                    ->add('description')
+              /*  ->add('nomUser')
+                ->add('infos')
+                ->add('telephone')
+                ->add('email')*/
             //    ->add('description')
           //      ->end()
+              
+            ->add('nom', null, array())
+      
+                ->add('description')
+                 ->end()
  ;
                   
     }
@@ -64,11 +80,11 @@ break;
         $formMapper
                 ->with('General')
               //    ->add('id')
-                ->add('nomprojet')
-                 ->add('description')
+                     ->add('nom')
+                ->add('description')
                 //page edit supplément
                 ->setHelps(array(
-                    'nomprojet' => 'Titre du Projet',
+                    'nom' => 'Nom',
                     'keywords' => 'Set the keywords of a web page',
                 ))
              /*   ->add('image', 'sonata_type_model_list', array('required' => false),
@@ -86,9 +102,10 @@ break;
      */
     protected function configureListFields(ListMapper $listMapper) {
         $listMapper
+            
           ->add('id')
-                   ->add('nomprojet')
-                     ->add('description')
+                   ->add('nom')
+                ->add('description')
               // ->addIdentifier('nomprojet')
               
                 ->add('_action', 'actions', array(
@@ -108,8 +125,9 @@ break;
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
         $datagridMapper
-                ->add('nomprojet')
-                  ->add('description');
+                    ->add('nom')
+                ->add('description')
+          
 
         //  ->add('tags', null, array('field_options' => array('expanded' => true, 'multiple' => true)))
         ;

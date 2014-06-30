@@ -52,16 +52,23 @@ break;
      *
      * @return void
      */
-    protected function configureshowField(ShowMapper $showMapper) {
+  protected function configureShowFields(ShowMapper $showMapper) {
         $showMapper
-     //  ->with('Détail de l\'enregistrement')
+    ->with('Détail de l\'enregistrement')
         // ->add('id')
-                ->add('nomUser')
+              /*  ->add('nomUser')
                 ->add('infos')
                 ->add('telephone')
-                ->add('email')
+                ->add('email')*/
             //    ->add('description')
           //      ->end()
+              
+            ->add('nomUser', null, array())
+            ->add('infos', null, array())
+          ->add('telephone')
+                ->add('email')
+                ->add('description')
+                 ->end()
  ;
                   
     }
@@ -99,6 +106,7 @@ break;
      */
     protected function configureListFields(ListMapper $listMapper) {
         $listMapper
+            
           ->add('id')
                    ->add('nomUser')
                 ->add('infos')
@@ -108,7 +116,7 @@ break;
               
                 ->add('_action', 'actions', array(
                     'actions' => array(
-                        'view' => array(),
+                        'show' => array(),
                         'edit' => array(),
                         'delete' => array(),
                     )
