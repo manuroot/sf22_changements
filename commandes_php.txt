@@ -126,6 +126,9 @@ git commit -m "calendar update"
 git status -s
 git commit -am 'changes to hello file'
 git push -u origin master
+recuperer copie de travail
+en update du git existant: git pull http://github.com/manuroot/symfony241_proj1
+en copie complete git pull http://github.com/manuroot/symfony241_proj1
 
 #===============================
 ROUTES
