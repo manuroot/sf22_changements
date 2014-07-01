@@ -62,6 +62,8 @@ twig:
         resources:   
             #- LexikFormFilterBundle:Form:form_div_layout.html.twig
             - ApplicationChangementsBundle:Form:form_div_layout.html.twig
+            # other files
+            - 'SonataMediaBundle:Form:media_widgets.html.twig'
 
 #==================================================
 #  DOCTRINE
