@@ -158,6 +158,7 @@ $builder
                     ),
                     'required' => true,
                 ))
+           
         ->add('description', 'ckeditor', array(
                     'config_name' => 'my_config',
             
