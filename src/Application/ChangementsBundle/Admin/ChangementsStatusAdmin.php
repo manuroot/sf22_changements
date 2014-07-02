@@ -14,7 +14,7 @@ use Application\ChangementsBundle\Entity\ChangementsStatus;
 
 class ChangementsStatusAdmin extends Admin {
 
-  protected $baseRouteName = 'contacts';
+  protected $baseRouteName = 'status';
 
   public function getTemplate($name)
  
