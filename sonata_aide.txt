@@ -1,0 +1,71 @@
+#=======================================
+# Contextes media
+#=======================================
+
+
+You can link one-to-one. for example, my implementation:
+
+config.yml:
+
+contexts:
+        product:
+            providers:
+                - sonata.media.provider.image
+
+            formats:
+                big:   { width: 1680 , quality: 100}
+
+Gallery.php:
+
+private $product;
+
+Gallery.orm.xml:
+
+<one-to-one field="product" target-entity="Alteza\ProductBundle\Entity\Product" inversed-by="gallery">
+        <join-column name="product_id" referenced-column-name="id" />
+    </one-to-one>
+
+Product.php:
+
+/**
+ * @ORM\OneToOne(targetEntity="\Application\Sonata\MediaBundle\Entity\Gallery", mappedBy="product", cascade={"all"})
+ */
+private $gallery;
+
+ProductAdmin.php:
+
+->add('gallery', 'sonata_type_model_list', array('required' => false), array('link_parameters'   => array('context' => 'product'))
+
+#=======================================
+# Translation
+#=======================================
+
+Create app/Application/Sonata/UserBundle/Recources/translations/SonataUserBundle.en.ymlwith the following content:
+# app/Application/Sonata/UserBundle/Recources/translations/SonataUserBundle.en.yml
+form:
+  label_username:             Username
+  label_email:                Email
+  label_plain_password:       Password (Plain)
+  label_groups:               Groups
+  label_roles:                Roles
+  label_locked:               Locked
+  label_expired:              Expired
+  label_enabled:              Enabled
+  label_credentials_expired:  Credentials Expired
+  label_name:                 Name
+ 
+list:
+  label_username:             Username
+  label_email:                Email
+  label_enabled:              Enabled
+  label_locked:               Locked
+  label_created_at:           Created At
+  label_roles:                Roles
+  label_name:                 Name
+ 
+filter:
+  label_username:             Username
+  label_locked:               Locked
+  label_email:                Email
+  label_id:                   ID
+  label_name:                 Name
