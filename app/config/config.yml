@@ -45,7 +45,7 @@ application_changements:
     session_timeout: 3600
     redirect_to: fos_user_security_login
     email_state: false
-    email_to: mroot72000@yahoo.fr
+    #email_to: mroot72000@yahoo.fr
     
     ##expired_response: 'test'
   
