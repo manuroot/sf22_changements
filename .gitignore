@@ -1,6 +1,7 @@
 # Bootstrap
 app/bootstrap*
 app/config/parameters.yml
+nbproject/*
 
 # Symfony directories
 vendor/*

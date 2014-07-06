@@ -11,6 +11,12 @@ services:
         - { name: sonata.admin, manager_type: orm, group: Infos, label: Liste des Environements }
       arguments: [null, Application\RelationsBundle\Entity\Environnements, ApplicationRelationsBundle:EnvironnementsAdmin]   
       
+   application.relations.admin.user:
+      class: Application\RelationsBundle\Admin\ChronoUserAdmin
+      tags:
+        - { name: sonata.admin, manager_type: orm, group: Infos, label: Liste des Users }
+      arguments: [null, Application\RelationsBundle\Entity\ChronoUser, ApplicationRelationsBundle:ChronoUserAdmin]   
+
    chronoabsences.common.manager:
     class:  Application\RelationsBundle\Manager\ChronoAbsencesManager
     arguments: 
