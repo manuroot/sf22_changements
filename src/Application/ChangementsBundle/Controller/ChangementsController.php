@@ -833,7 +833,7 @@ class ChangementsController extends Controller {
             
             $session->getFlashBag()->add('warning', "Enregistrement $id ajouté aux opérations");
             // ajoute des messages flash
-           /*
+           
              $session->getFlashBag()->add('notice', 'Email envoyé!');
             
             $manager = $this->get('changement.common.manager');
@@ -848,7 +848,7 @@ class ChangementsController extends Controller {
                         'entity' => $entity)
                     ), 'text/html');
             $this->get('mailer')->send($mess);
-            * */
+           
            
             return $this->check_retour();
         }

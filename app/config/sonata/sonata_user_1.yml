@@ -49,11 +49,10 @@ sonata_block:
   
         #sonata.admin_doctrine_orm.block.audit:
         #    contexts:   [admin]
-        sonata.user.block.menu:    # used to display the menu in profile pages
+  
         sonata.block.service.text:
         sonata.block.service.action:
         sonata.block.service.rss:
-        sonata.user.block.account:
   
         # Some specific block from the SonataMediaBundle
         #sonata.media.block.media:
